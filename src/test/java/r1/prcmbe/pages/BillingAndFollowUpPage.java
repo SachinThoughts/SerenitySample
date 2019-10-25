@@ -11,10 +11,6 @@ public class BillingAndFollowUpPage extends PageObject {
 
 	private String searchLink = "document.querySelector(\"#sidebar > div.side_nav > span:nth-child(4) > span > div:nth-child(18) > table > tbody > tr.mi.mi0-0.id688.first > td:nth-child(2) > a\").click()";
 
-	public void clickOnR1DecisionLink() {
-		r1DecisionLink.click();
-	}
-
 	public void hoverOnR1DecisionLink() {
 		withAction().moveToElement(r1DecisionLink).build().perform();
 	}
