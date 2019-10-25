@@ -14,7 +14,6 @@ public class Hooks extends PageObject {
 
 	LoginPage userLoginPage;
 	AccountInformationPage accInfoPage;
-
 	static String propertyName;
 
 	@Steps
