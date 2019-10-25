@@ -1,6 +1,5 @@
 @R1PRCMExternalSearch
-Feature: Verify external search in R1 Decision page
-  This is to verify external search functionality in R1 PRCM-BE
+Feature: This is to verify external search functionality in R1 PRCM-BE
 
   Background: User is able to navigate to R1 Decision search page
     Given user is on R1 Hub page
