@@ -72,7 +72,7 @@ public class ProfessionalUDCStepDef extends PageObject {
 	@Then("^user should be able to view populated screen to configure at Technical account level$")
 	public void user_should_be_able_to_view_populated_screen_to_configure_at_Technical_account_level() {
 		Assert.assertTrue("User not able to view populated screen to configure at Technical account level",
-				uDCPage.decisionConfigHeaderIsVisible());
+				uDCPage.innerNavConfigHeaderIsVisible());
 	}
 
 	@When("^user clicks on PRCM R1Decision Config$")
@@ -82,6 +82,8 @@ public class ProfessionalUDCStepDef extends PageObject {
 
 	@Then("^user should be able to view populated screen to configure at professional account invoice$")
 	public void user_should_be_able_to_view_populated_screen_to_configure_at_professional_account_invoice() {
+		Assert.assertTrue("User not able to view populated screen to configure at Technical account level",
+				uDCPage.innerNavConfigHeaderIsVisible());
 	}
 
 }

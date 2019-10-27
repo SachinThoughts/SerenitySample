@@ -16,7 +16,7 @@ public class UniversalDefectConfigurationPage extends PageObject {
 	private WebElementFacade pRCMDecisionConfig;
 
 	@FindBy(xpath = "//*[@id='R1Dh2id']")
-	private WebElementFacade decisionConfigHeader;
+	private WebElementFacade innerNavConfigHeader;
 
 	public boolean checkUDCTitleVisibility() {
 		return uDCTitle.isVisible();
@@ -34,8 +34,8 @@ public class UniversalDefectConfigurationPage extends PageObject {
 		decisionConfigTab.click();
 	}
 
-	public boolean decisionConfigHeaderIsVisible() {
-		return decisionConfigHeader.isVisible();
+	public boolean innerNavConfigHeaderIsVisible() {
+		return innerNavConfigHeader.isVisible();
 	}
 
 	public void clickOnPRCMDecisionConfig() {
