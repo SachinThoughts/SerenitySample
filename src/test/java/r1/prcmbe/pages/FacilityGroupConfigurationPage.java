@@ -14,7 +14,7 @@ public class FacilityGroupConfigurationPage extends PageObject {
 	public String getPRCMFacility() {
 		String prcmFacility = null;
 		for (WebElementFacade facility : facilityGroupList) {
-			if (facility.getText().trim().equalsIgnoreCase("PRCM")) {
+			if (facility.getText().trim().contains("PRCM")) {
 				prcmFacility = facility.getText().trim();
 			}
 		}

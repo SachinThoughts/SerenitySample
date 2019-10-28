@@ -5,12 +5,12 @@ Feature: Verify Professional UDC configurations in PRCM-BE
   Background: user is able to navigate to universal defect configuration screen
     Given user is on R1 Hub page
     When user clicks on setting link
-    And user hovers on Settings-R1_Decision
-    And clicks on Facility Group Configuration
+    And user clicks on Settings-R1_Decision  
+    And user clicks on facility group configuration screen
     Then user should be able to view application name for PRCM
     And user should be able to view one prcm enable facility group
     When user clicks on setting link
-    And user hovers on Settings-R1_Decision
+    And user clicks on Settings-R1_Decision
     And user clicks on UDC Admin configuration
 
   @391392
