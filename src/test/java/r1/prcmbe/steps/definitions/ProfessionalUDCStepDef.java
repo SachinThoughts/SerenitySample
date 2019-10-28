@@ -2,7 +2,6 @@ package r1.prcmbe.steps.definitions;
 
 import org.junit.Assert;
 
-import cucumber.api.DataTable;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
@@ -23,8 +22,7 @@ public class ProfessionalUDCStepDef extends PageObject {
 
 	@Given("^user is on R1 Hub page$")
 	public void user_is_on_R1_Hub_page() {
-		// Assert.assertTrue(getDriver().getTitle().contains("R1 Hub Technologies 2.0 -
-		// 01 Home"));
+		Assert.assertTrue(getDriver().getTitle().contains("R1 Hub Technologies 2.0 - 01 Home"));
 	}
 
 	@When("^user clicks on setting link$")
@@ -40,10 +38,6 @@ public class ProfessionalUDCStepDef extends PageObject {
 	@When("^user clicks on facility group configuration screen$")
 	public void user_clicks_on_facility_group_configuration_screen() {
 		settingsR1DPage.clickFaciltyGroupConfig();
-	}
-
-	@Then("^user should be able to view application name for PRCM$")
-	public void user_should_be_able_to_view_application_name_for_PRCM() {
 	}
 
 	@Then("^user should be able to view one prcm enable facility group$")
@@ -88,5 +82,4 @@ public class ProfessionalUDCStepDef extends PageObject {
 		Assert.assertTrue("User not able to view populated screen to configure at Technical account level",
 				uDCPage.innerNavConfigHeaderIsVisible());
 	}
-
 }
