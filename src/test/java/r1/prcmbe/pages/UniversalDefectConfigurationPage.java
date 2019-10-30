@@ -15,7 +15,7 @@ public class UniversalDefectConfigurationPage extends PageObject {
 	@FindBy(xpath = "//*[@id='anchorahtodecisiontab']/a")
 	private WebElementFacade pRCMDecisionConfig;
 
-	@FindBy(xpath = "//*[@id='R1Dh2id']")
+	@FindBy(id = "R1Dh2id")
 	private WebElementFacade innerNavConfigHeader;
 
 	public boolean checkUDCTitleVisibility() {
