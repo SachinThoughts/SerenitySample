@@ -8,7 +8,7 @@ Feature: Verify ProfessionalUDC related scenarios in PRCM
     And user clicks on Settings-R1_Decision
     And user clicks on UDC Admin configuration
 
-  @391392
+  @391392 @PRCMUser
   Scenario: Verify that user having admin role is able to view UDC screen for Technical as well as Professional separately
     Given user is on UDC Admin configuration page
     When user clicks on setting link

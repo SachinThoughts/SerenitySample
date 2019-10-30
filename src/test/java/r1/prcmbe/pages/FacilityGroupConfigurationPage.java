@@ -12,12 +12,12 @@ public class FacilityGroupConfigurationPage extends PageObject {
 	private List<WebElementFacade> facilityGroupList;
 
 	public String getPRCMFacility() {
-		String prcmFacility = null;
+		String pRCMFacility = null;
 		for (WebElementFacade facility : facilityGroupList) {
 			if (facility.getText().trim().contains("PRCM")) {
-				prcmFacility = facility.getText().trim();
+				pRCMFacility = facility.getText().trim();
 			}
 		}
-		return prcmFacility;
+		return pRCMFacility;
 	}
 }
