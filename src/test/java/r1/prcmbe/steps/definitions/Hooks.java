@@ -37,4 +37,23 @@ public class Hooks extends PageObject {
 			propertyName = "prcmBeUsername";
 		}
 	}
+
+	@Before(value = "@NonPRCMUser")
+	public void nonPRCMBeUser() throws IOException {
+		open();
+		if (accInfoPage.checkLogoutVisible() && propertyName != "nonPRCMBeUsername") {
+			accInfoPage.logOut();
+			open();
+		}
+		if (userLoginPage.verifyUsernameTextBox()) {
+			String accountuser = CommonMethods.loadProperties("nonPRCMBeUsername");
+			String passwd = CommonMethods.loadProperties("nonPRCMBePassword");
+			loginStep.userEntersCredentials(accountuser, passwd);
+			userLoginPage.loginBtnClick();
+			if (userLoginPage.isProceedLinkVisible()) {
+				userLoginPage.clickOnProceedFurther();
+			}
+			propertyName = "nonPRCMBeUsername";
+		}
+	}
 }

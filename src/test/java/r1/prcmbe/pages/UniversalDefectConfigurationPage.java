@@ -18,6 +18,9 @@ public class UniversalDefectConfigurationPage extends PageObject {
 	@FindBy(id = "R1Dh2id")
 	private WebElementFacade innerNavConfigHeader;
 
+	@FindBy(id = "dnn_dnnLOGIN_loginLink")
+	private WebElementFacade logout;
+
 	public boolean checkUDCTitleVisibility() {
 		return uDCTitle.isVisible();
 	}
@@ -40,5 +43,9 @@ public class UniversalDefectConfigurationPage extends PageObject {
 
 	public void clickOnPRCMDecisionConfig() {
 		pRCMDecisionConfig.click();
+	}
+
+	public void clickOnLogout() {
+		logout.click();
 	}
 }
