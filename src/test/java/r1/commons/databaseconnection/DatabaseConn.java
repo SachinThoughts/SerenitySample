@@ -13,9 +13,7 @@ public class DatabaseConn {
 	public static String serverName;
 	public static String databaseName;
 
-	public static void getServerDBName(String url, String facility) {
-
-		try {
+	public static void getServerDBName(String url, String facility) throws ClassNotFoundException, SQLException {
 			String query = "SELECT Replace(Replace(serverpath, '[', ''), ']', '')  AS servername,databasename from locations where code='"
 					+ facility + "'";
 			if (url.contains("stg")) {
@@ -65,9 +63,6 @@ public class DatabaseConn {
 					databaseName = resultSet.getString("databasename");
 				}
 			}
-		} catch (Exception e) {
-			System.out.println(e);
-		}
 	}
 
 	public static void serverConn(String serverHost, String dbName, String query)
@@ -75,26 +70,17 @@ public class DatabaseConn {
 		String path = System.getProperty("java.library.path");
 		path = "src/test/resources/drivers" + ";" + path;
 		System.setProperty("java.library.path", path);
-
 		try {
 			final Field sysPathsField = ClassLoader.class.getDeclaredField("sys_paths");
 			sysPathsField.setAccessible(true);
 			sysPathsField.set(null, null);
-
 		} catch (Exception ex) {
 			throw new RuntimeException(ex);
 		}
-
-		try {
 			String dbUrl = "jdbc:sqlserver://" + serverHost + ";databaseName=" + dbName + ";integratedSecurity=true";
 			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-
 			Connection conn = DriverManager.getConnection(dbUrl);
 			Statement stmt = conn.createStatement();
 			resultSet = stmt.executeQuery(query);
-
-		} catch (Exception e) {
-			System.out.println(e);
-		}
 	}
 }
