@@ -3,8 +3,9 @@ Feature: Verify default handoff
 
   Background: 
     Given user is on R1 Hub page
-    And user clicks on Settings link
-    And user mouse hover Settings - R1_Decision link and click on Workflow Configuration link
+    When user clicks on setting link
+    And user clicks on Settings-R1_Decision
+    And click on Workflow Configuration link
 
   @434985 @434986 @434987 @434988 @Sprint8 @PRCMUser
   Scenario: Verify the functionality of the Add Handoff button in Workflow Configuration screen

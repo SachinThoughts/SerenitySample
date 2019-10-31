@@ -12,17 +12,6 @@ public class SettingsPage extends PageObject {
 	@FindBy(id = "dnn_dnnSideNav_ctldnnSideNavt703")
 	private WebElementFacade uDCAdminConfig;
 
-	@FindBy(xpath = "//*[@id='sidebar']/div[1]/span[2]/span/div[16]/a")
-	private WebElementFacade workflowConfig;
-
-	@FindBy(xpath = "//*[@id='sidebar']/div[1]/span[2]/span/div[16]/a")
-	private WebElementFacade settingsR1Decision;
-
-	public void hoverSettingsR1Decisions() {
-		evaluateJavascript("arguments[0].scrollIntoView(true);", settingsR1Decision);
-		evaluateJavascript("arguments[0].click();", settingsR1Decision);
-	}
-
 	public void clickUDCAdminConfig() {
 		uDCAdminConfig.click();
 	}
@@ -31,7 +20,19 @@ public class SettingsPage extends PageObject {
 		settingsR1Decision.click();
 	}
 
+	@FindBy(xpath = "//span[not(contains(@style,'hidden')) and text()='Workflow Configuration']")
+	private WebElementFacade workflowConfig;
+
+	@FindBy(xpath = "//span[not(contains(@style,'hidden')) and text()='Settings - R1_Decision']")
+	private WebElementFacade settingsR1Decision;
+
+	public void clickOnSettingsR1Decisions() {
+		waitForAngularRequestsToFinish();
+		withAction().moveToElement(settingsR1Decision).click().build().perform();
+	}
+
 	public void clickWorkflowConfig() {
-		workflowConfig.click();
+		waitForAngularRequestsToFinish();
+		withAction().moveToElement(workflowConfig).click().build().perform();
 	}
 }

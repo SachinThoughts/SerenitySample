@@ -35,9 +35,8 @@ public class DefaultHandoffStepDef extends PageObject {
 			workFlowName, recipientName, actionName;
 	private static String dbQueryFilename = "DefaultHandoff";
 
-	@When("^user mouse hover Settings - R1_Decision link and click on Workflow Configuration link$|^user clicks on Work Flow Configuration link under Settings - R1_Decision$")
-	public void user_mouse_hover_Settings_R1_Decision_link_and_click_on_workflow_configuration_link() {
-		settingsPage.hoverSettingsR1Decisions();
+	@When("^click on Workflow Configuration link$")
+	public void click_on_workflow_configuration_link() {
 		settingsPage.clickWorkflowConfig();
 	}
 
@@ -340,15 +339,5 @@ public class DefaultHandoffStepDef extends PageObject {
 	public void user_login_to_SQL_server_and_connect_to_database(String database) throws IOException {
 		DatabaseConn.serverName = EnvironmentSpecificConfiguration.from(environmentVariables).getProperty("bindURL");
 		DatabaseConn.databaseName = database;
-	}
-
-	@Given("^user is on R1 Hub page$")
-	public void user_is_on_R1_Hub_page() {
-		Assert.assertTrue(getDriver().getTitle().contains("R1 Hub Technologies 2.0 - 01 Home"));
-	}
-
-	@When("^user clicks on Settings link$")
-	public void user_clicks_on_Settings_link() {
-		navPage.clickSettings();
 	}
 }
