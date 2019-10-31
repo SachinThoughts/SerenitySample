@@ -104,8 +104,8 @@ public class ProfessionalUDCStepDef extends PageObject {
 		uDCPage.clickOnLogout();
 	}
 
-	@When("^user login with the user \"([^\"]*)\" who have atlest one facility which is prcm enable$")
-	public void user_login_with_the_user_who_have_atlest_one_facility_which_is_prcm_enable(String username)
+	@When("^user login with the user \"([^\"]*)\" who have atleast one facility which is prcm enable$")
+	public void user_login_with_the_user_who_have_atleast_one_facility_which_is_prcm_enable(String username)
 			throws IOException {
 		loginStep.userEntersCredentials(CommonMethods.loadProperties(username),
 				CommonMethods.loadProperties("nonPRCMBePassword"));
