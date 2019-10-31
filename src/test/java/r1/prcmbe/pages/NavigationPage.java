@@ -118,7 +118,7 @@ public class NavigationPage extends PageObject {
 	}
 
 	public void clickOnBillingAndFollowUpLink() {
-		billingAndFollowUpLink.click();
+		withAction().moveToElement(billingAndFollowUpLink).click().build().perform();
 	}
 
 }

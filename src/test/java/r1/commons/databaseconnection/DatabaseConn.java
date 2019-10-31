@@ -37,7 +37,6 @@ public class DatabaseConn {
 					databaseName = resultSet.getString("databasename");
 				}
 			}
-
 			else if (url.contains("iuat") && url.contains("imh")) {
 				serverConn("AHV-UATCORE01", "Accretive", query);
 				while (resultSet.next()) {
@@ -45,7 +44,6 @@ public class DatabaseConn {
 					databaseName = resultSet.getString("databasename");
 				}
 			}
-
 			else if (url.contains("uat03")) {
 				serverConn("AHVA2AUA01COR01.EXTAPP.LOCAL", "Accretive", query);
 				while (resultSet.next()) {
@@ -53,7 +51,6 @@ public class DatabaseConn {
 					databaseName = resultSet.getString("databasename");
 				}
 			}
-
 			else if (url.contains("dev")) {
 				serverConn("AHVA2ADVTRN05", "Accretive", query);
 				while (resultSet.next()) {
@@ -61,7 +58,13 @@ public class DatabaseConn {
 					databaseName = resultSet.getString("databasename");
 				}
 			}
-
+			else if (url.contains("prcm")) {
+				serverConn("ahv-phsqaods01", "Accretive", query);
+				while (resultSet.next()) {
+					serverName = resultSet.getString("servername");
+					databaseName = resultSet.getString("databasename");
+				}
+			}
 		} catch (Exception e) {
 			System.out.println(e);
 		}
