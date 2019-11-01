@@ -19,8 +19,8 @@ public class BillingAndFollowUpPage extends PageObject {
 	public void hoverOnR1DecisionLink() {
 		withAction().moveToElement(r1DecisionLink).build().perform();
 	}
-
+	
 	public void clickSearchLink() {
-		searchLink.click();
+		withAction().moveToElement(searchLink).click().build().perform();
 	}
 }
