@@ -46,7 +46,7 @@ public class NavigationPage extends PageObject {
 
 	@FindBy(id = "dnn_ctr1025_LocationChooser_ddlLocation")
 	private WebElementFacade facilityDropdown;
-	
+
 	@FindBy(xpath = "//span[text()='Billing & Follow-up' and @class='txt']")
 	private WebElementFacade billingAndFollowUpLink;
 
@@ -118,7 +118,6 @@ public class NavigationPage extends PageObject {
 	}
 
 	public void clickOnBillingAndFollowUpLink() {
-		billingAndFollowUpLink.click();
+		withAction().moveToElement(billingAndFollowUpLink).click().build().perform();
 	}
-
 }
