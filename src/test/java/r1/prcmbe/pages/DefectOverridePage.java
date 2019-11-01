@@ -30,19 +30,19 @@ public class DefectOverridePage extends PageObject {
 	}
 
 	public List<String> getProgressBarSteps() {
-		List<String> listOfPrgressBarsValues = new ArrayList<>();
+		List<String> listOfProgressBarsValues = new ArrayList<>();
 		for (WebElementFacade ele : listOfProgressBars) {
-			listOfPrgressBarsValues.add(ele.getText());
+			listOfProgressBarsValues.add(ele.getText());
 		}
-		return listOfPrgressBarsValues;
+		return listOfProgressBarsValues;
 	}
 
-	public boolean isAssignedSubCategryPresent() {
+	public boolean isAssignedSubCategryVisible() {
 		return defectSubCategrySec.isVisible();
 
 	}
 
-	public boolean defaultSelectedStepOnPrgsBar(String stepName) {
+	public boolean verifyDefaultSelectedStepOnProgressBar(String stepName) {
 		return confirmStepOnProgressBar.getText().equals(stepName);
 	}
 }

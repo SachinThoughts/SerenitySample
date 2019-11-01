@@ -12,15 +12,15 @@ public class BillingAndFollowUpPage extends PageObject {
 	@FindBy(xpath = "//span[text()='Search' and @class='txt']")
 	private WebElementFacade searchLink;
 
-	public void clickSearchLink() {
-		withAction().moveToElement(searchLink).click().build().perform();
-	}
-
 	public void clickOnR1DecisionLink() {
 		withAction().moveToElement(r1DecisionLink).click().build().perform();
 	}
 
 	public void hoverOnR1DecisionLink() {
 		withAction().moveToElement(r1DecisionLink).build().perform();
+	}
+	
+	public void clickSearchLink() {
+		withAction().moveToElement(searchLink).click().build().perform();
 	}
 }

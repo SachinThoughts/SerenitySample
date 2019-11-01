@@ -10,6 +10,9 @@ import net.serenitybdd.core.pages.WebElementFacade;
 
 public class SearchPage extends PageObject {
 
+	@FindBy(css = "#userMsg > span")
+	private WebElementFacade noAccountsMessage;
+	
 	@FindBy(xpath = "//select[@class='form-control ddlSearchCriteria']")
 	private WebElementFacade searchByDropdown;
 
@@ -39,14 +42,18 @@ public class SearchPage extends PageObject {
 
 	@FindBy(xpath = "//*[@id='lblInvoiceNo']")
 	private WebElementFacade invoiceID;
-	
-	@FindBy(css = "#userMsg > span")
-	private WebElementFacade noAccountsMessage;
 
 	String titleJS = "return document.querySelector('#Head > title').text";
+	String facilityCodeJS = "document.querySelector('#dnn_ctr1025_ModuleContent > span > span:nth-child(1)').textContent";
 
-	String facilityCodeJs = "document.querySelector('#dnn_ctr1025_ModuleContent > span > span:nth-child(1)').textContent";
+	public String getSearchPageTitle() {
+		return evaluateJavascript(titleJS).toString();
+	}
 
+	public String getNoAccountsMessage() {
+		return noAccountsMessage.getText();
+	}
+	
 	public void searchBySelectText(String dropdown) {
 		searchByDropdown.selectByVisibleText(dropdown);
 	}
@@ -98,7 +105,7 @@ public class SearchPage extends PageObject {
 	}
 
 	public String getfacilityCodeText() {
-		return evaluateJavascript(facilityCodeJs).toString();
+		return evaluateJavascript(facilityCodeJS).toString();
 	}
 
 	public boolean isPatientAndVisitHeaderVisible() {
@@ -109,13 +116,5 @@ public class SearchPage extends PageObject {
 
 	public String getInvoiceID() {
 		return invoiceID.withTimeoutOf(Duration.ofSeconds(20)).waitUntilVisible().getText();
-	}
-	
-	public String getSearchPageTitle() {
-		return evaluateJavascript(titleJS).toString();
-	}
-
-	public String getNoAccountsMessage() {
-		return noAccountsMessage.getText();
 	}
 }

@@ -24,12 +24,14 @@ public class DefectOverrideStepDef {
 
 	CommonMethods commonMethods;
 	EnvironmentVariables environmentVariables;
-	static String dbFileName = "DefectOverride";
-	String settingValueDB, invoiceIDDB;
 	NavigationPage navigationPage;
 	BillingAndFollowUpPage billingAndFollowUpPage;
 	SearchPage searchPage;
 	DefectOverridePage defectOverridePage;
+	
+	static String dbFileName = "DefectOverride";
+	String dBSettingValue, dBInvoiceId;
+
 	@Steps
 	SearchPageSteps searchPageSteps;
 
@@ -42,18 +44,11 @@ public class DefectOverrideStepDef {
 		DatabaseConn.getServerDBName(webdriverURL, facility);
 	}
 
-	@When("^user runs the to fetch invoicid (.*) query$")
-	public void user_runs_the_to_fetch_invoicid_DefectOverride_query(String queryName)
-			throws ClassNotFoundException, SQLException, Exception {
-		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
-				commonMethods.loadQuery(queryName, dbFileName));
-	}
-
 	@Then("^user should be able to view some invoice id$")
 	public void user_should_be_able_to_view_some_invoice_id() {
 		try {
 			while (DatabaseConn.resultSet.next()) {
-				invoiceIDDB = DatabaseConn.resultSet.getString("InvoiceNumber");
+				dBInvoiceId = DatabaseConn.resultSet.getString("InvoiceNumber");
 			}
 		} catch (SQLException exception) {
 			Assert.assertTrue("invoiceId is not fetched from DB.\nThe Technical Error is:\n" + exception, false);
@@ -71,12 +66,12 @@ public class DefectOverrideStepDef {
 	public void user_should_be_able_to_view_the_PRCM_Flag(String flagValue) {
 		try {
 			while (DatabaseConn.resultSet.next()) {
-				settingValueDB = DatabaseConn.resultSet.getString("SettingValue");
+				dBSettingValue = DatabaseConn.resultSet.getString("SettingValue");
 			}
 		} catch (SQLException exception) {
 			Assert.assertTrue("invoiceId is not fetched from DB.\nThe Technical Error is:\n" + exception, false);
 		}
-		Assert.assertTrue(settingValueDB.equals(flagValue));
+		Assert.assertTrue(dBSettingValue.equals(flagValue));
 	}
 
 	@When("^user clicks on Billing & Follow-up link$")
@@ -85,7 +80,7 @@ public class DefectOverrideStepDef {
 	}
 
 	@When("^user hovers on R(\\d+)_Decision link$")
-	public void user_hovers_on_R__Decision_link(int arg1) {
+	public void user_hovers_on_R__Decision_link() {
 		billingAndFollowUpPage.hoverOnR1DecisionLink();
 	}
 
@@ -106,7 +101,7 @@ public class DefectOverrideStepDef {
 
 	@When("^user enters invoice number fetched from database in invoice number textbox$")
 	public void user_enters_invoice_number_fetched_from_database_in_invoice_number_textbox() {
-		searchPage.enterInvoiceNumber(invoiceIDDB);
+		searchPage.enterInvoiceNumber(dBInvoiceId);
 	}
 
 	@When("^user clicks on submit button$")
@@ -116,7 +111,7 @@ public class DefectOverrideStepDef {
 
 	@Then("^user should be able to view the searched account$")
 	public void user_should_be_able_to_view_the_searched_account() {
-		Assert.assertTrue(searchPageSteps.verifyInvoiceIDWithLikeOperator(invoiceIDDB));
+		Assert.assertTrue("failed to view searched account",searchPageSteps.verifyInvoiceIDWithLikeOperator(dBInvoiceId));
 	}
 
 	@When("^user moves the control on right side of the page and see the Defect Workflow section$")
@@ -139,11 +134,11 @@ public class DefectOverrideStepDef {
 	@Then("^user should be able to view the progesssbar selected as \"([^\"]*)\"$")
 	public void user_should_be_able_to_view_the_progesssbar_selected_as_Confirm(String stepName) {
 		Assert.assertTrue("Confirm step is not selected on progress bar",
-				defectOverridePage.defaultSelectedStepOnPrgsBar(stepName));
+				defectOverridePage.verifyDefaultSelectedStepOnProgressBar(stepName));
 	}
 
 	@Then("^user should be able to view the assigned defect sub category below progress bar$")
 	public void user_should_be_able_to_view_the_assigned_defect_sub_category_below_progress_bar() {
-		Assert.assertTrue("", defectOverridePage.isAssignedSubCategryPresent());
+		Assert.assertTrue("failed to view assigned defect", defectOverridePage.isAssignedSubCategryVisible());
 	}
 }

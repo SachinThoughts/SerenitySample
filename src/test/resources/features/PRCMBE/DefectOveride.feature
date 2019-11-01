@@ -8,11 +8,11 @@ Feature: Verify Defect over ride
   @391266
   Scenario Outline: Verify that Defect Workflow section should be display when searched by Invoice#
     Given user is able to login to sql server and connect to database
-    When user runs the to fetch invoicid <query1> query
+    When user runs the query <query1>
     Then user should be able to view some invoice id
     When user runs the query <query2>
-    And user should be able to view the PRCM Flag "ON"
-    And user hovers on R1_Decision link
+    Then user should be able to view the PRCM Flag "ON"
+    When user hovers on R1_Decision link
     And user clicks on search sub menu
     And user selects "Invoice Number" from search by dropdown
     And user selects "Like" operator
@@ -29,3 +29,7 @@ Feature: Verify Defect over ride
     Examples: 
       | query1                     | query2                     |
       | DefectOverride_391266_SQL1 | DefectOverride_391266_SQL2 |
+      
+      
+      
+      

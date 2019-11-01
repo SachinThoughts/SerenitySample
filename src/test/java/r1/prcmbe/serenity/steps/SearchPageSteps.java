@@ -5,19 +5,19 @@ import r1.prcmbe.pages.SearchPage;
 
 public class SearchPageSteps {
 
-	SearchPage pRCMBESearchPage;
+	SearchPage searchPage;
 
 	@Step
-	public boolean verifyInvoiceIDWithLikeOperator(String invoiceIDDB) {
-		if (pRCMBESearchPage.isSearchAccTableVisible()) {
-			for (String invoiceID : pRCMBESearchPage.getlistOfInvoiceID()) {
-				if (!invoiceID.toLowerCase().contains(invoiceIDDB.toLowerCase())) {
+	public boolean verifyInvoiceIDWithLikeOperator(String dBInvoiceId) {
+		if (searchPage.isSearchAccTableVisible()) {
+			for (String invoiceID : searchPage.getlistOfInvoiceID()) {
+				if (!invoiceID.toLowerCase().contains(dBInvoiceId.toLowerCase())) {
 					return false;
 				}
 			}
-			pRCMBESearchPage.clickSearchInvoiceID();
+			searchPage.clickSearchInvoiceID();
 		}
-		return pRCMBESearchPage.isPatientAndVisitHeaderVisible()
-				&& invoiceIDDB.contains(pRCMBESearchPage.getInvoiceID().toLowerCase());
+		return searchPage.isPatientAndVisitHeaderVisible()
+				&& dBInvoiceId.contains(searchPage.getInvoiceID().toLowerCase());
 	}
 }
