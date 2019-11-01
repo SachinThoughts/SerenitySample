@@ -13,7 +13,7 @@ public class BillingAndFollowUpPage extends PageObject {
 	private WebElementFacade searchLink;
 
 	public void clickOnR1DecisionLink() {
-		r1DecisionLink.click();
+		withAction().moveToElement(r1DecisionLink).click().build().perform();
 	}
 
 	public void hoverOnR1DecisionLink() {
