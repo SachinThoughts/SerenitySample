@@ -92,7 +92,7 @@ public class SearchStepDef {
 				dbMRN = DatabaseConn.resultSet.getString(1);
 			}
 		} catch (SQLException sQLException) {
-			Assert.assertTrue("Value is not fetched from DB.\nThe Technical Error is:\n" + sQLException, false);
+			Assert.assertTrue("Medical Record Number is not fetched from DB.\nThe Technical Error is:\n" + sQLException, false);
 		}
 		searchPage.enterMRN(dbMRN);
 	}
