@@ -9,6 +9,15 @@ public class SearchPage extends PageObject {
 	@FindBy(css = "#userMsg > span")
 	private WebElementFacade noAccountsMessage;
 
+	@FindBy(xpath = "//select[@class='form-control ddlSearchCriteria']")
+	private WebElementFacade searchByDropdown;
+
+	@FindBy(xpath = "//select[@class='form-control ddlOperator']")
+	private WebElementFacade operator;
+
+	@FindBy(xpath = "//input[@placeholder='Medical Records #']")
+	private WebElementFacade mRNTxtField;
+
 	String titleJS = "return document.querySelector('#Head > title').text";
 
 	public String getSearchPageTitle() {
@@ -17,5 +26,17 @@ public class SearchPage extends PageObject {
 
 	public String getNoAccountsMessage() {
 		return noAccountsMessage.getText();
+	}
+
+	public void searchBySelectText(String dropdown) {
+		searchByDropdown.selectByVisibleText(dropdown);
+	}
+
+	public void operatorSelectText(String operatorValue) {
+		operator.selectByVisibleText(operatorValue);
+	}
+
+	public void enterMRN(String mRN) {
+		mRNTxtField.type(mRN);
 	}
 }

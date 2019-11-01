@@ -8,5 +8,5 @@ Feature: This is to verify external search functionality in R1 PRCM-BE
   @433634 @PRCMUser
   Scenario: Verify that if user does not have queue than user navigates to R1D Search Page
     When user clicks on R1_Decision link
-    Then user should be able to view R1D Search page 
+    Then user should be able to view R1D Search page
     And user should be able to view message "You currently have no accounts in your work queue.To continue, search for accounts below or contact your supervisor."
