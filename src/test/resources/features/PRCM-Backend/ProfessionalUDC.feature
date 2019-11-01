@@ -35,3 +35,26 @@ Feature: Verify ProfessionalUDC related scenarios in PRCM
     And user clicks on Settings-R1_Decision
     And user clicks on UDC Admin configuration
     Then user should able to view both application Tabs for technical as well as professional
+
+  @434958 @PRCMUser
+  Scenario: Verify that user is able to add SOP Actions
+    Given user having AHtoDecision Admin role is on Universal Defect Configuration  page
+    When user select the radio button against any defect type
+    And user clicks on the Continue button on defect type page
+    And user select the radio button corresponding to a defect subcategory
+    And user clicks on the Continue button on defect sub category page
+    Then user should be able to view the selected Defect Type Defect SubCategory and default SOP Action in breadcrumb
+    And user should be able to view Choose a SOP Action grid
+    When user clicks on the Continue button on SOP type page
+    And user clicks on the Add New SOP Actions button on SOP Actions screen
+    And user enters all the mandatory fields
+      | TestActionName        |
+      | TestActionDescription |
+      | AHtoDecision          |
+      |                     2 |
+      |                     2 |
+      | Complete              |
+    And user clicks on Save Changes SOP Actions button
+    Then user should be able to view message as "SOP Action Saved Successfully."
+    And Add SOP Action pop-up should disappear
+    And user should be able to view added SOP Action on SOP Actions screen

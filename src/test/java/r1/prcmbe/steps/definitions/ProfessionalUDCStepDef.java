@@ -1,9 +1,11 @@
 package r1.prcmbe.steps.definitions;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.junit.Assert;
 
+import cucumber.api.DataTable;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
@@ -29,6 +31,8 @@ public class ProfessionalUDCStepDef extends PageObject {
 	FacilityGroupConfigurationPage facilityGroupConfigPage;
 	SettingsR1DPage settingsR1DPage;
 	LoginPage userLoginPage;
+
+	private String selectedDefectType, selectedSOPType, selectedDefectSubCategoryValue, addedSOPAction;
 
 	@Given("^user is on R1 Hub page$")
 	public void user_is_on_R1_Hub_page() {
@@ -118,5 +122,90 @@ public class ProfessionalUDCStepDef extends PageObject {
 		if (userLoginPage.isProceedLinkVisible()) {
 			userLoginPage.clickOnProceedFurther();
 		}
+	}
+
+	@Given("^user having AHtoDecision Admin role is on Universal Defect Configuration  page$")
+	public void user_having_AHtoDecision_Admin_role_is_on_Universal_Defect_Configuration_page() {
+		Assert.assertTrue("UDC page not visible", uDCPage.checkUDCTitleVisibility());
+	}
+
+	@When("^user select the radio button against any defect type$")
+	public void user_select_the_radio_button_against_any_defect_type() {
+		selectedDefectType = uDCPage.selectAndGetRandomDefectType();
+	}
+
+	@When("^user clicks on the Continue button on defect type page$")
+	public void user_clicks_on_the_Continue_button_on_defect_type_page() {
+		uDCPage.clickContinueBtnOnDefectType();
+		uDCPage.addDefectSubCategoryIfNotExist();
+	}
+
+	@When("^user select the radio button corresponding to a defect subcategory$")
+	public void user_select_the_radio_button_corresponding_to_a_defect_subcategory() {
+		selectedDefectSubCategoryValue = uDCPage.selectAndGetRandomDefectSubcategory();
+
+	}
+
+	@When("^user clicks on the Continue button on defect sub category page$")
+	public void user_clicks_on_the_Continue_button_on_defect_sub_category_page() {
+		uDCPage.clickContinueBtnDefectSubCategory();
+		selectedSOPType = uDCPage.selectAndGetRandomSOPType();
+	}
+
+	@Then("^user should be able to view the selected Defect Type Defect SubCategory and default SOP Action in breadcrumb$")
+	public void user_should_be_able_to_view_the_selected_Defect_Type_Defect_SubCategory_and_default_SOP_Action_in_breadcrumb() {
+		Assert.assertTrue("Application is not displaying Defect type ,Defect subcategory and Sop action in breadcrumb",
+				uDCPage.getListOfBreadCrumbVal().contains(selectedDefectType)
+						&& uDCPage.getListOfBreadCrumbVal().contains(selectedDefectSubCategoryValue)
+						&& uDCPage.getListOfBreadCrumbVal().contains(selectedSOPType));
+	}
+
+	@Then("^user should be able to view Choose a SOP Action grid$")
+	public void user_should_be_able_to_view_Choose_a_SOP_Action_grid() {
+		Assert.assertTrue("SOP Grid not visible ", uDCPage.isChooseSOPGridVisible());
+	}
+
+	@When("^user clicks on the Continue button on SOP type page")
+	public void user_clicks_on_Continue_button_on_SOP_type_page() {
+		uDCPage.clickContinueBtnOnSOP();
+	}
+
+	@When("^user clicks on the Add New SOP Actions button on SOP Actions screen$")
+	public void user_clicks_on_the_Add_New_SOP_Actions_button_on_SOP_Actions_screen() {
+		uDCPage.clickAddNewSopActionBtn();
+	}
+
+	@When("^user enters all the mandatory fields$")
+	public void user_enters_all_the_mandatory_fields(DataTable dataTable) {
+		List<String> sOPActionData = dataTable.asList(String.class);
+		addedSOPAction = sOPActionData.get(0);
+		uDCPage.enterActionName(addedSOPAction);
+		uDCPage.enterActionDescription(sOPActionData.get(1));
+		uDCPage.selectNextActionByText(sOPActionData.get(2));
+		uDCPage.enterFollowUpDays(sOPActionData.get(3));
+		uDCPage.enterRespondDeadline(sOPActionData.get(4));
+		uDCPage.selectActionStatusByText(sOPActionData.get(5));
+	}
+
+	@When("^user clicks on Save Changes SOP Actions button$")
+	public void user_clicks_on_Save_Changes_SOP_Actions_button() {
+		uDCPage.clickSaveChangesSopActionBtn();
+	}
+
+	@Then("^user should be able to view message as \"([^\"]*)\"$")
+	public void user_should_be_able_to_view_message_as(String message) {
+		Assert.assertTrue("'" + message + "' message is not displayed after adding SOP Actions",
+				message.equals(uDCPage.getSOPSuccessMessage()));
+	}
+
+	@Then("^Add SOP Action pop-up should disappear$")
+	public void add_SOP_Action_pop_up_should_disappear() {
+		Assert.assertFalse("SOP Action Popup is still visible", uDCPage.checkSOPActionPopupDisappeared());
+	}
+
+	@Then("^user should be able to view added SOP Action on SOP Actions screen$")
+	public void user_should_be_able_to_view_added_SOP_Action_on_SOP_Actions_screen() {
+		Assert.assertTrue("Added SOP Action not visible on screen",
+				uDCPage.getListOfSOPActions().contains(addedSOPAction));
 	}
 }
