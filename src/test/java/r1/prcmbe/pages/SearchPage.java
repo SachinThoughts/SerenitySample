@@ -9,10 +9,10 @@ public class SearchPage extends PageObject {
 	@FindBy(css = "#userMsg > span")
 	private WebElementFacade noAccountsMessage;
 
-	String titleJs = "return document.querySelector('#Head > title').text";
+	String titleJS = "return document.querySelector('#Head > title').text";
 
 	public String getSearchPageTitle() {
-		return evaluateJavascript(titleJs).toString();
+		return evaluateJavascript(titleJS).toString();
 	}
 
 	public String getNoAccountsMessage() {
