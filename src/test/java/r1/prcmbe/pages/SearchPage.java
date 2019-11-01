@@ -39,6 +39,11 @@ public class SearchPage extends PageObject {
 
 	@FindBy(xpath = "//*[@id='lblInvoiceNo']")
 	private WebElementFacade invoiceID;
+	
+	@FindBy(css = "#userMsg > span")
+	private WebElementFacade noAccountsMessage;
+
+	String titleJS = "return document.querySelector('#Head > title').text";
 
 	String facilityCodeJs = "document.querySelector('#dnn_ctr1025_ModuleContent > span > span:nth-child(1)').textContent";
 
@@ -104,5 +109,13 @@ public class SearchPage extends PageObject {
 
 	public String getInvoiceID() {
 		return invoiceID.withTimeoutOf(Duration.ofSeconds(20)).waitUntilVisible().getText();
+	}
+	
+	public String getSearchPageTitle() {
+		return evaluateJavascript(titleJS).toString();
+	}
+
+	public String getNoAccountsMessage() {
+		return noAccountsMessage.getText();
 	}
 }

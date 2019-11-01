@@ -8,6 +8,7 @@ import net.serenitybdd.core.pages.WebElementFacade;
 
 public class NavigationPage extends PageObject {
 	final private String himTitleHeader = "Health Information Management";
+
 	private final String userNameJs = "return $(GlobalInputData.UserName).selector";
 	private final String userIDJs = "return $(GlobalInputData.UserID).selector";
 
