@@ -2,7 +2,8 @@ package r1.prcmbe.steps.definitions;
 
 import java.io.IOException;
 import java.sql.SQLException;
-
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import org.junit.Assert;
@@ -38,6 +39,7 @@ public class AccountDocumentStepDef {
 	AccountDocumentSteps accntDocumentSteps;
 
 	String selectedDocumentType, enteredDocumentTitle, fileName, visitNo, facilityCode, invoiceNumber;
+	List<String> listOfInvoiceNumber;
 	static String dbFileName = "AccountDocument";
 
 	@Given("^user login to SQL server and connect to database$")
@@ -171,7 +173,7 @@ public class AccountDocumentStepDef {
 	@Given("^user is on R1 Decision Account page$")
 	public void user_is_on_R1_Decision_Account_page() {
 		Assert.assertTrue("Searched account page is not displayed",
-				accntInformationPage.getInvoiceNumber().equals(invoiceNumber));
+				accntInformationPage.getInvoiceNumber().equals(listOfInvoiceNumber.get(0)));
 	}
 
 	@When("^user selects \"([^\"]*)\" from Search By dropdown$")
@@ -182,11 +184,12 @@ public class AccountDocumentStepDef {
 	@When("^user runs the \"([^\"]*)\" query to fetch invoice number$")
 	public void user_runs_the_query_to_fetch_invoice_number(String queryName)
 			throws ClassNotFoundException, SQLException, Exception {
+		listOfInvoiceNumber=new ArrayList<>();
 		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
 				commonMethods.loadQuery(queryName, dbFileName));
 		try {
 			while (DatabaseConn.resultSet.next()) {
-				invoiceNumber = DatabaseConn.resultSet.getString("invoicenumber");
+				listOfInvoiceNumber.add(DatabaseConn.resultSet.getString("invoicenumber"));
 			}
 		} catch (SQLException exception) {
 			Assert.assertTrue("InvoiceNumber is not fetched from DB.\nThe Technical Error is:\n" + exception, false);
@@ -195,6 +198,68 @@ public class AccountDocumentStepDef {
 
 	@When("^user enters the query result in Invoice Number search textbox$")
 	public void user_enters_the_query_result_in_Invoice_Number_search_textbox() {
-		pRCMBESearchPage.enterInvoiceNumber(invoiceNumber);
+		pRCMBESearchPage.enterInvoiceNumber(listOfInvoiceNumber.get(0));
+	}
+	
+	@When("^user checks the Show All Documents check box$")
+	public void user_checks_the_Show_All_Documents_check_box() {
+		accntDocumentPage.clickOnShowAllDocumentCheckBox();
+	}
+	
+	@Then("^user should be able to view the Show All Documents checkbox checked$")
+	public void user_should_be_able_to_view_the_Show_All_Documents_checkbox_checked() {
+		Assert.assertTrue("Show All Document CheckBox not Checked",
+				accntDocumentPage.getShowAllDocumentCheckBoxSelectedStatus().equals("true"));
+	}
+	
+	@Then("^user should be able to view the validation message \"([^\"]*)\" below Upload Document button$")
+	public void user_should_be_able_to_view_the_validation_message_below_Upload_Document_button(
+			String expectedMessage) {
+		Assert.assertTrue(
+				"Actual Validation Message doesn't match with Expected Message : Actual Message"
+						+ accntDocumentPage.getNoDocumentUploadTxtValue(),
+				expectedMessage.equals(accntDocumentPage.getNoDocumentUploadTxtValue()));
+	}
+	
+	@Then("^user should able to view the documents grid containing a list of all uploaded documents with their information$")
+	public void user_should_able_to_view_the_documents_grid_containing_a_list_of_all_uploaded_documents_with_their_information() {
+		Assert.assertTrue("Uploaded Document not available in Documents Grid",
+				accntDocumentSteps.verifyUploadedDocsTitle(enteredDocumentTitle));
+	}
+	
+	@When("^user clicks on the Document Title from the grid to open the corresponding document$")
+	public void user_clicks_on_the_Document_Title_from_the_grid_to_open_the_corresponding_document() {
+		accntDocumentSteps.deleteFileFromSystem(fileName);
+		accntDocumentPage.clickOnUploadedDocument(enteredDocumentTitle);
+	}
+	
+	@Then("^user should be able to view downloaded document on the system$")
+	public void user_should_be_able_to_view_downloaded_document_on_the_system() throws InterruptedException {
+		Assert.assertTrue("Downloaded Document not available on System",
+				accntDocumentSteps.isDocumentDownloadedOnSystem(fileName, 20));
+	}
+	
+	@When("^user checks Associated to MRN checkbox$")
+	public void user_checks_Associated_to_MRN_checkbox() {
+		accntDocumentPage.clickOnMRNCheckBox();
+	}
+	
+	@When("^user runs the \"([^\"]*)\" query to fetch invoice number having no document$")
+	public void user_runs_the_query_to_fetch_invoice_number_having_no_document(String queryName)
+			throws ClassNotFoundException, SQLException, Exception {
+		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
+				commonMethods.loadQuery(queryName, dbFileName));
+		try {
+			while (DatabaseConn.resultSet.next()) {
+				listOfInvoiceNumber.add(DatabaseConn.resultSet.getString("invoicenumber"));
+			}
+		} catch (SQLException exception) {
+			Assert.assertTrue("InvoiceNumber is not fetched from DB.\nThe Technical Error is:\n" + exception, false);
+		}
+	}
+	
+	@When("^user enters the query result in Invoice Number search textbox having no document$")
+	public void user_enters_the_query_result_in_Invoice_Number_search_textbox_having_no_document() {
+		pRCMBESearchPage.enterInvoiceNumber(listOfInvoiceNumber.get(1));
 	}
 }

@@ -31,6 +31,8 @@ Feature: Verify AccountDocument related scenarios in PRCM
       | bmp             |
       | txt             |
       | tiff            |
+      | xlsm            |
+      | docm            |
 
   @391085 @Sprint8 @PRCMUser
   Scenario Outline: Verify that user is not able to upload a file of size > 20MB
@@ -65,6 +67,38 @@ Feature: Verify AccountDocument related scenarios in PRCM
     And user enters document title "Title" in Document Title field
     And user clicks on Upload Document button without selecting any file in the File Name field
     Then user should be able to view the error message on uploading the document "Upload Error! Please select a Document to Upload"
+
+    Examples: 
+      | doctype |
+      | pdf     |
+
+  @391086 @Sprint8 @PRCMUser
+  Scenario: Verify user is getting validation message if no document attached with the account
+    Given user is on R1 Decision Account page
+    When user runs the "PRCM_Account_Document_391084_SQL1" query to fetch invoice number having no document
+    And user enters the query result in Invoice Number search textbox having no document
+    And user clicks on submit button
+    When user scrolls down till Account Documents section
+    And user selects any document type from Document Type dropdown
+    Then user should be able to view the selected document type in Document type drop down
+    When user checks the Show All Documents check box
+    Then user should be able to view the Show All Documents checkbox checked
+    And user should be able to view the validation message "No document uploaded!" below Upload Document button
+
+  @434903 @Sprint8 @PRCMUser
+  Scenario Outline: Verify that user can successfully upload file of correct format and size after filling in all the mandatory fields
+    Given user is on R1 Decision Account page
+    When user scrolls down till Account Documents section
+    And user selects any document type from Document Type dropdown
+    And user enters document title "Title" in Document Title field
+    When user selects file <doctype> using ChooseFile Option
+    Then user should be able to view the selected file path/name under File Name text box
+    When user clicks on Upload Document button
+    Then user should get the information message "Document Uploaded Successfully." on screen
+    When user checks the Show All Documents check box
+    Then user should able to view the documents grid containing a list of all uploaded documents with their information
+    When user clicks on the Document Title from the grid to open the corresponding document
+    Then user should be able to view downloaded document on the system
 
     Examples: 
       | doctype |
