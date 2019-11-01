@@ -51,26 +51,6 @@ public class AccountDocumentStepDef {
 		DatabaseConn.getServerDBName(webdriverURL, facility);
 	}
 
-	@When("^user clicks on submit button$")
-	public void user_clicks_on_Submit_Button() {
-		searchPage.clickSubmitBtn();
-	}
-
-	@When("^user clicks on Billing & Follow-up link$")
-	public void user_clicks_on_Billing_Follow_up_link() {
-		navigationPage.clickOnBillingAndFollowUpLink();
-	}
-
-	@When("^user hovers on R1_Decision link$")
-	public void user_hovers_on_R1_Decision_link() {
-		billingAndFollowUpPage.hoverOnR1DecisionLink();
-	}
-
-	@When("^user clicks on search sub menu$")
-	public void user_clicks_on_search_sub_menu() {
-		billingAndFollowUpPage.clickSearchLink();
-	}
-
 	@When("^user scrolls down till Account Documents section$")
 	public void user_scrolls_down_till_Account_Documents_section() throws Exception {
 		accntDocumentPage.clickOnDocumentLink();
@@ -174,11 +154,6 @@ public class AccountDocumentStepDef {
 	public void user_is_on_R1_Decision_Account_page() {
 		Assert.assertTrue("Searched account page is not displayed",
 				accntInformationPage.getInvoiceNumber().equals(listOfInvoiceNumber.get(0)));
-	}
-
-	@When("^user selects \"([^\"]*)\" from Search By dropdown$")
-	public void user_selects_from_Search_By_dropdown(String dropdownValue) {
-		searchPage.searchBySelectText(dropdownValue);
 	}
 
 	@When("^user runs the \"([^\"]*)\" query to fetch invoice number$")

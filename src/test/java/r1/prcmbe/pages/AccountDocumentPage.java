@@ -143,7 +143,8 @@ public class AccountDocumentPage extends PageObject {
 	}
 
 	public void clickOnUploadFileBtn() {
-		uploadDocumentBtn.click();
+		evaluateJavascript("arguments[0].click();",uploadDocumentBtn);
+		//uploadDocumentBtn.click();
 	}
 
 	public String getMsgBelowFileName() {

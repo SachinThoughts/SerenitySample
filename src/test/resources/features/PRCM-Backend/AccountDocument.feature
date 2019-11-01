@@ -7,7 +7,7 @@ Feature: Verify AccountDocument related scenarios in PRCM
     When user clicks on Billing & Follow-up link
     And user hovers on R1_Decision link
     And user clicks on search sub menu
-    And user selects "Invoice Number" from Search By dropdown
+    And user selects "Invoice Number" from search by dropdown
     And user login to SQL server and connect to database
     And user runs the "PRCM_Account_Document_391084_SQL1" query to fetch invoice number
     And user enters the query result in Invoice Number search textbox
