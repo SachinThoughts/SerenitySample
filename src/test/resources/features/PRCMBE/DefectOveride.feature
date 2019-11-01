@@ -5,7 +5,7 @@ Feature: Verify Defect over ride
     Given user is on R1 Hub page
     When user clicks on Billing & Follow-up link
 
-  @391266
+  @391266 @Sprint8
   Scenario Outline: Verify that Defect Workflow section should be display when searched by Invoice#
     Given user is able to login to sql server and connect to database
     When user runs the query <query1>

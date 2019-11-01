@@ -30,7 +30,7 @@ public class DefectOverrideStepDef {
 	DefectOverridePage defectOverridePage;
 	
 	static String dbFileName = "DefectOverride";
-	String dBSettingValue, dBInvoiceId;
+	String dbSettingValue, dbInvoiceId;
 
 	@Steps
 	SearchPageSteps searchPageSteps;
@@ -48,7 +48,7 @@ public class DefectOverrideStepDef {
 	public void user_should_be_able_to_view_some_invoice_id() {
 		try {
 			while (DatabaseConn.resultSet.next()) {
-				dBInvoiceId = DatabaseConn.resultSet.getString("InvoiceNumber");
+				dbInvoiceId = DatabaseConn.resultSet.getString("InvoiceNumber");
 			}
 		} catch (SQLException exception) {
 			Assert.assertTrue("invoiceId is not fetched from DB.\nThe Technical Error is:\n" + exception, false);
@@ -66,12 +66,12 @@ public class DefectOverrideStepDef {
 	public void user_should_be_able_to_view_the_PRCM_Flag(String flagValue) {
 		try {
 			while (DatabaseConn.resultSet.next()) {
-				dBSettingValue = DatabaseConn.resultSet.getString("SettingValue");
+				dbSettingValue = DatabaseConn.resultSet.getString("SettingValue");
 			}
 		} catch (SQLException exception) {
 			Assert.assertTrue("invoiceId is not fetched from DB.\nThe Technical Error is:\n" + exception, false);
 		}
-		Assert.assertTrue(dBSettingValue.equals(flagValue));
+		Assert.assertTrue(dbSettingValue.equals(flagValue));
 	}
 
 	@When("^user clicks on Billing & Follow-up link$")
@@ -79,7 +79,7 @@ public class DefectOverrideStepDef {
 		navigationPage.clickOnBillingAndFollowUpLink();
 	}
 
-	@When("^user hovers on R(\\d+)_Decision link$")
+	@When("^user hovers on R1_Decision link$")
 	public void user_hovers_on_R__Decision_link() {
 		billingAndFollowUpPage.hoverOnR1DecisionLink();
 	}
@@ -101,7 +101,7 @@ public class DefectOverrideStepDef {
 
 	@When("^user enters invoice number fetched from database in invoice number textbox$")
 	public void user_enters_invoice_number_fetched_from_database_in_invoice_number_textbox() {
-		searchPage.enterInvoiceNumber(dBInvoiceId);
+		searchPage.enterInvoiceNumber(dbInvoiceId);
 	}
 
 	@When("^user clicks on submit button$")
@@ -111,7 +111,7 @@ public class DefectOverrideStepDef {
 
 	@Then("^user should be able to view the searched account$")
 	public void user_should_be_able_to_view_the_searched_account() {
-		Assert.assertTrue("failed to view searched account",searchPageSteps.verifyInvoiceIDWithLikeOperator(dBInvoiceId));
+		Assert.assertTrue("failed to view searched account",searchPageSteps.verifyInvoiceIDWithLikeOperator(dbInvoiceId));
 	}
 
 	@When("^user moves the control on right side of the page and see the Defect Workflow section$")

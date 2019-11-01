@@ -8,16 +8,16 @@ public class SearchPageSteps {
 	SearchPage searchPage;
 
 	@Step
-	public boolean verifyInvoiceIDWithLikeOperator(String dBInvoiceId) {
+	public boolean verifyInvoiceIDWithLikeOperator(String dbInvoiceId) {
 		if (searchPage.isSearchAccTableVisible()) {
 			for (String invoiceID : searchPage.getlistOfInvoiceID()) {
-				if (!invoiceID.toLowerCase().contains(dBInvoiceId.toLowerCase())) {
+				if (!invoiceID.toLowerCase().contains(dbInvoiceId.toLowerCase())) {
 					return false;
 				}
 			}
 			searchPage.clickSearchInvoiceID();
 		}
 		return searchPage.isPatientAndVisitHeaderVisible()
-				&& dBInvoiceId.contains(searchPage.getInvoiceID().toLowerCase());
+				&& dbInvoiceId.contains(searchPage.getInvoiceID().toLowerCase());
 	}
 }
