@@ -20,7 +20,7 @@ import r1.prcmbe.pages.AccountDocumentPage;
 import r1.prcmbe.pages.AccountInformationPage;
 import r1.prcmbe.pages.BillingAndFollowUpPage;
 import r1.prcmbe.pages.NavigationPage;
-import r1.prcmbe.pages.PRCMBESearchPage;
+import r1.prcmbe.pages.SearchPage;
 import r1.prcmbe.serenity.steps.AccountDocumentSteps;
 
 public class AccountDocumentStepDef {
@@ -31,7 +31,7 @@ public class AccountDocumentStepDef {
 	CommonMethods commonMethods;
 	EnvironmentVariables environmentVariables;
 	NavigationPage navigationPage;
-	PRCMBESearchPage pRCMBESearchPage;
+	SearchPage searchPage;
 
 	Random random = new Random();
 
@@ -53,7 +53,7 @@ public class AccountDocumentStepDef {
 
 	@When("^user clicks on submit button$")
 	public void user_clicks_on_Submit_Button() {
-		pRCMBESearchPage.clickSubmitBtn();
+		searchPage.clickSubmitBtn();
 	}
 
 	@When("^user clicks on Billing & Follow-up link$")
@@ -178,7 +178,7 @@ public class AccountDocumentStepDef {
 
 	@When("^user selects \"([^\"]*)\" from Search By dropdown$")
 	public void user_selects_from_Search_By_dropdown(String dropdownValue) {
-		pRCMBESearchPage.searchBySelectText(dropdownValue);
+		searchPage.searchBySelectText(dropdownValue);
 	}
 
 	@When("^user runs the \"([^\"]*)\" query to fetch invoice number$")
@@ -198,7 +198,7 @@ public class AccountDocumentStepDef {
 
 	@When("^user enters the query result in Invoice Number search textbox$")
 	public void user_enters_the_query_result_in_Invoice_Number_search_textbox() {
-		pRCMBESearchPage.enterInvoiceNumber(listOfInvoiceNumber.get(0));
+		searchPage.enterInvoiceNumber(listOfInvoiceNumber.get(0));
 	}
 	
 	@When("^user checks the Show All Documents check box$")
@@ -260,6 +260,6 @@ public class AccountDocumentStepDef {
 	
 	@When("^user enters the query result in Invoice Number search textbox having no document$")
 	public void user_enters_the_query_result_in_Invoice_Number_search_textbox_having_no_document() {
-		pRCMBESearchPage.enterInvoiceNumber(listOfInvoiceNumber.get(1));
+		searchPage.enterInvoiceNumber(listOfInvoiceNumber.get(1));
 	}
 }
