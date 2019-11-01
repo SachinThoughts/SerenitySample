@@ -41,7 +41,7 @@ public class AccountDocumentStepDef {
 	static String dbFileName = "AccountDocument";
 
 	@Given("^user login to SQL server and connect to database$")
-	public void user_login_to_SQL_server_and_connect_to_database() throws IOException {
+	public void user_login_to_SQL_server_and_connect_to_database() throws IOException, ClassNotFoundException, SQLException {
 		String webdriverURL = EnvironmentSpecificConfiguration.from(environmentVariables)
 				.getProperty("webdriver.base.url");
 		String facility = CommonMethods.loadProperties("facility");
