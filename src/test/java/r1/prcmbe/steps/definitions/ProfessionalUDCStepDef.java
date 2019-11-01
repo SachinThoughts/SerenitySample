@@ -19,11 +19,15 @@ import r1.prcmbe.pages.SettingsPage;
 import r1.prcmbe.pages.SettingsR1DPage;
 import r1.prcmbe.pages.UniversalDefectConfigurationPage;
 import r1.prcmbe.serenity.steps.LoginSteps;
+import r1.prcmbe.serenity.steps.ProfessionalUDCSteps;
 
 public class ProfessionalUDCStepDef extends PageObject {
 
 	@Steps
 	LoginSteps loginStep;
+
+	@Steps
+	ProfessionalUDCSteps proUDCSteps;
 
 	NavigationPage navPage;
 	SettingsPage settingsPage;
@@ -32,7 +36,11 @@ public class ProfessionalUDCStepDef extends PageObject {
 	SettingsR1DPage settingsR1DPage;
 	LoginPage userLoginPage;
 
-	private String selectedDefectType, selectedSOPType, selectedDefectSubCategoryValue, addedSOPAction;
+	private String selectedDefectType, selectedSOPType, selectedDefectSubCategoryValue, addedSOPAction,
+			randomDefectTypeName, randomDefectSubCategory;
+
+	List<String> defectTypeList;
+	List<String> defectSubCategoryList;
 
 	@Given("^user is on R1 Hub page$")
 	public void user_is_on_R1_Hub_page() {
@@ -143,7 +151,6 @@ public class ProfessionalUDCStepDef extends PageObject {
 	@When("^user select the radio button corresponding to a defect subcategory$")
 	public void user_select_the_radio_button_corresponding_to_a_defect_subcategory() {
 		selectedDefectSubCategoryValue = uDCPage.selectAndGetRandomDefectSubcategory();
-
 	}
 
 	@When("^user clicks on the Continue button on defect sub category page$")
@@ -172,7 +179,7 @@ public class ProfessionalUDCStepDef extends PageObject {
 
 	@When("^user clicks on the Add New SOP Actions button on SOP Actions screen$")
 	public void user_clicks_on_the_Add_New_SOP_Actions_button_on_SOP_Actions_screen() {
-		uDCPage.clickAddNewSopActionBtn();
+		uDCPage.clickAddNewSOPActionBtn();
 	}
 
 	@When("^user enters all the mandatory fields$")
@@ -189,7 +196,7 @@ public class ProfessionalUDCStepDef extends PageObject {
 
 	@When("^user clicks on Save Changes SOP Actions button$")
 	public void user_clicks_on_Save_Changes_SOP_Actions_button() {
-		uDCPage.clickSaveChangesSopActionBtn();
+		uDCPage.clickSaveChangesSOPActionBtn();
 	}
 
 	@Then("^user should be able to view message as \"([^\"]*)\"$")

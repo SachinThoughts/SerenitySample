@@ -11,7 +11,7 @@ import r1.commons.utilities.CommonMethods;
 
 public class UniversalDefectConfigurationPage extends PageObject {
 
-	private int randomNumber, radioBtnListSize;
+	private int index, randomNumber, radioBtnListSize;
 
 	@FindBy(xpath = "//h3[contains(text(),'Universal Defect Configuration')]")
 	private WebElementFacade uDCTitle;
@@ -53,7 +53,7 @@ public class UniversalDefectConfigurationPage extends PageObject {
 	private WebElementFacade continueBtnDefectSubCategoryPage;
 
 	@FindBy(xpath = "//*[@class='sop-types']//li//div[2]")
-	private List<WebElementFacade> listOfSopName;
+	private List<WebElementFacade> listOfSOPName;
 
 	@FindBy(xpath = "//div[@id='dvDefectSubCategory']/ul/li/div[1]/div/div/label")
 	private List<WebElementFacade> listOfDefectSubcategoryRadioBtn;
@@ -68,7 +68,7 @@ public class UniversalDefectConfigurationPage extends PageObject {
 	private WebElementFacade continueBtnOnSOP;
 
 	@FindBy(xpath = "//button[text()='Add New SOP Actions']")
-	private WebElementFacade addNewSopActionBtn;
+	private WebElementFacade addNewSOPActionBtn;
 
 	@FindBy(id = "dnn_ctr1588_TaskPanel_taskBase_UDCActionControl_txtActionName")
 	private WebElementFacade actionNameTxtBox;
@@ -89,16 +89,49 @@ public class UniversalDefectConfigurationPage extends PageObject {
 	private WebElementFacade actionStatusDrpDwn;
 
 	@FindBy(xpath = "//h4[@id='addSOPActionLabel']/ancestor::div[@class='modal-content']/descendant::button[text()='Save changes']")
-	private WebElementFacade saveSopActionBtn;
+	private WebElementFacade saveSOPActionBtn;
 
 	@FindBy(id = "msg_success")
 	private WebElementFacade sOPSuccessMessage;
 
 	@FindBy(xpath = "//div[@id='dvSOPAction']/descendant::div[@class='wrap-text']/span[starts-with(@id,'sopAN')]")
 	private List<WebElementFacade> listOfSOPActions;
-	
-	@FindBy(id="addSOPActionLabel")
+
+	@FindBy(id = "addSOPActionLabel")
 	private WebElementFacade sOPActionPopup;
+
+	@FindBy(xpath = "//*[@class='sop-types sortable defects']/li/div[2]/span")
+	private List<WebElementFacade> listOfDefectTypes;
+
+	@FindBy(xpath = "//button[contains(text(),'Add Defect Type')]")
+	private WebElementFacade addDefectTypeBtn;
+
+	@FindBy(id = "addDefectTypeLabel")
+	private WebElementFacade defectTypeModalPopUp;
+
+	@FindBy(id = "dnn_ctr1588_TaskPanel_taskBase_DefectTypeControl_txtDefectType")
+	private WebElementFacade defectTypeNameTextbox;
+
+	@FindBy(xpath = "//div[text()='Defect Type Added Successfully.']")
+	private WebElementFacade defectTypeSuccessMsg;
+
+	@FindBy(xpath = "//ul[@id='sortableDefectSubCategory']/li/div[2]/span")
+	private List<WebElementFacade> listOfDefectSubCategories;
+
+	@FindBy(xpath = "//*[@id='step3']/div[1]/div/div[1]/button")
+	private WebElementFacade addDefectSubCategoryBtn;
+
+	@FindBy(id = "dnn_ctr1588_TaskPanel_taskBase_DefectTypeControl_chkDefectType")
+	private WebElementFacade activeCheckbox;
+
+	@FindBy(id = "dnn_ctr1588_TaskPanel_taskBase_DefectTypeControl_btnSaveDefectType")
+	private WebElementFacade modalAddDefectTypeBtn;
+
+	@FindBy(id = "dnn_ctr1588_TaskPanel_taskBase_UDCDefectSubCategory_chkDefectSubCategory")
+	private WebElementFacade defectSubCategoryActiveCheckbox;
+
+	@FindBy(id = "dnn_ctr1588_TaskPanel_taskBase_UDCDefectSubCategory_btnSaveDefectSubCategory")
+	private WebElementFacade addDefectSubCategoryPopUpBtn;
 
 	public boolean checkUDCTitleVisibility() {
 		return uDCTitle.isVisible();
@@ -167,19 +200,19 @@ public class UniversalDefectConfigurationPage extends PageObject {
 	}
 
 	public String selectAndGetRandomSOPType() {
-		radioBtnListSize = (getListOfSopTypes().size()) - 1;
+		radioBtnListSize = (getListOfSOPTypes().size()) - 1;
 		randomNumber = CommonMethods.getRandom(radioBtnListSize);
 		evaluateJavascript("return document.querySelector('#sopSteps-0" + randomNumber + "').click()");
 		return evaluateJavascript("return document.querySelector('#sopSteps-0" + randomNumber + "').value").toString();
 	}
 
-	public List<String> getListOfSopTypes() {
+	public List<String> getListOfSOPTypes() {
 		waitForAngularRequestsToFinish();
-		List<String> sopTypeList = new ArrayList<>();
-		for (WebElementFacade listOfNames : listOfSopName) {
-			sopTypeList.add(listOfNames.getText());
+		List<String> sOPTypeList = new ArrayList<>();
+		for (WebElementFacade listOfNames : listOfSOPName) {
+			sOPTypeList.add(listOfNames.getText());
 		}
-		return sopTypeList;
+		return sOPTypeList;
 	}
 
 	public String selectAndGetRandomDefectSubcategory() {
@@ -207,8 +240,8 @@ public class UniversalDefectConfigurationPage extends PageObject {
 		continueBtnOnSOP.click();
 	}
 
-	public void clickAddNewSopActionBtn() {
-		addNewSopActionBtn.click();
+	public void clickAddNewSOPActionBtn() {
+		addNewSOPActionBtn.click();
 	}
 
 	public void enterActionName(String actionName) {
@@ -235,8 +268,8 @@ public class UniversalDefectConfigurationPage extends PageObject {
 		actionStatusDrpDwn.selectByVisibleText(text);
 	}
 
-	public void clickSaveChangesSopActionBtn() {
-		saveSopActionBtn.withTimeoutOf(Duration.ofSeconds(10)).waitUntilVisible().click();
+	public void clickSaveChangesSOPActionBtn() {
+		saveSOPActionBtn.withTimeoutOf(Duration.ofSeconds(10)).waitUntilVisible().click();
 	}
 
 	public String getSOPSuccessMessage() {

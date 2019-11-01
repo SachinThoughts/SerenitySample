@@ -8,7 +8,7 @@ Feature: Verify ProfessionalUDC related scenarios in PRCM
     And user clicks on Settings-R1_Decision
     And user clicks on UDC Admin configuration
 
-  @391392 @PRCMUser
+  @391392 @PRCMUser @Sprint8
   Scenario: Verify that user having admin role is able to view UDC screen for Technical as well as Professional separately
     Given user is on UDC Admin configuration page
     When user clicks on setting link
@@ -24,7 +24,7 @@ Feature: Verify ProfessionalUDC related scenarios in PRCM
     When user clicks on PRCM R1Decision Config
     Then user should be able to view populated screen to configure at professional account invoice
 
-  @391395 @NonPRCMUser
+  @391395 @NonPRCMUser @Sprint8
   Scenario: Verify that for Professional Config UDC user should have atleast one Facility that have PRCM access
     Given user is on UDC Admin configuration page
     Then user should be able to view R1 Decision UDC screen for technical only
@@ -36,7 +36,7 @@ Feature: Verify ProfessionalUDC related scenarios in PRCM
     And user clicks on UDC Admin configuration
     Then user should able to view both application Tabs for technical as well as professional
 
-  @434958 @PRCMUser
+  @434958 @PRCMUser @Sprint8
   Scenario: Verify that user is able to add SOP Actions
     Given user having AHtoDecision Admin role is on Universal Defect Configuration  page
     When user select the radio button against any defect type
