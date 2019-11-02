@@ -1,14 +1,10 @@
 package r1.prcmbe.steps.definitions;
 
-import java.io.IOException;
-import java.sql.SQLException;
-
 import org.junit.Assert;
 
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-import net.serenitybdd.core.environment.EnvironmentSpecificConfiguration;
 import net.thucydides.core.util.EnvironmentVariables;
 import r1.commons.databaseconnection.DatabaseConn;
 import r1.commons.utilities.CommonMethods;
@@ -23,7 +19,7 @@ public class SearchStepDef {
 	EnvironmentVariables environmentVariables;
 	CommonMethods commonMethods;
 
-	String dbQueryFilename, dbMRN;
+	String dbQueryFilename="Search", dbMRN;
 
 	@When("^user clicks on Billing & Follow-up link$")
 	public void user_clicks_on_Billing_Follow_up_link() {
@@ -68,32 +64,9 @@ public class SearchStepDef {
 		searchPage.searchBySelectText(dropdownVal);
 	}
 
-	@Given("^user login to SQL Server and connect to facility database$")
-	public void user_login_to_SQL_server_and_connect_to_facility_database() throws IOException {
-		DatabaseConn.getServerDBName(
-				EnvironmentSpecificConfiguration.from(environmentVariables).getProperty("webdriver.base.url"), "WPWI");
-	}
-
 	@When("^user runs the (.*) query for search$")
 	public void user_run_the_query_for_Search(String queryName) throws Exception {
 		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
 				commonMethods.loadQuery(queryName, dbQueryFilename));
-	}
-
-	@When("^user selects (.*) from Operator dropdown$")
-	public void user_selects_from_Operator_dropdown(String operator) {
-		searchPage.operatorSelectText(operator);
-	}
-
-	@When("^user enters the query result in Medical Record Number textbox$")
-	public void user_enters_the_query_result_in_Medical_Record_Number_textbox() {
-		try {
-			while (DatabaseConn.resultSet.next()) {
-				dbMRN = DatabaseConn.resultSet.getString(1);
-			}
-		} catch (SQLException sQLException) {
-			Assert.assertTrue("Medical Record Number is not fetched from DB.\nThe Technical Error is:\n" + sQLException, false);
-		}
-		searchPage.enterMRN(dbMRN);
 	}
 }
