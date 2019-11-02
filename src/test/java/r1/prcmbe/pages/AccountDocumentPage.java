@@ -143,14 +143,13 @@ public class AccountDocumentPage extends PageObject {
 	}
 
 	public void clickOnUploadFileBtn() {
-		evaluateJavascript("arguments[0].click();",uploadDocumentBtn);
-		//uploadDocumentBtn.click();
+		uploadDocumentBtn.click();
 	}
 
 	public String getMsgBelowFileName() {
 		String msg = "";
-		for (WebElementFacade element : listOfMsgUnderFileNameField) {
-			msg = msg.concat(" " + element.getText());
+		for (WebElementFacade msgUnderFileName : listOfMsgUnderFileNameField) {
+			msg = msg.concat(" " + msgUnderFileName.getText());
 		}
 		String[] arrayOfSplittedMessage = msg.split("\n");
 		msg = arrayOfSplittedMessage[0] + " " + arrayOfSplittedMessage[1];
@@ -159,8 +158,8 @@ public class AccountDocumentPage extends PageObject {
 
 	public List<String> getListOfColourValForText() {
 		List<String> listOfColourValForText = new ArrayList<>();
-		for (WebElementFacade element : listOfMsgUnderFileNameField) {
-			listOfColourValForText.add(element.getCssValue("color"));
+		for (WebElementFacade msgUnderFileName : listOfMsgUnderFileNameField) {
+			listOfColourValForText.add(msgUnderFileName.getCssValue("color"));
 		}
 		return listOfColourValForText;
 	}
@@ -196,17 +195,17 @@ public class AccountDocumentPage extends PageObject {
 
 	public List<String> getListOfUploadedFileName() {
 		List<String> listOfOfUploadedFileName = new ArrayList<>();
-		for (WebElementFacade element : listOfUploadedDocFileName) {
-			listOfOfUploadedFileName.add(element.getText());
+		for (WebElementFacade uploadedDocFileName : listOfUploadedDocFileName) {
+			listOfOfUploadedFileName.add(uploadedDocFileName.getText());
 		}
 		return listOfOfUploadedFileName;
 	}
 
 	public void clickOnUploadedDocument(String document) {
-		for (WebElementFacade element : listOfUploadedDocsTitle) {
-			String[] array = element.getText().split(document);
+		for (WebElementFacade uploadedDocTitle : listOfUploadedDocsTitle) {
+			String[] array = uploadedDocTitle.getText().split(document);
 			if (array.length != 0 && array[0].isEmpty()) {
-				withAction().moveToElement(element).click().build().perform();
+				withAction().moveToElement(uploadedDocTitle).click().build().perform();
 				break;
 			}
 		}
