@@ -13,11 +13,6 @@ public class SearchStepDef {
 	BillingAndFollowUpPage billingAndFollowUpPage;
 	SearchPage searchPage;
 
-	@When("^user clicks on Billing & Follow-up link$")
-	public void user_clicks_on_Billing_Follow_up_link() {
-		navigationPage.clickOnBillingAndFollowUpLink();
-	}
-
 	@When("^user clicks on R1_Decision link$")
 	public void user_clicks_on_R1_Decision_link() {
 		billingAndFollowUpPage.clickOnR1DecisionLink();

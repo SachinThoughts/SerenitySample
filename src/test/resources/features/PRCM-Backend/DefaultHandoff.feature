@@ -10,7 +10,7 @@ Feature: Verify default handoff
   @434985 @434986 @434987 @434988 @Sprint8 @PRCMUser
   Scenario: Verify the functionality of the Add Handoff button in Workflow Configuration screen
     Given user having AHtoDecision role is on "AHtoDecision Workflow Configuration" Screen
-    And user login to SQL server and connect to "Accretive" database
+    And user is able to login to sql server and connect to database
     Then user should be able to view +Add Handoff button on Handoff screen grid
     When user clicks on +Add Handoff button
     Then user should be able to view popup window with following fields
@@ -29,7 +29,7 @@ Feature: Verify default handoff
     And user selects any value from Visible to Group dropdown for Add Handoff
     And user clicks on Save Changes button for Add Handoff
     Then user should be able to view the appropriate success message: "HandOff Inserted Successfully"
-    And user runs the query to verify if the handoff is inserted "Defaulthandoff_434985_SQL1"  
+    And Default Handoff user runs the query to verify if the handoff is inserted "Defaulthandoff_434985_SQL1"  
     Then user should be able to view newly inserted Handoff type in SQL result
     When user selects radio button corresponding to the newly created Handoff and user clicks on Continue button
     Then user should be able to navigate to Recipient tab and user should be able to view the message "No Recipient exists for the selected Handoff" under Choose Recipient Grid

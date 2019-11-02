@@ -118,7 +118,7 @@ public class DefaultHandoffStepDef extends PageObject {
 		defaultHandOffPage.clickAddHandOffSaveChangesButton();
 	}
 
-	@When("^user runs the query to verify if the handoff is inserted \"([^\"]*)\"  $")
+	@When("^Default Handoff user runs the query to verify if the handoff is inserted \"([^\"]*)\"  $")
 	public void user_runs_the_query_to_verify_if_the_handoff_is_inserted(String query) {
 		try {
 			DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
@@ -333,11 +333,5 @@ public class DefaultHandoffStepDef extends PageObject {
 				defaultHandOffPage.getTextSavedDispositionTimeLimit().equals(dispositionResponseDeadline));
 		Assert.assertTrue("Disposition Status displayed in the table does not match with one selected",
 				defaultHandOffPage.getTextSavedDispositionStatus().equals(dispositionStatus));
-	}
-
-	@Given("^user login to SQL server and connect to \"([^\"]*)\" database$")
-	public void user_login_to_SQL_server_and_connect_to_database(String database) throws IOException {
-		DatabaseConn.serverName = EnvironmentSpecificConfiguration.from(environmentVariables).getProperty("bindURL");
-		DatabaseConn.databaseName = database;
 	}
 }
