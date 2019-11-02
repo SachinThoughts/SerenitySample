@@ -11,7 +11,7 @@ import net.serenitybdd.core.annotations.findby.FindBy;
 
 public class DefaultHandoffPage extends PageObject {
 
-	 String workFlowName;
+	 String workflowName;
 
 	@FindBy(xpath = "//h3[@class='panel-title']")
 	private WebElementFacade defaultHandOffPageTitle;
@@ -20,10 +20,10 @@ public class DefaultHandoffPage extends PageObject {
 	private WebElementFacade addHandOffButton;
 
 	@FindBy(xpath = "//label[@for='addWorkflowName']")
-	private WebElementFacade addHandOffWorkFlowNameLabel;
+	private WebElementFacade addHandOffWorkflowNameLabel;
 
 	@FindBy(xpath = "//label[@for='addWorkflowDescription']")
-	private WebElementFacade addHandOffWorkFlowDescriptionLabel;
+	private WebElementFacade addHandOffWorkflowDescriptionLabel;
 
 	@FindBy(xpath = "//label[contains(text(),'Worklist')]")
 	private WebElementFacade addHandOffWorkList;
@@ -200,11 +200,11 @@ public class DefaultHandoffPage extends PageObject {
 	}
 
 	public String getTextAddHandOffWorkFlowNameLabel() {
-		return addHandOffWorkFlowNameLabel.getText().trim();
+		return addHandOffWorkflowNameLabel.getText().trim();
 	}
 
 	public String getTextAddHandOffWorkFlowDescriptionLabel() {
-		return addHandOffWorkFlowDescriptionLabel.getText().trim();
+		return addHandOffWorkflowDescriptionLabel.getText().trim();
 	}
 
 	public String getTextAddHandOffWorkList() {
@@ -268,9 +268,9 @@ public class DefaultHandoffPage extends PageObject {
 	}
 
 	public String enterWorkFlowName() {
-		workFlowName = RandomStringUtils.randomAlphabetic(15);
-		workFlowNameTextBox.type(workFlowName);
-		return workFlowName;
+		workflowName = RandomStringUtils.randomAlphabetic(15);
+		workFlowNameTextBox.type(workflowName);
+		return workflowName;
 	}
 
 	public void enterWorkFlowDescription(String description) {
@@ -299,12 +299,13 @@ public class DefaultHandoffPage extends PageObject {
 
 	public void selectNewlyAddedHandOff() {
 		List<String> listOfAddedHandOffNames = new ArrayList<>();
-		for (int i = 0; i < listOfAddedHandOffs.size(); i++) {
+		int sizeOfAddedHandOffs=listOfAddedHandOffs.size();
+		for (int i = 0; i < sizeOfAddedHandOffs; i++) {
 			if (i % 2 == 0)
 				listOfAddedHandOffNames.add(listOfAddedHandOffs.get(i).getText().trim());
 		}
 		for (int i = 0; i < listOfAddedHandOffNames.size(); i++) {
-			if (listOfAddedHandOffNames.get(i).equals(workFlowName)) {
+			if (listOfAddedHandOffNames.get(i).equals(workflowName)) {
 				withAction().moveToElement(listOfAddedHandOffRadioButton.get(i)).build().perform();
 				listOfAddedHandOffRadioButton.get(i).click();
 				break;
@@ -374,20 +375,20 @@ public class DefaultHandoffPage extends PageObject {
 		return actionDescription;
 	}
 
-	public void selectNextActionByDD(String value) {
-		nextActionByDD.selectByVisibleText(value);
+	public void selectNextActionByDD(String nextActionValue) {
+		nextActionByDD.selectByVisibleText(nextActionValue);
 	}
 
-	public void enterFollowUpDaysTextBox(String value) {
-		followUpDaysTextBox.type(value);
+	public void enterFollowUpDaysTextBox(String followUpDaysValue) {
+		followUpDaysTextBox.type(followUpDaysValue);
 	}
 
-	public void enterRespondDeadlineTextBox(String value) {
-		respondDeadlineTextBox.type(value);
+	public void enterRespondDeadlineTextBox(String respondDeadlineValue) {
+		respondDeadlineTextBox.type(respondDeadlineValue);
 	}
 
-	public void selectActionStatusDD(String value) {
-		actionStatusDD.selectByVisibleText(value);
+	public void selectActionStatusDD(String actionStatusValue) {
+		actionStatusDD.selectByVisibleText(actionStatusValue);
 	}
 
 	public void clickAddNewActionSaveChangesButton() {
@@ -435,20 +436,20 @@ public class DefaultHandoffPage extends PageObject {
 		nextDispositionByDD.selectByIndex(CommonMethods.getRandom(listOfValuesOfNextDispositionDD.size() - 1) + 1);
 	}
 
-	public void enterDispositionFollowUpDaysTextBox(String value) {
-		dispositionFollowUpDaysTextBox.type(value);
+	public void enterDispositionFollowUpDaysTextBox(String dispositionFollowUpDaysValue) {
+		dispositionFollowUpDaysTextBox.type(dispositionFollowUpDaysValue);
 	}
 
-	public void enterDispositionRespondDeadlineTextBox(String value) {
-		dispositionRespondDeadlineTextBox.type(value);
+	public void enterDispositionRespondDeadlineTextBox(String dispositionRespondDeadlineValue) {
+		dispositionRespondDeadlineTextBox.type(dispositionRespondDeadlineValue);
 	}
 
-	public void selectDispositionStatusDD(String value) {
-		dispositionStatusDD.selectByVisibleText(value);
+	public void selectDispositionStatusDD(String dispositionStatusValue) {
+		dispositionStatusDD.selectByVisibleText(dispositionStatusValue);
 	}
 
-	public void enterPreDefinedNotes(String value) {
-		preDefinedNotes.type(value);
+	public void enterPreDefinedNotes(String preDefinedNotesValue) {
+		preDefinedNotes.type(preDefinedNotesValue);
 	}
 
 	public void clickAddNewDispositionSaveChangesButton() {

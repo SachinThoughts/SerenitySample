@@ -1,21 +1,15 @@
 package r1.prcmbe.steps.definitions;
 
 import cucumber.api.DataTable;
-import net.serenitybdd.core.environment.EnvironmentSpecificConfiguration;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-
-import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
-
 import org.junit.Assert;
 import net.serenitybdd.core.pages.PageObject;
 import r1.prcmbe.pages.SettingsPage;
 import r1.prcmbe.serenity.steps.LoginSteps;
-//import r1.decision.serenity.steps.RelatedAccountSteps;
-import net.thucydides.core.util.EnvironmentVariables;
 import r1.commons.databaseconnection.DatabaseConn;
 import r1.commons.utilities.CommonMethods;
 import r1.prcmbe.pages.DefaultHandoffPage;
@@ -28,7 +22,6 @@ public class DefaultHandoffStepDef extends PageObject {
 	CommonMethods commonMethods;
 	SettingsPage settingsPage;
 	LoginSteps loginSteps;
-	EnvironmentVariables environmentVariables;
 
 	String workFlowDescription, recipientDesc, actionDescription, followUpDays, dispositionDescription,
 			responseDeadline, dispositionCode, dispositionFollowUpDays, dispositionResponseDeadline, dispositionStatus,
@@ -119,14 +112,10 @@ public class DefaultHandoffStepDef extends PageObject {
 	}
 
 	@When("^Default Handoff user runs the query to verify if the handoff is inserted \"([^\"]*)\"  $")
-	public void user_runs_the_query_to_verify_if_the_handoff_is_inserted(String query) {
-		try {
-			DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
-					String.format(commonMethods.loadQuery(query, dbQueryFilename), workFlowName));
-		} catch (Exception e) {
-			Assert.assertTrue(
-					"WorkFlowName of the added handoff is not fetched from DB.\nThe Technical Error is:\n" + e, false);
-		}
+	public void user_runs_the_query_to_verify_if_the_handoff_is_inserted(String query)
+			throws ClassNotFoundException, SQLException, Exception {
+		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
+				String.format(commonMethods.loadQuery(query, dbQueryFilename), workFlowName));
 	}
 
 	@Then("^user should be able to view newly inserted Handoff type in SQL result$")
