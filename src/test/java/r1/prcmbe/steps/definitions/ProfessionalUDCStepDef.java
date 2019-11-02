@@ -101,7 +101,7 @@ public class ProfessionalUDCStepDef extends PageObject {
 
 	@Then("^user should be able to view populated screen to configure at professional account invoice$")
 	public void user_should_be_able_to_view_populated_screen_to_configure_at_professional_account_invoice() {
-		Assert.assertTrue("User not able to view populated screen to configure at Technical account level",
+		Assert.assertTrue("User not able to view populated screen to configure at Professional account level",
 				uDCPage.innerNavConfigHeaderIsVisible());
 	}
 
@@ -214,5 +214,75 @@ public class ProfessionalUDCStepDef extends PageObject {
 	public void user_should_be_able_to_view_added_SOP_Action_on_SOP_Actions_screen() {
 		Assert.assertTrue("Added SOP Action not visible on screen",
 				uDCPage.getListOfSOPActions().contains(addedSOPAction));
+	}
+
+	@Then("^user having prcm enable facility should be able to view PRCM R1Decision Config as pre-selected$")
+	public void user_having_prcm_enable_facility_should_be_able_to_view_PRCM_R1Decision_Config_as_pre_selected() {
+		Assert.assertTrue("PRCM R1Decision Config is not pre-selected", uDCPage.innerNavConfigHeaderIsVisible());
+	}
+
+	@Then("^user should be able to open that application name$")
+	public void user_should_be_able_to_open_that_application_name() {
+		Assert.assertTrue("User not able to view populated screen to configure at Professional account level",
+				uDCPage.innerNavConfigHeaderIsVisible());
+	}
+
+	@When("^user clicks on Add defect type button$")
+	public void user_clicks_on_Add_defect_type_button() {
+		defectTypeList = uDCPage.getListOfDefectTypes();
+		uDCPage.clickAddDefectTypeBtn();
+	}
+
+	@Then("^user should able to view popup window for new defect$")
+	public void user_should_able_to_view_popup_window_for_new_defect() {
+		Assert.assertTrue("Defect Type Modal Pop Up not visible", uDCPage.checkDefectTypeModalPopUpVisibility());
+	}
+
+	@When("^user fills all the fields (.+) and clicks active checkbox$")
+	public void user_fills_all_the_fields_and_clicks_active_checkbox(String defectName) {
+		randomDefectTypeName = proUDCSteps.getDefectTypeValue(defectName, defectTypeList);
+		uDCPage.enterDefectName(randomDefectTypeName);
+		uDCPage.clickActiveCheckbox();
+	}
+
+	@When("^user clicks on Add Defect Type button on modal popup$")
+	public void user_clicks_on_Add_Defect_Type_button_on_modal_popup() {
+		uDCPage.clickModalAddDefectTypeBtn();
+	}
+
+	@Then("^user should be able to view success message \"([^\"]*)\"$")
+	public void user_should_be_able_to_view_success_message(String successMsg) {
+		Assert.assertTrue("Defect Type saved success message not displayed",
+				successMsg.equals(uDCPage.getDefectTypeSuccessMsg()));
+	}
+
+	@Then("^user should be able to view newly added defect at professional level$")
+	public void user_should_be_able_to_view_newly_added_defect_at_professional_level() {
+		Assert.assertTrue("User not able to view newly added defect type with Active checkbox",
+				randomDefectTypeName.equals(uDCPage.getNewlyAddedDefectType()));
+	}
+	
+	@When("^user clicks on Continue button on defect type page$")
+	public void user_clicks_on_Continue_button_on_defect_type_page() {
+		uDCPage.clickContinueBtnOnDefectType();
+	}
+
+	@When("^user clicks on add defect subcategory$")
+	public void user_clicks_on_add_defect_subcategory() {
+		defectSubCategoryList = uDCPage.getListOfDefectSubCategory();
+		uDCPage.clickAddDefectSubCategoryBtn();
+	}
+
+	@Then("^user should be able to add any new (.+) defectsubcategory and clicks active checkbox$")
+	public void user_should_be_able_to_add_any_new_defectsubcategory_and_clicks_active_checkbox(
+			String defectSubcategoryName) {
+		randomDefectSubCategory = proUDCSteps.getDefectSubTypeValue(defectSubcategoryName, defectSubCategoryList);
+		uDCPage.enterDefectSubCategoryName(randomDefectSubCategory);
+		uDCPage.clickDefectSubCategoryActiveCheckbox();
+	}
+
+	@When("^user clicks on Add Defect Sub Category button on modal popup$")
+	public void user_clicks_on_Add_Defect_Sub_Category_button_on_modal_popup() {
+		uDCPage.clickAddDefectSubCategoryPopUpBtn();
 	}
 }

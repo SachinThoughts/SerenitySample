@@ -287,4 +287,63 @@ public class UniversalDefectConfigurationPage extends PageObject {
 		}
 		return listOfSOPActionValues;
 	}
+
+	public List<String> getListOfDefectTypes() {
+		waitForAngularRequestsToFinish();
+		List<String> defectTypeList = new ArrayList<>();
+		for (WebElementFacade listOfNames : listOfDefectTypes) {
+			defectTypeList.add(listOfNames.getText().trim());
+		}
+		return defectTypeList;
+	}
+
+	public void clickAddDefectTypeBtn() {
+		addDefectTypeBtn.click();
+	}
+
+	public boolean checkDefectTypeModalPopUpVisibility() {
+		return defectTypeModalPopUp.isVisible();
+	}
+
+	public void enterDefectName(String defectType) {
+		defectTypeNameTextbox.type(defectType);
+	}
+
+	public String getDefectTypeSuccessMsg() {
+		return defectTypeSuccessMsg.getText().trim();
+	}
+
+	public String getNewlyAddedDefectType() {
+		index = listOfDefectTypes.size() - 1;
+		return listOfDefectTypes.get(index).getText().trim();
+	}
+
+	public List<String> getListOfDefectSubCategory() {
+		waitForAngularRequestsToFinish();
+		List<String> defectSubCategoryList = new ArrayList<>();
+		for (WebElementFacade listOfNames : listOfDefectSubCategories) {
+			defectSubCategoryList.add(listOfNames.getText().trim());
+		}
+		return defectSubCategoryList;
+	}
+
+	public void clickAddDefectSubCategoryBtn() {
+		addDefectSubCategoryBtn.click();
+	}
+
+	public void clickActiveCheckbox() {
+		activeCheckbox.click();
+	}
+
+	public void clickModalAddDefectTypeBtn() {
+		modalAddDefectTypeBtn.click();
+	}
+
+	public void clickDefectSubCategoryActiveCheckbox() {
+		defectSubCategoryActiveCheckbox.click();
+	}
+
+	public void clickAddDefectSubCategoryPopUpBtn() {
+		addDefectSubCategoryPopUpBtn.click();
+	}
 }
