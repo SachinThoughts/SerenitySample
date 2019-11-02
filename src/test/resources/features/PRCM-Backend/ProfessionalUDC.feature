@@ -24,6 +24,31 @@ Feature: Verify ProfessionalUDC related scenarios in PRCM
     When user clicks on PRCM R1Decision Config
     Then user should be able to view populated screen to configure at professional account invoice
 
+  @391393 @PRCMUser @Sprint8
+  Scenario Outline: Verify that user should able to update UDC at Professional level
+    Given user is on UDC Admin configuration page
+    Then user having prcm enable facility should be able to view PRCM R1Decision Config as pre-selected
+    And user clicks on PRCM R1Decision Config
+    Then user should be able to open that application name
+    When user clicks on Add defect type button
+    Then user should able to view popup window for new defect
+    When user fills all the fields <defectTypeName> and clicks active checkbox
+    And user clicks on Add Defect Type button on modal popup
+    Then user should be able to view success message "Defect Type Added Successfully."
+    And user should be able to view newly added defect at professional level
+    When user select the radio button against any defect type
+    And user clicks on Continue button on defect type page
+    And user clicks on add defect subcategory
+    And user should be able to add any new <defectSubCategoryName> defectsubcategory and clicks active checkbox
+    And user clicks on Add Defect Sub Category button on modal popup
+    When user is able to login to sql server and connect to database
+    And user runs the "UDC_level_391393_SQL1" query to fetch applicationid
+    Then user should be able to view that for all defects which belongs to professional applicationid should be 3
+
+    Examples: 
+      | defectTypeName | defectSubCategoryName       |
+      | Automation     | AutomationDefectSubcategory |
+
   @391395 @NonPRCMUser @Sprint8
   Scenario: Verify that for Professional Config UDC user should have atleast one Facility that have PRCM access
     Given user is on UDC Admin configuration page
@@ -58,25 +83,3 @@ Feature: Verify ProfessionalUDC related scenarios in PRCM
     Then user should be able to view message as "SOP Action Saved Successfully."
     And Add SOP Action pop-up should disappear
     And user should be able to view added SOP Action on SOP Actions screen
-
-  @391393 @PRCMUser @Sprint8
-  Scenario Outline: Verify that user should able to update UDC at Professional level
-    Given user is on UDC Admin configuration page
-    Then user having prcm enable facility should be able to view PRCM R1Decision Config as pre-selected
-    And user clicks on PRCM R1Decision Config
-    Then user should be able to open that application name
-    When user clicks on Add defect type button
-    Then user should able to view popup window for new defect
-    When user fills all the fields <defectTypeName> and clicks active checkbox
-    And user clicks on Add Defect Type button on modal popup
-    Then user should be able to view success message "Defect Type Added Successfully."
-    And user should be able to view newly added defect at professional level
-    When user select the radio button against any defect type
-    And user clicks on Continue button on defect type page
-    And user clicks on add defect subcategory
-    And user should be able to add any new <defectSubCategoryName> defectsubcategory and clicks active checkbox
-    And user clicks on Add Defect Sub Category button on modal popup
-
-    Examples: 
-      | defectTypeName | defectSubCategoryName       |
-      | Automation     | AutomationDefectSubcategory |

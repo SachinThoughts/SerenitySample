@@ -1,6 +1,8 @@
 package r1.prcmbe.steps.definitions;
 
 import java.io.IOException;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Assert;
@@ -11,6 +13,7 @@ import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import net.serenitybdd.core.pages.PageObject;
 import net.thucydides.core.annotations.Steps;
+import r1.commons.databaseconnection.DatabaseConn;
 import r1.commons.utilities.CommonMethods;
 import r1.prcmbe.pages.FacilityGroupConfigurationPage;
 import r1.prcmbe.pages.LoginPage;
@@ -35,12 +38,15 @@ public class ProfessionalUDCStepDef extends PageObject {
 	FacilityGroupConfigurationPage facilityGroupConfigPage;
 	SettingsR1DPage settingsR1DPage;
 	LoginPage userLoginPage;
+	CommonMethods commonMethods;
 
 	private String selectedDefectType, selectedSOPType, selectedDefectSubCategoryValue, addedSOPAction,
 			randomDefectTypeName, randomDefectSubCategory;
 
 	List<String> defectTypeList;
 	List<String> defectSubCategoryList;
+
+	private static String dbFileName = "ProfessionalUDC";
 
 	@Given("^user is on R1 Hub page$")
 	public void user_is_on_R1_Hub_page() {
@@ -261,7 +267,7 @@ public class ProfessionalUDCStepDef extends PageObject {
 		Assert.assertTrue("User not able to view newly added defect type with Active checkbox",
 				randomDefectTypeName.equals(uDCPage.getNewlyAddedDefectType()));
 	}
-	
+
 	@When("^user clicks on Continue button on defect type page$")
 	public void user_clicks_on_Continue_button_on_defect_type_page() {
 		uDCPage.clickContinueBtnOnDefectType();
@@ -284,5 +290,20 @@ public class ProfessionalUDCStepDef extends PageObject {
 	@When("^user clicks on Add Defect Sub Category button on modal popup$")
 	public void user_clicks_on_Add_Defect_Sub_Category_button_on_modal_popup() {
 		uDCPage.clickAddDefectSubCategoryPopUpBtn();
+	}
+
+	@When("^user runs the \"([^\"]*)\" query to fetch applicationid$")
+	public void user_runs_the_query_to_fetch_applicationid(String queryName) throws Exception {
+		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
+				commonMethods.loadQuery(queryName, dbFileName));
+	}
+
+	@Then("^user should be able to view that for all defects which belongs to professional applicationid should be (\\d+)$")
+	public void user_should_be_able_to_view_that_for_all_defects_which_belongs_to_professional_applicationid_should_be(
+			int applicationId) throws Exception {
+		while (DatabaseConn.resultSet.next()) {
+			Assert.assertTrue("Application ID fetched from DB is not equal to 3",
+					applicationId == DatabaseConn.resultSet.getInt("ApplicationID"));
+		}
 	}
 }
