@@ -8,6 +8,7 @@ import net.serenitybdd.core.pages.WebElementFacade;
 
 public class NavigationPage extends PageObject {
 	final private String himTitleHeader = "Health Information Management";
+
 	private final String userNameJS = "return $(GlobalInputData.UserName).selector";
 	private final String userIDJS = "return $(GlobalInputData.UserID).selector";
 
@@ -46,7 +47,7 @@ public class NavigationPage extends PageObject {
 
 	@FindBy(id = "dnn_ctr1025_LocationChooser_ddlLocation")
 	private WebElementFacade facilityDropdown;
-	
+
 	@FindBy(xpath = "//span[text()='Billing & Follow-up' and @class='txt']")
 	private WebElementFacade billingAndFollowUpLink;
 
@@ -120,5 +121,4 @@ public class NavigationPage extends PageObject {
 	public void clickOnBillingAndFollowUpLink() {
 		withAction().moveToElement(billingAndFollowUpLink).click().build().perform();
 	}
-
 }
