@@ -74,11 +74,6 @@ public class DefectOverrideStepDef {
 		Assert.assertTrue(dbSettingValue.equals(flagValue));
 	}
 
-	@When("^user clicks on Billing & Follow-up link$")
-	public void user_clicks_on_Billing_Follow_up_link() {
-		navigationPage.clickOnBillingAndFollowUpLink();
-	}
-
 	@When("^user hovers on R1_Decision link$")
 	public void user_hovers_on_R__Decision_link() {
 		billingAndFollowUpPage.hoverOnR1DecisionLink();
