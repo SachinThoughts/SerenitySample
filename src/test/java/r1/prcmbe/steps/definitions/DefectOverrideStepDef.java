@@ -28,7 +28,7 @@ public class DefectOverrideStepDef {
 	BillingAndFollowUpPage billingAndFollowUpPage;
 	SearchPage searchPage;
 	DefectOverridePage defectOverridePage;
-	
+
 	static String dbFileName = "DefectOverride";
 	String dbSettingValue, dbInvoiceId;
 
@@ -106,7 +106,8 @@ public class DefectOverrideStepDef {
 
 	@Then("^user should be able to view the searched account$")
 	public void user_should_be_able_to_view_the_searched_account() {
-		Assert.assertTrue("failed to view searched account",searchPageSteps.verifyInvoiceIDWithLikeOperator(dbInvoiceId));
+		Assert.assertTrue("failed to view searched account",
+				searchPageSteps.verifyInvoiceIDWithLikeOperator(dbInvoiceId));
 	}
 
 	@When("^user moves the control on right side of the page and see the Defect Workflow section$")
