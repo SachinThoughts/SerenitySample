@@ -300,11 +300,12 @@ public class DefaultHandoffPage extends PageObject {
 	public void selectNewlyAddedHandOff() {
 		List<String> listOfAddedHandOffNames = new ArrayList<>();
 		int sizeOfAddedHandOffs=listOfAddedHandOffs.size();
+		int sizeOfAddedHandOffNames=listOfAddedHandOffNames.size();
 		for (int i = 0; i < sizeOfAddedHandOffs; i++) {
 			if (i % 2 == 0)
 				listOfAddedHandOffNames.add(listOfAddedHandOffs.get(i).getText().trim());
 		}
-		for (int i = 0; i < listOfAddedHandOffNames.size(); i++) {
+		for (int i = 0; i < sizeOfAddedHandOffNames; i++) {
 			if (listOfAddedHandOffNames.get(i).equals(workflowName)) {
 				withAction().moveToElement(listOfAddedHandOffRadioButton.get(i)).build().perform();
 				listOfAddedHandOffRadioButton.get(i).click();
