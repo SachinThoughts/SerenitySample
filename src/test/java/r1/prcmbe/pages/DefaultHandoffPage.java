@@ -44,10 +44,10 @@ public class DefaultHandoffPage extends PageObject {
 	private WebElementFacade addHandOffSaveChangesButton;
 
 	@FindBy(id = "addWorkflowName")
-	private WebElementFacade workFlowNameTextBox;
+	private WebElementFacade workflowNameTextBox;
 
 	@FindBy(id = "addWorkflowDescription")
-	private WebElementFacade workFlowDescriptionTextBox;
+	private WebElementFacade workflowDescriptionTextBox;
 
 	@FindBy(id = "dnn_ctr1590_TaskPanel_taskBase_ddlWorkList")
 	private WebElementFacade workListDD;
@@ -116,10 +116,10 @@ public class DefaultHandoffPage extends PageObject {
 	private WebElementFacade stepTwoContinueBtn;
 
 	@FindBy(xpath = "//div[@id='dvWorkflowTypeActions' and text()='No Action exists for the selected Recipient']")
-	private WebElementFacade workFlowTypeActionsMessage;
+	private WebElementFacade workflowTypeActionsMessage;
 
 	@FindBy(xpath = "//div[@id='dvWorkflowDispositions' and text()='No Disposition exists for the selected action type']")
-	private WebElementFacade workFlowTypeDispositionMessage;
+	private WebElementFacade workflowTypeDispositionMessage;
 
 	@FindBy(xpath = "//button[contains(text(),' Add New Action')]")
 	private WebElementFacade addNewActionButton;
@@ -232,11 +232,11 @@ public class DefaultHandoffPage extends PageObject {
 	}
 
 	public boolean checkVisibilityOfWorkFlowNameTextBox() {
-		return workFlowNameTextBox.isVisible();
+		return workflowNameTextBox.isVisible();
 	}
 
 	public boolean checkVisibilityOfWorkFlowDescriptionTextBox() {
-		return workFlowDescriptionTextBox.isVisible();
+		return workflowDescriptionTextBox.isVisible();
 	}
 
 	public boolean checkVisibilityOfWorkListDD() {
@@ -269,12 +269,12 @@ public class DefaultHandoffPage extends PageObject {
 
 	public String enterWorkFlowName() {
 		workflowName = RandomStringUtils.randomAlphabetic(15);
-		workFlowNameTextBox.type(workflowName);
+		workflowNameTextBox.type(workflowName);
 		return workflowName;
 	}
 
 	public void enterWorkFlowDescription(String description) {
-		workFlowDescriptionTextBox.type(description);
+		workflowDescriptionTextBox.type(description);
 	}
 
 	public void selectWorkListDD() {
@@ -357,7 +357,7 @@ public class DefaultHandoffPage extends PageObject {
 	}
 
 	public String getTextworkFlowTypeActionsMessage() {
-		return workFlowTypeActionsMessage.getText().trim();
+		return workflowTypeActionsMessage.getText().trim();
 	}
 
 	public void clickAddNewActionButton() {
@@ -412,7 +412,7 @@ public class DefaultHandoffPage extends PageObject {
 	}
 
 	public String getTextWorkFlowTypeDispositionMessage() {
-		return workFlowTypeDispositionMessage.getText().trim();
+		return workflowTypeDispositionMessage.getText().trim();
 	}
 
 	public void clickAddNewDispositionButton() {
