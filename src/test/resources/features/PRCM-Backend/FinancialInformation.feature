@@ -1,4 +1,4 @@
-@R1PRCMFinancialInformation 
+@FinancialInformation 
 Feature: This feature is to verify the financial Information functionality
 
   Background: User is able to navigate to R1D Search Page
@@ -9,7 +9,7 @@ Feature: This feature is to verify the financial Information functionality
 
   @391020 @Sprint8 @PRCMUser
   Scenario Outline: Verify that user is able to see "Financial Information" section
-    Given user login to SQL server and connect to database
+    Given user is able to login to sql server and connect to database
     When user executes the query for InvoiceNumber <queryName1>
     And user fetch the InvoiceNumber from DB
     And user enters InvoiceNumber in the InvoiceNumber field and click on submit button

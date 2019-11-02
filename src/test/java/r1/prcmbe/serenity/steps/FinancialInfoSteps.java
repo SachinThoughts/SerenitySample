@@ -22,7 +22,7 @@ public class FinancialInfoSteps extends PageObject {
 	public void log(String message) {
 	}
 
-	public boolean isFinInfoHeaderAttributesVisible(List<String> expectedHeaders) {
+	public boolean isFinanceInfoHeadersVisible(List<String> expectedHeaders) {
 		if (financialInfoPage.getFinInfoHeaderAttributes().containsAll(expectedHeaders)) {
 			return true;
 		}

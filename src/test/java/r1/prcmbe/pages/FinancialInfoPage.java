@@ -10,8 +10,6 @@ import net.serenitybdd.core.pages.WebElementFacade;
 
 public class FinancialInfoPage extends PageObject {
 
-	/** Page Locators **/
-
 	@FindBy(xpath = "//*[@id='financialInfoPanel']/div[1]/h3/i")
 	public WebElementFacade financialInfoSection;
 
@@ -59,31 +57,29 @@ public class FinancialInfoPage extends PageObject {
 	}
 
 	public List<String> getFinInfoHeaderAttributes() {
-		List<String> actualFinInfoHeadersAtrributes = new ArrayList<String>();
-		actualFinInfoHeadersAtrributes
+		List<String> financeInfoHeadersVisibleAtrributes = new ArrayList<String>();
+		financeInfoHeadersVisibleAtrributes
 				.add(totalBalance.get(0).getText().trim().concat(" " + totalBalance.get(1).getText().trim()));
-		actualFinInfoHeadersAtrributes
+		financeInfoHeadersVisibleAtrributes
 				.add(insuranceBalance.get(0).getText().trim().concat(" " + insuranceBalance.get(1).getText().trim()));
-		actualFinInfoHeadersAtrributes
+		financeInfoHeadersVisibleAtrributes
 				.add(patientBalance.get(0).getText().trim().concat(" " + patientBalance.get(1).getText().trim()));
-		actualFinInfoHeadersAtrributes
+		financeInfoHeadersVisibleAtrributes
 				.add(unbilledBalance.get(0).getText().trim().concat(" " + unbilledBalance.get(1).getText().trim()));
-		actualFinInfoHeadersAtrributes
+		financeInfoHeadersVisibleAtrributes
 				.add(totalCharges.get(0).getText().trim().concat(" " + totalCharges.get(1).getText().trim()));
-		actualFinInfoHeadersAtrributes
+		financeInfoHeadersVisibleAtrributes
 				.add(expectedPayment.get(0).getText().trim().concat(" " + expectedPayment.get(1).getText().trim()));
-		actualFinInfoHeadersAtrributes
+		financeInfoHeadersVisibleAtrributes
 				.add(insurancePayments.get(0).getText().trim().concat(" " + insurancePayments.get(1).getText().trim()));
-		actualFinInfoHeadersAtrributes
+		financeInfoHeadersVisibleAtrributes
 				.add(patientPayments.get(0).getText().trim().concat(" " + patientPayments.get(1).getText().trim()));
-		actualFinInfoHeadersAtrributes.add(adjustments.get(1).getText().trim());
+		financeInfoHeadersVisibleAtrributes.add(adjustments.get(1).getText().trim());
 
-		return actualFinInfoHeadersAtrributes;
+		return financeInfoHeadersVisibleAtrributes;
 	}
 
 	public void scrollIntoFinancialInfoPanel() {
 		withAction().moveToElement(financialInfoSection.waitUntilVisible()).build().perform();
-
 	}
-
 }
