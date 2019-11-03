@@ -44,10 +44,7 @@ public class FinancialInfoPage extends PageObject {
 	private WebElementFacade financialInfoExpandIcon;
 
 	public boolean isFinanceInfoHeadersVisible(List<String> expectedHeaders) {
-		if (getFinInfoHeaderAttributes().containsAll(expectedHeaders)) {
-			return true;
-		}
-		return false;
+		return getFinInfoHeaderAttributes().containsAll(expectedHeaders);
 	}
 
 	public void expandFinancialInfoSectn() {

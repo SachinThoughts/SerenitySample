@@ -7,7 +7,7 @@ import net.serenitybdd.cucumber.CucumberWithSerenity;
 @RunWith(CucumberWithSerenity.class)
 
 @CucumberOptions(features = { "src/test/resources/features/PRCM-Backend" }, tags = {
-		"@ProfessionalUDC or @ExternalSearch or @DefectOverride or @DefaultHandoffor @FinancialInformation" }, glue = { "r1.prcmbe.steps.definitions" })
+		"@ProfessionalUDC or @ExternalSearch or @DefectOverride or @DefaultHandoffor or @FinancialInformation" }, glue = { "r1.prcmbe.steps.definitions" })
 
 public class RunnerTest {
 }
