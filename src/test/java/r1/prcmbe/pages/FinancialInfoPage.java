@@ -11,7 +11,7 @@ import net.serenitybdd.core.pages.WebElementFacade;
 public class FinancialInfoPage extends PageObject {
 
 	@FindBy(xpath = "//*[@id='financialInfoPanel']/div[1]/h3/i")
-	public WebElementFacade financialInfoSection;
+	private WebElementFacade financialInfoSection;
 
 	@FindBy(xpath = "//*[@id='financialAccordNoDetail']/div[1]/h3/span/span[1]/h5/span")
 	private List<WebElementFacade> totalBalance;
@@ -40,14 +40,14 @@ public class FinancialInfoPage extends PageObject {
 	@FindBy(xpath = "//*[@id='accordion']/div[5]/h3/a/span[1]/h5/span")
 	private List<WebElementFacade> adjustments;
 
-	@FindBy(xpath = "//*[text()='Submit']")
-	private WebElementFacade submitBtn;
-
 	@FindBy(xpath = "//i[@class='fa toggle fa-chevron-right' and @id='patFI']")
 	private WebElementFacade financialInfoExpandIcon;
 
-	public WebElementFacade getFinancialInfoSection() {
-		return financialInfoSection.withTimeoutOf(Duration.ofSeconds(15)).waitUntilVisible();
+	public boolean isFinanceInfoHeadersVisible(List<String> expectedHeaders) {
+		if (getFinInfoHeaderAttributes().containsAll(expectedHeaders)) {
+			return true;
+		}
+		return false;
 	}
 
 	public void expandFinancialInfoSectn() {
@@ -57,29 +57,33 @@ public class FinancialInfoPage extends PageObject {
 	}
 
 	public List<String> getFinInfoHeaderAttributes() {
-		List<String> financeInfoHeadersVisibleAtrributes = new ArrayList<String>();
-		financeInfoHeadersVisibleAtrributes
+		List<String> financeInfoHeadersVisibleAttributes = new ArrayList<String>();
+		financeInfoHeadersVisibleAttributes
 				.add(totalBalance.get(0).getText().trim().concat(" " + totalBalance.get(1).getText().trim()));
-		financeInfoHeadersVisibleAtrributes
+		financeInfoHeadersVisibleAttributes
 				.add(insuranceBalance.get(0).getText().trim().concat(" " + insuranceBalance.get(1).getText().trim()));
-		financeInfoHeadersVisibleAtrributes
+		financeInfoHeadersVisibleAttributes
 				.add(patientBalance.get(0).getText().trim().concat(" " + patientBalance.get(1).getText().trim()));
-		financeInfoHeadersVisibleAtrributes
+		financeInfoHeadersVisibleAttributes
 				.add(unbilledBalance.get(0).getText().trim().concat(" " + unbilledBalance.get(1).getText().trim()));
-		financeInfoHeadersVisibleAtrributes
+		financeInfoHeadersVisibleAttributes
 				.add(totalCharges.get(0).getText().trim().concat(" " + totalCharges.get(1).getText().trim()));
-		financeInfoHeadersVisibleAtrributes
+		financeInfoHeadersVisibleAttributes
 				.add(expectedPayment.get(0).getText().trim().concat(" " + expectedPayment.get(1).getText().trim()));
-		financeInfoHeadersVisibleAtrributes
+		financeInfoHeadersVisibleAttributes
 				.add(insurancePayments.get(0).getText().trim().concat(" " + insurancePayments.get(1).getText().trim()));
-		financeInfoHeadersVisibleAtrributes
+		financeInfoHeadersVisibleAttributes
 				.add(patientPayments.get(0).getText().trim().concat(" " + patientPayments.get(1).getText().trim()));
-		financeInfoHeadersVisibleAtrributes.add(adjustments.get(1).getText().trim());
+		financeInfoHeadersVisibleAttributes.add(adjustments.get(1).getText().trim());
 
-		return financeInfoHeadersVisibleAtrributes;
+		return financeInfoHeadersVisibleAttributes;
 	}
 
 	public void scrollIntoFinancialInfoPanel() {
-		withAction().moveToElement(financialInfoSection.waitUntilVisible()).build().perform();
+		waitForAngularRequestsToFinish();
+		withAction().moveToElement(financialInfoSection).build().perform();
+	}
+	public boolean isFinancialInfoSectionVisible() {
+		return financialInfoSection.isVisible();
 	}
 }

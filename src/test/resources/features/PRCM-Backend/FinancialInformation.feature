@@ -18,5 +18,5 @@ Feature: This feature is to verify the financial Information functionality
       | Total Balance | Insurance Balance | Patient Balance | Insurance Balance | Unbilled Balance | Total Charges | Expected Payment | Insurance Payments | Patient Payments | Adjustments |
 
     Examples: 
-      | queryName1                                | dropdown       |
-      | Financial_Information_Section_391021_SQL1 | Invoice Number |
+      | queryName1                                |
+      | Financial_Information_Section_391021_SQL1 |

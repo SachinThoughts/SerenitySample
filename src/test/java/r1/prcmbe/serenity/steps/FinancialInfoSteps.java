@@ -22,13 +22,6 @@ public class FinancialInfoSteps extends PageObject {
 	public void log(String message) {
 	}
 
-	public boolean isFinanceInfoHeadersVisible(List<String> expectedHeaders) {
-		if (financialInfoPage.getFinInfoHeaderAttributes().containsAll(expectedHeaders)) {
-			return true;
-		}
-		return false;
-	}
-
 	@Step
 	public void searchInvoiceNumber(String invoiceNumber) {
 

@@ -6,13 +6,18 @@ import net.serenitybdd.core.pages.PageObject;
 import net.thucydides.core.annotations.Step;
 import r1.prcmbe.pages.LoginPage;
 
-public class LoginSteps extends PageObject{
+public class LoginSteps extends PageObject {
 
 	LoginPage loginPage;
-	
+
 	@Step
-	public void userEntersCredentials(String userName,String password) throws IOException {
+	public void userEntersCredentials(String userName, String password) throws IOException {
 		loginPage.enterUsername(userName);
 		loginPage.enterPassword(password);
+	}
+
+	@Step
+	public void log(String message) {
+
 	}
 }

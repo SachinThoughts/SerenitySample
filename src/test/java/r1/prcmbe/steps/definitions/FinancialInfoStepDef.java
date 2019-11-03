@@ -22,17 +22,17 @@ import r1.commons.utilities.CommonMethods;
 
 public class FinancialInfoStepDef {
 	NavigationPage navigationPage;
-	SearchPage prcmbeSearchPage;
-	String invoiceNumber;
-
 	FinancialInfoPage financialInfoPage;
+	EnvironmentVariables environmentVariables;
 	CommonMethods commonMethods = new CommonMethods();
 
+	String invoiceNumber;
+	private static String dbQueryFilename = "FinancialInformation";	
+	
 	@Steps
 	FinancialInfoSteps financialInfoStep;
 	LoginPage userLoginPage;
-	private static String dbQueryFilename = "FinancialInformation";
-	EnvironmentVariables environmentVariables;
+
 
 	@When("^user scrolls down till Financial Information Section$")
 	public void user_scrolls_down_till_Financial_Information_Section() {
@@ -44,16 +44,16 @@ public class FinancialInfoStepDef {
 	@Then("^Financial Information should be displayed$")
 	public void financial_Information_should_be_displayed() {
 		Assert.assertTrue("Financial Information section is not displayed",
-		financialInfoPage.financialInfoSection.isDisplayed());
+		financialInfoPage.isFinancialInfoSectionVisible());
 	}
 
 	@When("^user executes the query for InvoiceNumber (.*)$")
-	public void user_executes_the_query_for_InvoiceNumber(String query) throws Exception {
+	public void user_executes_the_query_for_InvoiceNumber(String query) {
 		try {
 			String finalQuery = String.format(commonMethods.loadQuery(query, dbQueryFilename));
 			DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName, finalQuery);
 		} catch (Exception e) {
-			financialInfoStep.log("unable to execute query");
+			Assert.assertTrue("unable to execute query" + e, false);
 		}
 	}
 
@@ -78,6 +78,6 @@ public class FinancialInfoStepDef {
 	public void User_should_be_able_to_view_following_fields(DataTable expectedHeaders) {
 		List<String> financeInfoHeaders = expectedHeaders.asList(String.class);
 		Assert.assertTrue("Headers do not match",
-		financialInfoStep.isFinanceInfoHeadersVisible(financeInfoHeaders));
+		financialInfoPage.isFinanceInfoHeadersVisible(financeInfoHeaders));
 	}
 }

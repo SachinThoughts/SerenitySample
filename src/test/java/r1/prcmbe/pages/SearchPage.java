@@ -12,7 +12,7 @@ public class SearchPage extends PageObject {
 
 	@FindBy(css = "#userMsg > span")
 	private WebElementFacade noAccountsMessage;
-	
+
 	@FindBy(xpath = "//select[@class='form-control ddlSearchCriteria']")
 	private WebElementFacade searchByDropdown;
 
@@ -53,7 +53,7 @@ public class SearchPage extends PageObject {
 	public String getNoAccountsMessage() {
 		return noAccountsMessage.getText();
 	}
-	
+
 	public void searchBySelectText(String dropdown) {
 		searchByDropdown.selectByVisibleText(dropdown);
 	}

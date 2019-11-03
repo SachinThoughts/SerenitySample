@@ -9,7 +9,18 @@ public class SettingsPage extends PageObject {
 
 	CommonMethods commonMethods;
 
-	@FindBy(xpath = "//span[text()='Workflow Configuration']")
+	@FindBy(id = "dnn_dnnSideNav_ctldnnSideNavt703")
+	private WebElementFacade uDCAdminConfig;
+
+	public void clickUDCAdminConfig() {
+		uDCAdminConfig.click();
+	}
+
+	public void clickR1D() {
+		settingsR1Decision.click();
+	}
+
+	@FindBy(xpath = "//span[not(contains(@style,'hidden')) and text()='Workflow Configuration']")
 	private WebElementFacade workflowConfig;
 
 	@FindBy(xpath = "//span[not(contains(@style,'hidden')) and text()='Settings - R1_Decision']")
@@ -21,6 +32,7 @@ public class SettingsPage extends PageObject {
 	}
 
 	public void clickWorkflowConfig() {
-		workflowConfig.click();
+		waitForAngularRequestsToFinish();
+		withAction().moveToElement(workflowConfig).click().build().perform();
 	}
 }
