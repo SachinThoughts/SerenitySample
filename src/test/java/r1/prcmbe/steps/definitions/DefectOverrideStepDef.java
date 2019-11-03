@@ -29,7 +29,7 @@ public class DefectOverrideStepDef {
 	NavigationPage navigationPage;
 	BillingAndFollowUpPage billingAndFollowUpPage;
 	SearchPage searchPage;
-	DefectOverridePage defectOverridePage;
+	DefectOverridePage defectOverridePage; 
 
 	static String dbFileName = "DefectOverride";
 	String dbSettingValue, dbInvoiceId, selectedDefectypeValue, selectedDefectSubCatValue;
