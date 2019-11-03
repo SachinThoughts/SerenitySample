@@ -1,6 +1,7 @@
 package r1.prcmbe.steps.definitions;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,6 +47,8 @@ public class ProfessionalUDCStepDef extends PageObject {
 	List<String> defectSubCategoryList;
 
 	private static String dbFileName = "ProfessionalUDC";
+
+	private int defectSubcategoryId;
 
 	@Given("^user is on R1 Hub page$")
 	public void user_is_on_R1_Hub_page() {
@@ -320,5 +323,35 @@ public class ProfessionalUDCStepDef extends PageObject {
 			application.add(DatabaseConn.resultSet.getString("ApplicationName"));
 		}
 		Assert.assertTrue(applicationName + " does not exists in database", application.contains(applicationName));
+	}
+
+	@When("^user runs the \"([^\"]*)\" query to fetch defect subcategory ID$")
+	public void user_runs_the_query_to_fetch_defect_subcategory_ID(String queryName) throws Exception {
+		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
+				commonMethods.loadQuery(queryName, dbFileName));
+	}
+
+	@Then("^user should be able to view defectsubcategoryid$")
+	public void user_should_be_able_to_view_defectsubcategoryid() throws SQLException {
+		while (DatabaseConn.resultSet.next()) {
+			defectSubcategoryId = DatabaseConn.resultSet.getInt("DefectSubCategoryID");
+		}
+
+	}
+
+	@When("^user runs the \"([^\"]*)\" query to fetch skills id$")
+	public void user_runs_the_query_to_fetch_skills_id(String queryName) throws Exception {
+		String query = commonMethods.loadQuery(queryName, dbFileName);
+		query = String.format(query, defectSubcategoryId);
+		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName, query);
+	}
+
+	@Then("^user should be able to view Skillid for all Major payer for defectsubcategoryid$")
+	public void user_should_be_able_to_view_Skillid_for_all_Major_payer_for_defectsubcategoryid() throws SQLException {
+		List<Integer> skillsId = new ArrayList<Integer>();
+		while (DatabaseConn.resultSet.next()) {
+			skillsId.add(DatabaseConn.resultSet.getInt("SkillID"));
+		}
+		Assert.assertTrue("Skill Id's not fetched from database", !skillsId.isEmpty());
 	}
 }
