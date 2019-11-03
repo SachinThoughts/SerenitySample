@@ -1,7 +1,6 @@
 package r1.prcmbe.steps.definitions;
 
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -305,5 +304,21 @@ public class ProfessionalUDCStepDef extends PageObject {
 			Assert.assertTrue("Application ID fetched from DB is not equal to 3",
 					applicationId == DatabaseConn.resultSet.getInt("ApplicationID"));
 		}
+	}
+
+	@When("^user runs the \"([^\"]*)\" query to fetch application name and application ID$")
+	public void user_runs_the_query_to_fetch_application_name_and_application_ID(String queryName) throws Exception {
+		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
+				commonMethods.loadQuery(queryName, dbFileName));
+	}
+
+	@Then("^user should be able to view Application name (.+) and Application ID$")
+	public void user_should_be_able_to_view_Application_name_and_Application_ID(String applicationName)
+			throws Exception {
+		List<String> application = new ArrayList<String>();
+		while (DatabaseConn.resultSet.next()) {
+			application.add(DatabaseConn.resultSet.getString("ApplicationName"));
+		}
+		Assert.assertTrue(applicationName + " does not exists in database", application.contains(applicationName));
 	}
 }

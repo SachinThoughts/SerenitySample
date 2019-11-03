@@ -209,8 +209,8 @@ public class UniversalDefectConfigurationPage extends PageObject {
 	public List<String> getListOfSOPTypes() {
 		waitForAngularRequestsToFinish();
 		List<String> sOPTypeList = new ArrayList<>();
-		for (WebElementFacade listOfNames : listOfSOPName) {
-			sOPTypeList.add(listOfNames.getText());
+		for (WebElementFacade sOPNames : listOfSOPName) {
+			sOPTypeList.add(sOPNames.getText());
 		}
 		return sOPTypeList;
 	}
@@ -226,8 +226,8 @@ public class UniversalDefectConfigurationPage extends PageObject {
 
 	public List<String> getListOfBreadCrumbVal() {
 		List<String> getListOfBreadCrumbVal = new ArrayList<>();
-		for (WebElementFacade listOfBreadCrumbDfctSum : listOfBreadCrumbDefectSummary) {
-			getListOfBreadCrumbVal.add(listOfBreadCrumbDfctSum.getText());
+		for (WebElementFacade breadCrumbDfctSum : listOfBreadCrumbDefectSummary) {
+			getListOfBreadCrumbVal.add(breadCrumbDfctSum.getText());
 		}
 		return getListOfBreadCrumbVal;
 	}
