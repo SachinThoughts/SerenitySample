@@ -46,6 +46,21 @@ public class SearchPage extends PageObject {
 	@FindBy(xpath = "//input[@placeholder='Medical Records #']")
 	private WebElementFacade mRNTxtField;
 
+	@FindBy(xpath = "//input[@placeholder='First Name']")
+	private WebElementFacade firstNameTxtBox;
+
+	@FindBy(xpath = "//input[@placeholder='Last Name']")
+	private WebElementFacade lastNameTxtBox;
+
+	@FindBy(xpath = "//*[@id='dvAccountSearch']/child::table/thead/tr/th")
+	private List<WebElementFacade> listOfSrchAccTblHeaders;
+
+	@FindBy(xpath = "//*[@id='dvAccountSearch']/child::table/tbody/tr/td[3]")
+	private List<WebElementFacade> listOfSearchedNames;
+	
+	@FindBy(xpath = "//input[@placeholder='Claim #']")
+	private WebElementFacade claimNumberTxtField;
+
 	String titleJS = "return document.querySelector('#Head > title').text";
 	String facilityCodeJS = "document.querySelector('#dnn_ctr1025_ModuleContent > span > span:nth-child(1)').textContent";
 
@@ -123,5 +138,33 @@ public class SearchPage extends PageObject {
 
 	public void enterMRN(String mRN) {
 		mRNTxtField.type(mRN);
+	}
+
+	public void enterLastName(String lastName) {
+		lastNameTxtBox.type(lastName);
+	}
+
+	public void enterFirstName(String firstName) {
+		firstNameTxtBox.type(firstName);
+	}
+
+	public List<String> getListOfSrchAccTblHeaders() {
+		List<String> listOfTblHeaders = new ArrayList<>();
+		for (WebElementFacade headerName : listOfSrchAccTblHeaders) {
+			listOfTblHeaders.add(headerName.getText());
+		}
+		return listOfTblHeaders;
+	}
+
+	public List<String> getListOfSearchedNames() {
+		List<String> listOfNames = new ArrayList<>();
+		for (WebElementFacade searchedName : listOfSearchedNames) {
+			listOfNames.add(searchedName.getText());
+		}
+		return listOfNames;
+	}
+	
+	public void enterClaimNumber(String claimNumber) {
+		claimNumberTxtField.type(claimNumber);
 	}
 }
