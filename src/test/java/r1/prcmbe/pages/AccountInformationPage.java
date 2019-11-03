@@ -43,7 +43,18 @@ public class AccountInformationPage extends PageObject {
 
 	@FindBy(id = "dnn_dnnLOGIN_loginLink")
 	WebElementFacade logOut;
+	
+	@FindBy(xpath = "//a[@href='#accountDocs']//h4")
+	private WebElementFacade documentLink;
+	
+	@FindBy(id="lblInvoiceNo")
+	private WebElementFacade invoiceNumber;
 
+	public String getAccountNumber() {
+		waitForAngularRequestsToFinish();
+		return accountNumber.getText().trim();
+	}
+	
 	public boolean isRelatedAccntPopUpVisible() {
 		return relatedAccountPoup.isVisible();
 	}
@@ -94,5 +105,14 @@ public class AccountInformationPage extends PageObject {
 
 	public void logOut() {
 		logOut.click();
+	}
+	
+	public void clickOnDocumentLink() {
+		documentLink.click();
+	}
+	
+	public String getInvoiceNumber() {
+		waitForAngularRequestsToFinish();
+		return invoiceNumber.getText().trim();
 	}
 }
