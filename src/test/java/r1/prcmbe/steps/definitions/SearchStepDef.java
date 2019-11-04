@@ -36,7 +36,7 @@ public class SearchStepDef extends PageObject {
 		Assert.assertTrue("'" + expectedMessage + "' message not visible",
 				searchPage.getNoAccountsMessage().replace("\n", "").equals(expectedMessage));
 	}
-	
+
 	@When("^user hovers on R1_Decision link$")
 	public void user_hovers_on_R1_Decision_link() {
 		billingAndFollowUpPage.hoverOnR1DecisionLink();
@@ -48,9 +48,9 @@ public class SearchStepDef extends PageObject {
 	}
 
 	@Given("^user is on \"([^\"]*)\" page$")
-	public void user_is_on_page(String searchPagetitle) {
-		Assert.assertTrue(searchPagetitle + " page is not displayed",
-				searchPage.getSearchPageTitle().contains(searchPagetitle));
+	public void user_is_on_page(String searchPageTitle) {
+		Assert.assertTrue(searchPageTitle + " page is not displayed",
+				searchPage.getSearchPageTitle().contains(searchPageTitle));
 	}
 
 	@Then("^user should be able to view Invoice Number selected by default in Search By drop down$")
@@ -74,14 +74,12 @@ public class SearchStepDef extends PageObject {
 			searchPage.enterClaimNumber(invalidVal);
 		} else if (searchPage.isInvoiceNumberTxtFieldVisible()) {
 			searchPage.enterInvoiceNumber(invalidVal);
-		} else if (searchPage.isFirstNameTxtFieldVisible()&&searchPage.isLastNameTxtFieldVisible()) {
+		} else if (searchPage.isFirstNameTxtFieldVisible() && searchPage.isLastNameTxtFieldVisible()) {
 			searchPage.enterLastNameTxtBox(invalidVal);
 			searchPage.enterFirstName(invalidVal);
 		} else if (searchPage.isSSNTxtFieldVisible()) {
 			searchPage.enterSSN(invalidVal);
-		}
-
-		else {
+		} else {
 			Assert.assertTrue("Search text box not visible", false);
 		}
 	}
@@ -93,7 +91,8 @@ public class SearchStepDef extends PageObject {
 
 	@Then("^user should be able to view error message (.*)$")
 	public void user_should_be_able_to_view_error_message(String errorMsg) {
-		Assert.assertTrue("'" + errorMsg + "' message is not visible", searchPage.getErrorMsg().equalsIgnoreCase(errorMsg));
+		Assert.assertTrue("'" + errorMsg + "' message is not visible",
+				searchPage.getErrorMsg().equalsIgnoreCase(errorMsg));
 
 	}
 
