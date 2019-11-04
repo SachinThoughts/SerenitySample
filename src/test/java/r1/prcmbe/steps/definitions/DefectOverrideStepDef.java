@@ -124,7 +124,7 @@ public class DefectOverrideStepDef {
 
 	@Then("^user should be able to view the Defect workflow section$")
 	public void user_should_be_able_to_view_the_Defect_workflow_section() {
-		Assert.assertTrue("Defect workflow section is not present", defectOverridePage.iskDefectWorkFlowSecVisible());
+		Assert.assertTrue("Defect workflow section is not present", defectOverridePage.isDefectWorkFlowSecVisible());
 	}
 
 	@Then("^user should be able to view the progress bar with following steps$")
@@ -321,7 +321,7 @@ public class DefectOverrideStepDef {
 	}
 
 	@Then("^user runs with DefectTypID and DefectSubCategoryDesc the query (.*)$")
-	public void user_runs_with_DefectTypID_and_DefectSubCategoryDesc_the_query_DefectOverride___SQL_A(String queryName)
+	public void user_runs_with_DefectTypID_and_DefectSubCategoryDesc_the_query(String queryName)
 			throws ClassNotFoundException, SQLException, Exception {
 		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName, String
 				.format(commonMethods.loadQuery(queryName, dbFileName), dbDefectTypeId, selectedDefectSubCatValue));

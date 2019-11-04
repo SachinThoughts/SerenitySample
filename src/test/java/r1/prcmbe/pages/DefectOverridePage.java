@@ -72,7 +72,7 @@ public class DefectOverridePage extends PageObject {
 	@FindBy(id = "btnVerifyNextStep")
 	private WebElementFacade nextBtnOnTriagePage;
 
-	public boolean iskDefectWorkFlowSecVisible() {
+	public boolean isDefectWorkFlowSecVisible() {
 		return defectWorkflowSecHeader.isVisible();
 	}
 
