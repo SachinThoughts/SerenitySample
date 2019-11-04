@@ -38,7 +38,7 @@ public class AccountDocumentStepDef {
 	@Steps
 	AccountDocumentSteps accntDocumentSteps;
 
-	String selectedDocumentType, enteredDocumentTitle, fileName, visitNo, facilityCode, invoiceNumber,chargeTransactionID;
+	String selectedDocumentType, enteredDocumentTitle, fileName, visitNo, facilityCode, invoiceNumber,chargeTransactionId;
 	List<String> listOfInvoiceNumber;
 	static String dbFileName = "AccountDocument";
 
@@ -292,7 +292,7 @@ public class AccountDocumentStepDef {
 		try {
 			while (DatabaseConn.resultSet.next()) {
 				invoiceNumber=DatabaseConn.resultSet.getString("invoiceNumber");
-				chargeTransactionID=DatabaseConn.resultSet.getString("chargetransactionid");
+				chargeTransactionId=DatabaseConn.resultSet.getString("chargetransactionid");
 			}
 		} catch (SQLException exception) {
 			Assert.assertTrue("InvoiceNumber and ChargeTransactionID is not fetched from DB.\nThe Technical Error is:\n" + exception, false);
@@ -302,7 +302,7 @@ public class AccountDocumentStepDef {
 	@Then("^user should be able to fetch InvoiceNumber and ChargeTransactionID$")
 	public void user_should_be_able_to_fetch_InvoiceNumber_and_ChargeTransactionID() {
 		Assert.assertTrue("User is not able to fetch InvoiceNumber",invoiceNumber!=null);
-		Assert.assertTrue("User is not able to fetch ChargeTransactionID",chargeTransactionID!=null);
+		Assert.assertTrue("User is not able to fetch ChargeTransactionID",chargeTransactionId!=null);
 	}
 	
 	@Then("^user should be able to view same document in attachment as uploaded in previous Invoice number$")
@@ -314,7 +314,7 @@ public class AccountDocumentStepDef {
 	@When("^user runs the query \"([^\"]*)\" query to fetch invoice number based on result of above query$")
 	public void user_runs_the_query_query_to_fetch_invoice_number_based_on_result_of_above_query(String queryName) throws ClassNotFoundException, SQLException, Exception {
 		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
-				commonMethods.loadQuery(String.format(queryName, invoiceNumber,chargeTransactionID), dbFileName));
+				commonMethods.loadQuery(String.format(queryName, invoiceNumber,chargeTransactionId), dbFileName));
 		try {
 			while (DatabaseConn.resultSet.next()) {
 				invoiceNumber=DatabaseConn.resultSet.getString("invoiceNumber");
