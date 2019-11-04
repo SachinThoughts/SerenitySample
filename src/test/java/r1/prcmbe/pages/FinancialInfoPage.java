@@ -42,9 +42,6 @@ public class FinancialInfoPage extends PageObject {
 	@FindBy(xpath = "//i[@class='fa toggle fa-chevron-right' and @id='patFI']")
 	private WebElementFacade financialInfoExpandIcon;
 
-	@FindBy(id = "lblTotalAdjustment")
-	private WebElementFacade totalAdjustments;
-
 	@FindBy(id = "financialInfoPanel")
 	private WebElementFacade financialInfoPanel;
 
@@ -68,6 +65,9 @@ public class FinancialInfoPage extends PageObject {
 
 	@FindBy(id = "lblTotalBalance")
 	private WebElementFacade totalBalanceData;
+
+	@FindBy(id = "lblTotalAdjustment")
+	private WebElementFacade totalAdjustments;
 
 	public boolean isFinanceInfoHeadersVisible(List<String> expectedHeaders) {
 		return getFinInfoHeaderAttributes().containsAll(expectedHeaders);
