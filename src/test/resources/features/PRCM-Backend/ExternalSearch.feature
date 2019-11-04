@@ -1,4 +1,4 @@
-@R1PRCMExternalSearch
+@ExternalSearch
 Feature: This is to verify external search functionality in R1 PRCM-BE
 
   Background: User is able to navigate to R1 Decision search page
