@@ -61,3 +61,16 @@ Feature: This feature is to verify the financial Information functionality
     Examples: 
       | queryname3                                |
       | Financial_Information_Section_423934_SQL3 |
+
+  @391026 @Sprint8 @PRCMUser
+  Scenario Outline: Verify the amount for Adjustment column
+    Given user is able to login to sql server and connect to database
+    When user executes the query for InvoiceNumber <queryName5>
+    And user fetch the InvoiceNumber and "Adjustments" from DB
+    And user enters InvoiceNumber in the InvoiceNumber field and click on submit button
+    And user scrolls down till Financial Information Section
+    Then user should be able to view the same amount in Adjustment column as SQL result
+
+    Examples:   
+      | queryName5                                |
+      | Financial_Information_Section_391026_SQL5 |
