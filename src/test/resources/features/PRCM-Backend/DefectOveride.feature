@@ -43,8 +43,8 @@ Feature: Verify Defect over ride
     And user clicks on submit button
     When user moves the control on right side of the page and see the Defect Workflow section
     And user selects "No" radio button to Override Subcategory
-    And user selects any value from DefectType dropdown
-    And user selects any value from Defectsubcategory dropdown
+    And user selects any value from DefectType dropdown and other Than "Uncategorized Defect" value
+    And user selects any value from Defectsubcategory dropdown and other Than "Select Sub-Defect Category" value
     And user clicks on Save button
     And user refreshes a page
     Then user should be able to view changed sub category below current defect under Defect workflow section
@@ -69,8 +69,8 @@ Feature: Verify Defect over ride
     And user enters invoice number fetched from database in invoice number textbox
     And user clicks on submit button
     And user selects "No" radio button to Override Subcategory
-    And user selects any value from DefectType dropdown
-    And user selects any value from Defectsubcategory dropdown
+    And user selects any value from DefectType dropdown and other Than "Uncategorized Defect" value
+    And user selects any value from Defectsubcategory dropdown and other Than "Select Sub-Defect Category" value
     And user clicks on Save button
     And user refreshes a page
     When user moves to Defect Classification Section
@@ -93,8 +93,8 @@ Feature: Verify Defect over ride
     And user clicks on submit button
     When user moves the control on right side of the page and see the Defect Workflow section
     And user selects "No" radio button to Override Subcategory
-    And user selects any value from DefectType dropdown
-    And user selects any value from Defectsubcategory dropdown
+    And user selects any value from DefectType dropdown and other Than "Uncategorized Defect" value
+    And user selects any value from Defectsubcategory dropdown and other Than "Select Sub-Defect Category" value
     And user clicks on Save button
     And user refreshes a page
     Then user should be able to view changed sub category below current defect under Defect workflow section

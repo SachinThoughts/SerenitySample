@@ -124,7 +124,7 @@ public class DefectOverrideStepDef {
 
 	@Then("^user should be able to view the Defect workflow section$")
 	public void user_should_be_able_to_view_the_Defect_workflow_section() {
-		Assert.assertTrue("Defect workflow section is not present", defectOverridePage.isDefectWorkFlowSecPresent());
+		Assert.assertTrue("Defect workflow section is not present", defectOverridePage.iskDefectWorkFlowSecVisible());
 	}
 
 	@Then("^user should be able to view the progress bar with following steps$")
@@ -150,14 +150,14 @@ public class DefectOverrideStepDef {
 		defectOverridePage.selectRadioBtnOnOverrideSubCat(radioBtnValue);
 	}
 
-	@When("^user selects any value from DefectType dropdown$")
-	public void user_selects_any_value_from_DefectType_dropdown() {
-		selectedDefectypeValue = defectOverridePage.selectAndGetTextDefectType();
+	@When("^user selects any value from DefectType dropdown and other Than \"([^\"]*)\" value$")
+	public void user_selects_any_value_from_DefectType_dropdown(String defaultDrpdwnValue) {
+		selectedDefectypeValue = defectOverridePage.selectAndGetTextDefectType(defaultDrpdwnValue);
 	}
 
-	@When("^user selects any value from Defectsubcategory dropdown$")
-	public void user_selects_any_value_from_Defectsubcategory_dropdown() {
-		selectedDefectSubCatValue = defectOverridePage.selectAndGetTextDefectSubCategory();
+	@When("^user selects any value from Defectsubcategory dropdown and other Than \"([^\"]*)\" value$")
+	public void user_selects_any_value_from_Defectsubcategory_dropdown(String defaultDrpdwnValue) {
+		selectedDefectSubCatValue = defectOverridePage.selectAndGetTextDefectSubCategory(defaultDrpdwnValue);
 	}
 
 	@When("^user clicks on Save button$")
