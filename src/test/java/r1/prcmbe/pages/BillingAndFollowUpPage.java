@@ -9,13 +9,18 @@ public class BillingAndFollowUpPage extends PageObject {
 	@FindBy(xpath = "//span[text()='R1_Decision' and @class='txt']")
 	private WebElementFacade r1DecisionLink;
 
-	private String searchLink = "document.querySelector(\"#sidebar > div.side_nav > span:nth-child(4) > span > div:nth-child(18) > table > tbody > tr.mi.mi0-0.id688.first > td:nth-child(2) > a\").click()";
+	@FindBy(xpath = "//span[text()='Search' and @class='txt']")
+	private WebElementFacade searchLink;
+
+	public void clickOnR1DecisionLink() {
+		withAction().moveToElement(r1DecisionLink).click().build().perform();
+	}
 
 	public void hoverOnR1DecisionLink() {
 		withAction().moveToElement(r1DecisionLink).build().perform();
 	}
 
 	public void clickSearchLink() {
-		evaluateJavascript(searchLink);
+		withAction().moveToElement(searchLink).click().build().perform();
 	}
 }

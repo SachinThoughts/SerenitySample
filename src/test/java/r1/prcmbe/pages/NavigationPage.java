@@ -8,9 +8,10 @@ import net.serenitybdd.core.pages.WebElementFacade;
 
 public class NavigationPage extends PageObject {
 	final private String himTitleHeader = "Health Information Management";
-	private final String userNameJs = "return $(GlobalInputData.UserName).selector";
-	private final String userIDJs = "return $(GlobalInputData.UserID).selector";
 
+	private final String userNameJS = "return $(GlobalInputData.UserName).selector";
+	private final String userIDJS = "return $(GlobalInputData.UserID).selector";
+	
 	@FindBy(xpath = "//span[text()='Health Information Management']")
 	private WebElementFacade himLink;
 
@@ -47,7 +48,8 @@ public class NavigationPage extends PageObject {
 	@FindBy(id = "dnn_ctr1025_LocationChooser_ddlLocation")
 	private WebElementFacade facilityDropdown;
 
-	private String billingAndFollowUpLink = "return document.querySelector(\"#menu > span > span > span.root.main_dnnmenu_rootitem.mi.mi4.id62 > a\").click()";
+	@FindBy(xpath = "//span[text()='Billing & Follow-up' and @class='txt']")
+	private WebElementFacade billingAndFollowUpLink;
 
 	public WebElementFacade getChartManagerLink() {
 		return chartManagerLink;
@@ -92,11 +94,11 @@ public class NavigationPage extends PageObject {
 	}
 
 	public String fetchUserName() {
-		return evaluateJavascript(userNameJs).toString();
+		return evaluateJavascript(userNameJS).toString();
 	}
 
 	public String fetchUserID() {
-		return evaluateJavascript(userIDJs).toString();
+		return evaluateJavascript(userIDJS).toString();
 	}
 
 	public void clickHIMFooterLink() {
@@ -117,7 +119,7 @@ public class NavigationPage extends PageObject {
 	}
 
 	public void clickOnBillingAndFollowUpLink() {
-		evaluateJavascript(billingAndFollowUpLink);
+		withAction().moveToElement(billingAndFollowUpLink).click().build().perform();
 	}
-
+	
 }
