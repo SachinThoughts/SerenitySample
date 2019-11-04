@@ -81,16 +81,6 @@ public class DefectOverrideStepDef {
 		Assert.assertTrue(dbSettingValue.equals(flagValue));
 	}
 
-	@When("^user hovers on R1_Decision link$")
-	public void user_hovers_on_R__Decision_link() {
-		billingAndFollowUpPage.hoverOnR1DecisionLink();
-	}
-
-	@When("^user clicks on search sub menu$")
-	public void user_clicks_on_search_sub_menu() {
-		billingAndFollowUpPage.clickSearchLink();
-	}
-
 	@When("^user selects \"([^\"]*)\" from search by dropdown$")
 	public void user_selectsr_from_search_by_dropdown(String dropdown) {
 		searchPage.searchBySelectText(dropdown);
