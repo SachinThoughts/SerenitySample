@@ -11,7 +11,7 @@ public class NavigationPage extends PageObject {
 
 	private final String userNameJS = "return $(GlobalInputData.UserName).selector";
 	private final String userIDJS = "return $(GlobalInputData.UserID).selector";
-	
+
 	@FindBy(xpath = "//span[text()='Health Information Management']")
 	private WebElementFacade himLink;
 
@@ -121,5 +121,4 @@ public class NavigationPage extends PageObject {
 	public void clickOnBillingAndFollowUpLink() {
 		withAction().moveToElement(billingAndFollowUpLink).click().build().perform();
 	}
-	
 }
