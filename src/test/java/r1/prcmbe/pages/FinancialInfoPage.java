@@ -68,6 +68,12 @@ public class FinancialInfoPage extends PageObject {
 
 	@FindBy(id = "lblTotalAdjustment")
 	private WebElementFacade totalAdjustments;
+	
+	@FindBy(xpath = "//*[@id='accordion']//a[@onclick='callChargeDetailsService();return false;']//i")
+	private WebElementFacade totalChargesScrollArrow;
+	
+	@FindBy(xpath = "//*[@id='divTotalCharges']/table/thead/tr/th")
+	private List<WebElementFacade> listOfTotalChargesTableHeaders;
 
 	public boolean isFinanceInfoHeadersVisible(List<String> expectedHeaders) {
 		return getFinInfoHeaderAttributes().containsAll(expectedHeaders);
@@ -159,5 +165,17 @@ public class FinancialInfoPage extends PageObject {
 
 	public String getTotalAdjustments() {
 		return totalAdjustments.getText();
+	}
+	
+	public void expandTotalCharges() {
+		totalChargesScrollArrow.click();
+	}
+	
+	public List<String> getTotalChargesTableHeaders() {
+		List<String> listOfTextValuesOfTotalChargesTableHeaders = new ArrayList<>();
+		for (WebElementFacade totalChargesTableHeader : listOfTotalChargesTableHeaders) {
+			listOfTextValuesOfTotalChargesTableHeaders.add(totalChargesTableHeader.getText().trim());
+		}
+		return listOfTextValuesOfTotalChargesTableHeaders;
 	}
 }

@@ -197,4 +197,21 @@ public class FinancialInfoStepDef {
 				financialInfoPage.getTotalAdjustments()
 						.equals(financialInfoStep.formatCurrency(financialInfoElementVal)));
 	}
+	
+	@When("^user Clicks on drill down icon of total charges$")
+	public void user_Clicks_on_drill_down_icon_of_total_charges() {
+		financialInfoPage.expandTotalCharges();
+	}
+	
+	@Then("^User should be able to view following total charges fields:$")
+	public void user_should_be_able_to_view_following_total_charges_fields(DataTable datatable) {
+		List<String> expectedAdjustmentTableHeaders = datatable.asList(String.class);
+		Assert.assertTrue("Adjustment Headers donot match",
+				financialInfoPage.getTotalChargesTableHeaders().equals(expectedAdjustmentTableHeaders));
+	}
+	
+	@Then("^user runs the query to fetch total charges details (.*)$")
+	public void user_runs_the_query_to_fetch_total_charges_details(String queryName) {
+		
+	}
 }
