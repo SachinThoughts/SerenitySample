@@ -1,6 +1,5 @@
 package r1.prcmbe.pages;
 
-import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,6 +42,30 @@ public class FinancialInfoPage extends PageObject {
 	@FindBy(xpath = "//i[@class='fa toggle fa-chevron-right' and @id='patFI']")
 	private WebElementFacade financialInfoExpandIcon;
 
+	@FindBy(id = "financialInfoPanel")
+	private WebElementFacade financialInfoPanel;
+
+	@FindBy(id = "onloadsearchBtn")
+	private WebElementFacade submitBtn;
+
+	@FindBy(xpath = "//*[@id='accordion']//a[@onclick='callServiceTotalAdjustmentsPayments();return false;']//i")
+	private WebElementFacade adjustmentScrollArrow;
+
+	@FindBy(xpath = "//*[@id='divTotalAdjustments']/table/thead/tr/th")
+	private List<WebElementFacade> listOfAdjustmentTableHeaders;
+
+	@FindBy(xpath = "//*[@id='divTotalAdjustments']/table/tbody/tr/td")
+	private List<WebElementFacade> listOfAdjustmentTableData;
+
+	@FindBy(xpath = "//*[@id='divTotalAdjustments']/table/tbody/tr[1]")
+	private WebElementFacade firstRowOfAdjustmentTable;
+
+	@FindBy(xpath = "//*[@id='financialAccordNoDetail']/div/h3/span/span/h5/span[contains(text(),'Total')]")
+	private WebElementFacade totalBalanceColumn;
+
+	@FindBy(id = "lblTotalBalance")
+	private WebElementFacade totalBalanceData;
+
 	public boolean isFinanceInfoHeadersVisible(List<String> expectedHeaders) {
 		return getFinInfoHeaderAttributes().containsAll(expectedHeaders);
 	}
@@ -80,7 +103,54 @@ public class FinancialInfoPage extends PageObject {
 		waitForAngularRequestsToFinish();
 		withAction().moveToElement(financialInfoSection).build().perform();
 	}
+
 	public boolean isFinancialInfoSectionVisible() {
 		return financialInfoSection.isVisible();
+	}
+
+	public void clickExpandFinancialInfo() {
+		if (financialInfoExpandIcon.isVisible()) {
+			financialInfoExpandIcon.click();
+		}
+	}
+
+	public void clickSubmitBtn() {
+		submitBtn.click();
+	}
+
+	public void clickAdjustmentScrollArrow() {
+		adjustmentScrollArrow.click();
+		withAction().moveToElement(firstRowOfAdjustmentTable).build().perform();
+	}
+
+	public List<String> getAdjustmentTableHeaders() {
+		List<String> listOfTextValuesOfAdjustmentTableHeaders = new ArrayList<>();
+		for (WebElementFacade adjustmentTableHeader : listOfAdjustmentTableHeaders) {
+			listOfTextValuesOfAdjustmentTableHeaders.add(adjustmentTableHeader.getText().trim());
+		}
+		return listOfTextValuesOfAdjustmentTableHeaders;
+	}
+
+	public List<String> getAdjustmentTableData() {
+		List<String> listOfTextValuesOfAdjustmentTableData = new ArrayList<>();
+		for (WebElementFacade adjustmentTableData : listOfAdjustmentTableData) {
+			String adjustmentData = adjustmentTableData.getText().trim();
+			if (adjustmentData.contains("($")) {
+				adjustmentData = adjustmentData.replace("($", "-").replace(")", "").replace(",", "");
+			} else if (adjustmentData.contains("$")) {
+				adjustmentData = adjustmentData.replace("$", "").replace(",", "");
+			}
+			if (!adjustmentData.equals("null") && !adjustmentData.equals(""))
+				listOfTextValuesOfAdjustmentTableData.add(adjustmentData);
+		}
+		return listOfTextValuesOfAdjustmentTableData;
+	}
+
+	public void scrollToTotalBalance() {
+		withAction().moveToElement(totalBalanceColumn).build().perform();
+	}
+
+	public String getTotalBalanceData() {
+		return totalBalanceData.getText().trim().replace("$", "").replace(",", "").replace("(", "-").replace(")", "");
 	}
 }
