@@ -190,7 +190,11 @@ public class FinancialInfoStepDef {
 
 	@Then("^user should be able to view the same amount in Adjustment column as SQL result$")
 	public void user_should_be_able_to_view_the_same_amount_in_Adjustment_column_as_SQL_result() {
-		Assert.assertTrue("Same amount not displayed in Adjustment column as SQL result", financialInfoPage
-				.getTotalAdjustments().equals(financialInfoStep.formatCurrency(financialInfoElementVal)));
+		Assert.assertTrue(
+				"Same amount not displayed in Adjustment column as SQL result \n Expected adjustment from DB"
+						+ financialInfoStep.formatCurrency(financialInfoElementVal) + "Actual adjustment on UI"
+						+ financialInfoPage.getTotalAdjustments(),
+				financialInfoPage.getTotalAdjustments()
+						.equals(financialInfoStep.formatCurrency(financialInfoElementVal)));
 	}
 }
