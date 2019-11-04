@@ -38,7 +38,7 @@ public class AccountDocumentStepDef {
 	@Steps
 	AccountDocumentSteps accntDocumentSteps;
 
-	String selectedDocumentType, enteredDocumentTitle, fileName, visitNo, facilityCode, invoiceNumber;
+	String selectedDocumentType, enteredDocumentTitle, fileName, visitNo, facilityCode, invoiceNumber,chargeTransactionId;
 	List<String> listOfInvoiceNumber;
 	static String dbFileName = "AccountDocument";
 
@@ -236,5 +236,96 @@ public class AccountDocumentStepDef {
 	@When("^user enters the query result in Invoice Number search textbox having no document$")
 	public void user_enters_the_query_result_in_Invoice_Number_search_textbox_having_no_document() {
 		searchPage.enterInvoiceNumber(listOfInvoiceNumber.get(1));
+	}
+	
+	@Then("^user should be able to view Associated to MRN checkbox checked$")
+	public void user_should_be_able_to_view_Associated_to_MRN_checkbox_checked() {
+		Assert.assertTrue("MRN checkBox is not checked", accntDocumentPage.isMRNCheckBoxSelected());
+	}
+
+	@When("^user clicks on Related Accounts button under Patient & Facility Info section$")
+	public void user_clicks_on_Related_Accounts_button_under_Patient_Facility_Info_section() {
+		facilityCode = accntInformationPage.getFacilityCodeValue();
+		accntInformationPage.clicksRelatedAccountButton();
+	}
+
+	@Then("^user should be able to view the Related Accounts pop-up with list of all related accounts$")
+	public void user_should_be_able_to_view_the_Related_Accounts_pop_up_with_list_of_all_related_accounts() {
+		Assert.assertTrue("Related Account PopUp doesn't appear", accntInformationPage.isRelatedAccntPopUpVisible());
+		Assert.assertTrue("List of Related Account not available for particular Visit No",
+				accntInformationPage.getSizeOfRelatedAccntVisitNo() > 0);
+	}
+
+	@When("^user clicks on any account of same facility from Related account list$")
+	public void user_clicks_on_any_account_of_same_facility_from_Related_account_list() {
+		visitNo = accntInformationPage.clickOnRelatedAccntBasedOnFacilityAndFetchVisitNo(facilityCode);
+	}
+
+	@Then("^user should be able to navigate to selected account$")
+	public void user_should_be_able_to_navigate_to_selected_account() {
+		Assert.assertTrue("Opened Related Account doesn't match with facility Code selected",
+				visitNo.equals(accntInformationPage.getAccountNoValue().trim()));
+	}
+	
+	@Then("^user should be able to view all the uploaded documents in list which were associated with MRN$")
+	public void user_should_be_able_to_view_all_the_uploaded_documents_in_list_which_were_associated_with_MRN() {
+		Assert.assertTrue("Uploaded Document not available in Documents Grid which were associated with MRN",
+				accntDocumentSteps.verifyUploadedDocsTitle(enteredDocumentTitle));
+	}
+	
+	@When("^user go to Account Documents section$")
+	public void user_go_to_Account_Documents_section$() {
+		accntDocumentPage.clickOnDocumentLink();
+	}
+	
+	@Then("user should not be able to view the uploaded documents in the list which were uploaded in previous account")
+	public void user_should_not_be_able_to_view_the_uploaded_documents_in_the_list_which_were_uploaded_in_previous_account() {
+		Assert.assertFalse("Uploaded Document available in Documents Grid which were uploaded in previous account",
+				accntDocumentSteps.verifyUploadedDocsTitle(enteredDocumentTitle));
+	}
+	
+	@When("^user runs the \"([^\"]*)\" query to fetch invoice number and ChargeTransactionID$")
+	public void user_runs_the_query_to_fetch_invoice_number_and_ChargeTransactionID(String queryName)
+			throws ClassNotFoundException, SQLException, Exception {
+		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
+				commonMethods.loadQuery(queryName, dbFileName));
+		try {
+			while (DatabaseConn.resultSet.next()) {
+				invoiceNumber=DatabaseConn.resultSet.getString("invoiceNumber");
+				chargeTransactionId=DatabaseConn.resultSet.getString("chargetransactionid");
+			}
+		} catch (SQLException exception) {
+			Assert.assertTrue("InvoiceNumber and ChargeTransactionID is not fetched from DB.\nThe Technical Error is:\n" + exception, false);
+		}
+	}
+	
+	@Then("^user should be able to fetch InvoiceNumber and ChargeTransactionID$")
+	public void user_should_be_able_to_fetch_InvoiceNumber_and_ChargeTransactionID() {
+		Assert.assertTrue("User is not able to fetch InvoiceNumber",invoiceNumber!=null);
+		Assert.assertTrue("User is not able to fetch ChargeTransactionID",chargeTransactionId!=null);
+	}
+	
+	@Then("^user should be able to view same document in attachment as uploaded in previous Invoice number$")
+	public void user_should_be_able_to_view_same_document_in_attachment_as_uploaded_in_previous_Invoice_number() {
+		Assert.assertTrue("Same Document not available in Documents Grid which were uploaded in previous Invoice Number",
+				accntDocumentSteps.verifyUploadedDocsTitle(enteredDocumentTitle));
+	}
+	
+	@When("^user runs the query \"([^\"]*)\" query to fetch invoice number based on result of above query$")
+	public void user_runs_the_query_query_to_fetch_invoice_number_based_on_result_of_above_query(String queryName) throws ClassNotFoundException, SQLException, Exception {
+		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
+				commonMethods.loadQuery(String.format(queryName, invoiceNumber,chargeTransactionId), dbFileName));
+		try {
+			while (DatabaseConn.resultSet.next()) {
+				invoiceNumber=DatabaseConn.resultSet.getString("invoiceNumber");
+			}
+		} catch (SQLException exception) {
+			Assert.assertTrue("InvoiceNumber is not fetched from DB.\nThe Technical Error is:\n" + exception, false);
+		}
+	}
+	
+	@When("^user enters the query result in Invoice Number search textbox fetched above$")
+	public void user_enters_the_query_result_in_Invoice_Number_search_textbox_fetched_above() {
+		searchPage.enterInvoiceNumber(invoiceNumber);
 	}
 }

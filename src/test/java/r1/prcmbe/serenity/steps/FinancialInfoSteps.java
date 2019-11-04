@@ -1,5 +1,6 @@
 package r1.prcmbe.serenity.steps;
 
+import java.text.DecimalFormat;
 import net.serenitybdd.core.pages.PageObject;
 import net.thucydides.core.annotations.Step;
 import r1.prcmbe.pages.SearchPage;
@@ -37,5 +38,13 @@ public class FinancialInfoSteps extends PageObject {
 	@Step
 	public String deleteLastTwoDecPlaces(String amount) {
 		return amount.substring(0, amount.length() - 2);
+	}
+
+	@Step
+	public String formatCurrency(String value) {
+		final String PATTERN = "$#,##0.00;($#,##0.00)";
+		DecimalFormat decimalFormat = (DecimalFormat) DecimalFormat.getInstance();
+		decimalFormat.applyPattern(PATTERN);
+		return decimalFormat.format(Float.parseFloat(value)).toString();
 	}
 }
