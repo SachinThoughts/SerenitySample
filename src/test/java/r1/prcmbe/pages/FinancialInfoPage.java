@@ -1,6 +1,5 @@
 package r1.prcmbe.pages;
 
-import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,6 +41,9 @@ public class FinancialInfoPage extends PageObject {
 
 	@FindBy(xpath = "//i[@class='fa toggle fa-chevron-right' and @id='patFI']")
 	private WebElementFacade financialInfoExpandIcon;
+	
+	@FindBy(id="lblTotalAdjustment")
+	private WebElementFacade totalAdjustments;
 
 	public boolean isFinanceInfoHeadersVisible(List<String> expectedHeaders) {
 		return getFinInfoHeaderAttributes().containsAll(expectedHeaders);
@@ -82,5 +84,9 @@ public class FinancialInfoPage extends PageObject {
 	}
 	public boolean isFinancialInfoSectionVisible() {
 		return financialInfoSection.isVisible();
+	}
+	
+	public String getTotalAdjustments() {
+		return totalAdjustments.getText();
 	}
 }
