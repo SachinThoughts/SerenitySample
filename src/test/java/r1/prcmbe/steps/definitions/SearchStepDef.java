@@ -95,5 +95,39 @@ public class SearchStepDef extends PageObject {
 				searchPage.getErrorMsg().equalsIgnoreCase(errorMsg));
 
 	}
+	
+	@When("^user selects \"([^\"]*)\" operator from operator dropdown$")
+	public void user_selects_operator_from_operator_dropdown(String operator) {
+		searchPage.selectOperatorValue(operator);
+	}
+
+	@When("^user enters less than 5 characters in (.*) textbox$")
+	public void user_enters_less_than_characters_in_textbox(String value) {
+		if (searchPage.isVisitTxtFieldVisible()) {
+			searchPage.enterVisitNumber(value);
+		} else if (searchPage.isMRNTxtFieldVisible()) {
+			searchPage.enterMRN(value);
+		} else if (searchPage.isClaimNumberTxtFieldVisible()) {
+			searchPage.enterClaimNumber(value);
+		} else if (searchPage.isInvoiceNumberTxtFieldVisible()) {
+			searchPage.enterInvoiceNumber(value);
+		}  else if (searchPage.isSSNTxtFieldVisible()) {
+			searchPage.enterSSN(value);
+		} else {
+			Assert.assertTrue("Search text box not visible", false);
+		}
+	}
+
+	@Then("^user should able to view tool-tip message (.*)$")
+	public void user_should_able_to_view_tool_tip_message_Please_add_five_or_more_characters(String toolTipMessage) {
+		Assert.assertTrue("Tooltip message '" + toolTipMessage + "' is not visible",
+				searchPage.getToolTipText().equals(toolTipMessage));
+	
+	}
+
+	@Then("^user should be able to view Submit Button in disabled state$")
+	public void user_should_be_able_to_view_Submit_Button_in_disabled_state() {
+		Assert.assertFalse("Submit button is enabled", searchPage.isSubmitBtnEnabled());
+	}
 
 }

@@ -42,7 +42,7 @@ public class SearchPage extends PageObject {
 
 	@FindBy(xpath = "//*[@id='lblInvoiceNo']")
 	private WebElementFacade invoiceID;
-	
+
 	@FindBy(xpath = "//head/title")
 	WebElementFacade searchPageTitle;
 
@@ -66,6 +66,9 @@ public class SearchPage extends PageObject {
 
 	@FindBy(id = "showErrorMsg")
 	private WebElementFacade errorMsg;
+
+	@FindBy(xpath = "//div[@class='tooltip top in']")
+	private WebElementFacade toolTip;
 
 	String titleJS = "return document.querySelector('#Head > title').text";
 	String facilityCodeJS = "document.querySelector('#dnn_ctr1025_ModuleContent > span > span:nth-child(1)').textContent";
@@ -200,5 +203,13 @@ public class SearchPage extends PageObject {
 
 	public void enterSSN(String sSN) {
 		sSNTxtBox.type(sSN);
+	}
+
+	public String getToolTipText() {
+		return toolTip.getText();
+	}
+
+	public boolean isSubmitBtnEnabled() {
+		return submitBtn.isCurrentlyEnabled();
 	}
 }
