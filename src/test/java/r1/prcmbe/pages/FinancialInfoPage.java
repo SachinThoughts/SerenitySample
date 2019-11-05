@@ -123,10 +123,10 @@ public class FinancialInfoPage extends PageObject {
 
 	public void clickAdjustmentScrollArrow() {
 		evaluateJavascript("arguments[0].click();", adjustmentScrollArrow);
-		withAction().moveToElement(firstRowOfAdjustmentTable).build().perform();
 	}
 
 	public List<String> getAdjustmentTableHeaders() {
+		withAction().moveToElement(firstRowOfAdjustmentTable).build().perform();
 		List<String> listOfTextValuesOfAdjustmentTableHeaders = new ArrayList<>();
 		for (WebElementFacade adjustmentTableHeader : listOfAdjustmentTableHeaders) {
 			listOfTextValuesOfAdjustmentTableHeaders.add(adjustmentTableHeader.getText().trim());
