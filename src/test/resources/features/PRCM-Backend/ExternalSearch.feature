@@ -44,3 +44,39 @@ Feature: This is to verify external search functionality in R1 PRCM-BE
       | Invoice Number        |             1234 | Please add five or more characters |
       | Medical Record Number |             1234 | Please add five or more characters |
       | Claim Number          |             1234 | Please add five or more characters |
+
+  @429058 @Sprint8 @PRCMUser
+  Scenario Outline: Verify that Submit button is enabled for Search textbox for Like Operator if user enters 5 or more characters
+    Given user is on "R1 Hub Technologies 2.0 - 01 R1_Decision - Search" page
+    When user selects <dropdown> from Search By drop down
+    And user selects "Like" operator from operator dropdown
+    And user enters more than or equal to 5 characters in <moreThanFivetext> textbox
+    Then user should not able to view tool-tip message <tooltipMessage>
+    And user should be able to view Submit Button in enabled state
+
+    Examples: 
+      | dropdown              | moreThanFivetext | tooltipMessage                     |
+      | Visit Number          |            12345 | Please add five or more characters |
+      | Visit Number          |           123456 | Please add five or more characters |
+      | Invoice Number        |            12345 | Please add five or more characters |
+      | Invoice Number        |           123456 | Please add five or more characters |
+      | Medical Record Number |            12345 | Please add five or more characters |
+      | Medical Record Number |           123456 | Please add five or more characters |
+      | Claim Number          |            12345 | Please add five or more characters |
+      | Claim Number          |           123456 | Please add five or more characters |
+
+  @429061 @Sprint8 @PRCMUser
+  Scenario Outline: Verify that when user does not enter anything in Search textbox then message appeared or not
+    Given user is on "R1 Hub Technologies 2.0 - 01 R1_Decision - Search" page
+    When user selects <option> from Search By drop down
+    And user clicks on Submit Button
+    Then user should be able to view message "Please enter the value for" <option>
+
+    Examples: 
+      | option                |
+      | Visit Number          |
+      | Invoice Number        |
+      | SSN                   |
+      | Last Name/First Name  |
+      | Medical Record Number |
+      | Claim Number          |
