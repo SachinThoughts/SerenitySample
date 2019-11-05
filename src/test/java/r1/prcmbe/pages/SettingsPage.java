@@ -25,6 +25,13 @@ public class SettingsPage extends PageObject {
 
 	@FindBy(xpath = "//span[not(contains(@style,'hidden')) and text()='Settings - R1_Decision']")
 	private WebElementFacade settingsR1Decision;
+	
+	@FindBy(xpath = "//span[text()='IT Tools']")
+	private WebElementFacade iTToolsLink;
+
+	@FindBy(xpath = "//span[text()='FacilitySetting Configuration']")
+	private WebElementFacade facilitySettingConfigLink;
+
 
 	public void clickOnSettingsR1Decisions() {
 		waitForAngularRequestsToFinish();
@@ -34,5 +41,13 @@ public class SettingsPage extends PageObject {
 	public void clickWorkflowConfig() {
 		waitForAngularRequestsToFinish();
 		withAction().moveToElement(workflowConfig).click().build().perform();
+	}
+	
+	public void hoverITToolsLink() {
+		commonMethods.hoverOverElement(iTToolsLink);
+	}
+	
+	public void clickFacilitySettingConfigLink() {
+		facilitySettingConfigLink.click();
 	}
 }
