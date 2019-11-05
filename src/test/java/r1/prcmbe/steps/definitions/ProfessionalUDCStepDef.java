@@ -147,7 +147,7 @@ public class ProfessionalUDCStepDef extends PageObject {
 
 	@When("^user select the radio button against any defect type$")
 	public void user_select_the_radio_button_against_any_defect_type() {
-		selectedDefectType = uDCPage.selectAndGetRandomDefectType();
+		uDCPage.selectDefectTypeRadioBtn();
 	}
 
 	@When("^user clicks on the Continue button on defect type page$")
@@ -277,7 +277,6 @@ public class ProfessionalUDCStepDef extends PageObject {
 
 	@When("^user clicks on add defect subcategory$")
 	public void user_clicks_on_add_defect_subcategory() {
-		defectSubCategoryList = uDCPage.getListOfDefectSubCategory();
 		uDCPage.clickAddDefectSubCategoryBtn();
 	}
 
@@ -286,7 +285,7 @@ public class ProfessionalUDCStepDef extends PageObject {
 			String defectSubcategoryName) {
 		randomDefectSubCategory = proUDCSteps.getDefectSubTypeValue(defectSubcategoryName, defectSubCategoryList);
 		uDCPage.enterDefectSubCategoryName(randomDefectSubCategory);
-		uDCPage.clickDefectSubCategoryActiveCheckbox();
+		uDCPage.clickDefectSubCategoryActiveCheckbox(); 
 	}
 
 	@When("^user clicks on Add Defect Sub Category button on modal popup$")
@@ -341,9 +340,8 @@ public class ProfessionalUDCStepDef extends PageObject {
 
 	@When("^user runs the \"([^\"]*)\" query to fetch skills id$")
 	public void user_runs_the_query_to_fetch_skills_id(String queryName) throws Exception {
-		String query = commonMethods.loadQuery(queryName, dbFileName);
-		query = String.format(query, defectSubcategoryId);
-		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName, query);
+		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
+				String.format(commonMethods.loadQuery(queryName, dbFileName), defectSubcategoryId));
 	}
 
 	@Then("^user should be able to view Skillid for all Major payer for defectsubcategoryid$")
@@ -353,5 +351,69 @@ public class ProfessionalUDCStepDef extends PageObject {
 			skillsId.add(DatabaseConn.resultSet.getInt("SkillID"));
 		}
 		Assert.assertTrue("Skill Id's not fetched from database", !skillsId.isEmpty());
+	}
+
+	@Then("^user should able to open that application name$")
+	public void user_should_able_to_open_that_application_name() {
+		Assert.assertTrue("User not able to view populated screen to configure at Technical account level",
+				uDCPage.innerNavConfigHeaderIsVisible());
+	}
+
+	@Then("^user should be able to view newly added defect at technical level$")
+	public void user_should_be_able_to_view_newly_added_defect_at_technical_level() {
+		Assert.assertTrue("User not able to view newly added defect type with active checkbox at technical level",
+				randomDefectTypeName.equals(uDCPage.getNewlyAddedDefectType()));
+	}
+
+	@Then("^user should be able to view that for all defects which belongs to technical applicationid should be (\\d+)$")
+	public void user_should_be_able_to_view_that_for_all_defects_which_belongs_to_technical_applicationid_should_be(
+			int applicationId) throws SQLException {
+		while (DatabaseConn.resultSet.next()) {
+			Assert.assertTrue("Application ID fetched from DB is not equal to 1",
+					applicationId == DatabaseConn.resultSet.getInt("ApplicationID"));
+		}
+	}
+
+	@Then("^user should be able to view Add Defect Sub Category pop-up disappear$")
+	public void user_should_be_able_to_view_Add_Defect_Sub_Category_pop_up_disappear() {
+		Assert.assertFalse("Add defect sub-category pop up is visible",
+				uDCPage.checkDefectSubCategoryPopUpVisibility());
+	}
+
+	@When("^user clicks on Defect Type tab$")
+	public void user_clicks_on_Defect_Type_tab() {
+		uDCPage.clickOnDefectTypeTab();
+	}
+
+	@When("^user clicks on edit button on any existing defect$")
+	public void user_clicks_on_edit_button_on_any_existing_defect() {
+		defectTypeList = uDCPage.getListOfDefectTypes();
+		uDCPage.clickEditLink();
+	}
+
+	@Then("^user should be able to view Edit Defect Type modal popup$")
+	public void user_should_be_able_to_view_Edit_Defect_Type_modal_popup() {
+		Assert.assertTrue("Edit defect type modal pop up not visible", uDCPage.getEditModalPopUpVisibility());
+	}
+
+	@When("^user edits with a valid (.*) in defect type name$")
+	public void user_edits_with_a_valid_in_defect_type_name(String defectType) {
+		randomDefectTypeName = proUDCSteps.getDefectTypeValue(defectType, defectTypeList);
+		uDCPage.editDefectTypeName(randomDefectTypeName);
+	}
+
+	@When("^user check or uncheck Active checkbox$")
+	public void user_check_or_uncheck_Active_checkbox() {
+		uDCPage.selectEditActiveCheckbox();
+	}
+
+	@When("^user clicks on Save Defect Type button$")
+	public void user_clicks_on_Save_Defect_Type_button() {
+		uDCPage.clickSaveBtn();
+	}
+
+	@Then("^user should be able to view Add Defect Type pop-up disappear$")
+	public void user_should_be_able_to_view_Add_Defect_Type_pop_up_disappear() {
+		Assert.assertFalse("Add defect sub-category pop up is visible", uDCPage.checkDefectTypePopupVisibility());
 	}
 }

@@ -92,7 +92,7 @@ public class UniversalDefectConfigurationPage extends PageObject {
 	private WebElementFacade saveSOPActionBtn;
 
 	@FindBy(id = "msg_success")
-	private WebElementFacade sOPSuccessMessage;
+	private WebElementFacade successMessage;
 
 	@FindBy(xpath = "//div[@id='dvSOPAction']/descendant::div[@class='wrap-text']/span[starts-with(@id,'sopAN')]")
 	private List<WebElementFacade> listOfSOPActions;
@@ -132,6 +132,27 @@ public class UniversalDefectConfigurationPage extends PageObject {
 
 	@FindBy(id = "dnn_ctr1588_TaskPanel_taskBase_UDCDefectSubCategory_btnSaveDefectSubCategory")
 	private WebElementFacade addDefectSubCategoryPopUpBtn;
+
+	@FindBy(id = "dTypeAhtodec")
+	private WebElementFacade defectTypeTab;
+
+	@FindBy(xpath = "//span[text()='Edit']")
+	private List<WebElementFacade> editLinksList;
+
+	@FindBy(xpath = "//h4[text()='Edit Defect Type']")
+	private WebElementFacade editModalPopUp;
+
+	@FindBy(id = "dnn_ctr1588_TaskPanel_taskBase_DefectTypeControl_txtUpdateDefectType")
+	private WebElementFacade editDefectTypeNameTextbox;
+
+	@FindBy(id = "dnn_ctr1588_TaskPanel_taskBase_DefectTypeControl_chkUpdateDefectType")
+	private WebElementFacade editActiveCheckbox;
+
+	@FindBy(id = "dnn_ctr1588_TaskPanel_taskBase_DefectTypeControl_btnUpdateDefectType")
+	private WebElementFacade saveDefectTypeBtn;
+
+	@FindBy(xpath = "//*[@class='sop-types sortable defects']/li/div[1]/div/div/label")
+	private List<WebElementFacade> defectTypeRadioBtnList;
 
 	public boolean checkUDCTitleVisibility() {
 		return uDCTitle.isVisible();
@@ -273,7 +294,7 @@ public class UniversalDefectConfigurationPage extends PageObject {
 	}
 
 	public String getSOPSuccessMessage() {
-		return sOPSuccessMessage.getText();
+		return successMessage.getText();
 	}
 
 	public boolean checkSOPActionPopupDisappeared() {
@@ -345,5 +366,43 @@ public class UniversalDefectConfigurationPage extends PageObject {
 
 	public void clickAddDefectSubCategoryPopUpBtn() {
 		addDefectSubCategoryPopUpBtn.click();
+	}
+
+	public void clickOnDefectTypeTab() {
+		defectTypeTab.click();
+	}
+
+	public void clickEditLink() {
+		index = editLinksList.size() - 1;
+		evaluateJavascript("arguments[0].click();", editLinksList.get(index));
+	}
+
+	public boolean getEditModalPopUpVisibility() {
+		return editModalPopUp.isVisible();
+	}
+
+	public void editDefectTypeName(String defectType) {
+		editDefectTypeNameTextbox.type(defectType);
+	}
+
+	public void selectEditActiveCheckbox() {
+		editActiveCheckbox.click();
+	}
+
+	public void clickSaveBtn() {
+		saveDefectTypeBtn.click();
+	}
+
+	public boolean checkDefectSubCategoryPopUpVisibility() {
+		return successMessage.isVisible();
+	}
+
+	public boolean checkDefectTypePopupVisibility() {
+		return defectTypeSuccessMsg.isVisible();
+	}
+
+	public void selectDefectTypeRadioBtn() {
+		index = defectTypeRadioBtnList.size() - 1;
+		evaluateJavascript("arguments[0].click();", defectTypeRadioBtnList.get(index));
 	}
 }
