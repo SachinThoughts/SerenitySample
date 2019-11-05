@@ -24,13 +24,13 @@ public class WorkflowConfigurationStepDef extends PageObject {
 	WorkflowConfigurationPage workflowConfigPage;
 	DefaultHandoffPage defaultHandOffPage;
 	CommonMethods commonMethods;
-	
+
 	String dbFileName = "WorkFlowConfiguration", dbHandOffName, dbRecipientName, defaultRecipientName,
 			recipientNameOtherThanDefault, dispositionNotes, workflowName, respondDeadline, updatedBy, updatedDate,
 			successMsg, recipientName, recipientDesc, createdBy, createdDate;
-	
+
 	int dbWorkFlowTypeId;
-	
+
 	@Given("^user having AHtoDecision Admin role is on R1 Hub page$")
 	public void user_having_AHtoDecision_Admin_role_is_on_R1_Hub_page() {
 		Assert.assertTrue(getDriver().getTitle().contains("R1 Hub Technologies"));
@@ -174,8 +174,10 @@ public class WorkflowConfigurationStepDef extends PageObject {
 		Assert.assertTrue("Newly added handoff is not visible ",
 				workflowConfigPage.isNewlyAddedHandOffVisible(workflowName.trim()));
 	}
+
 	@When("^user run the query to fetch hand-off id (.+)$")
-    public void user_run_the_query_to_fetch_handoff_id(String query1) throws ClassNotFoundException, SQLException, Exception {
+	public void user_run_the_query_to_fetch_handoff_id(String query1)
+			throws ClassNotFoundException, SQLException, Exception {
 		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
 				commonMethods.loadQuery(query1, dbFileName));
 		try {
@@ -184,16 +186,18 @@ public class WorkflowConfigurationStepDef extends PageObject {
 			}
 		} catch (SQLException exception) {
 			Assert.assertTrue("WorkflowTypeID is not fetched from DB.\nThe Technical Error is:\n" + exception, false);
-		} 
-        
-    }
+		}
 
-    @When("^user run the query to fetch hand-off name (.+)$")
-    public void user_run_the_query_to_fetch_handoff_name(String query2) throws ClassNotFoundException, SQLException, Exception {
+	}
+
+	@When("^user run the query to fetch hand-off name (.+)$")
+	public void user_run_the_query_to_fetch_handoff_name(String query2)
+			throws ClassNotFoundException, SQLException, Exception {
 		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
 				commonMethods.loadQuery(query2, dbFileName));
-        }
-    @When("^user fetches any Handoff Type from DB$")
+	}
+
+	@When("^user fetches any Handoff Type from DB$")
 	public void user_fetches_any_Handoff_Type_from_DB() {
 		try {
 			while (DatabaseConn.resultSet.next()) {
@@ -213,10 +217,12 @@ public class WorkflowConfigurationStepDef extends PageObject {
 	public void user_clicks_on_continue_button() {
 		workflowConfigPage.clickOnContinueBtnOnHandoffTab();
 	}
+
 	@Then("^user should be able to navigate to Recipient tab$")
 	public void user_should_be_able_to_navigate_to_recipient_tab() {
 		Assert.assertTrue("User is not navigated to Recipient Tab", workflowConfigPage.isRecipientPageVisible());
 	}
+
 	@Then("^user should be able to view Recipient tab highlighted in blue color$")
 	public void user_should_be_able_to_view_recipient_tab_highlighted_in_blue_color() {
 		Assert.assertTrue("Recipient tab color is not Blue",
@@ -235,6 +241,7 @@ public class WorkflowConfigurationStepDef extends PageObject {
 		Assert.assertTrue("User is not able to view +Add Recipient and Continue button ",
 				workflowConfigPage.isContinueAndAddRecipientOnRecipientTabVisible());
 	}
+
 	@Then("^user should able to view Choose Recipient Label$")
 	public void user_should_able_to_view_Choose_Recipient_Label() {
 		Assert.assertTrue("User is not able to view Choose Recipient Label; ",
@@ -255,15 +262,18 @@ public class WorkflowConfigurationStepDef extends PageObject {
 		Assert.assertTrue("Default radio button is not checked against first Recipient",
 				workflowConfigPage.isFirstRecipientBtnSelected().equalsIgnoreCase("true"));
 	}
+
 	@And("^user should be able to view Details link button for respective Recipient$")
 	public void user_should_be_able_to_view_details_link_button_for_respective_recipient() {
 		Assert.assertTrue("User is not able to view Details link ",
 				workflowConfigPage.isDetailsIconOnRecipientVisible());
 	}
+
 	@When("^user clicks on Details link button$")
 	public void user_clicks_on_details_link_button() {
 		workflowConfigPage.clickOnDetailsOnRecipientTab();
 	}
+
 	@Then("^user should be able to view detailed columns$")
 	public void user_should_be_able_to_view_detailed_columns(DataTable expectedColumHeaders) {
 		List<String> recipientColumnLabels = expectedColumHeaders.asList(String.class);
