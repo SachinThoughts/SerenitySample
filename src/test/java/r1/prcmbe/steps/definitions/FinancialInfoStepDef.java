@@ -197,4 +197,13 @@ public class FinancialInfoStepDef {
 				financialInfoPage.getTotalAdjustments()
 						.equals(financialInfoStep.formatCurrency(financialInfoElementVal)));
 	}
+
+	@Then("^User should be able to view some dollar value in Total Charges column$")
+	public void User_should_be_able_to_view_some_dollar_value_in_Total_Charges_column() {
+		Assert.assertTrue(
+				"Same amount not displayed in Total Charges column as SQL result \n Expected TotalCharges from DB"
+						+ financialInfoStep.formatCurrency(financialInfoElementVal) + "Actual TotalCharges on UI"
+						+ financialInfoPage.getTotalCharges(),
+				financialInfoPage.getTotalCharges().equals(financialInfoStep.formatCurrency(financialInfoElementVal)));
+	}
 }

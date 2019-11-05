@@ -68,6 +68,9 @@ public class FinancialInfoPage extends PageObject {
 
 	@FindBy(id = "lblTotalAdjustment")
 	private WebElementFacade totalAdjustments;
+	
+	@FindBy(id = "lblTotalCharges")
+	private WebElementFacade totalChargesValue;	
 
 	public boolean isFinanceInfoHeadersVisible(List<String> expectedHeaders) {
 		return getFinInfoHeaderAttributes().containsAll(expectedHeaders);
@@ -159,5 +162,9 @@ public class FinancialInfoPage extends PageObject {
 
 	public String getTotalAdjustments() {
 		return totalAdjustments.getText();
+	}
+	
+	public String getTotalCharges() {
+		return totalChargesValue.getText();
 	}
 }
