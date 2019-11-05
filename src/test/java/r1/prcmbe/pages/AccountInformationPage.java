@@ -26,7 +26,7 @@ public class AccountInformationPage extends PageObject {
 	@FindBy(xpath = "//*[@id='related']//*[@class='modal-body']//table/tbody/tr/td//a")
 	private List<WebElementFacade> listOfVisitNumbersOnRelatedAccntPopUp;
 
-	@FindBy(xpath = "//*[@id='related']//*[@class='modal-body']//table/tbody/tr/td[3]")
+	@FindBy(xpath = "//*[@id='tbRelatedAccount']//tbody/tr/td[3]")
 	private List<WebElementFacade> listOfFacilityCodeOnRelatedAccntPopUp;
 
 	@FindBy(xpath = "//*[@id='related']//div[@class='modal-content']")
@@ -49,7 +49,10 @@ public class AccountInformationPage extends PageObject {
 	
 	@FindBy(id="lblInvoiceNo")
 	private WebElementFacade invoiceNumber;
-
+	
+	@FindBy(xpath = "//*[@id='tbRelatedAccount']//tbody/tr/td[2]//a")
+	private List<WebElementFacade> listOfInvoiceNumbersOnRelatedAccntPopUp;
+	
 	public String getAccountNumber() {
 		waitForAngularRequestsToFinish();
 		return accountNumber.getText().trim();
@@ -114,5 +117,27 @@ public class AccountInformationPage extends PageObject {
 	public String getInvoiceNumber() {
 		waitForAngularRequestsToFinish();
 		return invoiceNumber.getText().trim();
+	}
+	
+	public int getSizeOfRelatedAccntInvoiceNo() {
+		return listOfVisitNumbersOnRelatedAccntPopUp.size();
+	}
+	
+	public String clickRelatedAccountBasedOnFacilityCodeAndFetchInvoiceNo(String facilityCode) {
+		int size = listOfFacilityCodeOnRelatedAccntPopUp.size();
+		String visitNo = "";
+		for (int i = 0; i < size; i++) {
+			if (listOfFacilityCodeOnRelatedAccntPopUp.get(i).getText().equals(facilityCode)) {
+				visitNo = clickOnVisitNoOnRelatedAccntPopUpAndGetVisitNo(i);
+				break;
+			}
+		}
+		return visitNo;
+	}
+
+	public String clickOnInvoiceNoOnRelatedAccntPopUpAndGetInvoiceNo(int index) {
+		String visitNo = listOfInvoiceNumbersOnRelatedAccntPopUp.get(index).getText();
+		listOfInvoiceNumbersOnRelatedAccntPopUp.get(index).click();
+		return visitNo;
 	}
 }

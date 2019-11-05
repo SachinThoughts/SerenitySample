@@ -38,7 +38,7 @@ public class AccountDocumentStepDef {
 	@Steps
 	AccountDocumentSteps accntDocumentSteps;
 
-	String selectedDocumentType, enteredDocumentTitle, fileName, visitNo, facilityCode, invoiceNumber,chargeTransactionId;
+	String selectedDocumentType, enteredDocumentTitle, fileName, invoiceNo, facilityCode, invoiceNumber,chargeTransactionId;
 	List<String> listOfInvoiceNumber;
 	static String dbFileName = "AccountDocument";
 
@@ -253,18 +253,18 @@ public class AccountDocumentStepDef {
 	public void user_should_be_able_to_view_the_Related_Accounts_pop_up_with_list_of_all_related_accounts() {
 		Assert.assertTrue("Related Account PopUp doesn't appear", accntInformationPage.isRelatedAccntPopUpVisible());
 		Assert.assertTrue("List of Related Account not available for particular Visit No",
-				accntInformationPage.getSizeOfRelatedAccntVisitNo() > 0);
+				accntInformationPage.getSizeOfRelatedAccntInvoiceNo() > 0);
 	}
 
 	@When("^user clicks on any account of same facility from Related account list$")
 	public void user_clicks_on_any_account_of_same_facility_from_Related_account_list() {
-		visitNo = accntInformationPage.clickOnRelatedAccntBasedOnFacilityAndFetchVisitNo(facilityCode);
+		invoiceNo = accntInformationPage.clickRelatedAccountBasedOnFacilityCodeAndFetchInvoiceNo(facilityCode);
 	}
 
 	@Then("^user should be able to navigate to selected account$")
 	public void user_should_be_able_to_navigate_to_selected_account() {
 		Assert.assertTrue("Opened Related Account doesn't match with facility Code selected",
-				visitNo.equals(accntInformationPage.getAccountNoValue().trim()));
+				invoiceNo.equals(accntInformationPage.getInvoiceNumber().trim()));
 	}
 	
 	@Then("^user should be able to view all the uploaded documents in list which were associated with MRN$")
