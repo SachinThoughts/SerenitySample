@@ -1,12 +1,16 @@
 package r1.prcmbe.steps.definitions;
 
+import java.sql.SQLException;
 import java.util.List;
 import org.junit.Assert;
 import cucumber.api.DataTable;
+import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import net.serenitybdd.core.pages.PageObject;
+import r1.commons.databaseconnection.DatabaseConn;
+import r1.commons.utilities.CommonMethods;
 import r1.prcmbe.pages.DefaultHandoffPage;
 import r1.prcmbe.pages.NavigationPage;
 import r1.prcmbe.pages.SettingsPage;
@@ -19,8 +23,14 @@ public class WorkflowConfigurationStepDef extends PageObject {
 	SettingsPage settingsPage;
 	WorkflowConfigurationPage workflowConfigPage;
 	DefaultHandoffPage defaultHandOffPage;
-	String workflowName;
-
+	CommonMethods commonMethods;
+	
+	String dbFileName = "WorkFlowConfiguration", dbHandOffName, dbRecipientName, defaultRecipientName,
+			recipientNameOtherThanDefault, dispositionNotes, workflowName, respondDeadline, updatedBy, updatedDate,
+			successMsg, recipientName, recipientDesc, createdBy, createdDate;
+	
+	int dbWorkFlowTypeId;
+	
 	@Given("^user having AHtoDecision Admin role is on R1 Hub page$")
 	public void user_having_AHtoDecision_Admin_role_is_on_R1_Hub_page() {
 		Assert.assertTrue(getDriver().getTitle().contains("R1 Hub Technologies"));
@@ -163,5 +173,101 @@ public class WorkflowConfigurationStepDef extends PageObject {
 	public void user_should_be_able_to_view_newly_added_handoff_in_the_Choose_Handoff_grid() {
 		Assert.assertTrue("Newly added handoff is not visible ",
 				workflowConfigPage.isNewlyAddedHandOffVisible(workflowName.trim()));
+	}
+	@When("^user run the query to fetch hand-off id (.+)$")
+    public void user_run_the_query_to_fetch_handoff_id(String query1) throws ClassNotFoundException, SQLException, Exception {
+		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
+				commonMethods.loadQuery(query1, dbFileName));
+		try {
+			while (DatabaseConn.resultSet.next()) {
+				dbWorkFlowTypeId = DatabaseConn.resultSet.getInt("WorkflowTypeID");
+			}
+		} catch (SQLException exception) {
+			Assert.assertTrue("WorkflowTypeID is not fetched from DB.\nThe Technical Error is:\n" + exception, false);
+		} 
+        
+    }
+
+    @When("^user run the query to fetch hand-off name (.+)$")
+    public void user_run_the_query_to_fetch_handoff_name(String query2) throws ClassNotFoundException, SQLException, Exception {
+		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
+				commonMethods.loadQuery(query2, dbFileName));
+        }
+    @When("^user fetches any Handoff Type from DB$")
+	public void user_fetches_any_Handoff_Type_from_DB() {
+		try {
+			while (DatabaseConn.resultSet.next()) {
+				dbHandOffName = DatabaseConn.resultSet.getString("Name");
+			}
+		} catch (SQLException exception) {
+			Assert.assertTrue("HandOffName is not fetched from DB.\nThe Technical Error is:\n" + exception, false);
+		}
+	}
+
+	@When("^user clicks on Radio button against any fetched Handoff Type in Choose Handoff grid$")
+	public void user_clicks_on_Radio_button_against_any_fetched_Handoff_Type_in_Choose_Handoff_grid() {
+		workflowConfigPage.clickOnRadioBtnAgnstFetchedHandOff(dbHandOffName);
+	}
+
+	@When("^user clicks on continue button$")
+	public void user_clicks_on_continue_button() {
+		workflowConfigPage.clickOnContinueBtnOnHandoffTab();
+	}
+	@Then("^user should be able to navigate to Recipient tab$")
+	public void user_should_be_able_to_navigate_to_recipient_tab() {
+		Assert.assertTrue("User is not navigated to Recipient Tab", workflowConfigPage.isRecipientPageVisible());
+	}
+	@Then("^user should be able to view Recipient tab highlighted in blue color$")
+	public void user_should_be_able_to_view_recipient_tab_highlighted_in_blue_color() {
+		Assert.assertTrue("Recipient tab color is not Blue",
+				workflowConfigPage.getRecipientTabColour().equals(BLUECOLORRGBCODE));
+	}
+
+	@Then("^user should be able to view Workflow Summary label with selected Recipient appended after Handoff type value$")
+	public void user_should_be_able_to_view_workflow_summary_label_with_selected_recipient_appended_after_handoff_type_value() {
+		Assert.assertTrue("Recipeint Name is not appended after Handoff",
+				workflowConfigPage.isRecipientAppendInBreadcrumbInRecipientTab(dbHandOffName,
+						workflowConfigPage.getDefaultSelectedRecipientName()));
+	}
+
+	@Then("^user should be able to view \\+Add Recipient and Continue > button$")
+	public void user_should_be_able_to_view_Add_Recipient_and_Continue_button() {
+		Assert.assertTrue("User is not able to view +Add Recipient and Continue button ",
+				workflowConfigPage.isContinueAndAddRecipientOnRecipientTabVisible());
+	}
+	@Then("^user should able to view Choose Recipient Label$")
+	public void user_should_able_to_view_Choose_Recipient_Label() {
+		Assert.assertTrue("User is not able to view Choose Recipient Label; ",
+				workflowConfigPage.isChooseRecipientVisible());
+	}
+
+	@And("^user should be able to view grid with columns headers$")
+	public void user_should_be_able_to_view_grid_with_columns_headers(DataTable expectedColumnHeaders) {
+		List<String> recipientColumnLabels = expectedColumnHeaders.asList(String.class);
+		Assert.assertTrue(" User is not able to view column headers",
+				workflowConfigPage.getSopHeaderList().containsAll(recipientColumnLabels));
+	}
+
+	@And("^user should be able to view Edit icon button adjacent to Recipient and Radio button checked against first Recipient$")
+	public void user_should_be_able_to_view_edit_icon_button_adjacent_to_recipient_and_radio_button_checked_against_first_recipient() {
+		Assert.assertTrue("Edit Icon is not visible against Recipient Name ",
+				workflowConfigPage.isEditIconOnRecipientTabVisible());
+		Assert.assertTrue("Default radio button is not checked against first Recipient",
+				workflowConfigPage.isFirstRecipientBtnSelected().equalsIgnoreCase("true"));
+	}
+	@And("^user should be able to view Details link button for respective Recipient$")
+	public void user_should_be_able_to_view_details_link_button_for_respective_recipient() {
+		Assert.assertTrue("User is not able to view Details link ",
+				workflowConfigPage.isDetailsIconOnRecipientVisible());
+	}
+	@When("^user clicks on Details link button$")
+	public void user_clicks_on_details_link_button() {
+		workflowConfigPage.clickOnDetailsOnRecipientTab();
+	}
+	@Then("^user should be able to view detailed columns$")
+	public void user_should_be_able_to_view_detailed_columns(DataTable expectedColumHeaders) {
+		List<String> recipientColumnLabels = expectedColumHeaders.asList(String.class);
+		Assert.assertTrue("User is not able to see column headers",
+				workflowConfigPage.getDetailColumnHeadersRecipientTab().equals(recipientColumnLabels));
 	}
 }

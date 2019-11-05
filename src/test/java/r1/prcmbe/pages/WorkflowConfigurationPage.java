@@ -72,7 +72,121 @@ public class WorkflowConfigurationPage extends PageObject {
 
 	@FindBy(xpath = "//div//span[@data-bind='text: workflowDescriptionName']")
 	private List<WebElementFacade> listOfAddedHandOffs;
+	
+	@FindBy(xpath = "//*[@id='dvHandOff']/ul/li/div[2]/span")
+	private List<WebElementFacade> handoffTypeList;
+	
+	@FindBy(xpath = "//*[@id='dvHandOff']/ul/li/div[1]/div/div/label")
+	private List<WebElementFacade> handoffTypeRadioBtnList;
 
+	@FindBy(xpath = "//div[@class='container']//div[@class='row']/div[2]/button")
+	private WebElementFacade continueBtnOnHandoff;
+	
+	@FindBy(xpath = "//*[@id='step2']//h2[text()='Choose Recipient']")
+	private WebElementFacade recipientPage;
+	
+	@FindBy(id = "RecipientLink")
+	private WebElementFacade recipientTab;
+	
+	@FindBy(id = "sName0")
+	private WebElementFacade defaultRecipientName;
+
+	@FindBy(xpath = "//button[contains(@data-target,'#addRecipient')]")
+	private WebElementFacade addRecipientBtn;
+	
+	@FindBy(xpath = "//*[@id='step2']/div[1]/div/div[2]/button")
+	private WebElementFacade recipientContinueBtn;
+	
+	@FindBy(xpath = "//*[@id='main']/div/div/div/div[2]/div[2]/ol/li[1]")
+	private WebElementFacade handOffOnBreadcrumb;
+
+	@FindBy(xpath = "//*[@id='main']/div/div/div/div[2]/div[2]/ol/li[2]")
+	private WebElementFacade recipientOnBreadcrumb;
+	
+	@FindBy(xpath = "//*[@id='step2']/div/h2")
+	private WebElementFacade chooseRecipientLabel;
+	
+	@FindBy(xpath = "//ul[@class='sop-header']/li")
+	private List<WebElementFacade> listOfSopHeader;
+	
+	@FindBy(xpath = "//a[contains(@data-target,'#editRecipient')]")
+	private WebElementFacade editIconOnRecipientTab;
+
+	@FindBy(xpath = " (//*[@id='dvRecipientDetails']//ul)[2]/preceding-sibling::div//a[2]/i")
+	private WebElementFacade detailsBtnOnRecipientTab;
+	
+	@FindBy(xpath = "//ul[@class='more-info workflowConfigdetailsInfo']/li/span[1]")
+	private List<WebElementFacade> listOfDetailColumnsRecipientTab;
+	
+	public List<String> getSopHeaderList() {
+		List<String> headerList = new ArrayList<String>();
+		for (WebElementFacade sopHeaderEle : listOfSopHeader) {
+			headerList.add(sopHeaderEle.getText().trim());
+		}
+		return headerList;
+	}
+	
+	public String isFirstRecipientBtnSelected() {
+		return evaluateJavascript("return document.querySelector('#workflowSubTypeID-0').checked").toString();
+	}
+	
+	public boolean isDetailsIconOnRecipientVisible() {
+		return detailsBtnOnRecipientTab.isVisible();
+	}
+	public List<String> getDetailColumnHeadersRecipientTab() {
+		List<String> columnList = new ArrayList<String>();
+		for (WebElementFacade columnEle : listOfDetailColumnsRecipientTab) {
+			columnList.add(columnEle.getText().trim());
+		}
+		return columnList;
+	}
+
+	public boolean isEditIconOnRecipientTabVisible() {
+		return editIconOnRecipientTab.isVisible();
+	}
+
+	public void clickOnDetailsOnRecipientTab() {
+		detailsBtnOnRecipientTab.click();
+	}
+	
+	public boolean isChooseRecipientVisible() {
+		return chooseRecipientLabel.isVisible();
+	}
+	
+	public boolean isRecipientAppendInBreadcrumbInRecipientTab(String handoffName, String recipientName) {
+		return handOffOnBreadcrumb.getText().contains(handoffName)
+				&& recipientOnBreadcrumb.getText().contains(recipientName);
+	}
+	
+	public String getDefaultSelectedRecipientName() {
+		return defaultRecipientName.getText().trim();
+	}
+
+	public boolean isContinueAndAddRecipientOnRecipientTabVisible() {
+		return recipientContinueBtn.isVisible() && addRecipientBtn.isVisible();
+	}
+	
+	public String getRecipientTabColour() {
+		withAction().moveToElement(recipientTab).build().perform();
+		return recipientTab.getCssValue("background-color");
+	}
+
+	public void clickOnContinueBtnOnHandoffTab() {
+		continueBtnOnHandoff.click();
+	}
+	public boolean isRecipientPageVisible() {
+		return recipientPage.isVisible();
+	}
+
+	public void clickOnRadioBtnAgnstFetchedHandOff(String expectedHandOff) {
+		int size = handoffTypeList.size();
+		for (int i = 0; i < size; i++) {
+			if (handoffTypeList.get(i).getText().equals(expectedHandOff)) {
+				withAction().moveToElement(handoffTypeRadioBtnList.get(i)).build().perform();
+				evaluateJavascript("arguments[0].click();", handoffTypeRadioBtnList.get(i));
+			}
+		}
+	}
 	public boolean isNewlyAddedHandOffVisible(String handOffName) {
 		int size = listOfAddedHandOffs.size();
 		for (index = 0; index < size; index++) {
