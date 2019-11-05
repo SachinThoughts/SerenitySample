@@ -28,3 +28,19 @@ Feature: This is to verify external search functionality in R1 PRCM-BE
       | Last Name/First Name  | @#sf*&       | Special Character are not allowed in Search criteria! |
       | Medical Record Number | %%3424$      | No Record Found!                                      |
       | Claim Number          | $$$cdf5435   | No Record Found!                                      |
+
+  @429054 @Sprint8 @PRCMUser
+  Scenario Outline: Verify that Submit button is disabled for Search textbox for Like Operator if user enters less than five characters
+    Given user is on "R1 Hub Technologies 2.0 - 01 R1_Decision - Search" page
+    When user selects <dropdown> from Search By drop down
+    And user selects "Like" operator from operator dropdown
+    And user enters less than 5 characters in <lessThanFivetext> textbox
+    Then user should able to view tool-tip message <tooltipMessage>
+    And user should be able to view Submit Button in disabled state
+
+    Examples: 
+      | dropdown              | lessThanFivetext | tooltipMessage                     |
+      | Visit Number          |             1234 | Please add five or more characters |
+      | Invoice Number        |             1234 | Please add five or more characters |
+      | Medical Record Number |             1234 | Please add five or more characters |
+      | Claim Number          |             1234 | Please add five or more characters |
