@@ -122,7 +122,7 @@ public class FinancialInfoPage extends PageObject {
 	}
 
 	public void clickAdjustmentScrollArrow() {
-		adjustmentScrollArrow.click();
+		evaluateJavascript("arguments[0].click();", adjustmentScrollArrow);
 		withAction().moveToElement(firstRowOfAdjustmentTable).build().perform();
 	}
 
