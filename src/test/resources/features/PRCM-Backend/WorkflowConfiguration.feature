@@ -99,3 +99,48 @@ Feature: Verify WorkFlowConfiguration related scenarios in PRCM
     Examples: 
       | query1                         | query2                          |
       | 434767_WFConfig_CheckRecipient | 434767_WFConfig_CheckRecipient1 |
+
+  Scenario Outline: Verify Add New Disposition functionality
+    Given user having AHtoDecision Admin role is on workflow configuration home page
+    When user login to SQL server and connect to database
+    And user run the query to fetch hand-off id <query1>
+    And user run the query to fetch hand-off name <query2>
+    And user fetches any Handoff Type from DB
+    And user clicks on Radio button against any fetched Handoff Type in Choose Handoff grid
+    And user clicks on continue button on Handoff tab
+    And user clicks on radio button adjacent to associated Recipient and clicks on Continue button on the Recipient Tab
+    And user clicks on radio button adjacent to associated Action Type
+    And user clicks on Continue button on Action Tab
+    And user clicks on +Add New Disposition button
+    Then user should be able to view Add New Disposition pop up with controls
+      | Disposition Code | Disposition Name | Next Disposition By | Follow Up Days | Respond Deadline | Disposition Status | Predefined Note | Active | Save changes |
+    When user clicks on Save Changes button without entering any text
+    Then user should be able to view info message "Please enter Disposition Code"
+    When user enters alphanumeric text in Disposition Code textbox
+    And user clicks on Save Changes button
+    Then user should able to view info message "Please enter Disposition Name"
+    When user enters text in Disposition Name textbox
+    And user clicks on Save Changes button
+    Then user should be able to view info message "Please select Next Disposition By."
+    When user select any value from Next Disposition By drop down, other than --Select one-- option
+    And user clicks on Save Changes button
+    Then user should be able to view selected value in Next Disposition By drop down
+    And user should be able to view info message "Please enter Follow Up Days"
+    When user enters numeric value in Follow Up Days
+    And user clicks on Save Changes button
+    Then user should be able to view info message "Please enter Respond Deadline"
+    When user enters numeric value in Respond Deadline
+    And user clicks on Save Changes button
+    Then user should be able to view info message "Please select Disposition Status."
+    When user selects value "Identified" from Disposition Status drop down
+    Then user should be able to view selected value in Disposition Status drop down
+    When user clicks on Predefined Note textarea
+    And user enters text in Predefined Note Textarea And user clicks on Save Changes button
+    And user should be able to view message "Saved successfully"
+    And user should no longer be able to view Add New Disposition pop-up window
+    And user should be able to view saved data in Choose a Disposition Type grid in Disposition Name, Follow Up Days, Time Limit, Status and Active columns
+    When user clicks on Details link button adjacent to newly created Disposition Name
+    And user login to SQL server and connect to facility database
+    And user runs the "434773_WFConfig_NewDisposition" query
+    Then user should be able to view same value in following columns on UI as in SQL result
+      | Created Date | Created By |

@@ -225,6 +225,7 @@ public class WorkflowConfigurationPage extends PageObject {
 
 	public boolean isNewlyEditHandoffVisible() {
 		withAction().moveToElement(listOfDescriptions.get(index)).build().perform();
+		listOfDescriptions.get(index).withTimeoutOf(Duration.ofSeconds(40)).waitUntilVisible();
 		if (enterWorkflowName.equals(listOfDescriptions.get(index).getText().trim())) {
 			return true;
 		}
