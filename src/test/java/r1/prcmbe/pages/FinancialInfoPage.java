@@ -74,6 +74,33 @@ public class FinancialInfoPage extends PageObject {
 	
 	@FindBy(xpath = "//*[@id='divTotalCharges']/table/thead/tr/th")
 	private List<WebElementFacade> listOfTotalChargesTableHeaders;
+	
+	@FindBy(xpath = "//*[@id='divTotalCharges']//tr/td[1]")
+	private List<WebElementFacade> serviceDate;
+
+	@FindBy(xpath = "//*[@id='divTotalCharges']//tr/td[2]")
+	private List<WebElementFacade> chargePostingDate;
+
+	@FindBy(xpath = "//*[@id='divTotalCharges']//tr/td[3]")
+	private List<WebElementFacade> ubRevCode;
+
+	@FindBy(xpath = "//*[@id='divTotalCharges']//tr/td[4]")
+	private List<WebElementFacade> revenueCenterCode;
+
+	@FindBy(xpath = "//*[@id='divTotalCharges']//tr/td[5]")
+	private List<WebElementFacade> cptCode;
+
+	@FindBy(xpath = "//*[@id='divTotalCharges']//tr/td[6]")
+	private List<WebElementFacade> noOfUnits;
+
+	@FindBy(xpath = "//*[@id='divTotalCharges']//tr/td[7]")
+	private List<WebElementFacade> totalCharge;
+
+	@FindBy(xpath = "//*[@id='divTotalCharges']//tr/td[8]")
+	private List<WebElementFacade> chargeItemCode;
+
+	@FindBy(xpath = "//*[@id='divTotalCharges']//tr/td[9]")
+	private List<WebElementFacade> chargeDesc;
 
 	public boolean isFinanceInfoHeadersVisible(List<String> expectedHeaders) {
 		return getFinInfoHeaderAttributes().containsAll(expectedHeaders);
@@ -177,5 +204,81 @@ public class FinancialInfoPage extends PageObject {
 			listOfTextValuesOfTotalChargesTableHeaders.add(totalChargesTableHeader.getText().trim());
 		}
 		return listOfTextValuesOfTotalChargesTableHeaders;
+	}
+	
+	public List<String> getServiceDateList() {
+		List<String> dateService = new ArrayList<String>();
+		for (WebElementFacade element : serviceDate) {
+			dateService.add(element.getText());
+		}
+		return dateService;
+	}
+
+	public List<String> getPostingDateList() {
+		List<String> datePosting = new ArrayList<String>();
+		for (WebElementFacade element : chargePostingDate) {
+			datePosting.add(element.getText());
+		}
+		return datePosting;
+	}
+
+	public List<String> getUBRevCodeList() {
+		List<String> code = new ArrayList<String>();
+		for (WebElementFacade element : ubRevCode) {
+			code.add(element.getText());
+		}
+		return code;
+	}
+
+	public List<String> getRevenueCodeList() {
+		List<String> revenueCodes = new ArrayList<String>();
+		for (WebElementFacade element : revenueCenterCode) {
+			revenueCodes.add(element.getText());
+		}
+		return revenueCodes;
+	}
+
+	public List<String> getCptCodeList() {
+		List<String> cptCodes = new ArrayList<String>();
+		for (WebElementFacade element : cptCode) {
+			cptCodes.add(element.getText());
+		}
+		return cptCodes;
+	}
+
+	public List<String> getNoOfUnitsList() {
+		List<String> units = new ArrayList<String>();
+		for (WebElementFacade element : noOfUnits) {
+			units.add(element.getText());
+		}
+		return units;
+	}
+
+	public List<String> getTotalChargesInDetailsList() {
+		List<String> charges = new ArrayList<String>();
+		for (WebElementFacade element : totalCharge) {
+			charges.add(element.getText());
+		}
+		return charges;
+	}
+
+	public List<String> getChargeItemCodeList() {
+		List<String> itemCodes = new ArrayList<String>();
+		for (WebElementFacade element : chargeItemCode) {
+			itemCodes.add(element.getText());
+		}
+		return itemCodes;
+	}
+
+	public List<String> getChargeDescList() {
+		List<String> descCharge = new ArrayList<String>();
+		int size = chargeDesc.size();
+		for (int i = 1; i <= size; i++) {
+			String jsPathValue = "#divTotalCharges > table > tbody > tr:nth-child(" + i + ") > td:nth-child(9)";
+			String content = evaluateJavascript("return document.querySelector(\"" + jsPathValue + "\").textContent")
+					.toString();
+			descCharge.add(content);
+		}
+		return descCharge;
 	}
 }
