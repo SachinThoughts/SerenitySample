@@ -137,6 +137,7 @@ public class FinancialInfoPage extends PageObject {
 	public List<String> getAdjustmentTableData() {
 		List<String> listOfTextValuesOfAdjustmentTableData = new ArrayList<>();
 		for (WebElementFacade adjustmentTableData : listOfAdjustmentTableData) {
+			withAction().moveToElement(adjustmentTableData).build().perform();
 			String adjustmentData = adjustmentTableData.getText().trim();
 			if (adjustmentData.contains("($")) {
 				adjustmentData = adjustmentData.replace("($", "-").replace(")", "").replace(",", "");
