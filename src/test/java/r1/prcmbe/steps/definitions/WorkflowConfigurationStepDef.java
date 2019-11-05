@@ -176,10 +176,10 @@ public class WorkflowConfigurationStepDef extends PageObject {
 	}
 
 	@When("^user run the query to fetch hand-off id (.+)$")
-	public void user_run_the_query_to_fetch_handoff_id(String query1)
+	public void user_run_the_query_to_fetch_handoff_id(String queryName)
 			throws ClassNotFoundException, SQLException, Exception {
 		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
-				commonMethods.loadQuery(query1, dbFileName));
+				commonMethods.loadQuery(queryName, dbFileName));
 		try {
 			while (DatabaseConn.resultSet.next()) {
 				dbWorkFlowTypeId = DatabaseConn.resultSet.getInt("WorkflowTypeID");
@@ -187,14 +187,13 @@ public class WorkflowConfigurationStepDef extends PageObject {
 		} catch (SQLException exception) {
 			Assert.assertTrue("WorkflowTypeID is not fetched from DB.\nThe Technical Error is:\n" + exception, false);
 		}
-
 	}
 
 	@When("^user run the query to fetch hand-off name (.+)$")
-	public void user_run_the_query_to_fetch_handoff_name(String query2)
+	public void user_run_the_query_to_fetch_handoff_name(String queryName)
 			throws ClassNotFoundException, SQLException, Exception {
 		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
-				commonMethods.loadQuery(query2, dbFileName));
+				commonMethods.loadQuery(queryName, dbFileName));
 	}
 
 	@When("^user fetches any Handoff Type from DB$")
@@ -213,8 +212,8 @@ public class WorkflowConfigurationStepDef extends PageObject {
 		workflowConfigPage.clickOnRadioBtnAgnstFetchedHandOff(dbHandOffName);
 	}
 
-	@When("^user clicks on continue button$")
-	public void user_clicks_on_continue_button() {
+	@When("^user clicks on continue button on Handoff tab$")
+	public void user_clicks_on_continue_button_on_Handoff_tab() {
 		workflowConfigPage.clickOnContinueBtnOnHandoffTab();
 	}
 
@@ -269,13 +268,13 @@ public class WorkflowConfigurationStepDef extends PageObject {
 				workflowConfigPage.isDetailsIconOnRecipientVisible());
 	}
 
-	@When("^user clicks on Details link button$")
-	public void user_clicks_on_details_link_button() {
+	@When("^user clicks on Details link button on Recipient Tab$")
+	public void user_clicks_on_details_link_button_on_Recipient_Tab() {
 		workflowConfigPage.clickOnDetailsOnRecipientTab();
 	}
 
-	@Then("^user should be able to view detailed columns$")
-	public void user_should_be_able_to_view_detailed_columns(DataTable expectedColumHeaders) {
+	@Then("^user should be able to view detailed columns on Recipient Tab$")
+	public void user_should_be_able_to_view_detailed_columns_on_Recipient_Tab(DataTable expectedColumHeaders) {
 		List<String> recipientColumnLabels = expectedColumHeaders.asList(String.class);
 		Assert.assertTrue("User is not able to see column headers",
 				workflowConfigPage.getDetailColumnHeadersRecipientTab().equals(recipientColumnLabels));

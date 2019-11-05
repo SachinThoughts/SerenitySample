@@ -82,7 +82,7 @@ Feature: Verify WorkFlowConfiguration related scenarios in PRCM
     And user run the query to fetch hand-off name <query2>
     And user fetches any Handoff Type from DB
     And user clicks on Radio button against any fetched Handoff Type in Choose Handoff grid
-    And user clicks on continue button
+    And user clicks on continue button on Handoff tab
     Then user should be able to navigate to Recipient tab
     Then user should be able to view Recipient tab highlighted in blue color
     And user should be able to view Workflow Summary label with selected Recipient appended after Handoff type value
@@ -92,8 +92,8 @@ Feature: Verify WorkFlowConfiguration related scenarios in PRCM
       | Name | Description | Active |
     And user should be able to view Edit icon button adjacent to Recipient and Radio button checked against first Recipient
     And user should be able to view Details link button for respective Recipient
-    When user clicks on Details link button
-    Then user should be able to view detailed columns
+    When user clicks on Details link button on Recipient Tab
+    Then user should be able to view detailed columns on Recipient Tab
       | Created Date | Created By | Updated Date | Updated By |
 
     Examples: 
