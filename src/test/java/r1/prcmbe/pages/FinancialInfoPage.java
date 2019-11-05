@@ -144,7 +144,7 @@ public class FinancialInfoPage extends PageObject {
 			} else if (adjustmentData.contains("$")) {
 				adjustmentData = adjustmentData.replace("$", "").replace(",", "");
 			}
-			if (!adjustmentData.equals("null") && !adjustmentData.equals(""))
+			if (!adjustmentData.equals("null"))
 				listOfTextValuesOfAdjustmentTableData.add(adjustmentData);
 		}
 		return listOfTextValuesOfAdjustmentTableData;
