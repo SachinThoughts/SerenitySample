@@ -5,7 +5,7 @@ Feature: This is to verify external search functionality in R1 PRCM-BE
     Given user is on R1 Hub page
     When user clicks on Billing & Follow-up link
 
-  @433634 @PRCMUser
+  @433634 @Sprint8 @PRCMUser
   Scenario: Verify that if user does not have queue than user navigates to R1D Search Page
     When user clicks on R1_Decision link
     Then user should be able to view R1D Search page
