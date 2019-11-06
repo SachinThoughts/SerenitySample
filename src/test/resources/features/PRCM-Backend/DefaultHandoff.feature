@@ -8,7 +8,7 @@ Feature: Verify default handoff
     And click on Workflow Configuration link
 
   @434985 @434986 @434987 @434988 @Sprint8 @PRCMUser
-  Scenario: Verify the functionality of the Add Handoff button in Workflow Configuration screen
+  Scenario: Verify the functionalities of Add Handoff, Recipient, Action Type and Disposition Type in Workflow Configuration screen
     Given user having AHtoDecision role is on "AHtoDecision Workflow Configuration" Screen
     And user is able to login to sql server and connect to database
     Then user should be able to view +Add Handoff button on Handoff screen grid
