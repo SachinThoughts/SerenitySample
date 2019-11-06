@@ -129,6 +129,7 @@ public class FinancialInfoPage extends PageObject {
 		withAction().moveToElement(firstRowOfAdjustmentTable).build().perform();
 		List<String> listOfTextValuesOfAdjustmentTableHeaders = new ArrayList<>();
 		for (WebElementFacade adjustmentTableHeader : listOfAdjustmentTableHeaders) {
+			withAction().moveToElement(adjustmentTableHeader).build().perform();
 			listOfTextValuesOfAdjustmentTableHeaders.add(adjustmentTableHeader.getText().trim());
 		}
 		return listOfTextValuesOfAdjustmentTableHeaders;
