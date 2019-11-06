@@ -74,7 +74,7 @@ Feature: Verify WorkFlowConfiguration related scenarios in PRCM
     And user should no longer be able to view Add Handoff pop-up window
     And user should be able to view newly added handoff in the Choose Handoff grid
 
-  @434766 @AHtoDecisionAdmin @Sprint8
+  @434766 @AHtoDecisionAdmin @Sprint9
   Scenario Outline: Verify controls under Recipient page
     Given user having AHtoDecision Admin role is on workflow configuration home page
     When user login to SQL server and connect to database
