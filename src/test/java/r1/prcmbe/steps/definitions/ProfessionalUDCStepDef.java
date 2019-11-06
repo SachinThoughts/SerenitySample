@@ -152,6 +152,7 @@ public class ProfessionalUDCStepDef extends PageObject {
 
 	@When("^user clicks on the Continue button on defect type page$")
 	public void user_clicks_on_the_Continue_button_on_defect_type_page() {
+		selectedDefectType = uDCPage.getSelectedDefectType();
 		uDCPage.clickContinueBtnOnDefectType();
 		uDCPage.addDefectSubCategoryIfNotExist();
 	}
@@ -277,6 +278,7 @@ public class ProfessionalUDCStepDef extends PageObject {
 
 	@When("^user clicks on add defect subcategory$")
 	public void user_clicks_on_add_defect_subcategory() {
+		defectSubCategoryList = uDCPage.getListOfDefectSubCategory();
 		uDCPage.clickAddDefectSubCategoryBtn();
 	}
 
@@ -285,7 +287,7 @@ public class ProfessionalUDCStepDef extends PageObject {
 			String defectSubcategoryName) {
 		randomDefectSubCategory = proUDCSteps.getDefectSubTypeValue(defectSubcategoryName, defectSubCategoryList);
 		uDCPage.enterDefectSubCategoryName(randomDefectSubCategory);
-		uDCPage.clickDefectSubCategoryActiveCheckbox(); 
+		uDCPage.clickDefectSubCategoryActiveCheckbox();
 	}
 
 	@When("^user clicks on Add Defect Sub Category button on modal popup$")

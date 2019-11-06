@@ -405,4 +405,9 @@ public class UniversalDefectConfigurationPage extends PageObject {
 		index = defectTypeRadioBtnList.size() - 1;
 		evaluateJavascript("arguments[0].click();", defectTypeRadioBtnList.get(index));
 	}
+
+	public String getSelectedDefectType() {
+		return defectTypeRadioBtnList.get(index).withTimeoutOf(Duration.ofSeconds(10)).waitUntilVisible()
+				.getAttribute("value");
+	}
 }
