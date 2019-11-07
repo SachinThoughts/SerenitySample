@@ -113,7 +113,7 @@ public class FinancialInfoPage extends PageObject {
 	}
 
 	public List<String> getFinInfoHeaderAttributes() {
-		List<String> financeInfoHeadersVisibleAttributes = new ArrayList<String>();
+		List<String> financeInfoHeadersVisibleAttributes = new ArrayList<>();
 		financeInfoHeadersVisibleAttributes
 				.add(totalBalance.get(0).getText().trim().concat(" " + totalBalance.get(1).getText().trim()));
 		financeInfoHeadersVisibleAttributes
@@ -209,7 +209,7 @@ public class FinancialInfoPage extends PageObject {
 	}
 	
 	public List<String> getServiceDateList() {
-		List<String> dateService = new ArrayList<String>();
+		List<String> dateService = new ArrayList<>();
 		for (WebElementFacade element : serviceDate) {
 			dateService.add(element.getText());
 		}
@@ -217,7 +217,7 @@ public class FinancialInfoPage extends PageObject {
 	}
 
 	public List<String> getPostingDateList() {
-		List<String> datePosting = new ArrayList<String>();
+		List<String> datePosting = new ArrayList<>();
 		for (WebElementFacade element : chargePostingDate) {
 			datePosting.add(element.getText());
 		}
@@ -225,7 +225,7 @@ public class FinancialInfoPage extends PageObject {
 	}
 
 	public List<String> getUBRevCodeList() {
-		List<String> code = new ArrayList<String>();
+		List<String> code = new ArrayList<>();
 		for (WebElementFacade element : ubRevCode) {
 			code.add(element.getText());
 		}
@@ -233,7 +233,7 @@ public class FinancialInfoPage extends PageObject {
 	}
 
 	public List<String> getRevenueCodeList() {
-		List<String> revenueCodes = new ArrayList<String>();
+		List<String> revenueCodes = new ArrayList<>();
 		for (WebElementFacade element : revenueCenterCode) {
 			revenueCodes.add(element.getText());
 		}
@@ -241,7 +241,7 @@ public class FinancialInfoPage extends PageObject {
 	}
 
 	public List<String> getCptCodeList() {
-		List<String> cptCodes = new ArrayList<String>();
+		List<String> cptCodes = new ArrayList<>();
 		for (WebElementFacade element : cptCode) {
 			cptCodes.add(element.getText());
 		}
@@ -249,7 +249,7 @@ public class FinancialInfoPage extends PageObject {
 	}
 
 	public List<String> getNoOfUnitsList() {
-		List<String> units = new ArrayList<String>();
+		List<String> units = new ArrayList<>();
 		for (WebElementFacade element : noOfUnits) {
 			units.add(element.getText());
 		}
@@ -257,7 +257,7 @@ public class FinancialInfoPage extends PageObject {
 	}
 
 	public List<String> getTotalChargesInDetailsList() {
-		List<String> charges = new ArrayList<String>();
+		List<String> charges = new ArrayList<>();
 		for (WebElementFacade element : totalCharge) {
 			charges.add(element.getText());
 		}
@@ -265,7 +265,7 @@ public class FinancialInfoPage extends PageObject {
 	}
 
 	public List<String> getChargeItemCodeList() {
-		List<String> itemCodes = new ArrayList<String>();
+		List<String> itemCodes = new ArrayList<>();
 		for (WebElementFacade element : chargeItemCode) {
 			itemCodes.add(element.getText());
 		}
@@ -273,7 +273,7 @@ public class FinancialInfoPage extends PageObject {
 	}
 
 	public List<String> getChargeDescList() {
-		List<String> descCharge = new ArrayList<String>();
+		List<String> descCharge = new ArrayList<>();
 		int size = chargeDesc.size();
 		for (int i = 1; i <= size; i++) {
 			String jsPathValue = "#divTotalCharges > table > tbody > tr:nth-child(" + i + ") > td:nth-child(9)";
