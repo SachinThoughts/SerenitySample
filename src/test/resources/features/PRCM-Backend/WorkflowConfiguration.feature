@@ -74,7 +74,7 @@ Feature: Verify WorkFlowConfiguration related scenarios in PRCM
     And user should no longer be able to view Add Handoff pop-up window
     And user should be able to view newly added handoff in the Choose Handoff grid
 
-  @434766 @AHtoDecisionAdmin @Sprint8
+  @434766 @AHtoDecisionAdmin @Sprint9
   Scenario Outline: Verify controls under Recipient page
     Given user having AHtoDecision Admin role is on workflow configuration home page
     When user login to SQL server and connect to database
@@ -95,6 +95,57 @@ Feature: Verify WorkFlowConfiguration related scenarios in PRCM
     When user clicks on Details link button on Recipient Tab
     Then user should be able to view detailed columns on Recipient Tab
       | Created Date | Created By | Updated Date | Updated By |
+
+    Examples: 
+      | query1                         | query2                          |
+      | 434767_WFConfig_CheckRecipient | 434767_WFConfig_CheckRecipient1 |
+
+  @434773 @AHtoDecisionAdmin @Sprint9
+  Scenario Outline: Verify Add New Disposition functionality
+    Given user having AHtoDecision Admin role is on workflow configuration home page
+    When user login to SQL server and connect to database
+    And user run the query to fetch hand-off id <query1>
+    And user run the query to fetch hand-off name <query2>
+    And user fetches any Handoff Type from DB
+    And user clicks on Radio button against any fetched Handoff Type in Choose Handoff grid
+    And user clicks on continue button on Handoff tab
+    And user verifies that radio button is selected against the Recipient
+    And user clicks on Continue button on Recipient tab
+    And user verifies that radio button is selected to associated Action Type
+    And user clicks on Continue button on Action type Tab
+    And user clicks on +Add New Disposition button
+    Then user should be able to view Add New Disposition pop up with controls
+      | Disposition Code | Disposition Name | Next Disposition By | Follow Up Days | Respond Deadline | Disposition Status | Predefined Note | Active |
+    And user can see Save changes button on the Disposition popup
+    When user clicks on Save Changes button without entering any text
+    Then user should able to view info message "Please enter Disposition Code"
+    When user enters alphanumeric text in Disposition Code textbox
+    And user clicks on Save Changes button on Disposition pop up
+    Then user should able to view info message "Please enter Disposition Name"
+    And user enters text in Disposition Description textbox: "DispositionDesc123"
+    And user clicks on Save Changes button on Disposition pop up
+    Then user should able to view info message "Please select Next Disposition By."
+    When user select "AR Supervisor" value from Next Disposition By drop down, other than --Select one-- option
+    And user clicks on Save Changes button on Disposition pop up
+    Then user should be able to view selected value in Next Disposition By drop down
+    And user should able to view info message "Please enter Follow Up Days"
+    And For disposition user enters "0" in Follow Up Days textbox
+    And user clicks on Save Changes button on Disposition pop up
+    Then user should able to view info message "Please enter Respond Deadline"
+    And For disposition user enters: "999" in Follow Respond Deadline textbox
+    And user clicks on Save Changes button on Disposition pop up
+    Then user should able to view info message "Please select Disposition Status."
+    When For disposition user selects "Identified" option from Desposition Status dropdown
+    Then user should be able to view selected value in Disposition Status drop down
+    And user enters notes under Predefined Note textarea
+    And user clicks on Save Changes button on Disposition pop up
+    Then user should be able to view the appropriate success message: "Saved successfully"
+    And user should no longer be able to view Add New Disposition pop-up window
+    And user should be able to view the newly created Disposition in Choose Disposition Type grid with correct data in the columns
+   When user clicks on Details link button adjacent to newly created Disposition Name
+    And user login to SQL server and connect to database
+    And user runs the Add Disposition Detail query "434773_WFConfig_NewDisposition"
+    Then user should be able to view same value in Created Date and CreatedBy columns on UI as in SQL result
 
     Examples: 
       | query1                         | query2                          |

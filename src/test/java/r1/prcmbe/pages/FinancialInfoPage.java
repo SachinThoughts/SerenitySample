@@ -122,13 +122,14 @@ public class FinancialInfoPage extends PageObject {
 	}
 
 	public void clickAdjustmentScrollArrow() {
-		adjustmentScrollArrow.click();
-		withAction().moveToElement(firstRowOfAdjustmentTable).build().perform();
+		evaluateJavascript("arguments[0].click();", adjustmentScrollArrow);
 	}
 
 	public List<String> getAdjustmentTableHeaders() {
+		withAction().moveToElement(firstRowOfAdjustmentTable).build().perform();
 		List<String> listOfTextValuesOfAdjustmentTableHeaders = new ArrayList<>();
 		for (WebElementFacade adjustmentTableHeader : listOfAdjustmentTableHeaders) {
+			withAction().moveToElement(adjustmentTableHeader).build().perform();
 			listOfTextValuesOfAdjustmentTableHeaders.add(adjustmentTableHeader.getText().trim());
 		}
 		return listOfTextValuesOfAdjustmentTableHeaders;
@@ -137,13 +138,14 @@ public class FinancialInfoPage extends PageObject {
 	public List<String> getAdjustmentTableData() {
 		List<String> listOfTextValuesOfAdjustmentTableData = new ArrayList<>();
 		for (WebElementFacade adjustmentTableData : listOfAdjustmentTableData) {
+			withAction().moveToElement(adjustmentTableData).build().perform();
 			String adjustmentData = adjustmentTableData.getText().trim();
 			if (adjustmentData.contains("($")) {
 				adjustmentData = adjustmentData.replace("($", "-").replace(")", "").replace(",", "");
 			} else if (adjustmentData.contains("$")) {
 				adjustmentData = adjustmentData.replace("$", "").replace(",", "");
 			}
-			if (!adjustmentData.equals("null") && !adjustmentData.equals(""))
+			if (!adjustmentData.equals("null"))
 				listOfTextValuesOfAdjustmentTableData.add(adjustmentData);
 		}
 		return listOfTextValuesOfAdjustmentTableData;
