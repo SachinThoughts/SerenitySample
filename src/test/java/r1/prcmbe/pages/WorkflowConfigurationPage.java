@@ -3,6 +3,9 @@ package r1.prcmbe.pages;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.apache.commons.lang.RandomStringUtils;
+
 import net.serenitybdd.core.annotations.findby.FindBy;
 import net.serenitybdd.core.pages.PageObject;
 import net.serenitybdd.core.pages.WebElementFacade;
@@ -11,7 +14,7 @@ import r1.commons.utilities.CommonMethods;
 public class WorkflowConfigurationPage extends PageObject {
 
 	int index;
-	String enterWorkflowName, workflowDescriptionText;
+	String enterWorkflowName, workflowDescriptionText, getSelectedValueFromNextDropdown, getDispositionStatus;
 
 	@FindBy(xpath = "//h3[contains(text(),'Workflow Configuration')]")
 	private WebElementFacade workflowTitle;
@@ -117,6 +120,132 @@ public class WorkflowConfigurationPage extends PageObject {
 
 	@FindBy(xpath = "//ul[@class='more-info workflowConfigdetailsInfo']/li/span[1]")
 	private List<WebElementFacade> listOfDetailColumnsRecipientTab;
+
+	@FindBy(id = "txtDispositionsNotes")
+	private WebElementFacade dispositionNotes;
+
+	@FindBy(xpath = "//*[@id='addNewDisposition']//button[text()='Save changes']")
+	private WebElementFacade saveChangesBtn;
+
+	@FindBy(id = "addNewDispositionLabel")
+	private WebElementFacade addDispositionPopupHeader;
+
+	@FindBy(xpath = "//*[@id='addNewDisposition']//i[@class='fa fa-close']")
+	private WebElementFacade dispositionPopupClose;
+
+	@FindBy(xpath = "//div[@id='step3']//div[@class='row']/div[2]/button")
+	private WebElementFacade continueBtnOnActionTypeTab;
+
+	@FindBy(xpath = "(//div[@class='container']//div[@class='row']/div[2]/button)[2]")
+	private WebElementFacade continueBtnOnRecipientTab;
+
+	@FindBy(xpath = "//div[not(contains(@class,'hidden')) and @id='addNewDisposition']/div/div/div[2]/div/label")
+	private List<WebElementFacade> labelsOnDispositionPopup;
+
+	@FindBy(id = "txtdispositionCode")
+	private WebElementFacade dispositionCodeTextBox;
+
+	@FindBy(xpath = "//*[@id='addNewDisposition']//div[@class='alert alert-info']/span")
+	private WebElementFacade errorMsgOnEmptyFields;
+
+	@FindBy(id = "txtdispositionDescription")
+	private WebElementFacade dispositionNameTextBox;
+
+	@FindBy(xpath = "//*[@id='addNewDisposition']//select[@id='dnn_ctr1590_TaskPanel_taskBase_WorkflowDisposition_ddldispositionTarget']")
+	private WebElementFacade nextDispositionByDropdown;
+
+	@FindBy(xpath = "//*[@id='WorkflowTypeDispositionSorttable']/li[last()]/div/div/a[3]/i")
+	private WebElementFacade detailsLinkOnDisposition;
+
+	@FindBy(xpath = "//*[@class='more-info workflowConfigdetailsInfo']//span[text()='Created Date']/following-sibling::span")
+	private WebElementFacade createdDateField;
+
+	@FindBy(xpath = "//*[@class='more-info workflowConfigdetailsInfo']//span[text()='Created By']/following-sibling::span")
+	private WebElementFacade createdByField;
+
+	public String getCreatedByFieldValue() {
+		return createdByField.getText();
+	}
+
+	public String getCreatedDateFieldValue() {
+		return createdDateField.getText();
+	}
+
+	public void clickOnDispositionDetailsLink() {
+		withAction().moveToElement(detailsLinkOnDisposition).click().build().perform();
+	}
+
+	public boolean isAddNewDispositionPopupVisible() {
+		return addDispositionPopupHeader.isVisible();
+	}
+
+	public void selectNextDispositionFromDropdown(String nextDrpDownValue) {
+		evaluateJavascript("arguments[0].scrollIntoView(true);", nextDispositionByDropdown);
+		nextDispositionByDropdown.selectByVisibleText(nextDrpDownValue);
+	}
+
+	public boolean isSelectedValueInNextDispositionByVisible(String expectedDrpDownValue) {
+		evaluateJavascript("arguments[0].scrollIntoView(true);", nextDispositionByDropdown);
+		getSelectedValueFromNextDropdown = nextDispositionByDropdown.getSelectedVisibleTextValue();
+		if (getSelectedValueFromNextDropdown.trim().equals(expectedDrpDownValue)) {
+			return true;
+		}
+		return false;
+	}
+
+	public void enterDispositionName() {
+		dispositionNameTextBox.type(RandomStringUtils.randomAlphabetic(6));
+	}
+
+	public String getErrorMsgOnDispositionPopup() {
+		withAction().moveToElement(errorMsgOnEmptyFields).build().perform();
+		String expectedMEssage = errorMsgOnEmptyFields.withTimeoutOf(Duration.ofSeconds(20)).waitUntilVisible()
+				.getText().trim();
+		return expectedMEssage;
+
+	}
+
+	public void enterTextInDispositionCodeTextBox() {
+		dispositionCodeTextBox.type(RandomStringUtils.randomAlphanumeric(6));
+	}
+
+	public boolean isSaveBtnOnDispositionPopupVisible() {
+		withAction().moveToElement(saveChangesBtn).build().perform();
+		return saveChangesBtn.isVisible();
+	}
+
+	public List<String> getListOfLabelsOnDispositionPopup() {
+		List<String> listOfLabels = new ArrayList<String>();
+		for (WebElementFacade labels : labelsOnDispositionPopup) {
+			listOfLabels.add(labels.getText().trim());
+		}
+		return listOfLabels;
+	}
+
+	public String isFirstRadioBtnActionTabSelected() {
+		return evaluateJavascript("return document.querySelector('#wfActionBSOCP-0').checked").toString();
+	}
+
+	public void clickOnContinueBtnOnRecipientTab() {
+		continueBtnOnRecipientTab.click();
+	}
+
+	public String enterAndGetDispositionNotes() {
+		dispositionNotes.type(RandomStringUtils.randomAlphabetic(6));
+		return dispositionNotes.getText();
+	}
+
+	public void clickSaveChangesBtn() {
+		saveChangesBtn.click();
+	}
+
+	public void clickDispositionPopupClose() {
+		dispositionPopupClose.click();
+	}
+
+	public void clickContinueBtnOnActionTypeTab() {
+		continueBtnOnActionTypeTab.click();
+	}
 
 	public List<String> getSopHeaderList() {
 		List<String> headerList = new ArrayList<String>();
