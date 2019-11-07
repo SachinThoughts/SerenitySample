@@ -50,20 +50,20 @@ Feature: This is to verify external search functionality in R1 PRCM-BE
     Given user is on "R1 Hub Technologies 2.0 - 01 R1_Decision - Search" page
     When user selects <dropdown> from Search By drop down
     And user selects "Like" operator from operator dropdown
-    And user enters more than or equal to 5 characters in <moreThanFivetext> textbox
-    Then user should not able to view tool-tip message <tooltipMessage>
+    And user enters more than or equal to 5 characters <moreThanFivetext> in textbox
+    Then user should not able to view tool-tip message
     And user should be able to view Submit Button in enabled state
 
     Examples: 
-      | dropdown              | moreThanFivetext | tooltipMessage                     |
-      | Visit Number          |            12345 | Please add five or more characters |
-      | Visit Number          |           123456 | Please add five or more characters |
-      | Invoice Number        |            12345 | Please add five or more characters |
-      | Invoice Number        |           123456 | Please add five or more characters |
-      | Medical Record Number |            12345 | Please add five or more characters |
-      | Medical Record Number |           123456 | Please add five or more characters |
-      | Claim Number          |            12345 | Please add five or more characters |
-      | Claim Number          |           123456 | Please add five or more characters |
+      | dropdown              | moreThanFivetext |
+      | Visit Number          |            12345 |
+      | Visit Number          |           123456 |
+      | Invoice Number        |            12345 |
+      | Invoice Number        |           123456 |
+      | Medical Record Number |            12345 |
+      | Medical Record Number |           123456 |
+      | Claim Number          |            12345 |
+      | Claim Number          |           123456 |
 
   @429061 @Sprint8 @PRCMUser
   Scenario Outline: Verify that when user does not enter anything in Search textbox then message appeared or not

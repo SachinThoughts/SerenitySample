@@ -129,7 +129,7 @@ public class SearchStepDef extends PageObject {
 		Assert.assertFalse("Submit button is enabled", searchPage.isSubmitBtnEnabled());
 	}
 
-	@When("^user enters more than or equal to 5 characters in (.*) textbox$")
+	@When("^user enters more than or equal to 5 characters (.*) in textbox$")
 	public void user_enters_more_than_or_equal_to_characters_in_textbox(String value) {
 		if (searchPage.isVisitTxtFieldVisible()) {
 			searchPage.enterVisitNumber(value);
@@ -157,7 +157,7 @@ public class SearchStepDef extends PageObject {
 				searchPage.getErrorMsg().equals(expectedMsg + " " + fieldName));
 	}
 
-	@Then("^user should not able to view tool-tip message Please add five or more characters$")
+	@Then("^user should not able to view tool-tip message$")
 	public void user_should_not_able_to_view_tool_tip_message_Please_add_five_or_more_characters() {
 		Assert.assertFalse("Tooltip is visible", searchPage.isToolTipVisible());
 	}
