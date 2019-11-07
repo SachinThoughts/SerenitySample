@@ -15,10 +15,13 @@ import net.serenitybdd.core.pages.PageObject;
 import net.thucydides.core.util.EnvironmentVariables;
 import r1.prcmbe.pages.SettingsPage;
 import r1.prcmbe.serenity.steps.LoginSteps;
+import r1.prcmbe.serenity.steps.SearchPageSteps;
 import r1.commons.databaseconnection.DatabaseConn;
 import r1.commons.utilities.CommonMethods;
+import r1.prcmbe.pages.AccountInformationPage;
 import r1.prcmbe.pages.DefaultHandoffPage;
 import r1.prcmbe.pages.NavigationPage;
+import r1.prcmbe.pages.SearchPage;
 
 public class DefaultHandoffStepDef extends PageObject {
 
@@ -28,11 +31,14 @@ public class DefaultHandoffStepDef extends PageObject {
 	SettingsPage settingsPage;
 	LoginSteps loginSteps;
 	EnvironmentVariables environmentVariables;
+	SearchPage searchPage;
+	SearchPageSteps searchPageSteps;
+	AccountInformationPage accInfoPage;
 
 	String workFlowDescription, recipientDesc, actionDescription, followUpDays, dispositionDescription,
 			responseDeadline, dispositionCode, dispositionFollowUpDays, dispositionResponseDeadline, dispositionStatus,
-			workFlowName, recipientName, actionName, searchText, dbId = "", facilitySettingValue, dbEncounterID,
-					dbFacilitySettingValue;
+			workFlowName, recipientName, actionName, searchText, dbId = "", facilitySettingValue, invoiceNumber,
+			dbFacilitySettingValue;
 	private static String dbQueryFilename = "DefaultHandoff";
 
 	@When("^click on Workflow Configuration link$")
@@ -40,7 +46,7 @@ public class DefaultHandoffStepDef extends PageObject {
 		settingsPage.clickWorkflowConfig();
 	}
 
-	@Given("^user having AHtoDecision role is on \"([^\"]*)\" Screen$")
+	@Given("^PRCM user is on \"([^\"]*)\" Screen$")
 	public void user_having_AHtoDecision_role_is_on_Screen(String expectedTitle) {
 		Assert.assertTrue("User is not on the expected Workflow screen",
 				defaultHandOffPage.getTextDefaultHandOffPageTitle().equals(expectedTitle));
@@ -331,7 +337,7 @@ public class DefaultHandoffStepDef extends PageObject {
 		Assert.assertTrue("Disposition Status displayed in the table does not match with one selected",
 				defaultHandOffPage.getTextSavedDispositionStatus().equals(dispositionStatus));
 	}
-	
+
 	@Given("^user login to SQL server and connect to \"([^\"]*)\" database$")
 	public void user_login_to_SQL_server_and_connect_to_database(String database) throws IOException {
 		DatabaseConn.serverName = EnvironmentSpecificConfiguration.from(environmentVariables).getProperty("bindURL");
@@ -461,6 +467,8 @@ public class DefaultHandoffStepDef extends PageObject {
 
 	@When("^user runs the \"([^\"]*)\" query for default handoff$")
 	public void user_runs_the_query_query_for_default_handoff(String query) throws Exception {
+	System.out.println("jdjd");
+	System.out.println(commonMethods.loadQuery(query, dbQueryFilename));
 		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
 				commonMethods.loadQuery(query, dbQueryFilename));
 	}
@@ -489,26 +497,26 @@ public class DefaultHandoffStepDef extends PageObject {
 
 	@When("^user selects \"([^\"]*)\" option from Operator dropdown$")
 	public void user_selects_option_from_Operator_dropdown(String operatorValue) {
-		decisionSearchPage.operatorSelectText(operatorValue);
+		searchPage.operatorSelectText(operatorValue);
 	}
 
 	@When("^user enters the SQL result in Visit Number Search textbox$")
 	public void user_enters_the_SQL_result_in_Visit_Number_Search_textbox() {
 		try {
 			while (DatabaseConn.resultSet.next()) {
-				dbEncounterID = DatabaseConn.resultSet.getString(1);
+				invoiceNumber = DatabaseConn.resultSet.getString("InvoiceNumber");
 			}
 		} catch (SQLException sQLException) {
-			Assert.assertTrue("EncounterID is not fetched from DB.\nThe Technical Error is:\n" + sQLException, false);
+			Assert.assertTrue("Invoice Number is not fetched from DB.\nThe Technical Error is:\n" + sQLException, false);
 		}
-		loginSteps.log("Fetched EncounterID from Database is " + dbEncounterID);
-		decisionSearchPage.enterVisitNumber(dbEncounterID);
+		loginSteps.log("Fetched Invoice Number from Database is " + invoiceNumber);
+		searchPage.enterInvoiceNumber(invoiceNumber);
 	}
 
 	@Then("^user should be able to view R1 Decision Account page$")
 	public void user_should_be_able_to_view_R1_Decision_Account_page() {
 		Assert.assertTrue("Incorrect or no R1 Decision Account page is opened",
-				decisionSearchPageStep.verifyEncounterIdWithEqualOperator(dbEncounterID));
+				searchPageSteps.verifyInvoiceNumberWithEqualOperator(invoiceNumber));
 	}
 
 	@When("^user clicks on Handoff Type dropdown$")
@@ -520,5 +528,10 @@ public class DefaultHandoffStepDef extends PageObject {
 	public void user_should_be_able_to_view_the_newly_added_handoff_in_Handoff_Type_dropdown() {
 		Assert.assertTrue("Newly added handoff is not visible in the Handoff Type dropdown",
 				accInfoPage.getHandOffTypeDrpDownValues().contains(workFlowName));
+	}
+	
+	@When("^user clicks on Handoff link button$|^user clicks on Handoff button$")
+	public void user_clicks_on_Handoff_link_button() {
+		accInfoPage.clickHandOffBtn();
 	}
 }

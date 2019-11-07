@@ -9,7 +9,7 @@ Feature: Verify default handoff
 
   @434985 @434986 @434987 @434988 @Sprint8 @PRCMUser
   Scenario: Verify the functionalities of Add Handoff, Recipient, Action Type and Disposition Type in Workflow Configuration screen
-    Given user having AHtoDecision role is on "AHtoDecision Workflow Configuration" Screen
+    Given PRCM user is on "AHtoDecision Workflow Configuration" Screen
     And user is able to login to sql server and connect to database
     Then user should be able to view +Add Handoff button on Handoff screen grid
     When user clicks on +Add Handoff button
@@ -66,9 +66,9 @@ Feature: Verify default handoff
     Then user should be able to view the appropriate success message: "Saved successfully"
     And user should be able to view the newly created Disposition in Choose Disposition Type grid with correct data in the columns
 
-  @434989 @434991 @AHtoDecisionAdmin @Sprint8
+  @434989 @434991 @PRCMUser @Sprint9
   Scenario: Verify user is able to update the Process ID of newly added handoff in FacilitySetting Configuration screen and Verify user is able to update the WorkflowTypeID of newly added handoff in FacilitySetting Configuration screen
-    Given user having AHtoDecision role is on "AHtoDecision Workflow Configuration" Screen
+    Given PRCM user is on "AHtoDecision Workflow Configuration" Screen
     Then user should be able to view +Add Handoff button on Handoff screen grid
     When user clicks on +Add Handoff button
     When user enters value in Workflow Name
@@ -94,13 +94,13 @@ Feature: Verify default handoff
     Then user should be able to view the row for searched Setting Name in Facility Settings grid
     When user clicks on Edit icon of searched facility setting
     Then user should be able to view Facility Setting Details pop up
-    When user login to SQL server and connect to facility database
-    And user runs the "Defaulthandoff_392428_SQL2" query to fetch ID
+    When user is able to login to sql server and connect to database
+    And user runs the "Defaulthandoff_434989_SQL2" query to fetch ID
     Then user should be able to fetch the ProcessID
     When user enters comma followed by fetched ProcessID in Setting Value text area of Facility Settings Detail pop up
     And user clicks on Update Facility Setting button
     Then user should be able to view Facility Settings Details pop up as closed
-    And user runs the "Defaulthandoff_392428_SQL3" query for default handoff
+    And user runs the "Defaulthandoff_434989_SQL3" query for default handoff
     Then user should be able to view added ProcessID in SQL result
     When user clicks on Settings link from footer
     And user mouse hover on IT Tools link
@@ -118,29 +118,29 @@ Feature: Verify default handoff
     Then user should be able to view the row for searched Setting Name in Facility Settings grid
     When user clicks on Edit icon of searched facility setting
     Then user should be able to view Facility Setting Details pop up
-    And user runs the "Defaulthandoff2_392428_SQL3" query to fetch ID
+    And user runs the "Defaulthandoff_434991_SQL5" query to fetch ID
     Then user should be able to fetch the WorkflowTypeID
     When user enters comma followed by fetched WorkflowTypeID in Setting Value text area of Facility Settings Detail pop up
     And user clicks on Update Facility Setting button
     Then user should be able to view Facility Settings Details pop up as closed
-    And user runs the "Defaulthandoff_392428_SQL4" query for default handoff
+    And user runs the "Defaulthandoff_434991_SQL6" query for default handoff
     Then user should be able to view added WorkflowTypeID in SQL result
 
-  @434990 @AHtoDecisionAdmin @Sprint8
+  @434990 @PRCMUser @Sprint8
   Scenario: Verify user is able to view newly added handoff type in Handoff Type dropdown on R1 Decision screen
-    Given user having AHtoDecision role is on "AHtoDecision Workflow Configuration" Screen
+    Given PRCM user is on "AHtoDecision Workflow Configuration" Screen
     When user selects existing added handoff
     And user clicks on Billing & Follow-up link from footer
     And user hover on R1_Decision
     And user clicks on search sub menu
-    Given user having AHtoDecision role is on "R1_Decision - Search" page
-    When user select "Visit Number" option from Search By drop-down
+    #Given user is on "R1 Hub Technologies 2.0 - 01 R1_Decision - Search" page
+    #When user select "Visit Number" option from Search By drop-down
     And user selects "=" option from Operator dropdown
-    When user login to SQL server and connect to facility database
-    And user runs the "Defaulthandoff_392429_SQL1" query for default handoff
+    When user is able to login to sql server and connect to database
+    And user runs the "Defaulthandoff_434990_SQL4" query for default handoff
     And user enters the SQL result in Visit Number Search textbox
     And user clicks on Submit Button
-    Then user should be able to view R1 Decision Account page
+    #Then user should be able to view R1 Decision Account page
     When user clicks on Handoff button
     And user clicks on Handoff Type dropdown
     Then user should be able to view the newly added handoff in Handoff Type dropdown

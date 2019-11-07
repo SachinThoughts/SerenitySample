@@ -69,6 +69,21 @@ public class SearchPage extends PageObject {
 
 	@FindBy(xpath = "//div[@class='tooltip top in']")
 	private WebElementFacade toolTip;
+	
+	@FindBy(xpath = "//select[@class='form-control ddlOperator']")
+	private WebElementFacade operator;
+	
+	@FindBy(xpath = "//a[starts-with(@id,'ctrs')]")
+	private List<WebElementFacade> listOfSearchedAccNum;
+	
+	@FindBy(id = "msg_info")
+	private WebElementFacade errorAlert;
+	
+	@FindBy(xpath = "//div[@class = 'alert alert-info']//button")
+	private WebElementFacade closeErrorAlert;
+	
+	@FindBy(id = "lblAccountNo")
+	private WebElementFacade accountNumber;
 
 	String titleJS = "return document.querySelector('#Head > title').text";
 	String facilityCodeJS = "document.querySelector('#dnn_ctr1025_ModuleContent > span > span:nth-child(1)').textContent";
@@ -211,5 +226,37 @@ public class SearchPage extends PageObject {
 
 	public boolean isSubmitBtnEnabled() {
 		return submitBtn.isCurrentlyEnabled();
+	}
+	
+	public void operatorSelectText(String operatorValue) {
+		operator.selectByVisibleText(operatorValue);
+	}
+	
+	public void clickSearchAccountNumber() {
+		listOfSearchedAccNum.get(getFacilityIndex()).click();
+		if (isErrorMsgVisible()) {
+			clickErrorMsg();
+		}
+	}
+	
+	public boolean isErrorMsgVisible() {
+		return errorAlert.isVisible();
+	}
+	
+	public void clickErrorMsg() {
+		closeErrorAlert.click();
+	}
+	
+	public List<String> getlistOfAccNum() {
+		waitForAngularRequestsToFinish();
+		List<String> listOfAccNum = new ArrayList<>();
+		for (WebElementFacade element : listOfSearchedAccNum) {
+			listOfAccNum.add(element.getText());
+		}
+		return listOfAccNum;
+	}
+	
+	public String getAccountNumber() {
+		return accountNumber.withTimeoutOf(Duration.ofSeconds(20)).waitUntilVisible().getText();
 	}
 }

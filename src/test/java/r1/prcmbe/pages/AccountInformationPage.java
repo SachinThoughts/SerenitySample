@@ -49,6 +49,12 @@ public class AccountInformationPage extends PageObject {
 	
 	@FindBy(id="lblInvoiceNo")
 	private WebElementFacade invoiceNumber;
+	
+	@FindBy(id = "ddlHandOffType")
+	private WebElementFacade handOffTypeDrpDown;
+	
+	@FindBy(id = "lnkHandOff")
+	private WebElementFacade handOffBtn;
 
 	public String getAccountNumber() {
 		waitForAngularRequestsToFinish();
@@ -114,5 +120,17 @@ public class AccountInformationPage extends PageObject {
 	public String getInvoiceNumber() {
 		waitForAngularRequestsToFinish();
 		return invoiceNumber.getText().trim();
+	}
+	
+	public void clickHandOffTypeDrpDown() {
+		evaluateJavascript("arguments[0].click()",handOffTypeDrpDown);
+	}
+	
+	public List<String> getHandOffTypeDrpDownValues() {
+		return handOffTypeDrpDown.getSelectOptions();
+	}
+	
+	public void clickHandOffBtn() {
+		handOffBtn.click();
 	}
 }
