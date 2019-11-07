@@ -32,7 +32,7 @@ public class WorkflowConfigurationStepDef extends PageObject {
 	FinancialInfoSteps financialInfoSteps;
 
 	String dbFileName = "WorkFlowConfiguration", dbHandOffName, dbRecipientName, defaultRecipientName,
-			recipientNameOtherThanDefault, dispositionNotes, workflowName, respondDeadline, updatedBy, updatedDate,
+			recipientNameOtherThanDefault, dispositionNotes, workflowName, respondDeadline,
 			successMsg, recipientName, recipientDesc, createdBy, createdDate, nextDispositionByDropdownValue,
 			dispositionStatusByDropdownValue;
 

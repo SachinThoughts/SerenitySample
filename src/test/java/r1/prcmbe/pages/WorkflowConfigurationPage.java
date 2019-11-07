@@ -179,6 +179,7 @@ public class WorkflowConfigurationPage extends PageObject {
 		return addDispositionPopupHeader.isVisible();
 	}
 
+	
 	public void selectNextDispositionFromDropdown(String nextDrpDownValue) {
 		evaluateJavascript("arguments[0].scrollIntoView(true);", nextDispositionByDropdown);
 		nextDispositionByDropdown.selectByVisibleText(nextDrpDownValue);

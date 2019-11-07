@@ -451,13 +451,10 @@ public class DefaultHandoffPage extends PageObject {
 
 	public void selectDispositionStatusFromDD(String dispositionStatusValue) {
 		dispositionStatusDD.selectByVisibleText(dispositionStatusValue);
-
-		System.out.println(" status code " + getDispositionStatus);
 	}
 
 	public boolean isSelectedValueInDispositionStatusVisible(String expectedDrpDownValue) {
 		evaluateJavascript("arguments[0].scrollIntoView(true);", dispositionStatusDD);
-		System.out.println(getDispositionStatus);
 		getDispositionStatus = dispositionStatusDD.getSelectedVisibleTextValue();
 		if (getDispositionStatus.trim().equals(expectedDrpDownValue)) {
 			return true;
