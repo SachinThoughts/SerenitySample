@@ -158,7 +158,7 @@ public class SearchStepDef extends PageObject {
 	}
 
 	@Then("^user should not able to view tool-tip message$")
-	public void user_should_not_able_to_view_tool_tip_message_Please_add_five_or_more_characters() {
+	public void user_should_not_able_to_view_tool_tip_message() {
 		Assert.assertFalse("Tooltip is visible", searchPage.isToolTipVisible());
 	}
 }
