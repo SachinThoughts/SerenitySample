@@ -142,12 +142,16 @@ Feature: Verify WorkFlowConfiguration related scenarios in PRCM
     Then user should be able to view the appropriate success message: "Saved successfully"
     And user should no longer be able to view Add New Disposition pop-up window
     And user should be able to view the newly created Disposition in Choose Disposition Type grid with correct data in the columns
-   When user clicks on Details link button adjacent to newly created Disposition Name
+    When user clicks on Details link button adjacent to newly created Disposition Name
     And user login to SQL server and connect to database
     And user runs the Add Disposition Detail query "434773_WFConfig_NewDisposition"
     Then user should be able to view same value in Created Date and CreatedBy columns on UI as in SQL result
+    When user clicks on +Add New Disposition button
+    Then user should be able to view Add New Disposition pop up with controls
+      | Disposition Code | Disposition Name | Next Disposition By | Follow Up Days | Respond Deadline | Disposition Status | Predefined Note | Active |
+    When user clicks on Close icon at top corner of the right hand side
+    Then user should no longer be able to view Add New Disposition pop-up window
 
     Examples: 
       | query1                         | query2                          |
       | 434767_WFConfig_CheckRecipient | 434767_WFConfig_CheckRecipient1 |
-      

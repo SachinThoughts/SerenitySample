@@ -32,9 +32,8 @@ public class WorkflowConfigurationStepDef extends PageObject {
 	FinancialInfoSteps financialInfoSteps;
 
 	String dbFileName = "WorkFlowConfiguration", dbHandOffName, dbRecipientName, defaultRecipientName,
-			recipientNameOtherThanDefault, dispositionNotes, workflowName, respondDeadline,
-			successMsg, recipientName, recipientDesc, createdBy, createdDate, nextDispositionByDropdownValue,
-			dispositionStatusByDropdownValue;
+			recipientNameOtherThanDefault, dispositionNotes, workflowName, respondDeadline, successMsg, recipientName,
+			recipientDesc, createdBy, createdDate, nextDispositionByDropdownValue, dispositionStatusByDropdownValue;
 
 	int dbWorkFlowTypeId;
 
@@ -411,4 +410,8 @@ public class WorkflowConfigurationStepDef extends PageObject {
 				createdBy.equals(workflowConfigPage.getCreatedByFieldValue()));
 	}
 
+	@When("^user clicks on Close icon at top corner of the right hand side$")
+	public void user_clicks_on_close_icon_at_top_corner_of_the_right_hand_side() {
+		workflowConfigPage.clickOnCloseBtnOnDispositionPopup();
+	}
 }

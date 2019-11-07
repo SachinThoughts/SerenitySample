@@ -163,6 +163,13 @@ public class WorkflowConfigurationPage extends PageObject {
 	@FindBy(xpath = "//*[@class='more-info workflowConfigdetailsInfo']//span[text()='Created By']/following-sibling::span")
 	private WebElementFacade createdByField;
 
+	@FindBy(xpath = "//*[@id='addNewDisposition']//button[@class='close']")
+	private WebElementFacade closeBtnOnDispositionPopup;
+
+	public void clickOnCloseBtnOnDispositionPopup() {
+		closeBtnOnDispositionPopup.click();
+	}
+
 	public String getCreatedByFieldValue() {
 		return createdByField.getText();
 	}
@@ -179,7 +186,6 @@ public class WorkflowConfigurationPage extends PageObject {
 		return addDispositionPopupHeader.isVisible();
 	}
 
-	
 	public void selectNextDispositionFromDropdown(String nextDrpDownValue) {
 		evaluateJavascript("arguments[0].scrollIntoView(true);", nextDispositionByDropdown);
 		nextDispositionByDropdown.selectByVisibleText(nextDrpDownValue);
