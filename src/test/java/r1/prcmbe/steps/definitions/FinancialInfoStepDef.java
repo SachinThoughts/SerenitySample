@@ -82,13 +82,6 @@ public class FinancialInfoStepDef {
 		Assert.assertTrue("Headers do not match", financialInfoPage.isFinanceInfoHeadersVisible(financeInfoHeaders));
 	}
 
-	@When("^user runs Financial_Information_Section_SQL5(.+)$")
-	public void user_runs_Financial_Information_Section_SQL1(String queryName) throws SQLException, Exception {
-		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
-				String.format(commonMethods.loadQuery(queryName, dbQueryFilename), transactionTypeSearchOne,
-						transactionTypeSearchTwo));
-	}
-
 	@When("^user hover on R1_Decision$")
 	public void user_hover_on_R__Decision() {
 		billingAndFollowUpPage.hoverOnR1DecisionLink();
@@ -97,7 +90,7 @@ public class FinancialInfoStepDef {
 	@Then("^user should be able to fetch Invoice Number$")
 	public void user_should_be_able_to_fetch_Invoice_Number() throws SQLException {
 		while (DatabaseConn.resultSet.next()) {
-			invoiceNumber = DatabaseConn.resultSet.getString("InvoiceNumber");
+			invoiceNumber = DatabaseConn.resultSet.getString("invoicenumber");
 			loginSteps.log("The fetched invoice number is: " + invoiceNumber);
 		}
 	}

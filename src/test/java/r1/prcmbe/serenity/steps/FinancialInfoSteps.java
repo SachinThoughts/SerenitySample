@@ -34,7 +34,7 @@ public class FinancialInfoSteps extends PageObject {
 
 	@Step
 	public String formatDbDateFieldWithDateTime(String dateFromDB) throws ParseException {
-		outputFormat = new SimpleDateFormat("M/dd/yyyy");
+		outputFormat = new SimpleDateFormat("M/d/yyyy");
 		inputFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		Date date = inputFormat.parse(dateFromDB);
 		return outputFormat.format(date);

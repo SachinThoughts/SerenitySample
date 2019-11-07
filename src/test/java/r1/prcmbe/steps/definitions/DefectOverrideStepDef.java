@@ -2,6 +2,7 @@ package r1.prcmbe.steps.definitions;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Assert;
@@ -18,6 +19,7 @@ import r1.prcmbe.pages.BillingAndFollowUpPage;
 import r1.prcmbe.pages.DefectOverridePage;
 import r1.prcmbe.pages.NavigationPage;
 import r1.prcmbe.pages.SearchPage;
+import r1.prcmbe.serenity.steps.DefectOverrideSteps;
 import r1.prcmbe.serenity.steps.SearchPageSteps;
 
 public class DefectOverrideStepDef {
@@ -27,13 +29,19 @@ public class DefectOverrideStepDef {
 	NavigationPage navigationPage;
 	BillingAndFollowUpPage billingAndFollowUpPage;
 	SearchPage searchPage;
-	DefectOverridePage defectOverridePage;
+	DefectOverridePage defectOverridePage; 
 
 	static String dbFileName = "DefectOverride";
-	String dbSettingValue, dbInvoiceId;
+	String dbSettingValue, dbInvoiceId, selectedDefectypeValue, selectedDefectSubCatValue;
+	int dbDefectTypeId, dbDefectSubCategoryId;
+	List<String> listOfSOPActionsOnTriage = new ArrayList<>();
+	List<String> listOfSOPActionsOnAction = new ArrayList<>();
 
 	@Steps
 	SearchPageSteps searchPageSteps;
+
+	@Steps
+	DefectOverrideSteps defectOverrideStep;
 
 	@Given("^user is able to login to sql server and connect to database$")
 	public void user_is_able_to_login_to_sql_server_and_connect_to_database() throws IOException {
@@ -59,7 +67,6 @@ public class DefectOverrideStepDef {
 	public void user_runs_the_query(String queryName) throws ClassNotFoundException, SQLException, Exception {
 		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
 				commonMethods.loadQuery(queryName, dbFileName));
-
 	}
 
 	@Then("^user should be able to view the PRCM Flag \"([^\"]*)\"$")
@@ -72,16 +79,6 @@ public class DefectOverrideStepDef {
 			Assert.assertTrue("invoiceId is not fetched from DB.\nThe Technical Error is:\n" + exception, false);
 		}
 		Assert.assertTrue(dbSettingValue.equals(flagValue));
-	}
-
-	@When("^user hovers on R1_Decision link$")
-	public void user_hovers_on_R__Decision_link() {
-		billingAndFollowUpPage.hoverOnR1DecisionLink();
-	}
-
-	@When("^user clicks on search sub menu$")
-	public void user_clicks_on_search_sub_menu() {
-		billingAndFollowUpPage.clickSearchLink();
 	}
 
 	@When("^user selects \"([^\"]*)\" from search by dropdown$")
@@ -117,7 +114,7 @@ public class DefectOverrideStepDef {
 
 	@Then("^user should be able to view the Defect workflow section$")
 	public void user_should_be_able_to_view_the_Defect_workflow_section() {
-		Assert.assertTrue("Defect workflow section is not present", defectOverridePage.isDefectWorkFlowSecPresent());
+		Assert.assertTrue("Defect workflow section is not present", defectOverridePage.isDefectWorkFlowSecVisible());
 	}
 
 	@Then("^user should be able to view the progress bar with following steps$")
@@ -136,5 +133,192 @@ public class DefectOverrideStepDef {
 	@Then("^user should be able to view the assigned defect sub category below progress bar$")
 	public void user_should_be_able_to_view_the_assigned_defect_sub_category_below_progress_bar() {
 		Assert.assertTrue("failed to view assigned defect", defectOverridePage.isAssignedSubCategryVisible());
+	}
+
+	@When("^user selects No radio button to Override Subcategory$")
+	public void user_selects_No_radio_button_to_Override_Subcategory() {
+		defectOverridePage.selectNoRadioBtnOnOverrideSubCat();
+	}
+
+	@When("^user selects any value from DefectType dropdown and other Than \"([^\"]*)\" value$")
+	public void user_selects_any_value_from_DefectType_dropdown(String defaultDrpdwnValue) {
+		selectedDefectypeValue = defectOverridePage.selectAndGetTextDefectType(defaultDrpdwnValue);
+	}
+
+	@When("^user selects any value from Defectsubcategory dropdown and other Than \"([^\"]*)\" value$")
+	public void user_selects_any_value_from_Defectsubcategory_dropdown(String defaultDrpdwnValue) {
+		selectedDefectSubCatValue = defectOverridePage.selectAndGetTextDefectSubCategory(defaultDrpdwnValue);
+	}
+
+	@When("^user clicks on Save button$")
+	public void user_clicks_on_Save_button() {
+		defectOverridePage.clickOnSaveBtn();
+	}
+
+	@When("^user refreshes a page$")
+	public void user_refreshes_a_page() {
+		defectOverridePage.refreshesAPage();
+	}
+
+	@Then("^user should be able to view changed sub category below current defect under Defect workflow section$")
+	public void user_should_be_able_to_view_changed_sub_category_below_current_defect_under_Defect_workflow_section() {
+		Assert.assertTrue("Failed to view changed sub category in below current defect",
+				defectOverridePage.getDefectSubCategoryUnderCurrentDefect().equals(selectedDefectSubCatValue));
+	}
+
+	@Then("^user runs the with DefectType query (.*)$")
+	public void user_runs_the_with_DefectType_query(String queryName)
+			throws ClassNotFoundException, SQLException, Exception {
+		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
+				String.format(commonMethods.loadQuery(queryName, dbFileName), selectedDefectypeValue));
+	}
+
+	@Then("^user runs with DefectTypeID the query (.*)$")
+	public void user_runs_with_DefectTypeID_the_query(String queryName)
+			throws ClassNotFoundException, SQLException, Exception {
+		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
+				String.format(commonMethods.loadQuery(queryName, dbFileName), dbDefectTypeId));
+	}
+
+	@Then("^user should be able to view all active defect Type$")
+	public void user_should_be_able_to_view_all_active_defect_Type() {
+		try {
+			while (DatabaseConn.resultSet.next()) {
+				dbDefectTypeId = DatabaseConn.resultSet.getInt("DefectTypeID");
+			}
+		} catch (SQLException exception) {
+			Assert.assertTrue("DefectTypeID is not fetched from DB.\nThe Technical Error is:\n" + exception, false);
+		}
+	}
+
+	@Then("^user should be able to view All Defect Subcategory for that Selected Defect Type$")
+	public void user_should_be_able_to_view_All_Defect_Subcategory_for_that_Selected_Defect_Type() throws SQLException {
+		Assert.assertTrue("failed to view All selected defect type",
+				defectOverrideStep.verifySelectedDefectSubCategoryWithDB(selectedDefectSubCatValue));
+	}
+
+	@When("^user moves to Defect Classification Section$")
+	public void user_moves_to_Defect_Classification_Section() {
+		defectOverridePage.moveToDefectClassificationSec();
+	}
+
+	@Then("^user should be able to view the updated defect category in Defect Classification section$")
+	public void user_should_be_able_to_view_the_updated_defect_category_in_Defect_Classification_section() {
+		Assert.assertTrue("Failed to update defect category in defect classification",
+				defectOverridePage.getDefectCategoryUnderDefectClassSec().contains(selectedDefectSubCatValue));
+	}
+
+	@Then("^user fetches defect subCategory from data base$")
+	public void user_fetches_defect_subCategory_from_data_base() {
+		try {
+			while (DatabaseConn.resultSet.next()) {
+				dbDefectSubCategoryId = DatabaseConn.resultSet.getInt("DefectSubCategoryID");
+			}
+		} catch (SQLException exception) {
+			Assert.assertTrue("DefectSubCategoryID is not fetched from DB.\nThe Technical Error is:\n" + exception,
+					false);
+		}
+	}
+
+	@When("^user clicks on Next button$")
+	public void user_clicks_on_Next_button() {
+		defectOverridePage.clickOnNextButton();
+	}
+
+	@Then("^user should be able to view \"([^\"]*)\" section open and placeholder Triage$")
+	public void user_should_be_able_to_view_section_open_and_placeholder_Triage(String expectedSectionValue) {
+		Assert.assertTrue("failed to navigate verify all steps taken tab",
+				defectOverridePage.getTriageSectionHeaderText().contains(expectedSectionValue));
+	}
+
+	@Then("^user should be able to view below fields$")
+	public void user_should_be_able_to_view_below_fields(DataTable buttonList) {
+		List<String> listOfButtonValues = buttonList.asList(String.class);
+		Assert.assertTrue("failed to verify buttons on Defect workflow",
+				defectOverridePage.getButtonValuesOnSection().equals(listOfButtonValues));
+	}
+
+	@When("^user clicks on Previous button$")
+	public void user_clicks_on_Previous_button() {
+		defectOverridePage.clickOnPrevBtn();
+	}
+
+	@Then("^user should be able to view navigation to Override Defect Category section$")
+	public void user_should_be_able_to_view_navigation_to_Override_Defect_Category_section() {
+		Assert.assertTrue("failed to navigate override defect category section",
+				defectOverridePage.checkOverrideDefectCatSec());
+	}
+
+	@Then("^user should be able to view the \"([^\"]*)\" section$")
+	public void user_should_be_able_to_view_the_section(String expectedSectionValue) {
+		Assert.assertTrue("failed to navigate taken Section",
+				defectOverridePage.getTriageSectionHeaderText().contains(expectedSectionValue));
+	}
+
+	@When("^user runs the to fetch SOP actions of  isrequired is zero query (.*)$")
+	public void user_runs_the_to_fetch_SOP_actions_of_isrequired_is_zero_query(String queryName)
+			throws ClassNotFoundException, SQLException, Exception {
+		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
+				String.format(commonMethods.loadQuery(queryName, dbFileName), dbDefectSubCategoryId));
+	}
+
+	@Then("^user should be able to view SOP actions  having IsRequired=0$")
+	public void user_should_be_able_to_view_SOP_actions_having_IsRequired() {
+		try {
+			while (DatabaseConn.resultSet.next()) {
+				listOfSOPActionsOnTriage.add(DatabaseConn.resultSet.getString("ActionName"));
+
+			}
+		} catch (SQLException exception) {
+			Assert.assertTrue("ActionName is not fetched from DB.\nThe Technical Error is:\n" + exception, false);
+		}
+	}
+
+	@Then("^user should be able to view Required Sops actions in verify All steps taken$")
+	public void user_should_be_able_to_view_Required_Sops_actions_in_verify_All_steps_taken() {
+		Assert.assertTrue("Failed to view Sop Actions On verify All Step taken",
+				listOfSOPActionsOnTriage.equals(defectOverridePage.getSOPActionsOnTriagePage()));
+	}
+
+	@Then("^user should be able to view optional \"([^\"]*)\"$")
+	public void user_should_be_able_to_view_optional(String expectedSectionValue) {
+		Assert.assertTrue("failed to navigate taken Section",
+				defectOverridePage.getActionSectionHeaderText().contains(expectedSectionValue));
+	}
+
+	@When("^user runs the to fetch SOP actions of isrequired is one  (.*)$")
+	public void user_runs_the_to_fetch_SOP_actions_of_isrequired_is_one(String queryName)
+			throws ClassNotFoundException, SQLException, Exception {
+		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
+				String.format(commonMethods.loadQuery(queryName, dbFileName), dbDefectSubCategoryId));
+	}
+
+	@Then("^user should be able to view  SOP actions having Isrequired=1$")
+	public void user_should_be_able_to_view_SOP_actions_having_Isrequired() {
+		try {
+			while (DatabaseConn.resultSet.next()) {
+				listOfSOPActionsOnAction.add(DatabaseConn.resultSet.getString("ActionName"));
+			}
+		} catch (SQLException exception) {
+			Assert.assertTrue("ActionName is not fetched from DB.\nThe Technical Error is:\n" + exception, false);
+		}
+	}
+
+	@Then("^user should be able to view Required Sops actions in Step taken section$")
+	public void user_should_be_able_to_view_Required_Sops_actions_in_Step_taken_section() {
+		Assert.assertTrue("Failed to view required Sop Actions On Step taken",
+				listOfSOPActionsOnAction.equals(defectOverridePage.getSOPActionsOnActionPage()));
+	}
+
+	@Then("^user runs with DefectTypID and DefectSubCategoryDesc the query (.*)$")
+	public void user_runs_with_DefectTypID_and_DefectSubCategoryDesc_the_query(String queryName)
+			throws ClassNotFoundException, SQLException, Exception {
+		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName, String
+				.format(commonMethods.loadQuery(queryName, dbFileName), dbDefectTypeId, selectedDefectSubCatValue));
+	}
+
+	@Then("^user clicks on Next button on TriagePage$")
+	public void user_clicks_on_Next_button_on_TriagePage() {
+		defectOverridePage.clickOnNextButtonOnTriagePage();
 	}
 }

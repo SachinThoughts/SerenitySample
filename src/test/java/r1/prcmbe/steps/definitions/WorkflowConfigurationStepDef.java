@@ -1,16 +1,23 @@
 package r1.prcmbe.steps.definitions;
 
+import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.List;
 import org.junit.Assert;
 import cucumber.api.DataTable;
+import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import net.serenitybdd.core.pages.PageObject;
+import net.thucydides.core.annotations.Steps;
+import r1.commons.databaseconnection.DatabaseConn;
+import r1.commons.utilities.CommonMethods;
 import r1.prcmbe.pages.DefaultHandoffPage;
 import r1.prcmbe.pages.NavigationPage;
 import r1.prcmbe.pages.SettingsPage;
 import r1.prcmbe.pages.WorkflowConfigurationPage;
+import r1.prcmbe.serenity.steps.FinancialInfoSteps;
 
 public class WorkflowConfigurationStepDef extends PageObject {
 
@@ -19,7 +26,17 @@ public class WorkflowConfigurationStepDef extends PageObject {
 	SettingsPage settingsPage;
 	WorkflowConfigurationPage workflowConfigPage;
 	DefaultHandoffPage defaultHandOffPage;
-	String workflowName;
+	CommonMethods commonMethods;
+
+	@Steps
+	FinancialInfoSteps financialInfoSteps;
+
+	String dbFileName = "WorkFlowConfiguration", dbHandOffName, dbRecipientName, defaultRecipientName,
+			recipientNameOtherThanDefault, dispositionNotes, workflowName, respondDeadline, updatedBy, updatedDate,
+			successMsg, recipientName, recipientDesc, createdBy, createdDate, nextDispositionByDropdownValue,
+			dispositionStatusByDropdownValue;
+
+	int dbWorkFlowTypeId;
 
 	@Given("^user having AHtoDecision Admin role is on R1 Hub page$")
 	public void user_having_AHtoDecision_Admin_role_is_on_R1_Hub_page() {
@@ -164,4 +181,234 @@ public class WorkflowConfigurationStepDef extends PageObject {
 		Assert.assertTrue("Newly added handoff is not visible ",
 				workflowConfigPage.isNewlyAddedHandOffVisible(workflowName.trim()));
 	}
+
+	@When("^user run the query to fetch hand-off id (.+)$")
+	public void user_run_the_query_to_fetch_handoff_id(String queryName)
+			throws ClassNotFoundException, SQLException, Exception {
+		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
+				commonMethods.loadQuery(queryName, dbFileName));
+		try {
+			while (DatabaseConn.resultSet.next()) {
+				dbWorkFlowTypeId = DatabaseConn.resultSet.getInt("WorkflowTypeID");
+			}
+		} catch (SQLException exception) {
+			Assert.assertTrue("WorkflowTypeID is not fetched from DB.\nThe Technical Error is:\n" + exception, false);
+		}
+	}
+
+	@When("^user run the query to fetch hand-off name (.+)$")
+	public void user_run_the_query_to_fetch_handoff_name(String queryName)
+			throws ClassNotFoundException, SQLException, Exception {
+		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
+				commonMethods.loadQuery(queryName, dbFileName));
+	}
+
+	@When("^user fetches any Handoff Type from DB$")
+	public void user_fetches_any_Handoff_Type_from_DB() {
+		try {
+			while (DatabaseConn.resultSet.next()) {
+				dbHandOffName = DatabaseConn.resultSet.getString("Name");
+			}
+			System.out.println(dbHandOffName);
+		} catch (SQLException exception) {
+			Assert.assertTrue("HandOffName is not fetched from DB.\nThe Technical Error is:\n" + exception, false);
+		}
+	}
+
+	@When("^user clicks on Radio button against any fetched Handoff Type in Choose Handoff grid$")
+	public void user_clicks_on_Radio_button_against_any_fetched_Handoff_Type_in_Choose_Handoff_grid() {
+		workflowConfigPage.clickOnRadioBtnAgnstFetchedHandOff(dbHandOffName);
+	}
+
+	@When("^user clicks on continue button on Handoff tab$")
+	public void user_clicks_on_continue_button_on_Handoff_tab() {
+		workflowConfigPage.clickOnContinueBtnOnHandoffTab();
+	}
+
+	@Then("^user should be able to navigate to Recipient tab$")
+	public void user_should_be_able_to_navigate_to_recipient_tab() {
+		Assert.assertTrue("User is not navigated to Recipient Tab", workflowConfigPage.isRecipientPageVisible());
+	}
+
+	@Then("^user should be able to view Recipient tab highlighted in blue color$")
+	public void user_should_be_able_to_view_recipient_tab_highlighted_in_blue_color() {
+		Assert.assertTrue("Recipient tab color is not Blue",
+				workflowConfigPage.getRecipientTabColour().equals(BLUECOLORRGBCODE));
+	}
+
+	@Then("^user should be able to view Workflow Summary label with selected Recipient appended after Handoff type value$")
+	public void user_should_be_able_to_view_workflow_summary_label_with_selected_recipient_appended_after_handoff_type_value() {
+		Assert.assertTrue("Recipeint Name is not appended after Handoff",
+				workflowConfigPage.isRecipientAppendInBreadcrumbInRecipientTab(dbHandOffName,
+						workflowConfigPage.getDefaultSelectedRecipientName()));
+	}
+
+	@Then("^user should be able to view \\+Add Recipient and Continue > button$")
+	public void user_should_be_able_to_view_Add_Recipient_and_Continue_button() {
+		Assert.assertTrue("User is not able to view +Add Recipient and Continue button ",
+				workflowConfigPage.isContinueAndAddRecipientOnRecipientTabVisible());
+	}
+
+	@Then("^user should able to view Choose Recipient Label$")
+	public void user_should_able_to_view_Choose_Recipient_Label() {
+		Assert.assertTrue("User is not able to view Choose Recipient Label; ",
+				workflowConfigPage.isChooseRecipientVisible());
+	}
+
+	@And("^user should be able to view grid with columns headers$")
+	public void user_should_be_able_to_view_grid_with_columns_headers(DataTable expectedColumnHeaders) {
+		List<String> recipientColumnLabels = expectedColumnHeaders.asList(String.class);
+		Assert.assertTrue(" User is not able to view column headers",
+				workflowConfigPage.getSopHeaderList().containsAll(recipientColumnLabels));
+	}
+
+	@And("^user should be able to view Edit icon button adjacent to Recipient and Radio button checked against first Recipient$")
+	public void user_should_be_able_to_view_edit_icon_button_adjacent_to_recipient_and_radio_button_checked_against_first_recipient() {
+		Assert.assertTrue("Edit Icon is not visible against Recipient Name ",
+				workflowConfigPage.isEditIconOnRecipientTabVisible());
+		Assert.assertTrue("Default radio button is not checked against first Recipient",
+				workflowConfigPage.isFirstRecipientBtnSelected().equalsIgnoreCase("true"));
+	}
+
+	@And("^user should be able to view Details link button for respective Recipient$")
+	public void user_should_be_able_to_view_details_link_button_for_respective_recipient() {
+		Assert.assertTrue("User is not able to view Details link ",
+				workflowConfigPage.isDetailsIconOnRecipientVisible());
+	}
+
+	@When("^user clicks on Details link button on Recipient Tab$")
+	public void user_clicks_on_details_link_button_on_Recipient_Tab() {
+		workflowConfigPage.clickOnDetailsOnRecipientTab();
+	}
+
+	@Then("^user should be able to view detailed columns on Recipient Tab$")
+	public void user_should_be_able_to_view_detailed_columns_on_Recipient_Tab(DataTable expectedColumHeaders) {
+		List<String> recipientColumnLabels = expectedColumHeaders.asList(String.class);
+		Assert.assertTrue("User is not able to see column headers",
+				workflowConfigPage.getDetailColumnHeadersRecipientTab().equals(recipientColumnLabels));
+	}
+
+	@When("^user verifies that radio button is selected against the Recipient$")
+	public void user_verifies_that_radio_button_is_selected_against_the_Recipient() {
+		Assert.assertTrue("Default radio button is not checked against first Recipient",
+				workflowConfigPage.isFirstRecipientBtnSelected().equalsIgnoreCase("true"));
+	}
+
+	@When("^user clicks on Continue button on Recipient tab$")
+	public void user_clicks_on_Continue_button_on_Recipient_tab() {
+		workflowConfigPage.clickOnContinueBtnOnRecipientTab();
+	}
+
+	@When("^user verifies that radio button is selected to associated Action Type$")
+	public void user_verifies_that_radio_button_is_selected_to_associated_Action_Type() {
+		Assert.assertTrue("Default radio button is not checked against first Recipient",
+				workflowConfigPage.isFirstRadioBtnActionTabSelected().equalsIgnoreCase("true"));
+	}
+
+	@When("^user clicks on Continue button on Action type Tab$")
+	public void user_clicks_on_Continue_button_on_Action_type_Tab() {
+		workflowConfigPage.clickContinueBtnOnActionTypeTab();
+	}
+
+	@Then("^user should be able to view Add New Disposition pop up with controls$")
+	public void user_should_be_able_to_view_Add_New_Disposition_pop_up_with_controls(DataTable expectedLabelHeaders) {
+		List<String> dispositionPopupLabels = expectedLabelHeaders.asList(String.class);
+		Assert.assertTrue("User is not able to see column headers",
+				workflowConfigPage.getListOfLabelsOnDispositionPopup().containsAll(dispositionPopupLabels));
+	}
+
+	@And("^user can see Save changes button on the Disposition popup$")
+	public void user_can_see_save_changes_button_on_the_disposition_popup() {
+		Assert.assertTrue("Save Button is not visisble on the DispositionPopup",
+				workflowConfigPage.isSaveBtnOnDispositionPopupVisible());
+	}
+
+	@When("^user clicks on Save Changes button without entering any text$")
+	public void user_clicks_on_Save_Changes_button_without_entering_any_text() {
+		workflowConfigPage.clickSaveChangesBtn();
+	}
+
+	@When("^user enters alphanumeric text in Disposition Code textbox$")
+	public void user_enters_alphanumeric_text_in_Disposition_Code_textbox() {
+		workflowConfigPage.enterTextInDispositionCodeTextBox();
+	}
+
+	@When("^user clicks on Save Changes button on Disposition pop up$")
+	public void user_clicks_on_Save_Changes_button_on_Disposition_pop_up() {
+		workflowConfigPage.clickSaveChangesBtn();
+	}
+
+	@Then("^user should able to view info message \"([^\"]*)\"$")
+	public void user_should_able_to_view_info_message(String expectedDispositionNameMessage) {
+		Assert.assertTrue("Disposition Name Error Message does not match ",
+				workflowConfigPage.getErrorMsgOnDispositionPopup().contains(expectedDispositionNameMessage));
+	}
+
+	@When("^user select \"([^\"]*)\" value from Next Disposition By drop down, other than --Select one-- option$")
+	public void user_select_something_value_from_next_disposition_by_drop_down_other_than_select_one_option(
+			String expectedDrpDownValue) {
+		nextDispositionByDropdownValue = expectedDrpDownValue;
+		workflowConfigPage.selectNextDispositionFromDropdown(expectedDrpDownValue);
+	}
+
+	@Then("^user should be able to view selected value in Next Disposition By drop down$")
+	public void user_should_be_able_to_view_selected_value_in_Next_Disposition_By_drop_down() {
+		Assert.assertTrue(" User is not able to view the Dropdown selected values ",
+				workflowConfigPage.isSelectedValueInNextDispositionByVisible(nextDispositionByDropdownValue));
+	}
+
+	@Then("^user should be able to view selected value in Disposition Status drop down$")
+	public void user_should_be_able_to_view_selected_value_in_Disposition_Status_drop_down() {
+		Assert.assertTrue("User is not able to view Selected Value in Disposition Status drop down ",
+				defaultHandOffPage.isSelectedValueInDispositionStatusVisible(DefaultHandoffStepDef.dispositionStatus));
+	}
+
+	@Then("^user enters notes under Predefined Note textarea$")
+	public void user_enters_notes_under_Predefined_Note_textarea() {
+		workflowConfigPage.enterAndGetDispositionNotes();
+	}
+
+	@Then("^user should no longer be able to view Add New Disposition pop-up window$")
+	public void user_should_no_longer_be_able_to_view_Add_New_Disposition_pop_up_window() {
+		Assert.assertFalse("Add New Disposition Popup is visible ",
+				workflowConfigPage.isAddNewDispositionPopupVisible());
+	}
+
+	@When("^user clicks on Details link button adjacent to newly created Disposition Name$")
+	public void user_clicks_on_Details_link_button_adjacent_to_newly_created_Disposition_Name() {
+		workflowConfigPage.clickOnDispositionDetailsLink();
+	}
+
+	@And("^user runs the Add Disposition Detail query \"([^\"]*)\"$")
+	public void user_runs_the_add_disposition_detail_query_something(String queryName)
+			throws ClassNotFoundException, SQLException, Exception {
+		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
+				commonMethods.loadQuery(queryName, dbFileName));
+		try {
+			while (DatabaseConn.resultSet.next()) {
+				String firstName = DatabaseConn.resultSet.getString("FirstName");
+				String lastName = DatabaseConn.resultSet.getString("LastName");
+				createdBy = firstName.concat(" " + lastName);
+				createdDate = DatabaseConn.resultSet.getString("CreatedDate");
+			}
+
+		} catch (SQLException exception) {
+			Assert.assertTrue("RecepientName is not fetched from DB.\nThe Technical Error is:\n" + exception, false);
+		}
+	}
+
+	@Then("^user should be able to view same value in Created Date and CreatedBy columns on UI as in SQL result$")
+	public void user_should_be_able_to_view_same_value_in_Created_Date_and_CreatedBy_columns_on_UI_as_in_SQL_result()
+			throws ParseException {
+		Assert.assertTrue(
+				"Created Date from Database " + financialInfoSteps.formatDbDateFieldWithDateTime(createdDate)
+						+ " does not match with the UI " + workflowConfigPage.getCreatedDateFieldValue(),
+				financialInfoSteps.formatDbDateFieldWithDateTime(createdDate)
+						.equals(workflowConfigPage.getCreatedDateFieldValue()));
+		Assert.assertTrue(
+				"CreatedBy from the Database " + createdBy + " does not match with the UI"
+						+ workflowConfigPage.getCreatedByFieldValue(),
+				createdBy.equals(workflowConfigPage.getCreatedByFieldValue()));
+	}
+
 }

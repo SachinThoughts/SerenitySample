@@ -24,7 +24,7 @@ Feature: This feature is to verify the financial Information functionality
   @391030 @Sprint8 @PRCMUser
   Scenario Outline: Verify the Drilldown detail  for Adjustment >0
     Given user is able to login to sql server and connect to database
-    When user runs Financial_Information_Section_SQL5 <queryname5>
+    When user executes the query for InvoiceNumber <queryName5>
     Then user should be able to fetch Invoice Number
     When user enters fetched Invoice Number in the Invoice Number textbox
     And user clicks on Submit button on R1D page
@@ -40,11 +40,11 @@ Feature: This feature is to verify the financial Information functionality
       | TypeOfTransaction   |
       | Amount              |
       | GLCode              |
-    When user runs Financial_Information_Section_SQL9 <queryname9>
+    When user runs Financial_Information_Section_SQL9 <queryName9>
     Then User should be able to view same data in drilldown section of Adjustment as SQL result
 
     Examples: 
-      | queryname5                                | queryname9                                |
+      | queryName5                                | queryName9                                |
       | Financial_Information_Section_391026_SQL5 | Financial_Information_Section_391030_SQL9 |
 
   @423934 @Sprint8 @PRCMUser
@@ -75,7 +75,7 @@ Feature: This feature is to verify the financial Information functionality
       | queryName5                                |
       | Financial_Information_Section_391026_SQL5 |
 
-  @391027 @Sprint8 @PRCMUser
+  @391027 @Sprint101 @PRCMUser
   Scenario Outline: Verify the Drilldown section of total charges>0
     Given user is able to login to sql server and connect to database
     When user executes the query for InvoiceNumber <queryname1>
