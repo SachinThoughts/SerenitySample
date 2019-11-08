@@ -62,6 +62,9 @@ public class AccountInformationPage extends PageObject {
 	@FindBy(id = "ddlHandOffType")
 	private WebElementFacade handOffTypeDrpDwn;
 
+	@FindBy(id = "ddlHandOffType")
+	private WebElementFacade handOffTypeDrpDown;
+
 	public String getAccountNumber() {
 		waitForAngularRequestsToFinish();
 		return accountNumber.getText().trim();
@@ -164,5 +167,13 @@ public class AccountInformationPage extends PageObject {
 
 	public String getSelectedHandOffTypeValue() {
 		return handOffTypeDrpDwn.getSelectedVisibleTextValue();
+	}
+
+	public void clickHandOffTypeDrpDown() {
+		evaluateJavascript("arguments[0].click()", handOffTypeDrpDown);
+	}
+
+	public List<String> getHandOffTypeDrpDownValues() {
+		return handOffTypeDrpDown.getSelectOptions();
 	}
 }

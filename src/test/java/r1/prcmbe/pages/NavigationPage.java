@@ -50,6 +50,9 @@ public class NavigationPage extends PageObject {
 
 	@FindBy(xpath = "//span[text()='Billing & Follow-up' and @class='txt']")
 	private WebElementFacade billingAndFollowUpLink;
+	
+	@FindBy(xpath = "//*[@id='dnn_dnnLINKS_lblLinks']/a[text()='Billing & Follow-up']")
+	private WebElementFacade footerBillingFollowUpLink;
 
 	public WebElementFacade getChartManagerLink() {
 		return chartManagerLink;
@@ -120,5 +123,9 @@ public class NavigationPage extends PageObject {
 
 	public void clickOnBillingAndFollowUpLink() {
 		withAction().moveToElement(billingAndFollowUpLink).click().build().perform();
+	}
+	
+	public void clickFooterBillingFollowUpLink() {
+		evaluateJavascript("arguments[0].click();", footerBillingFollowUpLink);
 	}
 }
