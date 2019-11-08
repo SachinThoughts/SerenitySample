@@ -75,6 +75,9 @@ public class SearchPage extends PageObject {
 
 	@FindBy(xpath = "//*[@id='dvAccountSearch']/child::table/tbody/tr/td[3]")
 	private List<WebElementFacade> listOfSearchedNames;
+	
+	@FindBy(id = "lblPatientName")
+	private WebElementFacade patientName;
 
 	String titleJS = "return document.querySelector('#Head > title').text";
 	String facilityCodeJS = "document.querySelector('#dnn_ctr1025_ModuleContent > span > span:nth-child(1)').textContent";
@@ -102,7 +105,7 @@ public class SearchPage extends PageObject {
 	public void clickSubmitBtn() {
 		submitBtn.click();
 		if (loadingSpinner.isVisible()) {
-			loadingSpinner.withTimeoutOf(Duration.ofSeconds(30)).waitUntilNotVisible();
+			loadingSpinner.withTimeoutOf(Duration.ofSeconds(40)).waitUntilNotVisible();
 		}
 	}
 
@@ -122,7 +125,7 @@ public class SearchPage extends PageObject {
 	public int getFacilityIndex() {
 		/** Returns index of matched facility code **/
 		String facilityCode = getFacilityCodeText();
-		int index = 999;
+		int index = 0;
 		int size = listOfSearchedFacility.size();
 		for (int i = 0; i < size; i++) {
 			if (listOfSearchedFacility.get(i).getText().equals(facilityCode)) {
@@ -237,5 +240,19 @@ public class SearchPage extends PageObject {
 			listOfNames.add(searchedName.getText());
 		}
 		return listOfNames;
+	}
+	
+	public String getPatientName() {
+		return patientName.getText();
+	}
+	
+	public String getPatientLastName() {
+		String[] lastName = patientName.getText().split(",", 0);
+		return lastName[0].trim();
+	}
+
+	public String getPatientFirstName() {
+		String[] firstName = patientName.getText().split(",", 0);
+		return firstName[1].trim();
 	}
 }

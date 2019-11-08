@@ -18,6 +18,7 @@ import cucumber.api.DataTable;
 import r1.prcmbe.pages.BillingAndFollowUpPage;
 import r1.prcmbe.pages.NavigationPage;
 import r1.prcmbe.pages.SearchPage;
+import r1.prcmbe.serenity.steps.FinancialInfoSteps;
 import r1.prcmbe.serenity.steps.SearchPageSteps;
 
 public class SearchStepDef extends PageObject {
@@ -30,10 +31,12 @@ public class SearchStepDef extends PageObject {
 	@Steps
 	SearchPageSteps searchPageSteps;
 
+	@Steps
+	FinancialInfoSteps financialInfoSteps;
+
 	String dbQueryFilename = "Search", dbMRN, lastName, firstName, dbClaimNo, dbResult;
 	List<String> listOfGridColumnsOnUI = new ArrayList<>();
 	List<String> dbListOfColumns = new ArrayList<>();
-	List<String> listOfNamesOnUI = new ArrayList<>();
 	List<String> dbListOfNames = new ArrayList<>();
 
 	@When("^user clicks on Billing & Follow-up link$")
@@ -119,7 +122,8 @@ public class SearchStepDef extends PageObject {
 
 	@When("^user selects \"([^\"]*)\" operator from operator dropdown$")
 	public void user_selects_operator_from_operator_dropdown(String operator) {
-		searchPage.selectOperatorValue(operator);
+		if (!searchPage.isSSNTxtFieldVisible())
+			searchPage.selectOperatorValue(operator);
 	}
 
 	@When("^user enters less than 5 characters in (.*) textbox$")
@@ -184,13 +188,16 @@ public class SearchStepDef extends PageObject {
 	public void user_should_be_able_to_view_the_grid_with_following_columns(DataTable resultColumns) {
 		List<String> expectedListOfGridColumns = resultColumns.asList(String.class);
 		listOfGridColumnsOnUI = searchPage.getListOfSrchAccTblHeaders();
+
 		Assert.assertTrue("All the grid columns are not visible",
 				expectedListOfGridColumns.containsAll(listOfGridColumnsOnUI) && !listOfGridColumnsOnUI.isEmpty());
+
+		Assert.assertTrue("Last name or first name does not match with the searched character",
+				searchPageSteps.verifyOnlyLastName(lastName) && searchPageSteps.verifyOnlyFirstName(firstName));
 	}
 
 	@Then("^user should be able to view the same result in grid as SQL result for Last Name/First Name$")
 	public void user_should_be_able_to_view_the_same_result_in_grid_as_SQL_result_for_Last_Name_First_Name() {
-		listOfNamesOnUI = searchPage.getListOfSearchedNames();
 		try {
 			while (DatabaseConn.resultSet.next()) {
 				dbListOfNames.add(DatabaseConn.resultSet.getString("Name"));
@@ -200,8 +207,9 @@ public class SearchStepDef extends PageObject {
 		} catch (SQLException sQLException) {
 			Assert.assertTrue("Names are not fetched from DB.\nThe Technical Error is:\n" + sQLException, false);
 		}
+		financialInfoSteps.log("List of names from DB:\n" + dbListOfNames);
 		Assert.assertTrue("Names displayed on UI does not match with database",
-				dbListOfNames.containsAll(listOfNamesOnUI));
+				searchPageSteps.verifyNameOnUIWithDatabaseResult(dbListOfNames));
 	}
 
 	@When("^user selects (.*) from Operator dropdown$")
@@ -215,34 +223,33 @@ public class SearchStepDef extends PageObject {
 				commonMethods.loadQuery(queryName, dbQueryFilename));
 	}
 
-	@When("^user enters the query result in Claim Number textbox$")
-	public void user_enters_the_query_result_in_Claim_Number_textbox() {
-		try {
-			while (DatabaseConn.resultSet.next()) {
-				dbClaimNo = DatabaseConn.resultSet.getString("ClaimNo");
-			}
-		} catch (SQLException sQLException) {
-			Assert.assertTrue("claim number is not fetched from DB.\nThe Technical Error is:\n" + sQLException, false);
-		}
-		searchPage.enterClaimNumber(dbClaimNo);
-	}
-
-	@When("^user runs the (.*) query for claim search$")
-	public void user_runs_the_query_for_claim_search(String queryName) throws Exception {
-		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
-				String.format(commonMethods.loadQuery(queryName, dbQueryFilename), dbClaimNo));
-	}
-
-	@Then("^user should be able to view the same result in grid as SQL result for Claim Number$")
-	public void user_should_be_able_to_view_the_same_result_in_grid_as_SQL_result_for_Claim_Number() {
-		try {
-			while (DatabaseConn.resultSet.next()) {
-				dbResult = DatabaseConn.resultSet.getString(1);
-			}
-			Assert.assertTrue("grid columns from Database does not match with UI",
-					listOfGridColumnsOnUI.containsAll(searchPageSteps.fetchColumnNamesFromDatabaseResult()));
-		} catch (SQLException sQLException) {
-			Assert.assertTrue("Names are not fetched from DB.\nThe Technical Error is:\n" + sQLException, false);
+	@When("^user enters invalid value (.*) in textbox$")
+	public void user_enters_invalid_value_in_textbox(String invalidVal) {
+		if (searchPage.isVisitTxtFieldVisible()) {
+			searchPage.enterVisitNumber(invalidVal);
+		} else if (searchPage.isMRNTxtFieldVisible()) {
+			searchPage.enterMRN(invalidVal);
+		} else if (searchPage.isClaimNumberTxtFieldVisible()) {
+			searchPage.enterClaimNumber(invalidVal);
+		} else if (searchPage.isInvoiceNumberTxtFieldVisible()) {
+			searchPage.enterInvoiceNumber(invalidVal);
+		} else if (searchPage.isSSNTxtFieldVisible()) {
+			searchPage.enterSSN(invalidVal);
+		} else {
+			Assert.assertTrue("Search text box not visible", false);
 		}
 	}
+
+	/*
+	 * @Then("^user should be able to view the same result in grid as SQL result for Claim Number$"
+	 * ) public void
+	 * user_should_be_able_to_view_the_same_result_in_grid_as_SQL_result_for_Claim_Number
+	 * () { try { while (DatabaseConn.resultSet.next()) { dbResult =
+	 * DatabaseConn.resultSet.getString(1); }
+	 * Assert.assertTrue("grid columns from Database does not match with UI",
+	 * listOfGridColumnsOnUI.containsAll(searchPageSteps.
+	 * fetchColumnNamesFromDatabaseResult())); } catch (SQLException sQLException) {
+	 * Assert.assertTrue("Names are not fetched from DB.\nThe Technical Error is:\n"
+	 * + sQLException, false); } }
+	 */
 }
