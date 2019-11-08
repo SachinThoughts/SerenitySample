@@ -53,11 +53,17 @@ public class AccountInformationPage extends PageObject {
 	@FindBy(xpath = "//*[@id='tbRelatedAccount']//tbody/tr/td[2]//a")
 	private List<WebElementFacade> listOfInvoiceNumbersOnRelatedAccntPopUp;
 
+	@FindBy(id = "lnkHandOff")
+	private WebElementFacade addHandOffBtn;
+
+	@FindBy(id = "handOff")
+	private WebElementFacade handOffPopUp;
+
+	@FindBy(id = "ddlHandOffType")
+	private WebElementFacade handOffTypeDrpDwn;
+
 	@FindBy(id = "ddlHandOffType")
 	private WebElementFacade handOffTypeDrpDown;
-
-	@FindBy(id = "lnkHandOff")
-	private WebElementFacade handOffBtn;
 
 	public String getAccountNumber() {
 		waitForAngularRequestsToFinish();
@@ -147,15 +153,27 @@ public class AccountInformationPage extends PageObject {
 		return visitNo;
 	}
 
+	public void clickHandOffBtn() {
+		addHandOffBtn.click();
+	}
+
+	public boolean isHandOffPopUpVisible() {
+		return handOffPopUp.isVisible();
+	}
+
+	public void selectHandOffType(String handOffType) {
+		handOffTypeDrpDwn.selectByVisibleText(handOffType);
+	}
+
+	public String getSelectedHandOffTypeValue() {
+		return handOffTypeDrpDwn.getSelectedVisibleTextValue();
+	}
+
 	public void clickHandOffTypeDrpDown() {
 		evaluateJavascript("arguments[0].click()", handOffTypeDrpDown);
 	}
 
 	public List<String> getHandOffTypeDrpDownValues() {
 		return handOffTypeDrpDown.getSelectOptions();
-	}
-
-	public void clickHandOffBtn() {
-		handOffBtn.click();
 	}
 }
