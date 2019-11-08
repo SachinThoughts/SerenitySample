@@ -75,7 +75,7 @@ Feature: This feature is to verify the financial Information functionality
       | queryName5                                |
       | Financial_Information_Section_391026_SQL5 |
 
-  @391022 @Sprint8 @PRCMUser
+  @391021 @Sprint8 @PRCMUser
   Scenario Outline: Verify the Expected payment column
     Given user is able to login to sql server and connect to database
     When user executes the query for InvoiceNumber <queryName1>
@@ -83,6 +83,19 @@ Feature: This feature is to verify the financial Information functionality
     And user enters InvoiceNumber in the InvoiceNumber field and click on submit button
     And user scrolls down till Financial Information Section
     Then User should be able to view some dollar value in Total Charges column
+
+    Examples: 
+      | queryName1                                |
+      | Financial_Information_Section_391021_SQL1 |
+
+  @391022 @Sprint8 @PRCMUser
+  Scenario Outline: Verify the Expected payment column
+    Given user is able to login to sql server and connect to database
+    When user executes the query for InvoiceNumber <queryName1>
+    And user fetch the InvoiceNumber from DB
+    And user enters InvoiceNumber in the InvoiceNumber field and click on submit button
+    And user scrolls down till Financial Information Section
+    Then User should be able to view "$0.00" as value of Expected Payment under Financial Information section
 
     Examples: 
       | queryName1                                |

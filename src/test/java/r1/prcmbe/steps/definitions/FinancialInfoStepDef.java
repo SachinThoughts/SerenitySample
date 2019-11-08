@@ -192,11 +192,20 @@ public class FinancialInfoStepDef {
 	}
 
 	@Then("^User should be able to view some dollar value in Total Charges column$")
-	public void User_should_be_able_to_view_some_dollar_value_in_Total_Charges_column() {
+	public void user_should_be_able_to_view_some_dollar_value_in_total_charges_column() {
 		Assert.assertTrue(
 				"Same amount not displayed in Total Charges column as SQL result \n Expected TotalCharges from DB"
 						+ financialInfoStep.formatCurrency(financialInfoElementVal) + "Actual TotalCharges on UI"
 						+ financialInfoPage.getTotalCharges(),
 				financialInfoPage.getTotalCharges().equals(financialInfoStep.formatCurrency(financialInfoElementVal)));
+	}
+
+	@Then("^User should be able to view \"([^\"]*)\" as value of Expected Payment under Financial Information section$")
+	public void user_should_be_able_to_view_as_value_of_expected_payment_under_financial_information_section(
+			String expectedColumnValue) {
+		Assert.assertTrue(
+				"Unable to see expected payment value in Financial Information column"
+						+ financialInfoPage.getExpectedPayment(),
+				financialInfoPage.getExpectedPayment().equals(expectedColumnValue));
 	}
 }
