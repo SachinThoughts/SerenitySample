@@ -147,12 +147,44 @@ public class SearchStepDef extends PageObject {
 	public void user_should_able_to_view_tool_tip_message_Please_add_five_or_more_characters(String toolTipMessage) {
 		Assert.assertTrue("Tooltip message '" + toolTipMessage + "' is not visible",
 				searchPage.getToolTipText().equals(toolTipMessage));
-
 	}
 
 	@Then("^user should be able to view Submit Button in disabled state$")
 	public void user_should_be_able_to_view_Submit_Button_in_disabled_state() {
 		Assert.assertFalse("Submit button is enabled", searchPage.isSubmitBtnEnabled());
+	}
+
+	@When("^user enters more than or equal to 5 characters (.*) in textbox$")
+	public void user_enters_more_than_or_equal_to_characters_in_textbox(String value) {
+		if (searchPage.isVisitTxtFieldVisible()) {
+			searchPage.enterVisitNumber(value);
+		} else if (searchPage.isMRNTxtFieldVisible()) {
+			searchPage.enterMRN(value);
+		} else if (searchPage.isClaimNumberTxtFieldVisible()) {
+			searchPage.enterClaimNumber(value);
+		} else if (searchPage.isInvoiceNumberTxtFieldVisible()) {
+			searchPage.enterInvoiceNumber(value);
+		} else if (searchPage.isSSNTxtFieldVisible()) {
+			searchPage.enterSSN(value);
+		} else {
+			Assert.assertTrue("Search text box not visible", false);
+		}
+	}
+
+	@Then("^user should be able to view Submit Button in enabled state$")
+	public void user_should_be_able_to_view_Submit_Button_in_enabled_state() {
+		Assert.assertTrue("Submit Button is disabled", searchPage.isSubmitBtnEnabled());
+	}
+
+	@Then("^user should be able to view message \"([^\"]*)\" (.*)$")
+	public void user_should_be_able_to_view_message_Visit_Number(String expectedMsg, String fieldName) {
+		Assert.assertTrue("Validation message " + expectedMsg + " " + fieldName + "is not visible",
+				searchPage.getErrorMsg().equals(expectedMsg + " " + fieldName));
+	}
+
+	@Then("^user should not able to view tool-tip message$")
+	public void user_should_not_able_to_view_tool_tip_message() {
+		Assert.assertFalse("Tooltip is visible", searchPage.isToolTipVisible());
 	}
 
 	@Given("^user is on R1 Decision search page$")

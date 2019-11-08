@@ -70,12 +70,27 @@ public class SearchPage extends PageObject {
 	@FindBy(xpath = "//div[@class='tooltip top in']")
 	private WebElementFacade toolTip;
 
+	@FindBy(xpath = "//select[@class='form-control ddlOperator']")
+	private WebElementFacade operator;
+
+	@FindBy(xpath = "//*[@id='dvAccountSearch']/table/tbody/tr/td[2]")
+	private List<WebElementFacade> listOfSearchedInvNum;
+
+	@FindBy(id = "msg_info")
+	private WebElementFacade errorAlert;
+
+	@FindBy(xpath = "//div[@class = 'alert alert-info']//button")
+	private WebElementFacade closeErrorAlert;
+
+	@FindBy(xpath = "//span[@id='lblInvoiceNo']")
+	private WebElementFacade invoiceNumber;
+
 	@FindBy(xpath = "//*[@id='dvAccountSearch']/child::table/thead/tr/th")
 	private List<WebElementFacade> listOfSrchAccTblHeaders;
 
 	@FindBy(xpath = "//*[@id='dvAccountSearch']/child::table/tbody/tr/td[3]")
 	private List<WebElementFacade> listOfSearchedNames;
-	
+
 	@FindBy(id = "lblPatientName")
 	private WebElementFacade patientName;
 
@@ -222,6 +237,42 @@ public class SearchPage extends PageObject {
 		return submitBtn.isCurrentlyEnabled();
 	}
 
+	public boolean isToolTipVisible() {
+		return toolTip.isVisible();
+	}
+
+	public void operatorSelectText(String operatorValue) {
+		operator.selectByVisibleText(operatorValue);
+	}
+
+	public void clickSearchInvoiceNumber() {
+		listOfSearchedInvNum.get(getFacilityIndex()).click();
+		if (isErrorMsgVisible()) {
+			clickErrorMsg();
+		}
+	}
+
+	public boolean isErrorMsgVisible() {
+		return errorAlert.isVisible();
+	}
+
+	public void clickErrorMsg() {
+		closeErrorAlert.click();
+	}
+
+	public List<String> getlistOfInvNum() {
+		waitForAngularRequestsToFinish();
+		List<String> listOfInvNum = new ArrayList<>();
+		for (WebElementFacade invoiceNumber : listOfSearchedInvNum) {
+			listOfInvNum.add(invoiceNumber.getText());
+		}
+		return listOfInvNum;
+	}
+
+	public String getInvoiceNumber() {
+		return invoiceNumber.withTimeoutOf(Duration.ofSeconds(20)).waitUntilVisible().getText();
+	}
+
 	public void enterLastName(String lastName) {
 		lastNameTxtBox.type(lastName);
 	}
@@ -241,11 +292,11 @@ public class SearchPage extends PageObject {
 		}
 		return listOfNames;
 	}
-	
+
 	public String getPatientName() {
 		return patientName.getText();
 	}
-	
+
 	public String getPatientLastName() {
 		String[] lastName = patientName.getText().split(",", 0);
 		return lastName[0].trim();
