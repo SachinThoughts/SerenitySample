@@ -191,6 +191,32 @@ public class FinancialInfoStepDef {
 						.equals(financialInfoStep.formatCurrency(financialInfoElementVal)));
 	}
 
+	@When("^user Clicks on drill down icon of total charges$")
+	public void user_Clicks_on_drill_down_icon_of_total_charges() {
+		financialInfoPage.expandTotalCharges();
+	}
+
+	@Then("^User should be able to view following total charges fields:$")
+	public void user_should_be_able_to_view_following_total_charges_fields(DataTable datatable) {
+		List<String> expectedTotalChargesTableHeaders = datatable.asList(String.class);
+		Assert.assertTrue("Total charges Headers do not match",
+				financialInfoPage.getTotalChargesTableHeaders().equals(expectedTotalChargesTableHeaders));
+	}
+
+	@When("^user executes the query to fetch total charges details (.*)$")
+	public void user_runs_the_query_to_fetch_total_charges_details(String queryName) throws Exception {
+		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
+				String.format(commonMethods.loadQuery(queryName, dbQueryFilename), invoiceNumber));
+	}
+
+	@Then("^user should be able to view same data in drilldown section of Total Charges as SQL result$")
+	public void user_should_be_able_to_view_same_data_in_drilldown_section_of_Total_Charges_as_SQL_result()
+			throws Exception {
+		List<Object> listOfVal = financialInfoStep.verifyTotalChargesDbValuesWithUI();
+		boolean val = ((Boolean) listOfVal.get(listOfVal.size() - 1)).booleanValue();
+		Assert.assertTrue("Following values does not match\n" + listOfVal.subList(0, listOfVal.size() - 1), val);
+	}
+
 	@Then("^User should be able to view some dollar value in Total Charges column$")
 	public void user_should_be_able_to_view_some_dollar_value_in_total_charges_column() {
 		Assert.assertTrue(
