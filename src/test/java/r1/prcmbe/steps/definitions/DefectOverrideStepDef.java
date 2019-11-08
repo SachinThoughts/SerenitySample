@@ -135,9 +135,9 @@ public class DefectOverrideStepDef {
 		Assert.assertTrue("failed to view assigned defect", defectOverridePage.isAssignedSubCategryVisible());
 	}
 
-	@When("^user selects \"([^\"]*)\" radio button to Override Subcategory$")
-	public void user_selects_radio_button_to_Override_Subcategory(String radioBtnValue) {
-		defectOverridePage.selectRadioBtnOnOverrideSubCat(radioBtnValue);
+	@When("^user selects No radio button to Override Subcategory$")
+	public void user_selects_No_radio_button_to_Override_Subcategory() {
+		defectOverridePage.selectNoRadioBtnOnOverrideSubCat();
 	}
 
 	@When("^user selects any value from DefectType dropdown and other Than \"([^\"]*)\" value$")

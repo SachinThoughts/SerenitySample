@@ -73,3 +73,29 @@ Feature: Verify WorkFlowConfiguration related scenarios in PRCM
     Then user should be able to view the appropriate success message: "HandOff Inserted Successfully"
     And user should no longer be able to view Add Handoff pop-up window
     And user should be able to view newly added handoff in the Choose Handoff grid
+
+  @434766 @AHtoDecisionAdmin @Sprint9
+  Scenario Outline: Verify controls under Recipient page
+    Given user having AHtoDecision Admin role is on workflow configuration home page
+    When user login to SQL server and connect to database
+    And user run the query to fetch hand-off id <query1>
+    And user run the query to fetch hand-off name <query2>
+    And user fetches any Handoff Type from DB
+    And user clicks on Radio button against any fetched Handoff Type in Choose Handoff grid
+    And user clicks on continue button on Handoff tab
+    Then user should be able to navigate to Recipient tab
+    Then user should be able to view Recipient tab highlighted in blue color
+    And user should be able to view Workflow Summary label with selected Recipient appended after Handoff type value
+    And user should be able to view +Add Recipient and Continue > button
+    And user should able to view Choose Recipient Label
+    And user should be able to view grid with columns headers
+      | Name | Description | Active |
+    And user should be able to view Edit icon button adjacent to Recipient and Radio button checked against first Recipient
+    And user should be able to view Details link button for respective Recipient
+    When user clicks on Details link button on Recipient Tab
+    Then user should be able to view detailed columns on Recipient Tab
+      | Created Date | Created By | Updated Date | Updated By |
+
+    Examples: 
+      | query1                         | query2                          |
+      | 434767_WFConfig_CheckRecipient | 434767_WFConfig_CheckRecipient1 |
