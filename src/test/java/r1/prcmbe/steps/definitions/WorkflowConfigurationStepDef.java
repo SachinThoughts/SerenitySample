@@ -33,7 +33,7 @@ public class WorkflowConfigurationStepDef extends PageObject {
 	FinancialInfoSteps financialInfoSteps;
 	@Steps
 	WorkflowConfigurationSteps workflowConfigSteps;
-	
+
 	String dbFileName = "WorkFlowConfiguration", dbHandOffName, dbRecipientName, defaultRecipientName,
 			recipientNameOtherThanDefault, dispositionNotes, workflowName, respondDeadline, updatedBy, updatedDate,
 			successMsg, recipientName, recipientDesc, createdBy, createdDate, nextDispositionByDropdownValue,
@@ -211,7 +211,7 @@ public class WorkflowConfigurationStepDef extends PageObject {
 		try {
 			while (DatabaseConn.resultSet.next()) {
 				dbHandOffName = DatabaseConn.resultSet.getString("Name");
-			}			
+			}
 		} catch (SQLException exception) {
 			Assert.assertTrue("HandOffName is not fetched from DB.\nThe Technical Error is:\n" + exception, false);
 		}
@@ -412,7 +412,7 @@ public class WorkflowConfigurationStepDef extends PageObject {
 						+ workflowConfigPage.getCreatedByFieldValue(),
 				createdBy.equals(workflowConfigPage.getCreatedByFieldValue()));
 	}
-	
+
 	@When("^user clicks on \\+Add Recipient button under choose recipient$")
 	public void user_clicks_on_Add_Recipient_button_under_choose_recipient() {
 		workflowConfigPage.clickAddRecipientButton();
@@ -466,7 +466,7 @@ public class WorkflowConfigurationStepDef extends PageObject {
 	public void user_clicks_on_Details_link_button_adjacent_to_newly_created_Recipient() {
 		workflowConfigPage.clickOnDetailsOfSpecificRecipient(recipientName);
 	}
-	
+
 	@When("^user executes the query to fetch added recipient (.*)$")
 	public void user_executes_the_query_to_fetch_added_recipient(String queryName)
 			throws ClassNotFoundException, SQLException, Exception {
@@ -484,13 +484,12 @@ public class WorkflowConfigurationStepDef extends PageObject {
 	}
 
 	@Then("^user should be able to view same value in following columns on Recepient Tab as in SQL result$")
-	public void user_should_be_able_to_view_same_value_in_following_columns_on_Recepient_Tab_as_in_SQL_result() throws ParseException {
+	public void user_should_be_able_to_view_same_value_in_following_columns_on_Recepient_Tab_as_in_SQL_result()
+			throws ParseException {
 		Assert.assertTrue("Created by of Recipient does not match with DB",
 				createdBy.contains(workflowConfigPage.getCreatedByRecipient()));
 		Assert.assertTrue("Created date of Recipient does not match with DB", workflowConfigSteps
 				.formatDbDateFieldWithDateTime(createdDate).equals(workflowConfigPage.getCreatedDateRecipient()));
 	}
-
-
 
 }
