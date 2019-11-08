@@ -19,7 +19,7 @@ public class FinancialInfoSteps extends PageObject {
 	FinancialInfoPage financialInfoPage;
 	SearchPage searchPage;
 	DateFormat outputFormat, inputFormat;
-	int count=0;
+	int count = 0;
 
 	@Step
 	public void log(String message) {
@@ -52,9 +52,9 @@ public class FinancialInfoSteps extends PageObject {
 		decimalFormat.applyPattern(PATTERN);
 		return decimalFormat.format(Float.parseFloat(value)).toString();
 	}
-	
+
 	@Step
-	public List<Object> verifyTotalChargesDbValuesWithUI() throws SQLException, ParseException{
+	public List<Object> verifyTotalChargesDbValuesWithUI() throws SQLException, ParseException {
 		List<Object> listOfVal = new ArrayList<>();
 		List<String> serviceDt = new ArrayList<>();
 		List<String> chargePostingDt = new ArrayList<>();
@@ -79,19 +79,15 @@ public class FinancialInfoSteps extends PageObject {
 			totalCharges.add(DatabaseConn.resultSet.getString("TotalCharges").trim());
 			chargeItemCode.add(DatabaseConn.resultSet.getString("ChargeItemCode").trim());
 			chargeDesc.add(DatabaseConn.resultSet.getObject("ChargeDescription"));
-
 			for (String serviceDate : serviceDt) {
 				serviceDateFormatted.add(formatDbDateFieldWithDateTime(serviceDate));
 			}
-
 			for (String postingDate : chargePostingDt) {
 				chargePostingDateFormatted.add(formatDbDateFieldWithDateTime(postingDate));
 			}
-
 			for (String charges : totalCharges) {
 				totalChargesFormatted.add(formatCurrency(charges));
 			}
-			
 			for (Object desc : chargeDesc) {
 				if (desc == null) {
 					chargeDescFormatted.add("");
@@ -104,19 +100,16 @@ public class FinancialInfoSteps extends PageObject {
 			} else {
 				listOfVal.add("ServiceDate");
 			}
-
 			if (chargePostingDateFormatted.equals(financialInfoPage.getPostingDateList())) {
 				count = count + 1;
 			} else {
 				listOfVal.add("ChargePostingdate");
 			}
-
 			if (ubRevCode.equals(financialInfoPage.getUBRevCodeList())) {
 				count = count + 1;
 			} else {
 				listOfVal.add("UBRevCode");
 			}
-
 			if (revenueCenterCode.equals(financialInfoPage.getRevenueCodeList())) {
 				count = count + 1;
 			} else {
