@@ -35,7 +35,7 @@ public class BSODayNightFollowUpStepDef {
 
 	@When("^user selects \"([^\"]*)\" from hand off type dropdown$")
 	public void user_selects_from_hand_off_type_dropdown(String value) {
-		accInfoPage.selectHandOffTypeValue(value);
+		accInfoPage.selectHandOffType(value);
 	}
 
 	@Then("^user should be able to select Hand Off Type as \"([^\"]*)\"$")

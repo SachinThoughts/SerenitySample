@@ -158,7 +158,7 @@ public class AccountInformationPage extends PageObject {
 		return handOffPopUp.isVisible();
 	}
 
-	public void selectHandOffTypeValue(String handOffType) {
+	public void selectHandOffType(String handOffType) {
 		handOffTypeDrpDwn.selectByVisibleText(handOffType);
 	}
 
