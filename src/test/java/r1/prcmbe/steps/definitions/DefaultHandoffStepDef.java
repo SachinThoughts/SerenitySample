@@ -6,6 +6,9 @@ import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Random;
+
+import org.apache.commons.lang.math.RandomUtils;
 import org.junit.Assert;
 import net.serenitybdd.core.pages.PageObject;
 import r1.prcmbe.pages.SettingsPage;
@@ -23,9 +26,11 @@ public class DefaultHandoffStepDef extends PageObject {
 	SettingsPage settingsPage;
 	LoginSteps loginSteps;
 
-	String workFlowDescription, recipientDesc, actionDescription, followUpDays, dispositionDescription,
-			responseDeadline, dispositionCode, dispositionFollowUpDays, dispositionResponseDeadline, dispositionStatus,
+	String workFlowDescription,
+			recipientDesc, actionDescription, followUpDays, dispositionDescription, responseDeadline, dispositionCode,
+			dispositionFollowUpDays, dispositionResponseDeadline, /* dispositionStatus */
 			workFlowName, recipientName, actionName;
+	static String dispositionStatus;
 	private static String dbQueryFilename = "DefaultHandoff";
 
 	@When("^click on Workflow Configuration link$")

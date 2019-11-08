@@ -212,4 +212,8 @@ public class SearchPage extends PageObject {
 	public boolean isSubmitBtnEnabled() {
 		return submitBtn.isCurrentlyEnabled();
 	}
+
+	public boolean isToolTipVisible() {
+		return toolTip.isVisible();
+	}
 }
