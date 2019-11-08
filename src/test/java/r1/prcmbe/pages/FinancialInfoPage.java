@@ -102,6 +102,12 @@ public class FinancialInfoPage extends PageObject {
 	@FindBy(xpath = "//*[@id='divTotalCharges']//tr/td[9]")
 	private List<WebElementFacade> chargeDesc;
 
+	@FindBy(id = "lblTotalCharges")
+	private WebElementFacade totalChargesValue;
+
+	@FindBy(id = "lblExpectedPaymentInvoice")
+	private WebElementFacade expectedPaymentValue;
+
 	public boolean isFinanceInfoHeadersVisible(List<String> expectedHeaders) {
 		return getFinInfoHeaderAttributes().containsAll(expectedHeaders);
 	}
@@ -282,5 +288,13 @@ public class FinancialInfoPage extends PageObject {
 			descCharge.add(content);
 		}
 		return descCharge;
+	}
+	
+	public String getTotalCharges() {
+		return totalChargesValue.getText();
+	}
+
+	public Object getExpectedPayment() {
+		return expectedPaymentValue.getText();
 	}
 }
