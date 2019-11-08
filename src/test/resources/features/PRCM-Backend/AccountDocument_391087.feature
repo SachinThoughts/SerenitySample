@@ -9,7 +9,7 @@ Feature: Verify AccountDocument related scenarios in PRCM
     And user clicks on search sub menu
 
   @391087 @Sprint8 @PRCMUser
-  Scenario: Verify that if account uploaded in one of the linked invoices then it should be available in all other invoices as well as in Account
+  Scenario Outline: Verify that if account uploaded in one of the linked invoices then it should be available in all other invoices as well as in Account
     Given user is on "R1 Hub Technologies 2.0 - 01 R1_Decision - Search" page
     When user login to SQL server and connect to database
     And user runs the "PRCM_Account_Document_391087_SQL2" query to fetch invoice number and ChargeTransactionID
@@ -31,3 +31,7 @@ Feature: Verify AccountDocument related scenarios in PRCM
     And user scrolls down till Account Documents section
     And user checks the Show All Documents check box
     Then user should be able to view same document in attachment as uploaded in previous Invoice number
+    
+    Examples: 
+      | doctype |
+      | pdf     |

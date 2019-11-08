@@ -9,6 +9,7 @@ Feature: Verify default handoff
 
   @434985 @434986 @434987 @434988 @Sprint8 @PRCMUser
   Scenario: Verify the functionalities of Add Handoff, Recipient, Action Type and Disposition Type in Workflow Configuration screen
+
     Given PRCM user is on "AHtoDecision Workflow Configuration" Screen
     And user is able to login to sql server and connect to database
     Then user should be able to view +Add Handoff button on Handoff screen grid
@@ -56,7 +57,7 @@ Feature: Verify default handoff
     And user clicks on Continue button to move to Desposition tab and user should be able to view  the message "No Disposition exists for the selected action type" under Choose Disposition Type grid
     When user clicks on +Add New Disposition button
     And user enters text in Disposition Code textbox
-    And user enters text in Disposition Description textbox: "DespositionDesc123"
+    And user enters text in Disposition Description textbox: "DispositionDesc123"
     And user selects any option from Next Desposition By dropdown
     And For disposition user enters "0" in Follow Up Days textbox
     And For disposition user enters: "999" in Follow Respond Deadline textbox

@@ -69,20 +69,20 @@ public class SearchPage extends PageObject {
 
 	@FindBy(xpath = "//div[@class='tooltip top in']")
 	private WebElementFacade toolTip;
-	
+
 	@FindBy(xpath = "//select[@class='form-control ddlOperator']")
 	private WebElementFacade operator;
-	
+
 	@FindBy(xpath = "//*[@id='dvAccountSearch']/table/tbody/tr/td[2]")
 	private List<WebElementFacade> listOfSearchedInvNum;
-	
+
 	@FindBy(id = "msg_info")
 	private WebElementFacade errorAlert;
-	
+
 	@FindBy(xpath = "//div[@class = 'alert alert-info']//button")
 	private WebElementFacade closeErrorAlert;
-	
-	@FindBy(xpath="//span[@id='lblInvoiceNo']")
+
+	@FindBy(xpath = "//span[@id='lblInvoiceNo']")
 	private WebElementFacade invoiceNumber;
 
 	String titleJS = "return document.querySelector('#Head > title').text";
@@ -227,26 +227,30 @@ public class SearchPage extends PageObject {
 	public boolean isSubmitBtnEnabled() {
 		return submitBtn.isCurrentlyEnabled();
 	}
-	
+
+	public boolean isToolTipVisible() {
+		return toolTip.isVisible();
+	}
+
 	public void operatorSelectText(String operatorValue) {
 		operator.selectByVisibleText(operatorValue);
 	}
-	
+
 	public void clickSearchInvoiceNumber() {
 		listOfSearchedInvNum.get(getFacilityIndex()).click();
 		if (isErrorMsgVisible()) {
 			clickErrorMsg();
 		}
 	}
-	
+
 	public boolean isErrorMsgVisible() {
 		return errorAlert.isVisible();
 	}
-	
+
 	public void clickErrorMsg() {
 		closeErrorAlert.click();
 	}
-	
+
 	public List<String> getlistOfInvNum() {
 		waitForAngularRequestsToFinish();
 		List<String> listOfInvNum = new ArrayList<>();
@@ -255,7 +259,7 @@ public class SearchPage extends PageObject {
 		}
 		return listOfInvNum;
 	}
-	
+
 	public String getAccountNumber() {
 		return invoiceNumber.withTimeoutOf(Duration.ofSeconds(20)).waitUntilVisible().getText();
 	}

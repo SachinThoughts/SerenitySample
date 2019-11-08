@@ -11,7 +11,7 @@ import net.serenitybdd.core.annotations.findby.FindBy;
 
 public class DefaultHandoffPage extends PageObject {
 
-	String workflowName;
+	String workflowName, getDispositionStatus;
 
 	@FindBy(xpath = "//h3[@class='panel-title']")
 	private WebElementFacade defaultHandOffPageTitle;
@@ -175,7 +175,7 @@ public class DefaultHandoffPage extends PageObject {
 	@FindBy(xpath = "//*[@id='addNewDisposition']//button[@class='btn btnPrimary']")
 	private WebElementFacade addNewDispositionSaveChangesButton;
 
-	@FindBy(id = "Disp0")
+	@FindBy(xpath = "(//*[@id='WorkflowTypeDispositionSorttable'])[last()]/li[last()]/div[3]/span")
 	private WebElementFacade savedDispositionName;
 
 	@FindBy(id = "FUP0")
@@ -496,6 +496,24 @@ public class DefaultHandoffPage extends PageObject {
 
 	public void selectDispositionStatusDD(String dispositionStatusValue) {
 		dispositionStatusDD.selectByVisibleText(dispositionStatusValue);
+		getDispositionStatus = dispositionStatusDD.getSelectedVisibleTextValue();
+
+	}
+
+	public void selectDispositionStatusFromDD(String dispositionStatusValue) {
+		dispositionStatusDD.selectByVisibleText(dispositionStatusValue);
+
+		System.out.println(" status code " + getDispositionStatus);
+	}
+
+	public boolean isSelectedValueInDispositionStatusVisible(String expectedDrpDownValue) {
+		evaluateJavascript("arguments[0].scrollIntoView(true);", dispositionStatusDD);
+		System.out.println(getDispositionStatus);
+		getDispositionStatus = dispositionStatusDD.getSelectedVisibleTextValue();
+		if (getDispositionStatus.trim().equals(expectedDrpDownValue)) {
+			return true;
+		}
+		return false;
 	}
 
 	public void enterPreDefinedNotes(String preDefinedNotesValue) {
@@ -507,6 +525,7 @@ public class DefaultHandoffPage extends PageObject {
 	}
 
 	public String getTextSavedDispositionName() {
+		withAction().moveToElement(savedDispositionName).build().perform();
 		return savedDispositionName.getText().trim();
 	}
 

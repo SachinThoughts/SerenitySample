@@ -4,12 +4,10 @@ import cucumber.api.DataTable;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 import org.junit.Assert;
-
 import net.serenitybdd.core.environment.EnvironmentSpecificConfiguration;
 import net.serenitybdd.core.pages.PageObject;
 import net.thucydides.core.annotations.Steps;
@@ -41,9 +39,10 @@ public class DefaultHandoffStepDef extends PageObject {
 	SettingsPage settingsPage;
 
 	String workFlowDescription, recipientDesc, actionDescription, followUpDays, dispositionDescription,
-			responseDeadline, dispositionCode, dispositionFollowUpDays, dispositionResponseDeadline, dispositionStatus,
-			workFlowName, recipientName, actionName, searchText, dbId = "", facilitySettingValue, invoiceNumber,
+			responseDeadline, dispositionCode, dispositionFollowUpDays, dispositionResponseDeadline, workFlowName,
+			recipientName, actionName, searchText, dbId = "", facilitySettingValue, invoiceNumber,
 			dbFacilitySettingValue;
+	static String dispositionStatus;
 	private static String dbQueryFilename = "DefaultHandoff";
 
 	@When("^click on Workflow Configuration link$")
