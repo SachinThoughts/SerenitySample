@@ -74,3 +74,28 @@ Feature: This feature is to verify the financial Information functionality
     Examples:   
       | queryName5                                |
       | Financial_Information_Section_391026_SQL5 |
+
+  @391027 @Sprint101 @PRCMUser
+  Scenario Outline: Verify the Drilldown section of total charges>0
+    Given user is able to login to sql server and connect to database
+    When user executes the query for InvoiceNumber <queryname1>
+    And user fetch the InvoiceNumber from DB
+    And user enters InvoiceNumber in the InvoiceNumber field and click on submit button
+    And user scrolls down till Financial Information Section
+    And user Clicks on drill down icon of total charges
+    Then User should be able to view following total charges fields:
+      | Service Date        |
+      | Charge Posting Date |
+      | UB-04 Rev Code      |
+      | Revenue Center Code |
+      | CPT code            |
+      | Number of Units     |
+      | Total Charge        |
+      | ChargeItemCode      |
+      | Charge Description  |
+    And user executes the query to fetch total charges details <queryname6>
+    Then user should be able to view same data in drilldown section of Total Charges as SQL result
+
+    Examples: 
+      | queryname1                                | queryname6                                |
+      | Financial_Information_Section_391021_SQL1 | Financial_Information_Section_391027_SQL6 |
