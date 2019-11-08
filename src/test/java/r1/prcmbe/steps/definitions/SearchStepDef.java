@@ -254,34 +254,4 @@ public class SearchStepDef extends PageObject {
 		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
 				commonMethods.loadQuery(queryName, dbQueryFilename));
 	}
-
-	@When("^user enters invalid value (.*) in textbox$")
-	public void user_enters_invalid_value_in_textbox(String invalidVal) {
-		if (searchPage.isVisitTxtFieldVisible()) {
-			searchPage.enterVisitNumber(invalidVal);
-		} else if (searchPage.isMRNTxtFieldVisible()) {
-			searchPage.enterMRN(invalidVal);
-		} else if (searchPage.isClaimNumberTxtFieldVisible()) {
-			searchPage.enterClaimNumber(invalidVal);
-		} else if (searchPage.isInvoiceNumberTxtFieldVisible()) {
-			searchPage.enterInvoiceNumber(invalidVal);
-		} else if (searchPage.isSSNTxtFieldVisible()) {
-			searchPage.enterSSN(invalidVal);
-		} else {
-			Assert.assertTrue("Search text box not visible", false);
-		}
-	}
-
-	/*
-	 * @Then("^user should be able to view the same result in grid as SQL result for Claim Number$"
-	 * ) public void
-	 * user_should_be_able_to_view_the_same_result_in_grid_as_SQL_result_for_Claim_Number
-	 * () { try { while (DatabaseConn.resultSet.next()) { dbResult =
-	 * DatabaseConn.resultSet.getString(1); }
-	 * Assert.assertTrue("grid columns from Database does not match with UI",
-	 * listOfGridColumnsOnUI.containsAll(searchPageSteps.
-	 * fetchColumnNamesFromDatabaseResult())); } catch (SQLException sQLException) {
-	 * Assert.assertTrue("Names are not fetched from DB.\nThe Technical Error is:\n"
-	 * + sQLException, false); } }
-	 */
 }
