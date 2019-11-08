@@ -21,23 +21,23 @@ public class SearchPageSteps {
 		return searchPage.isPatientAndVisitHeaderVisible()
 				&& dbInvoiceId.contains(searchPage.getInvoiceID().toLowerCase());
 	}
-	
+
 	@Step
-	public boolean verifyInvoiceNumberWithEqualOperator(String dbEncounterID) {
+	public boolean verifyInvoiceNumberWithEqualOperator(String dbInvoiceNum) {
 		if (searchPage.isSearchAccTableVisible()) {
-			for (String encounterID : searchPage.getlistOfAccNum()) {
-				if (!encounterID.equalsIgnoreCase(dbEncounterID)) {
-					loginSteps.log("The incorrect searched Encounter id is " + encounterID);
+			for (String invoiceNum : searchPage.getlistOfInvNum()) {
+				if (!invoiceNum.equalsIgnoreCase(dbInvoiceNum)) {
+					loginSteps.log("The incorrect searched Invoice Number is " + invoiceNum);
 					return false;
 				}
 			}
-			searchPage.clickSearchAccountNumber();
+			searchPage.clickSearchInvoiceNumber();
 		}
 		if (searchPage.isErrorMsgVisible()) {
 			searchPage.clickErrorMsg();
 		}
 		return searchPage.isPatientAndVisitHeaderVisible()
-				&& dbEncounterID.equalsIgnoreCase(searchPage.getAccountNumber());
+				&& dbInvoiceNum.equalsIgnoreCase(searchPage.getAccountNumber());
 	}
 
 }

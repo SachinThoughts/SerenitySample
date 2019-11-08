@@ -66,7 +66,7 @@ Feature: Verify default handoff
     Then user should be able to view the appropriate success message: "Saved successfully"
     And user should be able to view the newly created Disposition in Choose Disposition Type grid with correct data in the columns
 
-  @434989 @434991 @PRCMUser @Sprint9
+  @434989 @434991 @PRCMUser @Sprint101
   Scenario: Verify user is able to update the Process ID of newly added handoff in FacilitySetting Configuration screen and Verify user is able to update the WorkflowTypeID of newly added handoff in FacilitySetting Configuration screen
     Given PRCM user is on "AHtoDecision Workflow Configuration" Screen
     Then user should be able to view +Add Handoff button on Handoff screen grid
@@ -126,21 +126,20 @@ Feature: Verify default handoff
     And user runs the "Defaulthandoff_434991_SQL6" query for default handoff
     Then user should be able to view added WorkflowTypeID in SQL result
 
-  @434990 @PRCMUser @Sprint8
+  @434990 @PRCMUser @Sprint101
   Scenario: Verify user is able to view newly added handoff type in Handoff Type dropdown on R1 Decision screen
     Given PRCM user is on "AHtoDecision Workflow Configuration" Screen
     When user selects existing added handoff
     And user clicks on Billing & Follow-up link from footer
     And user hover on R1_Decision
     And user clicks on search sub menu
-    #Given user is on "R1 Hub Technologies 2.0 - 01 R1_Decision - Search" page
-    #When user select "Visit Number" option from Search By drop-down
+    Then user is on "R1 Hub Technologies 2.0 - 01 R1_Decision - Search" page
     And user selects "=" option from Operator dropdown
     When user is able to login to sql server and connect to database
     And user runs the "Defaulthandoff_434990_SQL4" query for default handoff
     And user enters the SQL result in Visit Number Search textbox
     And user clicks on Submit Button
-    #Then user should be able to view R1 Decision Account page
+    Then user should be able to view R1 Decision Account page
     When user clicks on Handoff button
     And user clicks on Handoff Type dropdown
     Then user should be able to view the newly added handoff in Handoff Type dropdown

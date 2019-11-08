@@ -73,8 +73,8 @@ public class SearchPage extends PageObject {
 	@FindBy(xpath = "//select[@class='form-control ddlOperator']")
 	private WebElementFacade operator;
 	
-	@FindBy(xpath = "//a[starts-with(@id,'ctrs')]")
-	private List<WebElementFacade> listOfSearchedAccNum;
+	@FindBy(xpath = "//*[@id='dvAccountSearch']/table/tbody/tr/td[2]")
+	private List<WebElementFacade> listOfSearchedInvNum;
 	
 	@FindBy(id = "msg_info")
 	private WebElementFacade errorAlert;
@@ -82,8 +82,8 @@ public class SearchPage extends PageObject {
 	@FindBy(xpath = "//div[@class = 'alert alert-info']//button")
 	private WebElementFacade closeErrorAlert;
 	
-	@FindBy(id = "lblAccountNo")
-	private WebElementFacade accountNumber;
+	@FindBy(xpath="//span[@id='lblInvoiceNo']")
+	private WebElementFacade invoiceNumber;
 
 	String titleJS = "return document.querySelector('#Head > title').text";
 	String facilityCodeJS = "document.querySelector('#dnn_ctr1025_ModuleContent > span > span:nth-child(1)').textContent";
@@ -232,8 +232,8 @@ public class SearchPage extends PageObject {
 		operator.selectByVisibleText(operatorValue);
 	}
 	
-	public void clickSearchAccountNumber() {
-		listOfSearchedAccNum.get(getFacilityIndex()).click();
+	public void clickSearchInvoiceNumber() {
+		listOfSearchedInvNum.get(getFacilityIndex()).click();
 		if (isErrorMsgVisible()) {
 			clickErrorMsg();
 		}
@@ -247,16 +247,16 @@ public class SearchPage extends PageObject {
 		closeErrorAlert.click();
 	}
 	
-	public List<String> getlistOfAccNum() {
+	public List<String> getlistOfInvNum() {
 		waitForAngularRequestsToFinish();
-		List<String> listOfAccNum = new ArrayList<>();
-		for (WebElementFacade element : listOfSearchedAccNum) {
-			listOfAccNum.add(element.getText());
+		List<String> listOfInvNum = new ArrayList<>();
+		for (WebElementFacade invoiceNumber : listOfSearchedInvNum) {
+			listOfInvNum.add(invoiceNumber.getText());
 		}
-		return listOfAccNum;
+		return listOfInvNum;
 	}
 	
 	public String getAccountNumber() {
-		return accountNumber.withTimeoutOf(Duration.ofSeconds(20)).waitUntilVisible().getText();
+		return invoiceNumber.withTimeoutOf(Duration.ofSeconds(20)).waitUntilVisible().getText();
 	}
 }

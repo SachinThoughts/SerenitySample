@@ -12,6 +12,7 @@ import org.junit.Assert;
 
 import net.serenitybdd.core.environment.EnvironmentSpecificConfiguration;
 import net.serenitybdd.core.pages.PageObject;
+import net.thucydides.core.annotations.Steps;
 import net.thucydides.core.util.EnvironmentVariables;
 import r1.prcmbe.pages.SettingsPage;
 import r1.prcmbe.serenity.steps.LoginSteps;
@@ -28,12 +29,16 @@ public class DefaultHandoffStepDef extends PageObject {
 	DefaultHandoffPage defaultHandOffPage;
 	NavigationPage navPage;
 	CommonMethods commonMethods;
-	SettingsPage settingsPage;
-	LoginSteps loginSteps;
 	EnvironmentVariables environmentVariables;
 	SearchPage searchPage;
-	SearchPageSteps searchPageSteps;
 	AccountInformationPage accInfoPage;
+
+	@Steps
+	SearchPageSteps searchPageSteps;
+	@Steps
+	LoginSteps loginSteps;
+	@Steps
+	SettingsPage settingsPage;
 
 	String workFlowDescription, recipientDesc, actionDescription, followUpDays, dispositionDescription,
 			responseDeadline, dispositionCode, dispositionFollowUpDays, dispositionResponseDeadline, dispositionStatus,
@@ -467,8 +472,6 @@ public class DefaultHandoffStepDef extends PageObject {
 
 	@When("^user runs the \"([^\"]*)\" query for default handoff$")
 	public void user_runs_the_query_query_for_default_handoff(String query) throws Exception {
-	System.out.println("jdjd");
-	System.out.println(commonMethods.loadQuery(query, dbQueryFilename));
 		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
 				commonMethods.loadQuery(query, dbQueryFilename));
 	}
@@ -507,7 +510,8 @@ public class DefaultHandoffStepDef extends PageObject {
 				invoiceNumber = DatabaseConn.resultSet.getString("InvoiceNumber");
 			}
 		} catch (SQLException sQLException) {
-			Assert.assertTrue("Invoice Number is not fetched from DB.\nThe Technical Error is:\n" + sQLException, false);
+			Assert.assertTrue("Invoice Number is not fetched from DB.\nThe Technical Error is:\n" + sQLException,
+					false);
 		}
 		loginSteps.log("Fetched Invoice Number from Database is " + invoiceNumber);
 		searchPage.enterInvoiceNumber(invoiceNumber);
@@ -529,7 +533,7 @@ public class DefaultHandoffStepDef extends PageObject {
 		Assert.assertTrue("Newly added handoff is not visible in the Handoff Type dropdown",
 				accInfoPage.getHandOffTypeDrpDownValues().contains(workFlowName));
 	}
-	
+
 	@When("^user clicks on Handoff link button$|^user clicks on Handoff button$")
 	public void user_clicks_on_Handoff_link_button() {
 		accInfoPage.clickHandOffBtn();
