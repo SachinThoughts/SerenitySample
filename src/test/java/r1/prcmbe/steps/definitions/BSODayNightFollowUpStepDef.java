@@ -35,11 +35,11 @@ public class BSODayNightFollowUpStepDef {
 
 	@When("^user selects \"([^\"]*)\" from hand off type dropdown$")
 	public void user_selects_from_hand_off_type_dropdown(String value) {
-		accInfoPage.selectHandOfftype(value);
+		accInfoPage.selectHandOffTypeValue(value);
 	}
 
 	@Then("^user should be able to select Hand Off Type as \"([^\"]*)\"$")
 	public void user_should_be_able_to_select_Hand_Off_Type_as(String handOffType) {
-		Assert.assertTrue(accInfoPage.getSelectedHandOffType().equals(handOffType));
+		Assert.assertTrue("Expected HandOff type is not selected",accInfoPage.getSelectedHandOffTypeValue().equals(handOffType));
 	}
 }
