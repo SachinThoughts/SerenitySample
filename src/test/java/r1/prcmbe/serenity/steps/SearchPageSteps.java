@@ -37,7 +37,6 @@ public class SearchPageSteps {
 			searchPage.clickErrorMsg();
 		}
 		return searchPage.isPatientAndVisitHeaderVisible()
-				&& dbInvoiceNum.equalsIgnoreCase(searchPage.getAccountNumber());
+				&& dbInvoiceNum.equalsIgnoreCase(searchPage.getInvoiceNumber());
 	}
-
 }

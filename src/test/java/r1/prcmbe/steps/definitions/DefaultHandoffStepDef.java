@@ -9,7 +9,6 @@ import java.sql.SQLException;
 import java.util.List;
 import org.junit.Assert;
 import net.serenitybdd.core.environment.EnvironmentSpecificConfiguration;
-import net.serenitybdd.core.pages.PageObject;
 import net.thucydides.core.annotations.Steps;
 import net.thucydides.core.util.EnvironmentVariables;
 import r1.prcmbe.pages.SettingsPage;
@@ -22,7 +21,7 @@ import r1.prcmbe.pages.DefaultHandoffPage;
 import r1.prcmbe.pages.NavigationPage;
 import r1.prcmbe.pages.SearchPage;
 
-public class DefaultHandoffStepDef extends PageObject {
+public class DefaultHandoffStepDef {
 
 	DefaultHandoffPage defaultHandOffPage;
 	NavigationPage navPage;

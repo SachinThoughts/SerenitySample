@@ -260,7 +260,7 @@ public class SearchPage extends PageObject {
 		return listOfInvNum;
 	}
 
-	public String getAccountNumber() {
+	public String getInvoiceNumber() {
 		return invoiceNumber.withTimeoutOf(Duration.ofSeconds(20)).waitUntilVisible().getText();
 	}
 }
