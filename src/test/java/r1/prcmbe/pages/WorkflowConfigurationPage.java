@@ -189,6 +189,18 @@ public class WorkflowConfigurationPage extends PageObject {
 	
 	@FindBy(xpath = "//*[@id='WorkflowTypeActionsSorttable']//span[contains(@id,'NA')]")
 	private List<WebElementFacade> listOfActionNames;
+	
+	@FindBy(xpath = "//*[@id='WorkflowTypeActionsSorttable']//ul[@class='more-info workflowConfigdetailsInfo']//span[text()='Created Date']/following-sibling::span")
+	private List<WebElementFacade> actionCreatedDate;
+	
+	@FindBy(xpath = "//*[@id='WorkflowTypeActionsSorttable']//ul[@class='more-info workflowConfigdetailsInfo']//span[text()='Created By']/following-sibling::span")
+	private List<WebElementFacade> actionCreatedBy;
+	
+	@FindBy(xpath = "//*[@id='WorkflowTypeActionsSorttable']//ul[@class='more-info workflowConfigdetailsInfo']//span[text()='Updated Date']/following-sibling::span")
+	private List<WebElementFacade> actionUpdatedDate;
+	
+	@FindBy(xpath = "//*[@id='WorkflowTypeActionsSorttable']//ul[@class='more-info workflowConfigdetailsInfo']//span[text()='Updated By']/following-sibling::span")
+	private List<WebElementFacade> actionUpdatedBy;
 
 	public String getCreatedByFieldValue() {
 		return createdByField.getText();

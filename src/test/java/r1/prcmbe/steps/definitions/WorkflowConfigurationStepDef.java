@@ -461,8 +461,8 @@ public void user_run_the_query_to_fetch_Action_Details(String queryName) throws 
 }
 
 @Then("^user should be able to view same value in following columns on UI as in SQL result$")
-public void user_should_be_able_to_view_same_value_in_following_columns_on_UI_as_in_SQL_result(DataTable arg1) {
-    
+public void user_should_be_able_to_view_same_value_in_following_columns_on_UI_as_in_SQL_result(DataTable fields) {
+	List<String> expectedFields=fields.asList(String.class);
 }
 
 }
