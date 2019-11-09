@@ -22,13 +22,14 @@ public class SearchStepDef extends PageObject {
 	BillingAndFollowUpPage billingAndFollowUpPage;
 	SearchPage searchPage;
 	CommonMethods commonMethods;
-	FinancialInfoSteps financialInfoSteps;
 	private static String dbQueryFilename = "PrcmSearch";
 	String dbInvoiceNumber;
+	@Steps
+	FinancialInfoSteps financialInfoSteps;
 
 	@Steps
 	SearchPageSteps searchPageSteps;
-	
+
 	@When("^user clicks on Billing & Follow-up link$")
 	public void user_clicks_on_Billing_Follow_up_link() {
 		navigationPage.clickOnBillingAndFollowUpLink();
