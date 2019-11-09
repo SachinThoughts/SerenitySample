@@ -200,7 +200,7 @@ public class SearchStepDef extends PageObject {
 		if (searchPage.getSearchPageTitle().contains("R1 Hub Technologies 2.0 - 01 R1_Decision - Search")) {
 			searchPage.enterInvoiceNumber(dbInvoiceNumber);
 			searchPage.clickSubmitBtn();
-			searchPageSteps.verifyInvoiceIDWithEqualOperator(dbInvoiceNumber);
+			searchPageSteps.verifyInvoiceNumberWithEqualOperator(dbInvoiceNumber);
 		}
 	}
 
