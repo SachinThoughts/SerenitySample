@@ -169,7 +169,7 @@ public class WorkflowConfigurationPage extends PageObject {
 	@FindBy(xpath = "//*[@id='dvRecipientDetails']//*[contains(@id,'sName')]")
 	private List<WebElementFacade> listOfRecipientsName;
 	
-	@FindBy(xpath = "//*[@id='addNewAction']//*[@class='form-group']")
+	@FindBy(xpath = "//div[@id='addNewAction']//div[not(contains(@class,'hidden'))]/label[contains(@class,'control-label')]")
 	private List<WebElementFacade> actionPopUpControls;
 	
 	@FindBy(xpath = "//*[@id='addNewAction']//button[text()='Close']")
@@ -191,16 +191,19 @@ public class WorkflowConfigurationPage extends PageObject {
 	private List<WebElementFacade> listOfActionNames;
 	
 	@FindBy(xpath = "//*[@id='WorkflowTypeActionsSorttable']//ul[@class='more-info workflowConfigdetailsInfo']//span[text()='Created Date']/following-sibling::span")
-	private List<WebElementFacade> actionCreatedDate;
+	private WebElementFacade actionCreatedDate;
 	
 	@FindBy(xpath = "//*[@id='WorkflowTypeActionsSorttable']//ul[@class='more-info workflowConfigdetailsInfo']//span[text()='Created By']/following-sibling::span")
-	private List<WebElementFacade> actionCreatedBy;
+	private WebElementFacade actionCreatedBy;
 	
 	@FindBy(xpath = "//*[@id='WorkflowTypeActionsSorttable']//ul[@class='more-info workflowConfigdetailsInfo']//span[text()='Updated Date']/following-sibling::span")
-	private List<WebElementFacade> actionUpdatedDate;
+	private WebElementFacade actionUpdatedDate;
 	
 	@FindBy(xpath = "//*[@id='WorkflowTypeActionsSorttable']//ul[@class='more-info workflowConfigdetailsInfo']//span[text()='Updated By']/following-sibling::span")
-	private List<WebElementFacade> actionUpdatedBy;
+	private WebElementFacade actionUpdatedBy;
+	
+	@FindBy(xpath = "//div[@id='addNewAction']//div[@class='alert alert-info']/span")
+	private WebElementFacade errorMsgForEmptyFieldsOnActionPopUp;
 
 	public String getCreatedByFieldValue() {
 		return createdByField.getText();
@@ -515,6 +518,8 @@ public class WorkflowConfigurationPage extends PageObject {
 		int count = 0;
 		int size = actionPopUpControls.size();
 		for (int i = 0; i < size; i++) {
+			System.out.println(actionPopUpControls.get(i).getText());
+			System.out.println(listOfFields.get(i));
 			if (actionPopUpControls.get(i).getText().equals(listOfFields.get(i))) {
 				count = count + 1;
 			} else {
@@ -555,5 +560,39 @@ public class WorkflowConfigurationPage extends PageObject {
 				evaluateJavascript("arguments[0].click();", listOfDetailsLinkOnActionTab.get(i));
 			}
 		}
+	}
+	
+	public  String getActionCreatedDate() {
+		return actionCreatedDate.getText();
+	}
+	
+	public String getActionCreatedBy() {
+		return actionCreatedBy.getText();
+	}
+	
+	public String getActionUpdatedDate() {
+		return actionUpdatedDate.getText();
+	}
+	
+	public String getActionUpdatedBy() {
+		return actionUpdatedBy.getText();
+	}
+	
+	public String getErrorMsgOnActionPopup() {
+		withAction().moveToElement(errorMsgForEmptyFieldsOnActionPopUp).build().perform();
+		String expectedMEssage = errorMsgForEmptyFieldsOnActionPopUp.withTimeoutOf(Duration.ofSeconds(20)).waitUntilVisible()
+				.getText().trim();
+		return expectedMEssage;
+
+	}
+	
+	public boolean isNewlyAddedActionVisibleInGrid(String actionName) {
+		int size = listOfActionNames.size();
+		for (int i = 0; i < size; i++) {
+			if (listOfActionNames.get(i).getText().equals(actionName)) {
+				return true;
+			}
+		}
+		return false;
 	}
 }

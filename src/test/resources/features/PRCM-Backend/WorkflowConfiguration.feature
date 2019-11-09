@@ -142,7 +142,7 @@ Feature: Verify WorkFlowConfiguration related scenarios in PRCM
     Then user should be able to view the appropriate success message: "Saved successfully"
     And user should no longer be able to view Add New Disposition pop-up window
     And user should be able to view the newly created Disposition in Choose Disposition Type grid with correct data in the columns
-   When user clicks on Details link button adjacent to newly created Disposition Name
+    When user clicks on Details link button adjacent to newly created Disposition Name
     And user login to SQL server and connect to database
     And user runs the Add Disposition Detail query "434773_WFConfig_NewDisposition"
     Then user should be able to view same value in Created Date and CreatedBy columns on UI as in SQL result
@@ -150,52 +150,50 @@ Feature: Verify WorkFlowConfiguration related scenarios in PRCM
     Examples: 
       | query1                         | query2                          |
       | 434767_WFConfig_CheckRecipient | 434767_WFConfig_CheckRecipient1 |
-      
-      
-      @434770 @AHtoDecisionAdmin @Sprint101
-Scenario Outline: Verify Add New Action functionality
-Given user having AHtoDecision Admin role is on workflow configuration home page
-When user login to SQL server and connect to database
+
+  @434770 @AHtoDecisionAdmin @Sprint101
+  Scenario Outline: Verify Add New Action functionality
+    Given user having AHtoDecision Admin role is on workflow configuration home page
+    When user login to SQL server and connect to database
     And user run the query to fetch hand-off id <query1>
     And user run the query to fetch hand-off name <query2>
-And user fetches any Handoff Type from DB
-And user clicks on Radio button against any fetched Handoff Type in Choose Handoff grid
+    And user fetches any Handoff Type from DB
+    And user clicks on Radio button against any fetched Handoff Type in Choose Handoff grid
     And user clicks on continue button on Handoff tab
-And user run the query to fetch recipient name <query3>
-And user clicks on radio button against any fetched Recipient
-And user clicks on Continue button on Recipient tab
-And user clicks on +Add New Action button
-Then user should be able to view Add New Action pop up window with controls
- | Action Name | Action Description | Next Action By | Follow Up Days | Respond Deadline | Action Status | Active | Required | Close | Save changes |
-When user clicks on Save Changes button on action popup
-Then user should able to view info message "Please enter Action Name"
-When user enters text in Action Name textbox
-And user clicks on Save Changes button on action popup
-Then user should able to view info message "Please enter Action Description"
-When for Actions user enters text: "ActionDescTest123" in Action Description textbox
-And user clicks on Save Changes button on action popup
-Then user should able to view info message "Please select Next Action By."
-When for Actions user selects "BSO_Followup" option from Next Action By dropdown
-And user clicks on Save Changes button on action popup
-Then user should able to view info message "Please enter Follow Up Days"
-When for Actions user enters "0" in Follow Up Days textbox
-And user clicks on Save Changes button on action popup
-Then user should able to view info message "Please enter Respond Deadline"
-When for Actions user enters: "999" in Follow Respond Deadline textbox
-And user clicks on Save Changes button on action popup
-Then user should able to view info message "Please select Action Status."
-When for Actions user selects: "Identified" option from Action Status dropdown
-And user clicks on Required checkbox
-When user clicks on Save Changes button on action popup
-Then user should be able to view message "Saved successfully"
-And user should no longer be able to view Add New Action pop-up window
-And user should be able to view newly created Action in Choose Action Type grid with correct data in the columns
-When user clicks on Details link button adjacent to newly created Action Name
-And user login to SQL server and connect to database
-And user run the query to fetch Action Details <query4>
-Then user should be able to view same value in following columns on UI as in SQL result
-| Created Date | Created By | Updated Date | Updated By |
+    And user run the query to fetch recipient name <query3>
+    And user clicks on radio button against any fetched Recipient
+    And user clicks on Continue button on Recipient tab
+    And user clicks on +Add New Action button
+    Then user should be able to view Add New Action pop up window with controls
+      | Action Name | Action Description | Next Action By | Follow Up Days | Respond Deadline | Action Status | Active | Required | Close | Save changes |
+    When user clicks on Save Changes button on action popup
+    Then user should able to view info message on action popup "Please enter Action Name"
+    When user enters text in Action Name textbox
+    And user clicks on Save Changes button on action popup
+    Then user should able to view info message on action popup "Please enter Action Description"
+    When for Actions user enters text: "ActionDescTest123" in Action Description textbox
+    And user clicks on Save Changes button on action popup
+    Then user should able to view info message on action popup "Please select Next Action By."
+    When for Actions user selects "BSO_Followup" option from Next Action By dropdown
+    And user clicks on Save Changes button on action popup
+    Then user should able to view info message on action popup "Please enter Follow Up Days"
+    When for Actions user enters "0" in Follow Up Days textbox
+    And user clicks on Save Changes button on action popup
+    Then user should able to view info message on action popup "Please enter Respond Deadline"
+    When for Actions user enters: "999" in Follow Respond Deadline textbox
+    And user clicks on Save Changes button on action popup
+    Then user should able to view info message on action popup "Please select Action Status."
+    When for Actions user selects: "Identified" option from Action Status dropdown
+    And user clicks on Required checkbox
+    When user clicks on Save Changes button on action popup
+    Then user should be able to view the appropriate success message: "Saved successfully"
+    And user should no longer be able to view Add New Action pop-up window
+    And user should be able to view newly created Action in Choose Action Type grid
+    When user clicks on Details link button adjacent to newly created Action Name
+    And user login to SQL server and connect to database
+    And user run the query to fetch Action Details <query4>
+    Then user should be able to view same value in details columns on UI as in SQL result
 
-Examples: 
-      | query1                         | query2                          |query3|query4|
-      | 434767_WFConfig_CheckRecipient | 434767_WFConfig_CheckRecipient1 |434767_WFConfig_ReorderAction|434770_BDD_R1D_WFConfig_NewAction|
+    Examples: 
+      | query1                         | query2                          | query3                        | query4                            |
+      | 434767_WFConfig_CheckRecipient | 434767_WFConfig_CheckRecipient1 | 434767_WFConfig_ReorderAction | 434770_BDD_R1D_WFConfig_NewAction |

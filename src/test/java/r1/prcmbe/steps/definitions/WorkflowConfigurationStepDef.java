@@ -18,6 +18,7 @@ import r1.prcmbe.pages.NavigationPage;
 import r1.prcmbe.pages.SettingsPage;
 import r1.prcmbe.pages.WorkflowConfigurationPage;
 import r1.prcmbe.serenity.steps.FinancialInfoSteps;
+import r1.prcmbe.serenity.steps.WorkflowConfigurationSteps;
 
 public class WorkflowConfigurationStepDef extends PageObject {
 
@@ -30,6 +31,8 @@ public class WorkflowConfigurationStepDef extends PageObject {
 
 	@Steps
 	FinancialInfoSteps financialInfoSteps;
+	@Steps
+	WorkflowConfigurationSteps workflowConfigSteps;
 
 	String dbFileName = "WorkFlowConfiguration", dbHandOffName, dbRecipientName, defaultRecipientName,
 			recipientNameOtherThanDefault, dispositionNotes, workflowName, respondDeadline, updatedBy, updatedDate,
@@ -460,9 +463,40 @@ public void user_run_the_query_to_fetch_Action_Details(String queryName) throws 
 			commonMethods.loadQuery(queryName, dbFileName));
 }
 
-@Then("^user should be able to view same value in following columns on UI as in SQL result$")
-public void user_should_be_able_to_view_same_value_in_following_columns_on_UI_as_in_SQL_result(DataTable fields) {
-	List<String> expectedFields=fields.asList(String.class);
+@Then("^user should be able to view same value in details columns on UI as in SQL result$")
+public void user_should_be_able_to_view_same_value_in_details_columns_on_UI_as_in_SQL_result() throws SQLException, ParseException {
+	while (DatabaseConn.resultSet.next()) {
+		String firstName = DatabaseConn.resultSet.getString("FirstName");
+		String lastName = DatabaseConn.resultSet.getString("LastName");
+		createdBy = firstName.concat(" " + lastName);
+		createdDate=DatabaseConn.resultSet.getString("CreatedDate");
+		updatedDate=(String) DatabaseConn.resultSet.getObject("UpdatedDate");
+		updatedBy=(String)DatabaseConn.resultSet.getObject("UpdatedBy");
+		if(updatedDate==null) {
+			updatedDate=" ";
+		}
+		if(updatedBy==null) {
+			updatedBy=" ";
+		}
+	}
+	System.out.println("updated date"+updatedDate);
+	System.out.println("updated date"+workflowConfigPage.getActionUpdatedDate());
+	System.out.println("created date"+createdDate);
+	//Assert.assertTrue("Created date does not match", workflowConfigPage.getActionCreatedDate().equals(workflowConfigSteps.formatDbDateFieldWithDateTime(createdDate)));
+	Assert.assertTrue("Created by does not match", workflowConfigPage.getActionCreatedBy().equals(createdBy));
+	Assert.assertTrue("Updated date does not match", workflowConfigPage.getActionUpdatedDate().equals(updatedDate));
+	Assert.assertTrue("Updated by does not match", workflowConfigPage.getActionUpdatedBy().equals(updatedBy));
 }
 
+@Then("^user should able to view info message on action popup \"([^\"]*)\"$")
+public void user_should_able_to_view_info_message_on_action_popup(String expectedMessage) {
+	Assert.assertTrue("Action popup Error Message does not match ",
+			workflowConfigPage.getErrorMsgOnActionPopup().contains(expectedMessage));
+}
+
+@Then("^user should be able to view newly created Action in Choose Action Type grid$")
+public void user_should_able_to_view_newly_created_Action_in_Choose_Action_Type_grid() {
+	Assert.assertTrue("New Action Name not as per the value entered by user",
+			workflowConfigPage.isNewlyAddedActionVisibleInGrid(DefaultHandoffStepDef.actionName));
+}
 }
