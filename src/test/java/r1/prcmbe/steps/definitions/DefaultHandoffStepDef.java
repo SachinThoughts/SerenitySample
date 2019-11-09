@@ -26,7 +26,7 @@ public class DefaultHandoffStepDef extends PageObject {
 	SettingsPage settingsPage;
 	LoginSteps loginSteps;
 
-	String workFlowDescription,
+	static String workFlowDescription,
 			recipientDesc, actionDescription, followUpDays, dispositionDescription, responseDeadline, dispositionCode,
 			dispositionFollowUpDays, dispositionResponseDeadline, /* dispositionStatus */
 			workFlowName, recipientName, actionName;

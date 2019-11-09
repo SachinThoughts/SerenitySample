@@ -162,6 +162,33 @@ public class WorkflowConfigurationPage extends PageObject {
 
 	@FindBy(xpath = "//*[@class='more-info workflowConfigdetailsInfo']//span[text()='Created By']/following-sibling::span")
 	private WebElementFacade createdByField;
+	
+	@FindBy(xpath = "//*[@id='dvRecipientDetails']//*[@class='radio']//label")
+	private List<WebElementFacade> listOfRecipientsRadioBtn;
+	
+	@FindBy(xpath = "//*[@id='dvRecipientDetails']//*[contains(@id,'sName')]")
+	private List<WebElementFacade> listOfRecipientsName;
+	
+	@FindBy(xpath = "//*[@id='addNewAction']//*[@class='form-group']")
+	private List<WebElementFacade> actionPopUpControls;
+	
+	@FindBy(xpath = "//*[@id='addNewAction']//button[text()='Close']")
+	private WebElementFacade closeBtnOnActionPopUp;
+	
+	@FindBy(xpath = "//*[@id='addNewAction']//button[text()='Save changes']")
+	private WebElementFacade saveChangesBtnOnActionPopUp;
+	
+	@FindBy(xpath = "//*[@id='addNewAction']//*[@id='sopActionRequired']/..")
+	private WebElementFacade requiredCheckBoxActionPopUp;
+	
+	@FindBy(id="addEditNewActionLabel")
+	private WebElementFacade addActionPopUp;
+	
+	@FindBy(xpath = "//*[@id='WorkflowTypeActionsSorttable']//i[@class='fa fa-chevron-right fa-1-5x']")
+	private List<WebElementFacade> listOfDetailsLinkOnActionTab;
+	
+	@FindBy(xpath = "//*[@id='WorkflowTypeActionsSorttable']//span[contains(@id,'NA')]")
+	private List<WebElementFacade> listOfActionNames;
 
 	public String getCreatedByFieldValue() {
 		return createdByField.getText();
@@ -459,5 +486,62 @@ public class WorkflowConfigurationPage extends PageObject {
 
 	public String isDefaultRadioBtnSelected() {
 		return evaluateJavascript("return document.querySelector('#workflowChoiceID-0').checked").toString();
+	}
+	
+	public void clickSpecificRecipientRadioBtn(String recipientName) {
+		int size = listOfRecipientsName.size();
+		for (int i = 0; i < size; i++) {
+			if (listOfRecipientsName.get(i).getText().equals(recipientName)) {
+				withAction().moveToElement(listOfRecipientsRadioBtn.get(i)).build().perform();
+				evaluateJavascript("arguments[0].click();", listOfRecipientsRadioBtn.get(i));
+			}
+		}
+	}
+	
+	public List<Object> verifyAddActionPopupControlsVisible(List<String> listOfFields) {
+		List<Object> listOfVal = new ArrayList<>();
+		int count = 0;
+		int size = actionPopUpControls.size();
+		for (int i = 0; i < size; i++) {
+			if (actionPopUpControls.get(i).getText().equals(listOfFields.get(i))) {
+				count = count + 1;
+			} else {
+				listOfVal.add(listOfFields.get(i));
+			}
+		}
+		if (closeBtnOnActionPopUp.getText().equals(listOfFields.get(8))) {
+			count = count + 1;
+		} else {
+			listOfVal.add("Close");
+		}
+		if (saveChangesBtnOnActionPopUp.getText().equals(listOfFields.get(9))) {
+			count = count + 1;
+		} else {
+			listOfVal.add("Save changes");
+		}
+		if (count == 10) {
+			listOfVal.add(true);
+		} else {
+			listOfVal.add(false);
+		}
+		return listOfVal;
+	}
+	
+	public void clickRequiredCheckBoxOnActionPopUp() {
+		requiredCheckBoxActionPopUp.click();
+	}
+
+	public boolean isAddActionPopUpVisible() {
+		return addActionPopUp.isVisible();
+	}
+	
+	public void clickSpecificDetailsLinkOnActionTab(String actionName) {
+		int size = listOfActionNames.size();
+		for (int i = 0; i < size; i++) {
+			if (listOfActionNames.get(i).getText().equals(actionName)) {
+				withAction().moveToElement(listOfDetailsLinkOnActionTab.get(i)).build().perform();
+				evaluateJavascript("arguments[0].click();", listOfDetailsLinkOnActionTab.get(i));
+			}
+		}
 	}
 }

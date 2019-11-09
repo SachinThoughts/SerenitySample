@@ -411,4 +411,58 @@ public class WorkflowConfigurationStepDef extends PageObject {
 				createdBy.equals(workflowConfigPage.getCreatedByFieldValue()));
 	}
 
+@When("^user run the query to fetch recipient name (.*)$")
+public void user_run_the_query_to_fetch_recipient_name(String queryName) throws Exception {
+	DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
+			commonMethods.loadQuery(queryName, dbFileName));
+	try {
+		while (DatabaseConn.resultSet.next()) {
+			dbRecipientName=DatabaseConn.resultSet.getString("Name");
+		}
+
+	} catch (SQLException exception) {
+		Assert.assertTrue("RecepientName is not fetched from DB.\nThe Technical Error is:\n" + exception, false);
+	}
+}
+
+@When("^user clicks on radio button against any fetched Recipient$")
+public void user_clicks_on_radio_button_against_any_fetched_Recipient() {
+	workflowConfigPage.clickSpecificRecipientRadioBtn(dbRecipientName);
+}
+
+@Then("^user should be able to view Add New Action pop up window with controls$")
+public void user_should_be_able_to_view_Add_New_Action_pop_up_window_with_controls(DataTable controls) {
+    List<String> expectedActionPopUpControls=controls.asList(String.class);
+    List<Object> listOfVal = workflowConfigPage.verifyAddActionPopupControlsVisible(expectedActionPopUpControls);
+	boolean val = ((Boolean) listOfVal.get(listOfVal.size() - 1)).booleanValue();
+	Assert.assertTrue("Controls not visible on Add Action popup\n" + listOfVal.subList(0, listOfVal.size() - 1),
+			val);
+}
+
+@When("^user clicks on Required checkbox$")
+public void user_clicks_on_Required_checkbox() {
+	workflowConfigPage.clickRequiredCheckBoxOnActionPopUp();
+}
+
+@Then("^user should no longer be able to view Add New Action pop-up window$")
+public void user_should_no_longer_be_able_to_view_Add_New_Action_pop_up_window() {
+    Assert.assertFalse("Add action popup is not closed",workflowConfigPage.isAddActionPopUpVisible());
+}
+
+@When("^user clicks on Details link button adjacent to newly created Action Name$")
+public void user_clicks_on_Details_link_button_adjacent_to_newly_created_Action_Name() {
+	workflowConfigPage.clickSpecificDetailsLinkOnActionTab(DefaultHandoffStepDef.actionName);
+}
+
+@When("^user run the query to fetch Action Details (.*)$")
+public void user_run_the_query_to_fetch_Action_Details(String queryName) throws Exception {
+	DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
+			commonMethods.loadQuery(queryName, dbFileName));
+}
+
+@Then("^user should be able to view same value in following columns on UI as in SQL result$")
+public void user_should_be_able_to_view_same_value_in_following_columns_on_UI_as_in_SQL_result(DataTable arg1) {
+    
+}
+
 }
