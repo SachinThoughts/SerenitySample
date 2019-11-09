@@ -20,4 +20,18 @@ public class SearchPageSteps {
 		return searchPage.isPatientAndVisitHeaderVisible()
 				&& dbInvoiceId.contains(searchPage.getInvoiceID().toLowerCase());
 	}
+	
+	@Step
+	public boolean verifyInvoiceIDWithEqualOperator(String dbInvoiceId) {
+		if (searchPage.isSearchAccTableVisible()) {
+			for (String invoiceID : searchPage.getlistOfInvoiceID()) {
+				if (!invoiceID.toLowerCase().contains(dbInvoiceId.toLowerCase())) {
+					return false;
+				}
+			}
+			searchPage.clickSearchInvoiceID();
+		}
+		return searchPage.isPatientAndVisitHeaderVisible()
+				&& dbInvoiceId.contains(searchPage.getInvoiceID().toLowerCase());
+	}
 }
