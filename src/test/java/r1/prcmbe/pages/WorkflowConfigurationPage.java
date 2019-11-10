@@ -575,7 +575,8 @@ public class WorkflowConfigurationPage extends PageObject {
 	}
 	
 	public String getActionUpdatedBy() {
-		return actionUpdatedBy.getText();
+		//actionUpdatedBy.withTimeoutOf(Duration.ofSeconds(40)).waitUntilVisible();
+		return actionUpdatedBy.getTextContent();
 	}
 	
 	public String getErrorMsgOnActionPopup() {

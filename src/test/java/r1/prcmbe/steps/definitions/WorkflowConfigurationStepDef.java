@@ -476,13 +476,13 @@ public void user_should_be_able_to_view_same_value_in_details_columns_on_UI_as_i
 			updatedDate=" ";
 		}
 		if(updatedBy==null) {
-			updatedBy=" ";
+			updatedBy="";
 		}
 	}
 	System.out.println("updated date"+updatedDate);
 	System.out.println("updated date"+workflowConfigPage.getActionUpdatedDate());
 	System.out.println("created date"+createdDate);
-	//Assert.assertTrue("Created date does not match", workflowConfigPage.getActionCreatedDate().equals(workflowConfigSteps.formatDbDateFieldWithDateTime(createdDate)));
+	Assert.assertTrue("Created date does not match", workflowConfigPage.getActionCreatedDate().equals(workflowConfigSteps.formatDbDateFieldWithDateTime(createdDate)));
 	Assert.assertTrue("Created by does not match", workflowConfigPage.getActionCreatedBy().equals(createdBy));
 	Assert.assertTrue("Updated date does not match", workflowConfigPage.getActionUpdatedDate().equals(updatedDate));
 	Assert.assertTrue("Updated by does not match", workflowConfigPage.getActionUpdatedBy().equals(updatedBy));
@@ -499,4 +499,105 @@ public void user_should_able_to_view_newly_created_Action_in_Choose_Action_Type_
 	Assert.assertTrue("New Action Name not as per the value entered by user",
 			workflowConfigPage.isNewlyAddedActionVisibleInGrid(DefaultHandoffStepDef.actionName));
 }
+
+@Then("^user should be able to navigate to Disposition type page$")
+public void user_should_be_able_to_navigate_to_Disposition_type_page() {
+    // Write code here that turns the phrase above into concrete actions
+    throw new PendingException();
+}
+
+@Then("^user should be able to view Disposition Type tab selected highlighted in blue color$")
+public void user_should_be_able_to_view_Disposition_Type_tab_selected_highlighted_in_blue_color() {
+    // Write code here that turns the phrase above into concrete actions
+    throw new PendingException();
+}
+
+@Then("^user should able to view Workflow Summary label with selected Disposition Type appended # For eg\\. Handoff type >> Recipient >> Action Type >> Disposition Type$")
+public void user_should_able_to_view_Workflow_Summary_label_with_selected_Disposition_Type_appended_For_eg_Handoff_type_Recipient_Action_Type_Disposition_Type() {
+    // Write code here that turns the phrase above into concrete actions
+    throw new PendingException();
+}
+
+@Then("^user should be able to view Choose a Disposition Type grid with buttons underneath$")
+public void user_should_be_able_to_view_Choose_a_Disposition_Type_grid_with_buttons_underneath(DataTable arg1) {
+    // Write code here that turns the phrase above into concrete actions
+    // For automatic transformation, change DataTable to one of
+    // List<YourType>, List<List<E>>, List<Map<K,V>> or Map<K,V>.
+    // E,K,V must be a scalar (String, Integer, Date, enum etc).
+    // Field names for YourType must match the column names in 
+    // your feature file (except for spaces and capitalization).
+    throw new PendingException();
+}
+
+@Then("^user should be able to view Save Configuration button disabled$")
+public void user_should_be_able_to_view_Save_Configuration_button_disabled() {
+    // Write code here that turns the phrase above into concrete actions
+    throw new PendingException();
+}
+
+@Then("^user should be able to view Edit link button adjacent to associated Disposition Type$")
+public void user_should_be_able_to_view_Edit_link_button_adjacent_to_associated_Disposition_Type() {
+    // Write code here that turns the phrase above into concrete actions
+    throw new PendingException();
+}
+
+@Then("^user should be able to view Details button for particular Disposition Type$")
+public void user_should_be_able_to_view_Details_button_for_particular_Disposition_Type() {
+    // Write code here that turns the phrase above into concrete actions
+    throw new PendingException();
+}
+
+@Then("^user should be able to view Reorder link button against each Disposition Type$")
+public void user_should_be_able_to_view_Reorder_link_button_against_each_Disposition_Type() {
+    // Write code here that turns the phrase above into concrete actions
+    throw new PendingException();
+}
+
+@When("^user clicks on radio button against any particular Disposition Type$")
+public void user_clicks_on_radio_button_against_any_particular_Disposition_Type() {
+    // Write code here that turns the phrase above into concrete actions
+    throw new PendingException();
+}
+
+@Then("^user should be able to view selected Disposition Type appended after Handoff type, Recipient and Action Type in breadcrumb$")
+public void user_should_be_able_to_view_selected_Disposition_Type_appended_after_Handoff_type_Recipient_and_Action_Type_in_breadcrumb() {
+    // Write code here that turns the phrase above into concrete actions
+    throw new PendingException();
+}
+
+@When("^user clicks on Details link button adjacent to any Disposition Type$")
+public void user_clicks_on_Details_link_button_adjacent_to_any_Disposition_Type() {
+    // Write code here that turns the phrase above into concrete actions
+    throw new PendingException();
+}
+
+@Then("^user should be able to view detailed columns$")
+public void user_should_be_able_to_view_detailed_columns(DataTable arg1) {
+    // Write code here that turns the phrase above into concrete actions
+    // For automatic transformation, change DataTable to one of
+    // List<YourType>, List<List<E>>, List<Map<K,V>> or Map<K,V>.
+    // E,K,V must be a scalar (String, Integer, Date, enum etc).
+    // Field names for YourType must match the column names in 
+    // your feature file (except for spaces and capitalization).
+    throw new PendingException();
+}
+
+@When("^user clicks on Details link again$")
+public void user_clicks_on_Details_link_again() {
+    // Write code here that turns the phrase above into concrete actions
+    throw new PendingException();
+}
+
+@Then("^expanded grid for selected Disposition Type gets collapsed$")
+public void expanded_grid_for_selected_Disposition_Type_gets_collapsed() {
+    // Write code here that turns the phrase above into concrete actions
+    throw new PendingException();
+}
+
+@Then("^user should no longer be able to view the associated fields$")
+public void user_should_no_longer_be_able_to_view_the_associated_fields() {
+    // Write code here that turns the phrase above into concrete actions
+    throw new PendingException();
+}
+
 }
