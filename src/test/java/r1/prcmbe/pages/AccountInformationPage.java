@@ -43,21 +43,33 @@ public class AccountInformationPage extends PageObject {
 
 	@FindBy(id = "dnn_dnnLOGIN_loginLink")
 	WebElementFacade logOut;
-	
+
 	@FindBy(xpath = "//a[@href='#accountDocs']//h4")
 	private WebElementFacade documentLink;
-	
-	@FindBy(id="lblInvoiceNo")
+
+	@FindBy(id = "lblInvoiceNo")
 	private WebElementFacade invoiceNumber;
-	
+
 	@FindBy(xpath = "//*[@id='tbRelatedAccount']//tbody/tr/td[2]//a")
 	private List<WebElementFacade> listOfInvoiceNumbersOnRelatedAccntPopUp;
-	
+
+	@FindBy(id = "lnkHandOff")
+	private WebElementFacade addHandOffBtn;
+
+	@FindBy(id = "handOff")
+	private WebElementFacade handOffPopUp;
+
+	@FindBy(id = "ddlHandOffType")
+	private WebElementFacade handOffTypeDrpDwn;
+
+	@FindBy(id = "ddlHandOffType")
+	private WebElementFacade handOffTypeDrpDown;
+
 	public String getAccountNumber() {
 		waitForAngularRequestsToFinish();
 		return accountNumber.getText().trim();
 	}
-	
+
 	public boolean isRelatedAccntPopUpVisible() {
 		return relatedAccountPoup.isVisible();
 	}
@@ -109,20 +121,20 @@ public class AccountInformationPage extends PageObject {
 	public void logOut() {
 		logOut.click();
 	}
-	
+
 	public void clickOnDocumentLink() {
 		documentLink.click();
 	}
-	
+
 	public String getInvoiceNumber() {
 		waitForAngularRequestsToFinish();
 		return invoiceNumber.getText().trim();
 	}
-	
+
 	public int getSizeOfRelatedAccntInvoiceNo() {
 		return listOfVisitNumbersOnRelatedAccntPopUp.size();
 	}
-	
+
 	public String clickRelatedAccountBasedOnFacilityCodeAndFetchInvoiceNo(String facilityCode) {
 		int size = listOfFacilityCodeOnRelatedAccntPopUp.size();
 		String visitNo = "";
@@ -139,5 +151,29 @@ public class AccountInformationPage extends PageObject {
 		String visitNo = listOfInvoiceNumbersOnRelatedAccntPopUp.get(index).getText();
 		listOfInvoiceNumbersOnRelatedAccntPopUp.get(index).click();
 		return visitNo;
+	}
+
+	public void clickHandOffBtn() {
+		addHandOffBtn.click();
+	}
+
+	public boolean isHandOffPopUpVisible() {
+		return handOffPopUp.isVisible();
+	}
+
+	public void selectHandOffType(String handOffType) {
+		handOffTypeDrpDwn.selectByVisibleText(handOffType);
+	}
+
+	public String getSelectedHandOffTypeValue() {
+		return handOffTypeDrpDwn.getSelectedVisibleTextValue();
+	}
+
+	public void clickHandOffTypeDrpDown() {
+		evaluateJavascript("arguments[0].click()", handOffTypeDrpDown);
+	}
+
+	public List<String> getHandOffTypeDrpDownValues() {
+		return handOffTypeDrpDown.getSelectOptions();
 	}
 }

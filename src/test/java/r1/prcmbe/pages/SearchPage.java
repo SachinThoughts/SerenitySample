@@ -70,6 +70,30 @@ public class SearchPage extends PageObject {
 	@FindBy(xpath = "//div[@class='tooltip top in']")
 	private WebElementFacade toolTip;
 
+	@FindBy(xpath = "//select[@class='form-control ddlOperator']")
+	private WebElementFacade operator;
+
+	@FindBy(xpath = "//*[@id='dvAccountSearch']/table/tbody/tr/td[2]")
+	private List<WebElementFacade> listOfSearchedInvNum;
+
+	@FindBy(id = "msg_info")
+	private WebElementFacade errorAlert;
+
+	@FindBy(xpath = "//div[@class = 'alert alert-info']//button")
+	private WebElementFacade closeErrorAlert;
+
+	@FindBy(xpath = "//span[@id='lblInvoiceNo']")
+	private WebElementFacade invoiceNumber;
+
+	@FindBy(xpath = "//*[@id='dvAccountSearch']/child::table/thead/tr/th")
+	private List<WebElementFacade> listOfSrchAccTblHeaders;
+
+	@FindBy(xpath = "//*[@id='dvAccountSearch']/child::table/tbody/tr/td[3]")
+	private List<WebElementFacade> listOfSearchedNames;
+
+	@FindBy(id = "lblPatientName")
+	private WebElementFacade patientName;
+
 	String titleJS = "return document.querySelector('#Head > title').text";
 	String facilityCodeJS = "document.querySelector('#dnn_ctr1025_ModuleContent > span > span:nth-child(1)').textContent";
 
@@ -96,7 +120,7 @@ public class SearchPage extends PageObject {
 	public void clickSubmitBtn() {
 		submitBtn.click();
 		if (loadingSpinner.isVisible()) {
-			loadingSpinner.withTimeoutOf(Duration.ofSeconds(30)).waitUntilNotVisible();
+			loadingSpinner.withTimeoutOf(Duration.ofSeconds(60)).waitUntilNotVisible();
 		}
 	}
 
@@ -116,7 +140,7 @@ public class SearchPage extends PageObject {
 	public int getFacilityIndex() {
 		/** Returns index of matched facility code **/
 		String facilityCode = getFacilityCodeText();
-		int index = 999;
+		int index = 0;
 		int size = listOfSearchedFacility.size();
 		for (int i = 0; i < size; i++) {
 			if (listOfSearchedFacility.get(i).getText().equals(facilityCode)) {
@@ -215,5 +239,79 @@ public class SearchPage extends PageObject {
 
 	public boolean isToolTipVisible() {
 		return toolTip.isVisible();
+	}
+
+	public void operatorSelectText(String operatorValue) {
+		operator.selectByVisibleText(operatorValue);
+	}
+
+	public void clickSearchInvoiceNumber() {
+		listOfSearchedInvNum.get(getFacilityIndex()).click();
+		if (isErrorMsgVisible()) {
+			clickErrorMsg();
+		}
+	}
+
+	public boolean isErrorMsgVisible() {
+		return errorAlert.isVisible();
+	}
+
+	public void clickErrorMsg() {
+		closeErrorAlert.click();
+	}
+
+	public List<String> getlistOfInvNum() {
+		waitForAngularRequestsToFinish();
+		List<String> listOfInvNum = new ArrayList<>();
+		for (WebElementFacade invoiceNumber : listOfSearchedInvNum) {
+			listOfInvNum.add(invoiceNumber.getText());
+		}
+		return listOfInvNum;
+	}
+
+	public String getInvoiceNumber() {
+		return invoiceNumber.withTimeoutOf(Duration.ofSeconds(20)).waitUntilVisible().getText();
+	}
+
+	public void enterLastName(String lastName) {
+		lastNameTxtBox.type(lastName);
+	}
+
+	public List<String> getListOfSrchAccTblHeaders() {
+		List<String> listOfTblHeaders = new ArrayList<>();
+		for (WebElementFacade headerName : listOfSrchAccTblHeaders) {
+			listOfTblHeaders.add(headerName.getText());
+		}
+		return listOfTblHeaders;
+	}
+
+	public List<String> getListOfSearchedNames() {
+		List<String> listOfNames = new ArrayList<>();
+		for (WebElementFacade searchedName : listOfSearchedNames) {
+			listOfNames.add(searchedName.getText());
+		}
+		return listOfNames;
+	}
+
+	public String getPatientName() {
+		return patientName.getText();
+	}
+
+	public String getPatientLastName() {
+		String[] lastName = patientName.getText().split(",", 0);
+		return lastName[0].trim();
+	}
+
+	public String getPatientFirstName() {
+		String[] firstName = patientName.getText().split(",", 0);
+		return firstName[1].trim();
+	}
+
+	public List<String> getlistOfSearchedFacility() {
+		List<String> listOfFacilities = new ArrayList<>();
+		for (WebElementFacade facilityCode : listOfSearchedFacility) {
+			listOfFacilities.add(facilityCode.getText());
+		}
+		return listOfFacilities;
 	}
 }

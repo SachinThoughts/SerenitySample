@@ -151,6 +151,40 @@ Feature: Verify WorkFlowConfiguration related scenarios in PRCM
       | query1                         | query2                          |
       | 434767_WFConfig_CheckRecipient | 434767_WFConfig_CheckRecipient1 |
 
+  @434767 @AHtoDecisionAdmin @Sprint101
+  Scenario Outline: Verify user is able to add a new recipient using Add Recipient functionality
+    Given user having AHtoDecision Admin role is on workflow configuration home page
+    When user login to SQL server and connect to database
+    And user run the query to fetch hand-off id <query1>
+    And user run the query to fetch hand-off name <query2>
+    And user fetches any Handoff Type from DB
+    And user clicks on Radio button against any fetched Handoff Type in Choose Handoff grid
+    And user clicks on continue button on Handoff tab
+    And user clicks on +Add Recipient button under choose recipient
+    Then user should be able to view Add Recipient pop up with controls
+      | Recipient Name        |
+      | Recipient Description |
+      | Active                |
+    And user should able to view following options on Recipient popup
+      | Close         |
+      | Add Recipient |
+    When user clicks on Close button on Add Recipient popup
+    And user clicks on +Add Recipient button under choose recipient
+    And user enters text in Recipient Name textbox on Recipient popup
+    And user enters text in Recipient Description textbox like "RecipientDescriptionTest123"
+    And user clicks on Add Recipient button on the popup
+    Then user should be able to view the appropriate success message: "Record inserted successfully !"
+    And user should be able to view newly created Recipient in Choose Recipient grid with correct data
+    And user should be able to view newly created Recipient name in Workflow Summary breadcrumb just after Handoff type
+    When user clicks on Details link button adjacent to newly created Recipient
+    And user login to SQL server and connect to database
+    And user executes the query to fetch added recipient <query3>
+    Then user should be able to view same value in following columns on Recepient Tab as in SQL result
+
+    Examples: 
+      | query1                         | query2                          | query3                               |
+      | 434767_WFConfig_CheckRecipient | 434767_WFConfig_CheckRecipient1 | 434767_BDD_R1D_WFConfig_AddRecipient |
+
   @434770 @AHtoDecisionAdmin @Sprint101
   Scenario Outline: Verify Add New Action functionality
     Given user having AHtoDecision Admin role is on workflow configuration home page
