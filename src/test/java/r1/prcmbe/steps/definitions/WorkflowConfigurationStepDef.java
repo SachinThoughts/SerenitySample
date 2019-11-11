@@ -18,6 +18,7 @@ import r1.prcmbe.pages.NavigationPage;
 import r1.prcmbe.pages.SettingsPage;
 import r1.prcmbe.pages.WorkflowConfigurationPage;
 import r1.prcmbe.serenity.steps.FinancialInfoSteps;
+import r1.prcmbe.serenity.steps.WorkflowConfigurationSteps;
 
 public class WorkflowConfigurationStepDef extends PageObject {
 
@@ -30,6 +31,8 @@ public class WorkflowConfigurationStepDef extends PageObject {
 
 	@Steps
 	FinancialInfoSteps financialInfoSteps;
+	@Steps
+	WorkflowConfigurationSteps workflowConfigSteps;
 
 	String dbFileName = "WorkFlowConfiguration", dbHandOffName, dbRecipientName, defaultRecipientName,
 			recipientNameOtherThanDefault, dispositionNotes, workflowName, respondDeadline, updatedBy, updatedDate,
@@ -209,7 +212,6 @@ public class WorkflowConfigurationStepDef extends PageObject {
 			while (DatabaseConn.resultSet.next()) {
 				dbHandOffName = DatabaseConn.resultSet.getString("Name");
 			}
-			System.out.println(dbHandOffName);
 		} catch (SQLException exception) {
 			Assert.assertTrue("HandOffName is not fetched from DB.\nThe Technical Error is:\n" + exception, false);
 		}
@@ -409,6 +411,85 @@ public class WorkflowConfigurationStepDef extends PageObject {
 				"CreatedBy from the Database " + createdBy + " does not match with the UI"
 						+ workflowConfigPage.getCreatedByFieldValue(),
 				createdBy.equals(workflowConfigPage.getCreatedByFieldValue()));
+	}
+
+	@When("^user clicks on \\+Add Recipient button under choose recipient$")
+	public void user_clicks_on_Add_Recipient_button_under_choose_recipient() {
+		workflowConfigPage.clickAddRecipientButton();
+	}
+
+	@Then("^user should be able to view Add Recipient pop up with controls$")
+	public void user_should_be_able_to_view_Add_Recipient_pop_up_with_controls(DataTable recipientControls) {
+		List<String> recipientControlHeaders = recipientControls.asList(String.class);
+		Assert.assertTrue("Labels do not match on the Recipient popup",
+				workflowConfigPage.getListOfAddRecipientLabels().equals(recipientControlHeaders));
+	}
+
+	@Then("^user should able to view following options on Recipient popup$")
+	public void user_should_able_to_view_following_options_on_Recipient_popup(DataTable recipientOptions) {
+		List<String> recipientControlButtons = recipientOptions.asList(String.class);
+		Assert.assertTrue("Options do not match on the Recipient Popup",
+				workflowConfigPage.getListOfAddRecipientButtons().equals(recipientControlButtons));
+	}
+
+	@When("^user clicks on Close button on Add Recipient popup$")
+	public void user_clicks_on_Close_button_on_Add_Recipient_popup() {
+		workflowConfigPage.clickCloseButtonOnAddRecipient();
+	}
+
+	@When("^user enters text in Recipient Name textbox on Recipient popup$")
+	public void user_enters_text_in_Recipient_Name_textbox_on_Recipient_popup() {
+		recipientName = defaultHandOffPage.enterRecipientNameTextBox();
+	}
+
+	@When("^user enters text in Recipient Description textbox like \"([^\"]*)\"$")
+	public void user_enters_text_in_Recipient_Description_textbox_like(String recipientDescription) {
+		recipientDesc = defaultHandOffPage.enterRecipientDescriptionTextBox(recipientDescription);
+	}
+
+	@Then("^user should be able to view newly created Recipient in Choose Recipient grid with correct data$")
+	public void user_should_be_able_to_view_newly_created_Recipient_in_Choose_Recipient_grid_with_correct_data() {
+		Assert.assertTrue("Recipient Name not displayed in the table as added",
+				workflowConfigPage.isAddedRecipientNameVisible(recipientName));
+		Assert.assertTrue("Recipient Description not displayed in the table as added",
+				workflowConfigPage.isAddedRecipientDescVisible(recipientDesc));
+	}
+
+	@Then("^user should be able to view newly created Recipient name in Workflow Summary breadcrumb just after Handoff type$")
+	public void user_should_be_able_to_view_newly_created_Recipient_name_in_Workflow_Summary_breadcrumb_just_after_Handoff_type() {
+		workflowConfigPage.clickOnRadioBtnAgnstFetchedRecipient(recipientName);
+		Assert.assertTrue("Recipient tab: Recipient Name not displayed in the breadcrumb",
+				defaultHandOffPage.getTextBreadcrumb().contains(recipientName));
+	}
+
+	@When("^user clicks on Details link button adjacent to newly created Recipient$")
+	public void user_clicks_on_Details_link_button_adjacent_to_newly_created_Recipient() {
+		workflowConfigPage.clickOnDetailsOfSpecificRecipient(recipientName);
+	}
+
+	@When("^user executes the query to fetch added recipient (.*)$")
+	public void user_executes_the_query_to_fetch_added_recipient(String queryName)
+			throws ClassNotFoundException, SQLException, Exception {
+		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
+				String.format(commonMethods.loadQuery(queryName, dbFileName), recipientName));
+		try {
+			while (DatabaseConn.resultSet.next()) {
+				createdBy = DatabaseConn.resultSet.getString("DisplayName");
+				createdDate = DatabaseConn.resultSet.getString("CreatedDate");
+			}
+		} catch (SQLException exception) {
+			Assert.assertTrue(
+					"Created By or Created date is not fetched from DB.\nThe Technical Error is:\n" + exception, false);
+		}
+	}
+
+	@Then("^user should be able to view same value in following columns on Recepient Tab as in SQL result$")
+	public void user_should_be_able_to_view_same_value_in_following_columns_on_Recepient_Tab_as_in_SQL_result()
+			throws ParseException {
+		Assert.assertTrue("Created by of Recipient does not match with DB",
+				createdBy.contains(workflowConfigPage.getCreatedByRecipientText()));
+		Assert.assertTrue("Created date of Recipient does not match with DB", workflowConfigSteps
+				.formatDbDateFieldWithDateTime(createdDate).equals(workflowConfigPage.getCreatedDateRecipientText()));
 	}
 
 }

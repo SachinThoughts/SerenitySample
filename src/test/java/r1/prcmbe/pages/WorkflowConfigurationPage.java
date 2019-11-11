@@ -163,6 +163,39 @@ public class WorkflowConfigurationPage extends PageObject {
 	@FindBy(xpath = "//*[@class='more-info workflowConfigdetailsInfo']//span[text()='Created By']/following-sibling::span")
 	private WebElementFacade createdByField;
 
+	@FindBy(xpath = "//button[contains(text(),' Add Recipient')]")
+	private WebElementFacade addRecipientButton;
+	
+	@FindBy(xpath = "//*[@id='addRecipient']//div[@class ='form-group']/label")
+	private List<WebElementFacade> listOfAddRecipientLabels;
+	
+	@FindBy(xpath = "//*[@id = 'addRecipient']//div[@class = 'modal-footer']/button")
+	private List<WebElementFacade> listOfAddRecipientButtons;
+	
+	@FindBy(xpath = "//*[@id='addRecipient']//button/span[1]/i")
+	private WebElementFacade closeButtonOnAddRecipient;
+	
+	@FindBy(xpath = "//*[@id='dvRecipientDetails']//li//div[2]/span")
+	private List<WebElementFacade> listOfRecipientNames;
+	
+	@FindBy(xpath = "//*[@id='dvRecipientDetails']//li//div[3]/span")
+	private List<WebElementFacade> listOfRecipientDesc;
+	
+	@FindBy(xpath = "//*[@id='dvRecipientDetails']/ul//div[2]/span")
+	private List<WebElementFacade> recipientsList;
+	
+	@FindBy(xpath = "//*[@id='dvRecipientDetails']/ul/li/div[1]/div/div/label")
+	private List<WebElementFacade> recipientsRadioBtnList;
+	
+	@FindBy(xpath = "//a[@class = 'toggle-info']//i")
+	private List<WebElementFacade> listOfDetailsOnRecipientTab;
+	
+	@FindBy(xpath = "//*[@class='more-info workflowConfigdetailsInfo']//span[text()='Created By']/following-sibling::span")
+	private WebElementFacade createdByRecipient;
+	
+	@FindBy(xpath = "//*[@class='more-info workflowConfigdetailsInfo']//span[text()='Created Date']/following-sibling::span")
+	private WebElementFacade createdDateRecipient;
+	
 	public String getCreatedByFieldValue() {
 		return createdByField.getText();
 	}
@@ -459,5 +492,75 @@ public class WorkflowConfigurationPage extends PageObject {
 
 	public String isDefaultRadioBtnSelected() {
 		return evaluateJavascript("return document.querySelector('#workflowChoiceID-0').checked").toString();
+	}
+	
+	public void clickAddRecipientButton() {
+		withAction().moveToElement(addRecipientButton).build().perform();
+		evaluateJavascript("arguments[0].click();", addRecipientButton);
+	}
+	
+	public List<String> getListOfAddRecipientLabels() {
+		List<String> listOfRecipientLabels = new ArrayList<String>();
+		for (WebElementFacade element : listOfAddRecipientLabels) {
+			listOfRecipientLabels.add(element.getText().trim());
+		}
+		return listOfRecipientLabels;
+	}
+	
+	public List<String> getListOfAddRecipientButtons() {
+		List<String> listOfRecipientButtons = new ArrayList<String>();
+		for (WebElementFacade element : listOfAddRecipientButtons) {
+			listOfRecipientButtons.add(element.getText().trim());
+		}
+		return listOfRecipientButtons;
+	}
+	
+	public void clickCloseButtonOnAddRecipient() {
+		closeButtonOnAddRecipient.click();
+	}
+	
+	public boolean isAddedRecipientNameVisible(String recipientName) {
+		int size = listOfRecipientNames.size();
+		for (index = 0; index < size; index++) {
+			if (listOfRecipientNames.get(index).getText().equals(recipientName)) {
+				withAction().moveToElement(listOfRecipientNames.get(index)).build().perform();
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public boolean isAddedRecipientDescVisible(String recipientDesc) {
+		if (listOfRecipientDesc.get(index).getText().equals(recipientDesc)) {
+			return true;
+		}
+		return false;
+	}
+	
+	public void clickOnRadioBtnAgnstFetchedRecipient(String expectedRecipientName) {
+		int size = recipientsList.size();
+		for (int i = 0; i < size; i++) {
+			if (recipientsList.get(i).getText().equals(expectedRecipientName)) {
+				recipientsRadioBtnList.get(i).click();
+			}
+		}
+	}
+	
+	public void clickOnDetailsOfSpecificRecipient(String recipientName) {
+		int size = listOfRecipientNames.size();
+		for (index = 0; index < size; index++) {
+			if (listOfRecipientNames.get(index).getText().equals(recipientName)) {
+				listOfDetailsOnRecipientTab.get(index).click();
+				break;
+			}
+		}
+	}
+	
+	public String getCreatedByRecipientText() {
+		return createdByRecipient.getText();
+	}
+	
+	public String getCreatedDateRecipientText() {
+		return createdDateRecipient.getText();
 	}
 }
