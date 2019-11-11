@@ -15,7 +15,7 @@ public class SearchPageSteps {
 
 	SearchPage searchPage;
 	ResultSetMetaData resultSetMetaData;
-
+	
 	@Steps
 	LoginSteps loginSteps;
 
@@ -53,7 +53,7 @@ public class SearchPageSteps {
 		return searchPage.isPatientAndVisitHeaderVisible()
 				&& dbInvoiceNum.equalsIgnoreCase(searchPage.getInvoiceNumber());
 	}
-
+	
 	@Step
 	public List<String> fetchColumnNamesFromDatabaseResult() throws SQLException {
 		List<String> dbColumnNames = new ArrayList<>();
