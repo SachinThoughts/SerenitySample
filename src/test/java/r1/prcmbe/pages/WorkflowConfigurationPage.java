@@ -556,11 +556,11 @@ public class WorkflowConfigurationPage extends PageObject {
 		}
 	}
 	
-	public String getCreatedByRecipient() {
+	public String getCreatedByRecipientText() {
 		return createdByRecipient.getText();
 	}
 	
-	public String getCreatedDateRecipient() {
+	public String getCreatedDateRecipientText() {
 		return createdDateRecipient.getText();
 	}
 }

@@ -458,7 +458,7 @@ public class WorkflowConfigurationStepDef extends PageObject {
 	@Then("^user should be able to view newly created Recipient name in Workflow Summary breadcrumb just after Handoff type$")
 	public void user_should_be_able_to_view_newly_created_Recipient_name_in_Workflow_Summary_breadcrumb_just_after_Handoff_type() {
 		workflowConfigPage.clickOnRadioBtnAgnstFetchedRecipient(recipientName);
-		Assert.assertTrue("Recipient tab: Recipient Name not displayed in the crumb",
+		Assert.assertTrue("Recipient tab: Recipient Name not displayed in the breadcrumb",
 				defaultHandOffPage.getTextBreadcrumb().contains(recipientName));
 	}
 
@@ -487,9 +487,9 @@ public class WorkflowConfigurationStepDef extends PageObject {
 	public void user_should_be_able_to_view_same_value_in_following_columns_on_Recepient_Tab_as_in_SQL_result()
 			throws ParseException {
 		Assert.assertTrue("Created by of Recipient does not match with DB",
-				createdBy.contains(workflowConfigPage.getCreatedByRecipient()));
+				createdBy.contains(workflowConfigPage.getCreatedByRecipientText()));
 		Assert.assertTrue("Created date of Recipient does not match with DB", workflowConfigSteps
-				.formatDbDateFieldWithDateTime(createdDate).equals(workflowConfigPage.getCreatedDateRecipient()));
+				.formatDbDateFieldWithDateTime(createdDate).equals(workflowConfigPage.getCreatedDateRecipientText()));
 	}
 
 }
