@@ -414,190 +414,171 @@ public class WorkflowConfigurationStepDef extends PageObject {
 				createdBy.equals(workflowConfigPage.getCreatedByFieldValue()));
 	}
 
-@When("^user run the query to fetch recipient name (.*)$")
-public void user_run_the_query_to_fetch_recipient_name(String queryName) throws Exception {
-	DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
-			commonMethods.loadQuery(queryName, dbFileName));
-	try {
+	@When("^user run the query to fetch recipient name (.*)$")
+	public void user_run_the_query_to_fetch_recipient_name(String queryName) throws Exception {
+		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
+				commonMethods.loadQuery(queryName, dbFileName));
+		try {
+			while (DatabaseConn.resultSet.next()) {
+				dbRecipientName = DatabaseConn.resultSet.getString("Name");
+			}
+
+		} catch (SQLException exception) {
+			Assert.assertTrue("RecepientName is not fetched from DB.\nThe Technical Error is:\n" + exception, false);
+		}
+	}
+
+	@When("^user clicks on radio button against any fetched Recipient$")
+	public void user_clicks_on_radio_button_against_any_fetched_Recipient() {
+		workflowConfigPage.clickSpecificRecipientRadioBtn(dbRecipientName);
+	}
+
+	@Then("^user should be able to view Add New Action pop up window with controls$")
+	public void user_should_be_able_to_view_Add_New_Action_pop_up_window_with_controls(DataTable controls) {
+		List<String> expectedActionPopUpControls = controls.asList(String.class);
+		List<Object> listOfVal = workflowConfigPage.verifyAddActionPopupControlsVisible(expectedActionPopUpControls);
+		boolean val = ((Boolean) listOfVal.get(listOfVal.size() - 1)).booleanValue();
+		Assert.assertTrue("Controls not visible on Add Action popup\n" + listOfVal.subList(0, listOfVal.size() - 1),
+				val);
+	}
+
+	@When("^user clicks on Required checkbox$")
+	public void user_clicks_on_Required_checkbox() {
+		workflowConfigPage.clickRequiredCheckBoxOnActionPopUp();
+	}
+
+	@Then("^user should no longer be able to view Add New Action pop-up window$")
+	public void user_should_no_longer_be_able_to_view_Add_New_Action_pop_up_window() {
+		Assert.assertFalse("Add action popup is not closed", workflowConfigPage.isAddActionPopUpVisible());
+	}
+
+	@When("^user clicks on Details link button adjacent to newly created Action Name$")
+	public void user_clicks_on_Details_link_button_adjacent_to_newly_created_Action_Name() {
+		workflowConfigPage.clickSpecificDetailsLinkOnActionTab(DefaultHandoffStepDef.actionName);
+	}
+
+	@When("^user run the query to fetch Action Details (.*)$")
+	public void user_run_the_query_to_fetch_Action_Details(String queryName) throws Exception {
+		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
+				commonMethods.loadQuery(queryName, dbFileName));
+	}
+
+	@Then("^user should be able to view same value in details columns on UI as in SQL result$")
+	public void user_should_be_able_to_view_same_value_in_details_columns_on_UI_as_in_SQL_result()
+			throws SQLException, ParseException {
 		while (DatabaseConn.resultSet.next()) {
-			dbRecipientName=DatabaseConn.resultSet.getString("Name");
+			String firstName = DatabaseConn.resultSet.getString("FirstName");
+			String lastName = DatabaseConn.resultSet.getString("LastName");
+			createdBy = firstName.concat(" " + lastName);
+			createdDate = DatabaseConn.resultSet.getString("CreatedDate");
+			updatedDate = (String) DatabaseConn.resultSet.getObject("UpdatedDate");
+			updatedBy = (String) DatabaseConn.resultSet.getObject("UpdatedBy");
+			if (updatedDate == null) {
+				updatedDate = " ";
+			}
+			if (updatedBy == null) {
+				updatedBy = "";
+			}
 		}
-
-	} catch (SQLException exception) {
-		Assert.assertTrue("RecepientName is not fetched from DB.\nThe Technical Error is:\n" + exception, false);
+		System.out.println("updated date" + updatedDate);
+		System.out.println("updated date" + workflowConfigPage.getActionUpdatedDate());
+		System.out.println("created date" + createdDate);
+		Assert.assertTrue("Created date does not match", workflowConfigPage.getActionCreatedDate()
+				.equals(workflowConfigSteps.formatDbDateFieldWithDateTime(createdDate)));
+		Assert.assertTrue("Created by does not match", workflowConfigPage.getActionCreatedBy().equals(createdBy));
+		Assert.assertTrue("Updated date does not match", workflowConfigPage.getActionUpdatedDate().equals(updatedDate));
+		Assert.assertTrue("Updated by does not match", workflowConfigPage.getActionUpdatedBy().equals(updatedBy));
 	}
-}
 
-@When("^user clicks on radio button against any fetched Recipient$")
-public void user_clicks_on_radio_button_against_any_fetched_Recipient() {
-	workflowConfigPage.clickSpecificRecipientRadioBtn(dbRecipientName);
-}
-
-@Then("^user should be able to view Add New Action pop up window with controls$")
-public void user_should_be_able_to_view_Add_New_Action_pop_up_window_with_controls(DataTable controls) {
-    List<String> expectedActionPopUpControls=controls.asList(String.class);
-    List<Object> listOfVal = workflowConfigPage.verifyAddActionPopupControlsVisible(expectedActionPopUpControls);
-	boolean val = ((Boolean) listOfVal.get(listOfVal.size() - 1)).booleanValue();
-	Assert.assertTrue("Controls not visible on Add Action popup\n" + listOfVal.subList(0, listOfVal.size() - 1),
-			val);
-}
-
-@When("^user clicks on Required checkbox$")
-public void user_clicks_on_Required_checkbox() {
-	workflowConfigPage.clickRequiredCheckBoxOnActionPopUp();
-}
-
-@Then("^user should no longer be able to view Add New Action pop-up window$")
-public void user_should_no_longer_be_able_to_view_Add_New_Action_pop_up_window() {
-    Assert.assertFalse("Add action popup is not closed",workflowConfigPage.isAddActionPopUpVisible());
-}
-
-@When("^user clicks on Details link button adjacent to newly created Action Name$")
-public void user_clicks_on_Details_link_button_adjacent_to_newly_created_Action_Name() {
-	workflowConfigPage.clickSpecificDetailsLinkOnActionTab(DefaultHandoffStepDef.actionName);
-}
-
-@When("^user run the query to fetch Action Details (.*)$")
-public void user_run_the_query_to_fetch_Action_Details(String queryName) throws Exception {
-	DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
-			commonMethods.loadQuery(queryName, dbFileName));
-}
-
-@Then("^user should be able to view same value in details columns on UI as in SQL result$")
-public void user_should_be_able_to_view_same_value_in_details_columns_on_UI_as_in_SQL_result() throws SQLException, ParseException {
-	while (DatabaseConn.resultSet.next()) {
-		String firstName = DatabaseConn.resultSet.getString("FirstName");
-		String lastName = DatabaseConn.resultSet.getString("LastName");
-		createdBy = firstName.concat(" " + lastName);
-		createdDate=DatabaseConn.resultSet.getString("CreatedDate");
-		updatedDate=(String) DatabaseConn.resultSet.getObject("UpdatedDate");
-		updatedBy=(String)DatabaseConn.resultSet.getObject("UpdatedBy");
-		if(updatedDate==null) {
-			updatedDate=" ";
-		}
-		if(updatedBy==null) {
-			updatedBy="";
-		}
+	@Then("^user should able to view info message on action popup \"([^\"]*)\"$")
+	public void user_should_able_to_view_info_message_on_action_popup(String expectedMessage) {
+		Assert.assertTrue("Action popup Error Message does not match ",
+				workflowConfigPage.getErrorMsgOnActionPopup().contains(expectedMessage));
 	}
-	System.out.println("updated date"+updatedDate);
-	System.out.println("updated date"+workflowConfigPage.getActionUpdatedDate());
-	System.out.println("created date"+createdDate);
-	Assert.assertTrue("Created date does not match", workflowConfigPage.getActionCreatedDate().equals(workflowConfigSteps.formatDbDateFieldWithDateTime(createdDate)));
-	Assert.assertTrue("Created by does not match", workflowConfigPage.getActionCreatedBy().equals(createdBy));
-	Assert.assertTrue("Updated date does not match", workflowConfigPage.getActionUpdatedDate().equals(updatedDate));
-	Assert.assertTrue("Updated by does not match", workflowConfigPage.getActionUpdatedBy().equals(updatedBy));
-}
 
-@Then("^user should able to view info message on action popup \"([^\"]*)\"$")
-public void user_should_able_to_view_info_message_on_action_popup(String expectedMessage) {
-	Assert.assertTrue("Action popup Error Message does not match ",
-			workflowConfigPage.getErrorMsgOnActionPopup().contains(expectedMessage));
-}
+	@Then("^user should be able to view newly created Action in Choose Action Type grid$")
+	public void user_should_able_to_view_newly_created_Action_in_Choose_Action_Type_grid() {
+		Assert.assertTrue("New Action Name not as per the value entered by user",
+				workflowConfigPage.isNewlyAddedActionVisibleInGrid(DefaultHandoffStepDef.actionName));
+	}
 
-@Then("^user should be able to view newly created Action in Choose Action Type grid$")
-public void user_should_able_to_view_newly_created_Action_in_Choose_Action_Type_grid() {
-	Assert.assertTrue("New Action Name not as per the value entered by user",
-			workflowConfigPage.isNewlyAddedActionVisibleInGrid(DefaultHandoffStepDef.actionName));
-}
+	@Then("^user should be able to navigate to Disposition type page$")
+	public void user_should_be_able_to_navigate_to_Disposition_type_page() {
+		workflowConfigPage.isDispositionTabVisible();
+	}
 
-@Then("^user should be able to navigate to Disposition type page$")
-public void user_should_be_able_to_navigate_to_Disposition_type_page() {
-    // Write code here that turns the phrase above into concrete actions
-    throw new PendingException();
-}
+	@Then("^user should be able to view Disposition Type tab selected highlighted in blue color$")
+	public void user_should_be_able_to_view_Disposition_Type_tab_selected_highlighted_in_blue_color() {
+		Assert.assertTrue("Disposition tab color is not Blue",
+				workflowConfigPage.getDispositionTabColor().equals(BLUECOLORRGBCODE));
+	}
 
-@Then("^user should be able to view Disposition Type tab selected highlighted in blue color$")
-public void user_should_be_able_to_view_Disposition_Type_tab_selected_highlighted_in_blue_color() {
-    // Write code here that turns the phrase above into concrete actions
-    throw new PendingException();
-}
+	@Then("^user should able to view Workflow Summary label with selected Disposition Type appended$")
+	public void user_should_able_to_view_Workflow_Summary_label_with_selected_Disposition_Type_appended() {
+		System.out.println("workflow summary label"+ workflowConfigPage
+				.getFirstDispositionName()+ workflowConfigPage.getDispositionBreadCrumbValue());
+		Assert.assertTrue("Workflow summary label does not display selected Dispositiontype", workflowConfigPage
+				.getFirstDispositionName().equalsIgnoreCase(workflowConfigPage.getDispositionBreadCrumbValue()));
+	}
 
-@Then("^user should able to view Workflow Summary label with selected Disposition Type appended # For eg\\. Handoff type >> Recipient >> Action Type >> Disposition Type$")
-public void user_should_able_to_view_Workflow_Summary_label_with_selected_Disposition_Type_appended_For_eg_Handoff_type_Recipient_Action_Type_Disposition_Type() {
-    // Write code here that turns the phrase above into concrete actions
-    throw new PendingException();
-}
+	@Then("^user should be able to view Choose a Disposition Type grid with buttons underneath$")
+	public void user_should_be_able_to_view_Choose_a_Disposition_Type_grid_with_buttons_underneath(DataTable dispositionButtons) {
+		List<String> dispositionBtnText=dispositionButtons.asList(String.class);
+		System.out.println("workflow summary label"+ workflowConfigPage.getDispositionButtonText() +dispositionBtnText);
+		System.out.println(workflowConfigPage.getDispositionButtonText());
+		Assert.assertTrue("Buttons on Disposition type grid not displayed",workflowConfigPage.getDispositionButtonText().equals(dispositionBtnText));
+	}
 
-@Then("^user should be able to view Choose a Disposition Type grid with buttons underneath$")
-public void user_should_be_able_to_view_Choose_a_Disposition_Type_grid_with_buttons_underneath(DataTable arg1) {
-    // Write code here that turns the phrase above into concrete actions
-    // For automatic transformation, change DataTable to one of
-    // List<YourType>, List<List<E>>, List<Map<K,V>> or Map<K,V>.
-    // E,K,V must be a scalar (String, Integer, Date, enum etc).
-    // Field names for YourType must match the column names in 
-    // your feature file (except for spaces and capitalization).
-    throw new PendingException();
-}
+	@Then("^user should be able to view Save Configuration button disabled$")
+	public void user_should_be_able_to_view_Save_Configuration_button_disabled() {
+		Assert.assertTrue("Save configuration button is not disabled",workflowConfigPage.isSaveConfigBtnOnDispositionTabDisabled());
+	}
 
-@Then("^user should be able to view Save Configuration button disabled$")
-public void user_should_be_able_to_view_Save_Configuration_button_disabled() {
-    // Write code here that turns the phrase above into concrete actions
-    throw new PendingException();
-}
+	@Then("^user should be able to view Edit link button adjacent to associated Disposition Type$")
+	public void user_should_be_able_to_view_Edit_link_button_adjacent_to_associated_Disposition_Type() {
+		Assert.assertTrue("Edit link button is not displayed adjacent to each disposition type",workflowConfigPage.getDispositionNameCount()==workflowConfigPage.getDispositionEditLinksCount());
+	}
 
-@Then("^user should be able to view Edit link button adjacent to associated Disposition Type$")
-public void user_should_be_able_to_view_Edit_link_button_adjacent_to_associated_Disposition_Type() {
-    // Write code here that turns the phrase above into concrete actions
-    throw new PendingException();
-}
+	@Then("^user should be able to view Details button for particular Disposition Type$")
+	public void user_should_be_able_to_view_Details_button_for_particular_Disposition_Type() {
+		Assert.assertTrue("Details link button is not displayed adjacent to each disposition type",workflowConfigPage.getDispositionNameCount()==workflowConfigPage.getDispositionDetailsLinkCount());
+	}
 
-@Then("^user should be able to view Details button for particular Disposition Type$")
-public void user_should_be_able_to_view_Details_button_for_particular_Disposition_Type() {
-    // Write code here that turns the phrase above into concrete actions
-    throw new PendingException();
-}
+	@Then("^user should be able to view Reorder link button against each Disposition Type$")
+	public void user_should_be_able_to_view_Reorder_link_button_against_each_Disposition_Type() {
+		Assert.assertTrue("Details link button is not displayed adjacent to each disposition type",workflowConfigPage.getDispositionNameCount()==workflowConfigPage.getDispositionReorderLinksCount());
+	}
 
-@Then("^user should be able to view Reorder link button against each Disposition Type$")
-public void user_should_be_able_to_view_Reorder_link_button_against_each_Disposition_Type() {
-    // Write code here that turns the phrase above into concrete actions
-    throw new PendingException();
-}
+	@When("^user clicks on Details link button adjacent to any Disposition Type$")
+	public void user_clicks_on_Details_link_button_adjacent_to_any_Disposition_Type() {
+		workflowConfigPage.clickFirstDispositionDetailsLink();
+	}
 
-@When("^user clicks on radio button against any particular Disposition Type$")
-public void user_clicks_on_radio_button_against_any_particular_Disposition_Type() {
-    // Write code here that turns the phrase above into concrete actions
-    throw new PendingException();
-}
+	@Then("^user should be able to view detailed columns$")
+	public void user_should_be_able_to_view_detailed_columns(DataTable columnNames) {
+		List<String> detailsColumns=columnNames.asList(String.class);
+		Assert.assertTrue("Expected Details columns not visible \n Actual"+workflowConfigPage.getDispositionDetailsColumnNamesList()+"Expected "+detailsColumns,workflowConfigPage.getDispositionDetailsColumnNamesList().equals(detailsColumns));
+	}
 
-@Then("^user should be able to view selected Disposition Type appended after Handoff type, Recipient and Action Type in breadcrumb$")
-public void user_should_be_able_to_view_selected_Disposition_Type_appended_after_Handoff_type_Recipient_and_Action_Type_in_breadcrumb() {
-    // Write code here that turns the phrase above into concrete actions
-    throw new PendingException();
-}
+	@When("^user clicks on Details link again$")
+	public void user_clicks_on_Details_link_again() {
+		workflowConfigPage.clickExpandedDetailsLinkOnDispositionTab();
+	}
 
-@When("^user clicks on Details link button adjacent to any Disposition Type$")
-public void user_clicks_on_Details_link_button_adjacent_to_any_Disposition_Type() {
-    // Write code here that turns the phrase above into concrete actions
-    throw new PendingException();
-}
+	@Then("^expanded grid for selected Disposition Type gets collapsed$")
+	public void expanded_grid_for_selected_Disposition_Type_gets_collapsed() {
+		Assert.assertTrue("Expanded details section is not collapsed",workflowConfigPage.isDispositionDetailsCollapsed());
+	}
 
-@Then("^user should be able to view detailed columns$")
-public void user_should_be_able_to_view_detailed_columns(DataTable arg1) {
-    // Write code here that turns the phrase above into concrete actions
-    // For automatic transformation, change DataTable to one of
-    // List<YourType>, List<List<E>>, List<Map<K,V>> or Map<K,V>.
-    // E,K,V must be a scalar (String, Integer, Date, enum etc).
-    // Field names for YourType must match the column names in 
-    // your feature file (except for spaces and capitalization).
-    throw new PendingException();
-}
+	@Then("^user should no longer be able to view the associated fields$")
+	public void user_should_no_longer_be_able_to_view_the_associated_fields() {
+		Assert.assertFalse("Details section should not be displayed",workflowConfigPage.isDispositionDetailsSectionVisible());
+	}
 
-@When("^user clicks on Details link again$")
-public void user_clicks_on_Details_link_again() {
-    // Write code here that turns the phrase above into concrete actions
-    throw new PendingException();
-}
-
-@Then("^expanded grid for selected Disposition Type gets collapsed$")
-public void expanded_grid_for_selected_Disposition_Type_gets_collapsed() {
-    // Write code here that turns the phrase above into concrete actions
-    throw new PendingException();
-}
-
-@Then("^user should no longer be able to view the associated fields$")
-public void user_should_no_longer_be_able_to_view_the_associated_fields() {
-    // Write code here that turns the phrase above into concrete actions
-    throw new PendingException();
-}
-
+	@Then("^user should be able to view disposition grid with columns headers$")
+	public void user_should_be_able_to_view_disposition_grid_with_columns_headers(DataTable expectedColumnHeaders) {
+		List<String> dispositionGridColumnLabels = expectedColumnHeaders.asList(String.class);
+		Assert.assertTrue(" User is not able to view column headers",
+				workflowConfigPage.getDispositionGridHeaderList().containsAll(dispositionGridColumnLabels));
+	}
 }

@@ -198,39 +198,37 @@ Feature: Verify WorkFlowConfiguration related scenarios in PRCM
       | query1                         | query2                          | query3                        | query4                            |
       | 434767_WFConfig_CheckRecipient | 434767_WFConfig_CheckRecipient1 | 434767_WFConfig_ReorderAction | 434770_BDD_R1D_WFConfig_NewAction |
 
-      @434772 @AHtoDecisionAdmin @Sprint101
-Scenario Outline: Verify data & controls in "Choose a Disposition Type" grid
-Given user having AHtoDecision Admin role is on workflow configuration home page
-When user login to SQL server and connect to database
-And user run the query to fetch hand-off id <query1>
+  @434772 @AHtoDecisionAdmin @Sprint101
+  Scenario Outline: Verify data & controls in "Choose a Disposition Type" grid
+    Given user having AHtoDecision Admin role is on workflow configuration home page
+    When user login to SQL server and connect to database
+    And user run the query to fetch hand-off id <query1>
     And user run the query to fetch hand-off name <query2>
     And user fetches any Handoff Type from DB
-And user clicks on Radio button against any fetched Handoff Type in Choose Handoff grid
+    And user clicks on Radio button against any fetched Handoff Type in Choose Handoff grid
     And user clicks on continue button on Handoff tab
-And user verifies that radio button is selected against the Recipient
-And user clicks on Continue button on Recipient tab
-And user verifies that radio button is selected to associated Action Type
+    And user verifies that radio button is selected against the Recipient
+    And user clicks on Continue button on Recipient tab
+    And user verifies that radio button is selected to associated Action Type
     And user clicks on Continue button on Action type Tab
-Then user should be able to navigate to Disposition type page
-And user should be able to view Disposition Type tab selected highlighted in blue color
-And user should able to view Workflow Summary label with selected Disposition Type appended # For eg. Handoff type >> Recipient >> Action Type >> Disposition Type
-And user should be able to view Choose a Disposition Type grid with buttons underneath
- | +Add New Disposition | Save Configuration |
-And user should be able to view Save Configuration button disabled
-And user should be able to view grid with columns headers
- | Disposition Name | Follow Up Days | Time Limit | Status | Active |
-And user should be able to view Edit link button adjacent to associated Disposition Type
-And user should be able to view Details button for particular Disposition Type
-And user should be able to view Reorder link button against each Disposition Type
-When user clicks on radio button against any particular Disposition Type
-Then user should be able to view selected Disposition Type appended after Handoff type, Recipient and Action Type in breadcrumb
-When user clicks on Details link button adjacent to any Disposition Type
-Then user should be able to view detailed columns
- | Created Date | Created By | Updated Date | Updated By |
-When user clicks on Details link again
-Then expanded grid for selected Disposition Type gets collapsed
-And user should no longer be able to view the associated fields
+    Then user should be able to navigate to Disposition type page
+    And user should be able to view Disposition Type tab selected highlighted in blue color
+    And user should able to view Workflow Summary label with selected Disposition Type appended
+    And user should be able to view Choose a Disposition Type grid with buttons underneath
+      | Add New Disposition | Save Configuration |
+    And user should be able to view Save Configuration button disabled
+    And user should be able to view disposition grid with columns headers
+      | Disposition Name | Follow Up Days | Time Limit | Status | Active |
+    And user should be able to view Edit link button adjacent to associated Disposition Type
+    And user should be able to view Details button for particular Disposition Type
+    And user should be able to view Reorder link button against each Disposition Type
+    When user clicks on Details link button adjacent to any Disposition Type
+    Then user should be able to view detailed columns
+      | Created Date | Created By | Updated Date | Updated By |
+    When user clicks on Details link again
+    Then expanded grid for selected Disposition Type gets collapsed
+    And user should no longer be able to view the associated fields
 
-      Examples: 
+    Examples: 
       | query1                         | query2                          |
       | 434767_WFConfig_CheckRecipient | 434767_WFConfig_CheckRecipient1 |

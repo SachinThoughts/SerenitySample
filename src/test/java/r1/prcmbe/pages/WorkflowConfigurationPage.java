@@ -162,48 +162,93 @@ public class WorkflowConfigurationPage extends PageObject {
 
 	@FindBy(xpath = "//*[@class='more-info workflowConfigdetailsInfo']//span[text()='Created By']/following-sibling::span")
 	private WebElementFacade createdByField;
-	
+
 	@FindBy(xpath = "//*[@id='dvRecipientDetails']//*[@class='radio']//label")
 	private List<WebElementFacade> listOfRecipientsRadioBtn;
-	
+
 	@FindBy(xpath = "//*[@id='dvRecipientDetails']//*[contains(@id,'sName')]")
 	private List<WebElementFacade> listOfRecipientsName;
-	
+
 	@FindBy(xpath = "//div[@id='addNewAction']//div[not(contains(@class,'hidden'))]/label[contains(@class,'control-label')]")
 	private List<WebElementFacade> actionPopUpControls;
-	
+
 	@FindBy(xpath = "//*[@id='addNewAction']//button[text()='Close']")
 	private WebElementFacade closeBtnOnActionPopUp;
-	
+
 	@FindBy(xpath = "//*[@id='addNewAction']//button[text()='Save changes']")
 	private WebElementFacade saveChangesBtnOnActionPopUp;
-	
+
 	@FindBy(xpath = "//*[@id='addNewAction']//*[@id='sopActionRequired']/..")
 	private WebElementFacade requiredCheckBoxActionPopUp;
-	
-	@FindBy(id="addEditNewActionLabel")
+
+	@FindBy(id = "addEditNewActionLabel")
 	private WebElementFacade addActionPopUp;
-	
+
 	@FindBy(xpath = "//*[@id='WorkflowTypeActionsSorttable']//i[@class='fa fa-chevron-right fa-1-5x']")
 	private List<WebElementFacade> listOfDetailsLinkOnActionTab;
-	
+
 	@FindBy(xpath = "//*[@id='WorkflowTypeActionsSorttable']//span[contains(@id,'NA')]")
 	private List<WebElementFacade> listOfActionNames;
-	
+
 	@FindBy(xpath = "//*[@id='WorkflowTypeActionsSorttable']//ul[@class='more-info workflowConfigdetailsInfo']//span[text()='Created Date']/following-sibling::span")
 	private WebElementFacade actionCreatedDate;
-	
+
 	@FindBy(xpath = "//*[@id='WorkflowTypeActionsSorttable']//ul[@class='more-info workflowConfigdetailsInfo']//span[text()='Created By']/following-sibling::span")
 	private WebElementFacade actionCreatedBy;
-	
+
 	@FindBy(xpath = "//*[@id='WorkflowTypeActionsSorttable']//ul[@class='more-info workflowConfigdetailsInfo']//span[text()='Updated Date']/following-sibling::span")
 	private WebElementFacade actionUpdatedDate;
-	
+
 	@FindBy(xpath = "//*[@id='WorkflowTypeActionsSorttable']//ul[@class='more-info workflowConfigdetailsInfo']//span[text()='Updated By']/following-sibling::span")
 	private WebElementFacade actionUpdatedBy;
-	
+
 	@FindBy(xpath = "//div[@id='addNewAction']//div[@class='alert alert-info']/span")
 	private WebElementFacade errorMsgForEmptyFieldsOnActionPopUp;
+	
+	@FindBy(id="DispositionTypeLink")
+	private WebElementFacade dispositionTab;
+	
+	@FindBy(xpath="//*[@id='WorkflowTypeDispositionSorttable']//span[@id='Disp0']")
+	private WebElementFacade firstDispositionName;
+	
+	@FindBy(xpath="//*[@class='breadcrumb defect-summary']//li[@class='step3']")
+	private WebElementFacade dispositionBreadCrumb;
+	
+	@FindBy(xpath="//*[@id='step4']//*[contains(@class,'workflow')]//*[@class='col-lg-3']//button[@type='button']")
+	private List<WebElementFacade> dispositionChooseGridButtons;
+	
+	@FindBy(xpath="//*[@class='btn btnSuccess btn-block next-step last-step step4 saveconf btnPrimary']")
+	private WebElementFacade dispositionSaveConfigBtn;
+	
+	@FindBy(xpath="//*[@id='dvWorkflowDispositions']//li//div[3]//span[contains(@id,'Disp')]")
+	private List<WebElementFacade> dispositionNameList;
+	
+	@FindBy(xpath="//*[@id='dvWorkflowDispositions']//li//i[@class='fa fa-edit fa-1-5x']")
+	private List<WebElementFacade> dispositionEditLinkList;
+	
+	@FindBy(xpath="//*[@id='dvWorkflowDispositions']//li//i[@class='fa fa-chevron-right fa-1-5x']")
+	private List<WebElementFacade> dispositionDetailsLinkList;
+	
+	@FindBy(xpath="//*[@id='dvWorkflowDispositions']//li//i[@class='fa fa-arrows fa-1-5x']")
+	private List<WebElementFacade> dispositionReorderLinksList;
+	
+	@FindBy(xpath="//*[@id='dvWorkflowDispositions']//li//i[@class='fa fa-arrows fa-1-5x']")
+	private List<WebElementFacade> dispositionRadioBtnList;
+	
+	@FindBy(xpath="(//*[@id='dvWorkflowDispositions']//li//i[contains(@class,'fa fa-chevron-right fa-1-5x')])[1]")
+	private WebElementFacade firstDispositionDetailsLink;
+	
+	@FindBy(xpath="//*[@class='more-info workflowConfigdetailsInfo']//li/span[1]")
+	private List<WebElementFacade> dispositionDetailsColumnList;
+	
+	@FindBy(xpath="//*[@id='dvWorkflowDispositions']//li//i[@class='fa fa-1-5x fa-chevron-down']")
+	private WebElementFacade expandedDispositionDetailsLink;
+	
+	@FindBy(xpath="//*[@class='more-info workflowConfigdetailsInfo']")
+	private WebElementFacade dispositionDetailsSection;
+	
+	@FindBy(xpath = "//*[@class='sop-header dispositions']/li")
+	private List<WebElementFacade> listOfDispositionHeader;
 
 	public String getCreatedByFieldValue() {
 		return createdByField.getText();
@@ -502,7 +547,7 @@ public class WorkflowConfigurationPage extends PageObject {
 	public String isDefaultRadioBtnSelected() {
 		return evaluateJavascript("return document.querySelector('#workflowChoiceID-0').checked").toString();
 	}
-	
+
 	public void clickSpecificRecipientRadioBtn(String recipientName) {
 		int size = listOfRecipientsName.size();
 		for (int i = 0; i < size; i++) {
@@ -512,7 +557,7 @@ public class WorkflowConfigurationPage extends PageObject {
 			}
 		}
 	}
-	
+
 	public List<Object> verifyAddActionPopupControlsVisible(List<String> listOfFields) {
 		List<Object> listOfVal = new ArrayList<>();
 		int count = 0;
@@ -543,7 +588,7 @@ public class WorkflowConfigurationPage extends PageObject {
 		}
 		return listOfVal;
 	}
-	
+
 	public void clickRequiredCheckBoxOnActionPopUp() {
 		requiredCheckBoxActionPopUp.click();
 	}
@@ -551,7 +596,7 @@ public class WorkflowConfigurationPage extends PageObject {
 	public boolean isAddActionPopUpVisible() {
 		return addActionPopUp.isVisible();
 	}
-	
+
 	public void clickSpecificDetailsLinkOnActionTab(String actionName) {
 		int size = listOfActionNames.size();
 		for (int i = 0; i < size; i++) {
@@ -561,32 +606,35 @@ public class WorkflowConfigurationPage extends PageObject {
 			}
 		}
 	}
-	
-	public  String getActionCreatedDate() {
+
+	public String getActionCreatedDate() {
 		return actionCreatedDate.getText();
 	}
-	
+
 	public String getActionCreatedBy() {
 		return actionCreatedBy.getText();
 	}
-	
+
 	public String getActionUpdatedDate() {
 		return actionUpdatedDate.getText();
 	}
-	
+
 	public String getActionUpdatedBy() {
-		//actionUpdatedBy.withTimeoutOf(Duration.ofSeconds(40)).waitUntilVisible();
-		return actionUpdatedBy.getTextContent();
+		if (actionUpdatedBy.isVisible()) {
+			return actionUpdatedBy.getText();
+		} else {
+			return "";
+		}
 	}
-	
+
 	public String getErrorMsgOnActionPopup() {
 		withAction().moveToElement(errorMsgForEmptyFieldsOnActionPopUp).build().perform();
-		String expectedMEssage = errorMsgForEmptyFieldsOnActionPopUp.withTimeoutOf(Duration.ofSeconds(20)).waitUntilVisible()
-				.getText().trim();
+		String expectedMEssage = errorMsgForEmptyFieldsOnActionPopUp.withTimeoutOf(Duration.ofSeconds(20))
+				.waitUntilVisible().getText().trim();
 		return expectedMEssage;
 
 	}
-	
+
 	public boolean isNewlyAddedActionVisibleInGrid(String actionName) {
 		int size = listOfActionNames.size();
 		for (int i = 0; i < size; i++) {
@@ -595,5 +643,84 @@ public class WorkflowConfigurationPage extends PageObject {
 			}
 		}
 		return false;
+	}
+	
+	public boolean isDispositionTabVisible() {
+		return dispositionTab.isVisible();
+	}
+	
+	public String getDispositionTabColor() {
+		return dispositionTab.getCssValue("background-color");
+	}
+
+	public String getFirstDispositionName() {
+		return firstDispositionName.getText();
+	}
+	
+	public String getDispositionBreadCrumbValue() {
+		return dispositionBreadCrumb.getText();
+	}
+	
+	public List<String> getDispositionButtonText(){
+		List<String> dispositionBtnText=new ArrayList<>();
+		for(WebElementFacade dispositionBtn:dispositionChooseGridButtons) {
+			System.out.println("button txt"+dispositionBtn.getText());
+			dispositionBtnText.add(dispositionBtn.getText());
+		}
+		return dispositionBtnText;
+	}
+	
+	public boolean isSaveConfigBtnOnDispositionTabDisabled() {
+		//System.out.println(dispositionSaveConfigBtn.getAttribute("disabled"));
+		return dispositionSaveConfigBtn.isDisabled();
+	}
+	
+	public int getDispositionNameCount() {
+		return dispositionNameList.size();
+	}
+	
+	public int getDispositionEditLinksCount() {
+		return dispositionEditLinkList.size();
+	}
+	
+	public int getDispositionDetailsLinkCount() {
+		return dispositionDetailsLinkList.size();
+	}
+	
+	public int getDispositionReorderLinksCount() {
+		return dispositionReorderLinksList.size();
+	}
+	
+	public void clickFirstDispositionDetailsLink() {
+		//firstDispositionDetailsLink.click();
+		evaluateJavascript("arguments[0].click();", firstDispositionDetailsLink);
+	}
+	
+	public List<String> getDispositionDetailsColumnNamesList(){
+		List<String> columnNames=new ArrayList<>();
+		for(WebElementFacade columnName:dispositionDetailsColumnList) {
+			columnNames.add(columnName.getText());
+		}
+		return columnNames;
+	}
+	
+	public void clickExpandedDetailsLinkOnDispositionTab() {
+		expandedDispositionDetailsLink.click();
+	}
+	
+	public boolean isDispositionDetailsCollapsed() {
+		return firstDispositionDetailsLink.isVisible();
+	}
+	
+	public boolean isDispositionDetailsSectionVisible() {
+		return dispositionDetailsSection.isVisible();
+	}
+	
+	public List<String> getDispositionGridHeaderList() {
+		List<String> headerList = new ArrayList<String>();
+		for (WebElementFacade dispositionHeader : listOfDispositionHeader) {
+			headerList.add(dispositionHeader.getText().trim());
+		}
+		return headerList;
 	}
 }
