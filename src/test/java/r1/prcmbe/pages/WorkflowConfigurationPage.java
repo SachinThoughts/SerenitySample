@@ -368,7 +368,7 @@ public class WorkflowConfigurationPage extends PageObject {
 	}
 
 	public List<String> getSopHeaderList() {
-		List<String> headerList = new ArrayList<String>();
+		List<String> headerList = new ArrayList<>();
 		for (WebElementFacade sopHeaderEle : listOfSopHeader) {
 			headerList.add(sopHeaderEle.getText().trim());
 		}
@@ -384,7 +384,7 @@ public class WorkflowConfigurationPage extends PageObject {
 	}
 
 	public List<String> getDetailColumnHeadersRecipientTab() {
-		List<String> columnList = new ArrayList<String>();
+		List<String> columnList = new ArrayList<>();
 		for (WebElementFacade columnEle : listOfDetailColumnsRecipientTab) {
 			columnList.add(columnEle.getText().trim());
 		}
@@ -491,7 +491,7 @@ public class WorkflowConfigurationPage extends PageObject {
 	}
 
 	public List<String> getLabelsOnEditPopup() {
-		List<String> listOfLabels = new ArrayList<String>();
+		List<String> listOfLabels = new ArrayList<>();
 		for (WebElementFacade element : listOfLabelsOnEditPopup) {
 			listOfLabels.add(element.getText().trim());
 		}
@@ -499,7 +499,7 @@ public class WorkflowConfigurationPage extends PageObject {
 	}
 
 	public List<String> getControlsOnEditPopup() {
-		List<String> listOfControls = new ArrayList<String>();
+		List<String> listOfControls = new ArrayList<>();
 		for (WebElementFacade element : listOfControlsOnEditPopup) {
 			listOfControls.add(element.getText().trim());
 		}
@@ -541,7 +541,7 @@ public class WorkflowConfigurationPage extends PageObject {
 	}
 
 	public List<String> getWorkflowTabs() {
-		List<String> workflowTabValues = new ArrayList<String>();
+		List<String> workflowTabValues = new ArrayList<>();
 		for (WebElementFacade tabs : workflowTabs) {
 			workflowTabValues.add(tabs.getText().trim());
 		}
@@ -666,8 +666,6 @@ public class WorkflowConfigurationPage extends PageObject {
 		int count = 0;
 		int size = actionPopUpControls.size();
 		for (int i = 0; i < size; i++) {
-			System.out.println(actionPopUpControls.get(i).getText());
-			System.out.println(listOfFields.get(i));
 			if (actionPopUpControls.get(i).getText().equals(listOfFields.get(i))) {
 				count = count + 1;
 			} else {
@@ -767,14 +765,12 @@ public class WorkflowConfigurationPage extends PageObject {
 	public List<String> getDispositionButtonText() {
 		List<String> dispositionBtnText = new ArrayList<>();
 		for (WebElementFacade dispositionBtn : dispositionChooseGridButtons) {
-			System.out.println("button txt" + dispositionBtn.getText());
 			dispositionBtnText.add(dispositionBtn.getText());
 		}
 		return dispositionBtnText;
 	}
 
 	public boolean isSaveConfigBtnOnDispositionTabDisabled() {
-		// System.out.println(dispositionSaveConfigBtn.getAttribute("disabled"));
 		return dispositionSaveConfigBtn.isDisabled();
 	}
 
@@ -795,7 +791,6 @@ public class WorkflowConfigurationPage extends PageObject {
 	}
 
 	public void clickFirstDispositionDetailsLink() {
-		// firstDispositionDetailsLink.click();
 		evaluateJavascript("arguments[0].click();", firstDispositionDetailsLink);
 	}
 

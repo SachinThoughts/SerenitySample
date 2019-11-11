@@ -590,8 +590,6 @@ public class WorkflowConfigurationStepDef extends PageObject {
 
 	@Then("^user should able to view Workflow Summary label with selected Disposition Type appended$")
 	public void user_should_able_to_view_Workflow_Summary_label_with_selected_Disposition_Type_appended() {
-		System.out.println("workflow summary label"+ workflowConfigPage
-				.getFirstDispositionName()+ workflowConfigPage.getDispositionBreadCrumbValue());
 		Assert.assertTrue("Workflow summary label does not display selected Dispositiontype", workflowConfigPage
 				.getFirstDispositionName().equalsIgnoreCase(workflowConfigPage.getDispositionBreadCrumbValue()));
 	}
@@ -599,8 +597,6 @@ public class WorkflowConfigurationStepDef extends PageObject {
 	@Then("^user should be able to view Choose a Disposition Type grid with buttons underneath$")
 	public void user_should_be_able_to_view_Choose_a_Disposition_Type_grid_with_buttons_underneath(DataTable dispositionButtons) {
 		List<String> dispositionBtnText=dispositionButtons.asList(String.class);
-		System.out.println("workflow summary label"+ workflowConfigPage.getDispositionButtonText() +dispositionBtnText);
-		System.out.println(workflowConfigPage.getDispositionButtonText());
 		Assert.assertTrue("Buttons on Disposition type grid not displayed",workflowConfigPage.getDispositionButtonText().equals(dispositionBtnText));
 	}
 
