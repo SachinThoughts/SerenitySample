@@ -326,8 +326,8 @@ public class SearchStepDef extends PageObject {
 				dbListOfFacility.containsAll(searchPage.getlistOfSearchedFacility()));
 	}
 
-	@When("^user enters the query result of SQL1 in Invoice Number search textbox$")
-	public void user_enters_the_query_result_of_SQL1_in_Invoice_Number_search_textbox() {
+	@When("^user enter the query result of SQL1 in Invoice Number search textbox$")
+	public void user_enter_the_query_result_of_SQL1_in_Invoice_Number_search_textbox() {
 		searchPage.enterInvoiceNumber(dbInvoiceNumber);
 	}
 
