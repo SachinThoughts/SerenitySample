@@ -152,4 +152,3 @@ Feature: This is to verify external search functionality in R1 PRCM-BE
       | option         | textvalue | queryname15                 |
       | Visit Number   |     12345 | SearchExternal_433633_SQL15 |
       | Invoice Number |     12345 | SearchExternal_433633_SQL15 |
-      #| SSN            |     12345 | SearchExternal_433633_SQL15 |
