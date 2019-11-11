@@ -11,18 +11,18 @@ Feature: Verify internal search on R1 Decision page
     And user select "Invoice Number" from Search By dropdown
     And user enters the query result in Invoice Number search textbox and can view the same invoice number of selected facility or different facility
     Then user navigates on internal search page
- 
+
   @391031 @Sprint101 @PRCMUser
   Scenario: Verify that R1D page for PRCM enabled site Invoice number should be default criteria
     Given user is on "R1 Hub Technologies 2.0 - 01 R1_Decision" page
     Then user should be able to view Invoice Number selected by default in Search By drop down
-    
+
   @391032 @Sprint101 @PRCMUser
   Scenario Outline: Verify the error message displayed when user searches an invalid data in Search textbox with equal operator
     Given user is on "R1 Hub Technologies 2.0 - 01 R1_Decision" page
     When user selects <dropdown> from Search By drop down
     And user enters invalid value in <Invalid Data> textbox 
-    And user clicks on Submit Button
+    And user clicks on Submit button
     Then user should be able to view error message <ErrorMsg>
 
     Examples: 
@@ -49,3 +49,62 @@ Feature: Verify internal search on R1 Decision page
       | Invoice Number        |             1234 | Please add five or more characters |
       | Medical Record Number |             1234 | Please add five or more characters |
       | Claim Number          |             1234 | Please add five or more characters |
+
+  @391034 @Sprint101 @PRCMUser
+  Scenario Outline: Verify that Submit button is enabled for Search textbox for Like Operator if user enters 5 or more characters
+    Given user is on "R1 Hub Technologies 2.0 - 01 R1_Decision" page
+    When user selects <dropdown> from Search By drop down
+    And user selects "Like" operator from operator dropdown
+    And user enters more than or equal to 5 characters <moreThanFivetext> in textbox
+    Then user should not able to view tool-tip message
+    And user should be able to view Submit Button in enabled state
+
+    Examples: 
+      | dropdown              | moreThanFivetext |
+      | Visit Number          |            12345 |
+      | Visit Number          |           123456 |
+      | Invoice Number        |            12345 |
+      | Invoice Number        |           123456 |
+      | Medical Record Number |            12345 |
+      | Medical Record Number |           123456 |
+      | Claim Number          |            12345 |
+      | Claim Number          |           123456 |
+
+  @391035 @Sprint101 @PRCMUser
+  Scenario Outline: Verify that when user does not enter anything in Search textbox then message appeared or not
+    Given user is on "R1 Hub Technologies 2.0 - 01 R1_Decision" page
+    When user selects <option> from Search By drop down
+    And user clicks on Submit button
+    Then user should be able to view message "Please enter the value for" <option>
+
+    Examples: 
+      | option                |
+      | Visit Number          |
+      | Invoice Number        |
+      | SSN                   |
+      | Last Name/First Name  |
+      | Medical Record Number |
+      | Claim Number          |
+
+  @391036 @Sprint101 @PRCMUser
+  Scenario Outline: Verify the error message displayed when user searches an invalid Search textbox with Like operator on R1D Page
+    Given user is on "R1 Hub Technologies 2.0 - 01 R1_Decision" page
+    When user selects <dropdown> from Search By drop down
+    And user selects "Like" operator from operator dropdown
+    And user enters invalid value in <Invalid Data> textbox 
+    And user clicks on Submit button
+    Then user should be able to view error message <ErrorMsg>
+
+    Examples: 
+      | dropdown              | Invalid Data | ErrorMsg         |
+      | Visit Number          | q31&@$^      | No Record Found! |
+      | Invoice Number        | 34%&^*45     | No Record Found! |
+      | Medical Record Number | 5643^*^$     | No Record Found! |
+      | Claim Number          | 5345fg^**    | No Record Found! |
+
+  @391037 @Sprint101 @PRCMUser
+  Scenario: Verify that user is able to search an account with Invoice Number using equal operator on R1D Page
+    Given user is on "R1 Hub Technologies 2.0 - 01 R1_Decision" page
+    When user enters the query result of SQL1 in Invoice Number search textbox
+    And user clicks on Submit button
+    Then user should be able to navigate to the R1D account page for searched Invoice Number

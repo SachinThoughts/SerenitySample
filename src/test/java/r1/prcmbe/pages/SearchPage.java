@@ -111,7 +111,7 @@ public class SearchPage extends PageObject {
 	public void clickSubmitBtn() {
 		submitBtn.click();
 		if (loadingSpinner.isVisible()) {
-			loadingSpinner.withTimeoutOf(Duration.ofSeconds(30)).waitUntilNotVisible();
+			loadingSpinner.withTimeoutOf(Duration.ofSeconds(80)).waitUntilNotVisible();
 		}
 	}
 
