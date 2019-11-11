@@ -88,7 +88,7 @@ Feature: This is to verify external search functionality in R1 PRCM-BE
     And user enters <lastName> text in Last Name textbox
     And user enters <firstName> text in First Name textbox
     And user clicks on submit button
-    Then user should be able to view the grid with following columns
+    Then user should be able to view the grid with following columns for Last Name/First Name search
       | Visit #             |
       | Invoice #           |
       | Name                |
@@ -124,3 +124,32 @@ Feature: This is to verify external search functionality in R1 PRCM-BE
       | SSN                   | @#$$@43242   | No Record Found! |
       | Medical Record Number | %%3424$      | No Record Found! |
       | Claim Number          | $$$cdf5435   | No Record Found! |
+
+  @433633 @PRCMUser @Sprint101
+  Scenario Outline: Verify the Search functionality when search qualifies data of Cross Site Facility as well
+    Given user is on R1 Decision search page
+    When user selects <option> from Search By drop down
+    And user selects "Like" operator from operator dropdown
+    And user enters <textvalue> in <option> textbox
+    And user clicks on Submit Button
+    Then user should be able to view the grid with following columns
+      | Visit #             |
+      | Invoice #           |
+      | Name                |
+      | Facility Code       |
+      | MRN                 |
+      | Gender              |
+      | PT                  |
+      | Service Date        |
+      | PPC                 |
+      | Defect Type         |
+      | Defect Sub-Category |
+    When user login to SQL Server and connect to facility database
+    And user runs the <queryname15> query for search
+    Then user should be able to view only those facilities in Facility Code column which are coming in SQL result
+
+    Examples: 
+      | option         | textvalue | queryname15                 |
+      | Visit Number   |     12345 | SearchExternal_433633_SQL15 |
+      | Invoice Number |     12345 | SearchExternal_433633_SQL15 |
+      #| SSN            |     12345 | SearchExternal_433633_SQL15 |

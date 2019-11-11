@@ -120,7 +120,7 @@ public class SearchPage extends PageObject {
 	public void clickSubmitBtn() {
 		submitBtn.click();
 		if (loadingSpinner.isVisible()) {
-			loadingSpinner.withTimeoutOf(Duration.ofSeconds(40)).waitUntilNotVisible();
+			loadingSpinner.withTimeoutOf(Duration.ofSeconds(60)).waitUntilNotVisible();
 		}
 	}
 
@@ -305,5 +305,13 @@ public class SearchPage extends PageObject {
 	public String getPatientFirstName() {
 		String[] firstName = patientName.getText().split(",", 0);
 		return firstName[1].trim();
+	}
+
+	public List<String> getlistOfSearchedFacility() {
+		List<String> listOfFacilities = new ArrayList<>();
+		for (WebElementFacade facilityCode : listOfSearchedFacility) {
+			listOfFacilities.add(facilityCode.getText());
+		}
+		return listOfFacilities;
 	}
 }

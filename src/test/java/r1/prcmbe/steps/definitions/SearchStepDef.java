@@ -216,8 +216,9 @@ public class SearchStepDef extends PageObject {
 		searchPage.enterFirstName(this.firstName);
 	}
 
-	@Then("^user should be able to view the grid with following columns$")
-	public void user_should_be_able_to_view_the_grid_with_following_columns(DataTable resultColumns) {
+	@Then("^user should be able to view the grid with following columns for Last Name/First Name search$")
+	public void user_should_be_able_to_view_the_grid_with_following_columns_for_LastName_FirstName_search(
+			DataTable resultColumns) {
 		List<String> expectedListOfGridColumns = resultColumns.asList(String.class);
 		listOfGridColumnsOnUI = searchPage.getListOfSrchAccTblHeaders();
 
@@ -251,7 +252,43 @@ public class SearchStepDef extends PageObject {
 
 	@When("^user runs the (.*) query for search$")
 	public void user_runs_the_query_for_search(String queryName) throws Exception {
-		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
-				commonMethods.loadQuery(queryName, dbQueryFilename));
+		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName, String.format(
+				commonMethods.loadQuery(queryName, dbQueryFilename), CommonMethods.loadProperties("prcmBeUsername")));
+	}
+
+	@When("^user enters (.*) in (.*) textbox$")
+	public void user_enters_in_textbox(String textValue, String searchByOption) {
+		if (searchPage.isVisitTxtFieldVisible()) {
+			searchPage.enterVisitNumber(textValue);
+		} else if (searchPage.isInvoiceNumberTxtFieldVisible()) {
+			searchPage.enterInvoiceNumber(textValue);
+		} else if (searchPage.isSSNTxtFieldVisible()) {
+			searchPage.enterSSN(textValue);
+		} else {
+			Assert.assertTrue(searchByOption + " text box is not visible", false);
+		}
+	}
+
+	@Then("^user should be able to view the grid with following columns$")
+	public void user_should_be_able_to_view_the_grid_with_following_columns(DataTable resultColumns) {
+		List<String> expectedListOfGridColumns = resultColumns.asList(String.class);
+		listOfGridColumnsOnUI = searchPage.getListOfSrchAccTblHeaders();
+		Assert.assertTrue("All the grid columns are not visible",
+				expectedListOfGridColumns.containsAll(listOfGridColumnsOnUI) && !listOfGridColumnsOnUI.isEmpty());
+	}
+
+	@Then("^user should be able to view only those facilities in Facility Code column which are coming in SQL result$")
+	public void user_should_be_able_to_view_only_those_facilities_in_Facility_Code_column_which_are_coming_in_SQL_result() {
+		List<String> dbListOfFacility = new ArrayList<>();
+		try {
+			while (DatabaseConn.resultSet.next()) {
+				dbListOfFacility.add(DatabaseConn.resultSet.getString("Code"));
+			}
+		} catch (SQLException sQLException) {
+			Assert.assertTrue("Facility codes are not fetched from DB.\nThe Technical Error is:\n" + sQLException,
+					false);
+		}
+		Assert.assertTrue("Facility code from database and UI does not match",
+				dbListOfFacility.containsAll(searchPage.getlistOfSearchedFacility()));
 	}
 }
