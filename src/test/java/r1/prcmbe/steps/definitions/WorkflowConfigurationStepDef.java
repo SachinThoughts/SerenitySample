@@ -491,7 +491,7 @@ public class WorkflowConfigurationStepDef extends PageObject {
 		Assert.assertTrue("Created date of Recipient does not match with DB", workflowConfigSteps
 				.formatDbDateFieldWithDateTime(createdDate).equals(workflowConfigPage.getCreatedDateRecipientText()));
 	}
-	
+
 	@When("^user run the query to fetch recipient name (.*)$")
 	public void user_run_the_query_to_fetch_recipient_name(String queryName) throws Exception {
 		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
@@ -595,29 +595,35 @@ public class WorkflowConfigurationStepDef extends PageObject {
 	}
 
 	@Then("^user should be able to view Choose a Disposition Type grid with buttons underneath$")
-	public void user_should_be_able_to_view_Choose_a_Disposition_Type_grid_with_buttons_underneath(DataTable dispositionButtons) {
-		List<String> dispositionBtnText=dispositionButtons.asList(String.class);
-		Assert.assertTrue("Buttons on Disposition type grid not displayed",workflowConfigPage.getDispositionButtonText().equals(dispositionBtnText));
+	public void user_should_be_able_to_view_Choose_a_Disposition_Type_grid_with_buttons_underneath(
+			DataTable dispositionButtons) {
+		List<String> dispositionBtnText = dispositionButtons.asList(String.class);
+		Assert.assertTrue("Buttons on Disposition type grid not displayed",
+				workflowConfigPage.getDispositionButtonText().equals(dispositionBtnText));
 	}
 
 	@Then("^user should be able to view Save Configuration button disabled$")
 	public void user_should_be_able_to_view_Save_Configuration_button_disabled() {
-		Assert.assertTrue("Save configuration button is not disabled",workflowConfigPage.isSaveConfigBtnOnDispositionTabDisabled());
+		Assert.assertTrue("Save configuration button is not disabled",
+				workflowConfigPage.isSaveConfigBtnOnDispositionTabDisabled());
 	}
 
 	@Then("^user should be able to view Edit link button adjacent to associated Disposition Type$")
 	public void user_should_be_able_to_view_Edit_link_button_adjacent_to_associated_Disposition_Type() {
-		Assert.assertTrue("Edit link button is not displayed adjacent to each disposition type",workflowConfigPage.getDispositionNameCount()==workflowConfigPage.getDispositionEditLinksCount());
+		Assert.assertTrue("Edit link button is not displayed adjacent to each disposition type",
+				workflowConfigPage.getDispositionNameCount() == workflowConfigPage.getDispositionEditLinksCount());
 	}
 
 	@Then("^user should be able to view Details button for particular Disposition Type$")
 	public void user_should_be_able_to_view_Details_button_for_particular_Disposition_Type() {
-		Assert.assertTrue("Details link button is not displayed adjacent to each disposition type",workflowConfigPage.getDispositionNameCount()==workflowConfigPage.getDispositionDetailsLinkCount());
+		Assert.assertTrue("Details link button is not displayed adjacent to each disposition type",
+				workflowConfigPage.getDispositionNameCount() == workflowConfigPage.getDispositionDetailsLinkCount());
 	}
 
 	@Then("^user should be able to view Reorder link button against each Disposition Type$")
 	public void user_should_be_able_to_view_Reorder_link_button_against_each_Disposition_Type() {
-		Assert.assertTrue("Details link button is not displayed adjacent to each disposition type",workflowConfigPage.getDispositionNameCount()==workflowConfigPage.getDispositionReorderLinksCount());
+		Assert.assertTrue("Details link button is not displayed adjacent to each disposition type",
+				workflowConfigPage.getDispositionNameCount() == workflowConfigPage.getDispositionReorderLinksCount());
 	}
 
 	@When("^user clicks on Details link button adjacent to any Disposition Type$")
@@ -627,8 +633,11 @@ public class WorkflowConfigurationStepDef extends PageObject {
 
 	@Then("^user should be able to view detailed columns$")
 	public void user_should_be_able_to_view_detailed_columns(DataTable columnNames) {
-		List<String> detailsColumns=columnNames.asList(String.class);
-		Assert.assertTrue("Expected Details columns not visible \n Actual"+workflowConfigPage.getDispositionDetailsColumnNamesList()+"Expected "+detailsColumns,workflowConfigPage.getDispositionDetailsColumnNamesList().equals(detailsColumns));
+		List<String> detailsColumns = columnNames.asList(String.class);
+		Assert.assertTrue(
+				"Expected Details columns not visible \n Actual"
+						+ workflowConfigPage.getDispositionDetailsColumnNamesList() + "Expected " + detailsColumns,
+				workflowConfigPage.getDispositionDetailsColumnNamesList().equals(detailsColumns));
 	}
 
 	@When("^user clicks on Details link again$")
@@ -638,12 +647,14 @@ public class WorkflowConfigurationStepDef extends PageObject {
 
 	@Then("^expanded grid for selected Disposition Type gets collapsed$")
 	public void expanded_grid_for_selected_Disposition_Type_gets_collapsed() {
-		Assert.assertTrue("Expanded details section is not collapsed",workflowConfigPage.isDispositionDetailsCollapsed());
+		Assert.assertTrue("Expanded details section is not collapsed",
+				workflowConfigPage.isDispositionDetailsCollapsed());
 	}
 
 	@Then("^user should no longer be able to view the associated fields$")
 	public void user_should_no_longer_be_able_to_view_the_associated_fields() {
-		Assert.assertFalse("Details section should not be displayed",workflowConfigPage.isDispositionDetailsSectionVisible());
+		Assert.assertFalse("Details section should not be displayed",
+				workflowConfigPage.isDispositionDetailsSectionVisible());
 	}
 
 	@Then("^user should be able to view disposition grid with columns headers$")
@@ -652,7 +663,7 @@ public class WorkflowConfigurationStepDef extends PageObject {
 		Assert.assertTrue(" User is not able to view column headers",
 				workflowConfigPage.getDispositionGridHeaderList().containsAll(dispositionGridColumnLabels));
 	}
-	
+
 	@When("^user clicks on Continue button on HandOff Tab$")
 	public void user_clicks_on_Continue_button_on_HandOff_Tab() {
 		workflowConfigPage.clickOnContinueBtnOnHandoffTab();
@@ -726,5 +737,5 @@ public class WorkflowConfigurationStepDef extends PageObject {
 				.formatDbDateFieldWithDateTime(updatedDate).equals(workflowConfigPage.getUpdatedDateFieldValue()));
 		Assert.assertTrue("Updated by for recipient does not match with DB",
 				updatedBy.contains(workflowConfigPage.getUpdatedByFieldValue()));
-}
+	}
 }
