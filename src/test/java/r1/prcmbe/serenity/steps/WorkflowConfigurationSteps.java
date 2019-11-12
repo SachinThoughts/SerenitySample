@@ -9,7 +9,7 @@ import net.thucydides.core.annotations.Step;
 
 public class WorkflowConfigurationSteps {
 	DateFormat outputFormat, inputFormat;
-	
+
 	@Step
 	public String formatDbDateFieldWithDateTime(String dateFromDB) throws ParseException {
 		outputFormat = new SimpleDateFormat("MM/dd/yyyy");

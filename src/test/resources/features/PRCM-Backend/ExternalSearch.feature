@@ -17,7 +17,7 @@ Feature: This is to verify external search functionality in R1 PRCM-BE
     Given user is on "R1 Hub Technologies 2.0 - 01 R1_Decision - Search" page
     When user selects <dropdown> from Search By drop down
     And user enters invalid value in <Invalid Data> textbox 
-    And user clicks on Submit Button
+    And user clicks on Submit button
     Then user should be able to view error message <ErrorMsg>
 
     Examples: 
@@ -69,7 +69,7 @@ Feature: This is to verify external search functionality in R1 PRCM-BE
   Scenario Outline: Verify that when user does not enter anything in Search textbox then message appeared or not
     Given user is on "R1 Hub Technologies 2.0 - 01 R1_Decision - Search" page
     When user selects <option> from Search By drop down
-    And user clicks on Submit Button
+    And user clicks on Submit button
     Then user should be able to view message "Please enter the value for" <option>
 
     Examples: 
@@ -114,7 +114,7 @@ Feature: This is to verify external search functionality in R1 PRCM-BE
     When user selects <option> from Search By drop down
     And user selects "Like" operator from operator dropdown
     And user enters invalid value in <Invalid Data> textbox 
-    And user clicks on Submit Button
+    And user clicks on Submit button
     Then user should be able to view error message <ErrorMsg>
 
     Examples: 
@@ -131,7 +131,7 @@ Feature: This is to verify external search functionality in R1 PRCM-BE
     When user selects <option> from Search By drop down
     And user selects "Like" operator from operator dropdown
     And user enters <textvalue> in <option> textbox
-    And user clicks on Submit Button
+    And user clicks on Submit button
     Then user should be able to view the grid with following columns
       | Visit #             |
       | Invoice #           |

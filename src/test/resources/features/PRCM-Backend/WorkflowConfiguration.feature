@@ -185,6 +185,88 @@ Feature: Verify WorkFlowConfiguration related scenarios in PRCM
       | query1                         | query2                          | query3                               |
       | 434767_WFConfig_CheckRecipient | 434767_WFConfig_CheckRecipient1 | 434767_BDD_R1D_WFConfig_AddRecipient |
 
+  @434770 @AHtoDecisionAdmin @Sprint101
+  Scenario Outline: Verify Add New Action functionality
+    Given user having AHtoDecision Admin role is on workflow configuration home page
+    When user login to SQL server and connect to database
+    And user run the query to fetch hand-off id <query1>
+    And user run the query to fetch hand-off name <query2>
+    And user fetches any Handoff Type from DB
+    And user clicks on Radio button against any fetched Handoff Type in Choose Handoff grid
+    And user clicks on continue button on Handoff tab
+    And user run the query to fetch recipient name <query3>
+    And user clicks on radio button against any fetched Recipient
+    And user clicks on Continue button on Recipient tab
+    And user clicks on +Add New Action button
+    Then user should be able to view Add New Action pop up window with controls
+      | Action Name | Action Description | Next Action By | Follow Up Days | Respond Deadline | Action Status | Active | Required | Close | Save changes |
+    When user clicks on Save Changes button on action popup
+    Then user should able to view info message on action popup "Please enter Action Name"
+    When user enters text in Action Name textbox
+    And user clicks on Save Changes button on action popup
+    Then user should able to view info message on action popup "Please enter Action Description"
+    When for Actions user enters text: "ActionDescTest123" in Action Description textbox
+    And user clicks on Save Changes button on action popup
+    Then user should able to view info message on action popup "Please select Next Action By."
+    When for Actions user selects "BSO_Followup" option from Next Action By dropdown
+    And user clicks on Save Changes button on action popup
+    Then user should able to view info message on action popup "Please enter Follow Up Days"
+    When for Actions user enters "0" in Follow Up Days textbox
+    And user clicks on Save Changes button on action popup
+    Then user should able to view info message on action popup "Please enter Respond Deadline"
+    When for Actions user enters: "999" in Follow Respond Deadline textbox
+    And user clicks on Save Changes button on action popup
+    Then user should able to view info message on action popup "Please select Action Status."
+    When for Actions user selects: "Identified" option from Action Status dropdown
+    And user clicks on Required checkbox
+    When user clicks on Save Changes button on action popup
+    Then user should be able to view the appropriate success message: "Saved successfully"
+    And user should no longer be able to view Add New Action pop-up window
+    And user should be able to view newly created Action in Choose Action Type grid
+    When user clicks on Details link button adjacent to newly created Action Name
+    And user login to SQL server and connect to database
+    And user run the query to fetch Action Details <query4>
+    Then user should be able to view same value in details columns on UI as in SQL result
+
+    Examples: 
+      | query1                         | query2                          | query3                        | query4                            |
+      | 434767_WFConfig_CheckRecipient | 434767_WFConfig_CheckRecipient1 | 434767_WFConfig_ReorderAction | 434770_BDD_R1D_WFConfig_NewAction |
+
+  @434772 @AHtoDecisionAdmin @Sprint101
+  Scenario Outline: Verify data & controls in "Choose a Disposition Type" grid
+    Given user having AHtoDecision Admin role is on workflow configuration home page
+    When user login to SQL server and connect to database
+    And user run the query to fetch hand-off id <query1>
+    And user run the query to fetch hand-off name <query2>
+    And user fetches any Handoff Type from DB
+    And user clicks on Radio button against any fetched Handoff Type in Choose Handoff grid
+    And user clicks on continue button on Handoff tab
+    And user verifies that radio button is selected against the Recipient
+    And user clicks on Continue button on Recipient tab
+    And user verifies that radio button is selected to associated Action Type
+    And user clicks on Continue button on Action type Tab
+    Then user should be able to navigate to Disposition type page
+    And user should be able to view Disposition Type tab selected highlighted in blue color
+    And user should able to view Workflow Summary label with selected Disposition Type appended
+    And user should be able to view Choose a Disposition Type grid with buttons underneath
+      | Add New Disposition | Save Configuration |
+    And user should be able to view Save Configuration button disabled
+    And user should be able to view disposition grid with columns headers
+      | Disposition Name | Follow Up Days | Time Limit | Status | Active |
+    And user should be able to view Edit link button adjacent to associated Disposition Type
+    And user should be able to view Details button for particular Disposition Type
+    And user should be able to view Reorder link button against each Disposition Type
+    When user clicks on Details link button adjacent to any Disposition Type
+    Then user should be able to view detailed columns
+      | Created Date | Created By | Updated Date | Updated By |
+    When user clicks on Details link again
+    Then expanded grid for selected Disposition Type gets collapsed
+    And user should no longer be able to view the associated fields
+
+    Examples: 
+      | query1                         | query2                          |
+      | 434767_WFConfig_CheckRecipient | 434767_WFConfig_CheckRecipient1 |
+
   @434768 @AHtoDecisionAdmin @Sprint101
   Scenario Outline: Verify Edit Recipient functionality
     Given user having AHtoDecision Admin role is on workflow configuration home page
@@ -203,7 +285,7 @@ Feature: Verify WorkFlowConfiguration related scenarios in PRCM
     And user should be able to view prepopulated values in all controls under Edit Recipient popup
     When user clicks on Recipient Name or Recipient Description and updates the existing information
     And user clicks on Save Recipient button
-    Then  user should be able to view the appropriate success message: "Record updated successfully !"
+    Then user should be able to view the appropriate success message: "Record updated successfully !"
     And user should be able to view updated values related to edited recipient in Choose Recipient grid
     When user clicks on Details link button adjacent to updated Recipient
     And user login to SQL server and connect to database
@@ -211,5 +293,5 @@ Feature: Verify WorkFlowConfiguration related scenarios in PRCM
     Then user should be able to view Updated By and Updated Date details of Edited Recipient on UI as in SQL result
 
     Examples: 
-      | query1                         | query2                          |query3                                |
-      | 434767_WFConfig_CheckRecipient | 434767_WFConfig_CheckRecipient1 |436768_BDD_R1D_WFConfig_EditRecipient |
+      | query1                         | query2                          | query3                                |
+      | 434767_WFConfig_CheckRecipient | 434767_WFConfig_CheckRecipient1 | 436768_BDD_R1D_WFConfig_EditRecipient |
