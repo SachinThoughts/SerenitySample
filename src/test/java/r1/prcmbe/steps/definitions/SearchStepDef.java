@@ -34,7 +34,8 @@ public class SearchStepDef extends PageObject {
 	@Steps
 	FinancialInfoSteps financialInfoSteps;
 
-	String dbQueryFilename = "Search", dbMRN, lastName, firstName, dbClaimNo, dbResult, dbInvoiceNumber, dbEncounterId, uIencounterId;
+	String dbQueryFilename = "Search", dbMRN, lastName, firstName, dbClaimNo, dbResult, dbInvoiceNumber, dbEncounterId,
+			uIEncounterId;
 	List<String> listOfGridColumnsOnUI = new ArrayList<>();
 	List<String> dbListOfColumns = new ArrayList<>();
 	List<String> dbListOfNames = new ArrayList<>();
@@ -325,7 +326,7 @@ public class SearchStepDef extends PageObject {
 		Assert.assertTrue("Facility code from database and UI does not match",
 				dbListOfFacility.containsAll(searchPage.getlistOfSearchedFacility()));
 	}
-	
+
 	@When("^user enter the query result of SQL1 in Invoice Number search textbox$")
 	public void user_enter_the_query_result_of_SQL1_in_Invoice_Number_search_textbox() {
 		searchPage.enterInvoiceNumber(dbInvoiceNumber);
@@ -364,13 +365,34 @@ public class SearchStepDef extends PageObject {
 			Assert.assertTrue("All the grid columns are not visible",
 					expectedListOfGridColumns.containsAll(listOfGridColumnsOnUI) && !listOfGridColumnsOnUI.isEmpty());
 			searchPage.clickSearchInvoiceID();
+		} else {
+			financialInfoSteps
+					.log("searched table is not visible with grid, single account present for the search result");
 		}
-		Assert.assertTrue("Incorrect account is searched", true);
+		Assert.assertTrue("Incorrect account is searched",
+				dbEncounterId.equalsIgnoreCase(searchPage.getPatientAccountNo()));
 	}
 
 	@When("^user runs the (.*) query to search Visit number$")
 	public void user_runs_the_query_to_search_Visit_number(String queryName) throws Exception {
 		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
-				String.format(commonMethods.loadQuery(queryName, dbQueryFilename), uIencounterId));
+				String.format(commonMethods.loadQuery(queryName, dbQueryFilename), dbEncounterId));
+	}
+
+	@Then("^user should be able to view the same result in grid as SQL result$")
+	public void user_should_be_able_to_view_the_same_result_in_grid_as_SQL_result() {
+		try {
+			while (DatabaseConn.resultSet.next()) {
+				dbEncounterId = DatabaseConn.resultSet.getString("encounterid");
+				dbInvoiceNumber = DatabaseConn.resultSet.getString("invoicenumber");
+			}
+		} catch (SQLException sQLException) {
+			Assert.assertTrue(
+					"encounterid and invoice number are not fetched from DB.\nThe Technical Error is:\n" + sQLException,
+					false);
+		}
+		Assert.assertTrue("Visit number or Invoice number on UI does not match with database",
+				searchPage.getPatientAccountNo().contains(dbEncounterId)
+						&& searchPage.getInvoiceNumber().contains(dbInvoiceNumber));
 	}
 }

@@ -94,6 +94,12 @@ public class SearchPage extends PageObject {
 	@FindBy(id = "lblPatientName")
 	private WebElementFacade patientName;
 
+	@FindBy(id = "lblAccountNo")
+	private WebElementFacade patientAccountNo;
+
+	@FindBy(xpath = "//*[@id='dvAccountSearch']/table/tbody/tr/td[1]")
+	private List<WebElementFacade> listOfSearchedAccNum;
+
 	String titleJS = "return document.querySelector('#Head > title').text";
 	String facilityCodeJS = "document.querySelector('#dnn_ctr1025_ModuleContent > span > span:nth-child(1)').textContent";
 
@@ -313,5 +319,17 @@ public class SearchPage extends PageObject {
 			listOfFacilities.add(facilityCode.getText());
 		}
 		return listOfFacilities;
+	}
+
+	public String getPatientAccountNo() {
+		return patientAccountNo.getText();
+	}
+
+	public void clickSearchInvoiceIdOrVisitNumber() {
+		int index = getFacilityIndex();
+		if (!listOfSearchedInvoiceId.get(index).getText().equals("NA"))
+			listOfSearchedInvoiceId.get(index).click();
+		else
+			listOfSearchedAccNum.get(index).click();
 	}
 }
