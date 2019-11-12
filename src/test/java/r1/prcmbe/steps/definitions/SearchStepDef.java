@@ -108,8 +108,8 @@ public class SearchStepDef extends PageObject {
 		}
 	}
 
-	@When("^user clicks on Submit Button$")
-	public void user_clicks_on_Submit_Button() {
+	@When("^user clicks on Submit button$")
+	public void user_clicks_on_Submit_button() {
 		searchPage.clickSubmitBtn();
 	}
 
@@ -186,8 +186,7 @@ public class SearchStepDef extends PageObject {
 	public void user_should_not_able_to_view_tool_tip_message() {
 		Assert.assertFalse("Tooltip is visible", searchPage.isToolTipVisible());
 	}
-	
-	
+
 	@When("^user run the query and fetch the Invoice Number \"([^\"]*)\"$")
 	public void user_run_the_query_and_fetch_the_Invoice_Number(String queryName) throws Exception {
 		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
@@ -325,5 +324,16 @@ public class SearchStepDef extends PageObject {
 		}
 		Assert.assertTrue("Facility code from database and UI does not match",
 				dbListOfFacility.containsAll(searchPage.getlistOfSearchedFacility()));
+	}
+
+	@When("^user enter the query result of SQL1 in Invoice Number search textbox$")
+	public void user_enter_the_query_result_of_SQL1_in_Invoice_Number_search_textbox() {
+		searchPage.enterInvoiceNumber(dbInvoiceNumber);
+	}
+
+	@Then("^user should be able to navigate to the R1D account page for searched Invoice Number$")
+	public void user_should_be_able_to_navigate_to_the_R1_D_account_page_for_searched_Invoice_Number() {
+		Assert.assertTrue("User is not navigated to the R1D account page for Searched Invoice Number",
+				searchPageSteps.verifyInvoiceNumberWithEqualOperator(dbInvoiceNumber));
 	}
 }
