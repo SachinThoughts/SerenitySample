@@ -34,7 +34,7 @@ public class SearchStepDef extends PageObject {
 	@Steps
 	FinancialInfoSteps financialInfoSteps;
 
-	String dbQueryFilename = "Search", dbMRN, lastName, firstName, dbClaimNo, dbResult, dbInvoiceNumber;
+	String dbQueryFilename = "Search", dbMRN, lastName, firstName, dbClaimNo, dbResult, dbInvoiceNumber, dbEncounterId, uIencounterId;
 	List<String> listOfGridColumnsOnUI = new ArrayList<>();
 	List<String> dbListOfColumns = new ArrayList<>();
 	List<String> dbListOfNames = new ArrayList<>();
@@ -186,8 +186,7 @@ public class SearchStepDef extends PageObject {
 	public void user_should_not_able_to_view_tool_tip_message() {
 		Assert.assertFalse("Tooltip is visible", searchPage.isToolTipVisible());
 	}
-	
-	
+
 	@When("^user run the query and fetch the Invoice Number \"([^\"]*)\"$")
 	public void user_run_the_query_and_fetch_the_Invoice_Number(String queryName) throws Exception {
 		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
@@ -325,5 +324,42 @@ public class SearchStepDef extends PageObject {
 		}
 		Assert.assertTrue("Facility code from database and UI does not match",
 				dbListOfFacility.containsAll(searchPage.getlistOfSearchedFacility()));
+	}
+
+	@When("^user runs the (.*) query to fetch account data$")
+	public void user_runs_the_query_to_fetch_account_data(String queryName) throws Exception {
+		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
+				commonMethods.loadQuery(queryName, dbQueryFilename));
+	}
+
+	@When("^user enters the query result in Visit Number search textbox$")
+	public void user_enters_the_query_result_in_Visit_Number_search_textbox() {
+		try {
+			while (DatabaseConn.resultSet.next()) {
+				dbEncounterId = DatabaseConn.resultSet.getString("encounterid");
+			}
+		} catch (SQLException sQLException) {
+			Assert.assertTrue("Visit number is not fetched from DB.\nThe Technical Error is:\n" + sQLException, false);
+		}
+		searchPage.enterVisitNumber(dbEncounterId);
+	}
+
+	@Then("^user should be able to view the grid with following columns if they are visible else verify the searched account$")
+	public void user_should_be_able_to_view_the_grid_with_following_columns_and_verify_the_searched_account(
+			DataTable resultColumns) {
+		List<String> expectedListOfGridColumns = resultColumns.asList(String.class);
+		if (searchPage.isSearchAccTableVisible()) {
+			listOfGridColumnsOnUI = searchPage.getListOfSrchAccTblHeaders();
+			Assert.assertTrue("All the grid columns are not visible",
+					expectedListOfGridColumns.containsAll(listOfGridColumnsOnUI) && !listOfGridColumnsOnUI.isEmpty());
+			searchPage.clickSearchInvoiceID();
+		}
+		Assert.assertTrue("Incorrect account is searched", true);
+	}
+
+	@When("^user runs the (.*) query to search Visit number$")
+	public void user_runs_the_query_to_search_Visit_number(String queryName) throws Exception {
+		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
+				String.format(commonMethods.loadQuery(queryName, dbQueryFilename), uIencounterId));
 	}
 }
