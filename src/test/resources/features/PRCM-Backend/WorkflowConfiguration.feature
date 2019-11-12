@@ -142,7 +142,7 @@ Feature: Verify WorkFlowConfiguration related scenarios in PRCM
     Then user should be able to view the appropriate success message: "Saved successfully"
     And user should no longer be able to view Add New Disposition pop-up window
     And user should be able to view the newly created Disposition in Choose Disposition Type grid with correct data in the columns
-   When user clicks on Details link button adjacent to newly created Disposition Name
+    When user clicks on Details link button adjacent to newly created Disposition Name
     And user login to SQL server and connect to database
     And user runs the Add Disposition Detail query "434773_WFConfig_NewDisposition"
     Then user should be able to view same value in Created Date and CreatedBy columns on UI as in SQL result
@@ -150,16 +150,16 @@ Feature: Verify WorkFlowConfiguration related scenarios in PRCM
     Examples: 
       | query1                         | query2                          |
       | 434767_WFConfig_CheckRecipient | 434767_WFConfig_CheckRecipient1 |
-      
-@434767 @AHtoDecisionAdmin @Sprint101
-Scenario Outline: Verify user is able to add a new recipient using Add Recipient functionality
-Given user having AHtoDecision Admin role is on workflow configuration home page
+
+  @434767 @AHtoDecisionAdmin @Sprint101
+  Scenario Outline: Verify user is able to add a new recipient using Add Recipient functionality
+    Given user having AHtoDecision Admin role is on workflow configuration home page
     When user login to SQL server and connect to database
     And user run the query to fetch hand-off id <query1>
     And user run the query to fetch hand-off name <query2>
     And user fetches any Handoff Type from DB
     And user clicks on Radio button against any fetched Handoff Type in Choose Handoff grid
-    And user clicks on continue button on Handoff tab 
+    And user clicks on continue button on Handoff tab
     And user clicks on +Add Recipient button under choose recipient
     Then user should be able to view Add Recipient pop up with controls
       | Recipient Name        |
@@ -180,6 +180,36 @@ Given user having AHtoDecision Admin role is on workflow configuration home page
     And user login to SQL server and connect to database
     And user executes the query to fetch added recipient <query3>
     Then user should be able to view same value in following columns on Recepient Tab as in SQL result
-  Examples: 
-      | query1                         | query2                          |query3															|
-      | 434767_WFConfig_CheckRecipient | 434767_WFConfig_CheckRecipient1 |434767_BDD_R1D_WFConfig_AddRecipient|
+
+    Examples: 
+      | query1                         | query2                          | query3                               |
+      | 434767_WFConfig_CheckRecipient | 434767_WFConfig_CheckRecipient1 | 434767_BDD_R1D_WFConfig_AddRecipient |
+
+  @434768 @AHtoDecisionAdmin @Sprint101
+  Scenario Outline: Verify Edit Recipient functionality
+    Given user having AHtoDecision Admin role is on workflow configuration home page
+    When user login to SQL server and connect to database
+    And user run the query to fetch hand-off id <query1>
+    And user run the query to fetch hand-off name <query2>
+    And user fetches any Handoff Type from DB
+    And user clicks on Radio button against any fetched Handoff Type in Choose Handoff grid
+    And user clicks on Continue button on HandOff Tab
+    And user clicks on Edit link button against any recipient
+    Then user should be able to view Edit Recipient pop up with controls
+      | Recipient Name        |
+      | Recipient Description |
+      | Active                |
+    And user should able to view following button on Edit Recipient popup "Save Recipient"
+    And user should be able to view prepopulated values in all controls under Edit Recipient popup
+    When user clicks on Recipient Name or Recipient Description and updates the existing information
+    And user clicks on Save Recipient button
+    Then  user should be able to view the appropriate success message: "Record updated successfully !"
+    And user should be able to view updated values related to edited recipient in Choose Recipient grid
+    When user clicks on Details link button adjacent to updated Recipient
+    And user login to SQL server and connect to database
+    And user executes the query to fetch edited recipient information <query3>
+    Then user should be able to view Updated By and Updated Date details of Edited Recipient on UI as in SQL result
+
+    Examples: 
+      | query1                         | query2                          |query3                                |
+      | 434767_WFConfig_CheckRecipient | 434767_WFConfig_CheckRecipient1 |436768_BDD_R1D_WFConfig_EditRecipient |

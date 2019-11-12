@@ -37,7 +37,7 @@ public class WorkflowConfigurationStepDef extends PageObject {
 	String dbFileName = "WorkFlowConfiguration", dbHandOffName, dbRecipientName, defaultRecipientName,
 			recipientNameOtherThanDefault, dispositionNotes, workflowName, respondDeadline, updatedBy, updatedDate,
 			successMsg, recipientName, recipientDesc, createdBy, createdDate, nextDispositionByDropdownValue,
-			dispositionStatusByDropdownValue;
+			dispositionStatusByDropdownValue, updatedRecipientDesc;
 
 	int dbWorkFlowTypeId;
 
@@ -492,4 +492,78 @@ public class WorkflowConfigurationStepDef extends PageObject {
 				.formatDbDateFieldWithDateTime(createdDate).equals(workflowConfigPage.getCreatedDateRecipientText()));
 	}
 
+	@When("^user clicks on Continue button on HandOff Tab$")
+	public void user_clicks_on_Continue_button_on_HandOff_Tab() {
+		workflowConfigPage.clickOnContinueBtnOnHandoffTab();
+	}
+
+	@When("^user clicks on Edit link button against any recipient$")
+	public void user_clicks_on_Edit_link_button_against_any_recipient() {
+		workflowConfigPage.clickFirstEditIconOnRecipientTab();
+	}
+
+	@Then("^user should be able to view Edit Recipient pop up with controls$")
+	public void user_should_be_able_to_view_Edit_Recipient_pop_up_with_controls(DataTable recipientControls) {
+		List<String> recipientControlHeaders = recipientControls.asList(String.class);
+		Assert.assertTrue("Labels do not match on the Edit Recipient popup",
+				workflowConfigPage.getListOfEditRecipientLabels().equals(recipientControlHeaders));
+	}
+
+	@Then("^user should able to view following button on Edit Recipient popup \"([^\"]*)\"$")
+	public void user_should_able_to_view_following_button_on_Edit_Recipient_popup(String saveRecipientBtn) {
+		Assert.assertTrue("Save Recipient button doesnt appear on Recipient popup",
+				workflowConfigPage.getSaveRecipientButtonText().equals(saveRecipientBtn));
+	}
+
+	@Then("^user should be able to view prepopulated values in all controls under Edit Recipient popup$")
+	public void user_should_be_able_to_view_prepopulated_values_in_all_controls_under_Edit_Recipient_popup() {
+		Assert.assertTrue("Recipient Name textbox is empty",
+				workflowConfigPage.verifyEditRecipientPrePopulatedFields());
+	}
+
+	@When("^user clicks on Recipient Name or Recipient Description and updates the existing information$")
+	public void user_clicks_on_Recipient_Name_or_Recipient_Description_and_updates_the_existing_information() {
+		updatedRecipientDesc = workflowConfigPage.enterAndGetRandomRecipientDescText();
+	}
+
+	@When("^user clicks on Save Recipient button$")
+	public void user_clicks_on_Save_Recipient_button() {
+		workflowConfigPage.clickSaveRecipientButton();
+	}
+
+	@Then("^user should be able to view updated values related to edited recipient in Choose Recipient grid$")
+	public void user_should_be_able_to_view_updated_values_related_to_edited_recipient_in_Choose_Recipient_grid() {
+		Assert.assertTrue("Recipient description is not updated",
+				workflowConfigPage.getFirstRecipientDesc().equals(updatedRecipientDesc.trim()));
+	}
+
+	@When("^user clicks on Details link button adjacent to updated Recipient$")
+	public void user_clicks_on_Details_link_button_adjacent_to_updated_Recipient() {
+		workflowConfigPage.clickFirstRecipientDetailsLink();
+	}
+
+	@When("^user executes the query to fetch edited recipient information (.+)$")
+	public void user_executes_the_query_to_fetch_edited_recipient_information(String queryName)
+			throws ClassNotFoundException, SQLException, Exception {
+		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
+				String.format(commonMethods.loadQuery(queryName, dbFileName), updatedRecipientDesc));
+		try {
+			while (DatabaseConn.resultSet.next()) {
+				updatedBy = DatabaseConn.resultSet.getString("DisplayName");
+				updatedDate = DatabaseConn.resultSet.getString("UpdatedDate");
+			}			
+		} catch (SQLException exception) {
+			Assert.assertTrue(
+					"Updated By or Updated Date is not fetched from DB.\nThe Technical Error is:\n" + exception, false);
+		}
+	}
+
+	@Then("^user should be able to view Updated By and Updated Date details of Edited Recipient on UI as in SQL result$")
+	public void user_should_be_able_to_view_Updated_By_and_Updated_Date_details_of_Edited_Recipient_on_UI_as_in_SQL_result()
+			throws ParseException {
+		Assert.assertTrue("Updated date for recipient does not match with DB", workflowConfigSteps
+				.formatDbDateFieldWithDateTime(updatedDate).equals(workflowConfigPage.getUpdatedDateFieldValue()));
+		Assert.assertTrue("Updated by for recipient does not match with DB",
+				updatedBy.contains(workflowConfigPage.getUpdatedByFieldValue()));
+	}
 }
