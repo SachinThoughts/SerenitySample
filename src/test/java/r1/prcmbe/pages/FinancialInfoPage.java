@@ -108,6 +108,9 @@ public class FinancialInfoPage extends PageObject {
 	@FindBy(id = "lblExpectedPaymentInvoice")
 	private WebElementFacade expectedPaymentValue;
 
+	@FindBy(id = "lblTotalPatientPayments")
+	private WebElementFacade patientPaymentsValue;
+	
 	public boolean isFinanceInfoHeadersVisible(List<String> expectedHeaders) {
 		return getFinInfoHeaderAttributes().containsAll(expectedHeaders);
 	}
@@ -296,5 +299,10 @@ public class FinancialInfoPage extends PageObject {
 
 	public Object getExpectedPayment() {
 		return expectedPaymentValue.getText();
+	}
+	
+	public String getPatientPaymentText() {
+		withAction().moveToElement(patientPaymentsValue).build().perform();
+		return patientPaymentsValue.getText().trim();
 	}
 }
