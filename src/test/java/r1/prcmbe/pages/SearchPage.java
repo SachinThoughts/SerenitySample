@@ -31,7 +31,7 @@ public class SearchPage extends PageObject {
 	@FindBy(xpath = "//*[@id='dvAccountSearch' or @class='modal-body']/child::table")
 	private WebElementFacade searchAccountTable;
 
-	@FindBy(xpath = "//*[@id='dvAccountSearch']/table/tbody/tr/td[2]/a")
+	@FindBy(xpath = "//*[@id='dvAccountSearch' or @class='modal-body']/table/tbody/tr/td[2]/a")
 	private List<WebElementFacade> listOfSearchedInvoiceId;
 
 	@FindBy(xpath = "//*[@id='dvAccountSearch' or @class='modal-body']/table/tbody/tr/td[4]")
@@ -88,7 +88,7 @@ public class SearchPage extends PageObject {
 	@FindBy(xpath = "//*[@id='dvAccountSearch' or @class='modal-body']/child::table/thead/tr/th")
 	private List<WebElementFacade> listOfSrchAccTblHeaders;
 
-	@FindBy(xpath = "//*[@id='dvAccountSearch']/child::table/tbody/tr/td[3]")
+	@FindBy(xpath = "//*[@id='dvAccountSearch' or @class='modal-body']/child::table/tbody/tr/td[3]")
 	private List<WebElementFacade> listOfSearchedNames;
 
 	@FindBy(id = "lblPatientName")

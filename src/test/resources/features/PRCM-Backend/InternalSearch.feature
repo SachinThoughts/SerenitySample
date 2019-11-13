@@ -133,7 +133,7 @@ Feature: Verify internal search on R1 Decision page
     When user login to SQL Server and connect to facility database
     And user runs the <queryname9> query to search Visit number
     Then user should be able to view the same result in grid as SQL result for searched Visit number
-
+    
     Examples: 
       | queryname3                 | queryname9                 | Operator |
       | SearchInternal_428162_SQL3 | SearchInternal_428162_SQL9 | Like     |
