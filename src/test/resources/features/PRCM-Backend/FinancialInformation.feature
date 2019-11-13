@@ -125,3 +125,16 @@ Feature: This feature is to verify the financial Information functionality
     Examples: 
       | queryName1                                |
       | Financial_Information_Section_391021_SQL1 |
+
+   @426781 @Sprint101 @PRCMUser
+  Scenario Outline: Verify  the amount for Patient Payments
+    Given user is able to login to sql server and connect to database
+    When user executes the query for InvoiceNumber <queryName17>
+    And user fetch the InvoiceNumber and "PatientPayment" from DB
+    And user enters InvoiceNumber in the InvoiceNumber field and click on submit button
+    And user scrolls down till Financial Information Section
+    Then User should be able to view some dollar value in Patient Payment column 
+
+    Examples:   
+      | queryName17                                |
+      | Financial_Information_Section_426781_SQL17 |

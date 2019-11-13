@@ -234,4 +234,12 @@ public class FinancialInfoStepDef {
 						+ financialInfoPage.getExpectedPayment(),
 				financialInfoPage.getExpectedPayment().equals(expectedColumnValue));
 	}
+
+	@Then("^User should be able to view some dollar value in Patient Payment column $")
+	public void user_should_be_able_to_view_some_dollar_value_in_Patient_Payment_column() {
+		Assert.assertTrue(
+				"Patient Payments from DB:" + financialInfoElementVal + " and UI:"
+						+ financialInfoPage.getPatientPaymentText() + " doesnt match for Account#: " + invoiceNumber,
+				("$" + financialInfoElementVal).contains(financialInfoPage.getPatientPaymentText()));
+	}
 }
