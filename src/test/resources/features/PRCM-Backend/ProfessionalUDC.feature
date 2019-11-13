@@ -49,39 +49,40 @@ Feature: Verify ProfessionalUDC related scenarios in PRCM
       | defectTypeName | defectSubCategoryName       |
       | Automation     | AutomationDefectSubcategory |
 
-  #@391394 @PRCMUser @Sprint8
-  #Scenario Outline: Verify that user should able to update UDC at technical  level
-  #Given user is on UDC Admin configuration page
-  #When user clicks on R1Decision Config Tab
-  #Then user should able to open that application name
-  #And user clicks on Add defect type button
-  #Then user should able to view popup window for new defect
-  #And user fills all the fields <defectTypeName> and clicks active checkbox
-  #And user clicks on Add Defect Type button on modal popup
-  #Then user should be able to view success message "Defect Type Added Successfully."
-  #And user should be able to view Add Defect Type pop-up disappear
-  #And user should be able to view newly added defect at technical level
-  #When user is able to login to sql server and connect to database
-  #And user runs the "UDC_level_391394_SQL2" query to fetch applicationid
-  #Then user should be able to view that for all defects which belongs to technical applicationid should be 1
-  #When user select the radio button against any defect type
-  #And user clicks on Continue button on defect type page
-  #And user clicks on add defect subcategory
-  #And user should be able to add any new <defectSubCategoryName> defectsubcategory and clicks active checkbox
-  #And user clicks on Add Defect Sub Category button on modal popup
-  #Then user should be able to view message as "Defect SubCategory Added Successfully"
-  #And user should be able to view Add Defect Sub Category pop-up disappear
-  #When user clicks on Defect Type tab
-  #
-  #And user clicks on edit button on any existing defect
-  #Then user should be able to view Edit Defect Type modal popup
-  #When user edits with a valid <defectTypeName> in defect type name
-  #And user check or uncheck Active checkbox
-  #And user clicks on Save Defect Type button
-  #Then user should be able to view message as "Defect Type Updated Successfully"
-  #Examples:
-  #| defectTypeName | defectSubCategoryName       |
-  #| Automation     | AutomationDefectSubcategory |
+  @391394 @PRCMUser @Sprint8
+  Scenario Outline: Verify that user should able to update UDC at technical  level
+    Given user is on UDC Admin configuration page
+    When user clicks on R1Decision Config Tab
+    Then user should able to open that application name
+    And user clicks on Add defect type button
+    Then user should able to view popup window for new defect
+    And user fills all the fields <defectTypeName> and clicks active checkbox
+    And user clicks on Add Defect Type button on modal popup
+    Then user should be able to view success message "Defect Type Added Successfully."
+    And user should be able to view Add Defect Type pop-up disappear
+    And user should be able to view newly added defect at technical level
+    When user is able to login to sql server and connect to database
+    And user runs the "UDC_level_391394_SQL2" query to fetch applicationid
+    Then user should be able to view that for all defects which belongs to technical applicationid should be 1
+    When user select the radio button against any defect type
+    And user clicks on Continue button on defect type page
+    And user clicks on add defect subcategory
+    And user should be able to add any new <defectSubCategoryName> defectsubcategory and clicks active checkbox
+    And user clicks on Add Defect Sub Category button on modal popup
+    Then user should be able to view message as "Defect SubCategory Added Successfully"
+    And user should be able to view Add Defect Sub Category pop-up disappear
+    When user clicks on Defect Type tab
+    And user clicks on edit button on any existing defect
+    #Then user should be able to view Edit Defect Type modal popup
+    #When user edits with a valid <defectTypeName> in defect type name
+    #And user check or uncheck Active checkbox
+    #And user clicks on Save Defect Type button
+    #Then user should be able to view message as "Defect Type Updated Successfully"
+
+    Examples: 
+      | defectTypeName | defectSubCategoryName       |
+      | Automation     | AutomationDefectSubcategory |
+
   @391395 @NonPRCMUser @Sprint8
   Scenario: Verify that for Professional Config UDC user should have atleast one Facility that have PRCM access
     Given user is on UDC Admin configuration page
