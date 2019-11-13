@@ -266,3 +266,33 @@ Feature: Verify WorkFlowConfiguration related scenarios in PRCM
     Examples: 
       | query1                         | query2                          |
       | 434767_WFConfig_CheckRecipient | 434767_WFConfig_CheckRecipient1 |
+
+  @434776 @AHtoDecisionAdmin @Sprint101
+  Scenario Outline: Verify saved handoff type, associated Recipient, Actions and Disposition types from DB
+    Given user having AHtoDecision Admin role is on workflow configuration home page
+    When user login to SQL server and connect to database
+    And user run the query to fetch hand-off id <query1>
+    And user run the query to fetch hand-off name <query2>
+    And user fetches any Handoff Type from DB
+    And user clicks on Radio button against any fetched Handoff Type in Choose Handoff grid
+    And user runs the query by passing selected Handoff name "434776_BDD_R1D_WFConfig_workflowtypes"
+    And user clicks on continue button on Handoff tab
+    And user run the query to fetch recipient name <query3>
+    And user clicks on radio button against any fetched Recipient
+    And user run the query by passing selected Recipient name "434776_BDD_R1D_WFConfig_workflowSubtypes"
+    Then user should be able to fetch the Workflowtypeid and SubTypeID for respective Handoff type and associated Recipient
+    When user run the query by passing fetched Workflowtypeid and SubTypeID "434776_BDD_R1D_WFConfig_workflowSubtypes"
+    And user clicks on Continue button on Recipient tab
+    And user run the query by passing Workflowtypeid and SubTypeID to fetch ActionID "434776_BDD_R1D_WFConfig_WorkflowTypeActions"
+    Then user should be able to view Number of actions in db as reflected in UI
+    When user run the query by passing fetched ActionId "434776_BDD_R1D_WFConfig_Actions"
+    Then user should be able to view same action in db as reflected on UI
+    When user selects any actions from Choose Action Type grid
+    And user fetches the ActionId for selected action
+    And user clicks on Continue button
+    And user run the query by passing ActionId of selected Action "434776_BDD_R1D_WFConfig_ActionDispositions"
+    Then user should be able to view same disposition type in DB as as reflected on UI
+
+    Examples: 
+      | query1                         | query2                          | query3                        |
+      | 434767_WFConfig_CheckRecipient | 434767_WFConfig_CheckRecipient1 | 434767_WFConfig_ReorderAction |
