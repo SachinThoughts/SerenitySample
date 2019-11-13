@@ -174,7 +174,7 @@ Feature: This is to verify external search functionality in R1 PRCM-BE
       | PPC                 |
       | Defect Type         |
       | Defect Sub-Category |
-    When user runs the <queryname12> query
+    When user runs the <queryname12> query for MRN search
     Then user should be able to view the same result in grid as SQL result
 
     Examples: 

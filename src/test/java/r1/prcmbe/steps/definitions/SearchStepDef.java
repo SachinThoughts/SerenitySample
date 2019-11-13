@@ -354,4 +354,10 @@ public class SearchStepDef extends PageObject {
 		}
 		searchPage.enterMRN(dbMRN);
 	}
+
+	@When("^user runs the (.*) query for MRN search$")
+	public void user_runs_the_query_for_MRN_search(String queryName) throws Exception {
+		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
+				String.format(commonMethods.loadQuery(queryName, dbQueryFilename), dbMRN));
+	}
 }
