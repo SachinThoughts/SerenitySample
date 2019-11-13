@@ -28,13 +28,13 @@ public class SearchPage extends PageObject {
 	@FindBy(xpath = "//*[@id='searchLoader']//div[@class='modal-body']/i")
 	private WebElementFacade loadingSpinner;
 
-	@FindBy(xpath = "//*[@id='dvAccountSearch']/child::table")
+	@FindBy(xpath = "//*[@id='dvAccountSearch' or @class='modal-body']/child::table")
 	private WebElementFacade searchAccountTable;
 
 	@FindBy(xpath = "//*[@id='dvAccountSearch']/table/tbody/tr/td[2]/a")
 	private List<WebElementFacade> listOfSearchedInvoiceId;
 
-	@FindBy(xpath = "//*[@id='dvAccountSearch']/table/tbody/tr/td[4]")
+	@FindBy(xpath = "//*[@id='dvAccountSearch' or @class='modal-body']/table/tbody/tr/td[4]")
 	private List<WebElementFacade> listOfSearchedFacility;
 
 	@FindBy(xpath = "//div[@id='visit']/h4")
@@ -73,7 +73,7 @@ public class SearchPage extends PageObject {
 	@FindBy(xpath = "//select[@class='form-control ddlOperator']")
 	private WebElementFacade operator;
 
-	@FindBy(xpath = "//*[@id='dvAccountSearch']/table/tbody/tr/td[2]")
+	@FindBy(xpath = "//*[@id='dvAccountSearch' or @class='modal-body']/table/tbody/tr/td[2]")
 	private List<WebElementFacade> listOfSearchedInvNum;
 
 	@FindBy(id = "msg_info")
@@ -85,7 +85,7 @@ public class SearchPage extends PageObject {
 	@FindBy(xpath = "//span[@id='lblInvoiceNo']")
 	private WebElementFacade invoiceNumber;
 
-	@FindBy(xpath = "//*[@id='dvAccountSearch']/child::table/thead/tr/th")
+	@FindBy(xpath = "//*[@id='dvAccountSearch' or @class='modal-body']/child::table/thead/tr/th")
 	private List<WebElementFacade> listOfSrchAccTblHeaders;
 
 	@FindBy(xpath = "//*[@id='dvAccountSearch']/child::table/tbody/tr/td[3]")
@@ -97,7 +97,7 @@ public class SearchPage extends PageObject {
 	@FindBy(id = "lblAccountNo")
 	private WebElementFacade patientAccountNo;
 
-	@FindBy(xpath = "//*[@id='dvAccountSearch']/table/tbody/tr/td[1]")
+	@FindBy(xpath = "//*[@id='dvAccountSearch' or @class='modal-body']/table/tbody/tr/td[1]")
 	private List<WebElementFacade> listOfSearchedAccNum;
 
 	String titleJS = "return document.querySelector('#Head > title').text";
@@ -269,8 +269,8 @@ public class SearchPage extends PageObject {
 	public List<String> getlistOfInvNum() {
 		waitForAngularRequestsToFinish();
 		List<String> listOfInvNum = new ArrayList<>();
-		for (WebElementFacade invoiceNumber : listOfSearchedInvNum) {
-			listOfInvNum.add(invoiceNumber.getText());
+		for (WebElementFacade invoiceNoElement : listOfSearchedInvNum) {
+			listOfInvNum.add(invoiceNoElement.getText());
 		}
 		return listOfInvNum;
 	}

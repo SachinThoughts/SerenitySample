@@ -119,10 +119,20 @@ Feature: Verify internal search on R1 Decision page
     And user enters the query result in Visit Number search textbox
     And user clicks on Submit button
     Then user should be able to view the grid with following columns if they are visible else verify the searched account
-      | Visit # | Invoice # | Name | Facility Code | MRN | Gender | PT | Service Date | PPC | Defect Type | Defect Sub-Category |
+      | Visit #             |
+      | Invoice #           |
+      | Name                |
+      | Facility Code       |
+      | MRN                 |
+      | Gender              |
+      | PT                  |
+      | Service Date        |
+      | PPC                 |
+      | Defect Type         |
+      | Defect Sub-Category |
     When user login to SQL Server and connect to facility database
     And user runs the <queryname9> query to search Visit number
-   Then user should be able to view the same result in grid as SQL result
+    Then user should be able to view the same result in grid as SQL result
 
     Examples: 
       | queryname3                 | queryname9                 | Operator |

@@ -34,8 +34,7 @@ public class SearchStepDef extends PageObject {
 	@Steps
 	FinancialInfoSteps financialInfoSteps;
 
-	String dbQueryFilename = "Search", dbMRN, lastName, firstName, dbClaimNo, dbResult, dbInvoiceNumber, dbEncounterId,
-			uIEncounterId;
+	String dbQueryFilename = "Search", dbMRN, lastName, firstName, dbClaimNo, dbResult, dbInvoiceNumber, dbEncounterId;
 	List<String> listOfGridColumnsOnUI = new ArrayList<>();
 	List<String> dbListOfColumns = new ArrayList<>();
 	List<String> dbListOfNames = new ArrayList<>();
@@ -364,7 +363,7 @@ public class SearchStepDef extends PageObject {
 			listOfGridColumnsOnUI = searchPage.getListOfSrchAccTblHeaders();
 			Assert.assertTrue("All the grid columns are not visible",
 					expectedListOfGridColumns.containsAll(listOfGridColumnsOnUI) && !listOfGridColumnsOnUI.isEmpty());
-			searchPage.clickSearchInvoiceID();
+			searchPage.clickSearchInvoiceIdOrVisitNumber();
 		} else {
 			financialInfoSteps
 					.log("searched table is not visible with grid, single account present for the search result");
@@ -384,15 +383,11 @@ public class SearchStepDef extends PageObject {
 		try {
 			while (DatabaseConn.resultSet.next()) {
 				dbEncounterId = DatabaseConn.resultSet.getString("encounterid");
-				dbInvoiceNumber = DatabaseConn.resultSet.getString("invoicenumber");
 			}
 		} catch (SQLException sQLException) {
-			Assert.assertTrue(
-					"encounterid and invoice number are not fetched from DB.\nThe Technical Error is:\n" + sQLException,
-					false);
+			Assert.assertTrue("encounterid is not fetched from DB.\nThe Technical Error is:\n" + sQLException, false);
 		}
 		Assert.assertTrue("Visit number or Invoice number on UI does not match with database",
-				searchPage.getPatientAccountNo().contains(dbEncounterId)
-						&& searchPage.getInvoiceNumber().contains(dbInvoiceNumber));
+				searchPage.getPatientAccountNo().contains(dbEncounterId));
 	}
 }
