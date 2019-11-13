@@ -101,7 +101,7 @@ public class SearchPage extends PageObject {
 	private List<WebElementFacade> listOfSearchedAccNum;
 
 	String titleJS = "return document.querySelector('#Head > title').text";
-	String facilityCodeJS = "document.querySelector('#dnn_ctr1025_ModuleContent > span > span:nth-child(1)').textContent";
+	String facilityCodeJS = "return document.querySelector('#dnn_ctr1025_ModuleContent > span > span:nth-child(1)').textContent";
 
 	public String getSearchPageTitle() {
 		return evaluateJavascript(titleJS).toString();
@@ -327,8 +327,8 @@ public class SearchPage extends PageObject {
 
 	public void clickSearchInvoiceIdOrVisitNumber() {
 		int index = getFacilityIndex();
-		if (!listOfSearchedInvoiceId.get(index).getText().equals("NA"))
-			listOfSearchedInvoiceId.get(index).click();
+		if (!listOfSearchedInvNum.get(index).getText().equals("N/A"))
+			listOfSearchedInvNum.get(index).click();
 		else
 			listOfSearchedAccNum.get(index).click();
 	}
