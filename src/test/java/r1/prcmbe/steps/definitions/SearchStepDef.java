@@ -378,8 +378,8 @@ public class SearchStepDef extends PageObject {
 				String.format(commonMethods.loadQuery(queryName, dbQueryFilename), dbEncounterId));
 	}
 
-	@Then("^user should be able to view the same result in grid as SQL result$")
-	public void user_should_be_able_to_view_the_same_result_in_grid_as_SQL_result() {
+	@Then("^user should be able to view the same result in grid as SQL result for searched Visit number$")
+	public void user_should_be_able_to_view_the_same_result_in_grid_as_SQL_result_for_searched_Visit_number() {
 		try {
 			while (DatabaseConn.resultSet.next()) {
 				dbEncounterId = DatabaseConn.resultSet.getString("encounterid");
