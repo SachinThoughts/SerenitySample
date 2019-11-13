@@ -4,6 +4,7 @@ import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
+import cucumber.api.java.en.When;
 import net.serenitybdd.core.annotations.findby.FindBy;
 import net.serenitybdd.core.pages.PageObject;
 import net.serenitybdd.core.pages.WebElementFacade;
@@ -132,6 +133,24 @@ public class UniversalDefectConfigurationPage extends PageObject {
 
 	@FindBy(id = "dnn_ctr1588_TaskPanel_taskBase_UDCDefectSubCategory_btnSaveDefectSubCategory")
 	private WebElementFacade addDefectSubCategoryPopUpBtn;
+	
+	@FindBy(xpath = "//h4[@id='addSOPLabel']")
+	private WebElementFacade addSOPModalPopUP;
+	
+	@FindBy(xpath = "//div[@class='alert alert-info']/span")
+	private WebElementFacade alertMsgOnPopup;
+	
+	@FindBy(id = "dnn_ctr1588_TaskPanel_taskBase_SOPControl_txtSOPName")
+	private WebElementFacade sopNameTxtBox;
+	
+	@FindBy(id = "dnn_ctr1588_TaskPanel_taskBase_SOPControl_txtSOPDescription")
+	private WebElementFacade sopDescriptionTxtBox;
+	
+	@FindBy(xpath = "//button[@data-target='#addSOP']")
+	private WebElementFacade addNewSopBtn;
+	
+	@FindBy(xpath = "//*[@id='addSOP']//button[2]")
+	private WebElementFacade saveSopBtn;
 
 	public boolean checkUDCTitleVisibility() {
 		return uDCTitle.isVisible();
@@ -345,5 +364,30 @@ public class UniversalDefectConfigurationPage extends PageObject {
 
 	public void clickAddDefectSubCategoryPopUpBtn() {
 		addDefectSubCategoryPopUpBtn.click();
+	}
+	
+	public boolean isAddSOPModalPopUpVisible() {
+		waitForAngularRequestsToFinish();
+		return addSOPModalPopUP.isVisible();
+	}
+	
+	public String getValidationMsg() {
+		return alertMsgOnPopup.getText();
+	}
+	
+	public void enterTextInSopNameTxtBox(String sopName) {
+		sopNameTxtBox.type(sopName);
+	}
+	
+	public void enterTextInSopDescriptionTxtBox(String sopDescription) {
+		sopDescriptionTxtBox.type(sopDescription);
+	}
+	
+	public void clickAddNewSopBtn() {
+		addNewSopBtn.click();
+	}
+	
+	public void clickSaveChangesSopBtn() {
+		saveSopBtn.withTimeoutOf(Duration.ofSeconds(10)).waitUntilVisible().click();
 	}
 }
