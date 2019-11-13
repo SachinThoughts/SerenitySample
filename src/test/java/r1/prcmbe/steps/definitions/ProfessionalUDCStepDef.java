@@ -354,41 +354,40 @@ public class ProfessionalUDCStepDef extends PageObject {
 		}
 		Assert.assertTrue("Skill Id's not fetched from database", !skillsId.isEmpty());
 	}
-	
+
 	@Then("^user should be able to view Add SOP pop-up$")
 	public void user_should_be_able_to_view_Add_SOP_pop_up() {
 		Assert.assertTrue("Add SOP PopUp not visible", uDCPage.isAddSOPModalPopUpVisible());
 	}
-	
+
 	@Then("^user should be able to view validation message on the Action popup \"([^\"]*)\"$")
 	public void user_should_be_able_to_view_validation_message_on_the_Action_popup(String validationMsg) {
 		Assert.assertTrue("User is not able to view expected validation message on popup : Actual Validation Message "
 				+ uDCPage.getValidationMsg(), uDCPage.getValidationMsg().contains(validationMsg));
 	}
-	
+
 	@When("^user enters incorrect Numeric or special character data in SOP Name (.*)$")
 	public void user_enters_incorrect_Numeric_or_special_character_data_in_SOP_Name(String invalidValue) {
 		uDCPage.enterTextInSopNameTxtBox(invalidValue);
 	}
-	
+
 	@When("^user enters incorrect Numeric or special character data in SOP Description (.*)$")
 	public void user_enters_incorrect_Numeric_or_special_character_data_in_SOP_Description(String invalidValue) {
 		uDCPage.enterTextInSopDescriptionTxtBox(invalidValue);
 	}
-	
+
 	@When("^user enters valid SOP name$")
 	public void user_enters_valid_SOP_name() {
 		uDCPage.enterTextInSopNameTxtBox("TestROneDDecision".concat((" " + RandomStringUtils.randomAlphabetic(6))));
 	}
-	
+
 	@When("^user clicks on \\+Add New SOP button$")
 	public void user_clicks_on_Add_New_SOP_button() {
 		uDCPage.clickAddNewSopBtn();
 	}
-	
+
 	@When("^user clicks on Save Changes button on Add SOP popup$")
 	public void user_clicks_on_Save_Changes_button() {
 		uDCPage.clickSaveChangesSopBtn();
 	}
-
 }
