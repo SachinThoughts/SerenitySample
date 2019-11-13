@@ -336,4 +336,22 @@ public class SearchStepDef extends PageObject {
 		Assert.assertTrue("User is not navigated to the R1D account page for Searched Invoice Number",
 				searchPageSteps.verifyInvoiceNumberWithEqualOperator(dbInvoiceNumber));
 	}
+
+	@When("^user runs the (.*) query to fetch MRN$")
+	public void user_runs_the_query_to_fetch_MRN(String queryName) throws Exception {
+		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
+				commonMethods.loadQuery(queryName, dbQueryFilename));
+	}
+
+	@When("^user enters the query result in Medical Record Number textbox$")
+	public void user_enters_the_query_result_in_Medical_Record_Number_textbox() {
+		try {
+			while (DatabaseConn.resultSet.next()) {
+				dbMRN = DatabaseConn.resultSet.getString("FacilityPatientID");
+			}
+		} catch (SQLException sQLException) {
+			Assert.assertTrue("MRN is not fetched from DB.\nThe Technical Error is:\n" + sQLException, false);
+		}
+		searchPage.enterMRN(dbMRN);
+	}
 }
