@@ -162,7 +162,7 @@ Feature: This is to verify external search functionality in R1 PRCM-BE
     And user selects <operator> from Operator dropdown
     And user enters the query result in Medical Record Number textbox
     And user clicks on Submit button
-    Then user should be able to view the grid with following columns
+    Then user should be able to view the grid with following columns if they are visible else verify the searched account with MRN
       | Visit #             |
       | Invoice #           |
       | Name                |
@@ -174,8 +174,8 @@ Feature: This is to verify external search functionality in R1 PRCM-BE
       | PPC                 |
       | Defect Type         |
       | Defect Sub-Category |
-    When user runs the <queryname12> query for MRN search
-    Then user should be able to view the same result in grid as SQL result
+    When user runs the <queryname12> query for MRN search
+    Then user should be able to view the same result in grid as SQL result for searched MRN
 
     Examples: 
       | queryname12                 | queryname6                 | operator |

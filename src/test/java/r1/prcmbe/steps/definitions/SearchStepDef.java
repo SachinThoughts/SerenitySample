@@ -391,7 +391,6 @@ public class SearchStepDef extends PageObject {
 				searchPage.getPatientAccountNo().contains(dbEncounterId));
 	}
 
-
 	@When("^user runs the (.*) query to fetch MRN$")
 	public void user_runs_the_query_to_fetch_MRN(String queryName) throws Exception {
 		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
@@ -414,5 +413,33 @@ public class SearchStepDef extends PageObject {
 	public void user_runs_the_query_for_MRN_search(String queryName) throws Exception {
 		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
 				String.format(commonMethods.loadQuery(queryName, dbQueryFilename), dbMRN));
+	}
+
+	@Then("^user should be able to view the grid with following columns if they are visible else verify the searched account with MRN$")
+	public void user_should_be_able_to_view_the_grid_with_following_columns_and_verify_the_searched_account_with_MRN(
+			DataTable resultColumns) {
+		List<String> expectedListOfGridColumns = resultColumns.asList(String.class);
+		if (searchPage.isSearchAccTableVisible()) {
+			listOfGridColumnsOnUI = searchPage.getListOfSrchAccTblHeaders();
+			Assert.assertTrue("All the grid columns are not visible",
+					expectedListOfGridColumns.containsAll(listOfGridColumnsOnUI) && !listOfGridColumnsOnUI.isEmpty());
+			searchPage.clickSearchInvoiceIdOrVisitNumber();
+		} else {
+			financialInfoSteps
+					.log("searched table is not visible with grid, single account present for the search result");
+		}
+		Assert.assertTrue("Account with Incorrect MRN number is searched", searchPage.getPatientMRN().contains(dbMRN));
+	}
+
+	@Then("^user should be able to view the same result in grid as SQL result for searched MRN$")
+	public void user_should_be_able_to_view_the_same_result_in_grid_as_SQL_result_for_searched_MRN() {
+		try {
+			while (DatabaseConn.resultSet.next()) {
+				dbMRN = DatabaseConn.resultSet.getString("facilitypatientid");
+			}
+		} catch (SQLException sQLException) {
+			Assert.assertTrue("MRN is not fetched from DB.\nThe Technical Error is:\n" + sQLException, false);
+		}
+		Assert.assertTrue("MRN on UI does not match with database", searchPage.getPatientMRN().contains(dbMRN));
 	}
 }

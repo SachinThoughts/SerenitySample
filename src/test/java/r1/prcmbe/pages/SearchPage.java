@@ -97,6 +97,9 @@ public class SearchPage extends PageObject {
 	@FindBy(id = "lblAccountNo")
 	private WebElementFacade patientAccountNo;
 
+	@FindBy(id = "lblMRN")
+	private WebElementFacade patientMRN;
+
 	@FindBy(xpath = "//*[@id='dvAccountSearch' or @class='modal-body']/table/tbody/tr/td[1]")
 	private List<WebElementFacade> listOfSearchedAccNum;
 
@@ -328,8 +331,12 @@ public class SearchPage extends PageObject {
 	public void clickSearchInvoiceIdOrVisitNumber() {
 		int index = getFacilityIndex();
 		if (!listOfSearchedInvNum.get(index).getText().equals("N/A"))
-			listOfSearchedInvNum.get(index).click();
+			listOfSearchedInvoiceId.get(index).click();
 		else
 			listOfSearchedAccNum.get(index).click();
+	}
+
+	public String getPatientMRN() {
+		return patientMRN.getText();
 	}
 }
