@@ -652,4 +652,68 @@ public class WorkflowConfigurationStepDef extends PageObject {
 		Assert.assertTrue(" User is not able to view column headers",
 				workflowConfigPage.getDispositionGridHeaderList().containsAll(dispositionGridColumnLabels));
 	}
+	
+	@When("^user run the query by passing selected Handoff name (.*)$")
+	public void user_run_the_query_by_passing_selected_Handoff_name(String queryName) throws Exception {
+		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
+				String.format(commonMethods.loadQuery(queryName, dbFileName),dbHandOffName));
+	}
+	
+	@When("^user run the query by passing selected Recipient name (.*)$")
+	public void user_run_the_query_by_passing_selected_Recipient_name(String queryName) throws Exception {
+		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
+				String.format(commonMethods.loadQuery(queryName, dbFileName),dbRecipientName));
+	}
+	
+	@Then("^user should be able to fetch the Workflowtypeid and SubTypeID for respective Handoff type and associated Recipient$")
+	public void user_should_be_able_to_fetch_the_Workflowtypeid_and_SubTypeID_for_respective_Handoff_type_and_associated_Recipient() {
+	    
+	}
+	
+	@When("^user run the query by passing fetched Workflowtypeid and SubTypeID (.*)$")
+	public void user_run_the_query_by_passing_fetched_Workflowtypeid_and_SubTypeID(String queryName) {
+	    
+	}
+	
+	@When("^user run the query by passing Workflowtypeid and SubTypeID to fetch ActionID (.*)$")
+	public void user_run_the_query_by_passing_Workflowtypeid_and_SubTypeID_to_fetch_ActionID(String queryName) {
+	    
+	}
+	
+	@Then("^user should be able to view Number of actions in db as reflected in UI$")
+	public void user_should_be_able_to_view_Number_of_actions_in_db_as_reflected_in_UI() {
+	    
+	}
+
+	@When("^user run the query by passing fetched ActionId (.*)$")
+	public void user_run_the_query_by_passing_fetched_ActionId(String queryName) {
+	    
+	}
+
+	@Then("^user should be able to view same action in db as reflected on UI$")
+	public void user_should_be_able_to_view_same_action_in_db_as_reflected_on_UI() {
+	   
+	}
+	
+	@When("^user selects any actions from Choose Action Type grid$")
+	public void user_selects_any_actions_from_Choose_Action_Type_grid() {
+	    
+	}
+
+	@When("^user fetches the ActionId for selected action$")
+	public void user_fetches_the_ActionId_for_selected_action() {
+	    
+	}
+
+	@When("^user run the query by passing ActionId of selected Action (.*)$")
+	public void user_run_the_query_by_passing_ActionId_of_selected_Action(String queryName) {
+	    
+	}
+
+	@Then("^user should be able to view same disposition type in DB as as reflected on UI$")
+	public void user_should_be_able_to_view_same_disposition_type_in_DB_as_as_reflected_on_UI() {
+	    
+	}
+
+
 }
