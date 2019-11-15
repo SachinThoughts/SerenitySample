@@ -4,6 +4,7 @@ import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
+import cucumber.api.java.en.When;
 import net.serenitybdd.core.annotations.findby.FindBy;
 import net.serenitybdd.core.pages.PageObject;
 import net.serenitybdd.core.pages.WebElementFacade;
@@ -92,7 +93,7 @@ public class UniversalDefectConfigurationPage extends PageObject {
 	private WebElementFacade saveSOPActionBtn;
 
 	@FindBy(id = "msg_success")
-	private WebElementFacade successMessage;
+	private WebElementFacade sOPSuccessMessage;
 
 	@FindBy(xpath = "//div[@id='dvSOPAction']/descendant::div[@class='wrap-text']/span[starts-with(@id,'sopAN')]")
 	private List<WebElementFacade> listOfSOPActions;
@@ -133,26 +134,23 @@ public class UniversalDefectConfigurationPage extends PageObject {
 	@FindBy(id = "dnn_ctr1588_TaskPanel_taskBase_UDCDefectSubCategory_btnSaveDefectSubCategory")
 	private WebElementFacade addDefectSubCategoryPopUpBtn;
 
-	@FindBy(id = "dTypeAhtodec")
-	private WebElementFacade defectTypeTab;
+	@FindBy(xpath = "//h4[@id='addSOPLabel']")
+	private WebElementFacade addSOPModalPopUP;
 
-	@FindBy(xpath = "//span[text()='Edit']")
-	private List<WebElementFacade> editLinksList;
+	@FindBy(xpath = "//div[@class='alert alert-info']/span")
+	private WebElementFacade alertMsgOnPopup;
 
-	@FindBy(xpath = "//h4[text()='Edit Defect Type']")
-	private WebElementFacade editModalPopUp;
+	@FindBy(id = "dnn_ctr1588_TaskPanel_taskBase_SOPControl_txtSOPName")
+	private WebElementFacade sopNameTxtBox;
 
-	@FindBy(id = "dnn_ctr1588_TaskPanel_taskBase_DefectTypeControl_txtUpdateDefectType")
-	private WebElementFacade editDefectTypeNameTextbox;
+	@FindBy(id = "dnn_ctr1588_TaskPanel_taskBase_SOPControl_txtSOPDescription")
+	private WebElementFacade sopDescriptionTxtBox;
 
-	@FindBy(id = "dnn_ctr1588_TaskPanel_taskBase_DefectTypeControl_chkUpdateDefectType")
-	private WebElementFacade editActiveCheckbox;
+	@FindBy(xpath = "//button[@data-target='#addSOP']")
+	private WebElementFacade addNewSopBtn;
 
-	@FindBy(id = "dnn_ctr1588_TaskPanel_taskBase_DefectTypeControl_btnUpdateDefectType")
-	private WebElementFacade saveDefectTypeBtn;
-
-	@FindBy(xpath = "//*[@class='sop-types sortable defects']/li/div[1]/div/div/label")
-	private List<WebElementFacade> defectTypeRadioBtnList;
+	@FindBy(xpath = "//*[@id='addSOP']//button[2]")
+	private WebElementFacade saveSopBtn;
 
 	public boolean checkUDCTitleVisibility() {
 		return uDCTitle.isVisible();
@@ -294,7 +292,7 @@ public class UniversalDefectConfigurationPage extends PageObject {
 	}
 
 	public String getSOPSuccessMessage() {
-		return successMessage.getText();
+		return sOPSuccessMessage.getText();
 	}
 
 	public boolean checkSOPActionPopupDisappeared() {
@@ -368,46 +366,28 @@ public class UniversalDefectConfigurationPage extends PageObject {
 		addDefectSubCategoryPopUpBtn.click();
 	}
 
-	public void clickOnDefectTypeTab() {
-		defectTypeTab.click();
+	public boolean isAddSOPModalPopUpVisible() {
+		waitForAngularRequestsToFinish();
+		return addSOPModalPopUP.isVisible();
 	}
 
-	public void clickEditLink() {
-		index = editLinksList.size() - 1;
-		evaluateJavascript("arguments[0].click();", editLinksList.get(index));
+	public String getValidationMsg() {
+		return alertMsgOnPopup.getText();
 	}
 
-	public boolean getEditModalPopUpVisibility() {
-		return editModalPopUp.isVisible();
+	public void enterTextInSopNameTxtBox(String sopName) {
+		sopNameTxtBox.type(sopName);
 	}
 
-	public void editDefectTypeName(String defectType) {
-		editDefectTypeNameTextbox.type(defectType);
+	public void enterTextInSopDescriptionTxtBox(String sopDescription) {
+		sopDescriptionTxtBox.type(sopDescription);
 	}
 
-	public void selectEditActiveCheckbox() {
-		editActiveCheckbox.click();
+	public void clickAddNewSopBtn() {
+		addNewSopBtn.click();
 	}
 
-	public void clickSaveBtn() {
-		saveDefectTypeBtn.click();
-	}
-
-	public boolean checkDefectSubCategoryPopUpVisibility() {
-		return successMessage.isVisible();
-	}
-
-	public boolean checkDefectTypePopupVisibility() {
-		return defectTypeSuccessMsg.isVisible();
-	}
-
-	public void selectDefectTypeRadioBtn() {
-		index = defectTypeRadioBtnList.size() - 1;
-		evaluateJavascript("arguments[0].click();", defectTypeRadioBtnList.get(index));
-	}
-
-	public String getSelectedDefectType() {
-		return defectTypeRadioBtnList.get(index).withTimeoutOf(Duration.ofSeconds(10)).waitUntilVisible()
-				.getAttribute("value");
+	public void clickSaveChangesSopBtn() {
+		saveSopBtn.withTimeoutOf(Duration.ofSeconds(10)).waitUntilVisible().click();
 	}
 }

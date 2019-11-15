@@ -71,6 +71,10 @@ public class DefectOverridePage extends PageObject {
 
 	@FindBy(id = "btnVerifyNextStep")
 	private WebElementFacade nextBtnOnTriagePage;
+	
+	@FindBy(xpath = "//*[@id='rdoAssignCat']//td/label[contains(text(),'No')]")
+	private WebElementFacade noRadioBtn;
+	
 
 	public boolean isDefectWorkFlowSecVisible() {
 		return defectWorkflowSecHeader.isVisible();
@@ -96,12 +100,9 @@ public class DefectOverridePage extends PageObject {
 		return confirmStepOnProgressBar.getText().equals(stepName);
 	}
 
-	public void selectRadioBtnOnOverrideSubCat(String radioBtnValue) {
-		int size = listOfRadioBtnOnOverrideSubCat.size();
-		for (int i = 1; i < size; i++) {
-			if (listOfRadioBtnOnOverrideSubCat.get(i).getText().equals(radioBtnValue)) {
-				listOfRadioBtnOnOverrideSubCat.get(i).click();
-			}
+	public void selectNoRadioBtnOnOverrideSubCat() {
+		if(!defectTypeValuesDrpdwn.isVisible()) {
+			noRadioBtn.click();
 		}
 	}
 

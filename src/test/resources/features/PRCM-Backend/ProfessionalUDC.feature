@@ -117,3 +117,31 @@ Feature: Verify ProfessionalUDC related scenarios in PRCM
     Then user should be able to view message as "SOP Action Saved Successfully."
     And Add SOP Action pop-up should disappear
     And user should be able to view added SOP Action on SOP Actions screen
+
+  @439344 @Sprint101 @PRCMUser
+  Scenario Outline: Verify the functionality of +Add New SOP button in SOP Type grid page
+    Given user having AHtoDecision Admin role is on Universal Defect Configuration  page
+    When user select the radio button against any defect type
+    And user clicks on the Continue button on defect type page
+    And user select the radio button corresponding to a defect subcategory
+    And user clicks on the Continue button on defect sub category page
+    Then user should be able to view the selected Defect Type Defect SubCategory and default SOP Action in breadcrumb
+    And user should be able to view Choose a SOP Action grid
+    And user clicks on +Add New SOP button
+    Then user should be able to view Add SOP pop-up
+    And user clicks on Save Changes button on Add SOP popup
+    Then user should be able to view validation message on the Action popup "Please enter SOP Name"
+    When user enters valid SOP name
+    And user clicks on Save Changes button on Add SOP popup
+    Then user should be able to view validation message on the Action popup "Please enter SOP Description"
+    When user enters incorrect Numeric or special character data in SOP Name <Incorrect Value>
+    And user clicks on Save Changes button on Add SOP popup
+    Then user should be able to view validation message on the Action popup "Incorrect data for SOP Name"
+    When user enters incorrect Numeric or special character data in SOP Description <Incorrect Value>
+    And user enters valid SOP name
+    And user clicks on Save Changes button on Add SOP popup
+    Then user should be able to view validation message on the Action popup "Incorrect data for SOP Description"
+
+    Examples: 
+      | Incorrect Value |
+      | !@$%12345       |

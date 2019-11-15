@@ -147,12 +147,11 @@ public class ProfessionalUDCStepDef extends PageObject {
 
 	@When("^user select the radio button against any defect type$")
 	public void user_select_the_radio_button_against_any_defect_type() {
-		uDCPage.selectDefectTypeRadioBtn();
+		selectedDefectType = uDCPage.selectAndGetRandomDefectType();
 	}
 
 	@When("^user clicks on the Continue button on defect type page$")
 	public void user_clicks_on_the_Continue_button_on_defect_type_page() {
-		selectedDefectType = uDCPage.getSelectedDefectType();
 		uDCPage.clickContinueBtnOnDefectType();
 		uDCPage.addDefectSubCategoryIfNotExist();
 	}
@@ -337,13 +336,13 @@ public class ProfessionalUDCStepDef extends PageObject {
 		while (DatabaseConn.resultSet.next()) {
 			defectSubcategoryId = DatabaseConn.resultSet.getInt("DefectSubCategoryID");
 		}
-
 	}
 
 	@When("^user runs the \"([^\"]*)\" query to fetch skills id$")
 	public void user_runs_the_query_to_fetch_skills_id(String queryName) throws Exception {
-		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
-				String.format(commonMethods.loadQuery(queryName, dbFileName), defectSubcategoryId));
+		String query = commonMethods.loadQuery(queryName, dbFileName);
+		query = String.format(query, defectSubcategoryId);
+		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName, query);
 	}
 
 	@Then("^user should be able to view Skillid for all Major payer for defectsubcategoryid$")

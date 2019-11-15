@@ -42,7 +42,7 @@ Feature: Verify Defect over ride
     And user enters invoice number fetched from database in invoice number textbox
     And user clicks on submit button
     When user moves the control on right side of the page and see the Defect Workflow section
-    And user selects "No" radio button to Override Subcategory
+    And user selects No radio button to Override Subcategory
     And user selects any value from DefectType dropdown and other Than "Uncategorized Defect" value
     And user selects any value from Defectsubcategory dropdown and other Than "Select Sub-Defect Category" value
     And user clicks on Save button
@@ -68,7 +68,7 @@ Feature: Verify Defect over ride
     And user selects "=" operator
     And user enters invoice number fetched from database in invoice number textbox
     And user clicks on submit button
-    And user selects "No" radio button to Override Subcategory
+    And user selects No radio button to Override Subcategory
     And user selects any value from DefectType dropdown and other Than "Uncategorized Defect" value
     And user selects any value from Defectsubcategory dropdown and other Than "Select Sub-Defect Category" value
     And user clicks on Save button
@@ -92,7 +92,7 @@ Feature: Verify Defect over ride
     And user enters invoice number fetched from database in invoice number textbox
     And user clicks on submit button
     When user moves the control on right side of the page and see the Defect Workflow section
-    And user selects "No" radio button to Override Subcategory
+    And user selects No radio button to Override Subcategory
     And user selects any value from DefectType dropdown and other Than "Uncategorized Defect" value
     And user selects any value from Defectsubcategory dropdown and other Than "Select Sub-Defect Category" value
     And user clicks on Save button
