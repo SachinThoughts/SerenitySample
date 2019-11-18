@@ -133,8 +133,163 @@ Feature: Verify internal search on R1 Decision page
     When user login to SQL Server and connect to facility database
     And user runs the <queryname9> query to search Visit number
     Then user should be able to view the same result in grid as SQL result for searched Visit number
-    
+
     Examples: 
       | queryname3                 | queryname9                 | Operator |
       | SearchInternal_428162_SQL3 | SearchInternal_428162_SQL9 | Like     |
       | SearchInternal_428162_SQL3 | SearchInternal_428162_SQL9 | =        |
+
+  @428172 @PRCMUser @Sprint101
+  Scenario Outline: Verify the error message displayed when user enter special characters in Last Name/First Name textbox
+    Given user is on "R1 Hub Technologies 2.0 - 01 R1_Decision" page
+    When user selects "Last Name/First Name" from Search By dropdown
+    And user enters <LastName> text in Last Name textbox
+    And user enters <FirstName> text in First Name textbox
+    And user clicks on Submit button
+    Then user should be able to view error message "Special Character are not allowed in Search criteria!"
+
+    Examples: 
+      | Lastname | Firstname |
+      | @$#%._   | Test1     |
+      | Test1    | @$%^&     |
+      | @#$*( _  | @!~`^/    |
+
+  @433695 @PRCMUser @Sprint101
+  Scenario Outline: Verify the Search functionality of Cross Site Facility on R1D Page
+    Given user is on "R1 Hub Technologies 2.0 - 01 R1_Decision" page
+    When user selects <option> from Search By drop down
+    And user selects "Like" operator from operator dropdown
+    And user enters <textvalue> in <option> textbox
+    And user clicks on Submit button
+    Then user should be able to view the grid with following columns
+      | Visit #             |
+      | Invoice #           |
+      | Name                |
+      | Facility Code       |
+      | MRN                 |
+      | Gender              |
+      | PT                  |
+      | Service Date        |
+      | PPC                 |
+      | Defect Type         |
+      | Defect Sub-Category |
+    When user login to SQL Server and connect to facility database
+    And user runs the <queryname15> query for search
+    Then user should be able to view only those facilities in Facility Code column which are coming in SQL result
+
+    Examples: 
+      | option         | textvalue | queryname15                 |
+      | Visit Number   |     12345 | SearchInternal_433695_SQL15 |
+      | Invoice Number |     12345 | SearchInternal_433695_SQL15 |
+
+  @428877 @PRCMUser @Sprint101
+  Scenario Outline: Verify that user is able to see the search result grid for exact Last Name/First Name on R1D Page
+    Given user is on "R1 Hub Technologies 2.0 - 01 R1_Decision" page
+    When user selects "Last Name/First Name" from Search By dropdown
+    And user login to SQL Server and connect to facility database
+    And user runs the <queryname5> query to fetch account data
+    Then user should be able to fetch Firstname and Lastname from the query
+    When user enters the fetched Lastname in Last Name textbox
+    And user enters the fetched Firstname in First Name textbox
+    And user clicks on Submit button
+    Then user should be able to view the grid with following columns and verify searched name
+      | Visit #             |
+      | Invoice #           |
+      | Name                |
+      | Facility Code       |
+      | MRN                 |
+      | Gender              |
+      | PT                  |
+      | Service Date        |
+      | PPC                 |
+      | Defect Type         |
+      | Defect Sub-Category |
+    When user runs the <queryname11> query to fetch name
+    Then user should be able to view the same names in grid as SQL result
+
+    Examples: 
+      | queryname11                 | queryname5                 |
+      | SearchInternal_428877_SQL11 | SearchInternal_428877_SQL5 |
+
+  @428167 @PRCMUser @Sprint101
+  Scenario Outline: Verify that user is able to see the search result grid for SSN on R1D Page
+    Given user is on "R1 Hub Technologies 2.0 - 01 R1_Decision" page
+    When user selects "SSN" from Search By dropdown
+    And user login to SQL Server and connect to facility database
+    And user runs the <queryname4> query to fetch account data
+    And user enters the query result in SSN textbox
+    And user clicks on Submit button
+    Then user should be able to view the grid with following columns and verify searched SSN
+      | Visit #             |
+      | Invoice #           |
+      | Name                |
+      | Facility Code       |
+      | MRN                 |
+      | Gender              |
+      | PT                  |
+      | Service Date        |
+      | PPC                 |
+      | Defect Type         |
+      | Defect Sub-Category |
+    When user runs the <queryname10> query to fetch SSN result
+    Then user should be able to view the same SSN in grid as SQL result
+
+    Examples: 
+      | queryname10                 | queryname4                 |
+      | SearchInternal_428167_SQL10 | SearchInternal_428167_SQL4 |
+
+  @433692 @PRCMUser @Sprint101
+  Scenario Outline: Verify that user is able to see the search result grid for Last Name/First Name on R1D Page
+    Given user is on "R1 Hub Technologies 2.0 - 01 R1_Decision" page
+    When user selects "Last Name/First Name" from Search By dropdown
+    And user enters text in Last Name textbox
+    And user enters text in First Name textbox
+    And user clicks on Submit button
+    Then user should be able to view the grid with following columns for Last Name/First Name search
+      | Visit #             |
+      | Invoice #           |
+      | Name                |
+      | Facility Code       |
+      | MRN                 |
+      | Gender              |
+      | PT                  |
+      | Service Date        |
+      | PPC                 |
+      | Defect Type         |
+      | Defect Sub-Category |
+    When user login to SQL Server and connect to facility database
+    And user runs the <queryname11> query to fetch name
+    Then user should be able to view the same result in grid as SQL result for Last Name/First Name
+
+    Examples: 
+      | queryname11                 | lastName | firstName |
+      | SearchInternal_428877_SQL11 | a        | b         |
+
+  @433693 @PRCMUser @Sprint101
+  Scenario Outline: Verify that user is able to see the search result grid for Medical Record Number with operators on R1D Page
+    Given user is on "R1 Hub Technologies 2.0 - 01 R1_Decision" page
+    When user selects "Medical Record Number" from Search By dropdown
+    And user login to SQL Server and connect to facility database
+    And user runs the <queryname6> query 
+    And user selects <Operator> from Operator dropdown
+    And user enters the query result in Medical Record Number textbox
+    And user clicks on Submit button
+    Then user should be able to view the grid with following columns
+      | Visit #             |
+      | Invoice #           |
+      | Name                |
+      | Facility Code       |
+      | MRN                 |
+      | Gender              |
+      | PT                  |
+      | Service Date        |
+      | PPC                 |
+      | Defect Type         |
+      | Defect Sub-Category |
+    When user runs the <queryname12> query
+    Then user should be able to view the same MRN in grid as SQL result
+
+    Examples: 
+      | queryname12                 | queryname6                 | operator |
+      | SearchInternal_433693_SQL12 | SearchInternal_433693_SQL6 | =        |
+      | SearchInternal_433693_SQL12 | SearchInternal_433693_SQL6 | Like     |
