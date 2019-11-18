@@ -35,7 +35,8 @@ public class SearchStepDef extends PageObject {
 	FinancialInfoSteps financialInfoSteps;
 
 	String dbQueryFilename = "Search", dbMRN, lastName, firstName, dbClaimNo, dbResult, dbInvoiceNumber, dbFirstname,
-			dbLastname;
+			dbLastname,dbEncounterId;
+
 	List<String> listOfGridColumnsOnUI = new ArrayList<>();
 	List<String> dbListOfColumns = new ArrayList<>();
 	List<String> dbListOfNames = new ArrayList<>();
@@ -338,6 +339,60 @@ public class SearchStepDef extends PageObject {
 				searchPageSteps.verifyInvoiceNumberWithEqualOperator(dbInvoiceNumber));
 	}
 
+	@When("^user runs the (.*) query to fetch account data$")
+	public void user_runs_the_query_to_fetch_account_data(String queryName) throws Exception {
+		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
+				commonMethods.loadQuery(queryName, dbQueryFilename));
+	}
+
+	@When("^user enters the query result in Visit Number search textbox$")
+	public void user_enters_the_query_result_in_Visit_Number_search_textbox() {
+		try {
+			while (DatabaseConn.resultSet.next()) {
+				dbEncounterId = DatabaseConn.resultSet.getString("encounterid");
+			}
+		} catch (SQLException sQLException) {
+			Assert.assertTrue("Visit number is not fetched from DB.\nThe Technical Error is:\n" + sQLException, false);
+		}
+		searchPage.enterVisitNumber(dbEncounterId);
+	}
+
+	@Then("^user should be able to view the grid with following columns if they are visible else verify the searched account$")
+	public void user_should_be_able_to_view_the_grid_with_following_columns_and_verify_the_searched_account(
+			DataTable resultColumns) {
+		List<String> expectedListOfGridColumns = resultColumns.asList(String.class);
+		if (searchPage.isSearchAccTableVisible()) {
+			listOfGridColumnsOnUI = searchPage.getListOfSrchAccTblHeaders();
+			Assert.assertTrue("All the grid columns are not visible",
+					expectedListOfGridColumns.containsAll(listOfGridColumnsOnUI) && !listOfGridColumnsOnUI.isEmpty());
+			searchPage.clickSearchInvoiceIdOrVisitNumber();
+		} else {
+			financialInfoSteps
+					.log("searched table is not visible with grid, single account present for the search result");
+		}
+		Assert.assertTrue("Incorrect account is searched",
+				dbEncounterId.equalsIgnoreCase(searchPage.getPatientAccountNo()));
+	}
+
+	@When("^user runs the (.*) query to search Visit number$")
+	public void user_runs_the_query_to_search_Visit_number(String queryName) throws Exception {
+		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
+				String.format(commonMethods.loadQuery(queryName, dbQueryFilename), dbEncounterId));
+	}
+
+	@Then("^user should be able to view the same result in grid as SQL result for searched Visit number$")
+	public void user_should_be_able_to_view_the_same_result_in_grid_as_SQL_result_for_searched_Visit_number() {
+		try {
+			while (DatabaseConn.resultSet.next()) {
+				dbEncounterId = DatabaseConn.resultSet.getString("encounterid");
+			}
+		} catch (SQLException sQLException) {
+			Assert.assertTrue("encounterid is not fetched from DB.\nThe Technical Error is:\n" + sQLException, false);
+		}
+		Assert.assertTrue("Visit number or Invoice number on UI does not match with database",
+				searchPage.getPatientAccountNo().contains(dbEncounterId));
+	}
+	
 	@When("^user runs the (.*) query to fetch name for search$")
 	public void user_runs_the_query_to_fetch_name_for_search(String queryName)
 			throws ClassNotFoundException, SQLException, Exception {

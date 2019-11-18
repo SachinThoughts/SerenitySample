@@ -108,3 +108,33 @@ Feature: Verify internal search on R1 Decision page
     When user enter the query result of SQL1 in Invoice Number search textbox
     And user clicks on Submit button
     Then user should be able to navigate to the R1D account page for searched Invoice Number
+
+  @428162 @Sprint101 @PRCMUser
+  Scenario Outline: Verify that user is able to search an account with Visit Number having invoice number associated to it on R1D Page
+    Given user is on "R1 Hub Technologies 2.0 - 01 R1_Decision" page
+    When user login to SQL Server and connect to facility database
+    And user runs the <queryname3> query to fetch account data
+    And user selects "Visit Number" from Search By dropdown
+    And user selects <Operator> from Operator dropdown
+    And user enters the query result in Visit Number search textbox
+    And user clicks on Submit button
+    Then user should be able to view the grid with following columns if they are visible else verify the searched account
+      | Visit #             |
+      | Invoice #           |
+      | Name                |
+      | Facility Code       |
+      | MRN                 |
+      | Gender              |
+      | PT                  |
+      | Service Date        |
+      | PPC                 |
+      | Defect Type         |
+      | Defect Sub-Category |
+    When user login to SQL Server and connect to facility database
+    And user runs the <queryname9> query to search Visit number
+    Then user should be able to view the same result in grid as SQL result for searched Visit number
+    
+    Examples: 
+      | queryname3                 | queryname9                 | Operator |
+      | SearchInternal_428162_SQL3 | SearchInternal_428162_SQL9 | Like     |
+      | SearchInternal_428162_SQL3 | SearchInternal_428162_SQL9 | =        |

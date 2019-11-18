@@ -85,8 +85,8 @@ Feature: This is to verify external search functionality in R1 PRCM-BE
   Scenario Outline: Verify that user is able to see the search result grid for Last Name/First Name
     Given user is on R1 Decision search page
     When user selects "Last Name/First Name" from Search By dropdown
-    And user enters <lastName> text in Last Name textbox on search page
-    And user enters <firstName> text in First Name textbox on search page
+    And user enters <lastName> text in Last Name textbox
+    And user enters <firstName> text in First Name textbox
     And user clicks on submit button
     Then user should be able to view the grid with following columns for Last Name/First Name search
       | Visit #             |
