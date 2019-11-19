@@ -28,13 +28,13 @@ public class SearchPage extends PageObject {
 	@FindBy(xpath = "//*[@id='searchLoader']//div[@class='modal-body']/i")
 	private WebElementFacade loadingSpinner;
 
-	@FindBy(xpath = "//*[@id='dvAccountSearch']/child::table")
+	@FindBy(xpath = "//*[@id='dvAccountSearch' or @class='modal-body']/child::table")
 	private WebElementFacade searchAccountTable;
 
-	@FindBy(xpath = "//*[@id='dvAccountSearch']/table/tbody/tr/td[2]/a")
+	@FindBy(xpath = "//*[@id='dvAccountSearch' or @class='modal-body']/table/tbody/tr/td[2]/a")
 	private List<WebElementFacade> listOfSearchedInvoiceId;
 
-	@FindBy(xpath = "//*[@id='dvAccountSearch']/table/tbody/tr/td[4]")
+	@FindBy(xpath = "//*[@id='dvAccountSearch' or @class='modal-body']/table/tbody/tr/td[4]")
 	private List<WebElementFacade> listOfSearchedFacility;
 
 	@FindBy(xpath = "//div[@id='visit']/h4")
@@ -73,7 +73,7 @@ public class SearchPage extends PageObject {
 	@FindBy(xpath = "//select[@class='form-control ddlOperator']")
 	private WebElementFacade operator;
 
-	@FindBy(xpath = "//*[@id='dvAccountSearch']/table/tbody/tr/td[2]")
+	@FindBy(xpath = "//*[@id='dvAccountSearch' or @class='modal-body']/table/tbody/tr/td[2]")
 	private List<WebElementFacade> listOfSearchedInvNum;
 
 	@FindBy(id = "msg_info")
@@ -94,8 +94,14 @@ public class SearchPage extends PageObject {
 	@FindBy(id = "lblPatientName")
 	private WebElementFacade patientName;
 
+	@FindBy(xpath = "//*[@id='dvAccountSearch' or @class='modal-body']/table/tbody/tr/td[1]")
+	private List<WebElementFacade> listOfSearchedAccNum;
+
+	@FindBy(id = "lblAccountNo")
+	private WebElementFacade accountNumber;
+
 	String titleJS = "return document.querySelector('#Head > title').text";
-	String facilityCodeJS = "document.querySelector('#dnn_ctr1025_ModuleContent > span > span:nth-child(1)').textContent";
+	String facilityCodeJS = "return document.querySelector('#dnn_ctr1025_ModuleContent > span > span:nth-child(1)').textContent";
 
 	public String getSearchPageTitle() {
 		return evaluateJavascript(titleJS).toString();
@@ -313,5 +319,30 @@ public class SearchPage extends PageObject {
 			listOfFacilities.add(facilityCode.getText());
 		}
 		return listOfFacilities;
+	}
+
+	public List<String> getlistOfAccNum() {
+		waitForAngularRequestsToFinish();
+		List<String> listOfAccNum = new ArrayList<>();
+		for (WebElementFacade element : listOfSearchedAccNum) {
+			listOfAccNum.add(element.getText());
+		}
+		return listOfAccNum;
+	}
+
+	public void clickSearchInvoiceIdOrVisitNumber() {
+		int index = getFacilityIndex();
+		if (!listOfSearchedInvNum.get(index).getText().equals("N/A"))
+			listOfSearchedInvNum.get(index).click();
+		else
+			listOfSearchedAccNum.get(index).click();
+	}
+
+	public String getAccountNumber() {
+		return accountNumber.withTimeoutOf(Duration.ofSeconds(20)).waitUntilVisible().getText();
+	}
+	
+	public void invoiceNumberShouldNotVisible() {
+		 invoiceNumber.shouldNotBeVisible();
 	}
 }

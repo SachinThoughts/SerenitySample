@@ -45,7 +45,7 @@ public class SearchPageSteps {
 					return false;
 				}
 			}
-			searchPage.clickSearchInvoiceNumber();
+			searchPage.clickSearchInvoiceIdOrVisitNumber();
 		}
 		if (searchPage.isErrorMsgVisible()) {
 			searchPage.clickErrorMsg();
@@ -105,4 +105,23 @@ public class SearchPageSteps {
 		}
 		return searchPage.isPatientAndVisitHeaderVisible() && dblistOfNames.contains(searchPage.getPatientName());
 	}
+	@Step
+	public boolean verifyEncounterId(String dbEncounterID) {
+		if (searchPage.isSearchAccTableVisible()) {
+			System.out.println(searchPage.getlistOfAccNum());
+			for (String encounterID : searchPage.getlistOfAccNum()) {
+				if (!encounterID.contains(dbEncounterID)) {
+					financialInfoSteps.log("The incorrect searched Encounter id is " + encounterID);
+					return false;
+				}
+			}
+			searchPage.clickSearchInvoiceIdOrVisitNumber();
+		}
+		if (searchPage.isErrorMsgVisible()) {
+			searchPage.clickErrorMsg();
+		}
+		return searchPage.isPatientAndVisitHeaderVisible()
+				&& dbEncounterID.equalsIgnoreCase(searchPage.getAccountNumber());
+	}
+
 }

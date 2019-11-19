@@ -34,7 +34,7 @@ public class SearchStepDef extends PageObject {
 	@Steps
 	FinancialInfoSteps financialInfoSteps;
 
-	String dbQueryFilename = "Search", dbMRN, lastName, firstName, dbClaimNo, dbResult, dbInvoiceNumber;
+	String dbQueryFilename = "Search", dbMRN, lastName, firstName, dbClaimNo, dbResult, dbInvoiceNumber,dbEncounterID;
 	List<String> listOfGridColumnsOnUI = new ArrayList<>();
 	List<String> dbListOfColumns = new ArrayList<>();
 	List<String> dbListOfNames = new ArrayList<>();
@@ -196,9 +196,9 @@ public class SearchStepDef extends PageObject {
 				dbInvoiceNumber = DatabaseConn.resultSet.getString(1);
 			}
 		} catch (SQLException sQLException) {
-			Assert.assertTrue("EncounterID is not fetched from DB.\nThe Technical Error is:\n" + sQLException, false);
+			Assert.assertTrue("Invoice number is not fetched from DB.\nThe Technical Error is:\n" + sQLException, false);
 		}
-		financialInfoSteps.log("Fetched EncounterID from Database is " + dbInvoiceNumber);
+		financialInfoSteps.log("Fetched Invoice Number from Database is " + dbInvoiceNumber);
 	}
 
 	@When("^user select \"([^\"]*)\" from Search By dropdown$")
@@ -336,4 +336,27 @@ public class SearchStepDef extends PageObject {
 		Assert.assertTrue("User is not navigated to the R1D account page for Searched Invoice Number",
 				searchPageSteps.verifyInvoiceNumberWithEqualOperator(dbInvoiceNumber));
 	}
-}
+	@When("^user enters the query result in Visit Number search textbox$")
+	public void user_enters_the_query_result_in_Visit_Number_search_textbox() {
+		try {
+			while (DatabaseConn.resultSet.next()) {
+				dbEncounterID = DatabaseConn.resultSet.getString(1);
+			}
+		} catch (SQLException sQLException) {
+			Assert.assertTrue("Encounter id is not fetched from DB.\nThe Technical Error is:\n" + sQLException, false);
+		}
+		financialInfoSteps.log("List of names from DB:\n" + dbEncounterID);
+		searchPage.enterVisitNumber(dbEncounterID);
+	}
+
+	@Then("^user should be able to navigate to the R1D account page for searched visit Number$")
+	public void user_should_be_able_to_navigate_to_the_R1D_account_page_for_searched_visit_Number() {
+		Assert.assertTrue("User is not navigated on R1D account page for searched visit number",searchPageSteps.verifyEncounterId(dbEncounterID));
+		}
+	
+	@Then("^user should be able to navigate to the R1D account page for searched Visit Number and verify invoice number should not be visible$")
+	public void user_should_be_able_to_navigate_to_the_R1D_account_page_for_searched_Visit_Number_and_verify_invoice_number_should_not_be_visible() {
+		Assert.assertTrue("User is not navigated on R1D account page for searched visit number",searchPageSteps.verifyEncounterId(dbEncounterID)); 
+		searchPage.invoiceNumberShouldNotVisible();
+	}
+	}

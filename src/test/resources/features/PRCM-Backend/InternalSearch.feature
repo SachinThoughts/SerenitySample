@@ -108,3 +108,63 @@ Feature: Verify internal search on R1 Decision page
     When user enter the query result of SQL1 in Invoice Number search textbox
     And user clicks on Submit button
     Then user should be able to navigate to the R1D account page for searched Invoice Number
+
+  @428160 @Sprint101 @PRCMUser
+  Scenario Outline: Verify that user is able to search an account with Visit Number using equal operator on R1D Page
+    Given user is on "R1 Hub Technologies 2.0 - 01 R1_Decision" page
+    When user login to SQL Server and connect to facility database
+    And user runs the <queryname2> query for search
+    And user selects <dropdown> from Search By drop down
+    And user selects "=" operator from operator dropdown
+    And user enters the query result in Visit Number search textbox
+    And user clicks on Submit button
+    Then user should be able to navigate to the R1D account page for searched visit Number
+
+    Examples: 
+      | queryname2                 | dropdown     |
+      | SearchInternal_428160_SQL2 | Visit Number |
+
+  @428161 @Sprint101 @PRCMUser
+  Scenario Outline: Verify that user is able to search an account with Visit Number does not having invoice number associated to it on R1D Page
+    Given user is on "R1 Hub Technologies 2.0 - 01 R1_Decision" page
+    And user selects <dropdown> from Search By drop down
+    And user selects <Operator> from Operator dropdown
+    And user login to SQL Server and connect to facility database
+    And user runs the <queryname14> query for search
+    And user enters the query result in Visit Number search textbox
+    And user clicks on Submit button
+    Then user should be able to navigate to the R1D account page for searched Visit Number and verify invoice number should not be visible
+
+    Examples: 
+      | queryname14                 | dropdown      | Operator |
+      | SearchInternal_428161_SQL14 | Visit Number  | Like     |
+      | SearchInternal_428161_SQL14 | Visit Number  | =        |
+
+  @391038
+  Scenario Outline: Verify that user is able to search an account with Search textbox using Like operator on R1D Page
+    Given user is on "R1 Hub Technologies 2.0 - 01 R1_Decision" page
+    And user selects <dropdown> from Search By drop down
+    And user selects "Like" operator from operator dropdown
+    And user enters <AnyFiveDigitNumber> in <option> textbox
+    And user clicks on Submit button
+    Then user should be able to view the grid with following columns
+      | Visit #             |
+      | Invoice #           |
+      | Name                |
+      | Facility Code       |
+      | MRN                 |
+      | Gender              |
+      | PT                  |
+      | Service Date        |
+      | PPC                 |
+      | Defect Type         |
+      | Defect Sub-Category |
+    When user login to SQL Server and connect to facility database
+   And user runs the <queryname8> query for search
+    Then user should be able to view the same result in grid as SQL result
+
+    Examples: 
+      | option                | AnyFiveDigitNumber | queryname8                 |
+      | Visit Number          |              12345 | SearchInternal_391038_SQL8 |
+      | Invoice Number        |              12345 | SearchInternal_391038_SQL8 |
+      | Medical Record Number |              12345 | SearchInternal_391038_SQL8 |
