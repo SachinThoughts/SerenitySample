@@ -34,7 +34,9 @@ public class SearchStepDef extends PageObject {
 	@Steps
 	FinancialInfoSteps financialInfoSteps;
 
-	String dbQueryFilename = "Search", dbMRN, lastName, firstName, dbClaimNo, dbResult, dbInvoiceNumber, dbEncounterId;
+	String dbQueryFilename = "Search", dbMRN, lastName, firstName, dbClaimNo, dbResult, dbInvoiceNumber, dbFirstName,
+			dbLastName, dbEncounterId;
+
 	List<String> listOfGridColumnsOnUI = new ArrayList<>();
 	List<String> dbListOfColumns = new ArrayList<>();
 	List<String> dbListOfNames = new ArrayList<>();
@@ -238,14 +240,14 @@ public class SearchStepDef extends PageObject {
 				String.format(commonMethods.loadQuery(queryName, dbQueryFilename), lastName + "%", firstName + "%"));
 	}
 
-	@When("^user enters (.*) text in Last Name textbox$")
-	public void user_enters_text_in_Last_Name_textbox(String lastName) {
+	@When("^user enters (.*) text in Last Name textbox on search page$")
+	public void user_enters_text_in_Last_Name_textbox_on_search_page(String lastName) {
 		this.lastName = lastName;
 		searchPage.enterLastName(this.lastName);
 	}
 
-	@When("^user enters (.*) text in First Name textbox$")
-	public void user_enters_text_in_First_Name_textbox(String firstName) {
+	@When("^user enters (.*) text in First Name textbox on search page$")
+	public void user_enters_text_in_First_Name_textbox_on_search_page(String firstName) {
 		this.firstName = firstName;
 		searchPage.enterFirstName(this.firstName);
 	}
@@ -389,5 +391,55 @@ public class SearchStepDef extends PageObject {
 		}
 		Assert.assertTrue("Visit number or Invoice number on UI does not match with database",
 				searchPage.getPatientAccountNo().contains(dbEncounterId));
+	}
+
+	@When("^user runs the (.*) query to fetch name for search$")
+	public void user_runs_the_query_to_fetch_name_for_search(String queryName)
+			throws ClassNotFoundException, SQLException, Exception {
+		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
+				String.format(commonMethods.loadQuery(queryName, dbQueryFilename)));
+	}
+
+	@Then("^user should be able to fetch Firstname and Lastname from the query\\.$")
+	public void user_should_be_able_to_fetch_Firstname_and_Lastname_from_the_query() {
+		try {
+			while (DatabaseConn.resultSet.next()) {
+				dbFirstName = DatabaseConn.resultSet.getString("firstname");
+				dbLastName = DatabaseConn.resultSet.getString("lastname");
+			}
+		} catch (SQLException sQLException) {
+			Assert.assertTrue(
+					"firstname and lastname is not fetched from DB.\nThe Technical Error is:\n" + sQLException, false);
+		}
+	}
+
+	@When("^user enters the fetched Lastname in Last Name textbox$")
+	public void user_enters_the_fetched_Lastname_in_Last_Name_textbox() {
+		searchPage.enterLastName(dbLastName);
+	}
+
+	@When("^user enters the fetched Firstname in First Name textbox$")
+	public void user_enters_the_fetched_Firstname_in_First_Name_textbox() {
+		searchPage.enterFirstName(dbFirstName);
+	}
+
+	@Then("^user runs the (.*) query to fetch name using dbfirstname and dblastname$")
+	public void user_runs_the_query_to_fetch_name_using_dbfirstname_and_dblastname(String queryName)
+			throws ClassNotFoundException, SQLException, Exception {
+		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName, String
+				.format(commonMethods.loadQuery(queryName, dbQueryFilename), dbLastName + "%", dbFirstName + "%"));
+	}
+
+	@Then("^user should be able to view the grid with following columns for Last Name/First Name search for database firstname lastname values$")
+	public void user_should_be_able_to_view_the_grid_with_following_columns_for_LastName_FirstName_search_for_database_firstname_lastname_values(
+			DataTable resultColumns) {
+		List<String> expectedListOfGridColumns = resultColumns.asList(String.class);
+		listOfGridColumnsOnUI = searchPage.getListOfSrchAccTblHeaders();
+
+		Assert.assertTrue("All the grid columns are not visible",
+				expectedListOfGridColumns.containsAll(listOfGridColumnsOnUI) && !listOfGridColumnsOnUI.isEmpty());
+
+		Assert.assertTrue("Last name or first name does not match with the searched character",
+				searchPageSteps.verifyOnlyLastName(dbLastName) && searchPageSteps.verifyOnlyFirstName(dbFirstName));
 	}
 }
