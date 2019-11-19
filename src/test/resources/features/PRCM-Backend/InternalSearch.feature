@@ -270,11 +270,11 @@ Feature: Verify internal search on R1 Decision page
     Given user is on "R1 Hub Technologies 2.0 - 01 R1_Decision" page
     When user selects "Medical Record Number" from Search By dropdown
     And user login to SQL Server and connect to facility database
-    And user runs the <queryname6> query 
+    And user runs the <queryname6> query to fetch account data
     And user selects <Operator> from Operator dropdown
     And user enters the query result in Medical Record Number textbox
     And user clicks on Submit button
-    Then user should be able to view the grid with following columns
+   Then user should be able to view the grid with following columns if they are visible else verify the searched account with MRN
       | Visit #             |
       | Invoice #           |
       | Name                |
@@ -286,7 +286,7 @@ Feature: Verify internal search on R1 Decision page
       | PPC                 |
       | Defect Type         |
       | Defect Sub-Category |
-    When user runs the <queryname12> query
+    When user runs the <queryname12> query for MRN search
     Then user should be able to view the same MRN in grid as SQL result
 
     Examples: 

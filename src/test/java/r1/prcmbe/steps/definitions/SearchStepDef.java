@@ -486,4 +486,50 @@ public class SearchStepDef extends PageObject {
 		Assert.assertTrue("Same searched SSN are not visible in the SQL result",
 				searchPageSteps.verifySearchedSSNWithDatabase(dbSSN));
 	}
+
+	@When("^user enters the query result in Medical Record Number textbox$")
+	public void user_enters_the_query_result_in_Medical_Record_Number_textbox() {
+		try {
+			while (DatabaseConn.resultSet.next()) {
+				dbMRN = DatabaseConn.resultSet.getString("FacilityPatientID");
+			}
+		} catch (SQLException sQLException) {
+			Assert.assertTrue("MRN is not fetched from DB.\nThe Technical Error is:\n" + sQLException, false);
+		}
+		searchPage.enterMRN(dbMRN);
+	}
+
+	@Then("^user should be able to view the grid with following columns if they are visible else verify the searched account with MRN$")
+	public void user_should_be_able_to_view_the_grid_with_following_columns_and_verify_the_searched_account_with_MRN(
+			DataTable resultColumns) {
+		List<String> expectedListOfGridColumns = resultColumns.asList(String.class);
+		if (searchPage.isSearchAccTableVisible()) {
+			listOfGridColumnsOnUI = searchPage.getListOfSrchAccTblHeaders();
+			Assert.assertTrue("All the grid columns are not visible",
+					expectedListOfGridColumns.containsAll(listOfGridColumnsOnUI) && !listOfGridColumnsOnUI.isEmpty());
+			searchPage.clickSearchInvoiceIdOrVisitNumber();
+		} else {
+			financialInfoSteps
+					.log("searched table is not visible with grid, single account present for the search result");
+		}
+		Assert.assertTrue("Account with Incorrect MRN number is searched", searchPage.getPatientMRN().contains(dbMRN));
+	}
+
+	@When("^user runs the (.*) query for MRN search$")
+	public void user_runs_the_query_for_MRN_search(String queryName) throws Exception {
+		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
+				String.format(commonMethods.loadQuery(queryName, dbQueryFilename), dbMRN));
+	}
+
+	@Then("^user should be able to view the same MRN in grid as SQL result$")
+	public void user_should_be_able_to_view_the_same_MRN_in_grid_as_SQL_result() {
+		try {
+			while (DatabaseConn.resultSet.next()) {
+				dbMRN = DatabaseConn.resultSet.getString("facilitypatientid");
+			}
+		} catch (SQLException sQLException) {
+			Assert.assertTrue("MRN is not fetched from DB.\nThe Technical Error is:\n" + sQLException, false);
+		}
+		Assert.assertTrue("MRN on UI does not match with database", searchPage.getPatientMRN().contains(dbMRN));
+	}
 }

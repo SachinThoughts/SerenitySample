@@ -103,6 +103,9 @@ public class SearchPage extends PageObject {
 	@FindBy(id = "lblSSN")
 	private WebElementFacade patientSSN;
 
+	@FindBy(id = "lblMRN")
+	private WebElementFacade patientMRN;
+
 	String titleJS = "return document.querySelector('#Head > title').text";
 	String facilityCodeJS = "return document.querySelector('#dnn_ctr1025_ModuleContent > span > span:nth-child(1)').textContent";
 
@@ -339,4 +342,9 @@ public class SearchPage extends PageObject {
 	public String getPatientSSN() {
 		return patientSSN.getText();
 	}
+
+	public String getPatientMRN() {
+		return patientMRN.getText();
+	}
+
 }
