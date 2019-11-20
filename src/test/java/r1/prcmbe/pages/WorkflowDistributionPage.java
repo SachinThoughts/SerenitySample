@@ -29,6 +29,12 @@ public class WorkflowDistributionPage extends PageObject {
 	@FindBy(className = "RepsTab")
 	private WebElementFacade repsTab;
 
+	@FindBy(xpath = "//*[@id='filterOptions']//*[contains(text(),'Note')]")
+	private WebElementFacade notesSection;
+	
+	@FindBy(xpath = "(//*[@id='filterOptions']//span)[2]")
+	private WebElementFacade noteMsg;
+	
 	public boolean isWorkflowDistributionTitleVisible() {
 		return workflowDistributionTitle.isVisible();
 	}
@@ -63,5 +69,13 @@ public class WorkflowDistributionPage extends PageObject {
 
 	public void clickRepsTab() {
 		evaluateJavascript("arguments[0].click();", repsTab);
+	}
+	
+	public boolean isNoteMsgVisible() {
+		return notesSection.isVisible();	
+	}
+	
+	public String getNoteMsgText( ) {		
+		return noteMsg.getText().trim();
 	}
 }

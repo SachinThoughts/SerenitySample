@@ -65,4 +65,13 @@ public class WorkflowDistributionStepDef extends PageObject {
 		workflowDistributionPage.clickRepsTab();
 	}
 
+	@Then("^user should be able to view Notes section between  Filter Result by section and Bread Crumb$")
+	public void user_should_be_able_to_view_Notes_section_between_Filter_Result_by_section_and_Bread_Crumb() {
+		Assert.assertTrue("Notes section is not visible on Workflow Distribution tabs", workflowDistributionPage.isNoteMsgVisible());
+	}
+
+	@Then("^user should able to view Note message as \"([^\"]*)\"$")
+	public void user_should_able_to_view_Note_message_as(String expectedNoteMsg) {
+		Assert.assertTrue("User is not able to view the Notes message displayed on Workflow Distribution tabs", workflowDistributionPage.getNoteMsgText().equals(expectedNoteMsg));
+	}
 }
