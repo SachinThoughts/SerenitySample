@@ -11,10 +11,10 @@ import net.serenitybdd.core.pages.PageObject;
 import r1.prcmbe.pages.NavigationPage;
 import r1.prcmbe.pages.WorkflowDistributionPage;
 
-public class WorkflowDistributionStepDef extends PageObject{
+public class WorkflowDistributionStepDef extends PageObject {
 	NavigationPage navigationPage;
 	WorkflowDistributionPage workflowDistributionPage;
-	
+
 	@When("^user clicks on Workflow Distribution link$")
 	public void user_clicks_on_Workflow_Distribution_link() {
 		navigationPage.clickWorkflowDistribution();
@@ -22,18 +22,21 @@ public class WorkflowDistributionStepDef extends PageObject{
 
 	@Given("^user is on Workflow Distribution screen$")
 	public void user_is_on_Workflow_Distribution_screen() {
-		Assert.assertTrue("User is not on Workflow Distribution screen", workflowDistributionPage.isWorkflowDistributionTitleVisible());
+		Assert.assertTrue("User is not on Workflow Distribution screen",
+				workflowDistributionPage.isWorkflowDistributionTitleVisible());
 	}
 
 	@Then("^user should be able view following tabs under Workflow Distribution$")
 	public void user_should_be_able_view_following_tabs_under_Workflow_Distribution(DataTable distributionTabs) {
-	 List<String> wrkflwDistributionTabs = distributionTabs.asList(String.class);
-	 Assert.assertTrue("User cannot view the tabs under Workflow Distribution", workflowDistributionPage.isWorkflowDistributionTabsVisible(wrkflwDistributionTabs));
+		List<String> wrkflwDistributionTabs = distributionTabs.asList(String.class);
+		Assert.assertTrue("User cannot view the tabs under Workflow Distribution",
+				workflowDistributionPage.isWorkflowDistributionTabsVisible(wrkflwDistributionTabs));
 	}
 
 	@Then("^user should able to view \"([^\"]*)\" opened by default$")
 	public void user_should_able_to_view_opened_by_default(String expectedTab) {
-		Assert.assertTrue("Payer Inventory is not open by default", workflowDistributionPage.getBreadCrumbText().contains(expectedTab));
+		Assert.assertTrue("Payer Inventory is not open by default",
+				workflowDistributionPage.getBreadCrumbText().contains(expectedTab));
 	}
 
 	@When("^user clicks on Patient Inventory Tab$")
@@ -43,7 +46,8 @@ public class WorkflowDistributionStepDef extends PageObject{
 
 	@Then("^user should be able to view \"([^\"]*)\" tab$")
 	public void user_should_be_able_to_view_tab(String expectedTab) {
-		Assert.assertTrue("User is not able to view" + expectedTab + "tab", workflowDistributionPage.getBreadCrumbText().contains(expectedTab));
+		Assert.assertTrue("User is not able to view" + expectedTab + "tab",
+				workflowDistributionPage.getBreadCrumbText().contains(expectedTab));
 	}
 
 	@When("^user clicks on Facility Inventory Tab$")
