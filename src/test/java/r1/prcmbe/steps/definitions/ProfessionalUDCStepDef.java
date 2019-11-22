@@ -374,47 +374,4 @@ public class ProfessionalUDCStepDef extends PageObject {
 					applicationId == DatabaseConn.resultSet.getInt("ApplicationID"));
 		}
 	}
-
-	@Then("^user should be able to view Add Defect Sub Category pop-up disappear$")
-	public void user_should_be_able_to_view_Add_Defect_Sub_Category_pop_up_disappear() {
-		Assert.assertFalse("Add defect sub-category pop up is visible",
-				uDCPage.checkDefectSubCategoryPopUpVisibility());
-	}
-
-	@When("^user clicks on Defect Type tab$")
-	public void user_clicks_on_Defect_Type_tab() {
-		uDCPage.clickOnDefectTypeTab();
-	}
-
-	@When("^user clicks on edit button on any existing defect$")
-	public void user_clicks_on_edit_button_on_any_existing_defect() {
-		defectTypeList = uDCPage.getListOfDefectTypes();
-		uDCPage.clickEditLink();
-	}
-
-	@Then("^user should be able to view Edit Defect Type modal popup$")
-	public void user_should_be_able_to_view_Edit_Defect_Type_modal_popup() {
-		Assert.assertTrue("Edit defect type modal pop up not visible", uDCPage.getEditModalPopUpVisibility());
-	}
-
-	@When("^user edits with a valid (.*) in defect type name$")
-	public void user_edits_with_a_valid_in_defect_type_name(String defectType) {
-		randomDefectTypeName = proUDCSteps.getDefectTypeValue(defectType, defectTypeList);
-		uDCPage.editDefectTypeName(randomDefectTypeName);
-	}
-
-	@When("^user check or uncheck Active checkbox$")
-	public void user_check_or_uncheck_Active_checkbox() {
-		uDCPage.selectEditActiveCheckbox();
-	}
-
-	@When("^user clicks on Save Defect Type button$")
-	public void user_clicks_on_Save_Defect_Type_button() {
-		uDCPage.clickSaveBtn();
-	}
-
-	@Then("^user should be able to view Add Defect Type pop-up disappear$")
-	public void user_should_be_able_to_view_Add_Defect_Type_pop_up_disappear() {
-		Assert.assertFalse("Add defect sub-category pop up is visible", uDCPage.checkDefectTypePopupVisibility());
-	}
 }
