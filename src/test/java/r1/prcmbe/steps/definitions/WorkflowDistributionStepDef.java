@@ -21,9 +21,8 @@ public class WorkflowDistributionStepDef extends PageObject {
 	}
 
 	@Given("^user is on Workflow Distribution screen$")
-	public void user_is_on_Workflow_Distribution_screen() {
-		Assert.assertTrue("User is not on Workflow Distribution screen",
-				workflowDistributionPage.isWorkflowDistributionTitleVisible());
+	public void user_is_on_Workflow_Distribution_screen() {		
+		workflowDistributionPage.isWorkflowDistributionTitleVisible();
 	}
 
 	@Then("^user should be able view following tabs under Workflow Distribution$")

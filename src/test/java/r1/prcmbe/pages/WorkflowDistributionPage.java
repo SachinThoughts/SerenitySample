@@ -35,10 +35,9 @@ public class WorkflowDistributionPage extends PageObject {
 	@FindBy(xpath = "(//*[@id='filterOptions']//span)[2]")
 	private WebElementFacade noteMsg;
 	
-	public boolean isWorkflowDistributionTitleVisible() {
-		return workflowDistributionTitle.isVisible();
+	public void isWorkflowDistributionTitleVisible() {
+		 workflowDistributionTitle.shouldBeVisible();
 	}
-
 	public List<String> getWorkflowDistributionTabsHeaders() {
 		List<String> wrkflwTabs = new ArrayList<String>();
 		for (WebElementFacade tabName : workflowDistributionTabs) {
