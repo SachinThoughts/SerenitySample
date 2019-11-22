@@ -41,33 +41,33 @@ public class TaggingPage extends PageObject {
 
 	@FindBy(xpath = "//div[@class='alert alert-lg alert-info']")
 	private WebElementFacade alertSection;
-
-	public void verifyTagConfigPageIsVisible() {
-		taggingPageTitle.shouldBeVisible();
+	
+	public boolean isTagConfigPageVisible() {
+		return taggingPageTitle.isVisible();
 	}
 
-	public void searchCategoryNameTxtBoxShouldBeVisible() {
-		searchCategoryNameTxtBox.shouldBeVisible();
+	public boolean isSearchCategoryNameTxtBoxVisible() {
+		return searchCategoryNameTxtBox.isVisible();
 	}
 
-	public void tagCategoryTabShouldBeVisible() {
-		tagCategoryTab.shouldBeVisible();
+	public boolean isTagCategoryTabVisible() {
+		return tagCategoryTab.isVisible();
 	}
 
-	public void tagNameTabShouldBeVisible() {
-		tagNameTab.shouldBeVisible();
+	public boolean isTagNameTabVisible() {
+		return tagNameTab.isVisible();
 	}
 
-	public void searchCategoryLabelShouldBeVisible() {
-		searchCategoryLabel.shouldBeVisible();
+	public boolean isSearchCategoryLabelVisible() {
+		return searchCategoryLabel.isVisible();
 	}
 
-	public void addNewCategoryBtnShouldBeVisible() {
-		addNewCategoryBtn.shouldBeVisible();
+	public boolean isAddNewCategoryBtnVisible() {
+		return addNewCategoryBtn.isVisible();
 	}
 
-	public void continueBtnShouldBeVisible() {
-		continueBtn.shouldBeVisible();
+	public boolean isContinueBtnVisible() {
+		return continueBtn.isVisible();
 	}
 
 	public List<String> getListOfColHeaders() {
