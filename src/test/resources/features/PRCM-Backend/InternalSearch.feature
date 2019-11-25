@@ -14,12 +14,12 @@ Feature: Verify internal search on R1 Decision page
 
   @391031 @Sprint101 @PRCMUser
   Scenario: Verify that R1D page for PRCM enabled site Invoice number should be default criteria
-    Given user is on "R1 Hub Technologies 2.0 - 01 R1_Decision" page
+    Given user is on "R1 Hub Technologies 2.0 - 15 R1_Decision" page
     Then user should be able to view Invoice Number selected by default in Search By drop down
 
   @391032 @Sprint101 @PRCMUser
   Scenario Outline: Verify the error message displayed when user searches an invalid data in Search textbox with equal operator
-    Given user is on "R1 Hub Technologies 2.0 - 01 R1_Decision" page
+    Given user is on "R1 Hub Technologies 2.0 - 15 R1_Decision" page
     When user selects <dropdown> from Search By drop down
     And user enters invalid value in <Invalid Data> textbox 
     And user clicks on Submit button
@@ -36,7 +36,7 @@ Feature: Verify internal search on R1 Decision page
 
   @391033 @Sprint101 @PRCMUser
   Scenario Outline: Verify that Submit button is disabled for Search textbox for Like Operator if user enters less than five characters
-    Given user is on "R1 Hub Technologies 2.0 - 01 R1_Decision" page
+    Given user is on "R1 Hub Technologies 2.0 - 15 R1_Decision" page
     When user selects <dropdown> from Search By drop down
     And user selects "Like" operator from operator dropdown
     And user enters less than 5 characters in <lessThanFivetext> textbox
@@ -52,7 +52,7 @@ Feature: Verify internal search on R1 Decision page
 
   @391034 @Sprint101 @PRCMUser
   Scenario Outline: Verify that Submit button is enabled for Search textbox for Like Operator if user enters 5 or more characters
-    Given user is on "R1 Hub Technologies 2.0 - 01 R1_Decision" page
+    Given user is on "R1 Hub Technologies 2.0 - 15 R1_Decision" page
     When user selects <dropdown> from Search By drop down
     And user selects "Like" operator from operator dropdown
     And user enters more than or equal to 5 characters <moreThanFivetext> in textbox
@@ -72,7 +72,7 @@ Feature: Verify internal search on R1 Decision page
 
   @391035 @Sprint101 @PRCMUser
   Scenario Outline: Verify that when user does not enter anything in Search textbox then message appeared or not
-    Given user is on "R1 Hub Technologies 2.0 - 01 R1_Decision" page
+    Given user is on "R1 Hub Technologies 2.0 - 15 R1_Decision" page
     When user selects <option> from Search By drop down
     And user clicks on Submit button
     Then user should be able to view message "Please enter the value for" <option>
@@ -88,7 +88,7 @@ Feature: Verify internal search on R1 Decision page
 
   @391036 @Sprint101 @PRCMUser
   Scenario Outline: Verify the error message displayed when user searches an invalid Search textbox with Like operator on R1D Page
-    Given user is on "R1 Hub Technologies 2.0 - 01 R1_Decision" page
+    Given user is on "R1 Hub Technologies 2.0 - 15 R1_Decision" page
     When user selects <dropdown> from Search By drop down
     And user selects "Like" operator from operator dropdown
     And user enters invalid value in <Invalid Data> textbox 
@@ -111,7 +111,7 @@ Feature: Verify internal search on R1 Decision page
 
   @428162 @Sprint101 @PRCMUser
   Scenario Outline: Verify that user is able to search an account with Visit Number having invoice number associated to it on R1D Page
-    Given user is on "R1 Hub Technologies 2.0 - 01 R1_Decision" page
+    Given user is on "R1 Hub Technologies 2.0 - 15 R1_Decision" page
     When user login to SQL Server and connect to facility database
     And user runs the <queryname3> query to fetch account data
     And user selects "Visit Number" from Search By dropdown
@@ -139,27 +139,27 @@ Feature: Verify internal search on R1 Decision page
       | SearchInternal_428162_SQL3 | SearchInternal_428162_SQL9 | Like     |
       | SearchInternal_428162_SQL3 | SearchInternal_428162_SQL9 | =        |
 
-  @428172 @PRCMUser @Sprint101
+  @428172 @PRCMUser @Sprint102
   Scenario Outline: Verify the error message displayed when user enter special characters in Last Name/First Name textbox
-    Given user is on "R1 Hub Technologies 2.0 - 01 R1_Decision" page
+    Given user is on "R1 Hub Technologies 2.0 - 15 R1_Decision" page
     When user selects "Last Name/First Name" from Search By dropdown
     And user enters <LastName> text in Last Name textbox
     And user enters <FirstName> text in First Name textbox
     And user clicks on Submit button
-    Then user should be able to view error message "Special Character are not allowed in Search criteria!"
+    Then user should be able to view the "Special Character are not allowed in Search criteria!" error message
 
     Examples: 
-      | Lastname | Firstname |
+      | LastName | FirstName |
       | @$#%._   | Test1     |
       | Test1    | @$%^&     |
       | @#$*( _  | @!~`^/    |
 
-  @433695 @PRCMUser @Sprint101
+  @433695 @PRCMUser @Sprint102
   Scenario Outline: Verify the Search functionality of Cross Site Facility on R1D Page
-    Given user is on "R1 Hub Technologies 2.0 - 01 R1_Decision" page
+    Given user is on "R1 Hub Technologies 2.0 - 15 R1_Decision" page
     When user selects <option> from Search By drop down
     And user selects "Like" operator from operator dropdown
-    And user enters <textvalue> in <option> textbox
+    And user enters value <textvalue> in <option> textbox
     And user clicks on Submit button
     Then user should be able to view the grid with following columns
       | Visit #             |
@@ -182,9 +182,9 @@ Feature: Verify internal search on R1 Decision page
       | Visit Number   |     12345 | SearchInternal_433695_SQL15 |
       | Invoice Number |     12345 | SearchInternal_433695_SQL15 |
 
-  @428877 @PRCMUser @Sprint101
+  @428877 @PRCMUser @Sprint102
   Scenario Outline: Verify that user is able to see the search result grid for exact Last Name/First Name on R1D Page
-    Given user is on "R1 Hub Technologies 2.0 - 01 R1_Decision" page
+    Given user is on "R1 Hub Technologies 2.0 - 15 R1_Decision" page
     When user selects "Last Name/First Name" from Search By dropdown
     And user login to SQL Server and connect to facility database
     And user runs the <queryname5> query to fetch account data
@@ -211,9 +211,9 @@ Feature: Verify internal search on R1 Decision page
       | queryname11                 | queryname5                 |
       | SearchInternal_428877_SQL11 | SearchInternal_428877_SQL5 |
 
-  @428167 @PRCMUser @Sprint101
+  @428167 @PRCMUser @Sprint102
   Scenario Outline: Verify that user is able to see the search result grid for SSN on R1D Page
-    Given user is on "R1 Hub Technologies 2.0 - 01 R1_Decision" page
+    Given user is on "R1 Hub Technologies 2.0 - 15 R1_Decision" page
     When user selects "SSN" from Search By dropdown
     And user login to SQL Server and connect to facility database
     And user runs the <queryname4> query to fetch account data
@@ -238,12 +238,12 @@ Feature: Verify internal search on R1 Decision page
       | queryname10                 | queryname4                 |
       | SearchInternal_428167_SQL10 | SearchInternal_428167_SQL4 |
 
-  @433692 @PRCMUser @Sprint101
+  @433692 @PRCMUser @Sprint102
   Scenario Outline: Verify that user is able to see the search result grid for Last Name/First Name on R1D Page
-    Given user is on "R1 Hub Technologies 2.0 - 01 R1_Decision" page
+    Given user is on "R1 Hub Technologies 2.0 - 15 R1_Decision" page
     When user selects "Last Name/First Name" from Search By dropdown
-    And user enters text in Last Name textbox
-    And user enters text in First Name textbox
+    And user enters <lastName> text in Last Name textbox
+    And user enters <firstName> text in First Name textbox
     And user clicks on Submit button
     Then user should be able to view the grid with following columns for Last Name/First Name search
       | Visit #             |
@@ -262,19 +262,19 @@ Feature: Verify internal search on R1 Decision page
     Then user should be able to view the same result in grid as SQL result for Last Name/First Name
 
     Examples: 
-      | queryname11                 | lastName | firstName |
-      | SearchInternal_428877_SQL11 | a        | b         |
+      | queryname11                  | lastName | firstName |
+      | SearchInternal2_428877_SQL11 | a        | b         |
 
-  @433693 @PRCMUser @Sprint101
+  @433693 @PRCMUser @Sprint102
   Scenario Outline: Verify that user is able to see the search result grid for Medical Record Number with operators on R1D Page
-    Given user is on "R1 Hub Technologies 2.0 - 01 R1_Decision" page
+    Given user is on "R1 Hub Technologies 2.0 - 15 R1_Decision" page
     When user selects "Medical Record Number" from Search By dropdown
     And user login to SQL Server and connect to facility database
     And user runs the <queryname6> query to fetch account data
     And user selects <Operator> from Operator dropdown
     And user enters the query result in Medical Record Number textbox
     And user clicks on Submit button
-   Then user should be able to view the grid with following columns if they are visible else verify the searched account with MRN
+    Then user should be able to view the grid with following columns if they are visible else verify the searched account with MRN
       | Visit #             |
       | Invoice #           |
       | Name                |
@@ -290,6 +290,6 @@ Feature: Verify internal search on R1 Decision page
     Then user should be able to view the same MRN in grid as SQL result
 
     Examples: 
-      | queryname12                 | queryname6                 | operator |
+      | queryname12                 | queryname6                 | Operator |
       | SearchInternal_433693_SQL12 | SearchInternal_433693_SQL6 | =        |
       | SearchInternal_433693_SQL12 | SearchInternal_433693_SQL6 | Like     |

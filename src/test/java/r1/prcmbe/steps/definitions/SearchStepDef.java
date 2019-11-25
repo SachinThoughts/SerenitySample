@@ -53,7 +53,7 @@ public class SearchStepDef extends PageObject {
 	@Then("^user should be able to view R1D Search page$")
 	public void user_should_be_able_to_view_R1_D_Search_page() {
 		Assert.assertTrue("User is not navigated on R1 D Search Page",
-				searchPage.getSearchPageTitle().contains("R1 Hub Technologies 2.0 - 01 R1_Decision - Search"));
+				searchPage.getSearchPageTitle().contains("R1 Hub Technologies 2.0 - 15 R1_Decision - Search"));
 	}
 
 	@Then("^user should be able to view message \"([^\"]*)\"$")
@@ -209,7 +209,7 @@ public class SearchStepDef extends PageObject {
 
 	@When("^user enters the query result in Invoice Number search textbox and can view the same invoice number of selected facility or different facility$")
 	public void user_enters_the_query_result_in_Invoice_Number_search_textbox_and_can_view_the_same_invoice_number_of_selected_facility_or_different_facility() {
-		if (searchPage.getSearchPageTitle().contains("R1 Hub Technologies 2.0 - 01 R1_Decision - Search")) {
+		if (searchPage.getSearchPageTitle().contains("R1 Hub Technologies 2.0 - 15 R1_Decision - Search")) {
 			searchPage.enterInvoiceNumber(dbInvoiceNumber);
 			searchPage.clickSubmitBtn();
 			searchPageSteps.verifyInvoiceNumberWithEqualOperator(dbInvoiceNumber);
@@ -219,13 +219,13 @@ public class SearchStepDef extends PageObject {
 	@Then("^user navigates on internal search page$")
 	public void user_navigates_on_internal_search_page() {
 		Assert.assertTrue("User is not navigated on R1 Internal Search Page",
-				searchPage.getSearchPageTitle().contains("R1 Hub Technologies 2.0 - 01 R1_Decision"));
+				searchPage.getSearchPageTitle().contains("R1 Hub Technologies 2.0 - 15 R1_Decision"));
 	}
 
 	@Given("^user is on R1 Decision search page$")
 	public void user_is_on_R1_Decision_search_page() {
 		Assert.assertTrue("User is not navigated on R1 D Search Page",
-				searchPage.getSearchPageTitle().contains("R1 Hub Technologies 2.0 - 01 R1_Decision - Search"));
+				searchPage.getSearchPageTitle().contains("R1 Hub Technologies 2.0 - 15 R1_Decision - Search"));
 	}
 
 	@When("^user selects \"([^\"]*)\" from Search By dropdown$")
@@ -291,7 +291,7 @@ public class SearchStepDef extends PageObject {
 				commonMethods.loadQuery(queryName, dbQueryFilename), CommonMethods.loadProperties("prcmBeUsername")));
 	}
 
-	@When("^user enters (.*) in (.*) textbox$")
+	@When("^user enters value (.*) in (.*) textbox$")
 	public void user_enters_in_textbox(String textValue, String searchByOption) {
 		if (searchPage.isVisitTxtFieldVisible()) {
 			searchPage.enterVisitNumber(textValue);
@@ -531,5 +531,12 @@ public class SearchStepDef extends PageObject {
 			Assert.assertTrue("MRN is not fetched from DB.\nThe Technical Error is:\n" + sQLException, false);
 		}
 		Assert.assertTrue("MRN on UI does not match with database", searchPage.getPatientMRN().contains(dbMRN));
+	}
+
+	@Then("^user should be able to view the \"([^\"]*)\" error message$")
+	public void user_should_be_able_to_view_the_error_message(String errorMsg) {
+		Assert.assertTrue("'" + errorMsg + "' message is not visible",
+				searchPage.getErrorMsg().equalsIgnoreCase(errorMsg));
+
 	}
 }
