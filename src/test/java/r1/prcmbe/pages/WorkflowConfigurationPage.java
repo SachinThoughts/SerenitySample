@@ -112,7 +112,7 @@ public class WorkflowConfigurationPage extends PageObject {
 	@FindBy(xpath = "//ul[@class='sop-header']/li")
 	private List<WebElementFacade> listOfSopHeader;
 
-	@FindBy(xpath = "//a[contains(@data-target,'#editRecipient')]")
+	@FindBy(xpath = "(//a[contains(@data-target,'#editRecipient')])[1]")
 	private WebElementFacade editIconOnRecipientTab;
 
 	@FindBy(xpath = " (//*[@id='dvRecipientDetails']//ul)[2]/preceding-sibling::div//a[2]/i")
@@ -286,6 +286,30 @@ public class WorkflowConfigurationPage extends PageObject {
 	@FindBy(xpath = "//*[@id='dvWorkflowTypeActions']/ul/li/div[1]/div/div/label")
 	private List<WebElementFacade> actionsRadioBtnList;
 
+	@FindBy(xpath = "//*[@id='editRecipient']//div[@class ='form-group']/label")
+	private List<WebElementFacade> listOfEditRecipientLabels;
+	
+	@FindBy(xpath = "//button[contains(text(),'Save Recipient')]")
+	private WebElementFacade saveRecipientButton;
+	
+	@FindBy(id = "txteditRecipientName")
+	private WebElementFacade recipientNameTextbox;
+
+	@FindBy(id = "txteditRecipientDescription")
+	private WebElementFacade recipientDescriptionTextbox;
+	
+	@FindBy(xpath = "(//*[@id = 'dvRecipientDetails']//div[3]//span)[1]")
+	private WebElementFacade firstRecipientDesc;
+	
+	@FindBy(xpath = "(//a[@class = 'toggle-info']//i)[1]")
+	private WebElementFacade firstDetailsLinkOnRecipient;
+	
+	@FindBy(xpath = "//*[@class='more-info workflowConfigdetailsInfo']//span[text()='Updated By']/following-sibling::span")
+	private WebElementFacade recipientUpdatedByField;
+
+	@FindBy(xpath = "//*[@class='more-info workflowConfigdetailsInfo']//span[text()='Updated Date']/following-sibling::span")
+	private WebElementFacade recipientUpdatedDateField;
+	
 	public String getCreatedByFieldValue() {
 		return createdByField.getText();
 	}
@@ -824,6 +848,54 @@ public class WorkflowConfigurationPage extends PageObject {
 		}
 		return headerList;
 	}
+		
+	public void clickFirstEditIconOnRecipientTab() {
+		editIconOnRecipientTab.click();
+	}
+	
+	public List<String> getListOfEditRecipientLabels() {
+		List<String> listOfRecipientLabels = new ArrayList<String>();
+		for (WebElementFacade element : listOfEditRecipientLabels) {
+			listOfRecipientLabels.add(element.getText().trim());
+		}
+		return listOfRecipientLabels;
+	}
+	
+	public String getSaveRecipientButtonText() {
+		return saveRecipientButton.getText();
+	}
+	
+	public boolean verifyEditRecipientPrePopulatedFields() {
+		if (recipientNameTextbox.getText() != null && recipientDescriptionTextbox.getText() != null)
+			return true;
+		else
+			return false;
+	}
+	
+	public String enterAndGetRandomRecipientDescText() {
+		recipientDescriptionTextbox.type(RandomStringUtils.randomAlphanumeric(6));
+		return recipientDescriptionTextbox.getTextValue();
+	}
+	
+	public void clickSaveRecipientButton() {
+		saveRecipientButton.click();
+	}
+	
+	public String getFirstRecipientDesc() {
+		return firstRecipientDesc.getText();
+	}
+	
+	public void clickFirstRecipientDetailsLink() {
+		firstDetailsLinkOnRecipient.click();
+	}
+	
+	public String getUpdatedByFieldValue() {
+		return recipientUpdatedByField.getText();
+	}
+
+	public String getUpdatedDateFieldValue() {
+		return recipientUpdatedDateField.getText();
+}
 	
 	public int getActionNamesCount() {
 		return listOfActionNames.size();

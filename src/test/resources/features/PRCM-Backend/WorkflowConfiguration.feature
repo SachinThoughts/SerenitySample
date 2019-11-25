@@ -267,6 +267,35 @@ Feature: Verify WorkFlowConfiguration related scenarios in PRCM
       | query1                         | query2                          |
       | 434767_WFConfig_CheckRecipient | 434767_WFConfig_CheckRecipient1 |
 
+  @434768 @AHtoDecisionAdmin @Sprint101
+  Scenario Outline: Verify Edit Recipient functionality
+    Given user having AHtoDecision Admin role is on workflow configuration home page
+    When user login to SQL server and connect to database
+    And user run the query to fetch hand-off id <query1>
+    And user run the query to fetch hand-off name <query2>
+    And user fetches any Handoff Type from DB
+    And user clicks on Radio button against any fetched Handoff Type in Choose Handoff grid
+    And user clicks on Continue button on HandOff Tab
+    And user clicks on Edit link button against any recipient
+    Then user should be able to view Edit Recipient pop up with controls
+      | Recipient Name        |
+      | Recipient Description |
+      | Active                |
+    And user should able to view following button on Edit Recipient popup "Save Recipient"
+    And user should be able to view prepopulated values in all controls under Edit Recipient popup
+    When user clicks on Recipient Name or Recipient Description and updates the existing information
+    And user clicks on Save Recipient button
+    Then user should be able to view the appropriate success message: "Record updated successfully !"
+    And user should be able to view updated values related to edited recipient in Choose Recipient grid
+    When user clicks on Details link button adjacent to updated Recipient
+    And user login to SQL server and connect to database
+    And user executes the query to fetch edited recipient information <query3>
+    Then user should be able to view Updated By and Updated Date details of Edited Recipient on UI as in SQL result
+
+    Examples: 
+      | query1                         | query2                          | query3                                |
+      | 434767_WFConfig_CheckRecipient | 434767_WFConfig_CheckRecipient1 | 436768_BDD_R1D_WFConfig_EditRecipient |
+      
   @434776 @AHtoDecisionAdmin @Sprint102
   Scenario Outline: Verify saved handoff type, associated Recipient, Actions and Disposition types from DB
     Given user having AHtoDecision Admin role is on workflow configuration home page
