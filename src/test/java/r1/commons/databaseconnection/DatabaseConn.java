@@ -55,7 +55,7 @@ public class DatabaseConn {
 			}
 
 			else if (url.contains("dev")) {
-				serverConn("AHVA2ADVTRN05", "Accretive", query);
+				serverConn("DEVRHUBWTRN03", "Accretive", query);
 				while (resultSet.next()) {
 					serverName = resultSet.getString("servername");
 					databaseName = resultSet.getString("databasename");
@@ -91,7 +91,7 @@ public class DatabaseConn {
 		}
 
 		try {
-			String dbUrl = "jdbc:sqlserver://" + serverHost + ";databaseName=" + dbName + ";integratedSecurity=true";
+			String dbUrl = "jdbc:sqlserver://" + serverHost + ";databaseName=" + dbName + ";integratedSecurity=false;user=DEV_SQLAdmin;password=SQLAdmin!";
 			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
 
 			Connection conn = DriverManager.getConnection(dbUrl);

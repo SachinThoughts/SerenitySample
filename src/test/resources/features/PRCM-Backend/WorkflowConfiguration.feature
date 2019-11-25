@@ -288,7 +288,6 @@ Feature: Verify WorkFlowConfiguration related scenarios in PRCM
     When user run the query by passing fetched ActionId <query8>
     Then user should be able to view same action in db as reflected on UI
     When user selects any actions from Choose Action Type grid
-    And user fetches the ActionId for selected action
     And user clicks on Continue button on Action type Tab
     And user run the query by passing ActionId of selected Action <query9>
     Then user should be able to view same disposition type in DB as as reflected on UI
