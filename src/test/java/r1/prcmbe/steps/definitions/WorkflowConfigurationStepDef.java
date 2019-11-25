@@ -2,6 +2,7 @@ package r1.prcmbe.steps.definitions;
 
 import java.sql.SQLException;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.List;
 import org.junit.Assert;
 import cucumber.api.DataTable;
@@ -33,8 +34,9 @@ public class WorkflowConfigurationStepDef extends PageObject {
 
 	String dbFileName = "WorkFlowConfiguration", dbHandOffName, dbRecipientName, defaultRecipientName,
 			recipientNameOtherThanDefault, dispositionNotes, workflowName, respondDeadline, successMsg, recipientName,
-			recipientDesc, createdBy, createdDate, nextDispositionByDropdownValue, dispositionStatusByDropdownValue;
-
+			recipientDesc, createdBy, createdDate, nextDispositionByDropdownValue, dispositionStatusByDropdownValue,
+			dispositionCodeFromTextBox;
+	List<String> listDBDispositionCode = new ArrayList<String>();
 	int dbWorkFlowTypeId;
 
 	@Given("^user having AHtoDecision Admin role is on R1 Hub page$")
@@ -413,5 +415,79 @@ public class WorkflowConfigurationStepDef extends PageObject {
 	@When("^user clicks on Close icon at top corner of the right hand side$")
 	public void user_clicks_on_close_icon_at_top_corner_of_the_right_hand_side() {
 		workflowConfigPage.clickOnCloseBtnOnDispositionPopup();
+	}
+
+	@When("^user clicks on Edit link button adjacent to associated Disposition Type$")
+	public void user_clicks_on_Edit_link_button_adjacent_to_associated_Disposition_Type() {
+		workflowConfigPage.clickOnEditLinkOnDispositionGrid();
+	}
+
+	@Then("^user should be able to view Edit Disposition pop up window with controls$")
+	public void user_should_be_able_to_view_Edit_Disposition_pop_up_window_with_controls(DataTable popupControls) {
+		List<String> dispositionPopupLabels = popupControls.asList(String.class);
+		Assert.assertTrue("User is not able to see Edit Disposition pop up window with controls",
+				workflowConfigPage.getListOfLabelsOnDispositionPopup().containsAll(dispositionPopupLabels));
+	}
+
+	@Then("^user should be able to view pre-populated values in all controls$")
+	public void user_should_be_able_to_view_pre_populated_values_in_all_controls() {
+		List<Object> listOfVal = workflowConfigPage.verifyEditDispositionPopupPrePopulated();
+		boolean val = ((Boolean) listOfVal.get(listOfVal.size() - 1)).booleanValue();
+		Assert.assertTrue(
+				"Controls not prepopoulated on Edit Disposition popup\n" + listOfVal.subList(0, listOfVal.size() - 1),
+				val);
+	}
+
+	@Then("^Edit New Disposition window should be closed$")
+	public void edit_new_disposition_window_should_be_closed() {
+		Assert.assertFalse("Edit New Disposition Popup is visible ",
+				workflowConfigPage.isAddNewDispositionPopupVisible());
+	}
+
+	@When("^user copies the Disposition code by clicking and dragging the mouse through entire text$")
+	public void user_copies_the_disposition_code_by_clicking_and_dragging_the_mouse_through_entire_text() {
+		dispositionCodeFromTextBox = workflowConfigPage.getDispositionCodeFromTextBox();
+		System.out.println(dispositionCodeFromTextBox);
+	}
+
+	@When("^user clicks on Action Type tab again$")
+	public void user_clicks_on_action_type_tab_again() {
+		workflowConfigPage.clickOnActionType();
+	}
+
+	@And("^user Chooses some other action other than the one chosen above$")
+	public void user_chooses_some_other_action_other_than_the_one_chosen_above() {
+		workflowConfigPage.clickOnRandomActionTypeRadioBtn();
+	}
+
+	@Then("^user should be able to view validation message \"([^\"]*)\"$")
+	public void user_should_be_able_to_view_validation_message_something(String errorMessage) {
+		Assert.assertTrue("User is not able to see validation message ",
+				workflowConfigPage.getDispositionErrorMsgOnDuplicateCode().contains(errorMessage));
+
+	}
+
+	@And("^user clicks on Edit button against any listed disposition type$")
+	public void user_clicks_on_edit_button_against_any_listed_disposition_type() {
+		workflowConfigPage.clickOnEditLinkOnDispositionGrid();
+	}
+
+	@And("^user copies the same disposition code fetched in above step belonging to some different action$")
+	public void user_copies_the_same_disposition_code_fetched_in_above_step_belonging_to_some_different_action() {
+		workflowConfigPage.enterPreviousDispositionCode(dispositionCodeFromTextBox);
+	}
+
+	@And("^user updates the Disposition Code as unique Alphanumeric value other than those fetched by running query \"([^\"]*)\"$")
+	public void user_updates_the_disposition_code_as_unique_alphanumeric_value_other_than_those_fetched_by_running_query_something(
+			String queryName) throws ClassNotFoundException, SQLException, Exception {
+		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
+				commonMethods.loadQuery(queryName, dbFileName));
+		try {
+			while (DatabaseConn.resultSet.next()) {
+				listDBDispositionCode.add(DatabaseConn.resultSet.getString("code"));
+			}
+		} catch (SQLException exception) {
+			Assert.assertTrue("Code is not fetched from DB.\nThe Technical Error is:\n" + exception, false);
+		}
 	}
 }

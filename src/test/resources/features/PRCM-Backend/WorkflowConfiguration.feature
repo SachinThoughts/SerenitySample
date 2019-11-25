@@ -155,3 +155,36 @@ Feature: Verify WorkFlowConfiguration related scenarios in PRCM
     Examples: 
       | query1                         | query2                          |
       | 434767_WFConfig_CheckRecipient | 434767_WFConfig_CheckRecipient1 |
+
+  @434777
+  Scenario: TC_17 Verify user is allowed to add same Disposition Name in Different actions on Workflow Configuration screen, only when Disposition code is unique
+    Given user having AHtoDecision Admin role is on workflow configuration home page
+    When user login to SQL server and connect to database
+    And user runs the query "434767_WFConfig_CheckRecipient"
+    And user runs the query "434767_WFConfig_CheckRecipient1"
+    And user fetches any Handoff Type from DB
+    And user clicks on Radio button against any fetched Handoff Type in Choose Handoff grid
+    And user clicks on continue button on Handoff tab
+    #And user clicks on edit link against the Recipient
+    And user clicks on Continue button on Recipient tab
+    And user clicks on Continue button on Action type Tab
+    And user clicks on Edit link button adjacent to associated Disposition Type
+    Then user should be able to view Edit Disposition pop up window with controls
+      | Disposition Code | Disposition Name | Next Disposition By | Follow Up Days | Respond Deadline | Disposition Status | Predefined Note | Active | Save changes |
+    And user should be able to view pre-populated values in all controls
+    When user copies the Disposition code by clicking and dragging the mouse through entire text
+    When user clicks on Close icon at top corner of the right hand side
+    Then Edit New Disposition window should be closed
+    When user clicks on Action Type tab again
+    And user Chooses some other action other than the one chosen above
+    And user clicks on Continue button on Action type Tab
+    And user clicks on Edit button against any listed disposition type
+    And user copies the same disposition code fetched in above step belonging to some different action
+    And user clicks on Save Changes button on Disposition pop up
+    Then user should be able to view validation message "Disposition code can't be duplicate. Please enter unique disposition code."
+    When user login to SQL server and connect to database
+    
+    And user updates the Disposition Code as unique Alphanumeric value other than those fetched by running query "434777_WFConfig_UniqueDisposition"
+    And user clicks on Save changes button
+    Then user should be able to view the appropriate success message: "Saved successfully"
+    And user should be able to view respective disposition as added in Choose a Disposition Type screen

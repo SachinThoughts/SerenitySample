@@ -128,7 +128,7 @@ public class WorkflowConfigurationPage extends PageObject {
 	private WebElementFacade saveChangesBtn;
 
 	@FindBy(id = "addNewDispositionLabel")
-	private WebElementFacade addDispositionPopupHeader;
+	private WebElementFacade dispositionPopupHeader;
 
 	@FindBy(xpath = "//*[@id='addNewDisposition']//i[@class='fa fa-close']")
 	private WebElementFacade dispositionPopupClose;
@@ -165,8 +165,49 @@ public class WorkflowConfigurationPage extends PageObject {
 
 	@FindBy(xpath = "//*[@id='addNewDisposition']//button[@class='close']")
 	private WebElementFacade closeBtnOnDispositionPopup;
+	
+	@FindBy(xpath= "//*[@id='addNewDisposition']//div[@class='alert alert-danger']/span")
+	private WebElementFacade errorMsgOnduplicateDispositionCode;
+	
+	@FindBy(id = "txtdispositionFUD")
+	private WebElementFacade followUpDaysTxtBoxOnDispositionPopUp;
 
-	public void clickOnCloseBtnOnDispositionPopup() {
+	@FindBy(id = "txtdispositionTimeLimit")
+	private WebElementFacade respondDeadLineTxtBoxOnDispositionPopUp;
+
+	@FindBy(xpath = "//label[text()='Disposition Status']/..//select")
+	private WebElementFacade dispositionStatusDrpDwn;
+	
+	@FindBy(xpath = "(//*[@id='WorkflowTypeDispositionSorttable']//a[@data-target='#addNewDisposition'])[1]")
+	private WebElementFacade editLinkForMappedDispositionOnDispositionGrid;
+	
+	@FindBy(id="ActionTypeLink")
+	private WebElementFacade actionTypeLink;
+	
+	@FindBy(xpath="//*[@id='WorkflowTypeActionsSorttable']//div[@class='config-tools appeals']/div/label")
+	private List<WebElementFacade> listOfActionTypeRadioBtns;
+	
+	public String getDispositionErrorMsgOnDuplicateCode() {
+		return errorMsgOnduplicateDispositionCode.getText().trim();
+	}
+	
+	public void clickOnRandomActionTypeRadioBtn() {
+		int size=listOfActionTypeRadioBtns.size();
+		index = CommonMethods.getRandom(size);
+		while (index == size) {
+			index = CommonMethods.getRandom(size);
+		}
+		evaluateJavascript("arguments[0].click();", listOfActionTypeRadioBtns.get(index));
+	}
+	public void clickOnActionType() {
+		actionTypeLink.click();
+	}
+	
+	public String getDispositionCodeFromTextBox() {
+		return evaluateJavascript("return arguments[0].value;", dispositionCodeTextBox).toString();
+	}
+
+public void clickOnCloseBtnOnDispositionPopup() {
 		closeBtnOnDispositionPopup.click();
 	}
 
@@ -183,7 +224,7 @@ public class WorkflowConfigurationPage extends PageObject {
 	}
 
 	public boolean isAddNewDispositionPopupVisible() {
-		return addDispositionPopupHeader.isVisible();
+		return dispositionPopupHeader.isVisible();
 	}
 
 	public void selectNextDispositionFromDropdown(String nextDrpDownValue) {
@@ -214,6 +255,12 @@ public class WorkflowConfigurationPage extends PageObject {
 
 	public void enterTextInDispositionCodeTextBox() {
 		dispositionCodeTextBox.type(RandomStringUtils.randomAlphanumeric(6));
+	}
+	
+	public void enterPreviousDispositionCode(String copiedCode) {
+		withAction().moveToElement(dispositionCodeTextBox).build().perform();
+		dispositionCodeTextBox.clear();
+		dispositionCodeTextBox.type(copiedCode);
 	}
 
 	public boolean isSaveBtnOnDispositionPopupVisible() {
@@ -466,5 +513,48 @@ public class WorkflowConfigurationPage extends PageObject {
 
 	public String isDefaultRadioBtnSelected() {
 		return evaluateJavascript("return document.querySelector('#workflowChoiceID-0').checked").toString();
+	}
+	public List<Object> verifyEditDispositionPopupPrePopulated() {
+		List<Object> listOfVal = new ArrayList<>();
+		int count = 0;
+		if (dispositionCodeTextBox.getText() != null) {
+			count = count + 1;
+		} else {
+			listOfVal.add("Disposition Code");
+		}
+		if (dispositionNameTextBox.getText() != null) {
+			count = count + 1;
+		} else {
+			listOfVal.add("Disposition Name");
+		}
+		if (!nextDispositionByDropdown.getSelectedVisibleTextValue().equals("--Select One--")) {
+			count = count + 1;
+		} else {
+			listOfVal.add("Next Disposition by");
+		}
+		if (respondDeadLineTxtBoxOnDispositionPopUp.getText() != null) {
+			count = count + 1;
+		} else {
+			listOfVal.add("Response deadline");
+		}
+		if (followUpDaysTxtBoxOnDispositionPopUp.getText() != null) {
+			count = count + 1;
+		} else {
+			listOfVal.add("Follow up days");
+		}
+		if (!dispositionStatusDrpDwn.getSelectedVisibleTextValue().equals("--Select One--")) {
+			count = count + 1;
+		} else {
+			listOfVal.add("Disposition status");
+		}
+		if (count == 6) {
+			listOfVal.add(true);
+		} else {
+			listOfVal.add(false);
+		}
+		return listOfVal;
+	}
+	public void clickOnEditLinkOnDispositionGrid() {
+		editLinkForMappedDispositionOnDispositionGrid.click();
 	}
 }
