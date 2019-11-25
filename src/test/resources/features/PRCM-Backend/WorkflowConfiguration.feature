@@ -267,7 +267,7 @@ Feature: Verify WorkFlowConfiguration related scenarios in PRCM
       | query1                         | query2                          |
       | 434767_WFConfig_CheckRecipient | 434767_WFConfig_CheckRecipient1 |
 
-  @434776 @AHtoDecisionAdmin @Sprint101
+  @434776 @AHtoDecisionAdmin @Sprint102
   Scenario Outline: Verify saved handoff type, associated Recipient, Actions and Disposition types from DB
     Given user having AHtoDecision Admin role is on workflow configuration home page
     When user login to SQL server and connect to database
