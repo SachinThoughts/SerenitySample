@@ -49,7 +49,7 @@ public class TaggingPage extends PageObject {
 	private WebElementFacade tagDescriptionTxtBox;
 
 	@FindBy(xpath = "//*[@id='select0']")
-	private WebElementFacade applicationDrpDwn;
+	private WebElementFacade applicationDrpdwn;
 
 	@FindBy(xpath = "//span[@class='slider round']")
 	private WebElementFacade applicationSlideBar;
@@ -124,7 +124,7 @@ public class TaggingPage extends PageObject {
 	}
 
 	public void selectApplication(String applicationName) {
-		applicationDrpDwn.selectByVisibleText(applicationName);
+		applicationDrpdwn.selectByVisibleText(applicationName);
 	}
 
 	public void clickActiveSlider() {
