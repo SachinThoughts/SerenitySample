@@ -27,7 +27,7 @@ public class NavigationPage extends PageObject {
 	@FindBy(xpath = "//a[text()='Settings']")
 	private WebElementFacade settings;
 
-	@FindBy(id = "dnn_dnnSideNav_ctldnnSideNavt1789")
+	@FindBy(xpath = "//*[@class= 'icn']//*[contains(@href,'Workflow-Distribution')]")
 	private WebElementFacade workflowDistribution;
 
 	@FindBy(xpath = "//*[@id='dnn_dnnLINKS_lblLinks']/a[text()='Settings']")
@@ -87,7 +87,7 @@ public class NavigationPage extends PageObject {
 	}
 
 	public void clickWorkflowDistribution() {
-		workflowDistribution.click();
+		evaluateJavascript("arguments[0].click();", workflowDistribution);
 		waitForAngularRequestsToFinish();
 	}
 
