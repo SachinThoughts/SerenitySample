@@ -85,20 +85,20 @@ public class SearchPage extends PageObject {
 	@FindBy(xpath = "//span[@id='lblInvoiceNo']")
 	private WebElementFacade invoiceNumber;
 
-	@FindBy(xpath = "//*[@id='dvAccountSearch']/child::table/thead/tr/th")
+	@FindBy(xpath = "//*[@id='dvAccountSearch' or @class='modal-body']/child::table/thead/tr/th")
 	private List<WebElementFacade> listOfSrchAccTblHeaders;
 
-	@FindBy(xpath = "//*[@id='dvAccountSearch']/child::table/tbody/tr/td[3]")
+	@FindBy(xpath = "//*[@id='dvAccountSearch' or @class='modal-body']/child::table/tbody/tr/td[3]")
 	private List<WebElementFacade> listOfSearchedNames;
 
 	@FindBy(id = "lblPatientName")
 	private WebElementFacade patientName;
 
+	@FindBy(id = "lblAccountNo")
+	private WebElementFacade patientAccountNo;
+
 	@FindBy(xpath = "//*[@id='dvAccountSearch' or @class='modal-body']/table/tbody/tr/td[1]")
 	private List<WebElementFacade> listOfSearchedAccNum;
-
-	@FindBy(id = "lblAccountNo")
-	private WebElementFacade accountNumber;
 
 	String titleJS = "return document.querySelector('#Head > title').text";
 	String facilityCodeJS = "return document.querySelector('#dnn_ctr1025_ModuleContent > span > span:nth-child(1)').textContent";
@@ -269,8 +269,8 @@ public class SearchPage extends PageObject {
 	public List<String> getlistOfInvNum() {
 		waitForAngularRequestsToFinish();
 		List<String> listOfInvNum = new ArrayList<>();
-		for (WebElementFacade invoiceNumber : listOfSearchedInvNum) {
-			listOfInvNum.add(invoiceNumber.getText());
+		for (WebElementFacade invoiceNoElement : listOfSearchedInvNum) {
+			listOfInvNum.add(invoiceNoElement.getText());
 		}
 		return listOfInvNum;
 	}
@@ -321,13 +321,8 @@ public class SearchPage extends PageObject {
 		return listOfFacilities;
 	}
 
-	public List<String> getlistOfAccNum() {
-		waitForAngularRequestsToFinish();
-		List<String> listOfAccNum = new ArrayList<>();
-		for (WebElementFacade element : listOfSearchedAccNum) {
-			listOfAccNum.add(element.getText());
-		}
-		return listOfAccNum;
+	public String getPatientAccountNo() {
+		return patientAccountNo.getText();
 	}
 
 	public void clickSearchInvoiceIdOrVisitNumber() {
@@ -338,11 +333,20 @@ public class SearchPage extends PageObject {
 			listOfSearchedAccNum.get(index).click();
 	}
 
-	public String getAccountNumber() {
-		return accountNumber.withTimeoutOf(Duration.ofSeconds(20)).waitUntilVisible().getText();
+	public List<String> getlistOfAccNum() {
+		waitForAngularRequestsToFinish();
+		List<String> listOfAccNum = new ArrayList<>();
+		for (WebElementFacade element : listOfSearchedAccNum) {
+			listOfAccNum.add(element.getText());
+		}
+		return listOfAccNum;
 	}
-	
+
+	public String getAccountNumber() {
+		return patientAccountNo.withTimeoutOf(Duration.ofSeconds(20)).waitUntilVisible().getText();
+	}
+
 	public void invoiceNumberShouldNotVisible() {
-		 invoiceNumber.shouldNotBeVisible();
+		invoiceNumber.shouldNotBeVisible();
 	}
 }

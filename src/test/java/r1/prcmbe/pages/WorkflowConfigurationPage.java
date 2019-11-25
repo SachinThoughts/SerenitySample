@@ -112,7 +112,7 @@ public class WorkflowConfigurationPage extends PageObject {
 	@FindBy(xpath = "//ul[@class='sop-header']/li")
 	private List<WebElementFacade> listOfSopHeader;
 
-	@FindBy(xpath = "//a[contains(@data-target,'#editRecipient')]")
+	@FindBy(xpath = "(//a[contains(@data-target,'#editRecipient')])[1]")
 	private WebElementFacade editIconOnRecipientTab;
 
 	@FindBy(xpath = " (//*[@id='dvRecipientDetails']//ul)[2]/preceding-sibling::div//a[2]/i")
@@ -165,36 +165,147 @@ public class WorkflowConfigurationPage extends PageObject {
 
 	@FindBy(xpath = "//button[contains(text(),' Add Recipient')]")
 	private WebElementFacade addRecipientButton;
-	
+
 	@FindBy(xpath = "//*[@id='addRecipient']//div[@class ='form-group']/label")
 	private List<WebElementFacade> listOfAddRecipientLabels;
-	
+
 	@FindBy(xpath = "//*[@id = 'addRecipient']//div[@class = 'modal-footer']/button")
 	private List<WebElementFacade> listOfAddRecipientButtons;
-	
+
 	@FindBy(xpath = "//*[@id='addRecipient']//button/span[1]/i")
 	private WebElementFacade closeButtonOnAddRecipient;
-	
+
 	@FindBy(xpath = "//*[@id='dvRecipientDetails']//li//div[2]/span")
 	private List<WebElementFacade> listOfRecipientNames;
-	
+
 	@FindBy(xpath = "//*[@id='dvRecipientDetails']//li//div[3]/span")
 	private List<WebElementFacade> listOfRecipientDesc;
-	
+
 	@FindBy(xpath = "//*[@id='dvRecipientDetails']/ul//div[2]/span")
 	private List<WebElementFacade> recipientsList;
-	
+
 	@FindBy(xpath = "//*[@id='dvRecipientDetails']/ul/li/div[1]/div/div/label")
 	private List<WebElementFacade> recipientsRadioBtnList;
-	
+
 	@FindBy(xpath = "//a[@class = 'toggle-info']//i")
 	private List<WebElementFacade> listOfDetailsOnRecipientTab;
-	
+
 	@FindBy(xpath = "//*[@class='more-info workflowConfigdetailsInfo']//span[text()='Created By']/following-sibling::span")
 	private WebElementFacade createdByRecipient;
-	
+
 	@FindBy(xpath = "//*[@class='more-info workflowConfigdetailsInfo']//span[text()='Created Date']/following-sibling::span")
 	private WebElementFacade createdDateRecipient;
+
+	@FindBy(xpath = "//*[@id='dvRecipientDetails']//*[@class='radio']//label")
+	private List<WebElementFacade> listOfRecipientsRadioBtn;
+
+	@FindBy(xpath = "//*[@id='dvRecipientDetails']//*[contains(@id,'sName')]")
+	private List<WebElementFacade> listOfRecipientsName;
+
+	@FindBy(xpath = "//div[@id='addNewAction']//div[not(contains(@class,'hidden'))]/label[contains(@class,'control-label')]")
+	private List<WebElementFacade> actionPopUpControls;
+
+	@FindBy(xpath = "//*[@id='addNewAction']//button[text()='Close']")
+	private WebElementFacade closeBtnOnActionPopUp;
+
+	@FindBy(xpath = "//*[@id='addNewAction']//button[text()='Save changes']")
+	private WebElementFacade saveChangesBtnOnActionPopUp;
+
+	@FindBy(xpath = "//*[@id='addNewAction']//*[@id='sopActionRequired']/..")
+	private WebElementFacade requiredCheckBoxActionPopUp;
+
+	@FindBy(id = "addEditNewActionLabel")
+	private WebElementFacade addActionPopUp;
+
+	@FindBy(xpath = "//*[@id='WorkflowTypeActionsSorttable']//i[@class='fa fa-chevron-right fa-1-5x']")
+	private List<WebElementFacade> listOfDetailsLinkOnActionTab;
+
+	@FindBy(xpath = "//*[@id='WorkflowTypeActionsSorttable']//span[contains(@id,'NA')]")
+	private List<WebElementFacade> listOfActionNames;
+
+	@FindBy(xpath = "//*[@id='WorkflowTypeActionsSorttable']//ul[@class='more-info workflowConfigdetailsInfo']//span[text()='Created Date']/following-sibling::span")
+	private WebElementFacade actionCreatedDate;
+
+	@FindBy(xpath = "//*[@id='WorkflowTypeActionsSorttable']//ul[@class='more-info workflowConfigdetailsInfo']//span[text()='Created By']/following-sibling::span")
+	private WebElementFacade actionCreatedBy;
+
+	@FindBy(xpath = "//*[@id='WorkflowTypeActionsSorttable']//ul[@class='more-info workflowConfigdetailsInfo']//span[text()='Updated Date']/following-sibling::span")
+	private WebElementFacade actionUpdatedDate;
+
+	@FindBy(xpath = "//*[@id='WorkflowTypeActionsSorttable']//ul[@class='more-info workflowConfigdetailsInfo']//span[text()='Updated By']/following-sibling::span")
+	private WebElementFacade actionUpdatedBy;
+
+	@FindBy(xpath = "//div[@id='addNewAction']//div[@class='alert alert-info']/span")
+	private WebElementFacade errorMsgForEmptyFieldsOnActionPopUp;
+
+	@FindBy(id = "DispositionTypeLink")
+	private WebElementFacade dispositionTab;
+
+	@FindBy(xpath = "//*[@id='WorkflowTypeDispositionSorttable']//span[@id='Disp0']")
+	private WebElementFacade firstDispositionName;
+
+	@FindBy(xpath = "//*[@class='breadcrumb defect-summary']//li[@class='step3']")
+	private WebElementFacade dispositionBreadCrumb;
+
+	@FindBy(xpath = "//*[@id='step4']//*[contains(@class,'workflow')]//*[@class='col-lg-3']//button[@type='button']")
+	private List<WebElementFacade> dispositionChooseGridButtons;
+
+	@FindBy(xpath = "//*[@class='btn btnSuccess btn-block next-step last-step step4 saveconf btnPrimary']")
+	private WebElementFacade dispositionSaveConfigBtn;
+
+	@FindBy(xpath = "//*[@id='dvWorkflowDispositions']//li//div[3]//span[contains(@id,'Disp')]")
+	private List<WebElementFacade> dispositionNameList;
+
+	@FindBy(xpath = "//*[@id='dvWorkflowDispositions']//li//i[@class='fa fa-edit fa-1-5x']")
+	private List<WebElementFacade> dispositionEditLinkList;
+
+	@FindBy(xpath = "//*[@id='dvWorkflowDispositions']//li//i[@class='fa fa-chevron-right fa-1-5x']")
+	private List<WebElementFacade> dispositionDetailsLinkList;
+
+	@FindBy(xpath = "//*[@id='dvWorkflowDispositions']//li//i[@class='fa fa-arrows fa-1-5x']")
+	private List<WebElementFacade> dispositionReorderLinksList;
+
+	@FindBy(xpath = "//*[@id='dvWorkflowDispositions']//li//i[@class='fa fa-arrows fa-1-5x']")
+	private List<WebElementFacade> dispositionRadioBtnList;
+
+	@FindBy(xpath = "(//*[@id='dvWorkflowDispositions']//li//i[contains(@class,'fa fa-chevron-right fa-1-5x')])[1]")
+	private WebElementFacade firstDispositionDetailsLink;
+
+	@FindBy(xpath = "//*[@class='more-info workflowConfigdetailsInfo']//li/span[1]")
+	private List<WebElementFacade> dispositionDetailsColumnList;
+
+	@FindBy(xpath = "//*[@id='dvWorkflowDispositions']//li//i[@class='fa fa-1-5x fa-chevron-down']")
+	private WebElementFacade expandedDispositionDetailsLink;
+
+	@FindBy(xpath = "//*[@class='more-info workflowConfigdetailsInfo']")
+	private WebElementFacade dispositionDetailsSection;
+
+	@FindBy(xpath = "//*[@class='sop-header dispositions']/li")
+	private List<WebElementFacade> listOfDispositionHeader;
+
+	@FindBy(xpath = "//*[@id='editRecipient']//div[@class ='form-group']/label")
+	private List<WebElementFacade> listOfEditRecipientLabels;
+	
+	@FindBy(xpath = "//button[contains(text(),'Save Recipient')]")
+	private WebElementFacade saveRecipientButton;
+	
+	@FindBy(id = "txteditRecipientName")
+	private WebElementFacade recipientNameTextbox;
+
+	@FindBy(id = "txteditRecipientDescription")
+	private WebElementFacade recipientDescriptionTextbox;
+	
+	@FindBy(xpath = "(//*[@id = 'dvRecipientDetails']//div[3]//span)[1]")
+	private WebElementFacade firstRecipientDesc;
+	
+	@FindBy(xpath = "(//a[@class = 'toggle-info']//i)[1]")
+	private WebElementFacade firstDetailsLinkOnRecipient;
+	
+	@FindBy(xpath = "//*[@class='more-info workflowConfigdetailsInfo']//span[text()='Updated By']/following-sibling::span")
+	private WebElementFacade recipientUpdatedByField;
+
+	@FindBy(xpath = "//*[@class='more-info workflowConfigdetailsInfo']//span[text()='Updated Date']/following-sibling::span")
+	private WebElementFacade recipientUpdatedDateField;
 	
 	public String getCreatedByFieldValue() {
 		return createdByField.getText();
@@ -281,7 +392,7 @@ public class WorkflowConfigurationPage extends PageObject {
 	}
 
 	public List<String> getSopHeaderList() {
-		List<String> headerList = new ArrayList<String>();
+		List<String> headerList = new ArrayList<>();
 		for (WebElementFacade sopHeaderEle : listOfSopHeader) {
 			headerList.add(sopHeaderEle.getText().trim());
 		}
@@ -297,7 +408,7 @@ public class WorkflowConfigurationPage extends PageObject {
 	}
 
 	public List<String> getDetailColumnHeadersRecipientTab() {
-		List<String> columnList = new ArrayList<String>();
+		List<String> columnList = new ArrayList<>();
 		for (WebElementFacade columnEle : listOfDetailColumnsRecipientTab) {
 			columnList.add(columnEle.getText().trim());
 		}
@@ -404,7 +515,7 @@ public class WorkflowConfigurationPage extends PageObject {
 	}
 
 	public List<String> getLabelsOnEditPopup() {
-		List<String> listOfLabels = new ArrayList<String>();
+		List<String> listOfLabels = new ArrayList<>();
 		for (WebElementFacade element : listOfLabelsOnEditPopup) {
 			listOfLabels.add(element.getText().trim());
 		}
@@ -412,7 +523,7 @@ public class WorkflowConfigurationPage extends PageObject {
 	}
 
 	public List<String> getControlsOnEditPopup() {
-		List<String> listOfControls = new ArrayList<String>();
+		List<String> listOfControls = new ArrayList<>();
 		for (WebElementFacade element : listOfControlsOnEditPopup) {
 			listOfControls.add(element.getText().trim());
 		}
@@ -454,7 +565,7 @@ public class WorkflowConfigurationPage extends PageObject {
 	}
 
 	public List<String> getWorkflowTabs() {
-		List<String> workflowTabValues = new ArrayList<String>();
+		List<String> workflowTabValues = new ArrayList<>();
 		for (WebElementFacade tabs : workflowTabs) {
 			workflowTabValues.add(tabs.getText().trim());
 		}
@@ -493,12 +604,12 @@ public class WorkflowConfigurationPage extends PageObject {
 	public String isDefaultRadioBtnSelected() {
 		return evaluateJavascript("return document.querySelector('#workflowChoiceID-0').checked").toString();
 	}
-	
+
 	public void clickAddRecipientButton() {
 		withAction().moveToElement(addRecipientButton).build().perform();
 		evaluateJavascript("arguments[0].click();", addRecipientButton);
 	}
-	
+
 	public List<String> getListOfAddRecipientLabels() {
 		List<String> listOfRecipientLabels = new ArrayList<String>();
 		for (WebElementFacade element : listOfAddRecipientLabels) {
@@ -506,7 +617,7 @@ public class WorkflowConfigurationPage extends PageObject {
 		}
 		return listOfRecipientLabels;
 	}
-	
+
 	public List<String> getListOfAddRecipientButtons() {
 		List<String> listOfRecipientButtons = new ArrayList<String>();
 		for (WebElementFacade element : listOfAddRecipientButtons) {
@@ -514,11 +625,11 @@ public class WorkflowConfigurationPage extends PageObject {
 		}
 		return listOfRecipientButtons;
 	}
-	
+
 	public void clickCloseButtonOnAddRecipient() {
 		closeButtonOnAddRecipient.click();
 	}
-	
+
 	public boolean isAddedRecipientNameVisible(String recipientName) {
 		int size = listOfRecipientNames.size();
 		for (index = 0; index < size; index++) {
@@ -529,14 +640,14 @@ public class WorkflowConfigurationPage extends PageObject {
 		}
 		return false;
 	}
-	
+
 	public boolean isAddedRecipientDescVisible(String recipientDesc) {
 		if (listOfRecipientDesc.get(index).getText().equals(recipientDesc)) {
 			return true;
 		}
 		return false;
 	}
-	
+
 	public void clickOnRadioBtnAgnstFetchedRecipient(String expectedRecipientName) {
 		int size = recipientsList.size();
 		for (int i = 0; i < size; i++) {
@@ -545,7 +656,7 @@ public class WorkflowConfigurationPage extends PageObject {
 			}
 		}
 	}
-	
+
 	public void clickOnDetailsOfSpecificRecipient(String recipientName) {
 		int size = listOfRecipientNames.size();
 		for (index = 0; index < size; index++) {
@@ -555,12 +666,232 @@ public class WorkflowConfigurationPage extends PageObject {
 			}
 		}
 	}
-	
+
 	public String getCreatedByRecipientText() {
 		return createdByRecipient.getText();
 	}
-	
+
 	public String getCreatedDateRecipientText() {
 		return createdDateRecipient.getText();
 	}
+
+	public void clickSpecificRecipientRadioBtn(String recipientName) {
+		int size = listOfRecipientsName.size();
+		for (int i = 0; i < size; i++) {
+			if (listOfRecipientsName.get(i).getText().equals(recipientName)) {
+				withAction().moveToElement(listOfRecipientsRadioBtn.get(i)).build().perform();
+				evaluateJavascript("arguments[0].click();", listOfRecipientsRadioBtn.get(i));
+			}
+		}
+	}
+
+	public List<Object> verifyAddActionPopupControlsVisible(List<String> listOfFields) {
+		List<Object> listOfVal = new ArrayList<>();
+		int count = 0;
+		int size = actionPopUpControls.size();
+		for (int i = 0; i < size; i++) {
+			if (actionPopUpControls.get(i).getText().equals(listOfFields.get(i))) {
+				count = count + 1;
+			} else {
+				listOfVal.add(listOfFields.get(i));
+			}
+		}
+		if (closeBtnOnActionPopUp.getText().equals(listOfFields.get(8))) {
+			count = count + 1;
+		} else {
+			listOfVal.add("Close");
+		}
+		if (saveChangesBtnOnActionPopUp.getText().equals(listOfFields.get(9))) {
+			count = count + 1;
+		} else {
+			listOfVal.add("Save changes");
+		}
+		if (count == 10) {
+			listOfVal.add(true);
+		} else {
+			listOfVal.add(false);
+		}
+		return listOfVal;
+	}
+
+	public void clickRequiredCheckBoxOnActionPopUp() {
+		requiredCheckBoxActionPopUp.click();
+	}
+
+	public boolean isAddActionPopUpVisible() {
+		return addActionPopUp.isVisible();
+	}
+
+	public void clickSpecificDetailsLinkOnActionTab(String actionName) {
+		int size = listOfActionNames.size();
+		for (int i = 0; i < size; i++) {
+			if (listOfActionNames.get(i).getText().equals(actionName)) {
+				withAction().moveToElement(listOfDetailsLinkOnActionTab.get(i)).build().perform();
+				evaluateJavascript("arguments[0].click();", listOfDetailsLinkOnActionTab.get(i));
+			}
+		}
+	}
+
+	public String getActionCreatedDate() {
+		return actionCreatedDate.getText();
+	}
+
+	public String getActionCreatedBy() {
+		return actionCreatedBy.getText();
+	}
+
+	public String getActionUpdatedDate() {
+		return actionUpdatedDate.getText();
+	}
+
+	public String getActionUpdatedBy() {
+		if (actionUpdatedBy.isVisible()) {
+			return actionUpdatedBy.getText();
+		} else {
+			return "";
+		}
+	}
+
+	public String getErrorMsgOnActionPopup() {
+		withAction().moveToElement(errorMsgForEmptyFieldsOnActionPopUp).build().perform();
+		String expectedMEssage = errorMsgForEmptyFieldsOnActionPopUp.withTimeoutOf(Duration.ofSeconds(20))
+				.waitUntilVisible().getText().trim();
+		return expectedMEssage;
+
+	}
+
+	public boolean isNewlyAddedActionVisibleInGrid(String actionName) {
+		int size = listOfActionNames.size();
+		for (int i = 0; i < size; i++) {
+			if (listOfActionNames.get(i).getText().equals(actionName)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public boolean isDispositionTabVisible() {
+		return dispositionTab.isVisible();
+	}
+
+	public String getDispositionTabColor() {
+		return dispositionTab.getCssValue("background-color");
+	}
+
+	public String getFirstDispositionName() {
+		return firstDispositionName.getText();
+	}
+
+	public String getDispositionBreadCrumbValue() {
+		return dispositionBreadCrumb.getText();
+	}
+
+	public List<String> getDispositionButtonText() {
+		List<String> dispositionBtnText = new ArrayList<>();
+		for (WebElementFacade dispositionBtn : dispositionChooseGridButtons) {
+			dispositionBtnText.add(dispositionBtn.getText());
+		}
+		return dispositionBtnText;
+	}
+
+	public boolean isSaveConfigBtnOnDispositionTabDisabled() {
+		return dispositionSaveConfigBtn.isDisabled();
+	}
+
+	public int getDispositionNameCount() {
+		return dispositionNameList.size();
+	}
+
+	public int getDispositionEditLinksCount() {
+		return dispositionEditLinkList.size();
+	}
+
+	public int getDispositionDetailsLinkCount() {
+		return dispositionDetailsLinkList.size();
+	}
+
+	public int getDispositionReorderLinksCount() {
+		return dispositionReorderLinksList.size();
+	}
+
+	public void clickFirstDispositionDetailsLink() {
+		evaluateJavascript("arguments[0].click();", firstDispositionDetailsLink);
+	}
+
+	public List<String> getDispositionDetailsColumnNamesList() {
+		List<String> columnNames = new ArrayList<>();
+		for (WebElementFacade columnName : dispositionDetailsColumnList) {
+			columnNames.add(columnName.getText());
+		}
+		return columnNames;
+	}
+
+	public void clickExpandedDetailsLinkOnDispositionTab() {
+		expandedDispositionDetailsLink.click();
+	}
+
+	public boolean isDispositionDetailsCollapsed() {
+		return firstDispositionDetailsLink.isVisible();
+	}
+
+	public boolean isDispositionDetailsSectionVisible() {
+		return dispositionDetailsSection.isVisible();
+	}
+
+	public List<String> getDispositionGridHeaderList() {
+		List<String> headerList = new ArrayList<String>();
+		for (WebElementFacade dispositionHeader : listOfDispositionHeader) {
+			headerList.add(dispositionHeader.getText().trim());
+		}
+		return headerList;
+	}
+		
+	public void clickFirstEditIconOnRecipientTab() {
+		editIconOnRecipientTab.click();
+	}
+	
+	public List<String> getListOfEditRecipientLabels() {
+		List<String> listOfRecipientLabels = new ArrayList<String>();
+		for (WebElementFacade element : listOfEditRecipientLabels) {
+			listOfRecipientLabels.add(element.getText().trim());
+		}
+		return listOfRecipientLabels;
+	}
+	
+	public String getSaveRecipientButtonText() {
+		return saveRecipientButton.getText();
+	}
+	
+	public boolean verifyEditRecipientPrePopulatedFields() {
+		if (recipientNameTextbox.getText() != null && recipientDescriptionTextbox.getText() != null)
+			return true;
+		else
+			return false;
+	}
+	
+	public String enterAndGetRandomRecipientDescText() {
+		recipientDescriptionTextbox.type(RandomStringUtils.randomAlphanumeric(6));
+		return recipientDescriptionTextbox.getTextValue();
+	}
+	
+	public void clickSaveRecipientButton() {
+		saveRecipientButton.click();
+	}
+	
+	public String getFirstRecipientDesc() {
+		return firstRecipientDesc.getText();
+	}
+	
+	public void clickFirstRecipientDetailsLink() {
+		firstDetailsLinkOnRecipient.click();
+	}
+	
+	public String getUpdatedByFieldValue() {
+		return recipientUpdatedByField.getText();
+	}
+
+	public String getUpdatedDateFieldValue() {
+		return recipientUpdatedDateField.getText();
+}
+	
 }
