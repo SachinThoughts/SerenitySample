@@ -152,3 +152,18 @@ Feature: This is to verify external search functionality in R1 PRCM-BE
       | option         | textvalue | queryname15                 |
       | Visit Number   |     12345 | SearchExternal_433633_SQL15 |
       | Invoice Number |     12345 | SearchExternal_433633_SQL15 |
+
+  @429265 @PRCMUser @Sprint101
+  Scenario Outline: Verify the error message displayed when user enter special characters in Last Name/First Name textbox
+    Given user is on R1 Decision search page
+    When user selects "Last Name/First Name" from Search By dropdown
+    And user enters <lastName> text in Last Name textbox
+    And user enters <firstName> text in First Name textbox
+    And user clicks on Submit button
+    Then user should be able to view error message <ErrorMsg>
+
+    Examples: 
+      | lastName | firstName | ErrorMsg                                              |
+      | @$#%._   | Test1     | Special Character are not allowed in Search criteria! |
+      | Test1    | @$%^&     | Special Character are not allowed in Search criteria! |
+      | @#$*( _  | @!~`^/    | Special Character are not allowed in Search criteria! |
