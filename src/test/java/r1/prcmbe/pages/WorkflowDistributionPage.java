@@ -59,6 +59,15 @@ public class WorkflowDistributionPage extends PageObject {
 	@FindBy(xpath = "//label[@for='inventoryFiltersPayer']")
 	private WebElementFacade payerRadioBtn;
 
+	@FindBy(xpath = "//label[@for='payerInventoryType-0']")
+	private WebElementFacade allRadioBtn;
+
+	@FindBy(xpath = "//label[@for='payerInventoryType-01']")
+	private WebElementFacade professionalRadioBtn;
+
+	@FindBy(xpath = "//label[@for='payerInventoryType-02']")
+	private WebElementFacade technicalRadioBtn;
+
 	public void isWorkflowDistributionTitleVisible() {
 		workflowDistributionTitle.shouldBeVisible();
 	}
@@ -152,5 +161,21 @@ public class WorkflowDistributionPage extends PageObject {
 
 	public void clickPayerRadioBtn() {
 		evaluateJavascript("arguments[0].click();", payerRadioBtn);
+	}
+
+	public boolean isFirstFacilityGroupVisible() {
+		return firstFacilityGroup.isVisible();
+	}
+
+	public boolean isAllRadioBtnVisible() {
+		return allRadioBtn.isVisible();
+	}
+
+	public boolean isProfessionalRadioBtnVisible() {
+		return professionalRadioBtn.isVisible();
+	}
+
+	public boolean isTechnicalRadioBtnVisible() {
+		return technicalRadioBtn.isVisible();
 	}
 }

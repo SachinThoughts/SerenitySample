@@ -131,4 +131,24 @@ public class WorkflowDistributionStepDef extends PageObject {
 	public void user_clicks_on_Payer_radio_button_under_the_Account_Inventory_Filter_in_Filter_Section() {
 		workflowDistributionPage.clickPayerRadioBtn();
 	}
+
+	@Given("^User clicks on Patient radio button under the Account Inventory Filter in Filter Section$")
+	public void user_clicks_on_Patient_radio_button_under_the_Account_Inventory_Filter_in_Filter_Section() {
+		workflowDistributionPage.clickPatientRadioBtn();
+	}
+
+	@Then("^user should not be able to view any data in side the grid$")
+	public void user_should_not_be_able_to_view_any_data_in_side_the_grid() {
+		Assert.assertFalse("user should not be able to view any data in side the grid",
+				workflowDistributionPage.isFirstFacilityGroupVisible());
+	}
+
+	@Then("^user should be able to view All Radio button, Professional Radio button, Technical Radio button under Payer Inventory section under Filter section$")
+	public void user_should_be_able_to_view_All_Radio_button_Professional_Radio_button_Technical_Radio_button_under_Payer_Inventory_section_under_Filter_section() {
+		Assert.assertTrue("All radio button is not visible", workflowDistributionPage.isAllRadioBtnVisible());
+		Assert.assertTrue("Professional radio button is not visible",
+				workflowDistributionPage.isProfessionalRadioBtnVisible());
+		Assert.assertTrue("Technical radio button is not visible",
+				workflowDistributionPage.isTechnicalRadioBtnVisible());
+	}
 }
