@@ -85,4 +85,40 @@ public class TaggingStepDef extends PageObject {
 		Assert.assertTrue("Background colour of alert in not blue",
 				taggingPage.getAlertSectionColor().equals(ALERTBGCOLOR));
 	}
+
+	@When("^User clicks on Add New Category button$")
+	public void user_clicks_on_Add_New_Category_button() {
+		taggingPage.clickAddNewCategoryBtn();
+	}
+
+	@When("^User enters more than 100 alphabets in Category name$")
+	public void user_enters_more_than_alphabets_in_Category_name() {
+		taggingPage.enterRandomTxtInCategoryNameTxtbox();
+	}
+
+	@When("^User enters upto 500 alphabets in Category description$")
+	public void user_enters_upto_alphabets_in_Category_description() {
+		taggingPage.enterRandomTxtInTagDiscriptionTxtbox();
+	}
+
+	@When("^User selects \"([^\"]*)\" value from the Application drop down$")
+	public void user_selects_value_from_the_Application_drop_down(String drpdwnVal) {
+		taggingPage.selectApplication(drpdwnVal);
+	}
+
+	@When("^User clicks on Active switch$")
+	public void user_clicks_on_Active_switch() {
+		taggingPage.clickActiveSlider();
+	}
+
+	@When("^User clicks on Save button$")
+	public void user_clicks_on_Save_button() {
+		taggingPage.clickOnSaveBtn();
+	}
+
+	@Then("^User should be able to view the validation message \"([^\"]*)\"$")
+	public void user_should_be_able_to_view_the_validation_message(String expectedValidationMsg) {
+		Assert.assertTrue("User is not able to veiw validation message like" + expectedValidationMsg,
+				taggingPage.getCategoryNameValidationMsg().equalsIgnoreCase(expectedValidationMsg));
+	}
 }

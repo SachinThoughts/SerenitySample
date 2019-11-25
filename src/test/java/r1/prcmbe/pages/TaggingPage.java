@@ -41,7 +41,25 @@ public class TaggingPage extends PageObject {
 
 	@FindBy(xpath = "//div[@class='alert alert-lg alert-info']")
 	private WebElementFacade alertSection;
-	
+
+	@FindBy(xpath = "//input[@placeholder='Enter Category Name']")
+	private WebElementFacade categoryNameTxtBox;
+
+	@FindBy(xpath = "//input[@placeholder='Enter Tag Description']")
+	private WebElementFacade tagDescriptionTxtBox;
+
+	@FindBy(xpath = "//*[@id='select0']")
+	private WebElementFacade applicationDrpdwn;
+
+	@FindBy(xpath = "//span[@class='slider round']")
+	private WebElementFacade applicationSlideBar;
+
+	@FindBy(xpath = "//button[@class='btn btn-link editRow']//i")
+	private WebElementFacade saveBtn;
+
+	@FindBy(xpath = "//span[text()='Category Name should not more than 100 characters']")
+	private WebElementFacade invalidCategoryNameValidationMsg;
+
 	public boolean isTagConfigPageVisible() {
 		return taggingPageTitle.isVisible();
 	}
@@ -90,5 +108,34 @@ public class TaggingPage extends PageObject {
 
 	public String getAlertSectionColor() {
 		return alertSection.getCssValue("background-color");
+	}
+
+	public void clickAddNewCategoryBtn() {
+		waitForAngularRequestsToFinish();
+		addNewCategoryBtn.click();
+	}
+
+	public void enterRandomTxtInCategoryNameTxtbox() {
+		categoryNameTxtBox.type(RandomStringUtils.randomAlphabetic(105));
+	}
+
+	public void enterRandomTxtInTagDiscriptionTxtbox() {
+		tagDescriptionTxtBox.type(RandomStringUtils.randomAlphabetic(500));
+	}
+
+	public void selectApplication(String applicationName) {
+		applicationDrpdwn.selectByVisibleText(applicationName);
+	}
+
+	public void clickActiveSlider() {
+		applicationSlideBar.click();
+	}
+
+	public void clickOnSaveBtn() {
+		saveBtn.click();
+	}
+
+	public String getCategoryNameValidationMsg() {
+		return invalidCategoryNameValidationMsg.getText();
 	}
 }
