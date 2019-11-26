@@ -486,7 +486,7 @@ public class SearchStepDef extends PageObject {
 
 	@Then("^user should be able to view the grid with following columns and verify searched SSN$")
 	public void user_should_be_able_to_view_the_grid_with_following_columns_and_verify_searched_SSN(
-			DataTable resultColumns) throws InterruptedException {
+			DataTable resultColumns) {
 		List<String> expectedListOfGridColumns = resultColumns.asList(String.class);
 		if (searchPage.isSearchAccTableVisible()) {
 			listOfGridColumnsOnUI = searchPage.getListOfSrchAccTblHeaders();
@@ -568,10 +568,6 @@ public class SearchStepDef extends PageObject {
 	@Then("^user runs the (.*) query to fetch firstname and lastname$")
 	public void user_runs_the_query_to_fetch_firstname_and_lastname(String queryName)
 			throws ClassNotFoundException, SQLException, Exception {
-		System.out.println(dbLastName);
-		System.out.println(dbFirstName);
-		System.out.println(queryName);
-		System.out.println(commonMethods.loadQuery(queryName, dbQueryFilename));
 		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName, String
 				.format(commonMethods.loadQuery(queryName, dbQueryFilename), dbLastName + "%", dbFirstName + "%"));
 	}
