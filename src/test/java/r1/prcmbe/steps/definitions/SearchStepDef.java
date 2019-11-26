@@ -226,7 +226,7 @@ public class SearchStepDef extends PageObject {
 	@Given("^user is on R1 Decision search page$")
 	public void user_is_on_R1_Decision_search_page() {
 		Assert.assertTrue("User is not navigated on R1 D Search Page",
-				searchPage.getSearchPageTitle().contains("R1 Hub Technologies 2.0 - 01 R1_Decision - Search"));
+				searchPage.getSearchPageTitle().contains("WPWI R1 Hub Technologies 2.0 - 15 R1_Decision - Search"));
 	}
 
 	@When("^user selects \"([^\"]*)\" from Search By dropdown$")
@@ -423,11 +423,16 @@ public class SearchStepDef extends PageObject {
 		searchPage.enterFirstName(dbFirstName);
 	}
 
-	@Then("^user runs the (.*) query to fetch name using dbfirstname and dblastname$")
-	public void user_runs_the_query_to_fetch_name_using_dbfirstname_and_dblastname(String queryName)
+	@Then("^user runs the (.*) query to fetch firstname and lastname$")
+	public void user_runs_the_query_to_fetch_firstname_and_lastname(String queryName)
 			throws ClassNotFoundException, SQLException, Exception {
+		System.out.println(dbLastName);
+		System.out.println(dbFirstName);
+		System.out.println(queryName);
+		System.out.println(commonMethods.loadQuery(queryName, dbQueryFilename));
 		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName, String
 				.format(commonMethods.loadQuery(queryName, dbQueryFilename), dbLastName + "%", dbFirstName + "%"));
+
 	}
 
 	@Then("^user should be able to view the grid with following columns for Last Name/First Name search for database firstname lastname values$")
@@ -441,5 +446,40 @@ public class SearchStepDef extends PageObject {
 
 		Assert.assertTrue("Last name or first name does not match with the searched character",
 				searchPageSteps.verifyOnlyLastName(dbLastName) && searchPageSteps.verifyOnlyFirstName(dbFirstName));
+	}
+
+	@When("^user runs the (.*) query to fetch SSN number for search$")
+	public void user_runs_the_query_to_fetch_SSN_number_for_search(String queryName)
+			throws ClassNotFoundException, SQLException, Exception {
+		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
+				commonMethods.loadQuery(queryName, dbQueryFilename));
+	}
+
+	@When("^user enters the query result in SSN textbox$")
+	public void user_enters_the_query_result_in_SSN_textbox(String sSN) {
+		searchPage.enterSSN(sSN);
+	}
+	
+	@Then("^user should be able to view the same result in grid as SQL result for SSN number$")
+	public void user_should_be_able_to_view_the_same_result_in_grid_as_SQL_result_for_SSN_number() {
+		try {
+			while (DatabaseConn.resultSet.next()) {
+				dbListOfNames.add(DatabaseConn.resultSet.getString("Name"));
+			}
+			Assert.assertTrue("grid columns from Database does not match with UI",
+					listOfGridColumnsOnUI.containsAll(searchPageSteps.fetchColumnNamesFromDatabaseResult()));
+		} catch (SQLException sQLException) {
+			Assert.assertTrue("Names are not fetched from DB.\nThe Technical Error is:\n" + sQLException, false);
+		}
+		financialInfoSteps.log("List of names from DB:\n" + dbListOfNames);
+		Assert.assertTrue("Names displayed on UI does not match with database",
+				searchPageSteps.verifyNameOnUIWithDatabaseResult(dbListOfNames));
+	}
+	
+	@When("^user runs the (.*) query to fetch SSN number$")
+	public void user_runs_the_query_to_fetch_SSN_number(String queryName) throws ClassNotFoundException, SQLException, Exception {
+	/*	DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName, String
+				.format(commonMethods.loadQuery(queryName, dbQueryFilename), dbLastName + "%", dbFirstName + "%"));*/
+
 	}
 }
