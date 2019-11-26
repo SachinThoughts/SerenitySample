@@ -334,7 +334,7 @@ public class SearchPage extends PageObject {
 	public void clickSearchInvoiceIdOrVisitNumber() {
 		int index = getFacilityIndex();
 		if (!listOfSearchedInvNum.get(index).getText().equals("N/A"))
-			listOfSearchedInvNum.get(index).click();
+			listOfSearchedInvoiceId.get(index).click();
 		else
 			listOfSearchedAccNum.get(index).click();
 	}

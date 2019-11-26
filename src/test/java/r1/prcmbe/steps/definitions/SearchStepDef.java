@@ -391,7 +391,7 @@ public class SearchStepDef extends PageObject {
 		Assert.assertTrue("Visit number or Invoice number on UI does not match with database",
 				searchPage.getPatientAccountNo().contains(dbEncounterId));
 	}
-
+	
 	@When("^user runs the (.*) query to fetch name for search$")
 	public void user_runs_the_query_to_fetch_name_for_search(String queryName) throws Exception {
 		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
