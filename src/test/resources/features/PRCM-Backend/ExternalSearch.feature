@@ -130,7 +130,7 @@ Feature: This is to verify external search functionality in R1 PRCM-BE
     Given user is on R1 Decision search page
     When user selects <option> from Search By drop down
     And user selects "Like" operator from operator dropdown
-    And user enters <textvalue> in <option> textbox
+    And user enters value <textvalue> in <option> textbox
     And user clicks on Submit button
     Then user should be able to view the grid with following columns
       | Visit #             |
@@ -157,8 +157,8 @@ Feature: This is to verify external search functionality in R1 PRCM-BE
   Scenario Outline: Verify the error message displayed when user enter special characters in Last Name/First Name textbox
     Given user is on R1 Decision search page
     When user selects "Last Name/First Name" from Search By dropdown
-    And user enters <lastName> text in Last Name textbox on search page
-    And user enters <firstName> text in First Name textbox on search page
+    And user enters <lastName> text in Last Name textbox
+    And user enters <firstName> text in First Name textbox
     And user clicks on Submit button
     Then user should be able to view error message <ErrorMsg>
 
@@ -174,7 +174,7 @@ Feature: This is to verify external search functionality in R1 PRCM-BE
     When user selects "Last Name/First Name" from Search By dropdown
     And user login to SQL Server and connect to facility database
     And user runs the <queryname5> query to fetch name for search
-    Then user should be able to fetch Firstname and Lastname from the query.
+    Then user should be able to fetch Firstname and Lastname from the query
     When user enters the fetched Lastname in Last Name textbox
     And user enters the fetched Firstname in First Name textbox
     And user clicks on submit button
@@ -196,3 +196,30 @@ Feature: This is to verify external search functionality in R1 PRCM-BE
     Examples: 
       | queryname5                 | queryname11                 |
       | SearchExternal_429995_SQL5 | SearchExternal_429995_SQL11 |
+
+  @429258 @PRCMUser @Sprint102
+  Scenario Outline: Verify that user is able to see the search result grid for SSN
+    Given user is on R1 Decision search page
+    When user selects "SSN" from Search By dropdown
+    And user login to SQL Server and connect to facility database
+    And user runs the <queryname4> query to fetch account data
+    And user enters the query result in SSN textbox
+    And user clicks on Submit button
+    Then user should be able to view the grid with following columns and verify searched SSN
+      | Visit #             |
+      | Invoice #           |
+      | Name                |
+      | Facility Code       |
+      | MRN                 |
+      | Gender              |
+      | PT                  |
+      | Service Date        |
+      | PPC                 |
+      | Defect Type         |
+      | Defect Sub-Category |
+    When user runs the <queryname10> query to fetch SSN result
+    Then user should be able to view the same SSN in grid as SQL result
+
+    Examples: 
+      | queryname10                 | queryname4                 |
+      | SearchExternal_429258_SQL10 | SearchExternal_429258_SQL4 |

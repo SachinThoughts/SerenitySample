@@ -7,6 +7,7 @@ import java.util.List;
 import net.serenitybdd.core.annotations.findby.FindBy;
 import net.serenitybdd.core.pages.PageObject;
 import net.serenitybdd.core.pages.WebElementFacade;
+import net.thucydides.core.annotations.findby.By;
 
 public class SearchPage extends PageObject {
 
@@ -73,7 +74,7 @@ public class SearchPage extends PageObject {
 	@FindBy(xpath = "//select[@class='form-control ddlOperator']")
 	private WebElementFacade operator;
 
-	@FindBy(xpath = "//*[@id='dvAccountSearch' or @class='modal-body']/table/tbody/tr/td[2]")
+	@FindBy(xpath = "//*[@id='dvAccountSearch' or @class='modal-body']/table/tbody/tr/td[2]//a")
 	private List<WebElementFacade> listOfSearchedInvNum;
 
 	@FindBy(id = "msg_info")
@@ -97,8 +98,14 @@ public class SearchPage extends PageObject {
 	@FindBy(id = "lblAccountNo")
 	private WebElementFacade patientAccountNo;
 
-	@FindBy(xpath = "//*[@id='dvAccountSearch' or @class='modal-body']/table/tbody/tr/td[1]")
+	@FindBy(xpath = "//*[@id='dvAccountSearch' or @class='modal-body']/table/tbody/tr/td[1]//a")
 	private List<WebElementFacade> listOfSearchedAccNum;
+
+	@FindBy(id = "lblSSN")
+	private WebElementFacade patientSSN;
+
+	@FindBy(id = "lblMRN")
+	private WebElementFacade patientMRN;
 
 	String titleJS = "return document.querySelector('#Head > title').text";
 	String facilityCodeJS = "return document.querySelector('#dnn_ctr1025_ModuleContent > span > span:nth-child(1)').textContent";
@@ -334,7 +341,10 @@ public class SearchPage extends PageObject {
 	}
 
 	public String getPatientSSN() {
-		// TODO Auto-generated method stub
-		return null;
+		return patientSSN.getText();
+	}
+
+	public String getPatientMRN() {
+		return patientMRN.getText();
 	}
 }

@@ -5,7 +5,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-
 import net.thucydides.core.annotations.Step;
 import net.thucydides.core.annotations.Steps;
 import r1.commons.databaseconnection.DatabaseConn;
@@ -107,5 +106,61 @@ public class SearchPageSteps {
 		String lastName = patientName[0].substring(0, 1) + patientName[0].substring(1).toLowerCase();
 		String firstName = patientName[1].substring(1, 2) + patientName[1].substring(2).toLowerCase();
 		return searchPage.isPatientAndVisitHeaderVisible() && dblistOfNames.contains(lastName + ", " + firstName);
+	}
+
+	@Step
+	public boolean verifyPatientFirstAndLastName(String lastName, String firstName) {
+		return searchPage.getPatientLastName().toLowerCase().startsWith(lastName.toLowerCase())
+				&& searchPage.getPatientFirstName().toLowerCase().startsWith(firstName.toLowerCase());
+	}
+
+	@Step
+	public boolean verifySearchedNamesWithDatabase(String lastName, String firstName) throws SQLException {
+		List<String> listOfDBLastName = new ArrayList<>();
+		List<String> listOfDBFirstName = new ArrayList<>();
+		boolean fValue = false;
+		boolean lValue = false;
+
+		while (DatabaseConn.resultSet.next()) {
+			listOfDBLastName.add(DatabaseConn.resultSet.getString("lastname"));
+			listOfDBFirstName.add(DatabaseConn.resultSet.getString("firstname"));
+		}
+
+		for (String dbLastName : listOfDBLastName) {
+			if (!dbLastName.startsWith(lastName)) {
+				lValue = false;
+				break;
+			}
+			lValue = true;
+		}
+
+		for (String dbFirstName : listOfDBFirstName) {
+			if (!dbFirstName.startsWith(firstName)) {
+				fValue = false;
+				break;
+			}
+			fValue = true;
+		}
+
+		return fValue && lValue;
+	}
+
+	@Step
+	public boolean verifySearchedSSNWithDatabase(String sSN) throws SQLException {
+		List<String> listOfDBSSN = new ArrayList<>();
+		boolean sValue = false;
+
+		while (DatabaseConn.resultSet.next()) {
+			listOfDBSSN.add(DatabaseConn.resultSet.getString("SSN"));
+		}
+
+		for (String dbSSN : listOfDBSSN) {
+			if (!dbSSN.contains(sSN)) {
+				sValue = false;
+				break;
+			}
+			sValue = true;
+		}
+		return sValue;
 	}
 }
