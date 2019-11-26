@@ -155,7 +155,7 @@ public class WorkflowConfigurationPage extends PageObject {
 	private WebElementFacade nextDispositionByDropdown;
 
 	@FindBy(xpath = "//*[@id='WorkflowTypeDispositionSorttable']/li[last()]/div/div/a[3]/i")
-	private WebElementFacade detailsLinkOnDisposition;
+	private WebElementFacade newDetailsLinkOnDisposition;
 
 	@FindBy(xpath = "//*[@class='more-info workflowConfigdetailsInfo']//span[text()='Created Date']/following-sibling::span")
 	private WebElementFacade createdDateField;
@@ -330,12 +330,16 @@ public class WorkflowConfigurationPage extends PageObject {
 
 	@FindBy(xpath = "//*[@class='more-info workflowConfigdetailsInfo']//span[text()='Updated Date']/following-sibling::span")
 	private WebElementFacade recipientUpdatedDateField;
-	
-	@FindBy(xpath = "(//*[@id='WorkflowTypeDispositionSorttable']//ul)[2]/preceding-sibling::div//a[3]/i")
-	private WebElementFacade detailsLinkBtnOnDispositionTab;
-	
+
+	@FindBy(xpath = "//*[@id='WorkflowTypeDispositionSorttable']/li/div/div/a[3]/i")
+	private List<WebElementFacade> listOfDetailsLinkOnDispositionTab;
+
 	@FindBy(xpath = "//*[@id='WorkflowTypeDispositionSorttable']//*[@id='TLMT0']")
 	private WebElementFacade mappedTimeLimitValueOnDispositionTypeGrid;
+
+	public void clickOnDetailsLinkOnDispositionTab() {
+		evaluateJavascript("arguments[0].click();", listOfDetailsLinkOnDispositionTab.get(0));
+	}
 
 	public String getDispositionErrorMsgOnDuplicateCode() {
 		return errorMsgOnduplicateDispositionCode.getText().trim();
@@ -365,8 +369,8 @@ public class WorkflowConfigurationPage extends PageObject {
 		return createdDateField.getText();
 	}
 
-	public void clickOnDispositionDetailsLink() {
-		withAction().moveToElement(detailsLinkOnDisposition).click().build().perform();
+	public void clickOnNewlyDispositionDetailsLink() {
+		withAction().moveToElement(newDetailsLinkOnDisposition).click().build().perform();
 	}
 
 	public boolean isAddNewDispositionPopupVisible() {
@@ -991,16 +995,16 @@ public class WorkflowConfigurationPage extends PageObject {
 	public String getUpdatedDateFieldValue() {
 		return recipientUpdatedDateField.getText();
 	}
+
 	public void clickRespondDeadlineOnEditDispositionTypePopUp() {
 		respondDeadLineTxtBoxOnDispositionPopUp.click();
 	}
+
 	public String enterAndGetRandomValueRespondDeadlineForEditDispositionTypePopUp() {
 		respondDeadLineTxtBoxOnDispositionPopUp.type(RandomStringUtils.randomNumeric(1));
 		return respondDeadLineTxtBoxOnDispositionPopUp.getTextValue();
 	}
-	public void clickOnDetailsBtnOnDispositionTypeTab() {
-		detailsLinkBtnOnDispositionTab.click();
-	}
+
 	public String getMappedDispositionTimeLimitValueOnDispositionTypeGrid() {
 		return mappedTimeLimitValueOnDispositionTypeGrid.getText();
 	}

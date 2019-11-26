@@ -376,7 +376,7 @@ public class WorkflowConfigurationStepDef extends PageObject {
 
 	@When("^user clicks on Details link button adjacent to newly created Disposition Name$")
 	public void user_clicks_on_Details_link_button_adjacent_to_newly_created_Disposition_Name() {
-		workflowConfigPage.clickOnDispositionDetailsLink();
+		workflowConfigPage.clickOnNewlyDispositionDetailsLink();
 	}
 
 	@And("^user runs the Add Disposition Detail query \"([^\"]*)\"$")
@@ -837,7 +837,7 @@ public class WorkflowConfigurationStepDef extends PageObject {
 
 	@When("^user clicks on Details link button adjacent to updated Disposition Type$")
 	public void user_clicks_on_Details_link_button_adjacent_to_updated_Disposition_Type() {
-		workflowConfigPage.clickOnDispositionDetailsLink();
+		workflowConfigPage.clickOnDetailsLinkOnDispositionTab();
 	}
 
 	@And("^user run the query to fetch edit disposition Detail (.+)$")

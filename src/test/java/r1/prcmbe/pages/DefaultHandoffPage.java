@@ -494,13 +494,13 @@ public class DefaultHandoffPage extends PageObject {
 		dispositionRespondDeadlineTextBox.type(dispositionRespondDeadlineValue);
 	}
 
-	public void selectDispositionStatusDD(String dispositionStatusValue) {
+	public void selectDispositionStatusDropdown(String dispositionStatusValue) {
 		dispositionStatusDD.selectByVisibleText(dispositionStatusValue);
 		getDispositionStatus = dispositionStatusDD.getSelectedVisibleTextValue();
 
 	}
 
-	public void selectDispositionStatusFromDD(String dispositionStatusValue) {
+	public void selectDispositionStatusFromDropdown(String dispositionStatusValue) {
 		dispositionStatusDD.selectByVisibleText(dispositionStatusValue);
 	}
 
