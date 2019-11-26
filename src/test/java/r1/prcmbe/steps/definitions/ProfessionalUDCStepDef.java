@@ -11,10 +11,13 @@ import cucumber.api.DataTable;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import net.serenitybdd.core.environment.EnvironmentSpecificConfiguration;
 import net.serenitybdd.core.pages.PageObject;
 import net.thucydides.core.annotations.Steps;
+import net.thucydides.core.util.EnvironmentVariables;
 import r1.commons.databaseconnection.DatabaseConn;
 import r1.commons.utilities.CommonMethods;
+import r1.prcmbe.pages.AccountInformationPage;
 import r1.prcmbe.pages.FacilityGroupConfigurationPage;
 import r1.prcmbe.pages.LoginPage;
 import r1.prcmbe.pages.NavigationPage;
@@ -38,13 +41,17 @@ public class ProfessionalUDCStepDef extends PageObject {
 	FacilityGroupConfigurationPage facilityGroupConfigPage;
 	SettingsR1DPage settingsR1DPage;
 	LoginPage userLoginPage;
+	AccountInformationPage accInfoPage;
 	CommonMethods commonMethods;
+	EnvironmentVariables environmentVariables;
 
 	private String selectedDefectType, selectedSOPType, selectedDefectSubCategoryValue, addedSOPAction,
-			randomDefectTypeName, randomDefectSubCategory;
+			randomDefectTypeName, randomDefectSubCategory, defectSubcategory;
 
 	List<String> defectTypeList;
 	List<String> defectSubCategoryList;
+	List<String> dbSOPList;
+	List<String> sOPList;
 
 	private static String dbFileName = "ProfessionalUDC";
 
@@ -52,7 +59,7 @@ public class ProfessionalUDCStepDef extends PageObject {
 
 	@Given("^user is on R1 Hub page$")
 	public void user_is_on_R1_Hub_page() {
-		Assert.assertTrue(getDriver().getTitle().contains("R1 Hub Technologies 2.0 - 01 Home"));
+		Assert.assertTrue(getDriver().getTitle().contains("R1 Hub Technologies 2.0 - 15 Home"));
 	}
 
 	@When("^user clicks on setting link$")
@@ -327,8 +334,9 @@ public class ProfessionalUDCStepDef extends PageObject {
 
 	@When("^user runs the \"([^\"]*)\" query to fetch defect subcategory ID$")
 	public void user_runs_the_query_to_fetch_defect_subcategory_ID(String queryName) throws Exception {
-		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
-				commonMethods.loadQuery(queryName, dbFileName));
+		String query = commonMethods.loadQuery(queryName, dbFileName);
+		query = String.format(query, defectSubcategory);
+		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName, query);
 	}
 
 	@Then("^user should be able to view defectsubcategoryid$")
@@ -342,6 +350,7 @@ public class ProfessionalUDCStepDef extends PageObject {
 	public void user_runs_the_query_to_fetch_skills_id(String queryName) throws Exception {
 		String query = commonMethods.loadQuery(queryName, dbFileName);
 		query = String.format(query, defectSubcategoryId);
+		System.out.println(query);
 		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName, query);
 	}
 
@@ -373,5 +382,46 @@ public class ProfessionalUDCStepDef extends PageObject {
 			Assert.assertTrue("Application ID fetched from DB is not equal to 1",
 					applicationId == DatabaseConn.resultSet.getInt("ApplicationID"));
 		}
+	}
+
+	@When("^user clicks on next button in defect workflow section until user reaches SOPs$")
+	public void user_clicks_on_next_button_in_defect_workflow_section_until_user_reaches_SOPs() {
+		defectSubcategory = accInfoPage.getDefectSubcategoryBreadcrumb();
+		accInfoPage.clickDefectWorkflowNextBtn();
+		accInfoPage.clickNextBtn();
+	}
+
+	@Then("^user should be able to view the SOP action$")
+	public void user_should_be_able_to_view_the_SOP_action() {
+		sOPList = accInfoPage.getSOPList();
+	}
+
+	@When("^user runs the \"([^\"]*)\" query to fetch the list of SOPs$")
+	public void user_runs_the_query_to_fetch_the_list_of_SOPs(String queryName) throws Exception {
+		String query = commonMethods.loadQuery(queryName, dbFileName);
+		query = String.format(query, defectSubcategoryId);
+		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName, query);
+	}
+
+	@Then("^user should be able view SOP list for the passed defectsubcategory$")
+	public void user_should_be_able_view_SOP_list_for_the_passed_defectsubcategory() throws SQLException {
+		dbSOPList = new ArrayList<String>();
+		while (DatabaseConn.resultSet.next()) {
+			dbSOPList.add(DatabaseConn.resultSet.getString(2));
+		}
+	}
+
+	@Then("^user should be able to view Same SOPs Step in DB and UI$")
+	public void user_should_be_able_to_view_Same_SOPs_Step_in_DB_and_UI() {
+		Assert.assertTrue("UI and DB SOPs does not match", dbSOPList.containsAll(sOPList));
+	}
+
+	@Given("^user login to SQL server and connect to facility database$")
+	public void user_login_to_SQL_server_and_connect_to_facility_database() throws IOException {
+		String webdriverURL = EnvironmentSpecificConfiguration.from(environmentVariables)
+				.getProperty("webdriver.base.url");
+		String facility = CommonMethods.loadProperties("facility");
+		facility = facility.substring(0, 4);
+		DatabaseConn.getServerDBName(webdriverURL, facility);
 	}
 }
