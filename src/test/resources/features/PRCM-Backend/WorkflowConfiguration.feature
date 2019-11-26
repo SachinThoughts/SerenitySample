@@ -100,7 +100,7 @@ Feature: Verify WorkFlowConfiguration related scenarios in PRCM
       | query1                         | query2                          |
       | 434767_WFConfig_CheckRecipient | 434767_WFConfig_CheckRecipient1 |
 
-  @434773 @AHtoDecisionAdmin @Sprint9
+  @434773 @AHtoDecisionAdmin @Sprint102
   Scenario Outline: Verify Add New Disposition functionality
     Given user having AHtoDecision Admin role is on workflow configuration home page
     When user login to SQL server and connect to database
@@ -156,13 +156,12 @@ Feature: Verify WorkFlowConfiguration related scenarios in PRCM
       | query1                         | query2                          |
       | 434767_WFConfig_CheckRecipient | 434767_WFConfig_CheckRecipient1 |
 
-
   @434777 @AHtoDecisionAdmin @Sprint102
-  Scenario: TC_17 Verify user is allowed to add same Disposition Name in Different actions on Workflow Configuration screen, only when Disposition code is unique
+  Scenario Outline: TC_17 Verify user is allowed to add same Disposition Name in Different actions on Workflow Configuration screen, only when Disposition code is unique
     Given user having AHtoDecision Admin role is on workflow configuration home page
     When user login to SQL server and connect to database
-    And user runs the query "434767_WFConfig_CheckRecipient"
-    And user runs the query "434767_WFConfig_CheckRecipient1"
+    And user run the query to fetch hand-off id <query1>
+    And user run the query to fetch hand-off name <query2>
     And user fetches any Handoff Type from DB
     And user clicks on Radio button against any fetched Handoff Type in Choose Handoff grid
     And user clicks on continue button on Handoff tab
@@ -170,7 +169,8 @@ Feature: Verify WorkFlowConfiguration related scenarios in PRCM
     And user clicks on Continue button on Action type Tab
     And user clicks on Edit link button adjacent to associated Disposition Type
     Then user should be able to view Edit Disposition pop up window with controls
-      | Disposition Code | Disposition Name | Next Disposition By | Follow Up Days | Respond Deadline | Disposition Status | Predefined Note | Active | Save changes |
+      | Disposition Code | Disposition Name | Next Disposition By | Follow Up Days | Respond Deadline | Disposition Status | Predefined Note | Active |
+    And user can see Save changes button on the Disposition popup
     And user should be able to view pre-populated values in all controls
     When user copies the Disposition code by clicking and dragging the mouse through entire text
     When user clicks on Close icon at top corner of the right hand side
@@ -184,9 +184,12 @@ Feature: Verify WorkFlowConfiguration related scenarios in PRCM
     Then user should be able to view validation message "Disposition code can't be duplicate. Please enter unique disposition code."
     When user login to SQL server and connect to database
     And user updates the Disposition Code as unique Alphanumeric value other than those fetched by running query "434777_WFConfig_UniqueDisposition"
-    And user clicks on Save changes button
+    And user clicks on Save Changes button on Disposition pop up
     Then user should be able to view the appropriate success message: "Saved successfully"
-    And user should be able to view respective disposition as added in Choose a Disposition Type screen
+
+    Examples: 
+      | query1                         | query2                          |
+      | 434767_WFConfig_CheckRecipient | 434767_WFConfig_CheckRecipient1 |
 
   @434767 @AHtoDecisionAdmin @Sprint101
   Scenario Outline: Verify user is able to add a new recipient using Add Recipient functionality
@@ -332,3 +335,36 @@ Feature: Verify WorkFlowConfiguration related scenarios in PRCM
     Examples: 
       | query1                         | query2                          | query3                                |
       | 434767_WFConfig_CheckRecipient | 434767_WFConfig_CheckRecipient1 | 436768_BDD_R1D_WFConfig_EditRecipient |
+
+  @434774 @AHtoDecisionAdmin @Sprint102
+  Scenario Outline: Verify Edit Disposition Type functionality
+    Given user having AHtoDecision Admin role is on workflow configuration home page
+    When user login to SQL server and connect to database
+    And user run the query to fetch hand-off id <query1>
+    And user run the query to fetch hand-off name <query2>
+    And user fetches any Handoff Type from DB
+    And user clicks on Radio button against any fetched Handoff Type in Choose Handoff grid
+    And user clicks on continue button on Handoff tab
+    And user verifies that radio button is selected against the Recipient
+    And user clicks on Continue button on Recipient tab
+    And user verifies that radio button is selected to associated Action Type
+    And user clicks on Continue button on Action type Tab
+    Then user should be able to navigate to Disposition type page
+    And user clicks on Edit link button adjacent to associated Disposition Type
+    Then user should be able to view Edit Disposition pop up window with controls
+      | Disposition Code | Disposition Name | Next Disposition By | Follow Up Days | Respond Deadline | Disposition Status | Predefined Note | Active |
+    And user can see Save changes button on the Disposition popup
+    And user should be able to view pre-populated values in all controls
+    When user clicks on any of the field Textboxes, Dropdowns or Textarea on Edit Disposition PopUp
+    And user updates the existing information in either of these fields on Edit Disposition PopUp
+    And user clicks on Save Changes button on Disposition pop up
+    Then user should be able to view the appropriate success message: "Saved successfully"
+    Then Edit New Disposition window should be closed
+    And user should be able to view updated values related to Edit Disposition Type in Choose a Disposition Type grid
+    When user clicks on Details link button adjacent to updated Disposition Type
+    And user run the query to fetch edit disposition Detail <query3>
+    Then user should be able to view same value in Updated Date and Updated By columns on UI as in SQL result
+
+    Examples: 
+      | query1                         | query2                          | query3                          |
+      | 434767_WFConfig_CheckRecipient | 434767_WFConfig_CheckRecipient1 | 434774_WFConfig_EditDisposition |

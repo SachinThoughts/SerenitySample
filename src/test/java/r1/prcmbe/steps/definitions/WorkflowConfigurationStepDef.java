@@ -38,7 +38,8 @@ public class WorkflowConfigurationStepDef extends PageObject {
 	String dbFileName = "WorkFlowConfiguration", dbHandOffName, dbRecipientName, defaultRecipientName,
 			recipientNameOtherThanDefault, dispositionNotes, workflowName, respondDeadline, updatedBy, updatedDate,
 			successMsg, recipientName, recipientDesc, createdBy, createdDate, nextDispositionByDropdownValue,
-			dispositionStatusByDropdownValue, dispositionCodeFromTextBox, updatedRecipientDesc;
+			dispositionStatusByDropdownValue, dispositionCodeFromTextBox, updatedRecipientDesc,
+			respondDeadlineOnEditDispositionPopUp;
 
 	List<String> listDBDispositionCode = new ArrayList<String>();
 	int dbWorkFlowTypeId;
@@ -148,11 +149,6 @@ public class WorkflowConfigurationStepDef extends PageObject {
 	@When("^user updates value in any of the fields$")
 	public void user_updates_value_in_any_of_the_fields() {
 		workflowConfigPage.editWorkflowDescription();
-	}
-
-	@When("^user clicks on Save changes button$")
-	public void user_clicks_on_Save_changes_button() {
-		workflowConfigPage.clickOnSaveBtn();
 	}
 
 	@Then("^user should be able to view handoff message \"([^\"]*)\"$")
@@ -450,7 +446,6 @@ public class WorkflowConfigurationStepDef extends PageObject {
 	@When("^user copies the Disposition code by clicking and dragging the mouse through entire text$")
 	public void user_copies_the_disposition_code_by_clicking_and_dragging_the_mouse_through_entire_text() {
 		dispositionCodeFromTextBox = workflowConfigPage.getDispositionCodeFromTextBox();
-		System.out.println(dispositionCodeFromTextBox);
 	}
 
 	@When("^user clicks on Action Type tab again$")
@@ -467,7 +462,6 @@ public class WorkflowConfigurationStepDef extends PageObject {
 	public void user_should_be_able_to_view_validation_message_something(String errorMessage) {
 		Assert.assertTrue("User is not able to see validation message ",
 				workflowConfigPage.getDispositionErrorMsgOnDuplicateCode().contains(errorMessage));
-
 	}
 
 	@And("^user clicks on Edit button against any listed disposition type$")
@@ -821,5 +815,54 @@ public class WorkflowConfigurationStepDef extends PageObject {
 				.formatDbDateFieldWithDateTime(updatedDate).equals(workflowConfigPage.getUpdatedDateFieldValue()));
 		Assert.assertTrue("Updated by for recipient does not match with DB",
 				updatedBy.contains(workflowConfigPage.getUpdatedByFieldValue()));
+	}
+
+	@When("^user clicks on any of the field Textboxes, Dropdowns or Textarea on Edit Disposition PopUp$")
+	public void user_clicks_on_any_of_the_field_Textboxes_Dropdowns_or_Textarea_on_Edit_Disposition_PopUp() {
+		workflowConfigPage.clickRespondDeadlineOnEditDispositionTypePopUp();
+	}
+
+	@When("^user updates the existing information in either of these fields on Edit Disposition PopUp$")
+	public void user_updates_the_existing_information_in_either_of_these_fields_on_Edit_Disposition_PopUp() {
+		respondDeadlineOnEditDispositionPopUp = workflowConfigPage
+				.enterAndGetRandomValueRespondDeadlineForEditDispositionTypePopUp();
+	}
+
+	@Then("^user should be able to view updated values related to Edit Disposition Type in Choose a Disposition Type grid$")
+	public void user_should_be_able_to_view_updated_values_related_to_Edit_Disposition_Type_in_Choose_a_Disposition_Type_grid() {
+		Assert.assertTrue("The updated time limit value is not matching in Disposition Grid",
+				workflowConfigPage.getMappedDispositionTimeLimitValueOnDispositionTypeGrid()
+						.equals(respondDeadlineOnEditDispositionPopUp));
+	}
+
+	@When("^user clicks on Details link button adjacent to updated Disposition Type$")
+	public void user_clicks_on_Details_link_button_adjacent_to_updated_Disposition_Type() {
+		workflowConfigPage.clickOnDispositionDetailsLink();
+	}
+
+	@And("^user run the query to fetch edit disposition Detail (.+)$")
+	public void user_run_the_query_to_fetch_edit_disposition_detail(String queryName)
+			throws ClassNotFoundException, SQLException, Exception {
+		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
+				commonMethods.loadQuery(queryName, dbFileName));
+		try {
+			while (DatabaseConn.resultSet.next()) {
+				String firstName = DatabaseConn.resultSet.getString("FirstName");
+				String lastName = DatabaseConn.resultSet.getString("LastName");
+				updatedBy = firstName.concat(" " + lastName);
+				updatedDate = DatabaseConn.resultSet.getString("UpdatedDate");
+			}
+		} catch (SQLException exception) {
+			Assert.assertTrue("RecepientName is not fetched from DB.\nThe Technical Error is:\n" + exception, false);
+		}
+	}
+
+	@Then("^user should be able to view same value in Updated Date and Updated By columns on UI as in SQL result$")
+	public void user_should_be_able_to_view_same_value_in_Updated_Date_and_Updated_By_columns_on_UI_as_in_SQL_result()
+			throws ParseException {
+		Assert.assertTrue("Updated date does not match with DB", workflowConfigSteps
+				.formatDbDateFieldWithDateTime(updatedDate).equals(workflowConfigPage.getUpdatedDateFieldValue()));
+		Assert.assertTrue("Updated by does not match with DB",
+				updatedBy.equals(workflowConfigPage.getUpdatedByFieldValue()));
 	}
 }

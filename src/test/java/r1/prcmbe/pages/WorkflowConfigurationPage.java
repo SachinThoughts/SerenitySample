@@ -330,6 +330,12 @@ public class WorkflowConfigurationPage extends PageObject {
 
 	@FindBy(xpath = "//*[@class='more-info workflowConfigdetailsInfo']//span[text()='Updated Date']/following-sibling::span")
 	private WebElementFacade recipientUpdatedDateField;
+	
+	@FindBy(xpath = "(//*[@id='WorkflowTypeDispositionSorttable']//ul)[2]/preceding-sibling::div//a[3]/i")
+	private WebElementFacade detailsLinkBtnOnDispositionTab;
+	
+	@FindBy(xpath = "//*[@id='WorkflowTypeDispositionSorttable']//*[@id='TLMT0']")
+	private WebElementFacade mappedTimeLimitValueOnDispositionTypeGrid;
 
 	public String getDispositionErrorMsgOnDuplicateCode() {
 		return errorMsgOnduplicateDispositionCode.getText().trim();
@@ -400,6 +406,7 @@ public class WorkflowConfigurationPage extends PageObject {
 	public void enterPreviousDispositionCode(String copiedCode) {
 		withAction().moveToElement(dispositionCodeTextBox).build().perform();
 		dispositionCodeTextBox.clear();
+		waitForAngularRequestsToFinish();
 		dispositionCodeTextBox.type(copiedCode);
 	}
 
@@ -528,10 +535,6 @@ public class WorkflowConfigurationPage extends PageObject {
 
 	public void clickOnCloseBtnOnEditPopup() {
 		listOfControlsOnEditPopup.get(0).click();
-	}
-
-	public void clickOnSaveBtn() {
-		listOfControlsOnEditPopup.get(1).click();
 	}
 
 	public boolean isEditPopupVisible() {
@@ -988,5 +991,17 @@ public class WorkflowConfigurationPage extends PageObject {
 	public String getUpdatedDateFieldValue() {
 		return recipientUpdatedDateField.getText();
 	}
-
+	public void clickRespondDeadlineOnEditDispositionTypePopUp() {
+		respondDeadLineTxtBoxOnDispositionPopUp.click();
+	}
+	public String enterAndGetRandomValueRespondDeadlineForEditDispositionTypePopUp() {
+		respondDeadLineTxtBoxOnDispositionPopUp.type(RandomStringUtils.randomNumeric(1));
+		return respondDeadLineTxtBoxOnDispositionPopUp.getTextValue();
+	}
+	public void clickOnDetailsBtnOnDispositionTypeTab() {
+		detailsLinkBtnOnDispositionTab.click();
+	}
+	public String getMappedDispositionTimeLimitValueOnDispositionTypeGrid() {
+		return mappedTimeLimitValueOnDispositionTypeGrid.getText();
+	}
 }
