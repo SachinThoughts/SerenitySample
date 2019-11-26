@@ -565,22 +565,4 @@ public class SearchStepDef extends PageObject {
 				searchPage.getErrorMsg().equalsIgnoreCase(errorMsg));
 
 	}
-	
-	@When("^user runs the (.*) query to fetch MRN$")
-	public void user_runs_the_query_to_fetch_MRN(String queryName) throws Exception {
-		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
-				commonMethods.loadQuery(queryName, dbQueryFilename));
-	}
-
-	@Then("^user should be able to view the same result in grid as SQL result for searched MRN$")
-	public void user_should_be_able_to_view_the_same_result_in_grid_as_SQL_result_for_searched_MRN() {
-		try {
-			while (DatabaseConn.resultSet.next()) {
-				dbMRN = DatabaseConn.resultSet.getString("facilitypatientid");
-			}
-		} catch (SQLException sQLException) {
-			Assert.assertTrue("MRN is not fetched from DB.\nThe Technical Error is:\n" + sQLException, false);
-		}
-		Assert.assertTrue("MRN on UI does not match with database", searchPage.getPatientMRN().contains(dbMRN));
-	}
 }
