@@ -100,6 +100,12 @@ public class SearchPage extends PageObject {
 	@FindBy(xpath = "//*[@id='dvAccountSearch' or @class='modal-body']/table/tbody/tr/td[1]")
 	private List<WebElementFacade> listOfSearchedAccNum;
 
+	@FindBy(id = "lblSSN")
+	private WebElementFacade patientSSN;
+
+	@FindBy(id = "lblMRN")
+	private WebElementFacade patientMRN;
+
 	String titleJS = "return document.querySelector('#Head > title').text";
 	String facilityCodeJS = "return document.querySelector('#dnn_ctr1025_ModuleContent > span > span:nth-child(1)').textContent";
 
@@ -332,4 +338,13 @@ public class SearchPage extends PageObject {
 		else
 			listOfSearchedAccNum.get(index).click();
 	}
+
+	public String getPatientSSN() {
+		return patientSSN.getText();
+	}
+
+	public String getPatientMRN() {
+		return patientMRN.getText();
+	}
+
 }
