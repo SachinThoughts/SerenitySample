@@ -31,6 +31,9 @@ public class SettingsPage extends PageObject {
 
 	@FindBy(xpath = "//span[not(contains(@style,'hidden')) and text()='FacilitySetting Configuration']")
 	private WebElementFacade facilitySettingConfigLink;
+	
+	@FindBy(xpath="//span[not(contains(@style,'hidden')) and text()='Tag Configuration']")
+	private WebElementFacade tagConfigLink;
 
 	public void clickOnSettingsR1Decisions() {
 		waitForAngularRequestsToFinish();
@@ -50,5 +53,10 @@ public class SettingsPage extends PageObject {
 	public void clickFacilitySettingConfigLink() {
 		waitForAngularRequestsToFinish();
 		withAction().moveToElement(facilitySettingConfigLink).click().build().perform();
+	}
+	
+	public void clickTagConfigLink() {
+		waitForAngularRequestsToFinish();
+		withAction().moveToElement(tagConfigLink).click().build().perform();
 	}
 }

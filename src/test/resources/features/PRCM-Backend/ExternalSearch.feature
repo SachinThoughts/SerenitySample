@@ -130,7 +130,7 @@ Feature: This is to verify external search functionality in R1 PRCM-BE
     Given user is on R1 Decision search page
     When user selects <option> from Search By drop down
     And user selects "Like" operator from operator dropdown
-    And user enters <textvalue> in <option> textbox
+    And user enters value <textvalue> in <option> textbox
     And user clicks on Submit button
     Then user should be able to view the grid with following columns
       | Visit #             |
@@ -153,7 +153,22 @@ Feature: This is to verify external search functionality in R1 PRCM-BE
       | Visit Number   |     12345 | SearchExternal_433633_SQL15 |
       | Invoice Number |     12345 | SearchExternal_433633_SQL15 |
 
-  @430694 @PRCMUser @Sprint101
+  @429265 @PRCMUser @Sprint101
+  Scenario Outline: Verify the error message displayed when user enter special characters in Last Name/First Name textbox
+    Given user is on R1 Decision search page
+    When user selects "Last Name/First Name" from Search By dropdown
+    And user enters <lastName> text in Last Name textbox
+    And user enters <firstName> text in First Name textbox
+    And user clicks on Submit button
+    Then user should be able to view error message <ErrorMsg>
+
+    Examples: 
+      | lastName | firstName | ErrorMsg                                              |
+      | @$#%._   | Test1     | Special Character are not allowed in Search criteria! |
+      | Test1    | @$%^&     | Special Character are not allowed in Search criteria! |
+      | @#$*( _  | @!~`^/    | Special Character are not allowed in Search criteria! |
+
+      @430694 @PRCMUser @Sprint101
   Scenario Outline: Verify that user is able to see the search result grid for Medical Record Number with operators
     Given user is on R1 Decision search page
     When user selects "Medical Record Number" from Search By dropdown
@@ -181,3 +196,4 @@ Feature: This is to verify external search functionality in R1 PRCM-BE
       | queryname12                 | queryname6                 | operator |
       | SearchExternal_430694_SQL12 | SearchExternal_430694_SQL6 | =        |
       | SearchExternal_430694_SQL12 | SearchExternal_430694_SQL6 | Like     |
+      
