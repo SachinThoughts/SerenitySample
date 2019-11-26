@@ -226,7 +226,7 @@ public class SearchStepDef extends PageObject {
 	@Given("^user is on R1 Decision search page$")
 	public void user_is_on_R1_Decision_search_page() {
 		Assert.assertTrue("User is not navigated on R1 D Search Page",
-				searchPage.getSearchPageTitle().contains("R1 Hub Technologies 2.0 - 01 R1_Decision - Search"));
+				searchPage.getSearchPageTitle().contains("WPWI R1 Hub Technologies 2.0 - 15 R1_Decision - Search"));
 	}
 
 	@When("^user selects \"([^\"]*)\" from Search By dropdown$")
@@ -277,6 +277,7 @@ public class SearchStepDef extends PageObject {
 			Assert.assertTrue("Names are not fetched from DB.\nThe Technical Error is:\n" + sQLException, false);
 		}
 		financialInfoSteps.log("List of names from DB:\n" + dbListOfNames);
+		System.out.println(dbListOfNames);
 		Assert.assertTrue("Names displayed on UI does not match with database",
 				searchPageSteps.verifyNameOnUIWithDatabaseResult(dbListOfNames));
 	}
@@ -423,9 +424,11 @@ public class SearchStepDef extends PageObject {
 		searchPage.enterFirstName(dbFirstName);
 	}
 
-	@Then("^user runs the (.*) query to fetch name using dbfirstname and dblastname$")
-	public void user_runs_the_query_to_fetch_name_using_dbfirstname_and_dblastname(String queryName)
+	@Then("^user runs the (.*) query to fetch firstname and lastname$")
+	public void user_runs_the_query_to_fetch_firstname_and_lastname(String queryName)
 			throws ClassNotFoundException, SQLException, Exception {
+		System.out.println(queryName);
+		System.out.println(commonMethods.loadQuery(queryName, dbQueryFilename));
 		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName, String
 				.format(commonMethods.loadQuery(queryName, dbQueryFilename), dbLastName + "%", dbFirstName + "%"));
 	}

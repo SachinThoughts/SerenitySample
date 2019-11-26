@@ -15,7 +15,7 @@ public class SearchPageSteps {
 
 	SearchPage searchPage;
 	ResultSetMetaData resultSetMetaData;
-	
+
 	@Steps
 	LoginSteps loginSteps;
 
@@ -53,7 +53,7 @@ public class SearchPageSteps {
 		return searchPage.isPatientAndVisitHeaderVisible()
 				&& dbInvoiceNum.equalsIgnoreCase(searchPage.getInvoiceNumber());
 	}
-	
+
 	@Step
 	public List<String> fetchColumnNamesFromDatabaseResult() throws SQLException {
 		List<String> dbColumnNames = new ArrayList<>();
@@ -103,6 +103,9 @@ public class SearchPageSteps {
 				return false;
 			searchPage.clickSearchInvoiceID();
 		}
-		return searchPage.isPatientAndVisitHeaderVisible() && dblistOfNames.contains(searchPage.getPatientName());
+		String[] patientName = searchPage.getPatientName().split(",", 0);
+		String lastName = patientName[0].substring(0, 1) + patientName[0].substring(1).toLowerCase();
+		String firstName = patientName[1].substring(1, 2) + patientName[1].substring(2).toLowerCase();
+		return searchPage.isPatientAndVisitHeaderVisible() && dblistOfNames.contains(lastName + ", " + firstName);
 	}
 }

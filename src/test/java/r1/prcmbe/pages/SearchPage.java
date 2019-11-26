@@ -91,7 +91,7 @@ public class SearchPage extends PageObject {
 	@FindBy(xpath = "//*[@id='dvAccountSearch' or @class='modal-body']/child::table/tbody/tr/td[3]")
 	private List<WebElementFacade> listOfSearchedNames;
 
-	@FindBy(id = "lblPatientName")
+	@FindBy(xpath = "//h2[@class='ptntName']/span/span")
 	private WebElementFacade patientName;
 
 	@FindBy(id = "lblAccountNo")
@@ -331,5 +331,10 @@ public class SearchPage extends PageObject {
 			listOfSearchedInvNum.get(index).click();
 		else
 			listOfSearchedAccNum.get(index).click();
+	}
+
+	public String getPatientSSN() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

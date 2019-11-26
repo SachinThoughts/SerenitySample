@@ -53,7 +53,7 @@ public class ProfessionalUDCStepDef extends PageObject {
 
 	@Given("^user is on R1 Hub page$")
 	public void user_is_on_R1_Hub_page() {
-		Assert.assertTrue(getDriver().getTitle().contains("R1 Hub Technologies 2.0 - 01 Home"));
+		Assert.assertTrue(getDriver().getTitle().contains("WPWI R1 Hub Technologies 2.0 - 15 Home"));
 	}
 
 	@When("^user clicks on setting link$")

@@ -167,3 +167,32 @@ Feature: This is to verify external search functionality in R1 PRCM-BE
       | @$#%._   | Test1     | Special Character are not allowed in Search criteria! |
       | Test1    | @$%^&     | Special Character are not allowed in Search criteria! |
       | @#$*( _  | @!~`^/    | Special Character are not allowed in Search criteria! |
+
+  @429995 @PRCMUser @Sprint102
+  Scenario Outline: Verify that user is able to see the search result grid for exact Last Name/First Name
+    Given user is on R1 Decision search page
+    When user selects "Last Name/First Name" from Search By dropdown
+    And user login to SQL Server and connect to facility database
+    And user runs the <queryname5> query to fetch name for search
+    Then user should be able to fetch Firstname and Lastname from the query.
+    When user enters the fetched Lastname in Last Name textbox
+    And user enters the fetched Firstname in First Name textbox
+    And user clicks on submit button
+    Then user should be able to view the grid with following columns for Last Name/First Name search for database firstname lastname values
+      | Visit #             |
+      | Invoice #           |
+      | Name                |
+      | Facility Code       |
+      | MRN                 |
+      | Gender              |
+      | PT                  |
+      | Service Date        |
+      | PPC                 |
+      | Defect Type         |
+      | Defect Sub-Category |
+    Then user runs the <queryname11> query to fetch firstname and lastname
+    Then user should be able to view the same result in grid as SQL result for Last Name/First Name
+
+    Examples: 
+      | queryname5                 | queryname11                 |
+      | SearchExternal_429995_SQL5 | SearchExternal_429995_SQL11 |
