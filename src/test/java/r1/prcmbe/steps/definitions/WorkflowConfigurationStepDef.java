@@ -19,6 +19,7 @@ import r1.prcmbe.pages.NavigationPage;
 import r1.prcmbe.pages.SettingsPage;
 import r1.prcmbe.pages.WorkflowConfigurationPage;
 import r1.prcmbe.serenity.steps.FinancialInfoSteps;
+import r1.prcmbe.serenity.steps.WorkflowConfigurationSteps;
 
 public class WorkflowConfigurationStepDef extends PageObject {
 
@@ -31,11 +32,14 @@ public class WorkflowConfigurationStepDef extends PageObject {
 
 	@Steps
 	FinancialInfoSteps financialInfoSteps;
+	@Steps
+	WorkflowConfigurationSteps workflowConfigSteps;
 
 	String dbFileName = "WorkFlowConfiguration", dbHandOffName, dbRecipientName, defaultRecipientName,
-			recipientNameOtherThanDefault, dispositionNotes, workflowName, respondDeadline, successMsg, recipientName,
-			recipientDesc, createdBy, createdDate, nextDispositionByDropdownValue, dispositionStatusByDropdownValue,
-			dispositionCodeFromTextBox;
+			recipientNameOtherThanDefault, dispositionNotes, workflowName, respondDeadline, updatedBy, updatedDate,
+			successMsg, recipientName, recipientDesc, createdBy, createdDate, nextDispositionByDropdownValue,
+			dispositionStatusByDropdownValue, dispositionCodeFromTextBox, updatedRecipientDesc;
+
 	List<String> listDBDispositionCode = new ArrayList<String>();
 	int dbWorkFlowTypeId;
 
@@ -210,7 +214,6 @@ public class WorkflowConfigurationStepDef extends PageObject {
 			while (DatabaseConn.resultSet.next()) {
 				dbHandOffName = DatabaseConn.resultSet.getString("Name");
 			}
-			System.out.println(dbHandOffName);
 		} catch (SQLException exception) {
 			Assert.assertTrue("HandOffName is not fetched from DB.\nThe Technical Error is:\n" + exception, false);
 		}
@@ -457,7 +460,7 @@ public class WorkflowConfigurationStepDef extends PageObject {
 
 	@And("^user Chooses some other action other than the one chosen above$")
 	public void user_chooses_some_other_action_other_than_the_one_chosen_above() {
-		workflowConfigPage.clickOnRandomActionTypeRadioBtn();
+		workflowConfigPage.clickOnAnyActionTypeRadioBtn();
 	}
 
 	@Then("^user should be able to view validation message \"([^\"]*)\"$")
@@ -489,5 +492,334 @@ public class WorkflowConfigurationStepDef extends PageObject {
 		} catch (SQLException exception) {
 			Assert.assertTrue("Code is not fetched from DB.\nThe Technical Error is:\n" + exception, false);
 		}
+		int dispositionCodeCounter = CommonMethods.getRandom(listDBDispositionCode.size());
+		String dispositionCodeNumber = listDBDispositionCode.get(dispositionCodeCounter);
+		workflowConfigPage.enterPreviousDispositionCode(dispositionCodeNumber);
+	}
+
+	@When("^user clicks on \\+Add Recipient button under choose recipient$")
+	public void user_clicks_on_Add_Recipient_button_under_choose_recipient() {
+		workflowConfigPage.clickAddRecipientButton();
+	}
+
+	@Then("^user should be able to view Add Recipient pop up with controls$")
+	public void user_should_be_able_to_view_Add_Recipient_pop_up_with_controls(DataTable recipientControls) {
+		List<String> recipientControlHeaders = recipientControls.asList(String.class);
+		Assert.assertTrue("Labels do not match on the Recipient popup",
+				workflowConfigPage.getListOfAddRecipientLabels().equals(recipientControlHeaders));
+	}
+
+	@Then("^user should able to view following options on Recipient popup$")
+	public void user_should_able_to_view_following_options_on_Recipient_popup(DataTable recipientOptions) {
+		List<String> recipientControlButtons = recipientOptions.asList(String.class);
+		Assert.assertTrue("Options do not match on the Recipient Popup",
+				workflowConfigPage.getListOfAddRecipientButtons().equals(recipientControlButtons));
+	}
+
+	@When("^user clicks on Close button on Add Recipient popup$")
+	public void user_clicks_on_Close_button_on_Add_Recipient_popup() {
+		workflowConfigPage.clickCloseButtonOnAddRecipient();
+	}
+
+	@When("^user enters text in Recipient Name textbox on Recipient popup$")
+	public void user_enters_text_in_Recipient_Name_textbox_on_Recipient_popup() {
+		recipientName = defaultHandOffPage.enterRecipientNameTextBox();
+	}
+
+	@When("^user enters text in Recipient Description textbox like \"([^\"]*)\"$")
+	public void user_enters_text_in_Recipient_Description_textbox_like(String recipientDescription) {
+		recipientDesc = defaultHandOffPage.enterRecipientDescriptionTextBox(recipientDescription);
+	}
+
+	@Then("^user should be able to view newly created Recipient in Choose Recipient grid with correct data$")
+	public void user_should_be_able_to_view_newly_created_Recipient_in_Choose_Recipient_grid_with_correct_data() {
+		Assert.assertTrue("Recipient Name not displayed in the table as added",
+				workflowConfigPage.isAddedRecipientNameVisible(recipientName));
+		Assert.assertTrue("Recipient Description not displayed in the table as added",
+				workflowConfigPage.isAddedRecipientDescVisible(recipientDesc));
+	}
+
+	@Then("^user should be able to view newly created Recipient name in Workflow Summary breadcrumb just after Handoff type$")
+	public void user_should_be_able_to_view_newly_created_Recipient_name_in_Workflow_Summary_breadcrumb_just_after_Handoff_type() {
+		workflowConfigPage.clickOnRadioBtnAgnstFetchedRecipient(recipientName);
+		Assert.assertTrue("Recipient tab: Recipient Name not displayed in the breadcrumb",
+				defaultHandOffPage.getTextBreadcrumb().contains(recipientName));
+	}
+
+	@When("^user clicks on Details link button adjacent to newly created Recipient$")
+	public void user_clicks_on_Details_link_button_adjacent_to_newly_created_Recipient() {
+		workflowConfigPage.clickOnDetailsOfSpecificRecipient(recipientName);
+	}
+
+	@When("^user executes the query to fetch added recipient (.*)$")
+	public void user_executes_the_query_to_fetch_added_recipient(String queryName)
+			throws ClassNotFoundException, SQLException, Exception {
+		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
+				String.format(commonMethods.loadQuery(queryName, dbFileName), recipientName));
+		try {
+			while (DatabaseConn.resultSet.next()) {
+				createdBy = DatabaseConn.resultSet.getString("DisplayName");
+				createdDate = DatabaseConn.resultSet.getString("CreatedDate");
+			}
+		} catch (SQLException exception) {
+			Assert.assertTrue(
+					"Created By or Created date is not fetched from DB.\nThe Technical Error is:\n" + exception, false);
+		}
+	}
+
+	@Then("^user should be able to view same value in following columns on Recepient Tab as in SQL result$")
+	public void user_should_be_able_to_view_same_value_in_following_columns_on_Recepient_Tab_as_in_SQL_result()
+			throws ParseException {
+		Assert.assertTrue("Created by of Recipient does not match with DB",
+				createdBy.contains(workflowConfigPage.getCreatedByRecipientText()));
+		Assert.assertTrue("Created date of Recipient does not match with DB", workflowConfigSteps
+				.formatDbDateFieldWithDateTime(createdDate).equals(workflowConfigPage.getCreatedDateRecipientText()));
+	}
+
+	@When("^user run the query to fetch recipient name (.*)$")
+	public void user_run_the_query_to_fetch_recipient_name(String queryName) throws Exception {
+		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
+				commonMethods.loadQuery(queryName, dbFileName));
+		try {
+			while (DatabaseConn.resultSet.next()) {
+				dbRecipientName = DatabaseConn.resultSet.getString("Name");
+			}
+
+		} catch (SQLException exception) {
+			Assert.assertTrue("RecepientName is not fetched from DB.\nThe Technical Error is:\n" + exception, false);
+		}
+	}
+
+	@When("^user clicks on radio button against any fetched Recipient$")
+	public void user_clicks_on_radio_button_against_any_fetched_Recipient() {
+		workflowConfigPage.clickSpecificRecipientRadioBtn(dbRecipientName);
+	}
+
+	@Then("^user should be able to view Add New Action pop up window with controls$")
+	public void user_should_be_able_to_view_Add_New_Action_pop_up_window_with_controls(DataTable controls) {
+		List<String> expectedActionPopUpControls = controls.asList(String.class);
+		List<Object> listOfVal = workflowConfigPage.verifyAddActionPopupControlsVisible(expectedActionPopUpControls);
+		boolean val = ((Boolean) listOfVal.get(listOfVal.size() - 1)).booleanValue();
+		Assert.assertTrue("Controls not visible on Add Action popup\n" + listOfVal.subList(0, listOfVal.size() - 1),
+				val);
+	}
+
+	@When("^user clicks on Required checkbox$")
+	public void user_clicks_on_Required_checkbox() {
+		workflowConfigPage.clickRequiredCheckBoxOnActionPopUp();
+	}
+
+	@Then("^user should no longer be able to view Add New Action pop-up window$")
+	public void user_should_no_longer_be_able_to_view_Add_New_Action_pop_up_window() {
+		Assert.assertFalse("Add action popup is not closed", workflowConfigPage.isAddActionPopUpVisible());
+	}
+
+	@When("^user clicks on Details link button adjacent to newly created Action Name$")
+	public void user_clicks_on_Details_link_button_adjacent_to_newly_created_Action_Name() {
+		workflowConfigPage.clickSpecificDetailsLinkOnActionTab(DefaultHandoffStepDef.actionName);
+	}
+
+	@When("^user run the query to fetch Action Details (.*)$")
+	public void user_run_the_query_to_fetch_Action_Details(String queryName) throws Exception {
+		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
+				commonMethods.loadQuery(queryName, dbFileName));
+	}
+
+	@Then("^user should be able to view same value in details columns on UI as in SQL result$")
+	public void user_should_be_able_to_view_same_value_in_details_columns_on_UI_as_in_SQL_result()
+			throws SQLException, ParseException {
+		while (DatabaseConn.resultSet.next()) {
+			String firstName = DatabaseConn.resultSet.getString("FirstName");
+			String lastName = DatabaseConn.resultSet.getString("LastName");
+			createdBy = firstName.concat(" " + lastName);
+			createdDate = DatabaseConn.resultSet.getString("CreatedDate");
+			updatedDate = (String) DatabaseConn.resultSet.getObject("UpdatedDate");
+			updatedBy = (String) DatabaseConn.resultSet.getObject("UpdatedBy");
+			if (updatedDate == null) {
+				updatedDate = " ";
+			}
+			if (updatedBy == null) {
+				updatedBy = "";
+			}
+		}
+		Assert.assertTrue("Created date does not match", workflowConfigPage.getActionCreatedDate()
+				.equals(workflowConfigSteps.formatDbDateFieldWithDateTime(createdDate)));
+		Assert.assertTrue("Created by does not match", workflowConfigPage.getActionCreatedBy().equals(createdBy));
+		Assert.assertTrue("Updated date does not match", workflowConfigPage.getActionUpdatedDate().equals(updatedDate));
+		Assert.assertTrue("Updated by does not match", workflowConfigPage.getActionUpdatedBy().equals(updatedBy));
+	}
+
+	@Then("^user should able to view info message on action popup \"([^\"]*)\"$")
+	public void user_should_able_to_view_info_message_on_action_popup(String expectedMessage) {
+		Assert.assertTrue("Action popup Error Message does not match ",
+				workflowConfigPage.getErrorMsgOnActionPopup().contains(expectedMessage));
+	}
+
+	@Then("^user should be able to view newly created Action in Choose Action Type grid$")
+	public void user_should_able_to_view_newly_created_Action_in_Choose_Action_Type_grid() {
+		Assert.assertTrue("New Action Name not as per the value entered by user",
+				workflowConfigPage.isNewlyAddedActionVisibleInGrid(DefaultHandoffStepDef.actionName));
+	}
+
+	@Then("^user should be able to navigate to Disposition type page$")
+	public void user_should_be_able_to_navigate_to_Disposition_type_page() {
+		workflowConfigPage.isDispositionTabVisible();
+	}
+
+	@Then("^user should be able to view Disposition Type tab selected highlighted in blue color$")
+	public void user_should_be_able_to_view_Disposition_Type_tab_selected_highlighted_in_blue_color() {
+		Assert.assertTrue("Disposition tab color is not Blue",
+				workflowConfigPage.getDispositionTabColor().equals(BLUECOLORRGBCODE));
+	}
+
+	@Then("^user should able to view Workflow Summary label with selected Disposition Type appended$")
+	public void user_should_able_to_view_Workflow_Summary_label_with_selected_Disposition_Type_appended() {
+		Assert.assertTrue("Workflow summary label does not display selected Dispositiontype", workflowConfigPage
+				.getFirstDispositionName().equalsIgnoreCase(workflowConfigPage.getDispositionBreadCrumbValue()));
+	}
+
+	@Then("^user should be able to view Choose a Disposition Type grid with buttons underneath$")
+	public void user_should_be_able_to_view_Choose_a_Disposition_Type_grid_with_buttons_underneath(
+			DataTable dispositionButtons) {
+		List<String> dispositionBtnText = dispositionButtons.asList(String.class);
+		Assert.assertTrue("Buttons on Disposition type grid not displayed",
+				workflowConfigPage.getDispositionButtonText().equals(dispositionBtnText));
+	}
+
+	@Then("^user should be able to view Save Configuration button disabled$")
+	public void user_should_be_able_to_view_Save_Configuration_button_disabled() {
+		Assert.assertTrue("Save configuration button is not disabled",
+				workflowConfigPage.isSaveConfigBtnOnDispositionTabDisabled());
+	}
+
+	@Then("^user should be able to view Edit link button adjacent to associated Disposition Type$")
+	public void user_should_be_able_to_view_Edit_link_button_adjacent_to_associated_Disposition_Type() {
+		Assert.assertTrue("Edit link button is not displayed adjacent to each disposition type",
+				workflowConfigPage.getDispositionNameCount() == workflowConfigPage.getDispositionEditLinksCount());
+	}
+
+	@Then("^user should be able to view Details button for particular Disposition Type$")
+	public void user_should_be_able_to_view_Details_button_for_particular_Disposition_Type() {
+		Assert.assertTrue("Details link button is not displayed adjacent to each disposition type",
+				workflowConfigPage.getDispositionNameCount() == workflowConfigPage.getDispositionDetailsLinkCount());
+	}
+
+	@Then("^user should be able to view Reorder link button against each Disposition Type$")
+	public void user_should_be_able_to_view_Reorder_link_button_against_each_Disposition_Type() {
+		Assert.assertTrue("Details link button is not displayed adjacent to each disposition type",
+				workflowConfigPage.getDispositionNameCount() == workflowConfigPage.getDispositionReorderLinksCount());
+	}
+
+	@When("^user clicks on Details link button adjacent to any Disposition Type$")
+	public void user_clicks_on_Details_link_button_adjacent_to_any_Disposition_Type() {
+		workflowConfigPage.clickFirstDispositionDetailsLink();
+	}
+
+	@Then("^user should be able to view detailed columns$")
+	public void user_should_be_able_to_view_detailed_columns(DataTable columnNames) {
+		List<String> detailsColumns = columnNames.asList(String.class);
+		Assert.assertTrue(
+				"Expected Details columns not visible \n Actual"
+						+ workflowConfigPage.getDispositionDetailsColumnNamesList() + "Expected " + detailsColumns,
+				workflowConfigPage.getDispositionDetailsColumnNamesList().equals(detailsColumns));
+	}
+
+	@When("^user clicks on Details link again$")
+	public void user_clicks_on_Details_link_again() {
+		workflowConfigPage.clickExpandedDetailsLinkOnDispositionTab();
+	}
+
+	@Then("^expanded grid for selected Disposition Type gets collapsed$")
+	public void expanded_grid_for_selected_Disposition_Type_gets_collapsed() {
+		Assert.assertTrue("Expanded details section is not collapsed",
+				workflowConfigPage.isDispositionDetailsCollapsed());
+	}
+
+	@Then("^user should no longer be able to view the associated fields$")
+	public void user_should_no_longer_be_able_to_view_the_associated_fields() {
+		Assert.assertFalse("Details section should not be displayed",
+				workflowConfigPage.isDispositionDetailsSectionVisible());
+	}
+
+	@Then("^user should be able to view disposition grid with columns headers$")
+	public void user_should_be_able_to_view_disposition_grid_with_columns_headers(DataTable expectedColumnHeaders) {
+		List<String> dispositionGridColumnLabels = expectedColumnHeaders.asList(String.class);
+		Assert.assertTrue(" User is not able to view column headers",
+				workflowConfigPage.getDispositionGridHeaderList().containsAll(dispositionGridColumnLabels));
+	}
+
+	@When("^user clicks on Continue button on HandOff Tab$")
+	public void user_clicks_on_Continue_button_on_HandOff_Tab() {
+		workflowConfigPage.clickOnContinueBtnOnHandoffTab();
+	}
+
+	@When("^user clicks on Edit link button against any recipient$")
+	public void user_clicks_on_Edit_link_button_against_any_recipient() {
+		workflowConfigPage.clickFirstEditIconOnRecipientTab();
+	}
+
+	@Then("^user should be able to view Edit Recipient pop up with controls$")
+	public void user_should_be_able_to_view_Edit_Recipient_pop_up_with_controls(DataTable recipientControls) {
+		List<String> recipientControlHeaders = recipientControls.asList(String.class);
+		Assert.assertTrue("Labels do not match on the Edit Recipient popup",
+				workflowConfigPage.getListOfEditRecipientLabels().equals(recipientControlHeaders));
+	}
+
+	@Then("^user should able to view following button on Edit Recipient popup \"([^\"]*)\"$")
+	public void user_should_able_to_view_following_button_on_Edit_Recipient_popup(String saveRecipientBtn) {
+		Assert.assertTrue("Save Recipient button doesnt appear on Recipient popup",
+				workflowConfigPage.getSaveRecipientButtonText().equals(saveRecipientBtn));
+	}
+
+	@Then("^user should be able to view prepopulated values in all controls under Edit Recipient popup$")
+	public void user_should_be_able_to_view_prepopulated_values_in_all_controls_under_Edit_Recipient_popup() {
+		Assert.assertTrue("Recipient Name textbox is empty",
+				workflowConfigPage.verifyEditRecipientPrePopulatedFields());
+	}
+
+	@When("^user clicks on Recipient Name or Recipient Description and updates the existing information$")
+	public void user_clicks_on_Recipient_Name_or_Recipient_Description_and_updates_the_existing_information() {
+		updatedRecipientDesc = workflowConfigPage.enterAndGetRandomRecipientDescText();
+	}
+
+	@When("^user clicks on Save Recipient button$")
+	public void user_clicks_on_Save_Recipient_button() {
+		workflowConfigPage.clickSaveRecipientButton();
+	}
+
+	@Then("^user should be able to view updated values related to edited recipient in Choose Recipient grid$")
+	public void user_should_be_able_to_view_updated_values_related_to_edited_recipient_in_Choose_Recipient_grid() {
+		Assert.assertTrue("Recipient description is not updated",
+				workflowConfigPage.getFirstRecipientDesc().equals(updatedRecipientDesc.trim()));
+	}
+
+	@When("^user clicks on Details link button adjacent to updated Recipient$")
+	public void user_clicks_on_Details_link_button_adjacent_to_updated_Recipient() {
+		workflowConfigPage.clickFirstRecipientDetailsLink();
+	}
+
+	@When("^user executes the query to fetch edited recipient information (.+)$")
+	public void user_executes_the_query_to_fetch_edited_recipient_information(String queryName)
+			throws ClassNotFoundException, SQLException, Exception {
+		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
+				String.format(commonMethods.loadQuery(queryName, dbFileName), updatedRecipientDesc));
+		try {
+			while (DatabaseConn.resultSet.next()) {
+				updatedBy = DatabaseConn.resultSet.getString("DisplayName");
+				updatedDate = DatabaseConn.resultSet.getString("UpdatedDate");
+			}
+		} catch (SQLException exception) {
+			Assert.assertTrue(
+					"Updated By or Updated Date is not fetched from DB.\nThe Technical Error is:\n" + exception, false);
+		}
+	}
+
+	@Then("^user should be able to view Updated By and Updated Date details of Edited Recipient on UI as in SQL result$")
+	public void user_should_be_able_to_view_Updated_By_and_Updated_Date_details_of_Edited_Recipient_on_UI_as_in_SQL_result()
+			throws ParseException {
+		Assert.assertTrue("Updated date for recipient does not match with DB", workflowConfigSteps
+				.formatDbDateFieldWithDateTime(updatedDate).equals(workflowConfigPage.getUpdatedDateFieldValue()));
+		Assert.assertTrue("Updated by for recipient does not match with DB",
+				updatedBy.contains(workflowConfigPage.getUpdatedByFieldValue()));
 	}
 }

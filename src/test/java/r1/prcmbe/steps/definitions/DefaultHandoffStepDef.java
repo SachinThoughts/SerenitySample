@@ -4,33 +4,44 @@ import cucumber.api.DataTable;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Random;
-
-import org.apache.commons.lang.math.RandomUtils;
 import org.junit.Assert;
-import net.serenitybdd.core.pages.PageObject;
+import net.serenitybdd.core.environment.EnvironmentSpecificConfiguration;
+import net.thucydides.core.annotations.Steps;
+import net.thucydides.core.util.EnvironmentVariables;
 import r1.prcmbe.pages.SettingsPage;
 import r1.prcmbe.serenity.steps.LoginSteps;
+import r1.prcmbe.serenity.steps.SearchPageSteps;
 import r1.commons.databaseconnection.DatabaseConn;
 import r1.commons.utilities.CommonMethods;
+import r1.prcmbe.pages.AccountInformationPage;
 import r1.prcmbe.pages.DefaultHandoffPage;
 import r1.prcmbe.pages.NavigationPage;
+import r1.prcmbe.pages.SearchPage;
 
-public class DefaultHandoffStepDef extends PageObject {
+public class DefaultHandoffStepDef {
 
 	DefaultHandoffPage defaultHandOffPage;
 	NavigationPage navPage;
 	CommonMethods commonMethods;
-	SettingsPage settingsPage;
-	LoginSteps loginSteps;
+	EnvironmentVariables environmentVariables;
+	SearchPage searchPage;
+	AccountInformationPage accInfoPage;
 
-	String workFlowDescription,
-			recipientDesc, actionDescription, followUpDays, dispositionDescription, responseDeadline, dispositionCode,
-			dispositionFollowUpDays, dispositionResponseDeadline, /* dispositionStatus */
-			workFlowName, recipientName, actionName;
-	static String dispositionStatus;
+	@Steps
+	SearchPageSteps searchPageSteps;
+	@Steps
+	LoginSteps loginSteps;
+	@Steps
+	SettingsPage settingsPage;
+
+	String workFlowDescription, recipientDesc, actionDescription, followUpDays, dispositionDescription,
+			responseDeadline, dispositionCode, dispositionFollowUpDays, dispositionResponseDeadline, workFlowName,
+			recipientName, searchText, dbId = "", facilitySettingValue, invoiceNumber,
+			dbFacilitySettingValue;
+	static String dispositionStatus, actionName;
 	private static String dbQueryFilename = "DefaultHandoff";
 
 	@When("^click on Workflow Configuration link$")
@@ -38,7 +49,7 @@ public class DefaultHandoffStepDef extends PageObject {
 		settingsPage.clickWorkflowConfig();
 	}
 
-	@Given("^user having AHtoDecision role is on \"([^\"]*)\" Screen$")
+	@Given("^PRCM user is on \"([^\"]*)\" Screen$")
 	public void user_having_AHtoDecision_role_is_on_Screen(String expectedTitle) {
 		Assert.assertTrue("User is not on the expected Workflow screen",
 				defaultHandOffPage.getTextDefaultHandOffPageTitle().equals(expectedTitle));
@@ -109,6 +120,7 @@ public class DefaultHandoffStepDef extends PageObject {
 	@When("^user selects any value from Visible to Group dropdown for Add Handoff$")
 	public void user_selects_any_value_from_Visible_to_Group_dropdown_for_Add_Handoff() {
 		defaultHandOffPage.selectVisibleToGroup();
+		defaultHandOffPage.clickVisibleToGrpAHtoDecisionChkBox();
 	}
 
 	@When("^user clicks on Save Changes button for Add Handoff$")
@@ -327,5 +339,201 @@ public class DefaultHandoffStepDef extends PageObject {
 				defaultHandOffPage.getTextSavedDispositionTimeLimit().equals(dispositionResponseDeadline));
 		Assert.assertTrue("Disposition Status displayed in the table does not match with one selected",
 				defaultHandOffPage.getTextSavedDispositionStatus().equals(dispositionStatus));
+	}
+
+	@Given("^user login to SQL server and connect to \"([^\"]*)\" database$")
+	public void user_login_to_SQL_server_and_connect_to_database(String database) throws IOException {
+		DatabaseConn.serverName = EnvironmentSpecificConfiguration.from(environmentVariables).getProperty("bindURL");
+		DatabaseConn.databaseName = database;
+	}
+
+	@When("^user mouse hover on IT Tools link$")
+	public void user_mouse_On_IT_Tools_links() {
+		settingsPage.hoverITToolsLink();
+	}
+
+	@When("^user click on FacilitySetting Configuration link$")
+	public void user_click_on_FacilitySetting_Configuration_link() {
+		settingsPage.clickFacilitySettingConfigLink();
+	}
+
+	@Then("^user having AHtoDecision Admin role is on \"([^\"]*)\" Screen$")
+	public void user_having_AHtoDecision_Admin_role_is_on_Screen(String expectedTitle) {
+		Assert.assertTrue("User is not on the " + expectedTitle + " screen",
+				defaultHandOffPage.getFacilitySettingConfigTitle().equals(expectedTitle));
+	}
+
+	@When("^user clicks on Settings link from footer$")
+	public void user_clicks_on_Settings_link_from_footer() {
+		navPage.clickFooterSettings();
+	}
+
+	@When("^user selects \"([^\"]*)\" option from Search dropdown$")
+	public void user_selects_option_from_Search_dropdown(String searchValue) {
+		defaultHandOffPage.selectTextSearchDrpdwn(searchValue);
+	}
+
+	@When("^user enters any facility code in the Search textbox$")
+	public void user_enters_any_facility_code_in_the_Search_textbox() throws IOException {
+		defaultHandOffPage.enterSearchTxtBox(CommonMethods.loadProperties("facility").substring(0, 4));
+	}
+
+	@When("^user clicks on Search Data icon$")
+	public void user_clicks_on_Search_Data_icon() {
+		defaultHandOffPage.clickSearchBtn();
+	}
+
+	@Then("^user should be able to view the row for searched facility in Locations grid$")
+	public void user_should_be_able_to_view_the_row_for_searched_facility_in_Locations_grid() throws IOException {
+		Assert.assertTrue("incorrect facility displayed in the grid", CommonMethods.loadProperties("facility")
+				.substring(0, 4).equals(defaultHandOffPage.getSearchFacilityCode()));
+	}
+
+	@When("^user clicks on View link of searched facility$")
+	public void user_clicks_on_View_link_of_searched_facility() {
+		defaultHandOffPage.clickSearchFacilityViewLink();
+	}
+
+	@Then("^user should be able to view Facility Setting grid for searched facility$")
+	public void user_should_be_able_to_view_Facility_Setting_grid_for_searched_facility() {
+		defaultHandOffPage.isSearchFacilitySettingGridVisible();
+	}
+
+	@When("^user selects \"([^\"]*)\" option from facility setting Search dropdown$")
+	public void user_selects_option_from_facility_setting_Search_dropdown(String searchValue) {
+		defaultHandOffPage.selectTextFSSearchDrpdwn(searchValue);
+	}
+
+	@When("^user enters \"([^\"]*)\" in the Search textbox$")
+	public void user_enters_in_the_Search_textbox(String value) {
+		searchText = value;
+		defaultHandOffPage.enterFSSearchTxtBox(value);
+	}
+
+	@When("^user clicks on facility setting Search Data icon$")
+	public void user_clicks_on_facility_setting_Search_Data_icon() {
+		defaultHandOffPage.clickFSSearchBtn();
+	}
+
+	@Then("^user should be able to view the row for searched Setting Name in Facility Settings grid$")
+	public void user_should_be_able_to_view_the_row_for_searched_Setting_Name_in_Facility_Settings_grid() {
+		Assert.assertTrue(searchText + " is not displayed in the grid",
+				searchText.equals(defaultHandOffPage.getSearchFacilitySettingText()));
+	}
+
+	@When("^user clicks on Edit icon of searched facility setting$")
+	public void user_clicks_on_Edit_icon_of_searched_facility_setting() {
+		defaultHandOffPage.clickSearchFSEditIcon();
+	}
+
+	@Then("^user should be able to view Facility Setting Details pop up$")
+	public void user_should_be_able_to_view_Facility_Setting_Details_pop_up() {
+		Assert.assertTrue("Facility Setting Details pop up is not visible",
+				defaultHandOffPage.isFSDetailsPopupVisible());
+	}
+
+	@When("^user runs the \"([^\"]*)\" query to fetch ID$")
+	public void user_runs_the_query_to_fetch_ID(String query) throws Exception {
+		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
+				String.format(commonMethods.loadQuery(query, dbQueryFilename), workFlowName));
+	}
+
+	@Then("^user should be able to fetch the ProcessID$|^user should be able to fetch the WorkflowTypeID$")
+	public void user_should_be_able_to_fetch_the_ProcessID() {
+		try {
+			while (DatabaseConn.resultSet.next()) {
+				dbId = DatabaseConn.resultSet.getString(1);
+			}
+		} catch (SQLException sQLException) {
+			Assert.assertTrue("ID is not fetched from DB.\nThe Technical Error is:\n" + sQLException, false);
+		}
+		Assert.assertTrue("ID is empty for the executed query", !dbId.isEmpty());
+		loginSteps.log("Fetched ID from database is " + dbId);
+	}
+
+	@When("^user enters comma followed by fetched ProcessID in Setting Value text area of Facility Settings Detail pop up$|^user enters comma followed by fetched WorkflowTypeID in Setting Value text area of Facility Settings Detail pop up$")
+	public void user_enters_comma_followed_by_fetched_ProcessID_in_Setting_Value_text_area_of_Facility_Settings_Detail_pop_up() {
+		defaultHandOffPage.updateSettingValueTxtArea("," + dbId);
+		facilitySettingValue = defaultHandOffPage.getSettingValueTxtArea();
+	}
+
+	@When("^user clicks on Update Facility Setting button$")
+	public void user_clicks_on_Update_Facility_Setting_button() {
+		defaultHandOffPage.clickUpdateSettingValueBtn();
+	}
+
+	@Then("^user should be able to view Facility Settings Details pop up as closed$")
+	public void user_should_be_able_to_view_Facility_Settings_Details_pop_up_as_closed() {
+		Assert.assertFalse("Facility Setting Details pop up is not closed",
+				defaultHandOffPage.isFSDetailsPopupVisible());
+	}
+
+	@When("^user runs the \"([^\"]*)\" query for default handoff$")
+	public void user_runs_the_query_query_for_default_handoff(String query) throws Exception {
+		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
+				commonMethods.loadQuery(query, dbQueryFilename));
+	}
+
+	@Then("^user should be able to view added ProcessID in SQL result$|^user should be able to view added WorkflowTypeID in SQL result$")
+	public void user_should_be_able_to_view_added_ProcessID_in_SQL_result() {
+		try {
+			while (DatabaseConn.resultSet.next()) {
+				dbFacilitySettingValue = DatabaseConn.resultSet.getString("SettingValue");
+			}
+		} catch (SQLException sQLException) {
+			Assert.assertTrue("SettingValue is not fetched from DB.\nThe Technical Error is:\n" + sQLException, false);
+		}
+		Assert.assertTrue("SettingValue is not added in database", facilitySettingValue.equals(dbFacilitySettingValue));
+	}
+
+	@When("^user selects existing added handoff$")
+	public void user_selects_existing_added_handoff() {
+		workFlowName = defaultHandOffPage.getSecondLastAHtoDecisionAdminWorkflow();
+	}
+
+	@When("^user clicks on Billing & Follow-up link from footer$")
+	public void user_clicks_on_Billing_Follow_up_link_from_footer() {
+		navPage.clickFooterBillingFollowUpLink();
+	}
+
+	@When("^user selects \"([^\"]*)\" option from Operator dropdown$")
+	public void user_selects_option_from_Operator_dropdown(String operatorValue) {
+		searchPage.operatorSelectText(operatorValue);
+	}
+
+	@When("^user enters the SQL result in Visit Number Search textbox$")
+	public void user_enters_the_SQL_result_in_Visit_Number_Search_textbox() {
+		try {
+			while (DatabaseConn.resultSet.next()) {
+				invoiceNumber = DatabaseConn.resultSet.getString("InvoiceNumber");
+			}
+		} catch (SQLException sQLException) {
+			Assert.assertTrue("Invoice Number is not fetched from DB.\nThe Technical Error is:\n" + sQLException,
+					false);
+		}
+		loginSteps.log("Fetched Invoice Number from Database is " + invoiceNumber);
+		searchPage.enterInvoiceNumber(invoiceNumber);
+	}
+
+	@Then("^user should be able to view R1 Decision Account page$")
+	public void user_should_be_able_to_view_R1_Decision_Account_page() {
+		Assert.assertTrue("Incorrect or no R1 Decision Account page is opened",
+				searchPageSteps.verifyInvoiceNumberWithEqualOperator(invoiceNumber));
+	}
+
+	@When("^user clicks on Handoff Type dropdown$")
+	public void user_clicks_on_Handoff_Type_dropdown() {
+		accInfoPage.clickHandOffTypeDrpDown();
+	}
+
+	@Then("^user should be able to view the newly added handoff in Handoff Type dropdown$")
+	public void user_should_be_able_to_view_the_newly_added_handoff_in_Handoff_Type_dropdown() {
+		Assert.assertTrue("Newly added handoff is not visible in the Handoff Type dropdown",
+				accInfoPage.getHandOffTypeDrpDownValues().contains(workFlowName));
+	}
+
+	@When("^user clicks on Handoff link button$|^user clicks on Handoff button$")
+	public void user_clicks_on_Handoff_link_button() {
+		accInfoPage.clickHandOffBtn();
 	}
 }

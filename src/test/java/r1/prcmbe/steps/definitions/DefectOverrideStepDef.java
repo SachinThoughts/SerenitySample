@@ -29,7 +29,7 @@ public class DefectOverrideStepDef {
 	NavigationPage navigationPage;
 	BillingAndFollowUpPage billingAndFollowUpPage;
 	SearchPage searchPage;
-	DefectOverridePage defectOverridePage; 
+	DefectOverridePage defectOverridePage;
 
 	static String dbFileName = "DefectOverride";
 	String dbSettingValue, dbInvoiceId, selectedDefectypeValue, selectedDefectSubCatValue;
@@ -43,7 +43,7 @@ public class DefectOverrideStepDef {
 	@Steps
 	DefectOverrideSteps defectOverrideStep;
 
-	@Given("^user is able to login to sql server and connect to database$")
+	@Given("^user is able to login to sql server and connect to database$|^user login to SQL Server and connect to facility database$")
 	public void user_is_able_to_login_to_sql_server_and_connect_to_database() throws IOException {
 		String webdriverURL = EnvironmentSpecificConfiguration.from(environmentVariables)
 				.getProperty("webdriver.base.url");
@@ -80,7 +80,7 @@ public class DefectOverrideStepDef {
 		}
 		Assert.assertTrue(dbSettingValue.equals(flagValue));
 	}
-
+	
 	@When("^user selects \"([^\"]*)\" from search by dropdown$")
 	public void user_selectsr_from_search_by_dropdown(String dropdown) {
 		searchPage.searchBySelectText(dropdown);
