@@ -254,4 +254,15 @@ public class FinancialInfoStepDef {
 		Assert.assertTrue("Patient Payment is displaying a value instead of N/A",
 				financialInfoPage.getPatientPaymentAmount().equals(status));
 	}
+
+	@When("^User clicks on Adjustment Amount drill down$")
+	public void user_clicks_on_Adjustment_Amount_drill_down() {
+		financialInfoPage.clickExpandIconAdjustments();
+	}
+
+	@Then("^User should be able to view the message \"([^\"]*)\" under Adjustment amount column $")
+	public void user_should_be_able_to_view_the_message_under_Adjustment_amount_column(String message) {
+		Assert.assertTrue("No message displayed under Adjustment amount expanded view",
+				financialInfoPage.getAdjustmentMessage().equals(message));
+	}
 }
