@@ -603,7 +603,7 @@ public class SearchStepDef extends PageObject {
 			Assert.assertTrue("encounterid is not fetched from DB.\nThe Technical Error is:\n" + sQLException, false);
 		}
 		Assert.assertTrue("Fetched list of Invoice number doesnt contains entered Invoice number",
-				searchPageSteps.verifyEncounterIDOnUIWithDatabaseResult(dbListOfEncounterID));
+				searchPageSteps.verifyEncounterIdOnUIWithDatabaseResult(dbListOfEncounterID));
 		listOfGridColumnsOnUI = searchPage.getListOfSrchAccTblHeaders();
 		Assert.assertTrue("All the grid columns are not visible",
 				expectedListOfGridColumns.containsAll(listOfGridColumnsOnUI) && !listOfGridColumnsOnUI.isEmpty());

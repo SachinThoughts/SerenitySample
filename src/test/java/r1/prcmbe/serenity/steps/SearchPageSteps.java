@@ -184,7 +184,7 @@ public class SearchPageSteps {
 	}
 
 	@Step
-	public boolean verifyEncounterIDOnUIWithDatabaseResult(List<String> dblistOfEncounterID) {
+	public boolean verifyEncounterIdOnUIWithDatabaseResult(List<String> dblistOfEncounterID) {
 		financialInfoSteps.log("List of Encounter ID from UI:\n" + searchPage.getlistOfAccNum());
 		if (searchPage.isSearchAccTableVisible()) {
 			return (new ArrayList<>(new HashSet<>(searchPage.getlistOfAccNum())).containsAll(dblistOfEncounterID));
