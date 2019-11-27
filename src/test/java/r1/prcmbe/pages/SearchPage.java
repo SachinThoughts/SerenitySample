@@ -121,7 +121,7 @@ public class SearchPage extends PageObject {
 		searchByDropdown.selectByVisibleText(dropdown);
 	}
 
-	public void selectOperatorValue(String operator) {
+	public void selectOperatorValue(String operator)  {
 		operatorDropdown.selectByVisibleText(operator);
 	}
 
