@@ -295,3 +295,32 @@ Feature: Verify WorkFlowConfiguration related scenarios in PRCM
     Examples: 
       | query1                         | query2                          | query3                                |
       | 434767_WFConfig_CheckRecipient | 434767_WFConfig_CheckRecipient1 | 436768_BDD_R1D_WFConfig_EditRecipient |
+      
+  @434776 @AHtoDecisionAdmin @Sprint102
+  Scenario Outline: Verify saved handoff type, associated Recipient, Actions and Disposition types from DB
+    Given user having AHtoDecision Admin role is on workflow configuration home page
+    When user login to SQL server and connect to database
+    And user run the query to fetch hand-off id <query1>
+    And user run the query to fetch hand-off name <query2>
+    And user fetches any Handoff Type from DB
+    And user clicks on Radio button against any fetched Handoff Type in Choose Handoff grid
+    And user run the query by passing selected Handoff name <query3>
+    And user clicks on continue button on Handoff tab
+    And user run the query to fetch recipient name <query4>
+    And user clicks on radio button against any fetched Recipient
+    And user run the query by passing selected Recipient name <query5>
+    Then user should be able to fetch the Workflowtypeid and SubTypeID for respective Handoff type and associated Recipient
+    When user run the query by passing fetched Workflowtypeid and SubTypeID <query6>
+    And user clicks on Continue button on Recipient tab
+    And user run the query by passing Workflowtypeid and SubTypeID to fetch ActionID <query7>
+    Then user should be able to view Number of actions in db as reflected in UI
+    When user run the query by passing fetched ActionId <query8>
+    Then user should be able to view same action in db as reflected on UI
+    When user selects any actions from Choose Action Type grid
+    And user clicks on Continue button on Action type Tab
+    And user run the query by passing ActionId of selected Action <query9>
+    Then user should be able to view same disposition type in DB as as reflected on UI
+
+    Examples: 
+      | query1                         | query2                          | query3                                | query4                        | query5                                   | query6                                   | query7                                      | query8                          | query9                                     |
+      | 434767_WFConfig_CheckRecipient | 434767_WFConfig_CheckRecipient1 | 434776_BDD_R1D_WFConfig_workflowtypes | 434767_WFConfig_ReorderAction | 434776_BDD_R1D_WFConfig_workflowSubtypes | 434776_BDD_R1D_WFConfig_workflowSubtypesDetails | 434776_BDD_R1D_WFConfig_WorkflowTypeActions | 434776_BDD_R1D_WFConfig_Actions | 434776_BDD_R1D_WFConfig_ActionDispositions |
