@@ -68,13 +68,13 @@ public class FinancialInfoPage extends PageObject {
 
 	@FindBy(id = "lblTotalAdjustment")
 	private WebElementFacade totalAdjustments;
-	
+
 	@FindBy(xpath = "//*[@id='accordion']//a[@onclick='callChargeDetailsService();return false;']//i")
 	private WebElementFacade totalChargesScrollArrow;
-	
+
 	@FindBy(xpath = "//*[@id='divTotalCharges']/table/thead/tr/th")
 	private List<WebElementFacade> listOfTotalChargesTableHeaders;
-	
+
 	@FindBy(xpath = "//*[@id='divTotalCharges']//tr/td[1]")
 	private List<WebElementFacade> serviceDate;
 
@@ -110,13 +110,13 @@ public class FinancialInfoPage extends PageObject {
 
 	@FindBy(id = "lblTotalPatientPayments")
 	private WebElementFacade patientPaymentsValue;
-	
+
 	@FindBy(xpath = "(//*[@id = 'divTotalInsurancePaymentsNA']//h5)[2]")
 	private WebElementFacade insurancePaymentAmount;
-	
+
 	@FindBy(xpath = "(//*[@id = 'divTotalPatientPaymentsNA']//h5)[2]")
 	private WebElementFacade patientPaymentsAmount;
-	
+
 	public boolean isFinanceInfoHeadersVisible(List<String> expectedHeaders) {
 		return getFinInfoHeaderAttributes().containsAll(expectedHeaders);
 	}
@@ -210,11 +210,11 @@ public class FinancialInfoPage extends PageObject {
 	public String getTotalAdjustments() {
 		return totalAdjustments.getText();
 	}
-	
+
 	public void expandTotalCharges() {
 		totalChargesScrollArrow.click();
 	}
-	
+
 	public List<String> getTotalChargesTableHeaders() {
 		List<String> listOfTextValuesOfTotalChargesTableHeaders = new ArrayList<>();
 		for (WebElementFacade totalChargesTableHeader : listOfTotalChargesTableHeaders) {
@@ -222,7 +222,7 @@ public class FinancialInfoPage extends PageObject {
 		}
 		return listOfTextValuesOfTotalChargesTableHeaders;
 	}
-	
+
 	public List<String> getServiceDateList() {
 		List<String> dateService = new ArrayList<>();
 		for (WebElementFacade element : serviceDate) {
@@ -298,7 +298,7 @@ public class FinancialInfoPage extends PageObject {
 		}
 		return descCharge;
 	}
-	
+
 	public String getTotalCharges() {
 		return totalChargesValue.getText();
 	}
@@ -306,17 +306,17 @@ public class FinancialInfoPage extends PageObject {
 	public Object getExpectedPayment() {
 		return expectedPaymentValue.getText();
 	}
-	
+
 	public String getPatientPaymentText() {
 		withAction().moveToElement(patientPaymentsValue).build().perform();
 		return patientPaymentsValue.getText().trim();
 	}
-	
+
 	public String getInsurancePaymentAmount() {
 		withAction().moveToElement(insurancePaymentAmount).build().perform();
 		return insurancePaymentAmount.getText();
 	}
-	
+
 	public String getPatientPaymentAmount() {
 		withAction().moveToElement(patientPaymentsAmount).build().perform();
 		return patientPaymentsAmount.getText().trim();
