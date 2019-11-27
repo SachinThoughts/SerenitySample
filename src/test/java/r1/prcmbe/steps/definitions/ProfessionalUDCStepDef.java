@@ -424,4 +424,25 @@ public class ProfessionalUDCStepDef extends PageObject {
 		facility = facility.substring(0, 4);
 		DatabaseConn.getServerDBName(webdriverURL, facility);
 	}
+
+	@Then("^user should be able to view Add Defect Type pop-up disappear$")
+	public void user_should_be_able_to_view_Add_Defect_Type_pop_up_disappear() {
+		Assert.assertFalse("Add defect sub-category pop up is visible", uDCPage.checkSuccessMsgPopupVisibility());
+	}
+
+	@Then("^user should be able to view Add Defect Sub Category pop-up disappear$")
+	public void user_should_be_able_to_view_Add_Defect_Sub_Category_pop_up_disappear() {
+		Assert.assertFalse("Add defect sub-category pop up is visible", uDCPage.checkSuccessMsgPopupVisibility());
+	}
+
+	@When("^user clicks on Defect Type tab$")
+	public void user_clicks_on_Defect_Type_tab() {
+		uDCPage.clickOnDefectTypeTab();
+	}
+
+	@When("^user clicks on edit button on any existing defect$")
+	public void user_clicks_on_edit_button_on_any_existing_defect() {
+		defectTypeList = uDCPage.getListOfDefectTypes();
+		uDCPage.clickEditLink();
+	}
 }

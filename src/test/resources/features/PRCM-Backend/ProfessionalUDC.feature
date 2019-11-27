@@ -73,12 +73,12 @@ Feature: Verify ProfessionalUDC related scenarios in PRCM
     And user should be able to view Add Defect Sub Category pop-up disappear
     When user clicks on Defect Type tab
     And user clicks on edit button on any existing defect
+
     #Then user should be able to view Edit Defect Type modal popup
     #When user edits with a valid <defectTypeName> in defect type name
     #And user check or uncheck Active checkbox
     #And user clicks on Save Defect Type button
     #Then user should be able to view message as "Defect Type Updated Successfully"
-
     Examples: 
       | defectTypeName | defectSubCategoryName       |
       | Automation     | AutomationDefectSubcategory |

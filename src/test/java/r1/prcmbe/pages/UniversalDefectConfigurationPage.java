@@ -151,6 +151,15 @@ public class UniversalDefectConfigurationPage extends PageObject {
 	@FindBy(xpath = "//*[@id='addSOP']//button[2]")
 	private WebElementFacade saveSopBtn;
 
+	@FindBy(xpath = "//div[@id='msg_success']")
+	private WebElementFacade successMsg;
+
+	@FindBy(id = "dTypeAhtodec")
+	private WebElementFacade defectTypeTab;
+
+	@FindBy(xpath = "//span[text()='Edit']")
+	private List<WebElementFacade> editLinksList;
+
 	public boolean checkUDCTitleVisibility() {
 		return uDCTitle.isVisible();
 	}
@@ -328,7 +337,7 @@ public class UniversalDefectConfigurationPage extends PageObject {
 	}
 
 	public String getDefectTypeSuccessMsg() {
-		return defectTypeSuccessMsg.getText().trim();
+		return successMsg.getText().trim();
 	}
 
 	public String getNewlyAddedDefectType() {
@@ -388,5 +397,22 @@ public class UniversalDefectConfigurationPage extends PageObject {
 
 	public void clickSaveChangesSopBtn() {
 		saveSopBtn.withTimeoutOf(Duration.ofSeconds(10)).waitUntilVisible().click();
+	}
+
+	public boolean checkSuccessMsgPopupVisibility() {
+		return successMsg.withTimeoutOf(Duration.ofSeconds(10)).waitUntilNotVisible().isVisible();
+	}
+
+	public void clickOnDefectTypeTab() {
+		defectTypeTab.click();
+	}
+
+	public void clickEditLink() {
+		waitForAngularRequestsToFinish();
+		index = editLinksList.size() - 1;
+		System.out.println(editLinksList.size());
+		System.out.println(index);
+		evaluateJavascript("arguments[0].scrollIntoView(true);", editLinksList.get(index));
+		evaluateJavascript("arguments[0].click();", editLinksList.get(index));
 	}
 }
