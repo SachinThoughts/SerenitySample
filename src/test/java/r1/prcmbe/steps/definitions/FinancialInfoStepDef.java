@@ -242,4 +242,16 @@ public class FinancialInfoStepDef {
 						+ financialInfoPage.getPatientPaymentText() + " doesnt match for Account#: " + invoiceNumber,
 				("$" + financialInfoElementVal).contains(financialInfoPage.getPatientPaymentText()));
 	}
+
+	@Then("^user should able to view \"([^\"]*)\" against Insurance Payments under Financial Information section$")
+	public void user_should_able_to_view_against_Insurance_Payments_under_Financial_Information_section(String status) {
+		Assert.assertTrue("Insurance Payment is displaying a value instead of N/A",
+				financialInfoPage.getInsurancePaymentAmount().equals(status));
+	}
+
+	@Then("^user should be able to view \"([^\"]*)\" against Patient Payment under Financial Information section$")
+	public void user_should_be_able_to_view_against_Patient_Payment_under_Financial_Information_section(String status) {
+		Assert.assertTrue("Patient Payment is displaying a value instead of N/A",
+				financialInfoPage.getPatientPaymentAmount().equals(status));
+	}
 }

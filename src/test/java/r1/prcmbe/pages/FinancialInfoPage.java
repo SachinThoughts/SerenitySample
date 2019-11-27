@@ -111,6 +111,12 @@ public class FinancialInfoPage extends PageObject {
 	@FindBy(id = "lblTotalPatientPayments")
 	private WebElementFacade patientPaymentsValue;
 	
+	@FindBy(xpath = "(//*[@id = 'divTotalInsurancePaymentsNA']//h5)[2]")
+	private WebElementFacade insurancePaymentAmount;
+	
+	@FindBy(xpath = "(//*[@id = 'divTotalPatientPaymentsNA']//h5)[2]")
+	private WebElementFacade patientPaymentsAmount;
+	
 	public boolean isFinanceInfoHeadersVisible(List<String> expectedHeaders) {
 		return getFinInfoHeaderAttributes().containsAll(expectedHeaders);
 	}
@@ -304,5 +310,15 @@ public class FinancialInfoPage extends PageObject {
 	public String getPatientPaymentText() {
 		withAction().moveToElement(patientPaymentsValue).build().perform();
 		return patientPaymentsValue.getText().trim();
+	}
+	
+	public String getInsurancePaymentAmount() {
+		withAction().moveToElement(insurancePaymentAmount).build().perform();
+		return insurancePaymentAmount.getText();
+	}
+	
+	public String getPatientPaymentAmount() {
+		withAction().moveToElement(patientPaymentsAmount).build().perform();
+		return patientPaymentsAmount.getText().trim();
 	}
 }
