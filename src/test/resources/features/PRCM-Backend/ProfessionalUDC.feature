@@ -49,7 +49,7 @@ Feature: Verify ProfessionalUDC related scenarios in PRCM
       | defectTypeName | defectSubCategoryName       |
       | Automation     | AutomationDefectSubcategory |
 
-  @391394 @PRCMUser @Sprint8
+  @391394 @PRCMUser @Sprint102
   Scenario Outline: Verify that user should able to update UDC at technical  level
     Given user is on UDC Admin configuration page
     When user clicks on R1Decision Config Tab

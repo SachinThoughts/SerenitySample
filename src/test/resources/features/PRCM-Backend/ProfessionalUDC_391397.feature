@@ -13,7 +13,7 @@ Feature: Verify ProfessionalUDC related scenarios in PRCM
     And user enters the query result in Invoice Number search textbox
     And user clicks on submit button
 
-  @391397 @PRCMUser
+  @391397 @PRCMUser @Sprint102
   Scenario: Verify the SOPs for Professional Denials
     Given user is on R1 Decision Account page
     When user clicks on next button in defect workflow section until user reaches SOPs
