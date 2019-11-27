@@ -42,7 +42,9 @@ public class WorkflowConfigurationStepDef extends PageObject {
 			respondDeadlineOnEditDispositionPopUp, actionName;
 
 	List<String> listDBDispositionCode = new ArrayList<String>();
-	int dbWorkFlowTypeId;
+	int dbWorkFlowTypeId, dbWorkflowSubTypeId;
+	List<String> actionIDList = new ArrayList<>();
+	List<String> dispositionNamesList = new ArrayList<>();
 
 	@Given("^user having AHtoDecision Admin role is on R1 Hub page$")
 	public void user_having_AHtoDecision_Admin_role_is_on_R1_Hub_page() {
@@ -956,5 +958,87 @@ public class WorkflowConfigurationStepDef extends PageObject {
 	public void user_should_be_able_to_view_error_message_something(String actionNameErrorMsg) {
 		Assert.assertTrue("ExpectedAction Name Error message is not displayed",
 				workflowConfigPage.getErrMsgOnDuplicateActionName().contains(actionNameErrorMsg));
+	}
+
+	@When("^user run the query by passing selected Handoff name (.*)$")
+	public void user_run_the_query_by_passing_selected_Handoff_name(String queryName) throws Exception {
+		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
+				String.format(commonMethods.loadQuery(queryName, dbFileName), dbHandOffName));
+	}
+
+	@When("^user run the query by passing selected Recipient name (.*)$")
+	public void user_run_the_query_by_passing_selected_Recipient_name(String queryName) throws Exception {
+		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
+				String.format(commonMethods.loadQuery(queryName, dbFileName), dbRecipientName));
+	}
+
+	@Then("^user should be able to fetch the Workflowtypeid and SubTypeID for respective Handoff type and associated Recipient$")
+	public void user_should_be_able_to_fetch_the_Workflowtypeid_and_SubTypeID_for_respective_Handoff_type_and_associated_Recipient() {
+		try {
+			while (DatabaseConn.resultSet.next()) {
+				dbWorkFlowTypeId = DatabaseConn.resultSet.getInt("WorkFlowTypeID");
+				dbWorkflowSubTypeId = DatabaseConn.resultSet.getInt("SubTypeID");
+			}
+		} catch (SQLException exception) {
+			Assert.assertTrue("WorkFlowTypeId and WorkFlowSubTypeId is not fetched from DB.\nThe Technical Error is:\n"
+					+ exception, false);
+		}
+	}
+
+	@When("^user run the query by passing fetched Workflowtypeid and SubTypeID (.*)$")
+	public void user_run_the_query_by_passing_fetched_Workflowtypeid_and_SubTypeID(String queryName) throws Exception {
+		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
+				String.format(commonMethods.loadQuery(queryName, dbFileName), dbWorkFlowTypeId, dbWorkflowSubTypeId));
+	}
+
+	@When("^user run the query by passing Workflowtypeid and SubTypeID to fetch ActionID (.*)$")
+	public void user_run_the_query_by_passing_Workflowtypeid_and_SubTypeID_to_fetch_ActionID(String queryName)
+			throws ClassNotFoundException, SQLException, Exception {
+		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
+				String.format(commonMethods.loadQuery(queryName, dbFileName), dbWorkFlowTypeId, dbWorkflowSubTypeId));
+	}
+
+	@Then("^user should be able to view Number of actions in db as reflected in UI$")
+	public void user_should_be_able_to_view_Number_of_actions_in_db_as_reflected_in_UI() throws SQLException {
+		while (DatabaseConn.resultSet.next()) {
+			actionIDList.add(DatabaseConn.resultSet.getString("ActionId"));
+		}
+		Assert.assertTrue("The number of actions in DB and UI does not match",
+				actionIDList.size() == workflowConfigPage.getActionNamesCount());
+	}
+
+	@When("^user run the query by passing fetched ActionId (.*)$")
+	public void user_run_the_query_by_passing_fetched_ActionId(String queryName) throws Exception {
+		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
+				String.format(commonMethods.loadQuery(queryName, dbFileName), actionIDList.get(0)));
+	}
+
+	@Then("^user should be able to view same action in db as reflected on UI$")
+	public void user_should_be_able_to_view_same_action_in_db_as_reflected_on_UI() throws SQLException {
+		while (DatabaseConn.resultSet.next()) {
+			actionName = DatabaseConn.resultSet.getString("Name");
+		}
+		Assert.assertTrue("The action name in DB and UI does not match",
+				workflowConfigPage.getListOfActionNames().contains(actionName));
+	}
+
+	@When("^user selects any actions from Choose Action Type grid$")
+	public void user_selects_any_actions_from_Choose_Action_Type_grid() {
+		workflowConfigPage.clickSpecificRadioBtnOnActionTab(actionName);
+	}
+
+	@When("^user run the query by passing ActionId of selected Action (.*)$")
+	public void user_run_the_query_by_passing_ActionId_of_selected_Action(String queryName) throws Exception {
+		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
+				String.format(commonMethods.loadQuery(queryName, dbFileName), actionIDList.get(0)));
+		while (DatabaseConn.resultSet.next()) {
+			dispositionNamesList.add(DatabaseConn.resultSet.getString("Disposition"));
+		}
+	}
+
+	@Then("^user should be able to view same disposition type in DB as as reflected on UI$")
+	public void user_should_be_able_to_view_same_disposition_type_in_DB_as_as_reflected_on_UI() {
+		Assert.assertTrue("The disposition does not match with DB and UI",
+				dispositionNamesList.equals(workflowConfigPage.getListOfDispositionNames()));
 	}
 }

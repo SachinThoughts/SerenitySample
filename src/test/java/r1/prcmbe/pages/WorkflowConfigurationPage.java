@@ -309,6 +309,9 @@ public class WorkflowConfigurationPage extends PageObject {
 
 	@FindBy(xpath = "//*[@class='sop-header dispositions']/li")
 	private List<WebElementFacade> listOfDispositionHeader;
+	
+	@FindBy(xpath = "//*[@id='dvWorkflowTypeActions']/ul/li/div[1]/div/div/label")
+	private List<WebElementFacade> actionsRadioBtnList;
 
 	@FindBy(xpath = "//*[@id='editRecipient']//div[@class ='form-group']/label")
 	private List<WebElementFacade> listOfEditRecipientLabels;
@@ -1104,4 +1107,33 @@ public class WorkflowConfigurationPage extends PageObject {
 		closeBtnOnActionPopUp.click();
 	}
 	
+	public int getActionNamesCount() {
+		return listOfActionNames.size();
+	}
+	
+	public List<String> getListOfActionNames(){
+		List<String> actionNamesList=new ArrayList<>();
+		for(WebElementFacade actionName:listOfActionNames) {
+			actionNamesList.add(actionName.getText());
+		}
+		return actionNamesList;
+	}
+	
+	public void clickSpecificRadioBtnOnActionTab(String actionName) {
+		int size = listOfActionNames.size();
+		for (int i = 0; i < size; i++) {
+			if (listOfActionNames.get(i).getText().equals(actionName)) {
+				withAction().moveToElement(actionsRadioBtnList.get(i)).build().perform();
+				evaluateJavascript("arguments[0].click();", actionsRadioBtnList.get(i));
+			}
+		}
+	}
+	
+	public List<String> getListOfDispositionNames(){
+		List<String> listOfDispositionNames=new ArrayList<>();
+		for(WebElementFacade dispositionName:dispositionNameList) {
+			listOfDispositionNames.add(dispositionName.getText());
+		}
+		return listOfDispositionNames;
+	}
 }
