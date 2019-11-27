@@ -65,14 +65,6 @@ public class DatabaseConn {
 					databaseName = resultSet.getString("databasename");
 				}
 			}
-			
-			else if (url.contains("prcm")) {
-				serverConn("ahv-phsqaods01", "Accretive", query);
-				while (resultSet.next()) {
-					serverName = resultSet.getString("servername");
-					databaseName = resultSet.getString("databasename");
-				}
-			}
 
 		} catch (Exception e) {
 			System.out.println(e);
