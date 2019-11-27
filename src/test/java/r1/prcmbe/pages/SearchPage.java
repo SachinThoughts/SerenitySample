@@ -73,7 +73,7 @@ public class SearchPage extends PageObject {
 	@FindBy(xpath = "//select[@class='form-control ddlOperator']")
 	private WebElementFacade operator;
 
-	@FindBy(xpath = "//*[@id='dvAccountSearch' or @class='modal-body']/table/tbody/tr/td[2]//a")
+	@FindBy(xpath = "////*[@id='dvAccountSearch' or @class='modal-body']/table/tbody/tr/td[2]")
 	private List<WebElementFacade> listOfSearchedInvNum;
 
 	@FindBy(id = "msg_info")
@@ -97,7 +97,7 @@ public class SearchPage extends PageObject {
 	@FindBy(id = "lblAccountNo")
 	private WebElementFacade patientAccountNo;
 
-	@FindBy(xpath = "//*[@id='dvAccountSearch' or @class='modal-body']/table/tbody/tr/td[1]//a")
+	@FindBy(xpath = "//*[@id='dvAccountSearch' or @class='modal-body']/table/tbody/tr/td[1]")
 	private List<WebElementFacade> listOfSearchedAccNum;
 
 	@FindBy(id = "lblSSN")
