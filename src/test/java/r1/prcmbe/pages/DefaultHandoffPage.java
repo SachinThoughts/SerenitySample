@@ -238,6 +238,10 @@ public class DefaultHandoffPage extends PageObject {
 	@FindBy(xpath = "//span[contains(text(),'AHtoDecision Admin')]/ancestor::li/div[2]/span[@data-bind='text: workflowDescriptionName']")
 	private List<WebElementFacade> listOfAHtoDecisionAdminWorkflows;
 
+	
+	public boolean isAddNewActionBtnVisisble() {
+		return addNewActionButton.isVisible();
+	}
 	public String getTextDefaultHandOffPageTitle() {
 		return defaultHandOffPageTitle.getText().trim();
 	}
@@ -418,6 +422,14 @@ public class DefaultHandoffPage extends PageObject {
 		String actionName = RandomStringUtils.randomAlphabetic(13);
 		actionNameTextBox.type(actionName);
 		return actionName;
+	}
+	
+	public String getActionNameFromTextBox() {
+		return evaluateJavascript("return arguments[0].value;", actionNameTextBox).toString();
+	}
+	
+	public void enterCopiedActionName(String previousActionName) {
+		actionNameTextBox.type(previousActionName);
 	}
 
 	public String enterActionDescriptionTextBox(String actionDescription) {

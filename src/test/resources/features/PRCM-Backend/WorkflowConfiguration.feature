@@ -272,6 +272,64 @@ Feature: Verify WorkFlowConfiguration related scenarios in PRCM
       | query1                         | query2                          | query3                        | query4                            |
       | 434767_WFConfig_CheckRecipient | 434767_WFConfig_CheckRecipient1 | 434767_WFConfig_ReorderAction | 434770_BDD_R1D_WFConfig_NewAction |
 
+  @434778 @AHtoDecisionAdmin @Sprint102
+  Scenario Outline: TC_18 Verify user is not allowed to add same Action name for a particular Handoff and Recipient but same action can be added in any other Handoff and Recipient
+    Given user having AHtoDecision Admin role is on workflow configuration home page
+    When user login to SQL server and connect to database
+    And user run the query to fetch hand-off id <query1>
+    And user run the query to fetch hand-off name <query2>
+    And user fetches any Handoff Type from DB
+    And user clicks on Radio button against any fetched Handoff Type in Choose Handoff grid
+    And user clicks on continue button on Handoff tab
+    And user clicks on Continue button on Recipient tab
+    And user verifies that radio button is selected to associated Action Type
+    Then user should be able to able to navigate to Action Type tab
+    And user should be able to view Action Type tab selected highlighted in blue color
+    And user should able to view Workflow Summary label with selected Action Type appended
+    And user should be able to view +Add Action button
+    And user should be able to view Continue > Action button
+    And user should able to view grid with columns headers
+      | Name | Follow Up Days | Time Limit | Status | Active |
+    And user should be able to view Edit link button adjacent to associated Action Type
+    And user should be able to view Radio button adjacent to Action Type for selecting any Action
+    And user should be able to view Details link for particular Action Type
+    And user should be able to view Reorder link button against each Action Type
+    When user clicks on Edit link button adjacent to particular Action Type
+    And user copies the Action Name by clicking and dragging the mouse through entire text
+    And user clicks on close button on Action popup
+    And user should no longer be able to view Add New Action pop-up window
+    And user clicks on +Add New Action button
+    And user enters same action name copied in previous step in Action Name textbox
+    And for Actions user enters text: "ActionDescTest123" in Action Description textbox
+    When for Actions user selects "BSO_Followup" option from Next Action By dropdown
+    When for Actions user enters "1" in Follow Up Days textbox
+    When for Actions user enters: "999" in Follow Respond Deadline textbox
+    When for Actions user selects: "Identified" option from Action Status dropdown
+    And user clicks on Required checkbox
+    When user clicks on Save Changes button on action popup
+    Then user should be able to view error message "Action Name already exists"
+    And user clicks on close button on Action popup
+    And user should no longer be able to view Add New Action pop-up window
+    When user clicks on Hand off tab
+    And user selects any Hand off other than selected above
+    And user clicks on continue button on Handoff tab
+    And user clicks on Continue button on Recipient tab
+    And user clicks on +Add New Action button
+    And user enters same action name copied in previous step in Action Name textbox
+    And for Actions user enters text: "ActionDescTestNew" in Action Description textbox
+    When for Actions user selects "BSO_Followup" option from Next Action By dropdown
+    When for Actions user enters "1" in Follow Up Days textbox
+    When for Actions user enters: "999" in Follow Respond Deadline textbox
+    When for Actions user selects: "Identified" option from Action Status dropdown
+    And user clicks on Required checkbox
+    When user clicks on Save Changes button on action popup
+    Then user should be able to view the appropriate success message: "Saved successfully"
+    And user should no longer be able to view Add New Action pop-up window
+
+    Examples: 
+      | query1                         | query2                          |
+      | 434767_WFConfig_CheckRecipient | 434767_WFConfig_CheckRecipient1 |
+
   @434772 @AHtoDecisionAdmin @Sprint101
   Scenario Outline: Verify data & controls in "Choose a Disposition Type" grid
     Given user having AHtoDecision Admin role is on workflow configuration home page

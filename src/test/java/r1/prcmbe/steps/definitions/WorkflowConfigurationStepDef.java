@@ -39,7 +39,7 @@ public class WorkflowConfigurationStepDef extends PageObject {
 			recipientNameOtherThanDefault, dispositionNotes, workflowName, respondDeadline, updatedBy, updatedDate,
 			successMsg, recipientName, recipientDesc, createdBy, createdDate, nextDispositionByDropdownValue,
 			dispositionStatusByDropdownValue, dispositionCodeFromTextBox, updatedRecipientDesc,
-			respondDeadlineOnEditDispositionPopUp;
+			respondDeadlineOnEditDispositionPopUp, actionName;
 
 	List<String> listDBDispositionCode = new ArrayList<String>();
 	int dbWorkFlowTypeId;
@@ -864,5 +864,97 @@ public class WorkflowConfigurationStepDef extends PageObject {
 				.formatDbDateFieldWithDateTime(updatedDate).equals(workflowConfigPage.getUpdatedDateFieldValue()));
 		Assert.assertTrue("Updated by does not match with DB",
 				updatedBy.equals(workflowConfigPage.getUpdatedByFieldValue()));
+	}
+
+	@When("^user clicks on Edit link button adjacent to particular Action Type$")
+	public void user_clicks_on_edit_link_button_adjacent_to_particular_action_type() {
+		workflowConfigPage.clickFirstEditLinkOnActionTypeTab();
+	}
+
+	@Then("^user should be able to able to navigate to Action Type tab$")
+	public void user_should_be_able_to_able_to_navigate_to_action_type_tab() {
+		Assert.assertTrue("User is not able to navigate to Action type", workflowConfigPage.isActionTabVisible());
+	}
+
+	@And("^user should be able to view Action Type tab selected highlighted in blue color$")
+	public void user_should_be_able_to_view_action_type_tab_selected_highlighted_in_blue_color() {
+		Assert.assertTrue("Handoff tab color is not Blue",
+				workflowConfigPage.getActionTypeTabColor().equals(BLUECOLORRGBCODE));
+	}
+
+	@And("^user should able to view Workflow Summary label with selected Action Type appended$")
+	public void user_should_able_to_view_workflow_summary_label_with_selected_action_type_appended() {
+		String actionNameSelected = workflowConfigPage.getSelectedActionTypeName();
+		Assert.assertTrue("Action Typ tab: ActionName not displayed in the crumb",
+				workflowConfigPage.getActionTextBreadcrumb().contains(actionNameSelected));
+	}
+
+	@And("^user should be able to view \\+Add Action button$")
+	public void user_should_be_able_to_view_add_action_button() {
+		Assert.assertTrue("+Add new Action Button is not visible ", defaultHandOffPage.isAddNewActionBtnVisisble());
+	}
+
+	@And("^user should be able to view Continue > Action button$")
+	public void user_should_be_able_to_view_continue_action_button() {
+		Assert.assertTrue(" Continue button on Action Type is not visible ",
+				workflowConfigPage.isContinueBtnOnActionTypeVisible());
+	}
+
+	@And("^user should able to view grid with columns headers$")
+	public void user_should_able_to_view_grid_with_columns_headers(DataTable popupControls) {
+		List<String> actionTypeHeaders = popupControls.asList(String.class);
+		Assert.assertTrue("User is not able to see headers on Action type  with controls",
+				workflowConfigPage.getActionTypeHeaders().containsAll(actionTypeHeaders));
+	}
+
+	@And("^user should be able to view Edit link button adjacent to associated Action Type$")
+	public void user_should_be_able_to_view_edit_link_button_adjacent_to_associated_action_type() {
+		Assert.assertTrue("User is not able to view Edit link ", workflowConfigPage.isEditLinkOnActionTypeVisible());
+	}
+
+	@And("^user should be able to view Radio button adjacent to Action Type for selecting any Action$")
+	public void user_should_be_able_to_view_radio_button_adjacent_to_action_type_for_selecting_any_action() {
+		Assert.assertTrue("Radio button is not visible ", workflowConfigPage.isRadioBtnOnActionTypeVisible());
+	}
+
+	@And("^user should be able to view Details link for particular Action Type$")
+	public void user_should_be_able_to_view_details_link_for_particular_action_type() {
+		Assert.assertTrue("Details link not visible ", workflowConfigPage.isDetailLinkOnActionTypeVisible());
+	}
+
+	@And("^user should be able to view Reorder link button against each Action Type$")
+	public void user_should_be_able_to_view_reorder_link_button_against_each_action_type() {
+		Assert.assertTrue("Reorder link is not visible ", workflowConfigPage.isReorderOnActionTypeVisible());
+	}
+
+	@And("^user copies the Action Name by clicking and dragging the mouse through entire text$")
+	public void user_copies_the_action_name_by_clicking_and_dragging_the_mouse_through_entire_text() {
+		actionName = defaultHandOffPage.getActionNameFromTextBox();
+	}
+
+	@And("^user clicks on close button on Action popup$")
+	public void user_clicks_on_close_button_on_action_popup() {
+		workflowConfigPage.clickOnCloseBtnOnActionPopup();
+	}
+
+	@When("^user enters same action name copied in previous step in Action Name textbox$")
+	public void user_enters_same_action_name_copied_in_previous_step_in_Action_Name_textbox() {
+		defaultHandOffPage.enterCopiedActionName(actionName);
+	}
+
+	@When("^user clicks on Hand off tab$")
+	public void user_clicks_on_Hand_off_tab() {
+		workflowConfigPage.clickHandoffTab();
+	}
+
+	@When("^user selects any Hand off other than selected above$")
+	public void user_selects_any_Hand_off_other_than_selected_above() {
+		workflowConfigPage.clickOnRandomHandoffType();
+	}
+
+	@Then("^user should be able to view error message \"([^\"]*)\"$")
+	public void user_should_be_able_to_view_error_message_something(String actionNameErrorMsg) {
+		Assert.assertTrue("ExpectedAction Name Error message is not displayed",
+				workflowConfigPage.getErrMsgOnDuplicateActionName().contains(actionNameErrorMsg));
 	}
 }

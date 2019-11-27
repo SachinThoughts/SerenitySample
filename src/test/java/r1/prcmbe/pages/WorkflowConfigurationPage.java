@@ -21,6 +21,9 @@ public class WorkflowConfigurationPage extends PageObject {
 
 	@FindBy(id = "HandoffLink")
 	private WebElementFacade handoffTab;
+	
+	@FindBy(id= "ActionTypeLink")
+	private WebElementFacade actionTypeTab;
 
 	@FindBy(xpath = "//div[@class = 'navbar']//li/a")
 	private List<WebElementFacade> workflowTabs;
@@ -336,6 +339,85 @@ public class WorkflowConfigurationPage extends PageObject {
 
 	@FindBy(xpath = "//*[@id='WorkflowTypeDispositionSorttable']//*[@id='TLMT0']")
 	private WebElementFacade mappedTimeLimitValueOnDispositionTypeGrid;
+	
+	@FindBy(xpath = "//*[@id='step3']//h2[text()='Choose Action Type']")
+	private WebElementFacade actionTab;
+	
+	@FindBy(xpath = "//ul[@class='sop-header wf-action-type']/li")
+	private List<WebElementFacade> headersOnActionType;
+	
+	@FindBy(xpath = "(//*[@id='WorkflowTypeActionsSorttable']//ul)[1]/preceding-sibling::div//a[3]/i")
+	private WebElementFacade detailsLinkBtnOnActionTypeTab;
+	
+	@FindBy(xpath = "(//*[@id='WorkflowTypeActionsSorttable']//a[@data-target='#addNewAction'])[1]")
+	private WebElementFacade firstEditLinkOnActionTypeTab;
+	
+	@FindBy(xpath = "//a[@class='reorder']")
+	private WebElementFacade reorderLinkOnActionType;
+	
+	@FindBy(xpath="//div[@class='alert alert-danger']/span")
+	private WebElementFacade duplicateActionNameErrMsg;
+	
+	@FindBy(xpath = "//ul[@id='WorkflowTypeActionsSorttable']/li/div[3]/span[@id='NA0']")
+	private WebElementFacade actionTypeName;
+	
+	@FindBy(xpath = "//ol[@class='breadcrumb defect-summary']")
+	private WebElementFacade actionTypeBreadcrumb;
+	
+	public String getActionTextBreadcrumb() {
+		return actionTypeBreadcrumb.getText().trim();
+	}
+	
+	public String getSelectedActionTypeName() {
+		return actionTypeName.getText().trim();
+	}
+	
+	public String getErrMsgOnDuplicateActionName() {
+		return duplicateActionNameErrMsg.getText().trim();
+	}
+	
+	public void clickFirstEditLinkOnActionTypeTab() {
+		firstEditLinkOnActionTypeTab.withTimeoutOf(Duration.ofSeconds(20)).waitUntilVisible().click();
+	}
+	public boolean isActionTabVisible() {
+		return actionTab.isVisible();
+	}
+	
+	public boolean isContinueBtnOnActionTypeVisible() {
+		return continueBtnOnActionTypeTab.isVisible();
+	}
+	
+	public boolean isDetailLinkOnActionTypeVisible() {
+		return detailsLinkBtnOnActionTypeTab.isVisible();
+	}
+	
+	public boolean isRadioBtnOnActionTypeVisible() {
+		return listOfActionTypeRadioBtns.get(0).isVisible();
+	}
+	
+	public boolean isEditLinkOnActionTypeVisible() {
+		return firstEditLinkOnActionTypeTab.isVisible();
+	}
+	
+	public boolean isReorderOnActionTypeVisible() {
+		return reorderLinkOnActionType.isVisible();
+	}
+	
+	public void clickOnDetailsBtnOnActionTypeTab() {
+		detailsLinkBtnOnActionTypeTab.click();
+	}
+	
+	public void clickHandoffTab() {
+		handoffTab.click();
+	}
+	
+	public List<String> getActionTypeHeaders() {
+		List<String> listOfLabels = new ArrayList<String>();
+		for (WebElementFacade headers : headersOnActionType) {
+			listOfLabels.add(headers.getText().trim());
+		}
+		return listOfLabels;
+	}
 
 	public void clickOnDetailsLinkOnDispositionTab() {
 		evaluateJavascript("arguments[0].click();", listOfDetailsLinkOnDispositionTab.get(0));
@@ -351,6 +433,11 @@ public class WorkflowConfigurationPage extends PageObject {
 
 	public void clickOnActionType() {
 		actionTypeLink.click();
+	}
+	
+	public void clickOnRandomHandoffType() {
+		int randomHandoff=CommonMethods.getRandom(handoffTypeRadioBtnList.size()-1);
+		evaluateJavascript("arguments[0].click();", handoffTypeRadioBtnList.get(randomHandoff));
 	}
 
 	public String getDispositionCodeFromTextBox() {
@@ -619,6 +706,10 @@ public class WorkflowConfigurationPage extends PageObject {
 
 	public String getHandoffTabColor() {
 		return handoffTab.getCssValue("background-color");
+	}
+	
+	public String getActionTypeTabColor() {
+		return actionTypeTab.getCssValue("background-color");
 	}
 
 	public List<String> getWorkflowTabs() {
@@ -1008,4 +1099,9 @@ public class WorkflowConfigurationPage extends PageObject {
 	public String getMappedDispositionTimeLimitValueOnDispositionTypeGrid() {
 		return mappedTimeLimitValueOnDispositionTypeGrid.getText();
 	}
+	
+	public void clickOnCloseBtnOnActionPopup() {
+		closeBtnOnActionPopUp.click();
+	}
+	
 }
