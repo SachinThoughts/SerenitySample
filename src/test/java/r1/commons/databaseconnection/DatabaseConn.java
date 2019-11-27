@@ -94,6 +94,7 @@ public class DatabaseConn {
 			} else {
 				dbUrl = "jdbc:sqlserver://" + serverHost + ";databaseName=" + dbName + ";integratedSecurity=true";
 			}
+
 			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
 
 			Connection conn = DriverManager.getConnection(dbUrl);
