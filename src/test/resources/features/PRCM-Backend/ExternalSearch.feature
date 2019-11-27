@@ -9,12 +9,12 @@ Feature: This is to verify external search functionality in R1 PRCM-BE
 
   @429052 @Sprint8 @PRCMUser
   Scenario: Verify whether Invoice Number is appearing by default selected in Search By dropdown for PRCM enabled site
-    Given user is on "R1 Hub Technologies 2.0 - 01 R1_Decision - Search" page
+    Given user is on "R1 Hub Technologies 2.0 - 15 R1_Decision - Search" page
     Then user should be able to view Invoice Number selected by default in Search By drop down
 
   @429053 @Sprint8 @PRCMUser
   Scenario Outline: Verify the error message displayed when user searches an invalid data in Search textbox with equal operator
-    Given user is on "R1 Hub Technologies 2.0 - 01 R1_Decision - Search" page
+    Given user is on "R1 Hub Technologies 2.0 - 15 R1_Decision - Search" page
     When user selects <dropdown> from Search By drop down
     And user enters invalid value in <Invalid Data> textbox 
     And user clicks on Submit button
@@ -31,7 +31,7 @@ Feature: This is to verify external search functionality in R1 PRCM-BE
 
   @429054 @Sprint8 @PRCMUser
   Scenario Outline: Verify that Submit button is disabled for Search textbox for Like Operator if user enters less than five characters
-    Given user is on "R1 Hub Technologies 2.0 - 01 R1_Decision - Search" page
+    Given user is on "R1 Hub Technologies 2.0 - 15 R1_Decision - Search" page
     When user selects <dropdown> from Search By drop down
     And user selects "Like" operator from operator dropdown
     And user enters less than 5 characters in <lessThanFivetext> textbox
@@ -47,7 +47,7 @@ Feature: This is to verify external search functionality in R1 PRCM-BE
 
   @429058 @Sprint8 @PRCMUser
   Scenario Outline: Verify that Submit button is enabled for Search textbox for Like Operator if user enters 5 or more characters
-    Given user is on "R1 Hub Technologies 2.0 - 01 R1_Decision - Search" page
+    Given user is on "R1 Hub Technologies 2.0 - 15 R1_Decision - Search" page
     When user selects <dropdown> from Search By drop down
     And user selects "Like" operator from operator dropdown
     And user enters more than or equal to 5 characters <moreThanFivetext> in textbox
@@ -67,7 +67,7 @@ Feature: This is to verify external search functionality in R1 PRCM-BE
 
   @429061 @Sprint8 @PRCMUser
   Scenario Outline: Verify that when user does not enter anything in Search textbox then message appeared or not
-    Given user is on "R1 Hub Technologies 2.0 - 01 R1_Decision - Search" page
+    Given user is on "R1 Hub Technologies 2.0 - 15 R1_Decision - Search" page
     When user selects <option> from Search By drop down
     And user clicks on Submit button
     Then user should be able to view message "Please enter the value for" <option>
