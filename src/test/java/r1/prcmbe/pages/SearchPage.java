@@ -99,6 +99,12 @@ public class SearchPage extends PageObject {
 
 	@FindBy(xpath = "//*[@id='dvAccountSearch' or @class='modal-body']/table/tbody/tr/td[1]")
 	private List<WebElementFacade> listOfSearchedAccNum;
+	
+	@FindBy(xpath="//*[@id='dvAccountSearch' or @class='modal-body']/table/tbody/tr/td[5]")
+	private List<WebElementFacade> listOfSearchedMRN;
+	
+	@FindBy(id="lblMRN")
+	private WebElementFacade patientMRN;
 
 	String titleJS = "return document.querySelector('#Head > title').text";
 	String facilityCodeJS = "return document.querySelector('#dnn_ctr1025_ModuleContent > span > span:nth-child(1)').textContent";
@@ -348,5 +354,17 @@ public class SearchPage extends PageObject {
 
 	public void invoiceNumberShouldNotVisible() {
 		invoiceNumber.shouldNotBeVisible();
+	}
+	
+	public List<String> getlistOfMRN() {
+		waitForAngularRequestsToFinish();
+		List<String> listOfMRN = new ArrayList<>();
+		for (WebElementFacade mRNNoElement : listOfSearchedMRN) {
+			listOfMRN.add(mRNNoElement.getText());
+		}
+		return listOfMRN;
+	}
+	public String getMRNText() {
+		return patientMRN.withTimeoutOf(Duration.ofSeconds(20)).waitUntilVisible().getText();
 	}
 }

@@ -14,12 +14,12 @@ Feature: Verify internal search on R1 Decision page
 
   @391031 @Sprint101 @PRCMUser
   Scenario: Verify that R1D page for PRCM enabled site Invoice number should be default criteria
-    Given user is on "R1 Hub Technologies 2.0 - 01 R1_Decision" page
+    Given user is on "R1 Hub Technologies 2.0 - 15 R1_Decision" page
     Then user should be able to view Invoice Number selected by default in Search By drop down
 
   @391032 @Sprint101 @PRCMUser
   Scenario Outline: Verify the error message displayed when user searches an invalid data in Search textbox with equal operator
-    Given user is on "R1 Hub Technologies 2.0 - 01 R1_Decision" page
+    Given user is on "R1 Hub Technologies 2.0 - 15 R1_Decision" page
     When user selects <dropdown> from Search By drop down
     And user enters invalid value in <Invalid Data> textbox 
     And user clicks on Submit button
@@ -36,7 +36,7 @@ Feature: Verify internal search on R1 Decision page
 
   @391033 @Sprint101 @PRCMUser
   Scenario Outline: Verify that Submit button is disabled for Search textbox for Like Operator if user enters less than five characters
-    Given user is on "R1 Hub Technologies 2.0 - 01 R1_Decision" page
+    Given user is on "R1 Hub Technologies 2.0 - 15 R1_Decision" page
     When user selects <dropdown> from Search By drop down
     And user selects "Like" operator from operator dropdown
     And user enters less than 5 characters in <lessThanFivetext> textbox
@@ -52,7 +52,7 @@ Feature: Verify internal search on R1 Decision page
 
   @391034 @Sprint101 @PRCMUser
   Scenario Outline: Verify that Submit button is enabled for Search textbox for Like Operator if user enters 5 or more characters
-    Given user is on "R1 Hub Technologies 2.0 - 01 R1_Decision" page
+    Given user is on "R1 Hub Technologies 2.0 - 15 R1_Decision" page
     When user selects <dropdown> from Search By drop down
     And user selects "Like" operator from operator dropdown
     And user enters more than or equal to 5 characters <moreThanFivetext> in textbox
@@ -72,7 +72,7 @@ Feature: Verify internal search on R1 Decision page
 
   @391035 @Sprint101 @PRCMUser
   Scenario Outline: Verify that when user does not enter anything in Search textbox then message appeared or not
-    Given user is on "R1 Hub Technologies 2.0 - 01 R1_Decision" page
+    Given user is on "R1 Hub Technologies 2.0 - 15 R1_Decision" page
     When user selects <option> from Search By drop down
     And user clicks on Submit button
     Then user should be able to view message "Please enter the value for" <option>
@@ -88,7 +88,7 @@ Feature: Verify internal search on R1 Decision page
 
   @391036 @Sprint101 @PRCMUser
   Scenario Outline: Verify the error message displayed when user searches an invalid Search textbox with Like operator on R1D Page
-    Given user is on "R1 Hub Technologies 2.0 - 01 R1_Decision" page
+    Given user is on "R1 Hub Technologies 2.0 - 15 R1_Decision" page
     When user selects <dropdown> from Search By drop down
     And user selects "Like" operator from operator dropdown
     And user enters invalid value in <Invalid Data> textbox 
@@ -104,14 +104,14 @@ Feature: Verify internal search on R1 Decision page
 
   @391037 @Sprint101 @PRCMUser
   Scenario: Verify that user is able to search an account with Invoice Number using equal operator on R1D Page
-    Given user is on "R1 Hub Technologies 2.0 - 01 R1_Decision" page
+    Given user is on "R1 Hub Technologies 2.0 - 15 R1_Decision" page
     When user enter the query result of SQL1 in Invoice Number search textbox
     And user clicks on Submit button
     Then user should be able to navigate to the R1D account page for searched Invoice Number
 
   @428162 @Sprint101 @PRCMUser
   Scenario Outline: Verify that user is able to search an account with Visit Number having invoice number associated to it on R1D Page
-    Given user is on "R1 Hub Technologies 2.0 - 01 R1_Decision" page
+    Given user is on "R1 Hub Technologies 2.0 - 15 R1_Decision" page
     When user login to SQL Server and connect to facility database
     And user runs the <queryname3> query to fetch account data
     And user selects "Visit Number" from Search By dropdown
@@ -139,9 +139,9 @@ Feature: Verify internal search on R1 Decision page
       | SearchInternal_428162_SQL3 | SearchInternal_428162_SQL9 | Like     |
       | SearchInternal_428162_SQL3 | SearchInternal_428162_SQL9 | =        |
 
-  @428160 @Sprint101 @PRCMUser
+  @428160 @Sprint102 @PRCMUser
   Scenario Outline: Verify that user is able to search an account with Visit Number using equal operator on R1D Page
-    Given user is on "R1 Hub Technologies 2.0 - 01 R1_Decision" page
+    Given user is on "R1 Hub Technologies 2.0 - 15 R1_Decision" page
     When user login to SQL Server and connect to facility database
     And user runs the <queryname2> query for search
     And user selects <dropdown> from Search By drop down
@@ -154,9 +154,9 @@ Feature: Verify internal search on R1 Decision page
       | queryname2                 | dropdown     |
       | SearchInternal_428160_SQL2 | Visit Number |
 
-  @428161 @Sprint101 @PRCMUser
+  @428161 @Sprint102 @PRCMUser
   Scenario Outline: Verify that user is able to search an account with Visit Number does not having invoice number associated to it on R1D Page
-    Given user is on "R1 Hub Technologies 2.0 - 01 R1_Decision" page
+    Given user is on "R1 Hub Technologies 2.0 - 15 R1_Decision" page
     And user selects <dropdown> from Search By drop down
     And user selects <Operator> from Operator dropdown
     And user login to SQL Server and connect to facility database
@@ -166,13 +166,13 @@ Feature: Verify internal search on R1 Decision page
     Then user should be able to navigate to the R1D account page for searched Visit Number and verify invoice number should not be visible
 
     Examples: 
-      | queryname14                 | dropdown      | Operator |
-      | SearchInternal_428161_SQL14 | Visit Number  | Like     |
-      | SearchInternal_428161_SQL14 | Visit Number  | =        |
+      | queryname14                 | dropdown     | Operator |
+      | SearchInternal_428161_SQL14 | Visit Number | Like     |
+      | SearchInternal_428161_SQL14 | Visit Number | =        |
 
-  @391038
+  @391038 @Sprint101 @PRCMUser
   Scenario Outline: Verify that user is able to search an account with Search textbox using Like operator on R1D Page
-    Given user is on "R1 Hub Technologies 2.0 - 01 R1_Decision" page
+    Given user is on "R1 Hub Technologies 2.0 - 15 R1_Decision" page
     And user selects <dropdown> from Search By drop down
     And user selects "Like" operator from operator dropdown
     And user enters <AnyFiveDigitNumber> in <option> textbox
@@ -190,11 +190,63 @@ Feature: Verify internal search on R1 Decision page
       | Defect Type         |
       | Defect Sub-Category |
     When user login to SQL Server and connect to facility database
-    And user runs the <queryname8> query for search
-    Then user should be able to view the same result in grid as SQL result
+    And user runs query and fetch visit number <queryname8>
+    Then user should be able to view the same result in grid as SQL result for visit number
 
     Examples: 
-      | option                | AnyFiveDigitNumber | queryname8                 |
-      | Visit Number          |              12345 | SearchInternal_391038_SQL8 |
-      | Invoice Number        |              12345 | SearchInternal_391038_SQL8 |
-      | Medical Record Number |              12345 | SearchInternal_391038_SQL8 |
+      | dropdown     | option            | AnyFiveDigitNumber | queryname8                 |
+      | Visit Number | Visit Number      |             123456 | SearchInternal_391038_SQL8 |
+
+  @3910381 @Sprint102 @PRCMUser
+  Scenario Outline: Verify that user is able to search an account with Search textbox using Like operator on R1D Page
+    Given user is on "R1 Hub Technologies 2.0 - 15 R1_Decision" page
+    And user selects <dropdown> from Search By drop down
+    And user selects "Like" operator from operator dropdown
+    And user enters <AnyFiveDigitNumber> in <option> textbox
+    And user clicks on Submit button
+    Then user should be able to view the grid with following columns
+      | Visit #             |
+      | Invoice #           |
+      | Name                |
+      | Facility Code       |
+      | MRN                 |
+      | Gender              |
+      | PT                  |
+      | Service Date        |
+      | PPC                 |
+      | Defect Type         |
+      | Defect Sub-Category |
+    When user login to SQL Server and connect to facility database
+    And user runs query and fetch invoice number <queryname9>
+    Then user should be able to view the same result in grid as SQL result for invoice number
+
+    Examples: 
+      | dropdown       | option            | AnyFiveDigitNumber | queryname9                   |
+      | Invoice Number | Invoice Number    |              12345 | SearchInternal_391038_1_SQL8 |
+
+  @3910382 @Sprint102 @PRCMUser
+  Scenario Outline: Verify that user is able to search an account with Search textbox using Like operator on R1D Page
+    Given user is on "R1 Hub Technologies 2.0 - 15 R1_Decision" page
+    And user selects <dropdown> from Search By drop down
+    And user selects "Like" operator from operator dropdown
+    And user enters <AnyFiveDigitNumber> in <option> textbox
+    And user clicks on Submit button
+    Then user should be able to view the grid with following columns
+      | Visit #             |
+      | Invoice #           |
+      | Name                |
+      | Facility Code       |
+      | MRN                 |
+      | Gender              |
+      | PT                  |
+      | Service Date        |
+      | PPC                 |
+      | Defect Type         |
+      | Defect Sub-Category |
+    When user login to SQL Server and connect to facility database
+    And user runs query and fetch MRN number <queryname9>
+    Then user should be able to view the same result in grid as SQL result for MRN number
+
+    Examples: 
+      | dropdown              | option                | AnyFiveDigitNumber | queryname9                   |
+      | Medical Record Number | Medical Record Number |              12345 | SearchInternal_391038_2_SQL8 |

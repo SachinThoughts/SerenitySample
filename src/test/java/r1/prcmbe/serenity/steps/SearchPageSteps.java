@@ -123,5 +123,24 @@ public class SearchPageSteps {
 		return searchPage.isPatientAndVisitHeaderVisible()
 				&& dbEncounterID.equalsIgnoreCase(searchPage.getAccountNumber());
 	}
+	
+	@Step
+	public boolean verifyEncounterIDOnUIWithDatabaseResult(List<String> dblistOfEncounterID) {
+		financialInfoSteps.log("List of names from UI:\n" + searchPage.getListOfSearchedNames());
+		if (searchPage.isSearchAccTableVisible()) {
+			System.out.println("UI LIST : "  +searchPage.getlistOfAccNum());
+			return (new ArrayList<>(new HashSet<>(searchPage.getlistOfAccNum())).containsAll(dblistOfEncounterID));
+		}
+		return searchPage.isPatientAndVisitHeaderVisible() && dblistOfEncounterID.contains(searchPage.getAccountNumber());
+	}
 
+	@Step
+	public boolean verifyInvoiceNumberOnUIWithDatabaseResult(List<String> dblistOfInvoiceNumber) {
+		financialInfoSteps.log("List of names from UI:\n" + searchPage.getListOfSearchedNames());
+		if (searchPage.isSearchAccTableVisible()) {
+			System.out.println("UI LIST : "  +searchPage.getlistOfMRN());
+			return dblistOfInvoiceNumber.containsAll(new ArrayList<>(new HashSet<>(searchPage.getlistOfMRN())));
+		}
+		return searchPage.isPatientAndVisitHeaderVisible() && dblistOfInvoiceNumber.contains(searchPage.getMRNText());
+	}
 }
