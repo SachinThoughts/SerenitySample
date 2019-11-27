@@ -353,7 +353,7 @@ Feature: Verify internal search on R1 Decision page
       | Visit Number | Visit Number      |             123456 | SearchInternal_391038_SQL8 |
 
   @391038 @Sprint102 @PRCMUser
-  Scenario Outline: Verify that user is able to search an account with Search textbox using Like operator on R1D Page
+  Scenario Outline: Verify that user is able to search an Invoice Number with Search textbox using Like operator on R1D Page
     Given user is on "R1 Hub Technologies 2.0 - 15 R1_Decision" page
     And user selects <dropdown> from Search By drop down
     And user selects "Like" operator from operator dropdown
@@ -380,7 +380,7 @@ Feature: Verify internal search on R1 Decision page
       | Invoice Number | Invoice Number    |              12345 | SearchInternal_391038_1_SQL8 |
 
   @391038 @Sprint102 @PRCMUser
-  Scenario Outline: Verify that user is able to search an account with Search textbox using Like operator on R1D Page
+  Scenario Outline: Verify that user is able to search an MRN with Search textbox using Like operator on R1D Page
     Given user is on "R1 Hub Technologies 2.0 - 15 R1_Decision" page
     And user selects <dropdown> from Search By drop down
     And user selects "Like" operator from operator dropdown
