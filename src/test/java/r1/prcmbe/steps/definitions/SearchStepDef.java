@@ -391,7 +391,7 @@ public class SearchStepDef extends PageObject {
 		Assert.assertTrue("Visit number or Invoice number on UI does not match with database",
 				searchPage.getPatientAccountNo().contains(dbEncounterId));
 	}
-	
+
 	@When("^user runs the (.*) query to fetch name for search$")
 	public void user_runs_the_query_to_fetch_name_for_search(String queryName) throws Exception {
 		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
@@ -570,5 +570,15 @@ public class SearchStepDef extends PageObject {
 			throws ClassNotFoundException, SQLException, Exception {
 		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName, String
 				.format(commonMethods.loadQuery(queryName, dbQueryFilename), dbLastName + "%", dbFirstName + "%"));
+	}
+
+	@When("^user runs the (.*) query to fetch visit number$")
+	public void user_runs_the_query_to_fetch_visit_number(int arg1, int arg2) {
+
+	}
+
+	@Then("^user should be able to view the same result in grid as SQL result for visit number$")
+	public void user_should_be_able_to_view_the_same_result_in_grid_as_SQL_result_for_visit_number() {
+
 	}
 }

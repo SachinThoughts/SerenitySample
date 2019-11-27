@@ -252,3 +252,30 @@ Feature: This is to verify external search functionality in R1 PRCM-BE
     Examples: 
       | queryname10                 | queryname4                 |
       | SearchExternal_429258_SQL10 | SearchExternal_429258_SQL4 |
+
+  @429148 @PRCMUser @Sprint102
+  Scenario Outline: Verify that user is able to search an account with Visit Number using equal operator having invoice number associated to it
+    Given user is on R1 Decision search page
+    When user is able to login to sql server and connect to database
+    And user runs the <queryname3> query to fetch account data
+    And user selects "Visit Number" from Search By dropdown
+    And user enters the query result in Visit Number search textbox
+    And user clicks on submit button
+    Then user should be able to view the grid with following columns if they are visible else verify the searched account
+      | Visit #             |
+      | Invoice #           |
+      | Name                |
+      | Facility Code       |
+      | MRN                 |
+      | Gender              |
+      | PT                  |
+      | Service Date        |
+      | PPC                 |
+      | Defect Type         |
+      | Defect Sub-Category |
+    And user runs the <queryname9> query to search Visit number
+    Then user should be able to view the same result in grid as SQL result for searched Visit number
+
+    Examples: 
+      | queryname9                 | queryname3                 |
+      | SearchExternal_429148_SQL9 | SearchExternal_429128_SQL3 |
