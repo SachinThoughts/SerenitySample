@@ -157,8 +157,20 @@ public class UniversalDefectConfigurationPage extends PageObject {
 	@FindBy(id = "dTypeAhtodec")
 	private WebElementFacade defectTypeTab;
 
-	@FindBy(xpath = "//span[text()='Edit']")
+	@FindBy(xpath = "//*[@class='sop-types sortable defects']//li//div[2]/span[starts-with(text(),'Automation')]/ancestor::li//span[text()='Edit']")
 	private List<WebElementFacade> editLinksList;
+
+	@FindBy(xpath = "//h4[text()='Edit Defect Type']")
+	private WebElementFacade editModalPopUp;
+
+	@FindBy(id = "dnn_ctr1588_TaskPanel_taskBase_DefectTypeControl_txtUpdateDefectType")
+	private WebElementFacade editDefectTypeNameTextbox;
+
+	@FindBy(id = "dnn_ctr1588_TaskPanel_taskBase_DefectTypeControl_chkUpdateDefectType")
+	private WebElementFacade editActiveCheckbox;
+
+	@FindBy(id = "dnn_ctr1588_TaskPanel_taskBase_DefectTypeControl_btnUpdateDefectType")
+	private WebElementFacade saveDefectTypeBtn;
 
 	public boolean checkUDCTitleVisibility() {
 		return uDCTitle.isVisible();
@@ -409,10 +421,25 @@ public class UniversalDefectConfigurationPage extends PageObject {
 
 	public void clickEditLink() {
 		waitForAngularRequestsToFinish();
-		index = editLinksList.size() - 1;
-		System.out.println(editLinksList.size());
-		System.out.println(index);
+		index = listOfAutomationRadioBtn.size() - 1;
+		evaluateJavascript("arguments[0].click();", listOfAutomationRadioBtn.get(index));
 		evaluateJavascript("arguments[0].scrollIntoView(true);", editLinksList.get(index));
 		evaluateJavascript("arguments[0].click();", editLinksList.get(index));
+	}
+
+	public boolean getEditModalPopUpVisibility() {
+		return editModalPopUp.isVisible();
+	}
+
+	public void editDefectTypeName(String defectType) {
+		editDefectTypeNameTextbox.type(defectType);
+	}
+
+	public void selectEditActiveCheckbox() {
+		editActiveCheckbox.click();
+	}
+
+	public void clickSaveBtn() {
+		saveDefectTypeBtn.click();
 	}
 }

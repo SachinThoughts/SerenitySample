@@ -445,4 +445,25 @@ public class ProfessionalUDCStepDef extends PageObject {
 		defectTypeList = uDCPage.getListOfDefectTypes();
 		uDCPage.clickEditLink();
 	}
+
+	@Then("^user should be able to view Edit Defect Type modal popup$")
+	public void user_should_be_able_to_view_Edit_Defect_Type_modal_popup() {
+		Assert.assertTrue("Edit defect type modal pop up not visible", uDCPage.getEditModalPopUpVisibility());
+	}
+
+	@When("^user edits with a valid (.*) in defect type name$")
+	public void user_edits_with_a_valid_in_defect_type_name(String defectType) {
+		randomDefectTypeName = proUDCSteps.getDefectTypeValue(defectType, defectTypeList);
+		uDCPage.editDefectTypeName(randomDefectTypeName);
+	}
+
+	@When("^user check or uncheck Active checkbox$")
+	public void user_check_or_uncheck_Active_checkbox() {
+		uDCPage.selectEditActiveCheckbox();
+	}
+
+	@When("^user clicks on Save Defect Type button$")
+	public void user_clicks_on_Save_Defect_Type_button() {
+		uDCPage.clickSaveBtn();
+	}
 }
