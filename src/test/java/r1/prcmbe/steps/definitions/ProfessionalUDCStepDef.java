@@ -351,7 +351,6 @@ public class ProfessionalUDCStepDef extends PageObject {
 	public void user_runs_the_query_to_fetch_skills_id(String queryName) throws Exception {
 		String query = commonMethods.loadQuery(queryName, dbFileName);
 		query = String.format(query, defectSubcategoryId);
-		System.out.println(query);
 		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName, query);
 	}
 
