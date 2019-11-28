@@ -104,7 +104,7 @@ Feature: Verify internal search on R1 Decision page
 
   @391037 @Sprint101 @PRCMUser
   Scenario: Verify that user is able to search an account with Invoice Number using equal operator on R1D Page
-    Given user is on "R1 Hub Technologies 2.0 - 01 R1_Decision" page
+    Given user is on "R1 Hub Technologies 2.0 - 15 R1_Decision" page
     When user enter the query result of SQL1 in Invoice Number search textbox
     And user clicks on Submit button
     Then user should be able to navigate to the R1D account page for searched Invoice Number
