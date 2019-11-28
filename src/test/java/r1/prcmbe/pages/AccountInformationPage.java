@@ -1,5 +1,6 @@
 package r1.prcmbe.pages;
 
+import java.time.Duration;
 import java.util.*;
 
 import net.serenitybdd.core.annotations.findby.FindBy;
@@ -64,6 +65,18 @@ public class AccountInformationPage extends PageObject {
 
 	@FindBy(id = "ddlHandOffType")
 	private WebElementFacade handOffTypeDrpDown;
+
+	@FindBy(id = "lblBreadcrumb")
+	private WebElementFacade defectBreadcrumb;
+
+	@FindBy(xpath = "//fieldset[not(contains(@style,'display: none')) or not(@style)]//a//span[text()='Next']")
+	private WebElementFacade defectWorflowNextBtn;
+
+	@FindBy(xpath = "//*[@id='cblActionsRequired']/label")
+	private List<WebElementFacade> sOPList;
+
+	@FindBy(xpath = "//*[@id='btnVerifyNextStep']/span[1]")
+	private WebElementFacade nextBtn;
 
 	public String getAccountNumber() {
 		waitForAngularRequestsToFinish();
@@ -175,5 +188,29 @@ public class AccountInformationPage extends PageObject {
 
 	public List<String> getHandOffTypeDrpDownValues() {
 		return handOffTypeDrpDown.getSelectOptions();
+	}
+
+	public String getDefectSubcategoryBreadcrumb() {
+		String defectLabel = defectBreadcrumb.getText().trim();
+		String[] defectSubcategory = defectLabel.split(">>\\s");
+		return defectSubcategory[1];
+	}
+
+	public void clickDefectWorkflowNextBtn() {
+		defectWorflowNextBtn.click();
+	}
+
+	public void clickNextBtn() {
+		if (nextBtn.isVisible()) {
+			nextBtn.withTimeoutOf(Duration.ofSeconds(60)).click();
+		}
+	}
+
+	public List<String> getSOPList() {
+		List<String> sOPNamesList = new ArrayList<>();
+		for (WebElementFacade sOP : sOPList) {
+			sOPNamesList.add(sOP.getText().trim());
+		}
+		return sOPNamesList;
 	}
 }
