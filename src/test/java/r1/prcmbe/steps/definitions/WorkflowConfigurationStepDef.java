@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 import org.junit.Assert;
 import cucumber.api.DataTable;
-import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
@@ -257,14 +256,14 @@ public class WorkflowConfigurationStepDef extends PageObject {
 				workflowConfigPage.isChooseRecipientVisible());
 	}
 
-	@And("^user should be able to view grid with columns headers$")
+	@When("^user should be able to view grid with columns headers$")
 	public void user_should_be_able_to_view_grid_with_columns_headers(DataTable expectedColumnHeaders) {
 		List<String> recipientColumnLabels = expectedColumnHeaders.asList(String.class);
 		Assert.assertTrue(" User is not able to view column headers",
 				workflowConfigPage.getSopHeaderList().containsAll(recipientColumnLabels));
 	}
 
-	@And("^user should be able to view Edit icon button adjacent to Recipient and Radio button checked against first Recipient$")
+	@When("^user should be able to view Edit icon button adjacent to Recipient and Radio button checked against first Recipient$")
 	public void user_should_be_able_to_view_edit_icon_button_adjacent_to_recipient_and_radio_button_checked_against_first_recipient() {
 		Assert.assertTrue("Edit Icon is not visible against Recipient Name ",
 				workflowConfigPage.isEditIconOnRecipientTabVisible());
@@ -272,7 +271,7 @@ public class WorkflowConfigurationStepDef extends PageObject {
 				workflowConfigPage.isFirstRecipientBtnSelected().equalsIgnoreCase("true"));
 	}
 
-	@And("^user should be able to view Details link button for respective Recipient$")
+	@When("^user should be able to view Details link button for respective Recipient$")
 	public void user_should_be_able_to_view_details_link_button_for_respective_recipient() {
 		Assert.assertTrue("User is not able to view Details link ",
 				workflowConfigPage.isDetailsIconOnRecipientVisible());
@@ -319,7 +318,7 @@ public class WorkflowConfigurationStepDef extends PageObject {
 				workflowConfigPage.getListOfLabelsOnDispositionPopup().containsAll(dispositionPopupLabels));
 	}
 
-	@And("^user can see Save changes button on the Disposition popup$")
+	@When("^user can see Save changes button on the Disposition popup$")
 	public void user_can_see_save_changes_button_on_the_disposition_popup() {
 		Assert.assertTrue("Save Button is not visisble on the DispositionPopup",
 				workflowConfigPage.isSaveBtnOnDispositionPopupVisible());
@@ -381,7 +380,7 @@ public class WorkflowConfigurationStepDef extends PageObject {
 		workflowConfigPage.clickOnNewlyDispositionDetailsLink();
 	}
 
-	@And("^user runs the Add Disposition Detail query \"([^\"]*)\"$")
+	@When("^user runs the Add Disposition Detail query \"([^\"]*)\"$")
 	public void user_runs_the_add_disposition_detail_query_something(String queryName)
 			throws ClassNotFoundException, SQLException, Exception {
 		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
@@ -455,7 +454,7 @@ public class WorkflowConfigurationStepDef extends PageObject {
 		workflowConfigPage.clickOnActionType();
 	}
 
-	@And("^user Chooses some other action other than the one chosen above$")
+	@When("^user Chooses some other action other than the one chosen above$")
 	public void user_chooses_some_other_action_other_than_the_one_chosen_above() {
 		workflowConfigPage.clickOnAnyActionTypeRadioBtn();
 	}
@@ -466,17 +465,17 @@ public class WorkflowConfigurationStepDef extends PageObject {
 				workflowConfigPage.getDispositionErrorMsgOnDuplicateCode().contains(errorMessage));
 	}
 
-	@And("^user clicks on Edit button against any listed disposition type$")
+	@When("^user clicks on Edit button against any listed disposition type$")
 	public void user_clicks_on_edit_button_against_any_listed_disposition_type() {
 		workflowConfigPage.clickOnEditLinkOnDispositionGrid();
 	}
 
-	@And("^user copies the same disposition code fetched in above step belonging to some different action$")
+	@When("^user copies the same disposition code fetched in above step belonging to some different action$")
 	public void user_copies_the_same_disposition_code_fetched_in_above_step_belonging_to_some_different_action() {
 		workflowConfigPage.enterPreviousDispositionCode(dispositionCodeFromTextBox);
 	}
 
-	@And("^user updates the Disposition Code as unique Alphanumeric value other than those fetched by running query \"([^\"]*)\"$")
+	@When("^user updates the Disposition Code as unique Alphanumeric value other than those fetched by running query \"([^\"]*)\"$")
 	public void user_updates_the_disposition_code_as_unique_alphanumeric_value_other_than_those_fetched_by_running_query_something(
 			String queryName) throws ClassNotFoundException, SQLException, Exception {
 		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
@@ -842,7 +841,7 @@ public class WorkflowConfigurationStepDef extends PageObject {
 		workflowConfigPage.clickOnDetailsLinkOnDispositionTab();
 	}
 
-	@And("^user run the query to fetch edit disposition Detail (.+)$")
+	@When("^user run the query to fetch edit disposition Detail (.+)$")
 	public void user_run_the_query_to_fetch_edit_disposition_detail(String queryName)
 			throws ClassNotFoundException, SQLException, Exception {
 		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
@@ -878,63 +877,63 @@ public class WorkflowConfigurationStepDef extends PageObject {
 		Assert.assertTrue("User is not able to navigate to Action type", workflowConfigPage.isActionTabVisible());
 	}
 
-	@And("^user should be able to view Action Type tab selected highlighted in blue color$")
+	@When("^user should be able to view Action Type tab selected highlighted in blue color$")
 	public void user_should_be_able_to_view_action_type_tab_selected_highlighted_in_blue_color() {
 		Assert.assertTrue("Handoff tab color is not Blue",
 				workflowConfigPage.getActionTypeTabColor().equals(BLUECOLORRGBCODE));
 	}
 
-	@And("^user should able to view Workflow Summary label with selected Action Type appended$")
+	@When("^user should able to view Workflow Summary label with selected Action Type appended$")
 	public void user_should_able_to_view_workflow_summary_label_with_selected_action_type_appended() {
 		String actionNameSelected = workflowConfigPage.getSelectedActionTypeName();
 		Assert.assertTrue("Action Typ tab: ActionName not displayed in the crumb",
 				workflowConfigPage.getActionTextBreadcrumb().contains(actionNameSelected));
 	}
 
-	@And("^user should be able to view \\+Add Action button$")
+	@When("^user should be able to view \\+Add Action button$")
 	public void user_should_be_able_to_view_add_action_button() {
 		Assert.assertTrue("+Add new Action Button is not visible ", defaultHandOffPage.isAddNewActionBtnVisisble());
 	}
 
-	@And("^user should be able to view Continue > Action button$")
+	@When("^user should be able to view Continue > Action button$")
 	public void user_should_be_able_to_view_continue_action_button() {
 		Assert.assertTrue(" Continue button on Action Type is not visible ",
 				workflowConfigPage.isContinueBtnOnActionTypeVisible());
 	}
 
-	@And("^user should able to view grid with columns headers$")
+	@When("^user should able to view grid with columns headers$")
 	public void user_should_able_to_view_grid_with_columns_headers(DataTable popupControls) {
 		List<String> actionTypeHeaders = popupControls.asList(String.class);
 		Assert.assertTrue("User is not able to see headers on Action type  with controls",
 				workflowConfigPage.getActionTypeHeaders().containsAll(actionTypeHeaders));
 	}
 
-	@And("^user should be able to view Edit link button adjacent to associated Action Type$")
+	@When("^user should be able to view Edit link button adjacent to associated Action Type$")
 	public void user_should_be_able_to_view_edit_link_button_adjacent_to_associated_action_type() {
 		Assert.assertTrue("User is not able to view Edit link ", workflowConfigPage.isEditLinkOnActionTypeVisible());
 	}
 
-	@And("^user should be able to view Radio button adjacent to Action Type for selecting any Action$")
+	@When("^user should be able to view Radio button adjacent to Action Type for selecting any Action$")
 	public void user_should_be_able_to_view_radio_button_adjacent_to_action_type_for_selecting_any_action() {
 		Assert.assertTrue("Radio button is not visible ", workflowConfigPage.isRadioBtnOnActionTypeVisible());
 	}
 
-	@And("^user should be able to view Details link for particular Action Type$")
+	@When("^user should be able to view Details link for particular Action Type$")
 	public void user_should_be_able_to_view_details_link_for_particular_action_type() {
 		Assert.assertTrue("Details link not visible ", workflowConfigPage.isDetailLinkOnActionTypeVisible());
 	}
 
-	@And("^user should be able to view Reorder link button against each Action Type$")
+	@When("^user should be able to view Reorder link button against each Action Type$")
 	public void user_should_be_able_to_view_reorder_link_button_against_each_action_type() {
 		Assert.assertTrue("Reorder link is not visible ", workflowConfigPage.isReorderOnActionTypeVisible());
 	}
 
-	@And("^user copies the Action Name by clicking and dragging the mouse through entire text$")
+	@When("^user copies the Action Name by clicking and dragging the mouse through entire text$")
 	public void user_copies_the_action_name_by_clicking_and_dragging_the_mouse_through_entire_text() {
 		actionName = defaultHandOffPage.getActionNameFromTextBox();
 	}
 
-	@And("^user clicks on close button on Action popup$")
+	@When("^user clicks on close button on Action popup$")
 	public void user_clicks_on_close_button_on_action_popup() {
 		workflowConfigPage.clickOnCloseBtnOnActionPopup();
 	}
