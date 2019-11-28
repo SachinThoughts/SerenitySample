@@ -178,3 +178,29 @@ Feature: This feature is to verify the financial Information functionality
     Examples:  
       | queryName13                                |
       | Financial_Information_Section_424877_SQL13 |
+
+  @425643 @Sprint102 @PRCMUser
+  Scenario Outline: Verify the drilldown detail for Insurance Payments column>0
+    Given user is able to login to sql server and connect to database
+    When user executes the query for InvoiceNumber <queryName2>
+    And user fetch the InvoiceNumber from DB
+    And user enters InvoiceNumber in the InvoiceNumber field and click on submit button
+    And user scrolls down till Financial Information Section
+    And user clicks on drill down icon of Insurance Payments
+    Then User should be able to view following fields under insurance payment section:
+      | Payment Code        |
+      | Payment Description |
+      | PayorPlanCode       |
+      | PayorPlanName       |
+      | Date Posted         |
+      | DateOfTransaction   |
+      | TypeOfTransaction   |
+      | Amount              |
+      | GLCode              |
+    When user is able to login to sql server and connect to database
+    And user executes the query to fetch insurance payment details <queryName7>
+    Then user should be able to view same data in drilldown section of Insurance Payments as SQL result
+
+    Examples: 
+      | queryName2                                | queryName7                                |
+      | Financial_Information_Section_391023_SQL2 | Financial_Information_Section_391028_SQL7 |
