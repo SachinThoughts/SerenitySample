@@ -77,7 +77,7 @@ Feature: Verify Workflow Distribution related scenarios in PRCM-BE
     And user should not be able to view any data in side the grid
 
   @427405 @ARSupervisor @Sprint102
-  Scenario: Verify AR Supervisor is able to access all the  tabs  under "Workflow Distribution" screen
+  Scenario: Verify AR Supervisor is able to access all the tabs and fields on default tab under "Workflow Distribution" screen
     Given user is on Workflow Distribution screen
     Then user should be able view following tabs under Workflow Distribution
       | Payer Inventory | Patient Inventory | Facility Inventory | Teams | Reps |
