@@ -565,20 +565,10 @@ public class SearchStepDef extends PageObject {
 				searchPage.getErrorMsg().equalsIgnoreCase(errorMsg));
 	}
 
-	@Then("^user runs the (.*) query to fetch firstname and lastname$")
+	@When("^user runs the (.*) query to fetch firstname and lastname$")
 	public void user_runs_the_query_to_fetch_firstname_and_lastname(String queryName)
 			throws ClassNotFoundException, SQLException, Exception {
 		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName, String
 				.format(commonMethods.loadQuery(queryName, dbQueryFilename), dbLastName + "%", dbFirstName + "%"));
-	}
-
-	@When("^user runs the (.*) query to fetch visit number$")
-	public void user_runs_the_query_to_fetch_visit_number(int arg1, int arg2) {
-
-	}
-
-	@Then("^user should be able to view the same result in grid as SQL result for visit number$")
-	public void user_should_be_able_to_view_the_same_result_in_grid_as_SQL_result_for_visit_number() {
-
 	}
 }

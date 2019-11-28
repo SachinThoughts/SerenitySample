@@ -219,7 +219,7 @@ Feature: This is to verify external search functionality in R1 PRCM-BE
       | PPC                 |
       | Defect Type         |
       | Defect Sub-Category |
-    Then user runs the <queryname11> query to fetch firstname and lastname
+    When user runs the <queryname11> query to fetch firstname and lastname
     Then user should be able to view the same result in grid as SQL result for Last Name/First Name
 
     Examples: 
