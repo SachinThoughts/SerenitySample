@@ -204,3 +204,16 @@ Feature: This feature is to verify the financial Information functionality
     Examples: 
       | queryName2                                | queryName7                                |
       | Financial_Information_Section_391023_SQL2 | Financial_Information_Section_391028_SQL7 |
+
+  @424015 @Sprint102 @PRCMUser
+  Scenario Outline: Verify the amount for Unbilled Balance column
+    Given user is able to login to sql server and connect to database
+    When user executes the query for InvoiceNumber <queryName15>
+    And user fetch the InvoiceNumber and "UnbilledBalance" from DB
+    And user enters InvoiceNumber in the InvoiceNumber field and click on submit button
+    And user scrolls down till Financial Information Section
+    Then user should be able to view the same amount in Unbilled Balance column as SQL result 
+
+    Examples: 
+      | queryName15                                |
+      | Financial_Information_Section_424015_SQL15 |
