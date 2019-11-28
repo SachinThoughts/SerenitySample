@@ -5,17 +5,20 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang.RandomStringUtils;
 import org.junit.Assert;
 
 import cucumber.api.DataTable;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import net.serenitybdd.core.environment.EnvironmentSpecificConfiguration;
 import net.serenitybdd.core.pages.PageObject;
 import net.thucydides.core.annotations.Steps;
+import net.thucydides.core.util.EnvironmentVariables;
 import r1.commons.databaseconnection.DatabaseConn;
 import r1.commons.utilities.CommonMethods;
+import r1.prcmbe.pages.AccountInformationPage;
 import r1.prcmbe.pages.FacilityGroupConfigurationPage;
 import r1.prcmbe.pages.LoginPage;
 import r1.prcmbe.pages.NavigationPage;
@@ -39,13 +42,17 @@ public class ProfessionalUDCStepDef extends PageObject {
 	FacilityGroupConfigurationPage facilityGroupConfigPage;
 	SettingsR1DPage settingsR1DPage;
 	LoginPage userLoginPage;
+	AccountInformationPage accInfoPage;
 	CommonMethods commonMethods;
+	EnvironmentVariables environmentVariables;
 
 	private String selectedDefectType, selectedSOPType, selectedDefectSubCategoryValue, addedSOPAction,
-			randomDefectTypeName, randomDefectSubCategory;
+			randomDefectTypeName, randomDefectSubCategory, defectSubcategory;
 
 	List<String> defectTypeList;
 	List<String> defectSubCategoryList;
+	List<String> dbSOPList;
+	List<String> sOPList;
 
 	private static String dbFileName = "ProfessionalUDC";
 
@@ -328,8 +335,9 @@ public class ProfessionalUDCStepDef extends PageObject {
 
 	@When("^user runs the \"([^\"]*)\" query to fetch defect subcategory ID$")
 	public void user_runs_the_query_to_fetch_defect_subcategory_ID(String queryName) throws Exception {
-		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
-				commonMethods.loadQuery(queryName, dbFileName));
+		String query = commonMethods.loadQuery(queryName, dbFileName);
+		query = String.format(query, defectSubcategory);
+		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName, query);
 	}
 
 	@Then("^user should be able to view defectsubcategoryid$")
@@ -389,5 +397,109 @@ public class ProfessionalUDCStepDef extends PageObject {
 	@When("^user clicks on Save Changes button on Add SOP popup$")
 	public void user_clicks_on_Save_Changes_button() {
 		uDCPage.clickSaveChangesSopBtn();
+	}
+
+	@Then("^user should able to open that application name$")
+	public void user_should_able_to_open_that_application_name() {
+		Assert.assertTrue("User not able to view populated screen to configure at Technical account level",
+				uDCPage.innerNavConfigHeaderIsVisible());
+	}
+
+	@Then("^user should be able to view newly added defect at technical level$")
+	public void user_should_be_able_to_view_newly_added_defect_at_technical_level() {
+		Assert.assertTrue("User not able to view newly added defect type with active checkbox at technical level",
+				randomDefectTypeName.equals(uDCPage.getNewlyAddedDefectType()));
+	}
+
+	@Then("^user should be able to view that for all defects which belongs to technical applicationid should be (\\d+)$")
+	public void user_should_be_able_to_view_that_for_all_defects_which_belongs_to_technical_applicationid_should_be(
+			int applicationId) throws SQLException {
+		while (DatabaseConn.resultSet.next()) {
+			Assert.assertTrue("Application ID fetched from DB is not equal to 1",
+					applicationId == DatabaseConn.resultSet.getInt("ApplicationID"));
+		}
+	}
+
+	@When("^user clicks on next button in defect workflow section until user reaches SOPs$")
+	public void user_clicks_on_next_button_in_defect_workflow_section_until_user_reaches_SOPs() {
+		defectSubcategory = accInfoPage.getDefectSubcategoryBreadcrumb();
+		accInfoPage.clickDefectWorkflowNextBtn();
+		accInfoPage.clickNextBtn();
+	}
+
+	@Then("^user should be able to view the SOP action$")
+	public void user_should_be_able_to_view_the_SOP_action() {
+		sOPList = accInfoPage.getSOPList();
+	}
+
+	@When("^user runs the \"([^\"]*)\" query to fetch the list of SOPs$")
+	public void user_runs_the_query_to_fetch_the_list_of_SOPs(String queryName) throws Exception {
+		String query = commonMethods.loadQuery(queryName, dbFileName);
+		query = String.format(query, defectSubcategoryId);
+		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName, query);
+	}
+
+	@Then("^user should be able view SOP list for the passed defectsubcategory$")
+	public void user_should_be_able_view_SOP_list_for_the_passed_defectsubcategory() throws SQLException {
+		dbSOPList = new ArrayList<String>();
+		while (DatabaseConn.resultSet.next()) {
+			dbSOPList.add(DatabaseConn.resultSet.getString(2));
+		}
+	}
+
+	@Then("^user should be able to view Same SOPs Step in DB and UI$")
+	public void user_should_be_able_to_view_Same_SOPs_Step_in_DB_and_UI() {
+		Assert.assertTrue("UI and DB SOPs does not match", dbSOPList.containsAll(sOPList));
+	}
+
+	@Given("^user login to SQL server and connect to facility database$")
+	public void user_login_to_SQL_server_and_connect_to_facility_database() throws IOException {
+		String webdriverURL = EnvironmentSpecificConfiguration.from(environmentVariables)
+				.getProperty("webdriver.base.url");
+		String facility = CommonMethods.loadProperties("facility");
+		facility = facility.substring(0, 4);
+		DatabaseConn.getServerDBName(webdriverURL, facility);
+	}
+
+	@Then("^user should be able to view Add Defect Type pop-up disappear$")
+	public void user_should_be_able_to_view_Add_Defect_Type_pop_up_disappear() {
+		Assert.assertFalse("Add defect sub-category pop up is visible", uDCPage.checkSuccessMsgPopupVisibility());
+	}
+
+	@Then("^user should be able to view Add Defect Sub Category pop-up disappear$")
+	public void user_should_be_able_to_view_Add_Defect_Sub_Category_pop_up_disappear() {
+		Assert.assertFalse("Add defect sub-category pop up is visible", uDCPage.checkSuccessMsgPopupVisibility());
+	}
+
+	@When("^user clicks on Defect Type tab$")
+	public void user_clicks_on_Defect_Type_tab() {
+		uDCPage.clickOnDefectTypeTab();
+	}
+
+	@When("^user clicks on edit button on any existing defect$")
+	public void user_clicks_on_edit_button_on_any_existing_defect() {
+		defectTypeList = uDCPage.getListOfDefectTypes();
+		uDCPage.clickEditLink();
+	}
+
+	@Then("^user should be able to view Edit Defect Type modal popup$")
+	public void user_should_be_able_to_view_Edit_Defect_Type_modal_popup() {
+		Assert.assertTrue("Edit defect type modal pop up not visible", uDCPage.getEditModalPopUpVisibility());
+	}
+
+	@When("^user edits with a valid (.*) in defect type name$")
+	public void user_edits_with_a_valid_in_defect_type_name(String defectType) {
+		randomDefectTypeName = proUDCSteps.getDefectTypeValue(defectType, defectTypeList);
+		uDCPage.editDefectTypeName(randomDefectTypeName);
+	}
+
+	@When("^user check or uncheck Active checkbox$")
+	public void user_check_or_uncheck_Active_checkbox() {
+		uDCPage.selectEditActiveCheckbox();
+	}
+
+	@When("^user clicks on Save Defect Type button$")
+	public void user_clicks_on_Save_Defect_Type_button() {
+		uDCPage.clickSaveBtn();
 	}
 }
