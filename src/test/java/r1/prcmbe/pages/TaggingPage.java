@@ -115,11 +115,11 @@ public class TaggingPage extends PageObject {
 		addNewCategoryBtn.click();
 	}
 
-	public void enterMoreThnHundredCategoryName() {
+	public void enterMreThnHundredCharsInCategoryNameTxtBox() {
 		categoryNameTxtBox.type(RandomStringUtils.randomAlphabetic(105));
 	}
 
-	public void enterUptoFiveHundredTagDisc() {
+	public void enterUptoFiveHundredCharsInTagDiscTxtBox() {
 		tagDescriptionTxtBox.type(RandomStringUtils.randomAlphabetic(500));
 	}
 
@@ -139,11 +139,11 @@ public class TaggingPage extends PageObject {
 		return invalidCategoryNameValidationMsg.getText();
 	}
 	
-	public void enterUptoHundredCategoryName() {
+	public void enterUptoHundredCharsInCategoryNameTxtBox() {
 		categoryNameTxtBox.type(RandomStringUtils.randomAlphabetic(100));
 	}
 
-	public void enterMoreThnFiveHundredTagDisc() {
+	public void enterMoreThnFiveHundredCharsInTagDiscTxtBox() {
 		tagDescriptionTxtBox.type(RandomStringUtils.randomAlphabetic(505));
 	}
 
