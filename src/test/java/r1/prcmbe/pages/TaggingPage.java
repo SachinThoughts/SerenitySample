@@ -57,7 +57,7 @@ public class TaggingPage extends PageObject {
 	@FindBy(xpath = "//button[@class='btn btn-link editRow']//i")
 	private WebElementFacade saveBtn;
 
-	@FindBy(xpath = "//span[text()='Category Name should not more than 100 characters']")
+	@FindBy(xpath = "//span[text()='Category Name should not more than 100 characters' or text()='Category Description should not more than 500 characters']")
 	private WebElementFacade invalidCategoryNameValidationMsg;
 
 	public boolean isTagConfigPageVisible() {
@@ -115,11 +115,11 @@ public class TaggingPage extends PageObject {
 		addNewCategoryBtn.click();
 	}
 
-	public void enterRandomTxtInCategoryNameTxtbox() {
+	public void enterMreThnHundredCharsInCategoryNameTxtBox() {
 		categoryNameTxtBox.type(RandomStringUtils.randomAlphabetic(105));
 	}
 
-	public void enterRandomTxtInTagDiscriptionTxtbox() {
+	public void enterUptoFiveHundredCharsInTagDiscTxtBox() {
 		tagDescriptionTxtBox.type(RandomStringUtils.randomAlphabetic(500));
 	}
 
@@ -138,4 +138,13 @@ public class TaggingPage extends PageObject {
 	public String getCategoryNameValidationMsg() {
 		return invalidCategoryNameValidationMsg.getText();
 	}
+	
+	public void enterUptoHundredCharsInCategoryNameTxtBox() {
+		categoryNameTxtBox.type(RandomStringUtils.randomAlphabetic(100));
+	}
+
+	public void enterMoreThnFiveHundredCharsInTagDiscTxtBox() {
+		tagDescriptionTxtBox.type(RandomStringUtils.randomAlphabetic(505));
+	}
+
 }

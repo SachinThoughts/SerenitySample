@@ -93,12 +93,12 @@ public class TaggingStepDef extends PageObject {
 
 	@When("^User enters more than 100 alphabets in Category name$")
 	public void user_enters_more_than_alphabets_in_Category_name() {
-		taggingPage.enterRandomTxtInCategoryNameTxtbox();
+		taggingPage.enterMreThnHundredCharsInCategoryNameTxtBox();
 	}
 
 	@When("^User enters upto 500 alphabets in Category description$")
 	public void user_enters_upto_alphabets_in_Category_description() {
-		taggingPage.enterRandomTxtInTagDiscriptionTxtbox();
+		taggingPage.enterUptoFiveHundredCharsInTagDiscTxtBox();
 	}
 
 	@When("^User selects \"([^\"]*)\" value from the Application drop down$")
@@ -120,5 +120,15 @@ public class TaggingStepDef extends PageObject {
 	public void user_should_be_able_to_view_the_validation_message(String expectedValidationMsg) {
 		Assert.assertTrue("User is not able to veiw validation message like" + expectedValidationMsg,
 				taggingPage.getCategoryNameValidationMsg().equalsIgnoreCase(expectedValidationMsg));
+	}
+
+	@When("^User enters upto 100 alphabets in Category name$")
+	public void user_enters_upto_100_alphabets_in_Category_name() {
+		taggingPage.enterUptoHundredCharsInCategoryNameTxtBox();
+	}
+
+	@When("^User enters more than 500 alphabets in Category description$")
+	public void user_enters_more_500_than_alphabets_in_Category_description() {
+		taggingPage.enterMoreThnFiveHundredCharsInTagDiscTxtBox();
 	}
 }
