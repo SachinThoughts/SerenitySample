@@ -573,6 +573,13 @@ public class SearchStepDef extends PageObject {
 				searchPage.getErrorMsg().equalsIgnoreCase(errorMsg));
 	}
 
+	@When("^user runs the (.*) query to fetch firstname and lastname$")
+	public void user_runs_the_query_to_fetch_firstname_and_lastname(String queryName)
+			throws ClassNotFoundException, SQLException, Exception {
+		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName, String
+				.format(commonMethods.loadQuery(queryName, dbQueryFilename), dbLastName + "%", dbFirstName + "%"));
+	}
+
 	@Then("^user should be able to navigate to the R1D account page for searched visit Number$")
 	public void user_should_be_able_to_navigate_to_the_R1D_account_page_for_searched_visit_Number() {
 		Assert.assertTrue("User is not navigated on R1D account page for searched visit number",
