@@ -59,7 +59,13 @@ public class TaggingPage extends PageObject {
 
 	@FindBy(xpath = "//span[text()='Category Name should not more than 100 characters' or text()='Category Description should not more than 500 characters']")
 	private WebElementFacade invalidCategoryNameValidationMsg;
-
+	
+	@FindBy(xpath="//*[@id='cmHandoffHIMGroup']/li//div[1]//label")
+	private List<WebElementFacade> categoryNameList;
+	
+	@FindBy(xpath="//div[@class='alert alert-success alert-dismissible']")
+	private WebElementFacade successMsg;
+	
 	public boolean isTagConfigPageVisible() {
 		return taggingPageTitle.isVisible();
 	}
@@ -138,7 +144,7 @@ public class TaggingPage extends PageObject {
 	public String getCategoryNameValidationMsg() {
 		return invalidCategoryNameValidationMsg.getText();
 	}
-	
+
 	public void enterUptoHundredCharsInCategoryNameTxtBox() {
 		categoryNameTxtBox.type(RandomStringUtils.randomAlphabetic(100));
 	}
@@ -147,4 +153,20 @@ public class TaggingPage extends PageObject {
 		tagDescriptionTxtBox.type(RandomStringUtils.randomAlphabetic(505));
 	}
 
+	public void enterTxtInCategoryNameTxtBox(String categoryName) {
+		categoryNameTxtBox.type(categoryName);
+	}
+
+	public void enterTxtInTagDescTxtBox(String tagDesc) {
+		tagDescriptionTxtBox.type(tagDesc);
+	}
+	
+	public List<String> getlistOfCategoryName() {
+		List<String> listOfCategories = new ArrayList<>();
+		for (WebElementFacade categoryName : categoryNameList) {
+			listOfCategories.add(categoryName.getText());
+		}
+		System.out.println(listOfCategories);
+		return listOfCategories;
+	}
 }
