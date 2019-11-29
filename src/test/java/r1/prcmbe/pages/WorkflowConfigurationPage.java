@@ -173,10 +173,10 @@ public class WorkflowConfigurationPage extends PageObject {
 	private WebElementFacade errorMsgOnduplicateDispositionCode;
 
 	@FindBy(id = "txtdispositionFUD")
-	private WebElementFacade followUpDaysTxtBoxOnDispositionPopUp;
+	private WebElementFacade followUpDaysTxtBoxOnDispositionPopup;
 
 	@FindBy(id = "txtdispositionTimeLimit")
-	private WebElementFacade respondDeadLineTxtBoxOnDispositionPopUp;
+	private WebElementFacade respondDeadLineTxtBoxOnDispositionPopup;
 
 	@FindBy(xpath = "//label[text()='Disposition Status']/..//select")
 	private WebElementFacade dispositionStatusDrpDwn;
@@ -230,19 +230,19 @@ public class WorkflowConfigurationPage extends PageObject {
 	private List<WebElementFacade> listOfRecipientsName;
 
 	@FindBy(xpath = "//div[@id='addNewAction']//div[not(contains(@class,'hidden'))]/label[contains(@class,'control-label')]")
-	private List<WebElementFacade> actionPopUpControls;
+	private List<WebElementFacade> actionPopupControls;
 
 	@FindBy(xpath = "//*[@id='addNewAction']//button[text()='Close']")
-	private WebElementFacade closeBtnOnActionPopUp;
+	private WebElementFacade closeBtnOnActionPopup;
 
 	@FindBy(xpath = "//*[@id='addNewAction']//button[text()='Save changes']")
-	private WebElementFacade saveChangesBtnOnActionPopUp;
+	private WebElementFacade saveChangesBtnOnActionPopup;
 
 	@FindBy(xpath = "//*[@id='addNewAction']//*[@id='sopActionRequired']/..")
-	private WebElementFacade requiredCheckBoxActionPopUp;
+	private WebElementFacade requiredCheckBoxActionPopup;
 
 	@FindBy(id = "addEditNewActionLabel")
-	private WebElementFacade addActionPopUp;
+	private WebElementFacade addActionPopup;
 
 	@FindBy(xpath = "//*[@id='WorkflowTypeActionsSorttable']//i[@class='fa fa-chevron-right fa-1-5x']")
 	private List<WebElementFacade> listOfDetailsLinkOnActionTab;
@@ -263,7 +263,7 @@ public class WorkflowConfigurationPage extends PageObject {
 	private WebElementFacade actionUpdatedBy;
 
 	@FindBy(xpath = "//div[@id='addNewAction']//div[@class='alert alert-info']/span")
-	private WebElementFacade errorMsgForEmptyFieldsOnActionPopUp;
+	private WebElementFacade errorMsgForEmptyFieldsOnActionPopup;
 
 	@FindBy(id = "DispositionTypeLink")
 	private WebElementFacade dispositionTab;
@@ -774,12 +774,12 @@ public class WorkflowConfigurationPage extends PageObject {
 		} else {
 			listOfVal.add("Next Disposition by");
 		}
-		if (respondDeadLineTxtBoxOnDispositionPopUp.getText() != null) {
+		if (respondDeadLineTxtBoxOnDispositionPopup.getText() != null) {
 			count = count + 1;
 		} else {
 			listOfVal.add("Response deadline");
 		}
-		if (followUpDaysTxtBoxOnDispositionPopUp.getText() != null) {
+		if (followUpDaysTxtBoxOnDispositionPopup.getText() != null) {
 			count = count + 1;
 		} else {
 			listOfVal.add("Follow up days");
@@ -884,20 +884,20 @@ public class WorkflowConfigurationPage extends PageObject {
 	public List<Object> verifyAddActionPopupControlsVisible(List<String> listOfFields) {
 		List<Object> listOfVal = new ArrayList<>();
 		int count = 0;
-		int size = actionPopUpControls.size();
+		int size = actionPopupControls.size();
 		for (int i = 0; i < size; i++) {
-			if (actionPopUpControls.get(i).getText().equals(listOfFields.get(i))) {
+			if (actionPopupControls.get(i).getText().equals(listOfFields.get(i))) {
 				count = count + 1;
 			} else {
 				listOfVal.add(listOfFields.get(i));
 			}
 		}
-		if (closeBtnOnActionPopUp.getText().equals(listOfFields.get(8))) {
+		if (closeBtnOnActionPopup.getText().equals(listOfFields.get(8))) {
 			count = count + 1;
 		} else {
 			listOfVal.add("Close");
 		}
-		if (saveChangesBtnOnActionPopUp.getText().equals(listOfFields.get(9))) {
+		if (saveChangesBtnOnActionPopup.getText().equals(listOfFields.get(9))) {
 			count = count + 1;
 		} else {
 			listOfVal.add("Save changes");
@@ -910,12 +910,12 @@ public class WorkflowConfigurationPage extends PageObject {
 		return listOfVal;
 	}
 
-	public void clickRequiredCheckBoxOnActionPopUp() {
-		requiredCheckBoxActionPopUp.click();
+	public void clickRequiredCheckBoxOnActionPopup() {
+		requiredCheckBoxActionPopup.click();
 	}
 
-	public boolean isAddActionPopUpVisible() {
-		return addActionPopUp.isVisible();
+	public boolean isAddActionPopupVisible() {
+		return addActionPopup.isVisible();
 	}
 
 	public void clickSpecificDetailsLinkOnActionTab(String actionName) {
@@ -949,8 +949,8 @@ public class WorkflowConfigurationPage extends PageObject {
 	}
 
 	public String getErrorMsgOnActionPopup() {
-		withAction().moveToElement(errorMsgForEmptyFieldsOnActionPopUp).build().perform();
-		String expectedMEssage = errorMsgForEmptyFieldsOnActionPopUp.withTimeoutOf(Duration.ofSeconds(20))
+		withAction().moveToElement(errorMsgForEmptyFieldsOnActionPopup).build().perform();
+		String expectedMEssage = errorMsgForEmptyFieldsOnActionPopup.withTimeoutOf(Duration.ofSeconds(20))
 				.waitUntilVisible().getText().trim();
 		return expectedMEssage;
 
@@ -1090,13 +1090,13 @@ public class WorkflowConfigurationPage extends PageObject {
 		return recipientUpdatedDateField.getText();
 	}
 
-	public void clickRespondDeadlineOnEditDispositionTypePopUp() {
-		respondDeadLineTxtBoxOnDispositionPopUp.click();
+	public void clickRespondDeadlineOnEditDispositionTypePopup() {
+		respondDeadLineTxtBoxOnDispositionPopup.click();
 	}
 
-	public String enterAndGetRandomValueRespondDeadlineForEditDispositionTypePopUp() {
-		respondDeadLineTxtBoxOnDispositionPopUp.type(RandomStringUtils.randomNumeric(1));
-		return respondDeadLineTxtBoxOnDispositionPopUp.getTextValue();
+	public String enterAndGetRandomValueRespondDeadlineForEditDispositionTypePopup() {
+		respondDeadLineTxtBoxOnDispositionPopup.type(RandomStringUtils.randomNumeric(1));
+		return respondDeadLineTxtBoxOnDispositionPopup.getTextValue();
 	}
 
 	public String getMappedDispositionTimeLimitValueOnDispositionTypeGrid() {
@@ -1104,7 +1104,7 @@ public class WorkflowConfigurationPage extends PageObject {
 	}
 	
 	public void clickOnCloseBtnOnActionPopup() {
-		closeBtnOnActionPopUp.click();
+		closeBtnOnActionPopup.click();
 	}
 	
 	public int getActionNamesCount() {
