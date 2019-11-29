@@ -1,7 +1,8 @@
+@CallPayoerQueue
 Feature: Verify Call Payor Queue functionality
 
-Background : user is able to navigate on Account Page
-Given user is on R1Hub Page
+Background: user is able to navigate on Account Page
+Given user is on R1 Hub page
 When user clicks on Billing & follow up link
 And user hovers on R1_Decision link
 And user clicks on Search sub menu
