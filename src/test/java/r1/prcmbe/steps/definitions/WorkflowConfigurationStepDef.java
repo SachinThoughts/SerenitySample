@@ -601,12 +601,12 @@ public class WorkflowConfigurationStepDef extends PageObject {
 
 	@When("^user clicks on Required checkbox$")
 	public void user_clicks_on_Required_checkbox() {
-		workflowConfigPage.clickRequiredCheckBoxOnActionPopUp();
+		workflowConfigPage.clickRequiredCheckBoxOnActionPopup();
 	}
 
 	@Then("^user should no longer be able to view Add New Action pop-up window$")
 	public void user_should_no_longer_be_able_to_view_Add_New_Action_pop_up_window() {
-		Assert.assertFalse("Add action popup is not closed", workflowConfigPage.isAddActionPopUpVisible());
+		Assert.assertFalse("Add action popup is not closed", workflowConfigPage.isAddActionPopupVisible());
 	}
 
 	@When("^user clicks on Details link button adjacent to newly created Action Name$")
@@ -820,13 +820,13 @@ public class WorkflowConfigurationStepDef extends PageObject {
 
 	@When("^user clicks on any of the field Textboxes, Dropdowns or Textarea on Edit Disposition PopUp$")
 	public void user_clicks_on_any_of_the_field_Textboxes_Dropdowns_or_Textarea_on_Edit_Disposition_PopUp() {
-		workflowConfigPage.clickRespondDeadlineOnEditDispositionTypePopUp();
+		workflowConfigPage.clickRespondDeadlineOnEditDispositionTypePopup();
 	}
 
 	@When("^user updates the existing information in either of these fields on Edit Disposition PopUp$")
 	public void user_updates_the_existing_information_in_either_of_these_fields_on_Edit_Disposition_PopUp() {
 		respondDeadlineOnEditDispositionPopUp = workflowConfigPage
-				.enterAndGetRandomValueRespondDeadlineForEditDispositionTypePopUp();
+				.enterAndGetRandomValueRespondDeadlineForEditDispositionTypePopup();
 	}
 
 	@Then("^user should be able to view updated values related to Edit Disposition Type in Choose a Disposition Type grid$")
