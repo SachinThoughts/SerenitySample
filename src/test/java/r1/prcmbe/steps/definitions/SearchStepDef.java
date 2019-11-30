@@ -656,8 +656,6 @@ public class SearchStepDef extends PageObject {
 			Assert.assertTrue("encounterid is not fetched from DB.\nThe Technical Error is:\n" + sQLException, false);
 		}
 		listOfGridColumnsOnUI = searchPage.getListOfSrchAccTblHeaders();
-		System.out.println(dbListOfMRN) ;
-		System.out.println(":UI " +listOfGridColumnsOnUI);
 		Assert.assertTrue("Fetched list of MRN number doesnt contains entered MRN",
 				searchPageSteps.verifyMRNOnUIWithDatabaseResult(dbListOfMRN));
 		Assert.assertTrue("All the grid columns are not visible",
