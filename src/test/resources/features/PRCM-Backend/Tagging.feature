@@ -41,3 +41,14 @@ Feature: Verify Tagging related scenarios in PRCM_BE
     And User clicks on Active switch
     And User clicks on Save button
     Then User should be able to view the validation message "Category Name should not more than 100 characters"
+
+  @419679 @PRCMUser @Sprint102
+  Scenario: Verify that "Category Description should not more than 500 characters" validation message display when user enters more than 100 characters in category Description.
+    Given User is on Account Tags Configuration screen 
+    When User clicks on Add New Category button
+    And User enters upto 100 alphabets in Category name
+    And User enters more than 500 alphabets in Category description
+    And User selects "R1Decision" value from the Application drop down
+    And User clicks on Active switch
+    And User clicks on Save button
+    Then User should be able to view the validation message "Category Description should not more than 500 characters"
