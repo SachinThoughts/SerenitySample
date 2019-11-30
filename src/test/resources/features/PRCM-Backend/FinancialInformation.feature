@@ -126,7 +126,7 @@ Feature: This feature is to verify the financial Information functionality
       | queryName1                                |
       | Financial_Information_Section_391021_SQL1 |
 
-   @426781 @Sprint101 @PRCMUser
+  @426781 @Sprint101 @PRCMUser
   Scenario Outline: Verify  the amount for Patient Payments
     Given user is able to login to sql server and connect to database
     When user executes the query for InvoiceNumber <queryName17>
@@ -138,3 +138,43 @@ Feature: This feature is to verify the financial Information functionality
     Examples:   
       | queryName17                                |
       | Financial_Information_Section_426781_SQL17 |
+
+  @424877 @Sprint102 @PRCMUser
+  Scenario Outline: Verify the message received when amount for  Insurance Payment=0
+    Given user is able to login to sql server and connect to database
+    When user executes the query for InvoiceNumber <queryName11>
+    And user fetch the InvoiceNumber from DB
+    And user enters InvoiceNumber in the InvoiceNumber field and click on submit button
+    And user scrolls down till Financial Information Section
+    Then user should able to view "N/A" against Insurance Payments under Financial Information section
+
+    Examples:  
+      | queryName11                                |
+      | Financial_Information_Section_424877_SQL11 |
+
+  @424892 @Sprint102 @PRCMUser
+  Scenario Outline: Verify the message received when amount for  Patient Payment Amount=0
+    Given user is able to login to sql server and connect to database
+    When user executes the query for InvoiceNumber <queryName13>
+    And user fetch the InvoiceNumber from DB
+    And user enters InvoiceNumber in the InvoiceNumber field and click on submit button
+    And user scrolls down till Financial Information Section
+    Then user should be able to view "N/A" against Patient Payment under Financial Information section
+
+    Examples:  
+      | queryName13                                |
+      | Financial_Information_Section_424877_SQL13 |
+
+  @424887 @Sprint102 @PRCMUser
+  Scenario Outline: Verify the message received when amount for  Adjustment Amount=0
+    Given user is able to login to sql server and connect to database
+    When user executes the query for InvoiceNumber <queryName13>
+    And user fetch the InvoiceNumber from DB
+    And user enters InvoiceNumber in the InvoiceNumber field and click on submit button
+    And user scrolls down till Financial Information Section
+    And User clicks on Adjustment Amount drill down
+    Then User should be able to view the message "No adjustments have been posted for this account" under Adjustment amount column 
+
+    Examples:  
+      | queryName13                                |
+      | Financial_Information_Section_424877_SQL13 |
