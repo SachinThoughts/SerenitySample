@@ -12,19 +12,24 @@ import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import net.serenitybdd.core.pages.PageObject;
+import net.thucydides.core.annotations.Steps;
 import r1.commons.databaseconnection.DatabaseConn;
 import r1.commons.utilities.CommonMethods;
 import r1.prcmbe.pages.SettingsPage;
 import r1.prcmbe.pages.TaggingPage;
+import r1.prcmbe.serenity.steps.TaggingSteps;
 
 public class TaggingStepDef extends PageObject {
 	SettingsPage settingsPage;
 	TaggingPage taggingPage;
 	final String ALERTBGCOLOR = "rgba(76, 144, 221, 1)";
+	List<String> categoryNameList = new ArrayList<>();
 	List<String> listOfGridColumnsOnUI = new ArrayList<>();
-	String enteredCategoryName, dbCategoryName;
+	String enteredCategoryName, dbCategoryName, dbCategoryDecs, successMsg, editedCategoryName;
 	CommonMethods commonMethods;
 	private static String dbFileName = "Tagging";
+	@Steps
+	TaggingSteps taggingSteps;
 
 	@When("^User clicks on Tag Configuration link$")
 	public void user_clicks_on_Tag_Configuration_link() {
@@ -121,6 +126,7 @@ public class TaggingStepDef extends PageObject {
 	@When("^User clicks on Save button$")
 	public void user_clicks_on_Save_button() {
 		taggingPage.clickOnSaveBtn();
+		successMsg = taggingPage.getSuccessMsg();
 	}
 
 	@Then("^User should be able to view the validation message \"([^\"]*)\"$")
@@ -142,21 +148,19 @@ public class TaggingStepDef extends PageObject {
 	@When("^User enters upto 100 alphabets in Category Name (.*)  textbox$")
 	public void user_enters_upto_alphabets_in_Category_Name_AutomationTest_textbox(String categoryName) {
 		enteredCategoryName = categoryName.concat((" " + RandomStringUtils.randomAlphabetic(5)));
-		System.out.println(enteredCategoryName);
 		taggingPage.enterTxtInCategoryNameTxtBox(enteredCategoryName);
 	}
 
 	@When("^User enters upto 500 alphabets in Tag Description (.*) textbox$")
 	public void user_enters_upto_alphabets_in_Tag_Description_AutomationTest_textbox(String tagDescrp) {
-		System.out.println("Category Decription : " + tagDescrp.concat((" " + RandomStringUtils.randomAlphabetic(3))));
 		taggingPage.enterTxtInTagDescTxtBox(tagDescrp.concat((" " + RandomStringUtils.randomAlphabetic(3))));
 	}
 
-	@When("^user runs the query to verify newly added tag category$")
-	public void user_runs_the_query_to_verify_newly_added_tag_category(String queryName) throws Exception {
-		String query = commonMethods.loadQuery(queryName, dbFileName);
-		query = String.format(query, enteredCategoryName);
-		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName, query);
+	@When("^user runs the tag category (.*) query to verify newly added tag category$")
+	public void user_runs_the_tag_category_Tagging___SQL_query_to_verify_newly_added_tag_category(String queryName)
+			throws Exception {
+		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
+				String.format(commonMethods.loadQuery(queryName, dbFileName), enteredCategoryName));
 	}
 
 	@Then("^User should be able to view the newly added Tag Category in SQL result$")
@@ -164,17 +168,60 @@ public class TaggingStepDef extends PageObject {
 		try {
 			while (DatabaseConn.resultSet.next()) {
 				dbCategoryName = DatabaseConn.resultSet.getString("CategoryName");
-				System.out.println(dbCategoryName);
+				dbCategoryDecs = DatabaseConn.resultSet.getString("CategoryDescription");
 			}
 		} catch (SQLException sQLException) {
 			Assert.assertTrue("Category Name is not fetched from DB.\nThe Technical Error is:\n" + sQLException, false);
 		}
 		Assert.assertTrue("Category Name on UI does not match with database",
-				taggingPage.getlistOfCategoryName().contains(dbCategoryName));
+				taggingPage.getlistOfCategoryName().contains(dbCategoryName)
+						&& taggingPage.getlistOfCategoryDesc().contains(dbCategoryDecs));
 	}
 
 	@Then("^User should be able to view the Success message \"([^\"]*)\"$")
-	public void user_should_be_able_to_view_the_Success_message(String arg1) {
-
+	public void user_should_be_able_to_view_the_Success_message(String expectedMsg) {
+		Assert.assertTrue("User is not able to view the success message", successMsg.trim().contains(expectedMsg));
 	}
+
+	@When("^User clicks on Edit button of added category$")
+	public void user_clicks_on_Edit_button_of_added_category() {
+		categoryNameList=taggingPage.getlistOfCategoryName();
+		taggingPage.clickEditLink();
+	}
+
+	@When("^User edits Category Name (.*) in textbox$")
+	public void user_edits_Category_Name_AutomationTest_in_textbox(String updatedCategoryName) {
+		editedCategoryName = taggingSteps.getEditedCategoryName(updatedCategoryName, categoryNameList);
+		taggingPage.enterTxtInCategoryNameTxtBox(editedCategoryName);
+	}
+
+	@When("^User edits Tag Description (.*) in textbox$")
+	public void user_edits_Tag_Description_TestDesciption_in_textbox(String tagDescrp) {
+		taggingPage.enterTxtInTagDescTxtBox(tagDescrp.concat((" " + RandomStringUtils.randomAlphabetic(3))));
+	}
+
+	@Then("^User should be able to view the Updated added Tag Category in SQL result$")
+	public void user_should_be_able_to_view_the_Updated_added_Tag_Category_in_SQL_result() {
+		try {
+			while (DatabaseConn.resultSet.next()) {
+				dbCategoryName = DatabaseConn.resultSet.getString("CategoryName");
+				dbCategoryDecs = DatabaseConn.resultSet.getString("CategoryDescription");
+			}
+		} catch (SQLException sQLException) {
+			Assert.assertTrue("Category Name is not fetched from DB.\nThe Technical Error is:\n" + sQLException, false);
+		}
+		Assert.assertTrue("Updated Category Name and Decription on UI does not match with database",
+				taggingPage.getlistOfCategoryName().contains(dbCategoryName)
+						&& taggingPage.getlistOfCategoryDesc().contains(dbCategoryDecs));
+	}
+	@When("^User clicks on Active switch slide bar for Edit$")
+	public void user_clicks_on_Active_switch_slide_bar_for_Edit() {
+	   taggingPage.clickOnActiveSlideBarEdit();
+	}
+	@When("^user runs the tag category query to verify newly updated tag category(.*)$")
+	public void user_runs_the_tag_category_query_to_verify_newly_updated_tag_category(String queryName) throws Exception {
+		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
+				String.format(commonMethods.loadQuery(queryName, dbFileName), editedCategoryName));
+	}
+
 }

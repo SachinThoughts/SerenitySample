@@ -1,5 +1,6 @@
 package r1.prcmbe.pages;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -48,24 +49,35 @@ public class TaggingPage extends PageObject {
 	@FindBy(xpath = "//input[@placeholder='Enter Tag Description']")
 	private WebElementFacade tagDescriptionTxtBox;
 
-	@FindBy(xpath = "//*[@id='select0']")
+	@FindBy(xpath = "//select[@class='form-control']")
 	private WebElementFacade applicationDrpdwn;
 
 	@FindBy(xpath = "//span[@class='slider round']")
-	private WebElementFacade applicationSlideBar;
+	private List<WebElementFacade> applicationSlideBar;
 
-	@FindBy(xpath = "//button[@class='btn btn-link editRow']//i")
+	@FindBy(xpath = "//button[@class='btn btn-link editRow']//i[@class='fa fa-save fa-1-5x']")
 	private WebElementFacade saveBtn;
 
 	@FindBy(xpath = "//span[text()='Category Name should not more than 100 characters' or text()='Category Description should not more than 500 characters']")
 	private WebElementFacade invalidCategoryNameValidationMsg;
-	
-	@FindBy(xpath="//*[@id='cmHandoffHIMGroup']/li//div[1]//label")
+
+	@FindBy(xpath = "//*[@id='cmHandoffHIMGroup']/li//div[1]//label")
 	private List<WebElementFacade> categoryNameList;
-	
-	@FindBy(xpath="//div[@class='alert alert-success alert-dismissible']")
+
+	@FindBy(xpath = "//*[@id='cmHandoffHIMGroup']/li//div[2]//span")
+	private List<WebElementFacade> categoryDescList;
+
+	@FindBy(xpath = "//div[@class='alert alert-success alert-dismissible']")
 	private WebElementFacade successMsg;
-	
+
+	@FindBy(xpath = "//*[@id='cmHandoffHIMGroup']/li//div[1]//label[starts-with(text(),'Automation')]//ancestor::li//input[@type='radio']/following-sibling::label")
+	private List<WebElementFacade> automationRadioBtn;
+
+	@FindBy(xpath = "//*[@id='cmHandoffHIMGroup']/li//div[1]//label[starts-with(text(),'Automation')]//ancestor::li//span[text()='Edit']")
+	private List<WebElementFacade> automationEditLinks;
+
+	int index;
+
 	public boolean isTagConfigPageVisible() {
 		return taggingPageTitle.isVisible();
 	}
@@ -134,10 +146,11 @@ public class TaggingPage extends PageObject {
 	}
 
 	public void clickActiveSlider() {
-		applicationSlideBar.click();
+		evaluateJavascript("arguments[0].click();", applicationSlideBar.get(0));
 	}
 
 	public void clickOnSaveBtn() {
+		waitForAngularRequestsToFinish();
 		saveBtn.click();
 	}
 
@@ -160,13 +173,36 @@ public class TaggingPage extends PageObject {
 	public void enterTxtInTagDescTxtBox(String tagDesc) {
 		tagDescriptionTxtBox.type(tagDesc);
 	}
-	
+
 	public List<String> getlistOfCategoryName() {
 		List<String> listOfCategories = new ArrayList<>();
 		for (WebElementFacade categoryName : categoryNameList) {
 			listOfCategories.add(categoryName.getText());
 		}
-		System.out.println(listOfCategories);
 		return listOfCategories;
+	}
+
+	public List<String> getlistOfCategoryDesc() {
+		List<String> listOfCategoriesDesc = new ArrayList<>();
+		for (WebElementFacade categoryDesc : categoryDescList) {
+			listOfCategoriesDesc.add(categoryDesc.getText());
+		}
+		return listOfCategoriesDesc;
+	}
+
+	public String getSuccessMsg() {
+		return successMsg.withTimeoutOf(Duration.ofSeconds(20)).waitUntilVisible().getText();
+	}
+
+	public void clickEditLink() {
+		waitForAngularRequestsToFinish();
+		index = automationRadioBtn.size() - 1;
+		evaluateJavascript("arguments[0].click();", automationRadioBtn.get(index));
+		evaluateJavascript("arguments[0].scrollIntoView(true);", automationEditLinks.get(index));
+		evaluateJavascript("arguments[0].click();", automationEditLinks.get(index));
+	}
+
+	public void clickOnActiveSlideBarEdit() {
+		evaluateJavascript("arguments[0].click();", applicationSlideBar.get(index));
 	}
 }
