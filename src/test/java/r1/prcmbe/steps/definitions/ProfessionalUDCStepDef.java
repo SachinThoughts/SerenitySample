@@ -58,7 +58,7 @@ public class ProfessionalUDCStepDef extends PageObject {
 
 	private int defectSubcategoryId;
 
-	@Given("^user is on R1 Hub page$")
+	@Given("^user is on R1 Hub page$|^user is on R1 Hub Page with BSO_Followup user$")
 	public void user_is_on_R1_Hub_page() {
 		Assert.assertTrue(getDriver().getTitle().contains("R1 Hub Technologies 2.0 - 15 Home"));
 	}

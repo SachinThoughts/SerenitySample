@@ -7,7 +7,7 @@ import net.serenitybdd.core.annotations.findby.FindBy;
 import net.serenitybdd.core.pages.PageObject;
 import net.serenitybdd.core.pages.WebElementFacade;
 
-public class CallPayorQueuePage extends PageObject {
+public class CallPayerQueuePage extends PageObject {
 
 	@FindBy(xpath = "//*[@id='btnAddtoCallPayerQueue']/span/i[2]")
 	private WebElementFacade addToQueueIcon;
@@ -38,6 +38,33 @@ public class CallPayorQueuePage extends PageObject {
 
 	@FindBy(xpath = "//*[@id='btn_info']/button/span")
 	private WebElementFacade msgCloseButton;
+
+	@FindBy(id = "ddlApprovalType")
+	private WebElementFacade category;
+
+	@FindBy(id = "ddlApprovalCategory")
+	private WebElementFacade writeOffType;
+
+	@FindBy(id = "txtWriteOffAmount")
+	private WebElementFacade writeOffAmount;
+
+	@FindBy(id = "txWriteOffNotes")
+	private WebElementFacade writeOffNotes;
+
+	@FindBy(id = "btnSaveWriteOff")
+	private WebElementFacade saveWriteOffBtn;
+
+	@FindBy(id = "ddlTcode")
+	private WebElementFacade tCodeToUse;
+
+	@FindBy(xpath = "//table[@id='gvWriteOff']/tbody/tr[2]/td[1]")
+	private WebElementFacade createdWriteOffAmount;
+
+	@FindBy(xpath = "//table[@id='gvWriteOff']/tbody/tr[2]/td[3]")
+	private WebElementFacade createdTCode;
+
+	@FindBy(id = "lblCategory")
+	private WebElementFacade createdWriteOffCategory;
 
 	public void clickAddtoCallPayorQueueBtn() {
 		withAction().moveToElement(addToQueueIcon).build().perform();
@@ -87,5 +114,41 @@ public class CallPayorQueuePage extends PageObject {
 
 	public void closeMsgButton() {
 		evaluateJavascript("arguments[0].click();", msgCloseButton);
+	}
+
+	public void categorySelectByText(String categoryText) {
+		category.selectByVisibleText(categoryText);
+	}
+
+	public void writeOffTypeSelectByText(String writeOffTypeText) {
+		writeOffType.selectByVisibleText(writeOffTypeText);
+	}
+
+	public void enterWriteOffAmount(String amount) {
+		writeOffAmount.type(amount);
+	}
+
+	public void enterWriteOffNotes(String notes) {
+		writeOffNotes.type(notes);
+	}
+
+	public void clickSaveWriteOffBtn() {
+		saveWriteOffBtn.click();
+	}
+
+	public void tCodeSelectByText(String tCode) {
+		tCodeToUse.selectByVisibleText(tCode);
+	}
+
+	public String getCreatedWriteOffAmount() {
+		return createdWriteOffAmount.getText();
+	}
+
+	public String getCreatedTCode() {
+		return createdTCode.getText();
+	}
+
+	public String getCreatedWriteOffCategory() {
+		return createdWriteOffCategory.getText();
 	}
 }

@@ -78,6 +78,9 @@ public class AccountInformationPage extends PageObject {
 	@FindBy(xpath = "//*[@id='btnVerifyNextStep']/span[1]")
 	private WebElementFacade nextBtn;
 
+	@FindBy(id = "writeOffLink")
+	private WebElementFacade approvalWriteOffLink;
+
 	public String getAccountNumber() {
 		waitForAngularRequestsToFinish();
 		return accountNumber.getText().trim();
@@ -212,5 +215,9 @@ public class AccountInformationPage extends PageObject {
 			sOPNamesList.add(sOP.getText().trim());
 		}
 		return sOPNamesList;
+	}
+
+	public void clickApprovalWriteOffLink() {
+		approvalWriteOffLink.click();
 	}
 }
