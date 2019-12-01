@@ -8,10 +8,14 @@ import cucumber.api.java.en.When;
 import r1.commons.databaseconnection.DatabaseConn;
 import r1.commons.utilities.CommonMethods;
 import r1.prcmbe.pages.CallPayorQueuePage;
+import r1.prcmbe.pages.R1ConfigurationPage;
+import r1.prcmbe.pages.SettingsPage;
 
 public class CallPayorQueueStepDef {
 	CommonMethods commonMethods;
 	CallPayorQueuePage callPayorQueuePage;
+	SettingsPage settingsPage;
+	R1ConfigurationPage r1ConfigPage;
 	String accountNo, noOfAccountsInQueueBefore;
 	private static String dbQueryFilename = "CallPayorQueue";
 
@@ -63,5 +67,68 @@ public class CallPayorQueueStepDef {
 		} catch (Exception e) {
 			Assert.assertTrue("unable to execute query" + e, false);
 		}
+	}
+
+	@When("^user hovers IT Tools link$")
+	public void user_hovers_IT_Tools_link() {
+		settingsPage.hoverITToolsLink();
+	}
+
+	@When("^user clicks on R1 Configuration$")
+	public void user_clicks_on_R1_Configuration() {
+		settingsPage.clickR1ConfigurationLink();
+	}
+
+	@Given("^user is on R1 Configuration Setting Page$")
+	public void user_is_on_R1_Configuration_Setting_Page() {
+		Assert.assertTrue("R1 Configuration is not visible", r1ConfigPage.isR1ConfigurationTitleVisible());
+	}
+
+	@When("^user selects \"([^\"]*)\" from search dropdown$")
+	public void user_selects_from_search_dropdown(String value) {
+		r1ConfigPage.selectValueFromSearchDrpdwn(value);
+	}
+
+	@When("^user enters \"([^\"]*)\" in textbox$")
+	public void user_enters_in_textbox(String settingName) {
+		r1ConfigPage.enterValueInSearchTextbox(settingName);
+	}
+
+	@When("^user clicks on search button$")
+	public void user_clicks_on_search_button() {
+		r1ConfigPage.clickSearchBtn();
+	}
+
+	@When("^user clicks on edit button to update \"([^\"]*)\" Value as per configuration requirement$")
+	public void user_clicks_on_edit_button_to_update_Value_as_per_configuration_requirement(String settingName) {
+		r1ConfigPage.clickEditBtn();
+	}
+
+	@When("^user enters the setting value (.*) in setting value textbox$")
+	public void user_enters_the_setting_value_in_setting_value_textbox(String settingValue) {
+		r1ConfigPage.enterValueInSettingValueTextbox(settingValue);
+	}
+
+	@When("^user clicks on Update Appsetting button$")
+	public void user_clicks_on_Update_Appsetting_button() {
+		r1ConfigPage.clickUpdateAppSettingBtn();
+	}
+
+	@Then("^user should be able to view the Application setting list screen$")
+	public void user_should_be_able_to_view_the_Application_setting_list_screen() {
+		Assert.assertTrue("Application Settings List screen is not visible",
+				r1ConfigPage.isApplicationSettingsListVisible());
+	}
+
+	@Then("^user should be able to view the setting \"([^\"]*)\" in acceretive configuration page$")
+	public void user_should_be_able_to_view_the_setting_in_acceretive_configuration_page(String settingName) {
+		Assert.assertTrue("Setting Name not visible in acceretive configuration page",
+				settingName.equals(r1ConfigPage.getSettingNameValue()));
+	}
+
+	@Then("^user should be able to view the updated value of setting (.*)$")
+	public void user_should_be_able_to_view_the_updated_value_of_setting(String settingValue) {
+		Assert.assertTrue("Updated value of setting is not visible",
+				settingValue.equals(r1ConfigPage.getSettingValue()));
 	}
 }
