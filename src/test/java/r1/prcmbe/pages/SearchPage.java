@@ -28,13 +28,13 @@ public class SearchPage extends PageObject {
 	@FindBy(xpath = "//*[@id='searchLoader']//div[@class='modal-body']/i")
 	private WebElementFacade loadingSpinner;
 
-	@FindBy(xpath = "//*[@id='dvAccountSearch']/child::table")
+	@FindBy(xpath = "//*[@id='dvAccountSearch' or @class='modal-body']/child::table")
 	private WebElementFacade searchAccountTable;
 
-	@FindBy(xpath = "//*[@id='dvAccountSearch']/table/tbody/tr/td[2]/a")
+	@FindBy(xpath = "//*[@id='dvAccountSearch' or @class='modal-body']/table/tbody/tr/td[2]/a")
 	private List<WebElementFacade> listOfSearchedInvoiceId;
 
-	@FindBy(xpath = "//*[@id='dvAccountSearch']/table/tbody/tr/td[4]")
+	@FindBy(xpath = "//*[@id='dvAccountSearch' or @class='modal-body']/table/tbody/tr/td[4]")
 	private List<WebElementFacade> listOfSearchedFacility;
 
 	@FindBy(xpath = "//div[@id='visit']/h4")
@@ -42,7 +42,7 @@ public class SearchPage extends PageObject {
 
 	@FindBy(xpath = "//*[@id='lblInvoiceNo']")
 	private WebElementFacade invoiceID;
-	
+
 	@FindBy(xpath = "//head/title")
 	WebElementFacade searchPageTitle;
 
@@ -67,8 +67,50 @@ public class SearchPage extends PageObject {
 	@FindBy(id = "showErrorMsg")
 	private WebElementFacade errorMsg;
 
+	@FindBy(xpath = "//div[@class='tooltip top in']")
+	private WebElementFacade toolTip;
+
+	@FindBy(xpath = "//select[@class='form-control ddlOperator']")
+	private WebElementFacade operator;
+
+	@FindBy(xpath = "//*[@id='dvAccountSearch' or @class='modal-body']/table/tbody/tr/td[2]")
+	private List<WebElementFacade> listOfSearchedInvNum;
+
+	@FindBy(id = "msg_info")
+	private WebElementFacade errorAlert;
+
+	@FindBy(xpath = "//div[@class = 'alert alert-info']//button")
+	private WebElementFacade closeErrorAlert;
+
+	@FindBy(xpath = "//span[@id='lblInvoiceNo']")
+	private WebElementFacade invoiceNumber;
+
+	@FindBy(xpath = "//*[@id='dvAccountSearch' or @class='modal-body']/child::table/thead/tr/th")
+	private List<WebElementFacade> listOfSrchAccTblHeaders;
+
+	@FindBy(xpath = "//*[@id='dvAccountSearch' or @class='modal-body']/child::table/tbody/tr/td[3]")
+	private List<WebElementFacade> listOfSearchedNames;
+
+	@FindBy(id = "lblPatientName")
+	private WebElementFacade patientName;
+
+	@FindBy(id = "lblAccountNo")
+	private WebElementFacade patientAccountNo;
+
+	@FindBy(xpath = "//*[@id='dvAccountSearch' or @class='modal-body']/table/tbody/tr/td[1]")
+	private List<WebElementFacade> listOfSearchedAccNum;
+
+	@FindBy(xpath = "//*[@id='dvAccountSearch' or @class='modal-body']/table/tbody/tr/td[5]")
+	private List<WebElementFacade> listOfSearchedMRN;
+
+	@FindBy(id = "lblMRN")
+	private WebElementFacade patientMRN;
+
+	@FindBy(id = "lblSSN")
+	private WebElementFacade patientSSN;
+
 	String titleJS = "return document.querySelector('#Head > title').text";
-	String facilityCodeJS = "document.querySelector('#dnn_ctr1025_ModuleContent > span > span:nth-child(1)').textContent";
+	String facilityCodeJS = "return document.querySelector('#dnn_ctr1025_ModuleContent > span > span:nth-child(1)').textContent";
 
 	public String getSearchPageTitle() {
 		return evaluateJavascript(titleJS).toString();
@@ -82,7 +124,7 @@ public class SearchPage extends PageObject {
 		searchByDropdown.selectByVisibleText(dropdown);
 	}
 
-	public void selectOperatorValue(String operator) {
+	public void selectOperatorValue(String operator)  {
 		operatorDropdown.selectByVisibleText(operator);
 	}
 
@@ -93,7 +135,7 @@ public class SearchPage extends PageObject {
 	public void clickSubmitBtn() {
 		submitBtn.click();
 		if (loadingSpinner.isVisible()) {
-			loadingSpinner.withTimeoutOf(Duration.ofSeconds(30)).waitUntilNotVisible();
+			loadingSpinner.withTimeoutOf(Duration.ofSeconds(80)).waitUntilNotVisible();
 		}
 	}
 
@@ -113,7 +155,7 @@ public class SearchPage extends PageObject {
 	public int getFacilityIndex() {
 		/** Returns index of matched facility code **/
 		String facilityCode = getFacilityCodeText();
-		int index = 999;
+		int index = 0;
 		int size = listOfSearchedFacility.size();
 		for (int i = 0; i < size; i++) {
 			if (listOfSearchedFacility.get(i).getText().equals(facilityCode)) {
@@ -200,5 +242,141 @@ public class SearchPage extends PageObject {
 
 	public void enterSSN(String sSN) {
 		sSNTxtBox.type(sSN);
+	}
+
+	public String getToolTipText() {
+		return toolTip.getText();
+	}
+
+	public boolean isSubmitBtnEnabled() {
+		return submitBtn.isCurrentlyEnabled();
+	}
+
+	public boolean isToolTipVisible() {
+		return toolTip.isVisible();
+	}
+
+	public void operatorSelectText(String operatorValue) {
+		operator.selectByVisibleText(operatorValue);
+	}
+
+	public void clickSearchInvoiceNumber() {
+		listOfSearchedInvNum.get(getFacilityIndex()).click();
+		if (isErrorMsgVisible()) {
+			clickErrorMsg();
+		}
+	}
+
+	public boolean isErrorMsgVisible() {
+		return errorAlert.isVisible();
+	}
+
+	public void clickErrorMsg() {
+		closeErrorAlert.click();
+	}
+
+	public List<String> getlistOfInvNum() {
+		waitForAngularRequestsToFinish();
+		List<String> listOfInvNum = new ArrayList<>();
+		for (WebElementFacade invoiceNoElement : listOfSearchedInvNum) {
+			listOfInvNum.add(invoiceNoElement.getText());
+		}
+		return listOfInvNum;
+	}
+
+	public String getInvoiceNumber() {
+		return invoiceNumber.withTimeoutOf(Duration.ofSeconds(20)).waitUntilVisible().getText();
+	}
+
+	public void enterLastName(String lastName) {
+		lastNameTxtBox.type(lastName);
+	}
+
+	public List<String> getListOfSrchAccTblHeaders() {
+		List<String> listOfTblHeaders = new ArrayList<>();
+		for (WebElementFacade headerName : listOfSrchAccTblHeaders) {
+			listOfTblHeaders.add(headerName.getText());
+		}
+		return listOfTblHeaders;
+	}
+
+	public List<String> getListOfSearchedNames() {
+		List<String> listOfNames = new ArrayList<>();
+		for (WebElementFacade searchedName : listOfSearchedNames) {
+			listOfNames.add(searchedName.getText());
+		}
+		return listOfNames;
+	}
+
+	public String getPatientName() {
+		return patientName.getText();
+	}
+
+	public String getPatientLastName() {
+		String[] lastName = patientName.getText().split(",", 0);
+		return lastName[0].trim();
+	}
+
+	public String getPatientFirstName() {
+		String[] firstName = patientName.getText().split(",", 0);
+		return firstName[1].trim();
+	}
+
+	public List<String> getlistOfSearchedFacility() {
+		List<String> listOfFacilities = new ArrayList<>();
+		for (WebElementFacade facilityCode : listOfSearchedFacility) {
+			listOfFacilities.add(facilityCode.getText());
+		}
+		return listOfFacilities;
+	}
+
+	public String getPatientAccountNo() {
+		return patientAccountNo.getText();
+	}
+
+	public void clickSearchInvoiceIdOrVisitNumber() {
+		int index = getFacilityIndex();
+		if (!listOfSearchedInvNum.get(index).getText().equals("N/A"))
+			listOfSearchedInvoiceId.get(index).click();
+		else
+			listOfSearchedAccNum.get(index).click();
+	}
+
+	public List<String> getlistOfAccNum() {
+		waitForAngularRequestsToFinish();
+		List<String> listOfAccNum = new ArrayList<>();
+		for (WebElementFacade element : listOfSearchedAccNum) {
+			listOfAccNum.add(element.getText());
+		}
+		return listOfAccNum;
+	}
+
+	public String getAccountNumber() {
+		return patientAccountNo.withTimeoutOf(Duration.ofSeconds(20)).waitUntilVisible().getText();
+	}
+
+	public void invoiceNumberShouldNotVisible() {
+		invoiceNumber.shouldNotBeVisible();
+	}
+
+	public List<String> getlistOfMRN() {
+		waitForAngularRequestsToFinish();
+		List<String> listOfMRN = new ArrayList<>();
+		for (WebElementFacade mRNNoElement : listOfSearchedMRN) {
+			listOfMRN.add(mRNNoElement.getText());
+		}
+		return listOfMRN;
+	}
+
+	public String getMRNText() {
+		return patientMRN.withTimeoutOf(Duration.ofSeconds(20)).waitUntilVisible().getText();
+	}
+
+	public String getPatientSSN() {
+		return patientSSN.getText();
+	}
+
+	public String getPatientMRN() {
+		return patientMRN.getText();
 	}
 }

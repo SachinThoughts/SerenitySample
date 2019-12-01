@@ -1,5 +1,6 @@
 package r1.prcmbe.pages;
 
+import java.time.Duration;
 import java.util.*;
 
 import net.serenitybdd.core.annotations.findby.FindBy;
@@ -26,7 +27,7 @@ public class AccountInformationPage extends PageObject {
 	@FindBy(xpath = "//*[@id='related']//*[@class='modal-body']//table/tbody/tr/td//a")
 	private List<WebElementFacade> listOfVisitNumbersOnRelatedAccntPopUp;
 
-	@FindBy(xpath = "//*[@id='related']//*[@class='modal-body']//table/tbody/tr/td[3]")
+	@FindBy(xpath = "//*[@id='tbRelatedAccount']//tbody/tr/td[3]")
 	private List<WebElementFacade> listOfFacilityCodeOnRelatedAccntPopUp;
 
 	@FindBy(xpath = "//*[@id='related']//div[@class='modal-content']")
@@ -43,18 +44,45 @@ public class AccountInformationPage extends PageObject {
 
 	@FindBy(id = "dnn_dnnLOGIN_loginLink")
 	WebElementFacade logOut;
-	
+
 	@FindBy(xpath = "//a[@href='#accountDocs']//h4")
 	private WebElementFacade documentLink;
-	
-	@FindBy(id="lblInvoiceNo")
+
+	@FindBy(id = "lblInvoiceNo")
 	private WebElementFacade invoiceNumber;
+
+	@FindBy(xpath = "//*[@id='tbRelatedAccount']//tbody/tr/td[2]//a")
+	private List<WebElementFacade> listOfInvoiceNumbersOnRelatedAccntPopUp;
+
+	@FindBy(id = "lnkHandOff")
+	private WebElementFacade addHandOffBtn;
+
+	@FindBy(id = "handOff")
+	private WebElementFacade handOffPopUp;
+
+	@FindBy(id = "ddlHandOffType")
+	private WebElementFacade handOffTypeDrpDwn;
+
+	@FindBy(id = "ddlHandOffType")
+	private WebElementFacade handOffTypeDrpDown;
+
+	@FindBy(id = "lblBreadcrumb")
+	private WebElementFacade defectBreadcrumb;
+
+	@FindBy(xpath = "//fieldset[not(contains(@style,'display: none')) or not(@style)]//a//span[text()='Next']")
+	private WebElementFacade defectWorflowNextBtn;
+
+	@FindBy(xpath = "//*[@id='cblActionsRequired']/label")
+	private List<WebElementFacade> sOPList;
+
+	@FindBy(xpath = "//*[@id='btnVerifyNextStep']/span[1]")
+	private WebElementFacade nextBtn;
 
 	public String getAccountNumber() {
 		waitForAngularRequestsToFinish();
 		return accountNumber.getText().trim();
 	}
-	
+
 	public boolean isRelatedAccntPopUpVisible() {
 		return relatedAccountPoup.isVisible();
 	}
@@ -106,13 +134,83 @@ public class AccountInformationPage extends PageObject {
 	public void logOut() {
 		logOut.click();
 	}
-	
+
 	public void clickOnDocumentLink() {
 		documentLink.click();
 	}
-	
+
 	public String getInvoiceNumber() {
 		waitForAngularRequestsToFinish();
 		return invoiceNumber.getText().trim();
+	}
+
+	public int getSizeOfRelatedAccntInvoiceNo() {
+		return listOfVisitNumbersOnRelatedAccntPopUp.size();
+	}
+
+	public String clickRelatedAccountBasedOnFacilityCodeAndFetchInvoiceNo(String facilityCode) {
+		int size = listOfFacilityCodeOnRelatedAccntPopUp.size();
+		String visitNo = "";
+		for (int i = 0; i < size; i++) {
+			if (listOfFacilityCodeOnRelatedAccntPopUp.get(i).getText().equals(facilityCode)) {
+				visitNo = clickOnVisitNoOnRelatedAccntPopUpAndGetVisitNo(i);
+				break;
+			}
+		}
+		return visitNo;
+	}
+
+	public String clickOnInvoiceNoOnRelatedAccntPopUpAndGetInvoiceNo(int index) {
+		String visitNo = listOfInvoiceNumbersOnRelatedAccntPopUp.get(index).getText();
+		listOfInvoiceNumbersOnRelatedAccntPopUp.get(index).click();
+		return visitNo;
+	}
+
+	public void clickHandOffBtn() {
+		addHandOffBtn.click();
+	}
+
+	public boolean isHandOffPopUpVisible() {
+		return handOffPopUp.isVisible();
+	}
+
+	public void selectHandOffType(String handOffType) {
+		handOffTypeDrpDwn.selectByVisibleText(handOffType);
+	}
+
+	public String getSelectedHandOffTypeValue() {
+		return handOffTypeDrpDwn.getSelectedVisibleTextValue();
+	}
+
+	public void clickHandOffTypeDrpDown() {
+		evaluateJavascript("arguments[0].click()", handOffTypeDrpDown);
+	}
+
+	public List<String> getHandOffTypeDrpDownValues() {
+		return handOffTypeDrpDown.getSelectOptions();
+	}
+
+	public String getDefectSubcategoryBreadcrumb() {
+		String defectLabel = defectBreadcrumb.getText().trim();
+		String[] defectSubcategory = defectLabel.split(">>\\s");
+		return defectSubcategory[1];
+	}
+
+	public void clickDefectWorkflowNextBtn() {
+		defectWorflowNextBtn.click();
+	}
+
+	public void clickNextBtn() {
+		if (nextBtn.isVisible()) {
+			nextBtn.withTimeoutOf(Duration.ofSeconds(60)).click();
+		}
+	}
+
+	public List<String> getSOPList() {
+		List<String> sOPNamesList = new ArrayList<>();
+		for (WebElementFacade sOP : sOPList) {
+			sOPNamesList.add(sOP.getText().trim());
+		}
+		return sOPNamesList;
 	}
 }

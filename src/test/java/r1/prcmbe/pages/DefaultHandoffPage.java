@@ -11,7 +11,7 @@ import net.serenitybdd.core.annotations.findby.FindBy;
 
 public class DefaultHandoffPage extends PageObject {
 
-	String workflowName;
+	String workflowName, getDispositionStatus;
 
 	@FindBy(xpath = "//h3[@class='panel-title']")
 	private WebElementFacade defaultHandOffPageTitle;
@@ -175,7 +175,7 @@ public class DefaultHandoffPage extends PageObject {
 	@FindBy(xpath = "//*[@id='addNewDisposition']//button[@class='btn btnPrimary']")
 	private WebElementFacade addNewDispositionSaveChangesButton;
 
-	@FindBy(id = "Disp0")
+	@FindBy(xpath = "(//*[@id='WorkflowTypeDispositionSorttable'])[last()]/li[last()]/div[3]/span")
 	private WebElementFacade savedDispositionName;
 
 	@FindBy(id = "FUP0")
@@ -187,6 +187,61 @@ public class DefaultHandoffPage extends PageObject {
 	@FindBy(id = "ASName0")
 	private WebElementFacade savedDispositionStatus;
 
+	@FindBy(xpath = "//div[@class='fs-option-label' and text()='AHtoDecision Admin']/preceding-sibling::span")
+	private WebElementFacade visibleToGrpAHtoDecisionChkBox;
+
+	@FindBy(id = "dnn_ctr1534_dnnTITLE_titleLabel")
+	private WebElementFacade facilitySettingConfigTitle;
+
+	@FindBy(id = "dllLocationSearch")
+	private WebElementFacade searchDrpdwn;
+
+	@FindBy(id = "txtLocSearchValue")
+	private WebElementFacade searchTxtBox;
+
+	@FindBy(id = "BtnLocSearch")
+	private WebElementFacade searchBtn;
+
+	@FindBy(xpath = "//*[@id='LocationGridData']/div[@class='Rows']/div[@class='col'][1]")
+	private WebElementFacade searchFacilityCode;
+
+	@FindBy(xpath = "//*[@id='LocationGridData']/div[@class='Rows']/div[@class='col'][10]/a")
+	private WebElementFacade searchFacilityViewLink;
+
+	@FindBy(id = "pnlFacilitySettings")
+	private WebElementFacade searchFacilitySettingGrid;
+
+	@FindBy(id = "dllFSSearch")
+	private WebElementFacade facilitySettingSearchDrpdwn;
+
+	@FindBy(id = "txtFSSearchValue")
+	private WebElementFacade facilitySettingSearchTxtBox;
+
+	@FindBy(id = "BtnFSSearch")
+	private WebElementFacade facilitySettingSearchBtn;
+
+	@FindBy(xpath = "//*[@id='FacilitySettingsGridData']/div[@class='Rows']/div[@class='col'][1]")
+	private WebElementFacade searchFacilitySettingText;
+
+	@FindBy(xpath = "//*[@id='FacilitySettingsGridData']/div[@class='Rows']/div[@title='Update Facility Setting']")
+	private WebElementFacade searchFSEditIcon;
+
+	@FindBy(id = "FacilitySettingsModelpopup")
+	private WebElementFacade facilitySettingDetailsPopup;
+
+	@FindBy(id = "txtSettingValue")
+	private WebElementFacade settingValueTxtArea;
+
+	@FindBy(xpath = "//input[@type='button' and @value='Update Facility Setting']")
+	private WebElementFacade updateSettingValueBtn;
+
+	@FindBy(xpath = "//span[contains(text(),'AHtoDecision Admin')]/ancestor::li/div[2]/span[@data-bind='text: workflowDescriptionName']")
+	private List<WebElementFacade> listOfAHtoDecisionAdminWorkflows;
+
+	
+	public boolean isAddNewActionBtnVisisble() {
+		return addNewActionButton.isVisible();
+	}
 	public String getTextDefaultHandOffPageTitle() {
 		return defaultHandOffPageTitle.getText().trim();
 	}
@@ -368,6 +423,14 @@ public class DefaultHandoffPage extends PageObject {
 		actionNameTextBox.type(actionName);
 		return actionName;
 	}
+	
+	public String getActionNameFromTextBox() {
+		return evaluateJavascript("return arguments[0].value;", actionNameTextBox).toString();
+	}
+	
+	public void enterCopiedActionName(String previousActionName) {
+		actionNameTextBox.type(previousActionName);
+	}
 
 	public String enterActionDescriptionTextBox(String actionDescription) {
 		actionDescriptionTextBox.type(actionDescription);
@@ -443,8 +506,23 @@ public class DefaultHandoffPage extends PageObject {
 		dispositionRespondDeadlineTextBox.type(dispositionRespondDeadlineValue);
 	}
 
-	public void selectDispositionStatusDD(String dispositionStatusValue) {
+	public void selectDispositionStatusDropdown(String dispositionStatusValue) {
 		dispositionStatusDD.selectByVisibleText(dispositionStatusValue);
+		getDispositionStatus = dispositionStatusDD.getSelectedVisibleTextValue();
+
+	}
+
+	public void selectDispositionStatusFromDropdown(String dispositionStatusValue) {
+		dispositionStatusDD.selectByVisibleText(dispositionStatusValue);
+	}
+
+	public boolean isSelectedValueInDispositionStatusVisible(String expectedDrpDownValue) {
+		evaluateJavascript("arguments[0].scrollIntoView(true);", dispositionStatusDD);
+		getDispositionStatus = dispositionStatusDD.getSelectedVisibleTextValue();
+		if (getDispositionStatus.trim().equals(expectedDrpDownValue)) {
+			return true;
+		}
+		return false;
 	}
 
 	public void enterPreDefinedNotes(String preDefinedNotesValue) {
@@ -456,6 +534,7 @@ public class DefaultHandoffPage extends PageObject {
 	}
 
 	public String getTextSavedDispositionName() {
+		withAction().moveToElement(savedDispositionName).build().perform();
 		return savedDispositionName.getText().trim();
 	}
 
@@ -469,5 +548,77 @@ public class DefaultHandoffPage extends PageObject {
 
 	public String getTextSavedDispositionStatus() {
 		return savedDispositionStatus.getText().trim();
+	}
+
+	public void clickVisibleToGrpAHtoDecisionChkBox() {
+		visibleToGrpAHtoDecisionChkBox.click();
+	}
+
+	public String getFacilitySettingConfigTitle() {
+		return facilitySettingConfigTitle.getText();
+	}
+
+	public void selectTextSearchDrpdwn(String searchValue) {
+		searchDrpdwn.selectByVisibleText(searchValue);
+	}
+
+	public void enterSearchTxtBox(String value) {
+		searchTxtBox.type(value);
+	}
+
+	public void clickSearchBtn() {
+		searchBtn.click();
+	}
+
+	public String getSearchFacilityCode() {
+		return searchFacilityCode.getText();
+	}
+
+	public void clickSearchFacilityViewLink() {
+		searchFacilityViewLink.click();
+	}
+
+	public boolean isSearchFacilitySettingGridVisible() {
+		return searchFacilitySettingGrid.isVisible();
+	}
+
+	public void selectTextFSSearchDrpdwn(String searchValue) {
+		facilitySettingSearchDrpdwn.selectByVisibleText(searchValue);
+	}
+
+	public void enterFSSearchTxtBox(String value) {
+		facilitySettingSearchTxtBox.type(value);
+	}
+
+	public void clickFSSearchBtn() {
+		facilitySettingSearchBtn.click();
+	}
+
+	public void clickSearchFSEditIcon() {
+		searchFSEditIcon.click();
+	}
+
+	public String getSearchFacilitySettingText() {
+		return searchFacilitySettingText.getText();
+	}
+
+	public boolean isFSDetailsPopupVisible() {
+		return facilitySettingDetailsPopup.isVisible();
+	}
+
+	public String getSettingValueTxtArea() {
+		return evaluateJavascript("return document.querySelector('#txtSettingValue').value").toString();
+	}
+
+	public void updateSettingValueTxtArea(String settingValue) {
+		settingValueTxtArea.type(getSettingValueTxtArea() + settingValue);
+	}
+
+	public void clickUpdateSettingValueBtn() {
+		updateSettingValueBtn.click();
+	}
+
+	public String getSecondLastAHtoDecisionAdminWorkflow() {
+		return listOfAHtoDecisionAdminWorkflows.get(listOfAHtoDecisionAdminWorkflows.size() - 2).getText();
 	}
 }

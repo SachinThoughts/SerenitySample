@@ -82,13 +82,6 @@ public class FinancialInfoStepDef {
 		Assert.assertTrue("Headers do not match", financialInfoPage.isFinanceInfoHeadersVisible(financeInfoHeaders));
 	}
 
-	@When("^user runs Financial_Information_Section_SQL5(.+)$")
-	public void user_runs_Financial_Information_Section_SQL1(String queryName) throws SQLException, Exception {
-		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
-				String.format(commonMethods.loadQuery(queryName, dbQueryFilename), transactionTypeSearchOne,
-						transactionTypeSearchTwo));
-	}
-
 	@When("^user hover on R1_Decision$")
 	public void user_hover_on_R__Decision() {
 		billingAndFollowUpPage.hoverOnR1DecisionLink();
@@ -97,7 +90,7 @@ public class FinancialInfoStepDef {
 	@Then("^user should be able to fetch Invoice Number$")
 	public void user_should_be_able_to_fetch_Invoice_Number() throws SQLException {
 		while (DatabaseConn.resultSet.next()) {
-			invoiceNumber = DatabaseConn.resultSet.getString("InvoiceNumber");
+			invoiceNumber = DatabaseConn.resultSet.getString("invoicenumber");
 			loginSteps.log("The fetched invoice number is: " + invoiceNumber);
 		}
 	}
@@ -196,5 +189,80 @@ public class FinancialInfoStepDef {
 						+ financialInfoPage.getTotalAdjustments(),
 				financialInfoPage.getTotalAdjustments()
 						.equals(financialInfoStep.formatCurrency(financialInfoElementVal)));
+	}
+
+	@When("^user Clicks on drill down icon of total charges$")
+	public void user_Clicks_on_drill_down_icon_of_total_charges() {
+		financialInfoPage.expandTotalCharges();
+	}
+
+	@Then("^User should be able to view following total charges fields:$")
+	public void user_should_be_able_to_view_following_total_charges_fields(DataTable datatable) {
+		List<String> expectedTotalChargesTableHeaders = datatable.asList(String.class);
+		Assert.assertTrue("Total charges Headers do not match",
+				financialInfoPage.getTotalChargesTableHeaders().equals(expectedTotalChargesTableHeaders));
+	}
+
+	@When("^user executes the query to fetch total charges details (.*)$")
+	public void user_runs_the_query_to_fetch_total_charges_details(String queryName) throws Exception {
+		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
+				String.format(commonMethods.loadQuery(queryName, dbQueryFilename), invoiceNumber));
+	}
+
+	@Then("^user should be able to view same data in drilldown section of Total Charges as SQL result$")
+	public void user_should_be_able_to_view_same_data_in_drilldown_section_of_Total_Charges_as_SQL_result()
+			throws Exception {
+		List<Object> listOfVal = financialInfoStep.verifyTotalChargesDbValuesWithUI();
+		boolean val = ((Boolean) listOfVal.get(listOfVal.size() - 1)).booleanValue();
+		Assert.assertTrue("Following values does not match\n" + listOfVal.subList(0, listOfVal.size() - 1), val);
+	}
+
+	@Then("^User should be able to view some dollar value in Total Charges column$")
+	public void user_should_be_able_to_view_some_dollar_value_in_total_charges_column() {
+		Assert.assertTrue(
+				"Same amount not displayed in Total Charges column as SQL result \n Expected TotalCharges from DB"
+						+ financialInfoStep.formatCurrency(financialInfoElementVal) + "Actual TotalCharges on UI"
+						+ financialInfoPage.getTotalCharges(),
+				financialInfoPage.getTotalCharges().equals(financialInfoStep.formatCurrency(financialInfoElementVal)));
+	}
+
+	@Then("^User should be able to view \"([^\"]*)\" as value of Expected Payment under Financial Information section$")
+	public void user_should_be_able_to_view_as_value_of_expected_payment_under_financial_information_section(
+			String expectedColumnValue) {
+		Assert.assertTrue(
+				"Unable to see expected payment value in Financial Information column"
+						+ financialInfoPage.getExpectedPayment(),
+				financialInfoPage.getExpectedPayment().equals(expectedColumnValue));
+	}
+
+	@Then("^User should be able to view some dollar value in Patient Payment column $")
+	public void user_should_be_able_to_view_some_dollar_value_in_Patient_Payment_column() {
+		Assert.assertTrue(
+				"Patient Payments from DB:" + financialInfoElementVal + " and UI:"
+						+ financialInfoPage.getPatientPaymentText() + " doesnt match for Account#: " + invoiceNumber,
+				("$" + financialInfoElementVal).contains(financialInfoPage.getPatientPaymentText()));
+	}
+
+	@Then("^user should able to view \"([^\"]*)\" against Insurance Payments under Financial Information section$")
+	public void user_should_able_to_view_against_Insurance_Payments_under_Financial_Information_section(String status) {
+		Assert.assertTrue("Insurance Payment is displaying a value instead of N/A",
+				financialInfoPage.getInsurancePaymentAmount().equals(status));
+	}
+
+	@Then("^user should be able to view \"([^\"]*)\" against Patient Payment under Financial Information section$")
+	public void user_should_be_able_to_view_against_Patient_Payment_under_Financial_Information_section(String status) {
+		Assert.assertTrue("Patient Payment is displaying a value instead of N/A",
+				financialInfoPage.getPatientPaymentAmount().equals(status));
+	}
+
+	@When("^User clicks on Adjustment Amount drill down$")
+	public void user_clicks_on_Adjustment_Amount_drill_down() {
+		financialInfoPage.clickExpandIconAdjustments();
+	}
+
+	@Then("^User should be able to view the message \"([^\"]*)\" under Adjustment amount column $")
+	public void user_should_be_able_to_view_the_message_under_Adjustment_amount_column(String message) {
+		Assert.assertTrue("No message displayed under Adjustment amount expanded view",
+				financialInfoPage.getAdjustmentMessage().equals(message));
 	}
 }
