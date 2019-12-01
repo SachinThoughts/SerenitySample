@@ -12,6 +12,7 @@ import net.serenitybdd.core.environment.EnvironmentSpecificConfiguration;
 import net.thucydides.core.annotations.Steps;
 import net.thucydides.core.util.EnvironmentVariables;
 import r1.prcmbe.pages.SettingsPage;
+import r1.prcmbe.serenity.steps.DefaultHandoffSteps;
 import r1.prcmbe.serenity.steps.LoginSteps;
 import r1.prcmbe.serenity.steps.SearchPageSteps;
 import r1.commons.databaseconnection.DatabaseConn;
@@ -36,13 +37,16 @@ public class DefaultHandoffStepDef {
 	LoginSteps loginSteps;
 	@Steps
 	SettingsPage settingsPage;
+	@Steps
+	DefaultHandoffSteps defaultHandoffSteps;
 
 	String workFlowDescription, recipientDesc, actionDescription, followUpDays, dispositionDescription,
 			responseDeadline, dispositionCode, dispositionFollowUpDays, dispositionResponseDeadline, workFlowName,
-			recipientName, searchText, dbId = "", facilitySettingValue, invoiceNumber,
-			dbFacilitySettingValue;
+			recipientName, searchText, dbId = "", facilitySettingValue, invoiceNumber, dbFacilitySettingValue,
+			createVal, whyVal, dispositionVal, handoffType;
 	static String dispositionStatus, actionName;
 	private static String dbQueryFilename = "DefaultHandoff";
+	private final String BUBBLECOLOR = "rgba(61, 100, 168, 1)";
 
 	@When("^click on Workflow Configuration link$")
 	public void click_on_workflow_configuration_link() {
@@ -535,5 +539,142 @@ public class DefaultHandoffStepDef {
 	@When("^user clicks on Handoff link button$|^user clicks on Handoff button$")
 	public void user_clicks_on_Handoff_link_button() {
 		accInfoPage.clickHandOffBtn();
+	}
+
+	@When("^user selects (.*) from Handoff Type dropdown$")
+	public void user_selects_from_Handoff_Type_dropdown(String drpVal) {
+		handoffType = defaultHandOffPage.selectHandoffType(drpVal);
+	}
+
+	@When("^user selects any value from Create dropdown$")
+	public void user_selects_any_value_from_Create_dropdown() {
+		createVal = defaultHandOffPage.selectAnyOptionFromCreateDrpdwn();
+	}
+
+	@When("^user selects any value from Why dropdown$")
+	public void user_selects_any_value_from_Why_dropdown() {
+		whyVal = defaultHandOffPage.selectAnyOptionFromWhyDrpdwn();
+	}
+
+	@When("^user selects any value from Disposition dropdown$")
+	public void user_selects_any_value_from_Disposition_dropdown() {
+		if (!(defaultHandOffPage.selectAnyOptionFromDispositionDrpdwn() == null)) {
+			dispositionVal = defaultHandOffPage.selectAnyOptionFromDispositionDrpdwn();
+		}
+	}
+
+	@When("^user enters any \"([^\"]*)\" in Notes text area$")
+	public void user_enters_any_in_Notes_text_area(String note) {
+		defaultHandOffPage.enterNote(note);
+	}
+
+	@Then("^user should be able to view \"([^\"]*)\" under event circle in blue color for newly added Handoff type on Horizontal timeline$")
+	public void user_should_be_able_to_view_under_event_circle_in_blue_color_for_newly_added_Handoff_type_on_Horizontal_timeline(
+			String bubbleText) {
+		Assert.assertTrue("User is not able to view blue bubble with H text",
+				defaultHandOffPage.getHandoffBubbleColor().equals(BUBBLECOLOR));
+	}
+
+	@When("^user hovers the event circle for newly added Handoff type$")
+	public void user_hovers_the_event_circle_for_newly_added_Handoff_type() {
+		defaultHandOffPage.hoverOnAddedBubble();
+	}
+
+	@Then("^user should be able to view the following columns$")
+	public void user_should_be_able_to_view_the_following_columns(DataTable expectedHeaders) {
+		List<String> expectedListOfEventCircleCols = expectedHeaders.asList(String.class);
+		Assert.assertTrue("The column headers in the popup text are not as expected.",
+				defaultHandOffPage.getListOfEventCircleColumns().equals(expectedListOfEventCircleCols));
+	}
+
+	@When("^user clicks on Save button on the handoff popup$")
+	public void user_clicks_on_Save_button_on_the_handoff_popup() {
+		defaultHandOffPage.clickHandoffSaveBtn();
+	}
+
+	@Then("^user should be able to view Handoff type value as newly added handoff type$")
+	public void user_should_be_able_to_view_Handoff_type_value_as_newly_added_handoff_type() {
+		Assert.assertTrue("User is not able to view handoff type",
+				defaultHandOffPage.getListOfPopupValues().contains(handoffType));
+	}
+
+	@Then("^user should be able to view Added column value as system current date$")
+	public void user_should_be_able_to_view_Added_column_value_as_system_current_date() {
+		Assert.assertTrue("Created date does not matched with system date",
+				defaultHandOffPage.getCreatedDate().equals(defaultHandoffSteps.getCurrentDate()));
+	}
+
+	@Then("^user should be able to view Followup column value as system current date$")
+	public void user_should_be_able_to_view_Followup_column_value_as_system_current_date() {
+		Assert.assertTrue("Followup date does not matched with system date",
+				defaultHandOffPage.getFollowupDate().equals(defaultHandoffSteps.getCurrentDate()));
+	}
+
+	@Then("^user should be able to view Created column value as Logged in username and userid: \"([^\"]*)\"$")
+	public void user_should_be_able_to_view_Created_column_value_as_Logged_in_username_and_userid(String queryName)
+			throws ClassNotFoundException, SQLException, IOException, Exception {
+		Assert.assertTrue("User is not able to view handoff type",
+				defaultHandOffPage.getListOfPopupValues().contains(defaultHandoffSteps.getDisplayName(queryName)));
+	}
+
+	@Then("^user should be able to view Action with the correct selected data$")
+	public void user_should_be_able_to_view_Action_with_the_correct_selected_data() {
+		Assert.assertTrue("User is not able to view Action with correct selected data",
+				defaultHandOffPage.getListOfPopupValues().contains(whyVal));
+	}
+
+	@Then("^user should be able to view Disposition with the correct selected data$")
+	public void user_should_be_able_to_view_Disposition_with_the_correct_selected_data() {
+		Assert.assertTrue("User is not able to view Action with correct selected data",
+				defaultHandOffPage.getListOfPopupValues().contains(dispositionVal));
+	}
+
+	@Then("^click on Show Account Action History Notes button$")
+	public void click_on_Show_Account_Action_History_Notes_button() {
+		defaultHandOffPage.clickAccountActionHistoryNotesBtn();
+	}
+
+	@Then("^user should be able to view the following columns in Account Action History$")
+	public void user_should_be_able_to_view_the_following_columns_in_Account_Action_History(DataTable expectedHeaders) {
+		List<String> expectedListOfEventCircleCols = expectedHeaders.asList(String.class);
+		Assert.assertTrue("The column headers in the popup text are not as expected.",
+				defaultHandOffPage.getAccountActionHistoryColumns().equals(expectedListOfEventCircleCols));
+	}
+
+	@Then("^user should be able to view Handoff type value as newly added handoff type in Account Action History$")
+	public void user_should_be_able_to_view_Handoff_type_value_as_newly_added_handoff_type_in_Account_Action_History() {
+		Assert.assertTrue("User is not able to view expected handoff type in Account Action History",
+				defaultHandOffPage.getAccountActionHistoryValues().contains(handoffType));
+	}
+
+	@Then("^user should be able to view Action with the correct selected data in Account Action History$")
+	public void user_should_be_able_to_view_Action_with_the_correct_selected_data_in_Account_Action_History() {
+		Assert.assertTrue("User is not able to view Action with correct selected data",
+				defaultHandOffPage.getAccountActionHistoryValues().contains(whyVal));
+	}
+
+	@Then("^user should be able to view Disposition with the correct selected data in Account Action History$")
+	public void user_should_be_able_to_view_Disposition_with_the_correct_selected_data_in_Account_Action_History() {
+		Assert.assertTrue("User is not able to view Action with correct selected data",
+				defaultHandOffPage.getAccountActionHistoryValues().contains(dispositionVal));
+	}
+
+	@Then("^user should be able to view Added column value as system current date in Account Action History$")
+	public void user_should_be_able_to_view_Added_column_value_as_system_current_date_in_Account_Action_History() {
+		Assert.assertTrue("Created date does not matched with system date",
+				defaultHandOffPage.getAccountActionHistoryAddedDate().equals(defaultHandoffSteps.getCurrentDate()));
+	}
+
+	@Then("^user should be able to view Created column value as Logged in username and userid in Account Action History: \"([^\"]*)\"$")
+	public void user_should_be_able_to_view_Created_column_value_as_Logged_in_username_and_userid_in_Account_Action_History(
+			String queryName) throws ClassNotFoundException, SQLException, IOException, Exception {
+		Assert.assertTrue("User is not able to view handoff type", defaultHandOffPage.getAccountActionHistoryValues()
+				.contains(defaultHandoffSteps.getDisplayName(queryName)));
+	}
+
+	@Then("^user should be able to view Followup column value as system current date in Account Action History$")
+	public void user_should_be_able_to_view_Followup_column_value_as_system_current_date_in_Account_Action_History() {
+		Assert.assertTrue("Created date does not matched with system date",
+				defaultHandOffPage.getAccountActionHistoryFollowupDate().equals(defaultHandoffSteps.getCurrentDate()));
 	}
 }
