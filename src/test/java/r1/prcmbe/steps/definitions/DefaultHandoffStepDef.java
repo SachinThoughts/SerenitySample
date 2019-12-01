@@ -325,7 +325,7 @@ public class DefaultHandoffStepDef {
 	@When("^For disposition user selects \"([^\"]*)\" option from Desposition Status dropdown$")
 	public void for_disposition_user_selects_option_from_Desposition_Status_dropdown(String dispositionStatusValue) {
 		dispositionStatus = dispositionStatusValue;
-		defaultHandOffPage.selectDispositionStatusDD(dispositionStatusValue);
+		defaultHandOffPage.selectDispositionStatusDropdown(dispositionStatusValue);
 	}
 
 	@When("^user enters text: \"([^\"]*)\" in Predefined Note text area$")

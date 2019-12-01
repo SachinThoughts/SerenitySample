@@ -44,7 +44,7 @@ public class SearchPageSteps {
 					return false;
 				}
 			}
-			searchPage.clickSearchInvoiceNumber();
+			searchPage.clickSearchInvoiceIdOrVisitNumber();
 		}
 		if (searchPage.isErrorMsgVisible()) {
 			searchPage.clickErrorMsg();
@@ -105,7 +105,6 @@ public class SearchPageSteps {
 		String[] patientName = searchPage.getPatientName().split(",", 0);
 		String lastName = patientName[0].substring(0, 1) + patientName[0].substring(1).toLowerCase();
 		String firstName = patientName[1].substring(1, 2) + patientName[1].substring(2).toLowerCase();
-
 		return searchPage.isPatientAndVisitHeaderVisible() && dblistOfNames.contains(lastName + ", " + firstName);
 	}
 
@@ -163,5 +162,51 @@ public class SearchPageSteps {
 			sValue = true;
 		}
 		return sValue;
+	}
+
+	@Step
+	public boolean verifyEncounterId(String dbEncounterID) {
+		if (searchPage.isSearchAccTableVisible()) {
+			for (String encounterID : searchPage.getlistOfAccNum()) {
+				if (!encounterID.contains(dbEncounterID)) {
+					financialInfoSteps.log("The incorrect searched Encounter id is " + encounterID);
+					return false;
+				}
+			}
+			searchPage.clickSearchInvoiceIdOrVisitNumber();
+		}
+		if (searchPage.isErrorMsgVisible()) {
+			searchPage.clickErrorMsg();
+		}
+		return searchPage.isPatientAndVisitHeaderVisible()
+				&& dbEncounterID.equalsIgnoreCase(searchPage.getAccountNumber());
+	}
+
+	@Step
+	public boolean verifyEncounterIdOnUIWithDatabaseResult(List<String> dblistOfEncounterID) {
+		financialInfoSteps.log("List of Encounter ID from UI:\n" + searchPage.getlistOfAccNum());
+		if (searchPage.isSearchAccTableVisible()) {
+			return (new ArrayList<>(new HashSet<>(searchPage.getlistOfAccNum())).containsAll(dblistOfEncounterID));
+		}
+		return searchPage.isPatientAndVisitHeaderVisible()
+				&& dblistOfEncounterID.contains(searchPage.getAccountNumber());
+	}
+
+	@Step
+	public boolean verifyInvoiceNumberOnUIWithDatabaseResult(List<String> dblistOfInvoiceNumber) {
+		financialInfoSteps.log("List of Invoice Number from UI:\n" + searchPage.getlistOfInvNum());
+		if (searchPage.isSearchAccTableVisible()) {
+			return dblistOfInvoiceNumber.containsAll(new ArrayList<>(new HashSet<>(searchPage.getlistOfInvNum())));
+		}
+		return searchPage.isPatientAndVisitHeaderVisible() && dblistOfInvoiceNumber.contains(searchPage.getInvoiceID());
+	}
+
+	@Step
+	public boolean verifyMRNOnUIWithDatabaseResult(List<String> dblistOfMRN) {
+		financialInfoSteps.log("List of MRN from UI:\n" + searchPage.getlistOfMRN());
+		if (searchPage.isSearchAccTableVisible()) {
+			return dblistOfMRN.containsAll(new ArrayList<>(new HashSet<>(searchPage.getlistOfMRN())));
+		}
+		return searchPage.isPatientAndVisitHeaderVisible() && dblistOfMRN.contains(searchPage.getMRNText());
 	}
 }

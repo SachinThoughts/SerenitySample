@@ -21,6 +21,9 @@ public class WorkflowConfigurationPage extends PageObject {
 
 	@FindBy(id = "HandoffLink")
 	private WebElementFacade handoffTab;
+	
+	@FindBy(id= "ActionTypeLink")
+	private WebElementFacade actionTypeTab;
 
 	@FindBy(xpath = "//div[@class = 'navbar']//li/a")
 	private List<WebElementFacade> workflowTabs;
@@ -128,7 +131,7 @@ public class WorkflowConfigurationPage extends PageObject {
 	private WebElementFacade saveChangesBtn;
 
 	@FindBy(id = "addNewDispositionLabel")
-	private WebElementFacade addDispositionPopupHeader;
+	private WebElementFacade dispositionPopupHeader;
 
 	@FindBy(xpath = "//*[@id='addNewDisposition']//i[@class='fa fa-close']")
 	private WebElementFacade dispositionPopupClose;
@@ -155,13 +158,37 @@ public class WorkflowConfigurationPage extends PageObject {
 	private WebElementFacade nextDispositionByDropdown;
 
 	@FindBy(xpath = "//*[@id='WorkflowTypeDispositionSorttable']/li[last()]/div/div/a[3]/i")
-	private WebElementFacade detailsLinkOnDisposition;
+	private WebElementFacade newDetailsLinkOnDisposition;
 
 	@FindBy(xpath = "//*[@class='more-info workflowConfigdetailsInfo']//span[text()='Created Date']/following-sibling::span")
 	private WebElementFacade createdDateField;
 
 	@FindBy(xpath = "//*[@class='more-info workflowConfigdetailsInfo']//span[text()='Created By']/following-sibling::span")
 	private WebElementFacade createdByField;
+
+	@FindBy(xpath = "//*[@id='addNewDisposition']//button[@class='close']")
+	private WebElementFacade closeBtnOnDispositionPopup;
+
+	@FindBy(xpath = "//*[@id='addNewDisposition']//div[@class='alert alert-danger']/span")
+	private WebElementFacade errorMsgOnduplicateDispositionCode;
+
+	@FindBy(id = "txtdispositionFUD")
+	private WebElementFacade followUpDaysTxtBoxOnDispositionPopup;
+
+	@FindBy(id = "txtdispositionTimeLimit")
+	private WebElementFacade respondDeadLineTxtBoxOnDispositionPopup;
+
+	@FindBy(xpath = "//label[text()='Disposition Status']/..//select")
+	private WebElementFacade dispositionStatusDrpDwn;
+
+	@FindBy(xpath = "(//*[@id='WorkflowTypeDispositionSorttable']//a[@data-target='#addNewDisposition'])[1]")
+	private WebElementFacade editLinkForMappedDispositionOnDispositionGrid;
+
+	@FindBy(id = "ActionTypeLink")
+	private WebElementFacade actionTypeLink;
+
+	@FindBy(xpath = "//*[@id='WorkflowTypeActionsSorttable']//div[@class='config-tools appeals']/div/label")
+	private List<WebElementFacade> listOfActionTypeRadioBtns;
 
 	@FindBy(xpath = "//button[contains(text(),' Add Recipient')]")
 	private WebElementFacade addRecipientButton;
@@ -203,19 +230,19 @@ public class WorkflowConfigurationPage extends PageObject {
 	private List<WebElementFacade> listOfRecipientsName;
 
 	@FindBy(xpath = "//div[@id='addNewAction']//div[not(contains(@class,'hidden'))]/label[contains(@class,'control-label')]")
-	private List<WebElementFacade> actionPopUpControls;
+	private List<WebElementFacade> actionPopupControls;
 
 	@FindBy(xpath = "//*[@id='addNewAction']//button[text()='Close']")
-	private WebElementFacade closeBtnOnActionPopUp;
+	private WebElementFacade closeBtnOnActionPopup;
 
 	@FindBy(xpath = "//*[@id='addNewAction']//button[text()='Save changes']")
-	private WebElementFacade saveChangesBtnOnActionPopUp;
+	private WebElementFacade saveChangesBtnOnActionPopup;
 
 	@FindBy(xpath = "//*[@id='addNewAction']//*[@id='sopActionRequired']/..")
-	private WebElementFacade requiredCheckBoxActionPopUp;
+	private WebElementFacade requiredCheckBoxActionPopup;
 
 	@FindBy(id = "addEditNewActionLabel")
-	private WebElementFacade addActionPopUp;
+	private WebElementFacade addActionPopup;
 
 	@FindBy(xpath = "//*[@id='WorkflowTypeActionsSorttable']//i[@class='fa fa-chevron-right fa-1-5x']")
 	private List<WebElementFacade> listOfDetailsLinkOnActionTab;
@@ -236,7 +263,7 @@ public class WorkflowConfigurationPage extends PageObject {
 	private WebElementFacade actionUpdatedBy;
 
 	@FindBy(xpath = "//div[@id='addNewAction']//div[@class='alert alert-info']/span")
-	private WebElementFacade errorMsgForEmptyFieldsOnActionPopUp;
+	private WebElementFacade errorMsgForEmptyFieldsOnActionPopup;
 
 	@FindBy(id = "DispositionTypeLink")
 	private WebElementFacade dispositionTab;
@@ -282,31 +309,148 @@ public class WorkflowConfigurationPage extends PageObject {
 
 	@FindBy(xpath = "//*[@class='sop-header dispositions']/li")
 	private List<WebElementFacade> listOfDispositionHeader;
+	
+	@FindBy(xpath = "//*[@id='dvWorkflowTypeActions']/ul/li/div[1]/div/div/label")
+	private List<WebElementFacade> actionsRadioBtnList;
 
 	@FindBy(xpath = "//*[@id='editRecipient']//div[@class ='form-group']/label")
 	private List<WebElementFacade> listOfEditRecipientLabels;
-	
+
 	@FindBy(xpath = "//button[contains(text(),'Save Recipient')]")
 	private WebElementFacade saveRecipientButton;
-	
+
 	@FindBy(id = "txteditRecipientName")
 	private WebElementFacade recipientNameTextbox;
 
 	@FindBy(id = "txteditRecipientDescription")
 	private WebElementFacade recipientDescriptionTextbox;
-	
+
 	@FindBy(xpath = "(//*[@id = 'dvRecipientDetails']//div[3]//span)[1]")
 	private WebElementFacade firstRecipientDesc;
-	
+
 	@FindBy(xpath = "(//a[@class = 'toggle-info']//i)[1]")
 	private WebElementFacade firstDetailsLinkOnRecipient;
-	
+
 	@FindBy(xpath = "//*[@class='more-info workflowConfigdetailsInfo']//span[text()='Updated By']/following-sibling::span")
 	private WebElementFacade recipientUpdatedByField;
 
 	@FindBy(xpath = "//*[@class='more-info workflowConfigdetailsInfo']//span[text()='Updated Date']/following-sibling::span")
 	private WebElementFacade recipientUpdatedDateField;
+
+	@FindBy(xpath = "//*[@id='WorkflowTypeDispositionSorttable']/li/div/div/a[3]/i")
+	private List<WebElementFacade> listOfDetailsLinkOnDispositionTab;
+
+	@FindBy(xpath = "//*[@id='WorkflowTypeDispositionSorttable']//*[@id='TLMT0']")
+	private WebElementFacade mappedTimeLimitValueOnDispositionTypeGrid;
 	
+	@FindBy(xpath = "//*[@id='step3']//h2[text()='Choose Action Type']")
+	private WebElementFacade actionTab;
+	
+	@FindBy(xpath = "//ul[@class='sop-header wf-action-type']/li")
+	private List<WebElementFacade> headersOnActionType;
+	
+	@FindBy(xpath = "(//*[@id='WorkflowTypeActionsSorttable']//ul)[1]/preceding-sibling::div//a[3]/i")
+	private WebElementFacade detailsLinkBtnOnActionTypeTab;
+	
+	@FindBy(xpath = "(//*[@id='WorkflowTypeActionsSorttable']//a[@data-target='#addNewAction'])[1]")
+	private WebElementFacade firstEditLinkOnActionTypeTab;
+	
+	@FindBy(xpath = "//a[@class='reorder']")
+	private WebElementFacade reorderLinkOnActionType;
+	
+	@FindBy(xpath="//div[@class='alert alert-danger']/span")
+	private WebElementFacade duplicateActionNameErrMsg;
+	
+	@FindBy(xpath = "//ul[@id='WorkflowTypeActionsSorttable']/li/div[3]/span[@id='NA0']")
+	private WebElementFacade actionTypeName;
+	
+	@FindBy(xpath = "//ol[@class='breadcrumb defect-summary']")
+	private WebElementFacade actionTypeBreadcrumb;
+	
+	public String getActionTextBreadcrumb() {
+		return actionTypeBreadcrumb.getText().trim();
+	}
+	
+	public String getSelectedActionTypeName() {
+		return actionTypeName.getText().trim();
+	}
+	
+	public String getErrMsgOnDuplicateActionName() {
+		return duplicateActionNameErrMsg.getText().trim();
+	}
+	
+	public void clickFirstEditLinkOnActionTypeTab() {
+		firstEditLinkOnActionTypeTab.withTimeoutOf(Duration.ofSeconds(20)).waitUntilVisible().click();
+	}
+	public boolean isActionTabVisible() {
+		return actionTab.isVisible();
+	}
+	
+	public boolean isContinueBtnOnActionTypeVisible() {
+		return continueBtnOnActionTypeTab.isVisible();
+	}
+	
+	public boolean isDetailLinkOnActionTypeVisible() {
+		return detailsLinkBtnOnActionTypeTab.isVisible();
+	}
+	
+	public boolean isRadioBtnOnActionTypeVisible() {
+		return listOfActionTypeRadioBtns.get(0).isVisible();
+	}
+	
+	public boolean isEditLinkOnActionTypeVisible() {
+		return firstEditLinkOnActionTypeTab.isVisible();
+	}
+	
+	public boolean isReorderOnActionTypeVisible() {
+		return reorderLinkOnActionType.isVisible();
+	}
+	
+	public void clickOnDetailsBtnOnActionTypeTab() {
+		detailsLinkBtnOnActionTypeTab.click();
+	}
+	
+	public void clickHandoffTab() {
+		handoffTab.click();
+	}
+	
+	public List<String> getActionTypeHeaders() {
+		List<String> listOfLabels = new ArrayList<String>();
+		for (WebElementFacade headers : headersOnActionType) {
+			listOfLabels.add(headers.getText().trim());
+		}
+		return listOfLabels;
+	}
+
+	public void clickOnDetailsLinkOnDispositionTab() {
+		evaluateJavascript("arguments[0].click();", listOfDetailsLinkOnDispositionTab.get(0));
+	}
+
+	public String getDispositionErrorMsgOnDuplicateCode() {
+		return errorMsgOnduplicateDispositionCode.getText().trim();
+	}
+
+	public void clickOnAnyActionTypeRadioBtn() {
+		evaluateJavascript("arguments[0].click();", listOfActionTypeRadioBtns.get(1));
+	}
+
+	public void clickOnActionType() {
+		actionTypeLink.click();
+	}
+	
+	public void clickOnRandomHandoffType() {
+		int randomHandoff=CommonMethods.getRandom(handoffTypeRadioBtnList.size()-1);
+		evaluateJavascript("arguments[0].click();", handoffTypeRadioBtnList.get(randomHandoff));
+	}
+
+	public String getDispositionCodeFromTextBox() {
+		return evaluateJavascript("return arguments[0].value;", dispositionCodeTextBox).toString();
+	}
+
+	public void clickOnCloseBtnOnDispositionPopup() {
+		closeBtnOnDispositionPopup.click();
+	}
+
 	public String getCreatedByFieldValue() {
 		return createdByField.getText();
 	}
@@ -315,12 +459,12 @@ public class WorkflowConfigurationPage extends PageObject {
 		return createdDateField.getText();
 	}
 
-	public void clickOnDispositionDetailsLink() {
-		withAction().moveToElement(detailsLinkOnDisposition).click().build().perform();
+	public void clickOnNewlyDispositionDetailsLink() {
+		withAction().moveToElement(newDetailsLinkOnDisposition).click().build().perform();
 	}
 
 	public boolean isAddNewDispositionPopupVisible() {
-		return addDispositionPopupHeader.isVisible();
+		return dispositionPopupHeader.isVisible();
 	}
 
 	public void selectNextDispositionFromDropdown(String nextDrpDownValue) {
@@ -351,6 +495,13 @@ public class WorkflowConfigurationPage extends PageObject {
 
 	public void enterTextInDispositionCodeTextBox() {
 		dispositionCodeTextBox.type(RandomStringUtils.randomAlphanumeric(6));
+	}
+
+	public void enterPreviousDispositionCode(String copiedCode) {
+		withAction().moveToElement(dispositionCodeTextBox).build().perform();
+		dispositionCodeTextBox.clear();
+		waitForAngularRequestsToFinish();
+		dispositionCodeTextBox.type(copiedCode);
 	}
 
 	public boolean isSaveBtnOnDispositionPopupVisible() {
@@ -480,10 +631,6 @@ public class WorkflowConfigurationPage extends PageObject {
 		listOfControlsOnEditPopup.get(0).click();
 	}
 
-	public void clickOnSaveBtn() {
-		listOfControlsOnEditPopup.get(1).click();
-	}
-
 	public boolean isEditPopupVisible() {
 		return editHandoffText.isVisible();
 	}
@@ -563,6 +710,10 @@ public class WorkflowConfigurationPage extends PageObject {
 	public String getHandoffTabColor() {
 		return handoffTab.getCssValue("background-color");
 	}
+	
+	public String getActionTypeTabColor() {
+		return actionTypeTab.getCssValue("background-color");
+	}
 
 	public List<String> getWorkflowTabs() {
 		List<String> workflowTabValues = new ArrayList<>();
@@ -603,6 +754,51 @@ public class WorkflowConfigurationPage extends PageObject {
 
 	public String isDefaultRadioBtnSelected() {
 		return evaluateJavascript("return document.querySelector('#workflowChoiceID-0').checked").toString();
+	}
+
+	public List<Object> verifyEditDispositionPopupPrePopulated() {
+		List<Object> listOfVal = new ArrayList<>();
+		int count = 0;
+		if (dispositionCodeTextBox.getText() != null) {
+			count = count + 1;
+		} else {
+			listOfVal.add("Disposition Code");
+		}
+		if (dispositionNameTextBox.getText() != null) {
+			count = count + 1;
+		} else {
+			listOfVal.add("Disposition Name");
+		}
+		if (!nextDispositionByDropdown.getSelectedVisibleTextValue().equals("--Select One--")) {
+			count = count + 1;
+		} else {
+			listOfVal.add("Next Disposition by");
+		}
+		if (respondDeadLineTxtBoxOnDispositionPopup.getText() != null) {
+			count = count + 1;
+		} else {
+			listOfVal.add("Response deadline");
+		}
+		if (followUpDaysTxtBoxOnDispositionPopup.getText() != null) {
+			count = count + 1;
+		} else {
+			listOfVal.add("Follow up days");
+		}
+		if (!dispositionStatusDrpDwn.getSelectedVisibleTextValue().equals("--Select One--")) {
+			count = count + 1;
+		} else {
+			listOfVal.add("Disposition status");
+		}
+		if (count == 6) {
+			listOfVal.add(true);
+		} else {
+			listOfVal.add(false);
+		}
+		return listOfVal;
+	}
+
+	public void clickOnEditLinkOnDispositionGrid() {
+		editLinkForMappedDispositionOnDispositionGrid.click();
 	}
 
 	public void clickAddRecipientButton() {
@@ -688,20 +884,20 @@ public class WorkflowConfigurationPage extends PageObject {
 	public List<Object> verifyAddActionPopupControlsVisible(List<String> listOfFields) {
 		List<Object> listOfVal = new ArrayList<>();
 		int count = 0;
-		int size = actionPopUpControls.size();
+		int size = actionPopupControls.size();
 		for (int i = 0; i < size; i++) {
-			if (actionPopUpControls.get(i).getText().equals(listOfFields.get(i))) {
+			if (actionPopupControls.get(i).getText().equals(listOfFields.get(i))) {
 				count = count + 1;
 			} else {
 				listOfVal.add(listOfFields.get(i));
 			}
 		}
-		if (closeBtnOnActionPopUp.getText().equals(listOfFields.get(8))) {
+		if (closeBtnOnActionPopup.getText().equals(listOfFields.get(8))) {
 			count = count + 1;
 		} else {
 			listOfVal.add("Close");
 		}
-		if (saveChangesBtnOnActionPopUp.getText().equals(listOfFields.get(9))) {
+		if (saveChangesBtnOnActionPopup.getText().equals(listOfFields.get(9))) {
 			count = count + 1;
 		} else {
 			listOfVal.add("Save changes");
@@ -714,12 +910,12 @@ public class WorkflowConfigurationPage extends PageObject {
 		return listOfVal;
 	}
 
-	public void clickRequiredCheckBoxOnActionPopUp() {
-		requiredCheckBoxActionPopUp.click();
+	public void clickRequiredCheckBoxOnActionPopup() {
+		requiredCheckBoxActionPopup.click();
 	}
 
-	public boolean isAddActionPopUpVisible() {
-		return addActionPopUp.isVisible();
+	public boolean isAddActionPopupVisible() {
+		return addActionPopup.isVisible();
 	}
 
 	public void clickSpecificDetailsLinkOnActionTab(String actionName) {
@@ -753,8 +949,8 @@ public class WorkflowConfigurationPage extends PageObject {
 	}
 
 	public String getErrorMsgOnActionPopup() {
-		withAction().moveToElement(errorMsgForEmptyFieldsOnActionPopUp).build().perform();
-		String expectedMEssage = errorMsgForEmptyFieldsOnActionPopUp.withTimeoutOf(Duration.ofSeconds(20))
+		withAction().moveToElement(errorMsgForEmptyFieldsOnActionPopup).build().perform();
+		String expectedMEssage = errorMsgForEmptyFieldsOnActionPopup.withTimeoutOf(Duration.ofSeconds(20))
 				.waitUntilVisible().getText().trim();
 		return expectedMEssage;
 
@@ -845,11 +1041,11 @@ public class WorkflowConfigurationPage extends PageObject {
 		}
 		return headerList;
 	}
-		
+
 	public void clickFirstEditIconOnRecipientTab() {
 		editIconOnRecipientTab.click();
 	}
-	
+
 	public List<String> getListOfEditRecipientLabels() {
 		List<String> listOfRecipientLabels = new ArrayList<String>();
 		for (WebElementFacade element : listOfEditRecipientLabels) {
@@ -857,41 +1053,87 @@ public class WorkflowConfigurationPage extends PageObject {
 		}
 		return listOfRecipientLabels;
 	}
-	
+
 	public String getSaveRecipientButtonText() {
 		return saveRecipientButton.getText();
 	}
-	
+
 	public boolean verifyEditRecipientPrePopulatedFields() {
 		if (recipientNameTextbox.getText() != null && recipientDescriptionTextbox.getText() != null)
 			return true;
 		else
 			return false;
 	}
-	
+
 	public String enterAndGetRandomRecipientDescText() {
 		recipientDescriptionTextbox.type(RandomStringUtils.randomAlphanumeric(6));
 		return recipientDescriptionTextbox.getTextValue();
 	}
-	
+
 	public void clickSaveRecipientButton() {
 		saveRecipientButton.click();
 	}
-	
+
 	public String getFirstRecipientDesc() {
 		return firstRecipientDesc.getText();
 	}
-	
+
 	public void clickFirstRecipientDetailsLink() {
 		firstDetailsLinkOnRecipient.click();
 	}
-	
+
 	public String getUpdatedByFieldValue() {
 		return recipientUpdatedByField.getText();
 	}
 
 	public String getUpdatedDateFieldValue() {
 		return recipientUpdatedDateField.getText();
-}
+	}
+
+	public void clickRespondDeadlineOnEditDispositionTypePopup() {
+		respondDeadLineTxtBoxOnDispositionPopup.click();
+	}
+
+	public String enterAndGetRandomValueRespondDeadlineForEditDispositionTypePopup() {
+		respondDeadLineTxtBoxOnDispositionPopup.type(RandomStringUtils.randomNumeric(1));
+		return respondDeadLineTxtBoxOnDispositionPopup.getTextValue();
+	}
+
+	public String getMappedDispositionTimeLimitValueOnDispositionTypeGrid() {
+		return mappedTimeLimitValueOnDispositionTypeGrid.getText();
+	}
 	
+	public void clickOnCloseBtnOnActionPopup() {
+		closeBtnOnActionPopup.click();
+	}
+	
+	public int getActionNamesCount() {
+		return listOfActionNames.size();
+	}
+	
+	public List<String> getListOfActionNames(){
+		List<String> actionNamesList=new ArrayList<>();
+		for(WebElementFacade actionName:listOfActionNames) {
+			actionNamesList.add(actionName.getText());
+		}
+		return actionNamesList;
+	}
+	
+	public void clickSpecificRadioBtnOnActionTab(String actionName) {
+		int size = listOfActionNames.size();
+		for (int i = 0; i < size; i++) {
+			if (listOfActionNames.get(i).getText().equals(actionName)) {
+				withAction().moveToElement(actionsRadioBtnList.get(i)).build().perform();
+				evaluateJavascript("arguments[0].click();", actionsRadioBtnList.get(i));
+			}
+		}
+	}
+	
+	public List<String> getListOfDispositionNames(){
+		List<String> listOfDispositionNames=new ArrayList<>();
+		for(WebElementFacade dispositionName:dispositionNameList) {
+			listOfDispositionNames.add(dispositionName.getText());
+		}
+		return listOfDispositionNames;
+	}
 }

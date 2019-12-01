@@ -100,11 +100,14 @@ public class SearchPage extends PageObject {
 	@FindBy(xpath = "//*[@id='dvAccountSearch' or @class='modal-body']/table/tbody/tr/td[1]")
 	private List<WebElementFacade> listOfSearchedAccNum;
 
-	@FindBy(id = "lblSSN")
-	private WebElementFacade patientSSN;
+	@FindBy(xpath = "//*[@id='dvAccountSearch' or @class='modal-body']/table/tbody/tr/td[5]")
+	private List<WebElementFacade> listOfSearchedMRN;
 
 	@FindBy(id = "lblMRN")
 	private WebElementFacade patientMRN;
+
+	@FindBy(id = "lblSSN")
+	private WebElementFacade patientSSN;
 
 	String titleJS = "return document.querySelector('#Head > title').text";
 	String facilityCodeJS = "return document.querySelector('#dnn_ctr1025_ModuleContent > span > span:nth-child(1)').textContent";
@@ -121,7 +124,7 @@ public class SearchPage extends PageObject {
 		searchByDropdown.selectByVisibleText(dropdown);
 	}
 
-	public void selectOperatorValue(String operator) {
+	public void selectOperatorValue(String operator)  {
 		operatorDropdown.selectByVisibleText(operator);
 	}
 
@@ -339,6 +342,36 @@ public class SearchPage extends PageObject {
 			listOfSearchedAccNum.get(index).click();
 	}
 
+	public List<String> getlistOfAccNum() {
+		waitForAngularRequestsToFinish();
+		List<String> listOfAccNum = new ArrayList<>();
+		for (WebElementFacade element : listOfSearchedAccNum) {
+			listOfAccNum.add(element.getText());
+		}
+		return listOfAccNum;
+	}
+
+	public String getAccountNumber() {
+		return patientAccountNo.withTimeoutOf(Duration.ofSeconds(20)).waitUntilVisible().getText();
+	}
+
+	public void invoiceNumberShouldNotVisible() {
+		invoiceNumber.shouldNotBeVisible();
+	}
+
+	public List<String> getlistOfMRN() {
+		waitForAngularRequestsToFinish();
+		List<String> listOfMRN = new ArrayList<>();
+		for (WebElementFacade mRNNoElement : listOfSearchedMRN) {
+			listOfMRN.add(mRNNoElement.getText());
+		}
+		return listOfMRN;
+	}
+
+	public String getMRNText() {
+		return patientMRN.withTimeoutOf(Duration.ofSeconds(20)).waitUntilVisible().getText();
+	}
+
 	public String getPatientSSN() {
 		return patientSSN.getText();
 	}
@@ -346,5 +379,4 @@ public class SearchPage extends PageObject {
 	public String getPatientMRN() {
 		return patientMRN.getText();
 	}
-
 }

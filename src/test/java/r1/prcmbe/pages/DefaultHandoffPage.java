@@ -12,8 +12,6 @@ import net.serenitybdd.core.annotations.findby.FindBy;
 public class DefaultHandoffPage extends PageObject {
 
 	String workflowName, getDispositionStatus;
-	private String showAccHistoryBtnJS = "$('button.btn.notes-collapse.collapsed').click()";
-	private String scrollToElementJs = "arguments[0].scrollIntoView(true);";
 
 	@FindBy(xpath = "//h3[@class='panel-title']")
 	private WebElementFacade defaultHandOffPageTitle;
@@ -556,7 +554,7 @@ public class DefaultHandoffPage extends PageObject {
 		dispositionRespondDeadlineTextBox.type(dispositionRespondDeadlineValue);
 	}
 
-	public void selectDispositionStatusDD(String dispositionStatusValue) {
+	public void selectDispositionStatusDropdown(String dispositionStatusValue) {
 		dispositionStatusDD.selectByVisibleText(dispositionStatusValue);
 		getDispositionStatus = dispositionStatusDD.getSelectedVisibleTextValue();
 
@@ -771,5 +769,13 @@ public class DefaultHandoffPage extends PageObject {
 
 	public String getAccountActionHistoryFollowupDate() {
 		return accountActionHistoryFollowupDate.getText();
+	}
+
+	public boolean isAddNewActionBtnVisible() {
+		return addNewActionButton.isVisible();
+	}
+
+	public void enterCopiedActionName(String actionName) {
+		actionNameTextBox.type(actionName);
 	}
 }
