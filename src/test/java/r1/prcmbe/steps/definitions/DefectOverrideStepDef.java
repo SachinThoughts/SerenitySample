@@ -29,13 +29,15 @@ public class DefectOverrideStepDef {
 	NavigationPage navigationPage;
 	BillingAndFollowUpPage billingAndFollowUpPage;
 	SearchPage searchPage;
-	DefectOverridePage defectOverridePage; 
+	DefectOverridePage defectOverridePage;
 
 	static String dbFileName = "DefectOverride";
-	String dbSettingValue, dbInvoiceId, selectedDefectypeValue, selectedDefectSubCatValue;
+	String dbSettingValue, dbInvoiceId, selectedDefectypeValue, selectedDefectSubCatValue, dbDefectAccountHistorykey;
 	int dbDefectTypeId, dbDefectSubCategoryId;
 	List<String> listOfSOPActionsOnTriage = new ArrayList<>();
 	List<String> listOfSOPActionsOnAction = new ArrayList<>();
+
+	Boolean isRecordPresent;
 
 	@Steps
 	SearchPageSteps searchPageSteps;
@@ -320,5 +322,83 @@ public class DefectOverrideStepDef {
 	@Then("^user clicks on Next button on TriagePage$")
 	public void user_clicks_on_Next_button_on_TriagePage() {
 		defectOverridePage.clickOnNextButtonOnTriagePage();
+	}
+
+	@When("^user run the query to fetch invoice Id \"([^\"]*)\" from defectaccounthistory$")
+	public void user_run_the_query_to_fetch_invoice_Id_from_defectaccounthistory(String queryName)
+			throws ClassNotFoundException, SQLException, Exception {
+		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
+				commonMethods.loadQuery(queryName, dbFileName));
+		try {
+			while (DatabaseConn.resultSet.next()) {
+				dbInvoiceId = DatabaseConn.resultSet.getString("invoiceid");
+			}
+		} catch (SQLException exception) {
+			Assert.assertTrue("Data is not fetched from DB.\nThe Technical Error is:\n" + exception, false);
+		}
+	}
+
+	@When("^user run the query to fetch invoice Id \"([^\"]*)\" from defectaccount$")
+	public void user_run_the_query_to_fetch_invoice_Id_from_defectaccount(String queryName)
+			throws ClassNotFoundException, SQLException, Exception {
+		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
+				commonMethods.loadQuery(queryName, dbFileName));
+		try {
+			while (DatabaseConn.resultSet.next()) {
+				dbInvoiceId = DatabaseConn.resultSet.getString("invoiceid");
+			}
+		} catch (SQLException exception) {
+			Assert.assertTrue("Data is not fetched from DB.\nThe Technical Error is:\n" + exception, false);
+		}
+	}
+
+	@When("^user run the query to fetch defect account history \"([^\"]*)\"$")
+	public void user_run_the_query_to_fetch_defect_account_history(String queryName)
+			throws ClassNotFoundException, SQLException, Exception {
+		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
+				String.format(commonMethods.loadQuery(queryName, dbFileName), dbInvoiceId));
+	}
+
+	@Then("^user should be able to view the record get inserted to Defect History Table after overriding$")
+	public void user_should_be_able_to_view_the_record_get_inserted_to_Defect_History_Table_after_overriding()
+			throws SQLException {
+		isRecordPresent = false;
+		while (DatabaseConn.resultSet.next()) {
+			isRecordPresent = true;
+			dbDefectAccountHistorykey = DatabaseConn.resultSet.getString("DefectAccountHistorykey");
+		}
+		Assert.assertTrue("failed to get inserted to Defect History Table after overriding", isRecordPresent);
+	}
+
+	@When("^user run the query \"([^\"]*)\" to check new record$")
+	public void user_run_the_query_to_check_new_record(String queryName)
+			throws ClassNotFoundException, SQLException, Exception {
+		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
+				String.format(commonMethods.loadQuery(queryName, dbFileName), dbInvoiceId));
+	}
+
+	@Then("^user should be able to view new record get inserted with appropriate data$")
+	public void user_should_be_able_to_view_new_record_get_inserted_with_appropriate_data() throws SQLException {
+		isRecordPresent = false;
+		while (DatabaseConn.resultSet.next()) {
+			isRecordPresent = true;
+		}
+		Assert.assertTrue("failed to check new record", isRecordPresent);
+	}
+
+	@When("^user run the query \"([^\"]*)\" to check Defect Account Attribute Table$")
+	public void user_run_the_query_to_check_Defect_Account_Attribute_Table(String queryName)
+			throws ClassNotFoundException, SQLException, Exception {
+		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
+				String.format(commonMethods.loadQuery(queryName, dbFileName), dbDefectAccountHistorykey));
+	}
+
+	@Then("^user should be able to view override entry in Defect Account Attribute Table$")
+	public void user_should_be_able_to_view_override_entry_in_Defect_Account_Attribute_Table() throws SQLException {
+		isRecordPresent = false;
+		while (DatabaseConn.resultSet.next()) {
+			isRecordPresent = true;
+		}
+		Assert.assertTrue("failed to override entry in Defect Account Attribute Table", isRecordPresent);
 	}
 }

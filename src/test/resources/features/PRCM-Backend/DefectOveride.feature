@@ -122,3 +122,17 @@ Feature: Verify Defect over ride
     Examples: 
       | query1                     | query2                     | query3                      | query4                     | query5                      |
       | DefectOverride_391266_SQL1 | DefectOverride_391267_SQL3 | DefectOverride_391267_SQL4A | DefectOverride_391270_SQL9 | DefectOverride_391270_SQL11 |
+
+  @391269 @Sprint102 @PRCMUser
+  Scenario: Verify Entry in Tables After Overriding any Defect
+    Given user is able to login to sql server and connect to database
+    When user run the query to fetch invoice Id "Defect_Override_391269_SQL5A" from defectaccounthistory
+    And user hovers on R1_Decision link
+    And user clicks on search sub menu
+    When user run the query to fetch defect account history "Defect_Override_391269_SQL5"
+    Then user should be able to view the record get inserted to Defect History Table after overriding
+    When user run the query to fetch invoice Id "Defect_Override_391269_SQL6A" from defectaccount
+    When user run the query "Defect_Override_391269_SQL6" to check new record
+    Then user should be able to view new record get inserted with appropriate data
+    When user run the query "Defect_Override_391269_SQL7" to check Defect Account Attribute Table
+    Then user should be able to view override entry in Defect Account Attribute Table
