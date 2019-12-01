@@ -396,7 +396,7 @@ public class DefectOverrideStepDef {
 	@Then("^user should be able to view override entry in Defect Account Attribute Table$")
 	public void user_should_be_able_to_view_override_entry_in_Defect_Account_Attribute_Table() throws SQLException {
 		isRecordPresent = false;
-		while (DatabaseConn.resultSet.next()) {
+		while (DatabaseConn.resultSet.next()) { 
 			isRecordPresent = true;
 		}
 		Assert.assertTrue("failed to override entry in Defect Account Attribute Table", isRecordPresent);
