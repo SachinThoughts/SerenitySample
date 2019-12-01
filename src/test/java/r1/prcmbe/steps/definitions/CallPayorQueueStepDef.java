@@ -5,19 +5,29 @@ import org.junit.Assert;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import net.thucydides.core.annotations.Steps;
 import r1.commons.databaseconnection.DatabaseConn;
 import r1.commons.utilities.CommonMethods;
 import r1.prcmbe.pages.CallPayorQueuePage;
 import r1.prcmbe.pages.R1ConfigurationPage;
+import r1.prcmbe.pages.SearchPage;
 import r1.prcmbe.pages.SettingsPage;
+import r1.prcmbe.serenity.steps.CallPayorQueueSteps;
 
 public class CallPayorQueueStepDef {
+
+	@Steps
+	CallPayorQueueSteps callPayorQueueSteps;
+
 	CommonMethods commonMethods;
 	CallPayorQueuePage callPayorQueuePage;
 	SettingsPage settingsPage;
 	R1ConfigurationPage r1ConfigPage;
+	SearchPage searchPage;
 	String accountNo, noOfAccountsInQueueBefore;
 	private static String dbQueryFilename = "CallPayorQueue";
+	private int callPayerQueueCount;
+	private String removedInvoice;
 
 	@Given("^user is on account page having no payer : \"([^\"]*)\"$")
 	public void user_is_on_account_page_having_no_payer(String expDefectClassification) {
@@ -54,7 +64,7 @@ public class CallPayorQueueStepDef {
 		callPayorQueuePage.closeMsgButton();
 		Assert.assertTrue("The count of Accounts in the Call Payor Queue should remain unchanged",
 				callPayorQueuePage.getCountOfAccountsInCallPayorQueue().equals(noOfAccountsInQueueBefore));
-		callPayorQueuePage.clickExpandArrowCallPayorQueue();
+		callPayorQueuePage.clickToggleCallQueueBtn();
 		Assert.assertFalse("User should not be able to view account in Call Payor Queue",
 				callPayorQueuePage.getListOfAccountsInCallPayorQueue().contains(accountNo));
 	}
@@ -130,5 +140,46 @@ public class CallPayorQueueStepDef {
 	public void user_should_be_able_to_view_the_updated_value_of_setting(String settingValue) {
 		Assert.assertTrue("Updated value of setting is not visible",
 				settingValue.equals(r1ConfigPage.getSettingValue()));
+	}
+
+	@When("^user selects \"([^\"]*)\" option$")
+	public void user_selects_option(String operator) {
+		searchPage.selectOperatorValue(operator);
+	}
+
+	@When("^user clicks on Toggle Call Queue button$")
+	public void user_clicks_on_Toggle_Call_Queue_button() {
+		callPayorQueuePage.clickToggleCallQueueBtn();
+	}
+
+	@When("^user expands the call queue section to view a list of all the added accounts$")
+	public void user_expands_the_call_queue_section_to_view_a_list_of_all_the_added_accounts() {
+		callPayorQueuePage.clickCallPayerListExpandBtn();
+		callPayerQueueCount = callPayorQueuePage.getCallPayerQueueCount();
+	}
+
+	@Then("^user should be able to view X button against each account in Call Queue$")
+	public void user_should_be_able_to_view_X_button_against_each_account_in_Call_Queue() {
+		Assert.assertTrue("Remove button not visible for each account in Call queue",
+				callPayorQueuePage.isRemoveCallPayerQueueAccountBtnListVisible());
+	}
+
+	@When("^user clicks on remove X button$")
+	public void user_clicks_on_remove_X_button() {
+		removedInvoice = callPayorQueuePage.getRemovedInvoice();
+		callPayorQueuePage.clickRemoveCallPayerQueueAccountBtn();
+	}
+
+	@Then("^user should be able to view the deleted account from Call Queue$")
+	public void user_should_be_able_to_view_the_deleted_account_from_Call_Queue() {
+		Assert.assertTrue("User not able to view the deleted account",
+				callPayorQueueSteps.isRemovedAccountFromCallQueueVisible(removedInvoice));
+	}
+
+	@Then("^user should be able to view the count of accounts is decreased by (\\d+) in Call Queue$")
+	public void user_should_be_able_to_view_the_count_of_accounts_is_decreased_by_in_Call_Queue(int difference) {
+		int callPayerQueueCountFinal = callPayerQueueCount - difference;
+		Assert.assertTrue("Count of accounts is not decreased by 1 in Call Queue",
+				callPayorQueuePage.getCallPayerQueueCount() == callPayerQueueCountFinal);
 	}
 }

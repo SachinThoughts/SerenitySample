@@ -12,14 +12,6 @@ public class SettingsPage extends PageObject {
 	@FindBy(id = "dnn_dnnSideNav_ctldnnSideNavt703")
 	private WebElementFacade uDCAdminConfig;
 
-	public void clickUDCAdminConfig() {
-		uDCAdminConfig.click();
-	}
-
-	public void clickR1D() {
-		settingsR1Decision.click();
-	}
-
 	@FindBy(xpath = "//span[not(contains(@style,'hidden')) and text()='Workflow Configuration']")
 	private WebElementFacade workflowConfig;
 
@@ -37,6 +29,14 @@ public class SettingsPage extends PageObject {
 
 	@FindBy(xpath = "//span[not(contains(@style,'hidden')) and text()='R1 Configuration']")
 	private WebElementFacade r1ConfigurationLink;
+
+	public void clickUDCAdminConfig() {
+		uDCAdminConfig.click();
+	}
+
+	public void clickR1D() {
+		settingsR1Decision.click();
+	}
 
 	public void clickOnSettingsR1Decisions() {
 		waitForAngularRequestsToFinish();
