@@ -892,7 +892,7 @@ public class WorkflowConfigurationStepDef extends PageObject {
 
 	@When("^user should be able to view \\+Add Action button$")
 	public void user_should_be_able_to_view_add_action_button() {
-		Assert.assertTrue("+Add new Action Button is not visible ", defaultHandOffPage.isAddNewActionBtnVisible());
+		Assert.assertTrue("+Add new Action Button is not visible ", defaultHandOffPage.isAddNewActionBtnVisisble());
 	}
 
 	@When("^user should be able to view Continue > Action button$")
@@ -930,7 +930,7 @@ public class WorkflowConfigurationStepDef extends PageObject {
 
 	@When("^user copies the Action Name by clicking and dragging the mouse through entire text$")
 	public void user_copies_the_action_name_by_clicking_and_dragging_the_mouse_through_entire_text() {
-		actionName = defaultHandOffPage.enterActionNameTextBox();
+		actionName = defaultHandOffPage.getActionNameFromTextBox();
 	}
 
 	@When("^user clicks on close button on Action popup$")

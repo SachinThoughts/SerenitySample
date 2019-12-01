@@ -375,7 +375,7 @@ public class DefaultHandoffPage extends PageObject {
 	}
 
 	public String getTextSuccessMessage() {
-		return successMessage.withTimeoutOf(Duration.ofSeconds(100)).waitUntilVisible().getText().trim();
+		return successMessage.withTimeoutOf(Duration.ofSeconds(20)).waitUntilVisible().getText().trim();
 	}
 
 	public String enterWorkFlowName() {
@@ -560,7 +560,7 @@ public class DefaultHandoffPage extends PageObject {
 
 	}
 
-	public void selectDispositionStatusFromDD(String dispositionStatusValue) {
+	public void selectDispositionStatusFromDropdown(String dispositionStatusValue) {
 		dispositionStatusDD.selectByVisibleText(dispositionStatusValue);
 	}
 
@@ -771,11 +771,15 @@ public class DefaultHandoffPage extends PageObject {
 		return accountActionHistoryFollowupDate.getText();
 	}
 
-	public boolean isAddNewActionBtnVisible() {
-		return addNewActionButton.isVisible();
+	public String getActionNameFromTextBox() {
+		return evaluateJavascript("return arguments[0].value;", actionNameTextBox).toString();
 	}
 
-	public void enterCopiedActionName(String actionName) {
-		actionNameTextBox.type(actionName);
+	public void enterCopiedActionName(String previousActionName) {
+		actionNameTextBox.type(previousActionName);
+	}
+
+	public boolean isAddNewActionBtnVisisble() {
+		return addNewActionButton.isVisible();
 	}
 }
