@@ -186,7 +186,7 @@ public class SearchPageSteps {
 	public boolean verifyEncounterIdOnUIWithDatabaseResult(List<String> dblistOfEncounterID) {
 		financialInfoSteps.log("List of Encounter ID from UI:\n" + searchPage.getlistOfAccNum());
 		if (searchPage.isSearchAccTableVisible()) {
-			return (new ArrayList<>(new HashSet<>(searchPage.getlistOfAccNum())).containsAll(dblistOfEncounterID));
+			return dblistOfEncounterID.containsAll(new ArrayList<>(new HashSet<>(searchPage.getlistOfAccNum())));
 		}
 		return searchPage.isPatientAndVisitHeaderVisible()
 				&& dblistOfEncounterID.contains(searchPage.getAccountNumber());
