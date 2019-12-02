@@ -118,6 +118,53 @@ Feature: Verify ProfessionalUDC related scenarios in PRCM
     And Add SOP Action pop-up should disappear
     And user should be able to view added SOP Action on SOP Actions screen
 
+  @434931 @Sprint102 @PRCMUser
+  Scenario Outline: Verify the functionality of +Add New SOP button in SOP Type grid page and same can be viewed on R1D screen
+    Given user having AHtoDecision Admin role is on Universal Defect Configuration  page
+    When user select the radio button against any defect type
+    And user clicks on the Continue button on defect type page
+    And user select the radio button corresponding to a defect subcategory
+    And user clicks on the Continue button on defect sub category page
+    Then user should be able to view the selected Defect Type, Defect Sub Category and default SOP Type in breadcrumb
+    And user should be able to view Choose a SOP Action grid
+    When user clicks on +Add New SOP button
+    Then user should be able to view Add SOP pop-up
+    When user clicks Save Changes button without entering any field
+    Then user should be able to view "Please enter SOP Name" validation message
+    When user enters SOP name field with any valid value
+    And user clicks on Save Changes button on Add SOP popup
+    Then user should be able to view "Please enter SOP Description" validation message
+    When user enters valid SOP name and SOP description
+    And user check or uncheck Active SOP checkbox
+    And user clicks on Save Changes button on Add SOP popup
+    Then user should be able to view success of added SOP "Defect SOP Type Added Successfully." message
+    And user should be able to view Add SOP pop-up should disappear
+    And user should be able to view newly added SOP displayed in Choose a SOP grid
+    When user clicks on billing & follow-up link
+    And user hovers on R1_Decision link
+    And user clicks on search sub menu
+    And user selects "Invoice Number" from search by dropdown
+    And user selects "Like" operator from operator dropdown
+    And user enters any <invoice> number
+    And user clicks on submit button
+    Then user should be able to view account with matching patient detail or patient record page directly if there is only one Search result
+    When user selects radio button as No in Do you agree with defect? section
+    Then user should be able to view following field displayed
+      | Defect Type | Defect Sub category | Save |
+    When user selects any value from DefectType dropdown and other Than "Uncategorized Defect" value
+    And user selects any value from Defectsubcategory dropdown and other Than "Select Sub-Defect Category" value
+    And user clicks on Save button in defect workflow section
+    Then user should be able to view changed sub category below current defect under Defect workflow section
+    When user selects radio button as Yes in Do you agree with defect? section
+    And user clicks on Next button
+    When user should be able to select the SOP Type added through UDC section from Verify All Steps Taken section
+    When user clicks on Next button on verify all steps screen
+    When user should be able to select the SOP Action added through UDC section from Steps Taken section
+
+    Examples: 
+      | invoice |
+      | 7012345 |
+
   @439344 @Sprint101 @PRCMUser
   Scenario Outline: Verify the functionality of +Add New SOP button in SOP Type grid page
     Given user having AHtoDecision Admin role is on Universal Defect Configuration  page

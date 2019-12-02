@@ -35,10 +35,14 @@ public class SearchStepDef extends PageObject {
 	FinancialInfoSteps financialInfoSteps;
 
 	String dbQueryFilename = "Search", dbMRN, lastName, firstName, dbClaimNo, dbResult, dbInvoiceNumber, dbEncounterId,
-			dbLastName, dbFirstName, dbSSN;
+			dbLastName, dbFirstName, dbSSN, visitNumber, invoiceNumber, sSN, mRN;
 	List<String> listOfGridColumnsOnUI = new ArrayList<>();
 	List<String> dbListOfColumns = new ArrayList<>();
 	List<String> dbListOfNames = new ArrayList<>();
+	List<String> expectedListOfGridColumns = new ArrayList<>();
+	List<String> dbListOfEncounterID = new ArrayList<>();
+	List<String> dbListOfInvoiceNumber = new ArrayList<>();
+	List<String> dbListOfMRN = new ArrayList<>();
 
 	@When("^user clicks on Billing & Follow-up link$")
 	public void user_clicks_on_Billing_Follow_up_link() {
@@ -197,9 +201,10 @@ public class SearchStepDef extends PageObject {
 				dbInvoiceNumber = DatabaseConn.resultSet.getString(1);
 			}
 		} catch (SQLException sQLException) {
-			Assert.assertTrue("EncounterID is not fetched from DB.\nThe Technical Error is:\n" + sQLException, false);
+			Assert.assertTrue("Invoice number is not fetched from DB.\nThe Technical Error is:\n" + sQLException,
+					false);
 		}
-		financialInfoSteps.log("Fetched EncounterID from Database is " + dbInvoiceNumber);
+		financialInfoSteps.log("Fetched Invoice Number from Database is " + dbInvoiceNumber);
 	}
 
 	@When("^user select \"([^\"]*)\" from Search By dropdown$")
@@ -294,11 +299,17 @@ public class SearchStepDef extends PageObject {
 	@When("^user enters value (.*) in (.*) textbox$")
 	public void user_enters_in_textbox(String textValue, String searchByOption) {
 		if (searchPage.isVisitTxtFieldVisible()) {
-			searchPage.enterVisitNumber(textValue);
+			this.visitNumber = textValue;
+			searchPage.enterVisitNumber(this.visitNumber);
 		} else if (searchPage.isInvoiceNumberTxtFieldVisible()) {
-			searchPage.enterInvoiceNumber(textValue);
+			this.invoiceNumber = textValue;
+			searchPage.enterInvoiceNumber(this.invoiceNumber);
 		} else if (searchPage.isSSNTxtFieldVisible()) {
-			searchPage.enterSSN(textValue);
+			this.sSN = textValue;
+			searchPage.enterSSN(this.sSN);
+		} else if (searchPage.isMRNTxtFieldVisible()) {
+			this.mRN = textValue;
+			searchPage.enterMRN(this.mRN);
 		} else {
 			Assert.assertTrue(searchByOption + " text box is not visible", false);
 		}
@@ -306,7 +317,7 @@ public class SearchStepDef extends PageObject {
 
 	@Then("^user should be able to view the grid with following columns$")
 	public void user_should_be_able_to_view_the_grid_with_following_columns(DataTable resultColumns) {
-		List<String> expectedListOfGridColumns = resultColumns.asList(String.class);
+		expectedListOfGridColumns = resultColumns.asList(String.class);
 		listOfGridColumnsOnUI = searchPage.getListOfSrchAccTblHeaders();
 		Assert.assertTrue("All the grid columns are not visible",
 				expectedListOfGridColumns.containsAll(listOfGridColumnsOnUI) && !listOfGridColumnsOnUI.isEmpty());
@@ -451,10 +462,8 @@ public class SearchStepDef extends PageObject {
 		List<String> expectedListOfGridColumns = resultColumns.asList(String.class);
 		if (searchPage.isSearchAccTableVisible()) {
 			listOfGridColumnsOnUI = searchPage.getListOfSrchAccTblHeaders();
-
 			Assert.assertTrue("All the grid columns are not visible",
 					expectedListOfGridColumns.containsAll(listOfGridColumnsOnUI) && !listOfGridColumnsOnUI.isEmpty());
-
 			Assert.assertTrue("Last name or first name does not match with the searched character",
 					searchPageSteps.verifyOnlyLastName(lastName) && searchPageSteps.verifyOnlyFirstName(firstName));
 			searchPage.clickSearchInvoiceIdOrVisitNumber();
@@ -490,7 +499,6 @@ public class SearchStepDef extends PageObject {
 		List<String> expectedListOfGridColumns = resultColumns.asList(String.class);
 		if (searchPage.isSearchAccTableVisible()) {
 			listOfGridColumnsOnUI = searchPage.getListOfSrchAccTblHeaders();
-
 			Assert.assertTrue("All the grid columns are not visible",
 					expectedListOfGridColumns.containsAll(listOfGridColumnsOnUI) && !listOfGridColumnsOnUI.isEmpty());
 			searchPage.clickSearchInvoiceIdOrVisitNumber();
@@ -570,5 +578,87 @@ public class SearchStepDef extends PageObject {
 			throws ClassNotFoundException, SQLException, Exception {
 		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName, String
 				.format(commonMethods.loadQuery(queryName, dbQueryFilename), dbLastName + "%", dbFirstName + "%"));
+	}
+
+	@Then("^user should be able to navigate to the R1D account page for searched visit Number$")
+	public void user_should_be_able_to_navigate_to_the_R1D_account_page_for_searched_visit_Number() {
+		Assert.assertTrue("User is not navigated on R1D account page for searched visit number",
+				searchPageSteps.verifyEncounterId(dbEncounterId));
+	}
+
+	@Then("^user should be able to navigate to the R1D account page for searched Visit Number and verify invoice number should not be visible$")
+	public void user_should_be_able_to_navigate_to_the_R1D_account_page_for_searched_Visit_Number_and_verify_invoice_number_should_not_be_visible() {
+		Assert.assertTrue("User is not navigated on R1D account page for searched visit number",
+				searchPageSteps.verifyEncounterId(dbEncounterId));
+		searchPage.invoiceNumberShouldNotVisible();
+	}
+
+	@When("^user runs query and fetch visit number(.*)$")
+	public void user_runs_query_and_fetch_visit_number(String queryName) throws Exception {
+		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
+				String.format(commonMethods.loadQuery(queryName, dbQueryFilename), "%" + visitNumber));
+	}
+
+	@Then("^user should be able to view the same result in grid as SQL result for visit number$")
+	public void user_should_be_able_to_view_the_same_result_in_grid_as_SQL_result_for_visit_number() {
+		try {
+			while (DatabaseConn.resultSet.next()) {
+				dbListOfEncounterID.add(DatabaseConn.resultSet.getString("Visit #"));
+
+			}
+		} catch (SQLException sQLException) {
+			Assert.assertTrue("encounterid is not fetched from DB.\nThe Technical Error is:\n" + sQLException, false);
+		}
+		Assert.assertTrue("Fetched list of Visit number doesnt contains entered Visit number",
+				searchPageSteps.verifyEncounterIdOnUIWithDatabaseResult(dbListOfEncounterID));
+		listOfGridColumnsOnUI = searchPage.getListOfSrchAccTblHeaders();
+		Assert.assertTrue("All the grid columns are not visible",
+				expectedListOfGridColumns.containsAll(listOfGridColumnsOnUI) && !listOfGridColumnsOnUI.isEmpty());
+	}
+
+	@When("^user runs query and fetch invoice number(.*)$")
+	public void user_runs_query_and_fetch_invoice_number_(String queryName) throws Exception {
+		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
+				String.format(commonMethods.loadQuery(queryName, dbQueryFilename), "%" + invoiceNumber));
+	}
+
+	@Then("^user should be able to view the same result in grid as SQL result for invoice number$")
+	public void user_should_be_able_to_view_the_same_result_in_grid_as_SQL_result_for_invoice_number() {
+		try {
+			while (DatabaseConn.resultSet.next()) {
+				dbListOfInvoiceNumber.add(DatabaseConn.resultSet.getString("Invoice #"));
+			}
+		} catch (SQLException sQLException) {
+			Assert.assertTrue("encounterid is not fetched from DB.\nThe Technical Error is:\n" + sQLException, false);
+		}
+		Assert.assertTrue("Fetched list of visit number doesnt contains entered visit number",
+				searchPageSteps.verifyInvoiceNumberOnUIWithDatabaseResult(dbListOfInvoiceNumber));
+		
+		listOfGridColumnsOnUI = searchPage.getListOfSrchAccTblHeaders();
+		
+		Assert.assertTrue("All the grid columns are not visible",
+				expectedListOfGridColumns.containsAll(listOfGridColumnsOnUI) && !listOfGridColumnsOnUI.isEmpty());
+	}
+
+	@When("^user runs query and fetch MRN number(.*)$")
+	public void user_runs_query_and_fetch_MRN_number(String queryName) throws Exception {
+		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
+				String.format(commonMethods.loadQuery(queryName, dbQueryFilename), "%" + mRN));
+	}
+
+	@Then("^user should be able to view the same result in grid as SQL result for MRN number$")
+	public void user_should_be_able_to_view_the_same_result_in_grid_as_SQL_result_for_MRN_number() {
+		try {
+			while (DatabaseConn.resultSet.next()) {
+				dbListOfMRN.add(DatabaseConn.resultSet.getString("MRN"));
+			}
+		} catch (SQLException sQLException) {
+			Assert.assertTrue("encounterid is not fetched from DB.\nThe Technical Error is:\n" + sQLException, false);
+		}
+		listOfGridColumnsOnUI = searchPage.getListOfSrchAccTblHeaders();
+		Assert.assertTrue("Fetched list of MRN number doesnt contains entered MRN",
+				searchPageSteps.verifyMRNOnUIWithDatabaseResult(dbListOfMRN));
+		Assert.assertTrue("All the grid columns are not visible",
+				expectedListOfGridColumns.containsAll(listOfGridColumnsOnUI) && !listOfGridColumnsOnUI.isEmpty());
 	}
 }

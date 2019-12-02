@@ -39,8 +39,7 @@ public class DefaultHandoffStepDef {
 
 	String workFlowDescription, recipientDesc, actionDescription, followUpDays, dispositionDescription,
 			responseDeadline, dispositionCode, dispositionFollowUpDays, dispositionResponseDeadline, workFlowName,
-			recipientName, searchText, dbId = "", facilitySettingValue, invoiceNumber,
-			dbFacilitySettingValue;
+			recipientName, searchText, dbId = "", facilitySettingValue, invoiceNumber, dbFacilitySettingValue;
 	static String dispositionStatus, actionName;
 	private static String dbQueryFilename = "DefaultHandoff";
 
@@ -321,7 +320,7 @@ public class DefaultHandoffStepDef {
 	@When("^For disposition user selects \"([^\"]*)\" option from Desposition Status dropdown$")
 	public void for_disposition_user_selects_option_from_Desposition_Status_dropdown(String dispositionStatusValue) {
 		dispositionStatus = dispositionStatusValue;
-		defaultHandOffPage.selectDispositionStatusDD(dispositionStatusValue);
+		defaultHandOffPage.selectDispositionStatusDropdown(dispositionStatusValue);
 	}
 
 	@When("^user enters text: \"([^\"]*)\" in Predefined Note text area$")

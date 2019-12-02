@@ -16,7 +16,7 @@ import net.thucydides.core.util.EnvironmentVariables;
 import r1.commons.databaseconnection.DatabaseConn;
 import r1.commons.utilities.CommonMethods;
 import r1.prcmbe.pages.BillingAndFollowUpPage;
-import r1.prcmbe.pages.DefectOverridePage;
+import r1.prcmbe.pages.DefectWorkflowPage;
 import r1.prcmbe.pages.NavigationPage;
 import r1.prcmbe.pages.SearchPage;
 import r1.prcmbe.serenity.steps.DefectOverrideSteps;
@@ -29,13 +29,15 @@ public class DefectOverrideStepDef {
 	NavigationPage navigationPage;
 	BillingAndFollowUpPage billingAndFollowUpPage;
 	SearchPage searchPage;
-	DefectOverridePage defectOverridePage;
+	DefectWorkflowPage defectOverridePage;
 
 	static String dbFileName = "DefectOverride";
-	String dbSettingValue, dbInvoiceId, selectedDefectypeValue, selectedDefectSubCatValue;
+	String dbSettingValue, dbInvoiceId, selectedDefectypeValue, selectedDefectSubCatValue, dbDefectAccountHistorykey;
 	int dbDefectTypeId, dbDefectSubCategoryId;
 	List<String> listOfSOPActionsOnTriage = new ArrayList<>();
 	List<String> listOfSOPActionsOnAction = new ArrayList<>();
+
+	Boolean isRecordPresent;
 
 	@Steps
 	SearchPageSteps searchPageSteps;
@@ -80,7 +82,7 @@ public class DefectOverrideStepDef {
 		}
 		Assert.assertTrue(dbSettingValue.equals(flagValue));
 	}
-	
+
 	@When("^user selects \"([^\"]*)\" from search by dropdown$")
 	public void user_selectsr_from_search_by_dropdown(String dropdown) {
 		searchPage.searchBySelectText(dropdown);
@@ -135,7 +137,7 @@ public class DefectOverrideStepDef {
 		Assert.assertTrue("failed to view assigned defect", defectOverridePage.isAssignedSubCategryVisible());
 	}
 
-	@When("^user selects No radio button to Override Subcategory$")
+	@When("^user selects No radio button to Override Subcategory$|^user selects radio button as No in Do you agree with defect\\? section$")
 	public void user_selects_No_radio_button_to_Override_Subcategory() {
 		defectOverridePage.selectNoRadioBtnOnOverrideSubCat();
 	}
@@ -150,7 +152,7 @@ public class DefectOverrideStepDef {
 		selectedDefectSubCatValue = defectOverridePage.selectAndGetTextDefectSubCategory(defaultDrpdwnValue);
 	}
 
-	@When("^user clicks on Save button$")
+	@When("^user clicks on Save button$|^user clicks on Save button in defect workflow section$")
 	public void user_clicks_on_Save_button() {
 		defectOverridePage.clickOnSaveBtn();
 	}
@@ -320,5 +322,69 @@ public class DefectOverrideStepDef {
 	@Then("^user clicks on Next button on TriagePage$")
 	public void user_clicks_on_Next_button_on_TriagePage() {
 		defectOverridePage.clickOnNextButtonOnTriagePage();
+	}
+
+	@When("^user run the query to fetch invoice Id \"([^\"]*)\"$")
+	public void user_run_the_query_to_fetch_invoice_Id(String queryName)
+			throws ClassNotFoundException, SQLException, Exception {
+		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
+				commonMethods.loadQuery(queryName, dbFileName));
+		try {
+			while (DatabaseConn.resultSet.next()) {
+				dbInvoiceId = DatabaseConn.resultSet.getString("invoiceid");
+			}
+		} catch (SQLException exception) {
+			Assert.assertTrue("Data is not fetched from DB.\nThe Technical Error is:\n" + exception, false);
+		}
+	}
+
+	@When("^user run the query to fetch defect account history \"([^\"]*)\"$")
+	public void user_run_the_query_to_fetch_defect_account_history(String queryName)
+			throws ClassNotFoundException, SQLException, Exception {
+		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
+				String.format(commonMethods.loadQuery(queryName, dbFileName), dbInvoiceId));
+	}
+
+	@Then("^user should be able to view the record get inserted to Defect History Table after overriding$")
+	public void user_should_be_able_to_view_the_record_get_inserted_to_Defect_History_Table_after_overriding()
+			throws SQLException {
+		isRecordPresent = false;
+		while (DatabaseConn.resultSet.next()) {
+			isRecordPresent = true;
+			dbDefectAccountHistorykey = DatabaseConn.resultSet.getString("DefectAccountHistorykey");
+		}
+		Assert.assertTrue("failed to get inserted to Defect History Table after overriding", isRecordPresent);
+	}
+
+	@When("^user run the query \"([^\"]*)\" to check new record$")
+	public void user_run_the_query_to_check_new_record(String queryName)
+			throws ClassNotFoundException, SQLException, Exception {
+		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
+				String.format(commonMethods.loadQuery(queryName, dbFileName), dbInvoiceId));
+	}
+
+	@Then("^user should be able to view new record get inserted with appropriate data$")
+	public void user_should_be_able_to_view_new_record_get_inserted_with_appropriate_data() throws SQLException {
+		isRecordPresent = false;
+		while (DatabaseConn.resultSet.next()) {
+			isRecordPresent = true;
+		}
+		Assert.assertTrue("failed to check new record", isRecordPresent);
+	}
+
+	@When("^user run the query \"([^\"]*)\" to check Defect Account Attribute Table$")
+	public void user_run_the_query_to_check_Defect_Account_Attribute_Table(String queryName)
+			throws ClassNotFoundException, SQLException, Exception {
+		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
+				String.format(commonMethods.loadQuery(queryName, dbFileName), dbDefectAccountHistorykey));
+	}
+
+	@Then("^user should be able to view override entry in Defect Account Attribute Table$")
+	public void user_should_be_able_to_view_override_entry_in_Defect_Account_Attribute_Table() throws SQLException {
+		isRecordPresent = false;
+		while (DatabaseConn.resultSet.next()) { 
+			isRecordPresent = true;
+		}
+		Assert.assertTrue("failed to override entry in Defect Account Attribute Table", isRecordPresent);
 	}
 }
