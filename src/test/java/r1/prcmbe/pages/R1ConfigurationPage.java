@@ -36,8 +36,8 @@ public class R1ConfigurationPage extends PageObject {
 	@FindBy(xpath = "//*[@id='ApplicationGridData']/div[1]/div[2]")
 	private WebElementFacade settingValue;
 
-	public boolean isR1ConfigurationTitleVisible() {
-		return r1ConfigurationTitle.isVisible();
+	public void isR1ConfigurationTitleVisible() {
+		r1ConfigurationTitle.shouldBeVisible();
 	}
 
 	public void selectValueFromSearchDrpdwn(String value) {

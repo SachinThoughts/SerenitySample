@@ -13,11 +13,7 @@ public class CallPayorQueueSteps {
 	public boolean isRemovedAccountFromCallQueueVisible(String removedInvoice) {
 		searchPage.enterInvoiceNumber(removedInvoice);
 		searchPage.clickSubmitBtn();
-		if (removedInvoice.equals(searchPage.getInvoiceID())) {
-			return true;
-		} else {
-			return false;
-		}
+		return removedInvoice.equals(searchPage.getInvoiceID());
 	}
 
 }

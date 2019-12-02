@@ -93,7 +93,7 @@ public class CallPayorQueueStepDef {
 
 	@Given("^user is on R1 Configuration Setting Page$")
 	public void user_is_on_R1_Configuration_Setting_Page() {
-		Assert.assertTrue("R1 Configuration is not visible", r1ConfigPage.isR1ConfigurationTitleVisible());
+		r1ConfigPage.isR1ConfigurationTitleVisible();
 	}
 
 	@When("^user selects \"([^\"]*)\" from search dropdown$")
