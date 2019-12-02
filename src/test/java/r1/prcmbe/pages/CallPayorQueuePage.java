@@ -141,4 +141,10 @@ public class CallPayorQueuePage extends PageObject {
 		String[] invoice = callPayerQueueInvoiceList.get(0).getText().trim().split("-\\s");
 		return invoice[1];
 	}
+
+	public boolean isCallPayerQueueInvoiceVisible() {
+		infoMessage.withTimeoutOf(Duration.ofSeconds(10)).waitUntilNotVisible();
+		clickToggleCallQueueBtn();
+		return callPayerQueueInvoiceList.get(0).isVisible();
+	}
 }
