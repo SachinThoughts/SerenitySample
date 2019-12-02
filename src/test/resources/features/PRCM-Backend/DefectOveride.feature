@@ -126,12 +126,12 @@ Feature: Verify Defect over ride
   @391269 @Sprint102 @PRCMUser
   Scenario: Verify Entry in Tables After Overriding any Defect
     Given user is able to login to sql server and connect to database
-    When user run the query to fetch invoice Id "Defect_Override_391269_SQL5A" from defectaccounthistory
+    When user run the query to fetch invoice Id "Defect_Override_391269_SQL5A"
     And user hovers on R1_Decision link
     And user clicks on search sub menu
     When user run the query to fetch defect account history "Defect_Override_391269_SQL5"
     Then user should be able to view the record get inserted to Defect History Table after overriding
-    When user run the query to fetch invoice Id "Defect_Override_391269_SQL6A" from defectaccount
+    When user run the query to fetch invoice Id "Defect_Override_391269_SQL6A" 
     When user run the query "Defect_Override_391269_SQL6" to check new record
     Then user should be able to view new record get inserted with appropriate data
     When user run the query "Defect_Override_391269_SQL7" to check Defect Account Attribute Table

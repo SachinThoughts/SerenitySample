@@ -324,22 +324,8 @@ public class DefectOverrideStepDef {
 		defectOverridePage.clickOnNextButtonOnTriagePage();
 	}
 
-	@When("^user run the query to fetch invoice Id \"([^\"]*)\" from defectaccounthistory$")
-	public void user_run_the_query_to_fetch_invoice_Id_from_defectaccounthistory(String queryName)
-			throws ClassNotFoundException, SQLException, Exception {
-		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
-				commonMethods.loadQuery(queryName, dbFileName));
-		try {
-			while (DatabaseConn.resultSet.next()) {
-				dbInvoiceId = DatabaseConn.resultSet.getString("invoiceid");
-			}
-		} catch (SQLException exception) {
-			Assert.assertTrue("Data is not fetched from DB.\nThe Technical Error is:\n" + exception, false);
-		}
-	}
-
-	@When("^user run the query to fetch invoice Id \"([^\"]*)\" from defectaccount$")
-	public void user_run_the_query_to_fetch_invoice_Id_from_defectaccount(String queryName)
+	@When("^user run the query to fetch invoice Id \"([^\"]*)\"$")
+	public void user_run_the_query_to_fetch_invoice_Id(String queryName)
 			throws ClassNotFoundException, SQLException, Exception {
 		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
 				commonMethods.loadQuery(queryName, dbFileName));
