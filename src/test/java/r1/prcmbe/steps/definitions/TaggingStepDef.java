@@ -126,7 +126,6 @@ public class TaggingStepDef extends PageObject {
 	@When("^User clicks on Save button$")
 	public void user_clicks_on_Save_button() {
 		taggingPage.clickOnSaveBtn();
-		successMsg = taggingPage.getSuccessMsg();
 	}
 
 	@Then("^User should be able to view the validation message \"([^\"]*)\"$")
@@ -185,7 +184,7 @@ public class TaggingStepDef extends PageObject {
 
 	@When("^User clicks on Edit button of added category$")
 	public void user_clicks_on_Edit_button_of_added_category() {
-		categoryNameList=taggingPage.getlistOfCategoryName();
+		categoryNameList = taggingPage.getlistOfCategoryName();
 		taggingPage.clickEditLink();
 	}
 
@@ -214,14 +213,22 @@ public class TaggingStepDef extends PageObject {
 				taggingPage.getlistOfCategoryName().contains(dbCategoryName)
 						&& taggingPage.getlistOfCategoryDesc().contains(dbCategoryDecs));
 	}
+
 	@When("^User clicks on Active switch slide bar for Edit$")
 	public void user_clicks_on_Active_switch_slide_bar_for_Edit() {
-	   taggingPage.clickOnActiveSlideBarEdit();
+		taggingPage.clickOnActiveSlideBarEdit();
 	}
+
 	@When("^user runs the tag category query to verify newly updated tag category(.*)$")
-	public void user_runs_the_tag_category_query_to_verify_newly_updated_tag_category(String queryName) throws Exception {
+	public void user_runs_the_tag_category_query_to_verify_newly_updated_tag_category(String queryName)
+			throws Exception {
 		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
 				String.format(commonMethods.loadQuery(queryName, dbFileName), editedCategoryName));
+	}
+
+	@When("^User clicks on Save button and captures success message$")
+	public void user_clicks_on_Save_button_and_captures_success_message() {
+		successMsg = taggingPage.clickOnSaveAndGetSuccessMsg();
 	}
 
 }

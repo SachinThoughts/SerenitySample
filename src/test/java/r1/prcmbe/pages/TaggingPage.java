@@ -190,7 +190,8 @@ public class TaggingPage extends PageObject {
 		return listOfCategoriesDesc;
 	}
 
-	public String getSuccessMsg() {
+	public String clickOnSaveAndGetSuccessMsg() {
+		saveBtn.click();
 		return successMsg.withTimeoutOf(Duration.ofSeconds(20)).waitUntilVisible().getText();
 	}
 

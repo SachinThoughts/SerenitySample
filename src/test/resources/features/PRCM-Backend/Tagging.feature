@@ -34,7 +34,6 @@ Feature: Verify Tagging related scenarios in PRCM_BE
   @419678 @PRCMUser @Sprint102
   Scenario: Verify that "Category Name should not more than 100 characters" validation message display when user enters more than 100 characters in category Name.
     Given User is on Account Tags Configuration screen 
-
     When User clicks on Add New Category button
     And User enters more than 100 alphabets in Category name
     And User enters upto 500 alphabets in Category description
@@ -46,7 +45,6 @@ Feature: Verify Tagging related scenarios in PRCM_BE
   @419679 @PRCMUser @Sprint102
   Scenario: Verify that "Category Description should not more than 500 characters" validation message display when user enters more than 100 characters in category Description.
     Given User is on Account Tags Configuration screen 
-
     When User clicks on Add New Category button
     And User enters upto 100 alphabets in Category name
     And User enters more than 500 alphabets in Category description
@@ -63,7 +61,7 @@ Feature: Verify Tagging related scenarios in PRCM_BE
     And User enters upto 500 alphabets in Tag Description <Tag Description> textbox
     And User selects "R1Decision" value from the Application drop down
     And User clicks on Active switch
-    And User clicks on Save button
+    And User clicks on Save button and captures success message
     Then User should be able to view the Success message "Success! Category has been added successfully"
     When user login to SQL server and connect to "Accretive" database
     And user runs the tag category <query1> query to verify newly added tag category
@@ -80,7 +78,7 @@ Feature: Verify Tagging related scenarios in PRCM_BE
     And User edits Category Name <Category name> in textbox
     And User edits Tag Description <Tag Description> in textbox
     And User clicks on Active switch slide bar for Edit
-    And User clicks on Save button
+    And User clicks on Save button and captures success message
     Then User should be able to view the Success message "Success! Category has been updated successfully"
     When user login to SQL server and connect to "Accretive" database
     And user runs the tag category query to verify newly updated tag category <query1>
