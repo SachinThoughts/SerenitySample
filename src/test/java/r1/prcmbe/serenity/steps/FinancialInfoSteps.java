@@ -20,7 +20,20 @@ public class FinancialInfoSteps extends PageObject {
 	SearchPage searchPage;
 	DateFormat outputFormat, inputFormat;
 	int count = 0;
-
+	List<String> paymentCode = new ArrayList<String>();
+	List<String> paymentDesc = new ArrayList<String>();
+	List<String> payorPlanCode = new ArrayList<String>();
+	List<String> payorPlanName = new ArrayList<String>();	
+	List<String> dateTransaction = new ArrayList<String>();
+	List<String> typeTransaction = new ArrayList<String>();
+	List<String> amount = new ArrayList<String>();
+	List<Object> glCode = new ArrayList<>();
+	List<Object> datePostedFormatted = new ArrayList<>();
+	List<Object> dateTransactionFormatted = new ArrayList<>();
+	List<Object> glCodeFormatted = new ArrayList<>();
+	List<Object> amtFormatted = new ArrayList<>();
+	List<Object> listOfVal = new ArrayList<>();
+	
 	@Step
 	public void log(String message) {
 	}
@@ -148,4 +161,89 @@ public class FinancialInfoSteps extends PageObject {
 		}
 		return listOfVal;
 	}
+	
+	@Step
+	public List<Object> verifyInsurancePaymentsDbValuesWithUI() throws SQLException, ParseException {
+		while (DatabaseConn.resultSet.next()) {
+			paymentCode.add(DatabaseConn.resultSet.getString("PaymentCode").trim());
+			paymentDesc.add(DatabaseConn.resultSet.getString("Description").trim());
+			payorPlanCode.add(DatabaseConn.resultSet.getString("PayorPlanCode").trim());
+			payorPlanName.add(DatabaseConn.resultSet.getString("PayorPlanName").trim());			
+			dateTransaction.add(DatabaseConn.resultSet.getString("DateOfTransaction").trim());
+			typeTransaction.add(DatabaseConn.resultSet.getString("TypeOfTransaction").trim());
+			amount.add(DatabaseConn.resultSet.getString("Amount").trim());
+			glCode.add(DatabaseConn.resultSet.getObject("GLCode"));
+		}
+	
+		for (String transactionDate : dateTransaction) {			
+			dateTransactionFormatted.add(formatDbDateFieldWithDateTime(transactionDate));		
+		}
+
+		for (String amt : amount) {
+			amtFormatted.add(formatCurrency(amt));
+		}
+
+		for (Object code : glCode) {
+			if (code == null) {
+				glCodeFormatted.add("");
+			} else {
+				glCodeFormatted.add(code.toString());
+			}
+		}
+
+		if (financialInfoPage.getPaymentCodeList().equals(paymentCode)) {
+			count = count + 1;
+		} else {
+			listOfVal.add("Payment Code");
+		}		
+		if (financialInfoPage.getPaymentDescList().equals(paymentDesc)) {
+			count = count + 1;
+		} else {
+			listOfVal.add("Payment desc");
+		}
+
+		if (financialInfoPage.getPayorPlanCodeList().equals(payorPlanCode)) {
+			count = count + 1;
+		} else {
+			listOfVal.add("Payor plan code");
+		}
+
+		if (financialInfoPage.getPayorPlanNameList().equals(payorPlanName)) {
+			count = count + 1;
+		} else {
+			listOfVal.add("Payor plan name");
+		}
+
+		if (financialInfoPage.getDateTransactionList().equals(dateTransactionFormatted)) {
+			count = count + 1;
+		} else {
+			listOfVal.add("date of transaction");
+		}
+
+		if (financialInfoPage.getTypeTransactionList().equals(typeTransaction)) {
+			count = count + 1;
+		} else {
+			listOfVal.add("transaction type");
+		}
+
+		if (financialInfoPage.getAmountList().equals(amtFormatted)) {
+			count = count + 1;
+		} else {
+			listOfVal.add("Amount");
+		}
+
+		if (financialInfoPage.getGlCodeList().equals(glCodeFormatted)) {
+			count = count + 1;
+		} else {
+			listOfVal.add("GL Code");
+		}
+
+		if (count == 8) {
+			listOfVal.add(true);
+		} else {
+			listOfVal.add(false);
+		}
+		return listOfVal;
+	}
+	
 }
