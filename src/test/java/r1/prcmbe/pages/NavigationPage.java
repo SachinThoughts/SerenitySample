@@ -53,9 +53,6 @@ public class NavigationPage extends PageObject {
 
 	@FindBy(xpath = "//*[@id='dnn_dnnLINKS_lblLinks']/a[text()='Billing & Follow-up']")
 	private WebElementFacade footerBillingFollowUpLink;
-
-	@FindBy(id="dnn_dnnUSER_registerLink")
-	private WebElementFacade userFullName;
 	
 	public WebElementFacade getChartManagerLink() {
 		return chartManagerLink;
@@ -130,9 +127,5 @@ public class NavigationPage extends PageObject {
 
 	public void clickFooterBillingFollowUpLink() {
 		evaluateJavascript("arguments[0].click();", footerBillingFollowUpLink);
-	}
-	
-	public String getUserFullName() {
-		return userFullName.getText();
 	}
 }
