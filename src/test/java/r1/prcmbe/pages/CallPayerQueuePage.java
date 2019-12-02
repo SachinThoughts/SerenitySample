@@ -63,8 +63,31 @@ public class CallPayerQueuePage extends PageObject {
 	@FindBy(xpath = "//table[@id='gvWriteOff']/tbody/tr[2]/td[3]")
 	private WebElementFacade createdTCode;
 
-	@FindBy(id = "lblCategory")
-	private WebElementFacade createdWriteOffCategory;
+	@FindBy(id = "btnSaveTransactionResponse")
+	private WebElementFacade approvalResponseSubmitBtn;
+
+	@FindBy(id = "rdoRejected")
+	private WebElementFacade denyRadioBtn;
+
+	@FindBy(id = "gvWriteOff")
+	private WebElementFacade approvalRequestTbl;
+
+	@FindBy(xpath = "//*[@id='divCallQueue']/div/a[@class='toggle']")
+	private WebElementFacade toggleLinkCPQ;
+
+	@FindBy(xpath = "//*[@class='callPayerList']/descendant::span[@class='InvoiceNo']")
+	private WebElementFacade invoiceNumberCPQ;
+
+	@FindBy(id = "btnOK")
+	private WebElementFacade appReviewSaveBtn;
+
+	@FindBy(xpath = "//*[@id='gvWriteOffReview']/tbody/tr[2]/td[2]")
+	private WebElementFacade reviewerName;
+
+	@FindBy(xpath = "//*[@id='gvWriteOffReview']/tbody/tr[2]/td[4]")
+	private WebElementFacade reviewStatus;
+
+	String successMsgJS = "return document.querySelector('#msg_success').textContent";
 
 	public void clickAddtoCallPayorQueueBtn() {
 		withAction().moveToElement(addToQueueIcon).build().perform();
@@ -148,7 +171,43 @@ public class CallPayerQueuePage extends PageObject {
 		return createdTCode.getText();
 	}
 
-	public String getCreatedWriteOffCategory() {
-		return createdWriteOffCategory.getText();
+	public void clickApprovalResponseSubmitBtn() {
+		approvalResponseSubmitBtn.click();
+	}
+
+	public void clickDenyRadioBtn() {
+		denyRadioBtn.click();
+	}
+
+	public void moveToApprovalRequestTbl() {
+		withAction().moveToElement(approvalRequestTbl).build().perform();
+	}
+
+	public void clickToggleLinkCPQ() {
+		toggleLinkCPQ.click();
+	}
+
+	public String getInvoiceNumberCPQ() {
+		return invoiceNumberCPQ.getText();
+	}
+
+	public boolean isInvoiceNumberCPQVisible() {
+		return invoiceNumberCPQ.isVisible();
+	}
+
+	public void clickAppReviewSaveBtn() {
+		appReviewSaveBtn.click();
+	}
+
+	public String getReviewerName() {
+		return reviewerName.getText();
+	}
+
+	public String getReviewStatus() {
+		return reviewStatus.getText();
+	}
+
+	public String getSuccessMessage() {
+		return evaluateJavascript(successMsgJS).toString();
 	}
 }
