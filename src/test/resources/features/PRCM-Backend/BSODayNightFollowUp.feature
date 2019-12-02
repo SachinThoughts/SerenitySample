@@ -22,3 +22,5 @@ Feature: Verify BSODayNight related scenarios in PRCM
     Examples: 
       | queryName1                              |
       | BSO-DayNight_query_Followup_391276_SQL1 |
+
+  
