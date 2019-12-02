@@ -1,5 +1,5 @@
-@CallPayorQueue
-Feature: Verify Call Payor Queue functionality
+@CallPayerQueue
+Feature: Verify Call Payer Queue functionality
 
   Background: user is able to navigate to Account Page
     Given user is on R1 Hub page
@@ -22,3 +22,23 @@ Feature: Verify Call Payor Queue functionality
     When user clicks on remove X button
     Then user should be able to view the deleted account from Call Queue
     And user should be able to view the count of accounts is decreased by 1 in Call Queue
+
+  @427114 @Sprint102 @PRCMUser
+  Scenario Outline: Verify that added account in call payer queue after taking Handoff Action
+    Given user is on R1 Decision Account page
+    When user clicks on Add to Queue button
+    Then user should be able to view the account added to Call Queue
+    When user clicks on Handoff button
+    And user selects any value from Handoff Types dropdown <handoffType>
+    And user selects any value from Create dropdown <create>
+    And user selects "General Request" from Why dropdown
+    And user selects "General Request" from Disposition dropdown
+    And user enters any value in Note Text Area "test"
+    And user clicks on Save button on handoff pop up
+    Then user should be able to view the "Handoff Record Saved Successfully." message
+    And user should be able to view the saved Action in Action History
+    And user should be able to view the deleted account from the Call Queue on navigating to the Next Account
+
+    Examples: 
+      | handoffType   | create                      |
+      | AR Supervisor | Supervisor Hand Off Request |

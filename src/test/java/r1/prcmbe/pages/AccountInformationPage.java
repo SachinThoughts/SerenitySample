@@ -241,4 +241,32 @@ public class AccountInformationPage extends PageObject {
 		}
 		sOPList.get(index).click();
 	}
+
+	public void selectValueFromCreateDrpdwn(String value) {
+		createDrpdwn.selectByVisibleText(value);
+	}
+
+	public void selectValueFromWhyDrpdwn(String value) {
+		whyDrpdwn.selectByVisibleText(value);
+	}
+
+	public void selectValueFromDispositionDrpdwn(String value) {
+		dispositionDrpdwn.selectByVisibleText(value);
+	}
+
+	public void waitForLoaderInvisibility() {
+		loader.withTimeoutOf(Duration.ofSeconds(10)).waitUntilNotVisible();
+	}
+
+	public void enterValueInNotesTextbox(String value) {
+		notes.type(value);
+	}
+
+	public void clickSaveBtn() {
+		saveBtn.click();
+	}
+
+	public String getSuccessMsg() {
+		return successMsg.getText().trim();
+	}
 }
