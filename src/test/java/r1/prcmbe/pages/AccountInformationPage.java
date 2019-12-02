@@ -75,7 +75,7 @@ public class AccountInformationPage extends PageObject {
 
 	@FindBy(xpath = "//*[@id='btnVerifyNextStep']/span[1]")
 	private WebElementFacade nextBtn;
-	
+
 	@FindBy(id = "ddlHandoffDirection")
 	private WebElementFacade createDrpdwn;
 

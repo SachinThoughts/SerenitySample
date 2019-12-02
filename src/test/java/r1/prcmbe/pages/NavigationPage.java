@@ -53,7 +53,7 @@ public class NavigationPage extends PageObject {
 
 	@FindBy(xpath = "//*[@id='dnn_dnnLINKS_lblLinks']/a[text()='Billing & Follow-up']")
 	private WebElementFacade footerBillingFollowUpLink;
-	
+
 	public WebElementFacade getChartManagerLink() {
 		return chartManagerLink;
 	}
