@@ -15,7 +15,6 @@ public class AccountActionHistoryPage extends PageObject{
 	@FindBy(xpath="//ul[@id='notesHistory']//li[1]//span/span[1]")
 	private List<WebElementFacade> listOfRecentAddedAccountActionHistoryLabel;
 	
-	
 	public List<String> getListOfRecentAddedAccountActionHistoryLabel(){
 		List<String> listOfRecentAddedAccntLabel=new ArrayList<>();
 		for (WebElementFacade recentAddedAccntLabel:listOfRecentAddedAccountActionHistoryLabel) {
@@ -31,5 +30,4 @@ public class AccountActionHistoryPage extends PageObject{
 	public boolean isRecentAddedAccountActionHistoryLabelVisible(int labelPosition) {
 		return listOfRecentAddedAccountActionHistoryLabel.get(labelPosition).isVisible();
 	}
-	
 }
