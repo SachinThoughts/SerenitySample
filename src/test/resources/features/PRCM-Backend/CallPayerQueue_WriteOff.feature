@@ -46,7 +46,7 @@ Feature: Verify Call Payer Queue functionality
     And user clicks on radiobutton Deny
     And user clicks on write off response Submit button
     And user clicks on review save button
-    Then user should be able to view the "Writeoff Response Saved Successfully." message
+    Then user should be able to view the "Writeoff Response Saved Successfully." writeoff message
     And user should be able to view the request "Rejected" status
     When user logout from the application
     And user logins to the application with BSO_Followup Role
@@ -91,7 +91,7 @@ Feature: Verify Call Payer Queue functionality
     And user clicks on radiobutton Approve
     And user clicks on write off response Submit button
     And user clicks on review save button
-    Then user should be able to view the "Writeoff Response Saved Successfully." message
+    Then user should be able to view the "Writeoff Response Saved Successfully." writeoff message
     And user should be able to view the request "Approved" status
     When user logout from the application
     And user logins to the application with BSO_Followup Role
@@ -136,7 +136,7 @@ Feature: Verify Call Payer Queue functionality
     And user clicks on radiobutton Deny
     And user clicks on write off response Submit button
     And user clicks on review save button
-    Then user should be able to view the "Writeoff Response Saved Successfully." message
+    Then user should be able to view the "Writeoff Response Saved Successfully." writeoff message
     And user should be able to view the request "Rejected" status
     When user logout from the application
     And user logins to the application with BSO_Followup Role

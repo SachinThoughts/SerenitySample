@@ -1,5 +1,6 @@
 package r1.prcmbe.pages;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,13 +32,28 @@ public class CallPayerQueuePage extends PageObject {
 	private List<WebElementFacade> listOfAccountsInCallPayorQueue;
 
 	@FindBy(xpath = "//*[@id='divCallQueue']/div[1]/a[4]/i")
-	private WebElementFacade expandArrowCallPayorQueue;
+	private WebElementFacade toggleCallQueueBtn;
 
 	@FindBy(id = "lblAccountNo")
 	private WebElementFacade accountNo;
 
 	@FindBy(xpath = "//*[@id='btn_info']/button/span")
 	private WebElementFacade msgCloseButton;
+
+	@FindBy(xpath = "//*[@id='SELFPayers']/div")
+	private List<WebElementFacade> callPayerQueueList;
+
+	@FindBy(xpath = "//*[@id='CPAccountsList']/div/ul[contains(@style,'none')]")
+	private WebElementFacade callPayerListHidden;
+
+	@FindBy(xpath = "//*[@id='SELF']/i")
+	private WebElementFacade expandCallPayerListBtn;
+
+	@FindBy(xpath = "//li[@id='SELFPayers']/div/div/a[2]/i")
+	private List<WebElementFacade> removeCallPayerQueueAccountBtnList;
+
+	@FindBy(xpath = "//*[@id='SELFPayers']/div/div/a[1]/span[1]")
+	private List<WebElementFacade> callPayerQueueInvoiceList;
 
 	@FindBy(id = "ddlApprovalType")
 	private WebElementFacade category;
@@ -72,9 +88,6 @@ public class CallPayerQueuePage extends PageObject {
 	@FindBy(id = "gvWriteOff")
 	private WebElementFacade approvalRequestTbl;
 
-	@FindBy(xpath = "//*[@id='divCallQueue']/div/a[@class='toggle']")
-	private WebElementFacade toggleLinkCPQ;
-
 	@FindBy(xpath = "//*[@class='callPayerList']/descendant::span[@class='InvoiceNo']")
 	private WebElementFacade invoiceNumberCPQ;
 
@@ -86,10 +99,9 @@ public class CallPayerQueuePage extends PageObject {
 
 	@FindBy(xpath = "//*[@id='gvWriteOffReview']/tbody/tr[2]/td[4]")
 	private WebElementFacade reviewStatus;
-	
+
 	@FindBy(id = "rdoApproved")
 	private WebElementFacade approveRadioBtn;
-	
 
 	String successMsgJS = "return document.querySelector('#msg_success').textContent";
 
@@ -126,9 +138,9 @@ public class CallPayerQueuePage extends PageObject {
 		return listOfAcctInCallPayorQueue;
 	}
 
-	public void clickExpandArrowCallPayorQueue() {
-		withAction().moveToElement(expandArrowCallPayorQueue).build().perform();
-		evaluateJavascript("arguments[0].click();", expandArrowCallPayorQueue);
+	public void clickToggleCallQueueBtn() {
+		withAction().moveToElement(toggleCallQueueBtn).build().perform();
+		evaluateJavascript("arguments[0].click();", toggleCallQueueBtn);
 	}
 
 	public String getCountOfAccountsInCallPayorQueue() {
@@ -141,6 +153,49 @@ public class CallPayerQueuePage extends PageObject {
 
 	public void closeMsgButton() {
 		evaluateJavascript("arguments[0].click();", msgCloseButton);
+	}
+
+	public int getCallPayerQueueCount() {
+		return callPayerQueueList.size();
+	}
+
+	public void clickCallPayerListExpandBtn() {
+		if (getCallPayerQueueCount() > 0 && callPayerListHidden.isVisible()) {
+			evaluateJavascript("arguments[0].click();", expandCallPayerListBtn);
+		} else {
+			clickAddtoCallPayorQueueBtn();
+			clickAddPayerQueueWithoutNoteBtn();
+		}
+	}
+
+	public void clickRemoveCallPayerQueueAccountBtn() {
+		if (getCallPayerQueueCount() > 0) {
+			evaluateJavascript("arguments[0].click();", removeCallPayerQueueAccountBtnList.get(0));
+		}
+	}
+
+	public boolean isRemoveCallPayerQueueAccountBtnListVisible() {
+		infoMessage.withTimeoutOf(Duration.ofSeconds(10)).waitUntilNotVisible();
+		boolean removeBtnVisibility = false;
+		for (WebElementFacade removeBtn : removeCallPayerQueueAccountBtnList) {
+			if (removeBtn.isVisible()) {
+				removeBtnVisibility = true;
+			} else {
+				removeBtnVisibility = false;
+			}
+		}
+		return removeBtnVisibility;
+	}
+
+	public String getRemovedInvoice() {
+		String[] invoice = callPayerQueueInvoiceList.get(0).getText().trim().split("-\\s");
+		return invoice[1];
+	}
+
+	public boolean isCallPayerQueueInvoiceVisible() {
+		infoMessage.withTimeoutOf(Duration.ofSeconds(10)).waitUntilNotVisible();
+		clickToggleCallQueueBtn();
+		return callPayerQueueInvoiceList.get(0).isVisible();
 	}
 
 	public void categorySelectByText(String categoryText) {
@@ -185,10 +240,6 @@ public class CallPayerQueuePage extends PageObject {
 
 	public void moveToApprovalRequestTbl() {
 		withAction().moveToElement(approvalRequestTbl).build().perform();
-	}
-
-	public void clickToggleLinkCPQ() {
-		toggleLinkCPQ.click();
 	}
 
 	public String getInvoiceNumberCPQ() {
