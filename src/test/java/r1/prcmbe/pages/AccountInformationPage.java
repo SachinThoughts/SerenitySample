@@ -6,6 +6,7 @@ import java.util.*;
 import net.serenitybdd.core.annotations.findby.FindBy;
 import net.serenitybdd.core.pages.PageObject;
 import net.serenitybdd.core.pages.WebElementFacade;
+import r1.commons.utilities.CommonMethods;
 
 public class AccountInformationPage extends PageObject {
 
@@ -212,5 +213,14 @@ public class AccountInformationPage extends PageObject {
 			sOPNamesList.add(sOP.getText().trim());
 		}
 		return sOPNamesList;
+	}
+
+	public void selectRandomSOP() {
+		int size = sOPList.size();
+		int index = CommonMethods.getRandom(size);
+		while (index == size) {
+			index = CommonMethods.getRandom(size);
+		}
+		sOPList.get(index).click();
 	}
 }

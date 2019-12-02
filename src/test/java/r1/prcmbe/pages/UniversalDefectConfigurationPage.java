@@ -19,9 +19,6 @@ public class UniversalDefectConfigurationPage extends PageObject {
 	@FindBy(xpath = "//*[@id='anchorahtodecisiontab']/a")
 	private WebElementFacade decisionConfigTab;
 
-	@FindBy(xpath = "//*[@id='anchorahtodecisiontab']/a")
-	private WebElementFacade pRCMDecisionConfig;
-
 	@FindBy(id = "R1Dh2id")
 	private WebElementFacade innerNavConfigHeader;
 
@@ -172,6 +169,15 @@ public class UniversalDefectConfigurationPage extends PageObject {
 	@FindBy(id = "dnn_ctr1588_TaskPanel_taskBase_DefectTypeControl_btnUpdateDefectType")
 	private WebElementFacade saveDefectTypeBtn;
 
+	@FindBy(xpath = "//*[@id='PRCMlinktab']/a")
+	private WebElementFacade pRCMDecisionConfigTab;
+
+	@FindBy(id = "chkSOPActive")
+	private WebElementFacade activeSOPCheckBox;
+
+	@FindBy(xpath = "//*[@class='sop-types']//li//div[2]")
+	private List<WebElementFacade> listOfSopName;
+
 	public boolean checkUDCTitleVisibility() {
 		return uDCTitle.isVisible();
 	}
@@ -180,8 +186,8 @@ public class UniversalDefectConfigurationPage extends PageObject {
 		return decisionConfigTab.isVisible();
 	}
 
-	public boolean pRCMDecisionConfigIsVisible() {
-		return pRCMDecisionConfig.isVisible();
+	public boolean pRCMDecisionConfigTabIsVisible() {
+		return pRCMDecisionConfigTab.isVisible();
 	}
 
 	public void clickOnDecisionConfigTab() {
@@ -193,7 +199,7 @@ public class UniversalDefectConfigurationPage extends PageObject {
 	}
 
 	public void clickOnPRCMDecisionConfig() {
-		pRCMDecisionConfig.click();
+		pRCMDecisionConfigTab.click();
 	}
 
 	public void clickOnLogout() {
@@ -441,5 +447,18 @@ public class UniversalDefectConfigurationPage extends PageObject {
 
 	public void clickSaveBtn() {
 		saveDefectTypeBtn.click();
+	}
+
+	public void clickSOPActiveChckBox() {
+		activeSOPCheckBox.click();
+	}
+
+	public List<String> getListOfSopTypes() {
+		waitForAngularRequestsToFinish();
+		List<String> sopTypeList = new ArrayList<>();
+		for (WebElementFacade listOfNames : listOfSopName) {
+			sopTypeList.add(listOfNames.getText());
+		}
+		return sopTypeList;
 	}
 }
