@@ -1,5 +1,6 @@
 package r1.prcmbe.pages;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -71,10 +72,18 @@ public class DefectOverridePage extends PageObject {
 
 	@FindBy(id = "btnVerifyNextStep")
 	private WebElementFacade nextBtnOnTriagePage;
-	
+
 	@FindBy(xpath = "//*[@id='rdoAssignCat']//td/label[contains(text(),'No')]")
 	private WebElementFacade noRadioBtn;
-	
+
+	@FindBy(xpath = "//*[@id='rdoAssignCat']//td/label[contains(text(),'Yes')]")
+	private WebElementFacade yesRadioBtn;
+
+	@FindBy(xpath = "//*[@id='cblActionsOptional']/label")
+	private List<WebElementFacade> verifyAllStepsCheckbox;
+
+	@FindBy(id = "msg_success")
+	private WebElementFacade successMsg;
 
 	public boolean isDefectWorkFlowSecVisible() {
 		return defectWorkflowSecHeader.isVisible();
@@ -101,7 +110,7 @@ public class DefectOverridePage extends PageObject {
 	}
 
 	public void selectNoRadioBtnOnOverrideSubCat() {
-		if(!defectTypeValuesDrpdwn.isVisible()) {
+		if (!defectTypeValuesDrpdwn.isVisible()) {
 			noRadioBtn.click();
 		}
 	}
@@ -153,6 +162,7 @@ public class DefectOverridePage extends PageObject {
 	}
 
 	public String getDefectSubCategoryUnderCurrentDefect() {
+		successMsg.withTimeoutOf(Duration.ofSeconds(10)).waitUntilNotVisible();
 		return defectSubCatUnderCurrentDefect.getText();
 	}
 
@@ -210,5 +220,32 @@ public class DefectOverridePage extends PageObject {
 
 	public void clickOnNextButtonOnTriagePage() {
 		nextBtnOnTriagePage.click();
+	}
+
+	public boolean isDefectTypeDrpdwnVisible() {
+		return defectTypeValuesDrpdwn.isVisible();
+	}
+
+	public boolean isDefectSubCategoryDrpdwnVisible() {
+		return defectSubCategoryValuesDrpdwn.isVisible();
+	}
+
+	public boolean isSaveBtnVisible() {
+		return saveButton.isVisible();
+	}
+
+	public void selectYesRadioBtn() {
+		if (!defectTypeValuesDrpdwn.isVisible()) {
+			yesRadioBtn.click();
+		}
+	}
+
+	public void selectRandomVerifyAllStepsCheckbox() {
+		int size = verifyAllStepsCheckbox.size();
+		int index = CommonMethods.getRandom(size);
+		while (index == size) {
+			index = CommonMethods.getRandom(size);
+		}
+		verifyAllStepsCheckbox.get(index).click();
 	}
 }

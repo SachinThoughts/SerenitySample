@@ -82,7 +82,7 @@ public class DefectOverrideStepDef {
 		}
 		Assert.assertTrue(dbSettingValue.equals(flagValue));
 	}
-	
+
 	@When("^user selects \"([^\"]*)\" from search by dropdown$")
 	public void user_selectsr_from_search_by_dropdown(String dropdown) {
 		searchPage.searchBySelectText(dropdown);
@@ -137,7 +137,7 @@ public class DefectOverrideStepDef {
 		Assert.assertTrue("failed to view assigned defect", defectOverridePage.isAssignedSubCategryVisible());
 	}
 
-	@When("^user selects No radio button to Override Subcategory$")
+	@When("^user selects No radio button to Override Subcategory$|^user selects radio button as No in Do you agree with defect\\? section$")
 	public void user_selects_No_radio_button_to_Override_Subcategory() {
 		defectOverridePage.selectNoRadioBtnOnOverrideSubCat();
 	}
@@ -152,7 +152,7 @@ public class DefectOverrideStepDef {
 		selectedDefectSubCatValue = defectOverridePage.selectAndGetTextDefectSubCategory(defaultDrpdwnValue);
 	}
 
-	@When("^user clicks on Save button$")
+	@When("^user clicks on Save button$|^user clicks on Save button in defect workflow section$")
 	public void user_clicks_on_Save_button() {
 		defectOverridePage.clickOnSaveBtn();
 	}

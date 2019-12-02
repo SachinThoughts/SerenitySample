@@ -1,5 +1,6 @@
 package r1.prcmbe.pages;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,7 +8,7 @@ import net.serenitybdd.core.annotations.findby.FindBy;
 import net.serenitybdd.core.pages.PageObject;
 import net.serenitybdd.core.pages.WebElementFacade;
 
-public class CallPayorQueuePage extends PageObject {
+public class CallPayerQueuePage extends PageObject {
 
 	@FindBy(xpath = "//*[@id='btnAddtoCallPayerQueue']/span/i[2]")
 	private WebElementFacade addToQueueIcon;
@@ -31,13 +32,28 @@ public class CallPayorQueuePage extends PageObject {
 	private List<WebElementFacade> listOfAccountsInCallPayorQueue;
 
 	@FindBy(xpath = "//*[@id='divCallQueue']/div[1]/a[4]/i")
-	private WebElementFacade expandArrowCallPayorQueue;
+	private WebElementFacade toggleCallQueueBtn;
 
 	@FindBy(id = "lblAccountNo")
 	private WebElementFacade accountNo;
 
 	@FindBy(xpath = "//*[@id='btn_info']/button/span")
 	private WebElementFacade msgCloseButton;
+
+	@FindBy(xpath = "//*[@id='SELFPayers']/div")
+	private List<WebElementFacade> callPayerQueueList;
+
+	@FindBy(xpath = "//*[@id='CPAccountsList']/div/ul[contains(@style,'none')]")
+	private WebElementFacade callPayerListHidden;
+
+	@FindBy(xpath = "//*[@id='SELF']/i")
+	private WebElementFacade expandCallPayerListBtn;
+
+	@FindBy(xpath = "//li[@id='SELFPayers']/div/div/a[2]/i")
+	private List<WebElementFacade> removeCallPayerQueueAccountBtnList;
+
+	@FindBy(xpath = "//*[@id='SELFPayers']/div/div/a[1]/span[1]")
+	private List<WebElementFacade> callPayerQueueInvoiceList;
 
 	public void clickAddtoCallPayorQueueBtn() {
 		withAction().moveToElement(addToQueueIcon).build().perform();
@@ -72,9 +88,9 @@ public class CallPayorQueuePage extends PageObject {
 		return listOfAcctInCallPayorQueue;
 	}
 
-	public void clickExpandArrowCallPayorQueue() {
-		withAction().moveToElement(expandArrowCallPayorQueue).build().perform();
-		evaluateJavascript("arguments[0].click();", expandArrowCallPayorQueue);
+	public void clickToggleCallQueueBtn() {
+		withAction().moveToElement(toggleCallQueueBtn).build().perform();
+		evaluateJavascript("arguments[0].click();", toggleCallQueueBtn);
 	}
 
 	public String getCountOfAccountsInCallPayorQueue() {
@@ -87,5 +103,48 @@ public class CallPayorQueuePage extends PageObject {
 
 	public void closeMsgButton() {
 		evaluateJavascript("arguments[0].click();", msgCloseButton);
+	}
+
+	public int getCallPayerQueueCount() {
+		return callPayerQueueList.size();
+	}
+
+	public void clickCallPayerListExpandBtn() {
+		if (getCallPayerQueueCount() > 0 && callPayerListHidden.isVisible()) {
+			evaluateJavascript("arguments[0].click();", expandCallPayerListBtn);
+		} else {
+			clickAddtoCallPayorQueueBtn();
+			clickAddPayerQueueWithoutNoteBtn();
+		}
+	}
+
+	public void clickRemoveCallPayerQueueAccountBtn() {
+		if (getCallPayerQueueCount() > 0) {
+			evaluateJavascript("arguments[0].click();", removeCallPayerQueueAccountBtnList.get(0));
+		}
+	}
+
+	public boolean isRemoveCallPayerQueueAccountBtnListVisible() {
+		infoMessage.withTimeoutOf(Duration.ofSeconds(10)).waitUntilNotVisible();
+		boolean removeBtnVisibility = false;
+		for (WebElementFacade removeBtn : removeCallPayerQueueAccountBtnList) {
+			if (removeBtn.isVisible()) {
+				removeBtnVisibility = true;
+			} else {
+				removeBtnVisibility = false;
+			}
+		}
+		return removeBtnVisibility;
+	}
+
+	public String getRemovedInvoice() {
+		String[] invoice = callPayerQueueInvoiceList.get(0).getText().trim().split("-\\s");
+		return invoice[1];
+	}
+
+	public boolean isCallPayerQueueInvoiceVisible() {
+		infoMessage.withTimeoutOf(Duration.ofSeconds(10)).waitUntilNotVisible();
+		clickToggleCallQueueBtn();
+		return callPayerQueueInvoiceList.get(0).isVisible();
 	}
 }
