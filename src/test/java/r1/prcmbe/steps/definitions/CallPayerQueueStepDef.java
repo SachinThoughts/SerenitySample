@@ -29,7 +29,7 @@ public class CallPayerQueueStepDef {
 	String accountNo, noOfAccountsInQueueBefore;
 	private static String dbQueryFilename = "CallPayerQueue";
 	private int callPayerQueueCount;
-	private String removedInvoice;
+	private String removedInvoice, handOffType, succesMessageHandOff;
 
 	@Given("^user is on account page having no payer : \"([^\"]*)\"$")
 	public void user_is_on_account_page_having_no_payer(String expDefectClassification) {
@@ -199,6 +199,7 @@ public class CallPayerQueueStepDef {
 
 	@When("^user selects any value from Handoff Types dropdown (.*)$")
 	public void user_selects_any_value_from_Handoff_Types_dropdown(String value) {
+		handOffType = value;
 		accInfoPage.selectHandOffType(value);
 	}
 
@@ -225,17 +226,23 @@ public class CallPayerQueueStepDef {
 	@When("^user clicks on Save button on handoff pop up$")
 	public void user_clicks_on_Save_button_on_handoff_pop_up() {
 		accInfoPage.clickSaveBtn();
+		succesMessageHandOff = accInfoPage.getSuccessMsg();
 	}
 
 	@Then("^user should be able to view the \"([^\"]*)\" message$")
 	public void user_should_be_able_to_view_the_message(String message) {
+		Assert.assertTrue("User not able oto view hand off success message", message.equals(succesMessageHandOff));
 	}
 
 	@Then("^user should be able to view the saved Action in Action History$")
 	public void user_should_be_able_to_view_the_saved_Action_in_Action_History() {
+		Assert.assertTrue("User not able to view saved action in Action History",
+				handOffType.equals(accInfoPage.accountActionHistoryHandOff()));
 	}
 
 	@Then("^user should be able to view the deleted account from the Call Queue on navigating to the Next Account$")
 	public void user_should_be_able_to_view_the_deleted_account_from_the_Call_Queue_on_navigating_to_the_Next_Account() {
+		Assert.assertTrue("User not able to view deleted account from the call queue",
+				accInfoPage.isInvoiceNumberVisible());
 	}
 }
