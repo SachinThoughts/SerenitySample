@@ -157,9 +157,9 @@ Feature: Verify ProfessionalUDC related scenarios in PRCM
     Then user should be able to view changed sub category below current defect under Defect workflow section
     When user selects radio button as Yes in Do you agree with defect? section
     And user clicks on Next button
-    Then user should be able to select the SOP Type added through UDC section from Verify All Steps Taken section
+    When user should be able to select the SOP Type added through UDC section from Verify All Steps Taken section
     When user clicks on Next button on verify all steps screen
-    Then user should be able to select the SOP Action added through UDC section from Steps Taken section
+    When user should be able to select the SOP Action added through UDC section from Steps Taken section
 
     Examples: 
       | invoice |
