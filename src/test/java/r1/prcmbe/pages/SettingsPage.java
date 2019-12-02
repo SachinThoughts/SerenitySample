@@ -33,6 +33,9 @@ public class SettingsPage extends PageObject {
 	@FindBy(id = "dnn_ctr612_Cache_btnClearAll")
 	private WebElementFacade clearAllBtn;
 
+	@FindBy(xpath = "//span[not(contains(@style,'hidden')) and text()='R1 Configuration']")
+	private WebElementFacade r1ConfigurationLink;
+
 	public void clickOnSettingsR1Decisions() {
 		waitForAngularRequestsToFinish();
 		withAction().moveToElement(settingsR1Decision).click().build().perform();
@@ -60,7 +63,7 @@ public class SettingsPage extends PageObject {
 
 	public void clickCacheLink() {
 		withAction().moveToElement(cacheLink).click().build().perform();
-		}
+	}
 
 	public void clickClearAllBtn() {
 		clearAllBtn.click();
@@ -74,4 +77,8 @@ public class SettingsPage extends PageObject {
 		settingsR1Decision.click();
 	}
 
+	public void clickR1ConfigurationLink() {
+		waitForAngularRequestsToFinish();
+		withAction().moveToElement(r1ConfigurationLink).click().build().perform();
+	}
 }

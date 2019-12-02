@@ -6,6 +6,7 @@ import java.util.*;
 import net.serenitybdd.core.annotations.findby.FindBy;
 import net.serenitybdd.core.pages.PageObject;
 import net.serenitybdd.core.pages.WebElementFacade;
+import r1.commons.utilities.CommonMethods;
 
 public class AccountInformationPage extends PageObject {
 
@@ -61,10 +62,7 @@ public class AccountInformationPage extends PageObject {
 	private WebElementFacade handOffPopUp;
 
 	@FindBy(id = "ddlHandOffType")
-	private WebElementFacade handOffTypeDrpDwn;
-
-	@FindBy(id = "ddlHandOffType")
-	private WebElementFacade handOffTypeDrpDown;
+	private WebElementFacade handOffTypeDrpdwn;
 
 	@FindBy(id = "lblBreadcrumb")
 	private WebElementFacade defectBreadcrumb;
@@ -77,6 +75,33 @@ public class AccountInformationPage extends PageObject {
 
 	@FindBy(xpath = "//*[@id='btnVerifyNextStep']/span[1]")
 	private WebElementFacade nextBtn;
+
+	@FindBy(id = "ddlHandoffDirection")
+	private WebElementFacade createDrpdwn;
+
+	@FindBy(id = "ddlAction")
+	private WebElementFacade whyDrpdwn;
+
+	@FindBy(id = "ddlDisposition")
+	private WebElementFacade dispositionDrpdwn;
+
+	@FindBy(xpath = "//*[@id='loader']/div//div[2]/h3[text()='Wait while processing...']")
+	private WebElementFacade loader;
+
+	@FindBy(id = "txtHandOffNotes")
+	private WebElementFacade notes;
+
+	@FindBy(id = "btnSaveHandsOff")
+	private WebElementFacade saveBtn;
+
+	@FindBy(id = "msg_success")
+	private WebElementFacade successMsg;
+
+	@FindBy(xpath = "//*[@id='notesHistory']/li[1]/div//div[2]/span[1]/span[2]")
+	private WebElementFacade accountActionHistoryHandOff;
+
+	@FindBy(xpath = "//*[text()='Show Account Action History Notes']")
+	private WebElementFacade showAccountActionHistoryNotesBtn;
 
 	public String getAccountNumber() {
 		waitForAngularRequestsToFinish();
@@ -175,19 +200,19 @@ public class AccountInformationPage extends PageObject {
 	}
 
 	public void selectHandOffType(String handOffType) {
-		handOffTypeDrpDwn.selectByVisibleText(handOffType);
+		handOffTypeDrpdwn.selectByVisibleText(handOffType);
 	}
 
 	public String getSelectedHandOffTypeValue() {
-		return handOffTypeDrpDwn.getSelectedVisibleTextValue();
+		return handOffTypeDrpdwn.getSelectedVisibleTextValue();
 	}
 
 	public void clickHandOffTypeDrpDown() {
-		evaluateJavascript("arguments[0].click()", handOffTypeDrpDown);
+		evaluateJavascript("arguments[0].click()", handOffTypeDrpdwn);
 	}
 
 	public List<String> getHandOffTypeDrpDownValues() {
-		return handOffTypeDrpDown.getSelectOptions();
+		return handOffTypeDrpdwn.getSelectOptions();
 	}
 
 	public String getDefectSubcategoryBreadcrumb() {
@@ -212,5 +237,57 @@ public class AccountInformationPage extends PageObject {
 			sOPNamesList.add(sOP.getText().trim());
 		}
 		return sOPNamesList;
+	}
+
+	public void selectRandomSOP() {
+		int size = sOPList.size();
+		int index = CommonMethods.getRandom(size);
+		while (index == size) {
+			index = CommonMethods.getRandom(size);
+		}
+		sOPList.get(index).click();
+	}
+
+	public void selectValueFromCreateDrpdwn(String value) {
+		createDrpdwn.selectByVisibleText(value);
+	}
+
+	public void selectValueFromWhyDrpdwn(String value) {
+		whyDrpdwn.selectByVisibleText(value);
+	}
+
+	public void selectValueFromDispositionDrpdwn(String value) {
+		dispositionDrpdwn.selectByVisibleText(value);
+	}
+
+	public void waitForLoaderInvisibility() {
+		loader.withTimeoutOf(Duration.ofSeconds(10)).waitUntilNotVisible();
+	}
+
+	public void enterValueInNotesTextbox(String value) {
+		notes.type(value);
+	}
+
+	public void clickSaveBtn() {
+		saveBtn.click();
+	}
+
+	public String getSuccessMsg() {
+		return successMsg.getText().trim();
+	}
+
+	public void clickShowAccountActionHistoryNotesBtn() {
+		withAction().moveToElement(showAccountActionHistoryNotesBtn).build().perform();
+		showAccountActionHistoryNotesBtn.click();
+	}
+
+	public String accountActionHistoryHandOff() {
+		clickShowAccountActionHistoryNotesBtn();
+		return accountActionHistoryHandOff.getText().trim();
+	}
+
+	public boolean isInvoiceNumberVisible() {
+		withAction().moveToElement(invoiceNumber).build().perform();
+		return invoiceNumber.isVisible();
 	}
 }
