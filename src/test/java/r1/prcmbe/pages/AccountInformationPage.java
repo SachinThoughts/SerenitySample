@@ -200,6 +200,7 @@ public class AccountInformationPage extends PageObject {
 	}
 
 	public void selectHandOffType(String handOffType) {
+		waitForLoaderInvisibility();
 		handOffTypeDrpdwn.selectByVisibleText(handOffType);
 	}
 
@@ -273,6 +274,7 @@ public class AccountInformationPage extends PageObject {
 	}
 
 	public String getSuccessMsg() {
+		waitForLoaderInvisibility();
 		return successMsg.getText().trim();
 	}
 
