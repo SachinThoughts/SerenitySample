@@ -265,4 +265,40 @@ public class FinancialInfoStepDef {
 		Assert.assertTrue("No message displayed under Adjustment amount expanded view",
 				financialInfoPage.getAdjustmentMessage().equals(message));
 	}
+
+	@When("^user clicks on drill down icon of Insurance Payments$")
+	public void user_clicks_on_drill_down_icon_of_Insurance_Payments() {
+		financialInfoPage.clickExpandIconInsurancePayments();
+	}
+
+	@Then("^User should be able to view following fields under insurance payment section:$")
+	public void user_should_be_able_to_view_following_fields_under_insurance_payment_section(DataTable headerVal) {
+		List<String> insurancePaymentFields = headerVal.asList(String.class);
+		Assert.assertTrue("The headers in insurance payment section is not as expected",
+				financialInfoPage.getInsurancePaymentHeaders().equals(insurancePaymentFields));
+	}
+
+	@When("^user executes the query to fetch insurance payment details (.*)$")
+	public void user_executes_the_query_to_fetch_insurance_payment_details_Financial_Information_Section___SQL(
+			String queryName) throws Exception {
+		transactionTypeSearchOne = "p%";
+		transactionTypeSearchTwo = "o%";
+		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
+				String.format(commonMethods.loadQuery(queryName, dbQueryFilename), invoiceNumber,
+						transactionTypeSearchOne, transactionTypeSearchTwo));
+	}
+
+	@Then("^user should be able to view same data in drilldown section of Insurance Payments as SQL result$")
+	public void user_should_be_able_to_view_same_data_in_drilldown_section_of_Insurance_Payments_as_SQL_result()
+			throws Exception {
+		List<Object> listOfVal = financialInfoStep.verifyInsurancePaymentsDbValuesWithUI();
+		boolean val = ((Boolean) listOfVal.get(listOfVal.size() - 1)).booleanValue();
+		Assert.assertTrue("Following values does not match\n" + listOfVal.subList(0, listOfVal.size() - 1), val);
+	}
+
+	@Then("^user should be able to view the same amount in Unbilled Balance column as SQL result $")
+	public void user_should_be_able_to_view_the_same_amount_in_Unbilled_Balance_column_as_SQL_result() {
+		Assert.assertTrue("Unbilled Balance is not same as fetched from DB", financialInfoPage.getUnbilledBalance()
+				.equals(financialInfoStep.formatCurrency(financialInfoElementVal)));
+	}
 }
