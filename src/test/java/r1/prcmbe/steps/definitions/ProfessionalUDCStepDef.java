@@ -596,12 +596,12 @@ public class ProfessionalUDCStepDef extends PageObject {
 		defectOverridePage.selectYesRadioBtn();
 	}
 
-	@Then("^user should be able to select the SOP Type added through UDC section from Verify All Steps Taken section$")
+	@When("^user should be able to select the SOP Type added through UDC section from Verify All Steps Taken section$")
 	public void user_should_be_able_to_select_the_SOP_Type_added_through_UDC_section_from_Verify_All_Steps_Taken_section() {
 		defectOverridePage.selectRandomVerifyAllStepsCheckbox();
 	}
 
-	@Then("^user should be able to select the SOP Action added through UDC section from Steps Taken section$")
+	@When("^user should be able to select the SOP Action added through UDC section from Steps Taken section$")
 	public void user_should_be_able_to_select_the_SOP_Action_added_through_UDC_section_from_Steps_Taken_section() {
 		accInfoPage.selectRandomSOP();
 	}
