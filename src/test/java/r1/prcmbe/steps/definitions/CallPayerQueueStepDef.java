@@ -231,7 +231,7 @@ public class CallPayerQueueStepDef {
 
 	@Then("^user should be able to view the \"([^\"]*)\" message$")
 	public void user_should_be_able_to_view_the_message(String message) {
-		Assert.assertTrue("User not able oto view hand off success message", message.equals(succesMessageHandOff));
+		Assert.assertTrue("User not able to view hand off success message", message.equals(succesMessageHandOff));
 	}
 
 	@Then("^user should be able to view the saved Action in Action History$")
