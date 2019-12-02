@@ -4,6 +4,8 @@ import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.apache.commons.lang.RandomStringUtils;
 import org.junit.Assert;
 import cucumber.api.DataTable;
 import cucumber.api.java.en.Given;
@@ -489,7 +491,7 @@ public class WorkflowConfigurationStepDef extends PageObject {
 		}
 		int dispositionCodeCounter = CommonMethods.getRandom(listDBDispositionCode.size());
 		String dispositionCodeNumber = listDBDispositionCode.get(dispositionCodeCounter);
-		workflowConfigPage.enterPreviousDispositionCode(dispositionCodeNumber);
+		workflowConfigPage.enterPreviousDispositionCode(dispositionCodeNumber.concat(RandomStringUtils.randomAlphabetic(3)));
 	}
 
 	@When("^user clicks on \\+Add Recipient button under choose recipient$")
