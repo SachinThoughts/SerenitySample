@@ -6,6 +6,7 @@ import java.util.*;
 import net.serenitybdd.core.annotations.findby.FindBy;
 import net.serenitybdd.core.pages.PageObject;
 import net.serenitybdd.core.pages.WebElementFacade;
+import r1.commons.utilities.CommonMethods;
 
 public class AccountInformationPage extends PageObject {
 
@@ -92,8 +93,8 @@ public class AccountInformationPage extends PageObject {
 
 	@FindBy(id = "btnSaveHandsOff")
 	private WebElementFacade saveBtn;
-	
-	@FindBy(id="msg_success")
+
+	@FindBy(id = "msg_success")
 	private WebElementFacade successMsg;
 
 	public String getAccountNumber() {
@@ -193,7 +194,6 @@ public class AccountInformationPage extends PageObject {
 	}
 
 	public void selectHandOffType(String handOffType) {
-		waitForLoaderInvisibility();
 		handOffTypeDrpdwn.selectByVisibleText(handOffType);
 	}
 
@@ -233,31 +233,12 @@ public class AccountInformationPage extends PageObject {
 		return sOPNamesList;
 	}
 
-	public void selectValueFromCreateDrpdwn(String value) {
-		createDrpdwn.selectByVisibleText(value);
-	}
-
-	public void selectValueFromWhyDrpdwn(String value) {
-		whyDrpdwn.selectByVisibleText(value);
-	}
-
-	public void selectValueFromDispositionDrpdwn(String value) {
-		dispositionDrpdwn.selectByVisibleText(value);
-	}
-
-	public void waitForLoaderInvisibility() {
-		loader.withTimeoutOf(Duration.ofSeconds(10)).waitUntilNotVisible();
-	}
-
-	public void enterValueInNotesTextbox(String value) {
-		notes.type(value);
-	}
-
-	public void clickSaveBtn() {
-		saveBtn.click();
-	}
-	
-	public String getSuccessMsg() {
-		return successMsg.getText().trim();
+	public void selectRandomSOP() {
+		int size = sOPList.size();
+		int index = CommonMethods.getRandom(size);
+		while (index == size) {
+			index = CommonMethods.getRandom(size);
+		}
+		sOPList.get(index).click();
 	}
 }
