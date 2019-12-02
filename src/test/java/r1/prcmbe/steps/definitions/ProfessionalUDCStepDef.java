@@ -19,7 +19,7 @@ import net.thucydides.core.util.EnvironmentVariables;
 import r1.commons.databaseconnection.DatabaseConn;
 import r1.commons.utilities.CommonMethods;
 import r1.prcmbe.pages.AccountInformationPage;
-import r1.prcmbe.pages.DefectOverridePage;
+import r1.prcmbe.pages.DefectWorkflowPage;
 import r1.prcmbe.pages.FacilityGroupConfigurationPage;
 import r1.prcmbe.pages.LoginPage;
 import r1.prcmbe.pages.NavigationPage;
@@ -47,7 +47,7 @@ public class ProfessionalUDCStepDef extends PageObject {
 	AccountInformationPage accInfoPage;
 	NavigationPage navigationPage;
 	SearchPage searchPage;
-	DefectOverridePage defectOverridePage;
+	DefectWorkflowPage defectOverridePage;
 	CommonMethods commonMethods;
 	EnvironmentVariables environmentVariables;
 

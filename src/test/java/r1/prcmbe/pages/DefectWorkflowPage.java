@@ -9,7 +9,7 @@ import net.serenitybdd.core.pages.PageObject;
 import net.serenitybdd.core.pages.WebElementFacade;
 import r1.commons.utilities.CommonMethods;
 
-public class DefectOverridePage extends PageObject {
+public class DefectWorkflowPage extends PageObject {
 
 	CommonMethods commonMethods;
 
