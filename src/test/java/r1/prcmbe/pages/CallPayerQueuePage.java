@@ -86,6 +86,10 @@ public class CallPayerQueuePage extends PageObject {
 
 	@FindBy(xpath = "//*[@id='gvWriteOffReview']/tbody/tr[2]/td[4]")
 	private WebElementFacade reviewStatus;
+	
+	@FindBy(id = "rdoApproved")
+	private WebElementFacade approveRadioBtn;
+	
 
 	String successMsgJS = "return document.querySelector('#msg_success').textContent";
 
@@ -209,5 +213,9 @@ public class CallPayerQueuePage extends PageObject {
 
 	public String getSuccessMessage() {
 		return evaluateJavascript(successMsgJS).toString();
+	}
+
+	public void clickApproveRadioBtn() {
+		approveRadioBtn.click();
 	}
 }

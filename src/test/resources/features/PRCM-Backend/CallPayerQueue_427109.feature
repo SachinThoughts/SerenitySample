@@ -1,4 +1,4 @@
-@CallPayorQueue
+@CallPayerQueue
 Feature: Verify Call Payor Queue functionality
 
   Background: 

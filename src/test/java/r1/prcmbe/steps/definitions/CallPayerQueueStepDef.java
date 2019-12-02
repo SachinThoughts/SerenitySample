@@ -219,11 +219,16 @@ public class CallPayerQueueStepDef {
 		Assert.assertTrue("rejected status not visible", status.equals(callPayerQueuePage.getReviewStatus()));
 	}
 
-	@Then("^user should be able to view the account dropped from CPQ$")
+	@Then("^user should be able to view the account dropped from CPQ$|^user should not be able to view the account in users CPQ$")
 	public void user_should_be_able_to_view_the_account_dropped_from_CPQ() {
 		callPayerQueuePage.clickToggleLinkCPQ();
 		Assert.assertFalse("Account is still visible in Call Payer Queue",
 				callPayerQueuePage.isInvoiceNumberCPQVisible()
 						&& callPayerQueuePage.getInvoiceNumberCPQ().contains(dbInvoiceNumber));
+	}
+
+	@When("^user clicks on radiobutton Approve$")
+	public void user_clicks_on_radiobutton_Approve() {
+		callPayerQueuePage.clickApproveRadioBtn();
 	}
 }
