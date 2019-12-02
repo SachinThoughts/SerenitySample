@@ -39,8 +39,7 @@ public class DefaultHandoffStepDef {
 
 	String workFlowDescription, recipientDesc, actionDescription, followUpDays, dispositionDescription,
 			responseDeadline, dispositionCode, dispositionFollowUpDays, dispositionResponseDeadline, workFlowName,
-			recipientName, searchText, dbId = "", facilitySettingValue, invoiceNumber,
-			dbFacilitySettingValue;
+			recipientName, searchText, dbId = "", facilitySettingValue, invoiceNumber, dbFacilitySettingValue;
 	static String dispositionStatus, actionName;
 	private static String dbQueryFilename = "DefaultHandoff";
 
