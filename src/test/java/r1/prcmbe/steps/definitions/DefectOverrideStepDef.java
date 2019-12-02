@@ -16,7 +16,7 @@ import net.thucydides.core.util.EnvironmentVariables;
 import r1.commons.databaseconnection.DatabaseConn;
 import r1.commons.utilities.CommonMethods;
 import r1.prcmbe.pages.BillingAndFollowUpPage;
-import r1.prcmbe.pages.DefectOverridePage;
+import r1.prcmbe.pages.DefectWorkflowPage;
 import r1.prcmbe.pages.NavigationPage;
 import r1.prcmbe.pages.SearchPage;
 import r1.prcmbe.serenity.steps.DefectOverrideSteps;
@@ -29,7 +29,7 @@ public class DefectOverrideStepDef {
 	NavigationPage navigationPage;
 	BillingAndFollowUpPage billingAndFollowUpPage;
 	SearchPage searchPage;
-	DefectOverridePage defectOverridePage;
+	DefectWorkflowPage defectOverridePage;
 
 	static String dbFileName = "DefectOverride";
 	String dbSettingValue, dbInvoiceId, selectedDefectypeValue, selectedDefectSubCatValue, dbDefectAccountHistorykey;
