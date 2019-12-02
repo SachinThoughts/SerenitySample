@@ -1,5 +1,5 @@
-@CallPayorQueue
-Feature: Verify Call Payor Queue functionality
+@CallPayerQueue
+Feature: Verify Call Payer Queue functionality
 
   Background: 
     Given user is on R1 Hub page

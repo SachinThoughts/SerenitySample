@@ -1,12 +1,12 @@
 package r1.prcmbe.serenity.steps;
 
 import net.thucydides.core.annotations.Step;
-import r1.prcmbe.pages.CallPayorQueuePage;
+import r1.prcmbe.pages.CallPayerQueuePage;
 import r1.prcmbe.pages.SearchPage;
 
-public class CallPayorQueueSteps {
+public class CallPayerQueueSteps {
 
-	CallPayorQueuePage callPayorQueuePage;
+	CallPayerQueuePage callPayorQueuePage;
 	SearchPage searchPage;
 
 	@Step

@@ -8,7 +8,7 @@ import net.serenitybdd.core.annotations.findby.FindBy;
 import net.serenitybdd.core.pages.PageObject;
 import net.serenitybdd.core.pages.WebElementFacade;
 
-public class CallPayorQueuePage extends PageObject {
+public class CallPayerQueuePage extends PageObject {
 
 	@FindBy(xpath = "//*[@id='btnAddtoCallPayerQueue']/span/i[2]")
 	private WebElementFacade addToQueueIcon;

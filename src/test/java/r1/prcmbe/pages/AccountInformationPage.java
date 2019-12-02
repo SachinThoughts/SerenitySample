@@ -97,6 +97,12 @@ public class AccountInformationPage extends PageObject {
 	@FindBy(id = "msg_success")
 	private WebElementFacade successMsg;
 
+	@FindBy(xpath = "//*[@id='notesHistory']/li[1]/div//div[2]/span[1]/span[2]")
+	private WebElementFacade accountActionHistoryHandOff;
+
+	@FindBy(xpath = "//*[text()='Show Account Action History Notes']")
+	private WebElementFacade showAccountActionHistoryNotesBtn;
+
 	public String getAccountNumber() {
 		waitForAngularRequestsToFinish();
 		return accountNumber.getText().trim();
@@ -240,5 +246,48 @@ public class AccountInformationPage extends PageObject {
 			index = CommonMethods.getRandom(size);
 		}
 		sOPList.get(index).click();
+	}
+
+	public void selectValueFromCreateDrpdwn(String value) {
+		createDrpdwn.selectByVisibleText(value);
+	}
+
+	public void selectValueFromWhyDrpdwn(String value) {
+		whyDrpdwn.selectByVisibleText(value);
+	}
+
+	public void selectValueFromDispositionDrpdwn(String value) {
+		dispositionDrpdwn.selectByVisibleText(value);
+	}
+
+	public void waitForLoaderInvisibility() {
+		loader.withTimeoutOf(Duration.ofSeconds(10)).waitUntilNotVisible();
+	}
+
+	public void enterValueInNotesTextbox(String value) {
+		notes.type(value);
+	}
+
+	public void clickSaveBtn() {
+		saveBtn.click();
+	}
+
+	public String getSuccessMsg() {
+		return successMsg.getText().trim();
+	}
+
+	public void clickShowAccountActionHistoryNotesBtn() {
+		withAction().moveToElement(showAccountActionHistoryNotesBtn).build().perform();
+		showAccountActionHistoryNotesBtn.click();
+	}
+
+	public String accountActionHistoryHandOff() {
+		clickShowAccountActionHistoryNotesBtn();
+		return accountActionHistoryHandOff.getText().trim();
+	}
+
+	public boolean isInvoiceNumberVisible() {
+		withAction().moveToElement(invoiceNumber).build().perform();
+		return invoiceNumber.isVisible();
 	}
 }
