@@ -178,10 +178,10 @@ public class DefaultHandoffPage extends PageObject {
 	@FindBy(xpath = "(//*[@id='WorkflowTypeDispositionSorttable'])[last()]/li[last()]/div[3]/span")
 	private WebElementFacade savedDispositionName;
 
-	@FindBy(id = "FUP0")
+	@FindBy(xpath="(//*[@id='WorkflowTypeDispositionSorttable'])[last()]/li[last()]/div[4]/span")
 	private WebElementFacade savedDispositionFollowUpDays;
 
-	@FindBy(id = "TLMT0")
+	@FindBy(xpath ="(//*[@id='WorkflowTypeDispositionSorttable'])/li[last()]/div[5]/span")
 	private WebElementFacade savedDispositionTimeLimit;
 
 	@FindBy(id = "ASName0")

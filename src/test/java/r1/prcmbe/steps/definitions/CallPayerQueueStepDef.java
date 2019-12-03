@@ -271,8 +271,8 @@ public class CallPayerQueueStepDef extends PageObject {
 				accInfoPage.getInvoiceNumber().equals(dbInvoiceNumber));
 	}
 
-	@When("^user runs the \"([^\"]*)\" query to fetch account for writeoff$")
-	public void user_runs_the_query_to_fetch_account_for_writeoff(String queryName) throws Exception {
+	@When("^user runs the \"([^\"]*)\" query to fetch account for CPQ$")
+	public void user_runs_the_query_to_fetch_account_for_cPQ(String queryName) throws Exception {
 		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
 				commonMethods.loadQuery(queryName, dbQueryFilename));
 	}
@@ -393,6 +393,23 @@ public class CallPayerQueueStepDef extends PageObject {
 	@When("^user clicks on radiobutton Approve$")
 	public void user_clicks_on_radiobutton_Approve() {
 		callPayerQueuePage.clickApproveRadioBtn();
+	}
+	
+	@Then("^user should be able to view that user successfully logout from application$")
+	public void user_should_be_able_to_view_that_user_successfully_logout_from_application() {
+		Assert.assertTrue("Logout failed", loginPage.verifyUsernameTextBox());
+	}
+
+	@Then("^user should be able to view the message \"([^\"]*)\" first user$")
+	public void user_should_be_able_to_view_the_message_first_user(String message) {
+		Assert.assertTrue("User not able to view info message", accInfoPage.getInfoMessage().contains(message));
+	}
+
+	@Then("^user should be able to view the Add to call payer button disable$")
+	public void user_should_be_able_to_view_the_Add_to_call_payer_button_disable() {
+		accInfoPage.closeInfoMessage();
+		Assert.assertTrue("Add to call payer queue button is enabled",
+				callPayerQueuePage.isAddToCallPayerQueueBtnDisabled());
 	}
 
 	@When("^user clicks on Recent Account Button$")
