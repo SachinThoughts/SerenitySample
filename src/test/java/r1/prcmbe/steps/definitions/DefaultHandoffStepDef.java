@@ -37,10 +37,10 @@ public class DefaultHandoffStepDef {
 	@Steps
 	SettingsPage settingsPage;
 
-	String workFlowDescription, recipientDesc, actionDescription, followUpDays, dispositionDescription,
-			responseDeadline, dispositionCode, dispositionFollowUpDays, dispositionResponseDeadline, workFlowName,
-			recipientName, searchText, dbId = "", facilitySettingValue, invoiceNumber, dbFacilitySettingValue;
-	static String dispositionStatus, actionName;
+	String workFlowDescription, actionDescription, followUpDays, responseDeadline, dispositionCode,
+			dispositionFollowUpDays, dispositionResponseDeadline, recipientName, searchText, dbId = "",
+			facilitySettingValue, invoiceNumber, dbFacilitySettingValue;
+	static String dispositionStatus, actionName, dispositionDescription, recipientDesc, workFlowName;
 	private static String dbQueryFilename = "DefaultHandoff";
 
 	@When("^click on Workflow Configuration link$")
