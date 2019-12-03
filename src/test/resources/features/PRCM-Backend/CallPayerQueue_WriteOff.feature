@@ -145,7 +145,7 @@ Feature: Verify Call Payer Queue functionality
     And user clicks on Submit button
     Then user should be able to view the account dropped from CPQ
 
-  @427124 @Sprint102 @BSOFollowUpUser
+  @427124 @Sprint103 @BSOFollowUpUser
   Scenario: Verify that the Account on which Write-off Response has been taken are displayed in the Recently Worked Accounts section for the R1D Approver who has taken Write-off Response
     Given user is on account page
     When user clicks on Approvals link
