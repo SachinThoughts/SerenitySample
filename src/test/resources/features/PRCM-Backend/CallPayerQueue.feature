@@ -44,7 +44,7 @@ Feature: Verify Call Payer Queue functionality
       | AR Supervisor | Supervisor Hand Off Request |
 
   @427115 @Sprint102 @PRCMUser
-  Scenario Outline: Verify Call Queue Indicator pop-up message is displayed to user 2 while adding an account already in Call Queue of User 1
+  Scenario: Verify Call Queue Indicator pop-up message is displayed to user 2 while adding an account already in Call Queue of User 1
     Given user is on R1 Decision Account page
     When user clicks on Add to Queue button
     Then user should be able to view the account added to Call Queue
@@ -56,13 +56,7 @@ Feature: Verify Call Payer Queue functionality
     And user clicks on search sub menu
     And user selects "Invoice Number" from search by dropdown
     And user selects "=" option
-    And user login to SQL server and connect to facility database
-    And user runs the "PRCM_Fetch_Classified_Invoices" query to fetch invoice number
     And user enters the query result in Invoice Number search textbox
     And user clicks on submit button
     Then user should be able to view the message Account already added in Call Queue of "<Name of User 1>"
     And user should be able to view the Add to call payer button disable
-
-    Examples: 
-      | user2    |
-      | rsingh85 |

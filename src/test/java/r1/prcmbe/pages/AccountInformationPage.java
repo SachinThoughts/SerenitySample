@@ -262,7 +262,7 @@ public class AccountInformationPage extends PageObject {
 	}
 
 	public void waitForLoaderInvisibility() {
-		loader.withTimeoutOf(Duration.ofSeconds(10)).waitUntilNotVisible();
+		loader.withTimeoutOf(Duration.ofSeconds(40)).waitUntilNotVisible();
 	}
 
 	public void enterValueInNotesTextbox(String value) {
@@ -274,7 +274,6 @@ public class AccountInformationPage extends PageObject {
 	}
 
 	public String getSuccessMsg() {
-		waitForLoaderInvisibility();
 		return successMsg.getText().trim();
 	}
 
