@@ -10,7 +10,7 @@ import net.serenitybdd.core.pages.WebElementFacade;
 
 public class CallPayerQueuePage extends PageObject {
 
-	@FindBy(xpath = "//*[@id='btnAddtoCallPayerQueue']/span/i[2]")
+	@FindBy(id = "btnAddtoCallPayerQueue")
 	private WebElementFacade addToQueueIcon;
 
 	@FindBy(id = "addToCallQueueLabel")
@@ -262,5 +262,9 @@ public class CallPayerQueuePage extends PageObject {
 
 	public void clickApproveRadioBtn() {
 		approveRadioBtn.click();
+	}
+
+	public boolean isAddToCallPayerQueueBtnDisbaled() {
+		return (boolean) evaluateJavascript("return document.querySelector('#btnAddtoCallPayerQueue').disabled");
 	}
 }

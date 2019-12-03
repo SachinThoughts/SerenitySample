@@ -105,7 +105,13 @@ public class AccountInformationPage extends PageObject {
 
 	@FindBy(id = "writeOffLink")
 	private WebElementFacade approvalWriteOffLink;
-	
+
+	@FindBy(id = "msg_info")
+	private WebElementFacade infoMessage;
+
+	@FindBy(xpath = "//*[@id='btn_info']/button/span")
+	private WebElementFacade infoMsgCloseBtn;
+
 	public String getAccountNumber() {
 		waitForAngularRequestsToFinish();
 		return accountNumber.getText().trim();
@@ -294,8 +300,16 @@ public class AccountInformationPage extends PageObject {
 		withAction().moveToElement(invoiceNumber).build().perform();
 		return invoiceNumber.isVisible();
 	}
-	
+
 	public void clickApprovalWriteOffLink() {
 		approvalWriteOffLink.click();
+	}
+
+	public String getInfoMessage() {
+		return infoMessage.getText().trim();
+	}
+
+	public void closeInfoMessage() {
+		evaluateJavascript("arguments[0].click();", infoMsgCloseBtn);
 	}
 }
