@@ -103,7 +103,10 @@ public class AccountInformationPage extends PageObject {
 	@FindBy(xpath = "//*[text()='Show Account Action History Notes']")
 	private WebElementFacade showAccountActionHistoryNotesBtn;
 
-	@FindBy(id="ddlHandoffDirection")
+	@FindBy(id = "writeOffLink")
+	private WebElementFacade approvalWriteOffLink;
+
+	@FindBy(id = "ddlHandoffDirection")
 	private WebElementFacade handoffCreateDrpdwn;
 
 	@FindBy(id = "ddlAction")
@@ -326,6 +329,10 @@ public class AccountInformationPage extends PageObject {
 	public boolean isInvoiceNumberVisible() {
 		withAction().moveToElement(invoiceNumber).build().perform();
 		return invoiceNumber.isVisible();
+	}
+
+	public void clickApprovalWriteOffLink() {
+		approvalWriteOffLink.click();
 	}
 
 	public void clickOnCreateDrpdwn() {

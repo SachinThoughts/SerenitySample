@@ -379,4 +379,8 @@ public class SearchPage extends PageObject {
 	public String getPatientMRN() {
 		return patientMRN.getText();
 	}
+	
+	public void waitForSpinnerToDisappear() {
+		loadingSpinner.withTimeoutOf(Duration.ofSeconds(80)).waitUntilNotVisible();
+	}
 }
