@@ -394,4 +394,21 @@ public class CallPayerQueueStepDef extends PageObject {
 	public void user_clicks_on_radiobutton_Approve() {
 		callPayerQueuePage.clickApproveRadioBtn();
 	}
+
+	@When("^user clicks on Recent Account Button$")
+	public void user_clicks_on_Recent_Account_Button() {
+		accInfoPage.clickRecentAccountsBtn();
+	}
+
+	@Then("^user should be able to view the popup with all the recently worked accounts$")
+	public void user_should_be_able_to_view_the_popup_with_all_the_recently_worked_accounts() {
+		Assert.assertTrue("Recently Worked accounts popup is not visible",
+				callPayerQueuePage.isRecentlyWorkedAccPopupVisible());
+	}
+
+	@Then("^user should be able to view the account on which Write-Off Response has been taken$")
+	public void user_should_be_able_to_view_the_account_on_which_Write_Off_Response_has_been_taken() {
+		Assert.assertTrue("Account on which writeoff taken is not visible under recently worked account",
+				callPayerQueuePage.getListOfRecentlyWorkedInvNum().contains(dbInvoiceNumber));
+	}
 }

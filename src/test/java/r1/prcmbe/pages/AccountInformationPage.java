@@ -105,7 +105,10 @@ public class AccountInformationPage extends PageObject {
 
 	@FindBy(id = "writeOffLink")
 	private WebElementFacade approvalWriteOffLink;
-	
+
+	@FindBy(xpath = "//a[@class='btn' and text()=\"Recent Accounts\"]")
+	private WebElementFacade recentAccountsBtn;
+
 	public String getAccountNumber() {
 		waitForAngularRequestsToFinish();
 		return accountNumber.getText().trim();
@@ -293,8 +296,12 @@ public class AccountInformationPage extends PageObject {
 		withAction().moveToElement(invoiceNumber).build().perform();
 		return invoiceNumber.isVisible();
 	}
-	
+
 	public void clickApprovalWriteOffLink() {
 		approvalWriteOffLink.click();
+	}
+
+	public void clickRecentAccountsBtn() {
+		recentAccountsBtn.click();
 	}
 }
