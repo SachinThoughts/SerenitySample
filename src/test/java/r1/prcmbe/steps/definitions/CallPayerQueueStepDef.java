@@ -8,6 +8,7 @@ import org.junit.Assert;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import net.serenitybdd.core.pages.PageObject;
 import net.thucydides.core.annotations.Steps;
 import r1.prcmbe.serenity.steps.LoginSteps;
 import r1.commons.databaseconnection.DatabaseConn;
@@ -22,7 +23,7 @@ import r1.prcmbe.pages.SettingsPage;
 import r1.prcmbe.serenity.steps.CallPayerQueueSteps;
 import r1.prcmbe.serenity.steps.FinancialInfoSteps;
 
-public class CallPayerQueueStepDef {
+public class CallPayerQueueStepDef extends PageObject {
 
 	@Steps
 	CallPayerQueueSteps callPayerQueueSteps;
@@ -260,6 +261,10 @@ public class CallPayerQueueStepDef {
 				accInfoPage.isInvoiceNumberVisible());
 	}
 
+	/**
+	 * Assert has been used in below Given method since there is no in-built method
+	 * in serenity to compare two values
+	 */
 	@Given("^user is on account page$")
 	public void user_is_on_account_page() {
 		Assert.assertTrue("Searched account page is not displayed",
@@ -362,25 +367,12 @@ public class CallPayerQueueStepDef {
 				callPayerQueuePage.getInvoiceNumberCPQ().contains(dbInvoiceNumber));
 	}
 
-	@When("^user logins to the application with R1D Approval Role$")
-	public void user_logins_to_the_application_with_R1D_Approval_Role() throws IOException {
-		loginStep.userEntersCredentials(CommonMethods.loadProperties("R1DApproverUserName"),
-				CommonMethods.loadProperties("R1DApproverPassword"));
-		Hooks.propertyName = "R1DApproverUserName";
-		loginPage.loginBtnClick();
-		if (loginPage.isProceedLinkVisible()) {
-			loginPage.clickOnProceedFurther();
-		}
-	}
-
-	@When("^user logins to the application with BSO_Followup Role$")
-	public void user_logins_to_the_application_with_BSO_Followup_Role() throws IOException {
-		loginStep.userEntersCredentials(CommonMethods.loadProperties("BSOFollowUpUserName"),
-				CommonMethods.loadProperties("BSOFollowUpPassword"));
-		Hooks.propertyName = "BSOFollowUpUserName";
-		loginPage.loginBtnClick();
-		if (loginPage.isProceedLinkVisible()) {
-			loginPage.clickOnProceedFurther();
+	@When("^user logins to the application with \"([^\"]*)\" Role$")
+	public void user_logins_to_the_application_with_Role(String roleName) throws IOException {
+		if (roleName.equals("R1D_Approval")) {
+			loginStep.roleLogin("R1DApproverUserName", "R1DApproverPassword");
+		} else {
+			loginStep.roleLogin("BSOFollowUpUserName", "BSOFollowUpPassword");
 		}
 	}
 

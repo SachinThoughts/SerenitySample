@@ -35,7 +35,7 @@ Feature: Verify Call Payer Queue functionality
     Then user should be able to view write-off request on account
     And user should be able to view the account to users CPQ
     When user logout from the application
-    And user logins to the application with R1D Approval Role
+    And user logins to the application with "R1D_Approval" Role
     And user clicks on Billing & Follow-up link
     And user clicks on R1_Decision link
     And user select "Invoice Number" from Search By dropdown
@@ -48,7 +48,7 @@ Feature: Verify Call Payer Queue functionality
     And user clicks on review save button
     Then user should be able to view the request "Rejected" status
     When user logout from the application
-    And user logins to the application with BSO_Followup Role
+    And user logins to the application with "BSO_Followup" Role
     And user clicks on Billing & Follow-up link
     And user clicks on R1_Decision link
     And user select "Invoice Number" from Search By dropdown
@@ -79,7 +79,7 @@ Feature: Verify Call Payer Queue functionality
     Then user should be able to view write-off request on account
     And user should be able to view the account to users CPQ
     When user logout from the application
-    And user logins to the application with R1D Approval Role
+    And user logins to the application with "R1D_Approval" Role
     And user clicks on Billing & Follow-up link
     And user clicks on R1_Decision link
     And user select "Invoice Number" from Search By dropdown
@@ -92,7 +92,7 @@ Feature: Verify Call Payer Queue functionality
     And user clicks on review save button
     And user should be able to view the request "Approved" status
     When user logout from the application
-    And user logins to the application with BSO_Followup Role
+    And user logins to the application with "BSO_Followup" Role
     And user clicks on Billing & Follow-up link
     And user clicks on R1_Decision link
     And user select "Invoice Number" from Search By dropdown
@@ -123,7 +123,7 @@ Feature: Verify Call Payer Queue functionality
     Then user should be able to view write-off request on account
     And user should be able to view the account to users CPQ
     When user logout from the application
-    And user logins to the application with R1D Approval Role
+    And user logins to the application with "R1D_Approval" Role
     And user clicks on Billing & Follow-up link
     And user clicks on R1_Decision link
     And user select "Invoice Number" from Search By dropdown
@@ -136,7 +136,7 @@ Feature: Verify Call Payer Queue functionality
     And user clicks on review save button
     And user should be able to view the request "Rejected" status
     When user logout from the application
-    And user logins to the application with BSO_Followup Role
+    And user logins to the application with "BSO_Followup" Role
     And user clicks on Billing & Follow-up link
     And user clicks on R1_Decision link
     And user select "Invoice Number" from Search By dropdown

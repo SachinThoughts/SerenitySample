@@ -15,5 +15,4 @@ public class CallPayerQueueSteps {
 		searchPage.clickSubmitBtn();
 		return removedInvoice.equals(searchPage.getInvoiceID());
 	}
-
 }
