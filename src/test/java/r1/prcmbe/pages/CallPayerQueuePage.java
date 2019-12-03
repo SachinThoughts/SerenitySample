@@ -269,7 +269,7 @@ public class CallPayerQueuePage extends PageObject {
 	public void clickApproveRadioBtn() {
 		approveRadioBtn.click();
 	}
-	
+
 	public boolean isAddToCallPayerQueueBtnDisabled() {
 		return (boolean) evaluateJavascript("return document.querySelector('#btnAddtoCallPayerQueue').disabled");
 	}

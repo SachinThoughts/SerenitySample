@@ -148,7 +148,7 @@ public class AccountInformationPage extends PageObject {
 	@FindBy(xpath = "//*[@id='btn_info']/button/span")
 	private WebElementFacade infoMsgCloseBtn;
 
-	@FindBy(xpath = "//a[@class='btn' and text()=\"Recent Accounts\"]")
+	@FindBy(xpath = "//a[@class='btn' and text()='Recent Accounts']")
 	private WebElementFacade recentAccountsBtn;
 
 	public String getAccountNumber() {
