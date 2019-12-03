@@ -103,6 +103,9 @@ public class AccountInformationPage extends PageObject {
 	@FindBy(xpath = "//*[text()='Show Account Action History Notes']")
 	private WebElementFacade showAccountActionHistoryNotesBtn;
 
+	@FindBy(id = "writeOffLink")
+	private WebElementFacade approvalWriteOffLink;
+	
 	public String getAccountNumber() {
 		waitForAngularRequestsToFinish();
 		return accountNumber.getText().trim();
@@ -289,5 +292,9 @@ public class AccountInformationPage extends PageObject {
 	public boolean isInvoiceNumberVisible() {
 		withAction().moveToElement(invoiceNumber).build().perform();
 		return invoiceNumber.isVisible();
+	}
+	
+	public void clickApprovalWriteOffLink() {
+		approvalWriteOffLink.click();
 	}
 }
