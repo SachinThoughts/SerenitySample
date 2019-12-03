@@ -21,8 +21,8 @@ public class WorkflowConfigurationPage extends PageObject {
 
 	@FindBy(id = "HandoffLink")
 	private WebElementFacade handoffTab;
-	
-	@FindBy(id= "ActionTypeLink")
+
+	@FindBy(id = "ActionTypeLink")
 	private WebElementFacade actionTypeTab;
 
 	@FindBy(xpath = "//div[@class = 'navbar']//li/a")
@@ -181,8 +181,8 @@ public class WorkflowConfigurationPage extends PageObject {
 	@FindBy(xpath = "//label[text()='Disposition Status']/..//select")
 	private WebElementFacade dispositionStatusDrpDwn;
 
-	@FindBy(xpath = "(//*[@id='WorkflowTypeDispositionSorttable']//a[@data-target='#addNewDisposition'])[1]")
-	private WebElementFacade editLinkForMappedDispositionOnDispositionGrid;
+	@FindBy(xpath = "(//*[@id='WorkflowTypeDispositionSorttable']//a[@data-target='#addNewDisposition'])[last()]")
+	private WebElementFacade editLinkOnDispositionGrid;
 
 	@FindBy(id = "ActionTypeLink")
 	private WebElementFacade actionTypeLink;
@@ -309,7 +309,7 @@ public class WorkflowConfigurationPage extends PageObject {
 
 	@FindBy(xpath = "//*[@class='sop-header dispositions']/li")
 	private List<WebElementFacade> listOfDispositionHeader;
-	
+
 	@FindBy(xpath = "//*[@id='dvWorkflowTypeActions']/ul/li/div[1]/div/div/label")
 	private List<WebElementFacade> actionsRadioBtnList;
 
@@ -340,33 +340,45 @@ public class WorkflowConfigurationPage extends PageObject {
 	@FindBy(xpath = "//*[@id='WorkflowTypeDispositionSorttable']/li/div/div/a[3]/i")
 	private List<WebElementFacade> listOfDetailsLinkOnDispositionTab;
 
-	@FindBy(xpath = "//*[@id='WorkflowTypeDispositionSorttable']//*[@id='TLMT0']")
+	@FindBy(xpath = "//*[@id='WorkflowTypeDispositionSorttable']/li[last()]/div[5]/span")
 	private WebElementFacade mappedTimeLimitValueOnDispositionTypeGrid;
-	
+
 	@FindBy(xpath = "//*[@id='step3']//h2[text()='Choose Action Type']")
 	private WebElementFacade actionTab;
-	
+
 	@FindBy(xpath = "//ul[@class='sop-header wf-action-type']/li")
 	private List<WebElementFacade> headersOnActionType;
-	
+
 	@FindBy(xpath = "(//*[@id='WorkflowTypeActionsSorttable']//ul)[1]/preceding-sibling::div//a[3]/i")
 	private WebElementFacade detailsLinkBtnOnActionTypeTab;
-	
+
 	@FindBy(xpath = "(//*[@id='WorkflowTypeActionsSorttable']//a[@data-target='#addNewAction'])[1]")
 	private WebElementFacade firstEditLinkOnActionTypeTab;
-	
+
 	@FindBy(xpath = "//a[@class='reorder']")
 	private WebElementFacade reorderLinkOnActionType;
-	
-	@FindBy(xpath="//div[@class='alert alert-danger']/span")
+
+	@FindBy(xpath = "//div[@class='alert alert-danger']/span")
 	private WebElementFacade duplicateActionNameErrMsg;
-	
+
 	@FindBy(xpath = "//ul[@id='WorkflowTypeActionsSorttable']/li/div[3]/span[@id='NA0']")
 	private WebElementFacade actionTypeName;
-	
+
 	@FindBy(xpath = "//ol[@class='breadcrumb defect-summary']")
 	private WebElementFacade actionTypeBreadcrumb;
-	
+
+	@FindBy(id = "ddlHandOffType")
+	private WebElementFacade handOffTypeDrpDwn;
+
+	@FindBy(id = "ddlHandoffDirection")
+	private WebElementFacade createDrpDwn;
+
+	@FindBy(id = "ddlAction")
+	private WebElementFacade whyDrpDwn;
+
+	@FindBy(id = "ddlDisposition")
+	private WebElementFacade dispositionDrpDwn;
+
 	@FindBy(xpath="//div[@id='dvHandOff']//li//div[2]/span")
 	private List<WebElementFacade> listOfHandoffNameOnHandoffTab;
 	
@@ -385,50 +397,51 @@ public class WorkflowConfigurationPage extends PageObject {
 	public String getActionTextBreadcrumb() {
 		return actionTypeBreadcrumb.getText().trim();
 	}
-	
+
 	public String getSelectedActionTypeName() {
 		return actionTypeName.getText().trim();
 	}
-	
+
 	public String getErrMsgOnDuplicateActionName() {
 		return duplicateActionNameErrMsg.getText().trim();
 	}
-	
+
 	public void clickFirstEditLinkOnActionTypeTab() {
 		firstEditLinkOnActionTypeTab.withTimeoutOf(Duration.ofSeconds(20)).waitUntilVisible().click();
 	}
+
 	public boolean isActionTabVisible() {
 		return actionTab.isVisible();
 	}
-	
+
 	public boolean isContinueBtnOnActionTypeVisible() {
 		return continueBtnOnActionTypeTab.isVisible();
 	}
-	
+
 	public boolean isDetailLinkOnActionTypeVisible() {
 		return detailsLinkBtnOnActionTypeTab.isVisible();
 	}
-	
+
 	public boolean isRadioBtnOnActionTypeVisible() {
 		return listOfActionTypeRadioBtns.get(0).isVisible();
 	}
-	
+
 	public boolean isEditLinkOnActionTypeVisible() {
 		return firstEditLinkOnActionTypeTab.isVisible();
 	}
-	
+
 	public boolean isReorderOnActionTypeVisible() {
 		return reorderLinkOnActionType.isVisible();
 	}
-	
+
 	public void clickOnDetailsBtnOnActionTypeTab() {
 		detailsLinkBtnOnActionTypeTab.click();
 	}
-	
+
 	public void clickHandoffTab() {
 		handoffTab.click();
 	}
-	
+
 	public List<String> getActionTypeHeaders() {
 		List<String> listOfLabels = new ArrayList<String>();
 		for (WebElementFacade headers : headersOnActionType) {
@@ -438,7 +451,8 @@ public class WorkflowConfigurationPage extends PageObject {
 	}
 
 	public void clickOnDetailsLinkOnDispositionTab() {
-		evaluateJavascript("arguments[0].click();", listOfDetailsLinkOnDispositionTab.get(0));
+		withAction().moveToElement(newDetailsLinkOnDisposition).build().perform();
+		evaluateJavascript("arguments[0].click();", newDetailsLinkOnDisposition);
 	}
 
 	public String getDispositionErrorMsgOnDuplicateCode() {
@@ -452,9 +466,9 @@ public class WorkflowConfigurationPage extends PageObject {
 	public void clickOnActionType() {
 		actionTypeLink.click();
 	}
-	
+
 	public void clickOnRandomHandoffType() {
-		int randomHandoff=CommonMethods.getRandom(handoffTypeRadioBtnList.size()-1);
+		int randomHandoff = CommonMethods.getRandom(handoffTypeRadioBtnList.size() - 1);
 		evaluateJavascript("arguments[0].click();", handoffTypeRadioBtnList.get(randomHandoff));
 	}
 
@@ -725,7 +739,7 @@ public class WorkflowConfigurationPage extends PageObject {
 	public String getHandoffTabColor() {
 		return handoffTab.getCssValue("background-color");
 	}
-	
+
 	public String getActionTypeTabColor() {
 		return actionTypeTab.getCssValue("background-color");
 	}
@@ -813,7 +827,7 @@ public class WorkflowConfigurationPage extends PageObject {
 	}
 
 	public void clickOnEditLinkOnDispositionGrid() {
-		editLinkForMappedDispositionOnDispositionGrid.click();
+		evaluateJavascript("arguments[0].click();", editLinkOnDispositionGrid);
 	}
 
 	public void clickAddRecipientButton() {
@@ -1117,23 +1131,23 @@ public class WorkflowConfigurationPage extends PageObject {
 	public String getMappedDispositionTimeLimitValueOnDispositionTypeGrid() {
 		return mappedTimeLimitValueOnDispositionTypeGrid.getText();
 	}
-	
+
 	public void clickOnCloseBtnOnActionPopup() {
 		closeBtnOnActionPopup.click();
 	}
-	
+
 	public int getActionNamesCount() {
 		return listOfActionNames.size();
 	}
-	
-	public List<String> getListOfActionNames(){
-		List<String> actionNamesList=new ArrayList<>();
-		for(WebElementFacade actionName:listOfActionNames) {
+
+	public List<String> getListOfActionNames() {
+		List<String> actionNamesList = new ArrayList<>();
+		for (WebElementFacade actionName : listOfActionNames) {
 			actionNamesList.add(actionName.getText());
 		}
 		return actionNamesList;
 	}
-	
+
 	public void clickSpecificRadioBtnOnActionTab(String actionName) {
 		int size = listOfActionNames.size();
 		for (int i = 0; i < size; i++) {
@@ -1143,13 +1157,38 @@ public class WorkflowConfigurationPage extends PageObject {
 			}
 		}
 	}
-	
-	public List<String> getListOfDispositionNames(){
-		List<String> listOfDispositionNames=new ArrayList<>();
-		for(WebElementFacade dispositionName:dispositionNameList) {
+
+	public List<String> getListOfDispositionNames() {
+		List<String> listOfDispositionNames = new ArrayList<>();
+		for (WebElementFacade dispositionName : dispositionNameList) {
 			listOfDispositionNames.add(dispositionName.getText());
 		}
 		return listOfDispositionNames;
+	}
+
+	public void selectNewHandOffType(String newlyAddedHandOff) {
+		handOffTypeDrpDwn.selectByVisibleText(newlyAddedHandOff);
+	}
+
+	public void selectCreateDrpDwn(String recipientDesc) {
+		createDrpDwn.selectByVisibleText(recipientDesc);
+	}
+
+	public void selectWhyDrpDwn(String actionName) {
+		whyDrpDwn.selectByVisibleText(actionName);
+	}
+
+	public void selectDispostionDrpDwn(String dispositionName) {
+		dispositionDrpDwn.selectByVisibleText(dispositionName);
+	}
+
+	public List<String> getNewHandOffValuesAdded() {
+		List<String> handOffValues = new ArrayList<>();
+		handOffValues.add(handOffTypeDrpDwn.getSelectedVisibleTextValue());
+		handOffValues.add(createDrpDwn.getSelectedVisibleTextValue());
+		handOffValues.add(whyDrpDwn.getSelectedVisibleTextValue());
+		handOffValues.add(dispositionDrpDwn.getSelectedVisibleTextValue());
+		return handOffValues;
 	}
 	
 	public int getPositionOfHandoffType(String handoffNameVal) {
@@ -1166,6 +1205,7 @@ public class WorkflowConfigurationPage extends PageObject {
 	public void clickOnHandoffTypeRadioBtn(String handoffName) {
 		evaluateJavascript("arguments[0].click();",listOfRadioLabelOnHandoffTab.get(getPositionOfHandoffType(handoffName)));
 	}
+	
 	public int getPositionOfRecipient(String recipientNameVal) {
 		int size=listOfRecipientNames.size();
 		int position=0;

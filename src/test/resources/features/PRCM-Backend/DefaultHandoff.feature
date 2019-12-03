@@ -139,7 +139,7 @@ Feature: Verify default handoff
     When user is able to login to sql server and connect to database
     And user runs the "Defaulthandoff_434990_SQL4" query for default handoff
     And user enters the SQL result in Visit Number Search textbox
-    And user clicks on Submit Button
+    And user clicks on Submit button
     Then user should be able to view R1 Decision Account page
     When user clicks on Handoff button
     And user clicks on Handoff Type dropdown
