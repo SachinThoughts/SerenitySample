@@ -408,8 +408,7 @@ public class CallPayerQueueStepDef extends PageObject {
 	@Then("^user should be able to view the Add to call payer button disable$")
 	public void user_should_be_able_to_view_the_Add_to_call_payer_button_disable() {
 		accInfoPage.closeInfoMessage();
-		System.out.println(callPayerQueuePage.isAddToCallPayerQueueBtnDisbaled());
 		Assert.assertTrue("Add to call payer queue button is enabled",
-				callPayerQueuePage.isAddToCallPayerQueueBtnDisbaled());
+				callPayerQueuePage.isAddToCallPayerQueueBtnDisabled());
 	}
 }
