@@ -75,4 +75,23 @@ public class Hooks extends PageObject {
 			propertyName = "BSOFollowUpUserName";
 		}
 	}
+	
+	@Before(value = "@PRCMQueueUser")
+	public void prcmBeQueueUser() throws IOException {
+		open();
+		if (accInfoPage.checkLogoutVisible() && propertyName != "prcmBeQueueUsername") {
+			accInfoPage.logOut();
+			open();
+		}
+		if (userLoginPage.verifyUsernameTextBox()) {
+			String accountuser = CommonMethods.loadProperties("prcmBeQueueUsername");
+			String passwd = CommonMethods.loadProperties("prcmBeQueuePassword");
+			loginStep.userEntersCredentials(accountuser, passwd);
+			userLoginPage.loginBtnClick();
+			if (userLoginPage.isProceedLinkVisible()) {
+				userLoginPage.clickOnProceedFurther();
+			}
+			propertyName = "prcmBeQueueUsername";
+		}
+	}
 }
