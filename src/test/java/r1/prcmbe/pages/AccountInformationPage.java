@@ -142,6 +142,12 @@ public class AccountInformationPage extends PageObject {
 	@FindBy(id = "btnSaveHandsOff_nextaccount")
 	private WebElementFacade saveAndMoveNxtAccntBtn;
 
+	@FindBy(id = "msg_info")
+	private WebElementFacade infoMessage;
+
+	@FindBy(xpath = "//*[@id='btn_info']/button/span")
+	private WebElementFacade infoMsgCloseBtn;
+
 	public String getAccountNumber() {
 		waitForAngularRequestsToFinish();
 		return accountNumber.getText().trim();
@@ -301,7 +307,7 @@ public class AccountInformationPage extends PageObject {
 	}
 
 	public void waitForLoaderInvisibility() {
-		loader.withTimeoutOf(Duration.ofSeconds(20)).waitUntilNotVisible();
+		loader.withTimeoutOf(Duration.ofSeconds(40)).waitUntilNotVisible();
 	}
 
 	public void enterValueInNotesTextbox(String value) {
@@ -393,7 +399,7 @@ public class AccountInformationPage extends PageObject {
 	}
 
 	public void clickOnShowAccountActionBtn() {
-		evaluateJavascript("arguments[0].click();",showAccountActionHistoryBtn);
+		evaluateJavascript("arguments[0].click();", showAccountActionHistoryBtn);
 	}
 
 	public String getTagNameForNotesTxtBox() {
@@ -430,5 +436,13 @@ public class AccountInformationPage extends PageObject {
 
 	public void selectFromDispositionDrpdwn(String dispositionVal) {
 		dispositionDrpdwn.selectByVisibleText(dispositionVal);
+	}
+
+	public String getInfoMessage() {
+		return infoMessage.getText().trim();
+	}
+
+	public void closeInfoMessage() {
+		evaluateJavascript("arguments[0].click();", infoMsgCloseBtn);
 	}
 }
