@@ -171,16 +171,8 @@ public class BSODayNightHandoffSteps {
 
 	@Step
 	public boolean verifySystemUserMappedWithCreatedUser() {
-		boolean isValueMapped;
-		if (navigationPage.getUserLoginName().length() > acntActionHistoryPage
-				.getRecentAddedAccountActionHistoryValue(4).length()) {
-			isValueMapped = navigationPage.getUserLoginName().toUpperCase()
-					.contains(acntActionHistoryPage.getRecentAddedAccountActionHistoryValue(4).toUpperCase());
-		} else {
-			isValueMapped = acntActionHistoryPage.getRecentAddedAccountActionHistoryValue(4).toUpperCase()
-					.contains(navigationPage.getUserLoginName().toUpperCase());
-		}
-
-		return isValueMapped;
+		String userNameFromAcctnAcnt = acntActionHistoryPage.getRecentAddedAccountActionHistoryValue(4);
+		String[] arrayOfUserName=navigationPage.getUserLoginName().split(" ");
+		return userNameFromAcctnAcnt.contains(arrayOfUserName[1].toLowerCase());
 	}
 }

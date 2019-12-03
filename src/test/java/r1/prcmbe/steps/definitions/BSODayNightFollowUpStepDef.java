@@ -65,7 +65,6 @@ public class BSODayNightFollowUpStepDef extends PageObject {
 
 	@Given("^user is on setting page$")
 	public void user_is_on_setting_page() {
-		System.out.println(getDriver().getTitle());
 		Assert.assertTrue(getDriver().getTitle().contains("R1 Hub Technologies 2.0 - 15 Settings"));
 	}
 
@@ -236,10 +235,11 @@ public class BSODayNightFollowUpStepDef extends PageObject {
 
 	@Then("^user should be able to view Added appeared as system date and Created user appeared as handoff taken user$")
 	public void user_should_be_able_to_view_Added_and_appeared_as_system_date_and_Created_user_appeared_as_handoff_taken_user() {
-		Assert.assertTrue("Created User Appeared different From Handoff Taken User ",
-				bSODayNightHandoffSteps.verifySystemUserMappedWithCreatedUser());
 		Assert.assertTrue("Created date does not matched with system date", acntActionHistoryPage
 				.getRecentAddedAccountActionHistoryValue(3).equals(bSODayNightHandoffSteps.getCurrentDate()));
+		Assert.assertTrue("Created User Appeared different From Handoff Taken User ",
+				bSODayNightHandoffSteps.verifySystemUserMappedWithCreatedUser());
+		
 	}
 
 	@When("^user clicks on Billing & Follow-up Footer link$")

@@ -103,6 +103,7 @@ public class AccountInformationPage extends PageObject {
 	@FindBy(xpath = "//*[text()='Show Account Action History Notes']")
 	private WebElementFacade showAccountActionHistoryNotesBtn;
 
+	@FindBy(id="ddlHandoffDirection")
 	private WebElementFacade handoffCreateDrpdwn;
 
 	@FindBy(id = "ddlAction")
@@ -235,6 +236,7 @@ public class AccountInformationPage extends PageObject {
 	}
 
 	public void selectHandOffType(String handOffType) {
+		waitForLoaderInvisibility();
 		handOffTypeDrpdwn.selectByVisibleText(handOffType);
 	}
 
@@ -296,7 +298,7 @@ public class AccountInformationPage extends PageObject {
 	}
 
 	public void waitForLoaderInvisibility() {
-		loader.withTimeoutOf(Duration.ofSeconds(10)).waitUntilNotVisible();
+		loader.withTimeoutOf(Duration.ofSeconds(20)).waitUntilNotVisible();
 	}
 
 	public void enterValueInNotesTextbox(String value) {
@@ -327,6 +329,7 @@ public class AccountInformationPage extends PageObject {
 	}
 
 	public void clickOnCreateDrpdwn() {
+		handoffCreateDrpdwn.waitUntilEnabled();
 		handoffCreateDrpdwn.click();
 	}
 

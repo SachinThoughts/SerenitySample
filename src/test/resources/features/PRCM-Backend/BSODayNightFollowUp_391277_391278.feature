@@ -6,7 +6,7 @@ Feature: Verify BSODayNight related scenarios in PRCM
     Given user having AHtoDecision Admin role is on R1 Hub page
     When user clicks on setting link
 
-  @391277 @Sprint102 @PRCMUser
+  @391277 @Sprint102 @PRCMQueueUser
   Scenario: Verify Controls in BSO-Day Followup Handoff at Invoice Level and Request Workflow
     Given user is on setting page
     When user clicks on Settings-R1_Decision
@@ -56,7 +56,7 @@ Feature: Verify BSODayNight related scenarios in PRCM
       | Followup:    |
     And user should be able to view Added appeared as system date and Created user appeared as handoff taken user
 
-  @391278 @Sprint102 @PRCMUser
+  @391278 @Sprint102 @PRCMQueueUser
   Scenario: Verify Controls in BSO-Night Followup Handoff at Invoice Level  and Request Workflow
     Given user is on setting page
     When user clicks on Settings-R1_Decision
