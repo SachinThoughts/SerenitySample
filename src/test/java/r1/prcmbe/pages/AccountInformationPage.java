@@ -393,7 +393,7 @@ public class AccountInformationPage extends PageObject {
 	}
 
 	public void clickOnShowAccountActionBtn() {
-		showAccountActionHistoryBtn.click();
+		evaluateJavascript("arguments[0].click();",showAccountActionHistoryBtn);
 	}
 
 	public String getTagNameForNotesTxtBox() {
