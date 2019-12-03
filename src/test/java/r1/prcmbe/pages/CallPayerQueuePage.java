@@ -103,8 +103,6 @@ public class CallPayerQueuePage extends PageObject {
 	@FindBy(id = "rdoApproved")
 	private WebElementFacade approveRadioBtn;
 
-	String successMsgJS = "return document.querySelector('#msg_success').textContent";
-
 	public void clickAddtoCallPayorQueueBtn() {
 		withAction().moveToElement(addToQueueIcon).build().perform();
 		evaluateJavascript("arguments[0].click();", addToQueueIcon);
@@ -260,10 +258,6 @@ public class CallPayerQueuePage extends PageObject {
 
 	public String getReviewStatus() {
 		return reviewStatus.getText();
-	}
-
-	public String getSuccessMessage() {
-		return evaluateJavascript(successMsgJS).toString();
 	}
 
 	public void clickApproveRadioBtn() {

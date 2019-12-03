@@ -336,6 +336,7 @@ public class CallPayerQueueStepDef {
 
 	@When("^user scrolls down to the Write Off section$")
 	public void user_scrolls_down_to_the_Write_Off_section() {
+		callPayerQueuePage.closeMsgButton();
 		callPayerQueuePage.moveToApprovalRequestTbl();
 	}
 
@@ -383,14 +384,9 @@ public class CallPayerQueueStepDef {
 		}
 	}
 
-	@Then("^user should be able to view the \"([^\"]*)\" writeoff message$")
-	public void user_should_be_able_to_view_the_writeoff_message(String message) {
-		Assert.assertTrue("'" + message + "' message not visible",
-				callPayerQueuePage.getSuccessMessage().equals(message));
-	}
-
 	@Then("^user should be able to view the request \"([^\"]*)\" status$")
 	public void user_should_be_able_to_view_the_request_Denied(String status) {
+		callPayerQueuePage.closeMsgButton();
 		Assert.assertTrue("rejected status not visible", status.equals(callPayerQueuePage.getReviewStatus()));
 	}
 
