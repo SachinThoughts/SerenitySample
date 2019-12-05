@@ -635,7 +635,7 @@ public class DefaultHandoffStepDef {
 				defaultHandOffPage.getListOfPopupValues().contains(dispositionVal));
 	}
 
-	@Then("^click on Show Account Action History Notes button$")
+	@When("^click on Show Account Action History Notes button$")
 	public void click_on_Show_Account_Action_History_Notes_button() {
 		defaultHandOffPage.clickAccountActionHistoryNotesBtn();
 	}

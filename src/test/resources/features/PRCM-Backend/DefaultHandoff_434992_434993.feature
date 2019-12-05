@@ -36,7 +36,7 @@ Feature: Verify default handoff
     And user should be able to view Added column value as system current date: "getHandoffDetails"
     And user should be able to view Created column value as Logged in username and userid: "getDisplayName"
     And user should be able to view Followup column value as system current date: "getHandoffDetails"
-    And click on Show Account Action History Notes button
+    When click on Show Account Action History Notes button
     Then user should be able to view the following columns in Account Action History
       | Type:        |
       | Action:      |
