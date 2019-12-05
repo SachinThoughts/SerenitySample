@@ -7,11 +7,15 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import r1.commons.utilities.CommonMethods;
+
 public class DatabaseConn {
 
 	public static ResultSet resultSet;
 	public static String serverName;
 	public static String databaseName;
+	private static String dbUser = "DEV_SQLAdmin";
+	private static String dbPassword = "SQLAdmin!";
 
 	public static void getServerDBName(String url, String facility) {
 
@@ -83,7 +87,14 @@ public class DatabaseConn {
 		}
 
 		try {
-			String dbUrl = "jdbc:sqlserver://" + serverHost + ";databaseName=" + dbName + ";integratedSecurity=false;user=DEV_SQLAdmin;password=SQLAdmin!";
+			String dbUrl;
+			if (CommonMethods.loadProperties("LDAP").equals("OFF")) {
+				dbUrl = "jdbc:sqlserver://" + serverHost + ";databaseName=" + dbName + ";integratedSecurity=false;user="
+						+ dbUser + ";password=" + dbPassword;
+			} else {
+				dbUrl = "jdbc:sqlserver://" + serverHost + ";databaseName=" + dbName + ";integratedSecurity=true";
+			}
+
 			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
 
 			Connection conn = DriverManager.getConnection(dbUrl);

@@ -1,10 +1,12 @@
 package r1.prcmbe.pages;
 
+import java.time.Duration;
 import java.util.*;
 
 import net.serenitybdd.core.annotations.findby.FindBy;
 import net.serenitybdd.core.pages.PageObject;
 import net.serenitybdd.core.pages.WebElementFacade;
+import r1.commons.utilities.CommonMethods;
 
 public class AccountInformationPage extends PageObject {
 
@@ -60,10 +62,91 @@ public class AccountInformationPage extends PageObject {
 	private WebElementFacade handOffPopUp;
 
 	@FindBy(id = "ddlHandOffType")
-	private WebElementFacade handOffTypeDrpDwn;
+	private WebElementFacade handOffTypeDrpdwn;
 
-	@FindBy(id = "ddlHandOffType")
-	private WebElementFacade handOffTypeDrpDown;
+	@FindBy(id = "lblBreadcrumb")
+	private WebElementFacade defectBreadcrumb;
+
+	@FindBy(xpath = "//fieldset[not(contains(@style,'display: none')) or not(@style)]//a//span[text()='Next']")
+	private WebElementFacade defectWorflowNextBtn;
+
+	@FindBy(xpath = "//*[@id='cblActionsRequired']/label")
+	private List<WebElementFacade> sOPList;
+
+	@FindBy(xpath = "//*[@id='btnVerifyNextStep']/span[1]")
+	private WebElementFacade nextBtn;
+
+	@FindBy(id = "ddlHandoffDirection")
+	private WebElementFacade createDrpdwn;
+
+	@FindBy(id = "ddlAction")
+	private WebElementFacade whyDrpdwn;
+
+	@FindBy(id = "ddlDisposition")
+	private WebElementFacade dispositionDrpdwn;
+
+	@FindBy(xpath = "//*[@id='loader']/div//div[2]/h3[text()='Wait while processing...']")
+	private WebElementFacade loader;
+
+	@FindBy(id = "txtHandOffNotes")
+	private WebElementFacade notes;
+
+	@FindBy(id = "btnSaveHandsOff")
+	private WebElementFacade saveBtn;
+
+	@FindBy(id = "msg_success")
+	private WebElementFacade successMsg;
+
+	@FindBy(xpath = "//*[@id='notesHistory']/li[1]/div//div[2]/span[1]/span[2]")
+	private WebElementFacade accountActionHistoryHandOff;
+
+	@FindBy(xpath = "//*[text()='Show Account Action History Notes']")
+	private WebElementFacade showAccountActionHistoryNotesBtn;
+
+	@FindBy(id = "writeOffLink")
+	private WebElementFacade approvalWriteOffLink;
+
+	@FindBy(id = "ddlHandoffDirection")
+	private WebElementFacade handoffCreateDrpdwn;
+
+	@FindBy(id = "ddlAction")
+	private WebElementFacade handoffWhyDrpdwn;
+
+	@FindBy(id = "txtHandOffNotes")
+	private WebElementFacade handoffNotesTxtBox;
+
+	@FindBy(id = "btnSaveHandsOff")
+	private WebElementFacade saveHandoffBtn;
+
+	@FindBy(id = "msg_success")
+	private WebElementFacade handoffSavedMessage;
+
+	@FindBy(id = "btnShowHistory")
+	private WebElementFacade showAccountActionHistoryBtn;
+
+	@FindBy(xpath = "//h3[text()='Account Action History']")
+	private WebElementFacade accntActionHistoryHeader;
+
+	@FindBy(xpath = "//label[text()='Hand Off Type']")
+	private WebElementFacade handoffTypeLabel;
+
+	@FindBy(xpath = "//label[text()='Create:']")
+	private WebElementFacade createLabel;
+
+	@FindBy(xpath = "//label[text()='Note:']")
+	private WebElementFacade noteLabel;
+
+	@FindBy(xpath = "//*[@id='handOff']/div/div/div[3]/button")
+	private WebElementFacade closeBtnOnHandoffPopup;
+
+	@FindBy(id = "btnSaveHandsOff_nextaccount")
+	private WebElementFacade saveAndMoveNxtAccntBtn;
+
+	@FindBy(id = "msg_info")
+	private WebElementFacade infoMessage;
+
+	@FindBy(xpath = "//*[@id='btn_info']/button/span")
+	private WebElementFacade infoMsgCloseBtn;
 
 	public String getAccountNumber() {
 		waitForAngularRequestsToFinish();
@@ -162,18 +245,204 @@ public class AccountInformationPage extends PageObject {
 	}
 
 	public void selectHandOffType(String handOffType) {
-		handOffTypeDrpDwn.selectByVisibleText(handOffType);
+		waitForLoaderInvisibility();
+		handOffTypeDrpdwn.selectByVisibleText(handOffType);
 	}
 
 	public String getSelectedHandOffTypeValue() {
-		return handOffTypeDrpDwn.getSelectedVisibleTextValue();
+		return handOffTypeDrpdwn.getSelectedVisibleTextValue();
 	}
 
 	public void clickHandOffTypeDrpDown() {
-		evaluateJavascript("arguments[0].click()", handOffTypeDrpDown);
+		evaluateJavascript("arguments[0].click()", handOffTypeDrpdwn);
 	}
 
 	public List<String> getHandOffTypeDrpDownValues() {
-		return handOffTypeDrpDown.getSelectOptions();
+		return handOffTypeDrpdwn.getSelectOptions();
+	}
+
+	public String getDefectSubcategoryBreadcrumb() {
+		String defectLabel = defectBreadcrumb.getText().trim();
+		String[] defectSubcategory = defectLabel.split(">>\\s");
+		return defectSubcategory[1];
+	}
+
+	public void clickDefectWorkflowNextBtn() {
+		defectWorflowNextBtn.click();
+	}
+
+	public void clickNextBtn() {
+		if (nextBtn.isVisible()) {
+			nextBtn.withTimeoutOf(Duration.ofSeconds(60)).click();
+		}
+	}
+
+	public List<String> getSOPList() {
+		List<String> sOPNamesList = new ArrayList<>();
+		for (WebElementFacade sOP : sOPList) {
+			sOPNamesList.add(sOP.getText().trim());
+		}
+		return sOPNamesList;
+	}
+
+	public void selectRandomSOP() {
+		int size = sOPList.size();
+		int index = CommonMethods.getRandom(size);
+		while (index == size) {
+			index = CommonMethods.getRandom(size);
+		}
+		sOPList.get(index).click();
+	}
+
+	public void selectValueFromCreateDrpdwn(String value) {
+		createDrpdwn.selectByVisibleText(value);
+	}
+
+	public void selectValueFromWhyDrpdwn(String value) {
+		whyDrpdwn.selectByVisibleText(value);
+	}
+
+	public void selectValueFromDispositionDrpdwn(String value) {
+		dispositionDrpdwn.selectByVisibleText(value);
+	}
+
+	public void waitForLoaderInvisibility() {
+		loader.withTimeoutOf(Duration.ofSeconds(40)).waitUntilNotVisible();
+	}
+
+	public void enterValueInNotesTextbox(String value) {
+		notes.type(value);
+	}
+
+	public void clickSaveBtn() {
+		saveBtn.click();
+	}
+
+	public String getSuccessMsg() {
+		return successMsg.getText().trim();
+	}
+
+	public void clickShowAccountActionHistoryNotesBtn() {
+		withAction().moveToElement(showAccountActionHistoryNotesBtn).build().perform();
+		showAccountActionHistoryNotesBtn.click();
+	}
+
+	public String accountActionHistoryHandOff() {
+		clickShowAccountActionHistoryNotesBtn();
+		return accountActionHistoryHandOff.getText().trim();
+	}
+
+	public boolean isInvoiceNumberVisible() {
+		withAction().moveToElement(invoiceNumber).build().perform();
+		return invoiceNumber.isVisible();
+	}
+
+	public void clickApprovalWriteOffLink() {
+		approvalWriteOffLink.click();
+	}
+
+	public void clickOnCreateDrpdwn() {
+		handoffCreateDrpdwn.waitUntilEnabled();
+		handoffCreateDrpdwn.click();
+	}
+
+	public List<String> getListOfCreateDrpdwnVal() {
+		return handoffCreateDrpdwn.getSelectOptions();
+	}
+
+	public String getDefaultValueForCreateDrpdwn() {
+		return handoffCreateDrpdwn.getSelectedVisibleTextValue();
+	}
+
+	public void selectFromCreateDrpdwn(String createValue) {
+		handoffCreateDrpdwn.selectByVisibleText(createValue);
+	}
+
+	public String getSelectedValueForCreateDrpdwn() {
+		return handoffCreateDrpdwn.getSelectedVisibleTextValue();
+	}
+
+	public boolean isWhyDrpdwnVisible() {
+		return handoffWhyDrpdwn.isVisible();
+	}
+
+	public void clickOnWhyDrpdown() {
+		handoffWhyDrpdwn.click();
+	}
+
+	public List<String> getListOfWhyDrpdwnVal() {
+		return handoffWhyDrpdwn.getSelectOptions();
+	}
+
+	public void selectFromWhyDrpdwn(String whyValue) {
+		handoffWhyDrpdwn.selectByVisibleText(whyValue);
+	}
+
+	public boolean isDispositionDrpdwnVisible() {
+		return dispositionDrpdwn.isVisible();
+	}
+
+	public void enterValueInNoteTxtField(String textValue) {
+		handoffNotesTxtBox.type(textValue);
+	}
+
+	public void clickOnSaveHandoffBtn() {
+		saveHandoffBtn.click();
+	}
+
+	public String getHandoffSavedMessage() {
+		return handoffSavedMessage.getText();
+	}
+
+	public void scrollToAccountActionHistory() {
+		evaluateJavascript("arguments[0].scrollIntoView();", accntActionHistoryHeader);
+	}
+
+	public void clickOnShowAccountActionBtn() {
+		evaluateJavascript("arguments[0].click();", showAccountActionHistoryBtn);
+	}
+
+	public String getTagNameForNotesTxtBox() {
+		return handoffNotesTxtBox.getTagName();
+	}
+
+	public boolean isHandoffTypeLabelVisible() {
+		return handoffTypeLabel.isVisible();
+	}
+
+	public boolean isCreateLabelVisible() {
+		return createLabel.isVisible();
+	}
+
+	public boolean isNoteLabelVisible() {
+		return noteLabel.isVisible();
+	}
+
+	public boolean isCloseBtnOnHandoffPopupVisible() {
+		return closeBtnOnHandoffPopup.isVisible();
+	}
+
+	public boolean isSaveBtnOnHandoffPopupVisible() {
+		return saveHandoffBtn.isVisible();
+	}
+
+	public boolean isSaveAndMoveToNxtAccntBtnOnHandoffPopupVisible() {
+		return saveAndMoveNxtAccntBtn.isVisible();
+	}
+
+	public List<String> getListOfDispositionDrpdwnVal() {
+		return dispositionDrpdwn.getSelectOptions();
+	}
+
+	public void selectFromDispositionDrpdwn(String dispositionVal) {
+		dispositionDrpdwn.selectByVisibleText(dispositionVal);
+	}
+
+	public String getInfoMessage() {
+		return infoMessage.getText().trim();
+	}
+
+	public void closeInfoMessage() {
+		evaluateJavascript("arguments[0].click();", infoMsgCloseBtn);
 	}
 }

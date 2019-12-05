@@ -1,5 +1,6 @@
 package r1.prcmbe.pages;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -68,13 +69,13 @@ public class FinancialInfoPage extends PageObject {
 
 	@FindBy(id = "lblTotalAdjustment")
 	private WebElementFacade totalAdjustments;
-	
+
 	@FindBy(xpath = "//*[@id='accordion']//a[@onclick='callChargeDetailsService();return false;']//i")
 	private WebElementFacade totalChargesScrollArrow;
-	
+
 	@FindBy(xpath = "//*[@id='divTotalCharges']/table/thead/tr/th")
 	private List<WebElementFacade> listOfTotalChargesTableHeaders;
-	
+
 	@FindBy(xpath = "//*[@id='divTotalCharges']//tr/td[1]")
 	private List<WebElementFacade> serviceDate;
 
@@ -110,7 +111,52 @@ public class FinancialInfoPage extends PageObject {
 
 	@FindBy(id = "lblTotalPatientPayments")
 	private WebElementFacade patientPaymentsValue;
-	
+
+	@FindBy(xpath = "(//*[@id = 'divTotalInsurancePaymentsNA']//h5)[2]")
+	private WebElementFacade insurancePaymentAmount;
+
+	@FindBy(xpath = "(//*[@id = 'divTotalPatientPaymentsNA']//h5)[2]")
+	private WebElementFacade patientPaymentsAmount;
+
+	@FindBy(xpath = "//*[@id='lblTotalAdjustment']/ancestor::a//i")
+	private WebElementFacade expandIconAdjustments;
+
+	@FindBy(id = "spmTotalPayments")
+	private WebElementFacade adjustmentMessage;
+
+	@FindBy(xpath = "//*[@id='divTotalInsurance']//tr//td[1]")
+	private List<WebElementFacade> paymentCodeList;
+
+	@FindBy(xpath = "//*[@id='divTotalInsurance']//tr//td[2]")
+	private List<WebElementFacade> paymentDescList;
+
+	@FindBy(xpath = "//*[@id='divTotalInsurance']//tr//td[3]")
+	private List<WebElementFacade> payorPlanCodeList;
+
+	@FindBy(xpath = "//*[@id='divTotalInsurance']//tr//td[4]")
+	private List<WebElementFacade> payorPlanNameList;
+
+	@FindBy(xpath = "//*[@id='divTotalInsurance']//tr//td[6]")
+	private List<WebElementFacade> dateTransactionList;
+
+	@FindBy(xpath = "//*[@id='divTotalInsurance']//tr//td[7]")
+	private List<WebElementFacade> typeTransactionList;
+
+	@FindBy(xpath = "//*[@id='divTotalInsurance']//tr//td[8]")
+	private List<WebElementFacade> amountList;
+
+	@FindBy(xpath = "//*[@id='divTotalInsurance']//tr//td[9]")
+	private List<WebElementFacade> glCodeList;
+
+	@FindBy(xpath = "//*[@id='divTotalInsurancePayments']//a/i")
+	private WebElementFacade expandIconInsurancePayments;
+
+	@FindBy(xpath = "//*[@id='divTotalInsurance']//th")
+	private List<WebElementFacade> insurancePaymentHeadersList;
+
+	@FindBy(id = "lblUnbilledBalance")
+	private WebElementFacade unbilledBalanceAmount;
+
 	public boolean isFinanceInfoHeadersVisible(List<String> expectedHeaders) {
 		return getFinInfoHeaderAttributes().containsAll(expectedHeaders);
 	}
@@ -204,11 +250,11 @@ public class FinancialInfoPage extends PageObject {
 	public String getTotalAdjustments() {
 		return totalAdjustments.getText();
 	}
-	
+
 	public void expandTotalCharges() {
 		totalChargesScrollArrow.click();
 	}
-	
+
 	public List<String> getTotalChargesTableHeaders() {
 		List<String> listOfTextValuesOfTotalChargesTableHeaders = new ArrayList<>();
 		for (WebElementFacade totalChargesTableHeader : listOfTotalChargesTableHeaders) {
@@ -216,7 +262,7 @@ public class FinancialInfoPage extends PageObject {
 		}
 		return listOfTextValuesOfTotalChargesTableHeaders;
 	}
-	
+
 	public List<String> getServiceDateList() {
 		List<String> dateService = new ArrayList<>();
 		for (WebElementFacade element : serviceDate) {
@@ -292,7 +338,7 @@ public class FinancialInfoPage extends PageObject {
 		}
 		return descCharge;
 	}
-	
+
 	public String getTotalCharges() {
 		return totalChargesValue.getText();
 	}
@@ -300,9 +346,117 @@ public class FinancialInfoPage extends PageObject {
 	public Object getExpectedPayment() {
 		return expectedPaymentValue.getText();
 	}
-	
+
 	public String getPatientPaymentText() {
 		withAction().moveToElement(patientPaymentsValue).build().perform();
 		return patientPaymentsValue.getText().trim();
+	}
+
+	public String getInsurancePaymentAmount() {
+		withAction().moveToElement(insurancePaymentAmount).build().perform();
+		return insurancePaymentAmount.getText();
+	}
+
+	public String getPatientPaymentAmount() {
+		withAction().moveToElement(patientPaymentsAmount).build().perform();
+		return patientPaymentsAmount.getText().trim();
+	}
+
+	public void clickExpandIconAdjustments() {
+		withAction().moveToElement(expandIconAdjustments).build().perform();
+		evaluateJavascript("arguments[0].click();", expandIconAdjustments);
+	}
+
+	public String getAdjustmentMessage() {
+		withAction().moveToElement(adjustmentMessage).build().perform();
+		return adjustmentMessage.getText();
+	}
+
+	public List<String> getPaymentCodeList() {
+		List<String> paymentCodes = new ArrayList<String>();
+		for (WebElementFacade element : paymentCodeList) {
+			paymentCodes.add(element.getText());
+		}
+		return paymentCodes;
+	}
+
+	public List<String> getPaymentDescList() {
+		List<String> descPayment = new ArrayList<>();
+		int size = paymentDescList.size();
+		for (int i = 1; i <= size; i++) {
+			String jsPathValue = "#divTotalInsurance > table > tbody > tr:nth-child(" + i + ") > td:nth-child(2)";
+			String content = evaluateJavascript("return document.querySelector(\"" + jsPathValue + "\").textContent")
+					.toString();
+			descPayment.add(content);
+		}
+		return descPayment;
+	}
+
+	public List<String> getPayorPlanCodeList() {
+		List<String> payorPlanCodes = new ArrayList<String>();
+		for (WebElementFacade element : payorPlanCodeList) {
+			payorPlanCodes.add(element.getText());
+		}
+		return payorPlanCodes;
+	}
+
+	public List<String> getPayorPlanNameList() {
+		List<String> payorPlanNames = new ArrayList<String>();
+		for (WebElementFacade element : payorPlanNameList) {
+			payorPlanNames.add(element.getText());
+		}
+		return payorPlanNames;
+	}
+
+	public List<String> getDateTransactionList() {
+		List<String> transactionDates = new ArrayList<String>();
+		for (WebElementFacade element : dateTransactionList) {
+			transactionDates.add(element.getText());
+		}
+		return transactionDates;
+	}
+
+	public List<String> getTypeTransactionList() {
+		List<String> transactionTypes = new ArrayList<String>();
+		for (WebElementFacade element : typeTransactionList) {
+			transactionTypes.add(element.getText());
+		}
+		return transactionTypes;
+	}
+
+	public List<String> getAmountList() {
+		List<String> amounts = new ArrayList<String>();
+		for (WebElementFacade element : amountList) {
+			amounts.add(element.getText());
+		}
+		return amounts;
+	}
+
+	public List<String> getGlCodeList() {
+		List<String> glCodes = new ArrayList<String>();
+		for (WebElementFacade element : glCodeList) {
+			glCodes.add(element.getText());
+		}
+		return glCodes;
+	}
+
+	public void clickExpandIconInsurancePayments() {
+		expandIconInsurancePayments.withTimeoutOf(Duration.ofSeconds(20)).waitUntilVisible();
+		withAction().moveToElement(expandIconInsurancePayments).build().perform();
+		evaluateJavascript("arguments[0].click();", expandIconInsurancePayments);
+	}
+
+	public List<String> getInsurancePaymentHeaders() {
+		List<String> headers = new ArrayList<String>();
+		for (WebElementFacade element : insurancePaymentHeadersList) {
+			withAction().moveToElement(element).build().perform();
+			headers.add(element.getText());
+		}
+		return headers;
+	}
+
+	public String getUnbilledBalance() {
+		withAction().moveToElement(unbilledBalanceAmount).build().perform();
+		return unbilledBalanceAmount.getText();
 	}
 }

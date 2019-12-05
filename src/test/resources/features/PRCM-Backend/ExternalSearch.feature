@@ -9,12 +9,12 @@ Feature: This is to verify external search functionality in R1 PRCM-BE
 
   @429052 @Sprint8 @PRCMUser
   Scenario: Verify whether Invoice Number is appearing by default selected in Search By dropdown for PRCM enabled site
-    Given user is on "R1 Hub Technologies 2.0 - 01 R1_Decision - Search" page
+    Given user is on R1 Decision search page
     Then user should be able to view Invoice Number selected by default in Search By drop down
 
   @429053 @Sprint8 @PRCMUser
   Scenario Outline: Verify the error message displayed when user searches an invalid data in Search textbox with equal operator
-    Given user is on "R1 Hub Technologies 2.0 - 01 R1_Decision - Search" page
+    Given user is on R1 Decision search page
     When user selects <dropdown> from Search By drop down
     And user enters invalid value in <Invalid Data> textbox 
     And user clicks on Submit button
@@ -31,7 +31,7 @@ Feature: This is to verify external search functionality in R1 PRCM-BE
 
   @429054 @Sprint8 @PRCMUser
   Scenario Outline: Verify that Submit button is disabled for Search textbox for Like Operator if user enters less than five characters
-    Given user is on "R1 Hub Technologies 2.0 - 01 R1_Decision - Search" page
+    Given user is on R1 Decision search page
     When user selects <dropdown> from Search By drop down
     And user selects "Like" operator from operator dropdown
     And user enters less than 5 characters in <lessThanFivetext> textbox
@@ -47,7 +47,7 @@ Feature: This is to verify external search functionality in R1 PRCM-BE
 
   @429058 @Sprint8 @PRCMUser
   Scenario Outline: Verify that Submit button is enabled for Search textbox for Like Operator if user enters 5 or more characters
-    Given user is on "R1 Hub Technologies 2.0 - 01 R1_Decision - Search" page
+    Given user is on R1 Decision search page
     When user selects <dropdown> from Search By drop down
     And user selects "Like" operator from operator dropdown
     And user enters more than or equal to 5 characters <moreThanFivetext> in textbox
@@ -67,7 +67,7 @@ Feature: This is to verify external search functionality in R1 PRCM-BE
 
   @429061 @Sprint8 @PRCMUser
   Scenario Outline: Verify that when user does not enter anything in Search textbox then message appeared or not
-    Given user is on "R1 Hub Technologies 2.0 - 01 R1_Decision - Search" page
+    Given user is on R1 Decision search page
     When user selects <option> from Search By drop down
     And user clicks on Submit button
     Then user should be able to view message "Please enter the value for" <option>
@@ -130,7 +130,7 @@ Feature: This is to verify external search functionality in R1 PRCM-BE
     Given user is on R1 Decision search page
     When user selects <option> from Search By drop down
     And user selects "Like" operator from operator dropdown
-    And user enters <textvalue> in <option> textbox
+    And user enters value <textvalue> in <option> textbox
     And user clicks on Submit button
     Then user should be able to view the grid with following columns
       | Visit #             |
@@ -157,8 +157,8 @@ Feature: This is to verify external search functionality in R1 PRCM-BE
   Scenario Outline: Verify the error message displayed when user enter special characters in Last Name/First Name textbox
     Given user is on R1 Decision search page
     When user selects "Last Name/First Name" from Search By dropdown
-    And user enters <lastName> text in Last Name textbox on search page
-    And user enters <firstName> text in First Name textbox on search page
+    And user enters <lastName> text in Last Name textbox
+    And user enters <firstName> text in First Name textbox
     And user clicks on Submit button
     Then user should be able to view error message <ErrorMsg>
 
@@ -168,13 +168,42 @@ Feature: This is to verify external search functionality in R1 PRCM-BE
       | Test1    | @$%^&     | Special Character are not allowed in Search criteria! |
       | @#$*( _  | @!~`^/    | Special Character are not allowed in Search criteria! |
 
+  @430694 @PRCMUser @Sprint102
+  Scenario Outline: Verify that user is able to see the search result grid for Medical Record Number with operators
+    Given user is on R1 Decision search page
+    When user selects "Medical Record Number" from Search By dropdown
+    And user login to SQL Server and connect to facility database
+    And user runs the <queryname6> query to fetch account data
+    And user selects <operator> from Operator dropdown
+    And user enters the query result in Medical Record Number textbox
+    And user clicks on Submit button
+    Then user should be able to view the grid with following columns if they are visible else verify the searched account with MRN
+      | Visit #             |
+      | Invoice #           |
+      | Name                |
+      | Facility Code       |
+      | MRN                 |
+      | Gender              |
+      | PT                  |
+      | Service Date        |
+      | PPC                 |
+      | Defect Type         |
+      | Defect Sub-Category |
+    When user runs the <queryname12> query for MRN search
+    Then user should be able to view the same MRN in grid as SQL result
+
+    Examples: 
+      | queryname12                 | queryname6                 | operator |
+      | SearchExternal_430694_SQL12 | SearchExternal_430694_SQL6 | =        |
+      | SearchExternal_430694_SQL12 | SearchExternal_430694_SQL6 | Like     |
+
   @429995 @PRCMUser @Sprint102
   Scenario Outline: Verify that user is able to see the search result grid for exact Last Name/First Name
     Given user is on R1 Decision search page
     When user selects "Last Name/First Name" from Search By dropdown
     And user login to SQL Server and connect to facility database
     And user runs the <queryname5> query to fetch name for search
-    Then user should be able to fetch Firstname and Lastname from the query.
+    Then user should be able to fetch Firstname and Lastname from the query
     When user enters the fetched Lastname in Last Name textbox
     And user enters the fetched Firstname in First Name textbox
     And user clicks on submit button
@@ -190,21 +219,114 @@ Feature: This is to verify external search functionality in R1 PRCM-BE
       | PPC                 |
       | Defect Type         |
       | Defect Sub-Category |
-    And user runs the <queryname11> query to fetch firstname and lastname 
+    When user runs the <queryname11> query to fetch firstname and lastname
     Then user should be able to view the same result in grid as SQL result for Last Name/First Name
 
     Examples: 
-      | queryname11                 | queryname5                 |
-      | SearchExternal_429995_SQL11 | SearchExternal_429995_SQL5 |
+      | queryname5                 | queryname11                 |
+      | SearchExternal_429995_SQL5 | SearchExternal_429995_SQL11 |
 
   @429258 @PRCMUser @Sprint102
   Scenario Outline: Verify that user is able to see the search result grid for SSN
     Given user is on R1 Decision search page
+    When user selects "SSN" from Search By dropdown
+    And user login to SQL Server and connect to facility database
+    And user runs the <queryname4> query to fetch account data
+    And user enters the query result in SSN textbox
+    And user clicks on Submit button
+    Then user should be able to view the grid with following columns and verify searched SSN
+      | Visit #             |
+      | Invoice #           |
+      | Name                |
+      | Facility Code       |
+      | MRN                 |
+      | Gender              |
+      | PT                  |
+      | Service Date        |
+      | PPC                 |
+      | Defect Type         |
+      | Defect Sub-Category |
+    When user runs the <queryname10> query to fetch SSN result
+    Then user should be able to view the same SSN in grid as SQL result
+
+    Examples: 
+      | queryname10                 | queryname4                 |
+      | SearchExternal_429258_SQL10 | SearchExternal_429258_SQL4 |
+
+  @429148 @PRCMUser @Sprint102
+  Scenario Outline: Verify that user is able to search an account with Visit Number using equal operator having invoice number associated to it
+    Given user is on R1 Decision search page
     When user is able to login to sql server and connect to database
-    And user runs the <queryname4> query to fetch SSN number for search
-    And user selects "SSN" from Search By dropdown
-    And user enters the query result in SSN textbox 
+    And user runs the <queryname3> query to fetch account data
+    And user selects "Visit Number" from Search By dropdown
+    And user enters the query result in Visit Number search textbox
     And user clicks on submit button
+    Then user should be able to view the grid with following columns if they are visible else verify the searched account
+      | Visit #             |
+      | Invoice #           |
+      | Name                |
+      | Facility Code       |
+      | MRN                 |
+      | Gender              |
+      | PT                  |
+      | Service Date        |
+      | PPC                 |
+      | Defect Type         |
+      | Defect Sub-Category |
+    And user runs the <queryname9> query to search Visit number
+    Then user should be able to view the same result in grid as SQL result for searched Visit number
+
+    Examples: 
+      | queryname9                 | queryname3                 |
+      | SearchExternal_429148_SQL9 | SearchExternal_429128_SQL3 |
+
+  @429086 @PRCMUser @Sprint102
+  Scenario: Verify that user is able to search an account with Invoice Number using equal operator
+    Given user is on R1 Decision search page
+    When user login to SQL server and connect to database
+    And user run the query and fetch the Invoice Number "SearchInternal_391031_SQL1"
+    When user enter the query result of SQL1 in Invoice Number search textbox
+    And user clicks on Submit button
+    Then user should be able to navigate to the R1D account page for searched Invoice Number
+
+  @429126 @Sprint102 @PRCMUser
+  Scenario Outline: Verify that user is able to search an account with Visit Number using equal operator
+    Given user is on R1 Decision search page
+    When user login to SQL Server and connect to facility database
+    And user runs the <queryname2> query for search
+    And user selects <dropdown> from Search By drop down
+    And user selects "=" operator from operator dropdown
+    And user enters the query result in Visit Number search textbox
+    And user clicks on Submit button
+    Then user should be able to navigate to the R1D account page for searched visit Number
+
+    Examples: 
+      | queryname2                 | dropdown     |
+      | SearchExternal_429126_SQL2 | Visit Number |
+
+  @429133 @Sprint102 @PRCMUser
+  Scenario Outline: Verify that user is able to search an account with Visit Number does not having invoice number associated to it on R1D Page
+    Given user is on R1 Decision search page
+    And user selects <dropdown> from Search By drop down
+    And user selects <Operator> from Operator dropdown
+    And user login to SQL Server and connect to facility database
+    And user runs the <queryname14> query for search
+    And user enters the query result in Visit Number search textbox
+    And user clicks on Submit button
+    Then user should be able to navigate to the R1D account page for searched Visit Number and verify invoice number should not be visible
+
+    Examples: 
+      | queryname14                | dropdown     | Operator |
+      | SearchExternal_429126_SQL2 | Visit Number | Like     |
+      | SearchExternal_429126_SQL2 | Visit Number | =        |
+
+  @429089 @PRCMUser @Sprint102
+  Scenario Outline: Verify that user is able to search an Visit Number with Search textbox using Like operator
+    Given user is on R1 Decision search page
+    And user selects <dropdown> from Search By drop down
+    And user selects "Like" operator from operator dropdown
+    And user enters value <AnyFiveDigitNumber> in <option> textbox
+    And user clicks on Submit button
     Then user should be able to view the grid with following columns
       | Visit #             |
       | Invoice #           |
@@ -218,9 +340,63 @@ Feature: This is to verify external search functionality in R1 PRCM-BE
       | Defect Type         |
       | Defect Sub-Category |
     When user login to SQL Server and connect to facility database
-    And user runs the <queryname10> query to fetch SSN number
-    Then user should be able to view the same result in grid as SQL result for SSN number
-    
-      Examples: 
-      | queryname10                 | queryname4                 |
-      | SearchExternal_429258_SQL10 | SearchExternal_429258_SQL4 |
+    And user runs query and fetch visit number <queryname8>
+    Then user should be able to view the same result in grid as SQL result for visit number
+
+    Examples: 
+      | dropdown     | option            | AnyFiveDigitNumber | queryname8                 |
+      | Visit Number | Visit Number      |              12345 | SearchExternal_429089_SQL8 |
+
+  @429089 @Sprint102 @PRCMUser
+  Scenario Outline: Verify that user is able to search an Invoice Number with Search textbox using Like operator
+    Given user is on R1 Decision search page
+    And user selects <dropdown> from Search By drop down
+    And user selects "Like" operator from operator dropdown
+    And user enters value <AnyFiveDigitNumber> in <option> textbox
+    And user clicks on Submit button
+    Then user should be able to view the grid with following columns
+      | Visit #             |
+      | Invoice #           |
+      | Name                |
+      | Facility Code       |
+      | MRN                 |
+      | Gender              |
+      | PT                  |
+      | Service Date        |
+      | PPC                 |
+      | Defect Type         |
+      | Defect Sub-Category |
+    When user login to SQL Server and connect to facility database
+    And user runs query and fetch invoice number <queryname9>
+    Then user should be able to view the same result in grid as SQL result for invoice number
+
+    Examples: 
+      | dropdown       | option            | AnyFiveDigitNumber | queryname9                   |
+      | Invoice Number | Invoice Number    |              12345 | SearchExternal_429089_1_SQL8 |
+
+  @429089 @Sprint102 @PRCMUser
+  Scenario Outline: Verify that user is able to search an MRN with Search textbox using Like operator
+    Given user is on R1 Decision search page
+    And user selects <dropdown> from Search By drop down
+    And user selects "Like" operator from operator dropdown
+    And user enters value <AnyFiveDigitNumber> in <option> textbox
+    And user clicks on Submit button
+    Then user should be able to view the grid with following columns
+      | Visit #             |
+      | Invoice #           |
+      | Name                |
+      | Facility Code       |
+      | MRN                 |
+      | Gender              |
+      | PT                  |
+      | Service Date        |
+      | PPC                 |
+      | Defect Type         |
+      | Defect Sub-Category |
+    When user login to SQL Server and connect to facility database
+    And user runs query and fetch MRN number <queryname9>
+    Then user should be able to view the same result in grid as SQL result for MRN number
+
+    Examples: 
+      | dropdown              | option                | AnyFiveDigitNumber | queryname9                   |
+      | Medical Record Number | Medical Record Number |              12345 | SearchExternal_429089_2_SQL8 |

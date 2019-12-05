@@ -38,12 +38,14 @@ public class AccountDocumentStepDef {
 	@Steps
 	AccountDocumentSteps accntDocumentSteps;
 
-	String selectedDocumentType, enteredDocumentTitle, fileName, invoiceNo, facilityCode, invoiceNumber,chargeTransactionId;
+	String selectedDocumentType, enteredDocumentTitle, fileName, invoiceNo, facilityCode, invoiceNumber,
+			chargeTransactionId;
 	List<String> listOfInvoiceNumber;
 	static String dbFileName = "AccountDocument";
 
 	@Given("^user login to SQL server and connect to database$")
-	public void user_login_to_SQL_server_and_connect_to_database() throws IOException, ClassNotFoundException, SQLException {
+	public void user_login_to_SQL_server_and_connect_to_database()
+			throws IOException, ClassNotFoundException, SQLException {
 		String webdriverURL = EnvironmentSpecificConfiguration.from(environmentVariables)
 				.getProperty("webdriver.base.url");
 		String facility = CommonMethods.loadProperties("facility");
@@ -159,7 +161,7 @@ public class AccountDocumentStepDef {
 	@When("^user runs the \"([^\"]*)\" query to fetch invoice number$")
 	public void user_runs_the_query_to_fetch_invoice_number(String queryName)
 			throws ClassNotFoundException, SQLException, Exception {
-		listOfInvoiceNumber=new ArrayList<>();
+		listOfInvoiceNumber = new ArrayList<>();
 		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
 				commonMethods.loadQuery(queryName, dbFileName));
 		try {
@@ -175,18 +177,18 @@ public class AccountDocumentStepDef {
 	public void user_enters_the_query_result_in_Invoice_Number_search_textbox() {
 		searchPage.enterInvoiceNumber(listOfInvoiceNumber.get(0));
 	}
-	
+
 	@When("^user checks the Show All Documents check box$")
 	public void user_checks_the_Show_All_Documents_check_box() {
 		accntDocumentPage.clickOnShowAllDocumentCheckBox();
 	}
-	
+
 	@Then("^user should be able to view the Show All Documents checkbox checked$")
 	public void user_should_be_able_to_view_the_Show_All_Documents_checkbox_checked() {
 		Assert.assertTrue("Show All Document CheckBox not Checked",
 				accntDocumentPage.getShowAllDocumentCheckBoxSelectedStatus().equals("true"));
 	}
-	
+
 	@Then("^user should be able to view the validation message \"([^\"]*)\" below Upload Document button$")
 	public void user_should_be_able_to_view_the_validation_message_below_Upload_Document_button(
 			String expectedMessage) {
@@ -195,30 +197,30 @@ public class AccountDocumentStepDef {
 						+ accntDocumentPage.getNoDocumentUploadTxtValue(),
 				expectedMessage.equals(accntDocumentPage.getNoDocumentUploadTxtValue()));
 	}
-	
+
 	@Then("^user should able to view the documents grid containing a list of all uploaded documents with their information$")
 	public void user_should_able_to_view_the_documents_grid_containing_a_list_of_all_uploaded_documents_with_their_information() {
 		Assert.assertTrue("Uploaded Document not available in Documents Grid",
 				accntDocumentSteps.verifyUploadedDocsTitle(enteredDocumentTitle));
 	}
-	
+
 	@When("^user clicks on the Document Title from the grid to open the corresponding document$")
 	public void user_clicks_on_the_Document_Title_from_the_grid_to_open_the_corresponding_document() {
 		accntDocumentSteps.deleteFileFromSystem(fileName);
 		accntDocumentPage.clickOnUploadedDocument(enteredDocumentTitle);
 	}
-	
+
 	@Then("^user should be able to view downloaded document on the system$")
 	public void user_should_be_able_to_view_downloaded_document_on_the_system() throws InterruptedException {
 		Assert.assertTrue("Downloaded Document not available on System",
 				accntDocumentSteps.isDocumentDownloadedOnSystem(fileName, 20));
 	}
-	
+
 	@When("^user checks Associated to MRN checkbox$")
 	public void user_checks_Associated_to_MRN_checkbox() {
 		accntDocumentPage.clickOnMRNCheckBox();
 	}
-	
+
 	@When("^user runs the \"([^\"]*)\" query to fetch invoice number having no document$")
 	public void user_runs_the_query_to_fetch_invoice_number_having_no_document(String queryName)
 			throws ClassNotFoundException, SQLException, Exception {
@@ -232,12 +234,12 @@ public class AccountDocumentStepDef {
 			Assert.assertTrue("InvoiceNumber is not fetched from DB.\nThe Technical Error is:\n" + exception, false);
 		}
 	}
-	
+
 	@When("^user enters the query result in Invoice Number search textbox having no document$")
 	public void user_enters_the_query_result_in_Invoice_Number_search_textbox_having_no_document() {
 		searchPage.enterInvoiceNumber(listOfInvoiceNumber.get(1));
 	}
-	
+
 	@Then("^user should be able to view Associated to MRN checkbox checked$")
 	public void user_should_be_able_to_view_Associated_to_MRN_checkbox_checked() {
 		Assert.assertTrue("MRN checkBox is not checked", accntDocumentPage.isMRNCheckBoxSelected());
@@ -266,24 +268,24 @@ public class AccountDocumentStepDef {
 		Assert.assertTrue("Opened Related Account doesn't match with facility Code selected",
 				invoiceNo.equals(accntInformationPage.getInvoiceNumber().trim()));
 	}
-	
+
 	@Then("^user should be able to view all the uploaded documents in list which were associated with MRN$")
 	public void user_should_be_able_to_view_all_the_uploaded_documents_in_list_which_were_associated_with_MRN() {
 		Assert.assertTrue("Uploaded Document not available in Documents Grid which were associated with MRN",
 				accntDocumentSteps.verifyUploadedDocsTitle(enteredDocumentTitle));
 	}
-	
+
 	@When("^user go to Account Documents section$")
 	public void user_go_to_Account_Documents_section$() {
 		accntDocumentPage.clickOnDocumentLink();
 	}
-	
+
 	@Then("user should not be able to view the uploaded documents in the list which were uploaded in previous account")
 	public void user_should_not_be_able_to_view_the_uploaded_documents_in_the_list_which_were_uploaded_in_previous_account() {
 		Assert.assertFalse("Uploaded Document available in Documents Grid which were uploaded in previous account",
 				accntDocumentSteps.verifyUploadedDocsTitle(enteredDocumentTitle));
 	}
-	
+
 	@When("^user runs the \"([^\"]*)\" query to fetch invoice number and ChargeTransactionID$")
 	public void user_runs_the_query_to_fetch_invoice_number_and_ChargeTransactionID(String queryName)
 			throws ClassNotFoundException, SQLException, Exception {
@@ -291,39 +293,42 @@ public class AccountDocumentStepDef {
 				commonMethods.loadQuery(queryName, dbFileName));
 		try {
 			while (DatabaseConn.resultSet.next()) {
-				invoiceNumber=DatabaseConn.resultSet.getString("invoiceNumber");
-				chargeTransactionId=DatabaseConn.resultSet.getString("chargetransactionid");
+				invoiceNumber = DatabaseConn.resultSet.getString("invoiceNumber");
+				chargeTransactionId = DatabaseConn.resultSet.getString("chargetransactionid");
 			}
 		} catch (SQLException exception) {
-			Assert.assertTrue("InvoiceNumber and ChargeTransactionID is not fetched from DB.\nThe Technical Error is:\n" + exception, false);
+			Assert.assertTrue("InvoiceNumber and ChargeTransactionID is not fetched from DB.\nThe Technical Error is:\n"
+					+ exception, false);
 		}
 	}
-	
+
 	@Then("^user should be able to fetch InvoiceNumber and ChargeTransactionID$")
 	public void user_should_be_able_to_fetch_InvoiceNumber_and_ChargeTransactionID() {
-		Assert.assertTrue("User is not able to fetch InvoiceNumber",invoiceNumber!=null);
-		Assert.assertTrue("User is not able to fetch ChargeTransactionID",chargeTransactionId!=null);
+		Assert.assertTrue("User is not able to fetch InvoiceNumber", invoiceNumber != null);
+		Assert.assertTrue("User is not able to fetch ChargeTransactionID", chargeTransactionId != null);
 	}
-	
+
 	@Then("^user should be able to view same document in attachment as uploaded in previous Invoice number$")
 	public void user_should_be_able_to_view_same_document_in_attachment_as_uploaded_in_previous_Invoice_number() {
-		Assert.assertTrue("Same Document not available in Documents Grid which were uploaded in previous Invoice Number",
+		Assert.assertTrue(
+				"Same Document not available in Documents Grid which were uploaded in previous Invoice Number",
 				accntDocumentSteps.verifyUploadedDocsTitle(enteredDocumentTitle));
 	}
-	
+
 	@When("^user runs the query \"([^\"]*)\" query to fetch invoice number based on result of above query$")
-	public void user_runs_the_query_query_to_fetch_invoice_number_based_on_result_of_above_query(String queryName) throws ClassNotFoundException, SQLException, Exception {
+	public void user_runs_the_query_query_to_fetch_invoice_number_based_on_result_of_above_query(String queryName)
+			throws ClassNotFoundException, SQLException, Exception {
 		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
-				commonMethods.loadQuery(String.format(queryName, invoiceNumber,chargeTransactionId), dbFileName));
+				commonMethods.loadQuery(String.format(queryName, invoiceNumber, chargeTransactionId), dbFileName));
 		try {
 			while (DatabaseConn.resultSet.next()) {
-				invoiceNumber=DatabaseConn.resultSet.getString("invoiceNumber");
+				invoiceNumber = DatabaseConn.resultSet.getString("invoiceNumber");
 			}
 		} catch (SQLException exception) {
 			Assert.assertTrue("InvoiceNumber is not fetched from DB.\nThe Technical Error is:\n" + exception, false);
 		}
 	}
-	
+
 	@When("^user enters the query result in Invoice Number search textbox fetched above$")
 	public void user_enters_the_query_result_in_Invoice_Number_search_textbox_fetched_above() {
 		searchPage.enterInvoiceNumber(invoiceNumber);

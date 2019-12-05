@@ -34,12 +34,15 @@ public class SearchStepDef extends PageObject {
 	@Steps
 	FinancialInfoSteps financialInfoSteps;
 
-	String dbQueryFilename = "Search", dbMRN, lastName, firstName, dbClaimNo, dbResult, dbInvoiceNumber, dbFirstName,
-			dbLastName, dbEncounterId;
-
+	String dbQueryFilename = "Search", dbMRN, lastName, firstName, dbClaimNo, dbResult, dbInvoiceNumber, dbEncounterId,
+			dbLastName, dbFirstName, dbSSN, visitNumber, invoiceNumber, sSN, mRN;
 	List<String> listOfGridColumnsOnUI = new ArrayList<>();
 	List<String> dbListOfColumns = new ArrayList<>();
 	List<String> dbListOfNames = new ArrayList<>();
+	List<String> expectedListOfGridColumns = new ArrayList<>();
+	List<String> dbListOfEncounterID = new ArrayList<>();
+	List<String> dbListOfInvoiceNumber = new ArrayList<>();
+	List<String> dbListOfMRN = new ArrayList<>();
 
 	@When("^user clicks on Billing & Follow-up link$")
 	public void user_clicks_on_Billing_Follow_up_link() {
@@ -54,7 +57,7 @@ public class SearchStepDef extends PageObject {
 	@Then("^user should be able to view R1D Search page$")
 	public void user_should_be_able_to_view_R1_D_Search_page() {
 		Assert.assertTrue("User is not navigated on R1 D Search Page",
-				searchPage.getSearchPageTitle().contains("R1 Hub Technologies 2.0 - 01 R1_Decision - Search"));
+				searchPage.getSearchPageTitle().contains("R1 Hub Technologies 2.0 - 15 R1_Decision - Search"));
 	}
 
 	@Then("^user should be able to view message \"([^\"]*)\"$")
@@ -198,9 +201,10 @@ public class SearchStepDef extends PageObject {
 				dbInvoiceNumber = DatabaseConn.resultSet.getString(1);
 			}
 		} catch (SQLException sQLException) {
-			Assert.assertTrue("EncounterID is not fetched from DB.\nThe Technical Error is:\n" + sQLException, false);
+			Assert.assertTrue("Invoice number is not fetched from DB.\nThe Technical Error is:\n" + sQLException,
+					false);
 		}
-		financialInfoSteps.log("Fetched EncounterID from Database is " + dbInvoiceNumber);
+		financialInfoSteps.log("Fetched Invoice Number from Database is " + dbInvoiceNumber);
 	}
 
 	@When("^user select \"([^\"]*)\" from Search By dropdown$")
@@ -210,7 +214,7 @@ public class SearchStepDef extends PageObject {
 
 	@When("^user enters the query result in Invoice Number search textbox and can view the same invoice number of selected facility or different facility$")
 	public void user_enters_the_query_result_in_Invoice_Number_search_textbox_and_can_view_the_same_invoice_number_of_selected_facility_or_different_facility() {
-		if (searchPage.getSearchPageTitle().contains("R1 Hub Technologies 2.0 - 01 R1_Decision - Search")) {
+		if (searchPage.getSearchPageTitle().contains("R1 Hub Technologies 2.0 - 15 R1_Decision - Search")) {
 			searchPage.enterInvoiceNumber(dbInvoiceNumber);
 			searchPage.clickSubmitBtn();
 			searchPageSteps.verifyInvoiceNumberWithEqualOperator(dbInvoiceNumber);
@@ -220,13 +224,13 @@ public class SearchStepDef extends PageObject {
 	@Then("^user navigates on internal search page$")
 	public void user_navigates_on_internal_search_page() {
 		Assert.assertTrue("User is not navigated on R1 Internal Search Page",
-				searchPage.getSearchPageTitle().contains("R1 Hub Technologies 2.0 - 01 R1_Decision"));
+				searchPage.getSearchPageTitle().contains("R1 Hub Technologies 2.0 - 15 R1_Decision"));
 	}
 
 	@Given("^user is on R1 Decision search page$")
 	public void user_is_on_R1_Decision_search_page() {
 		Assert.assertTrue("User is not navigated on R1 D Search Page",
-				searchPage.getSearchPageTitle().contains("WPWI R1 Hub Technologies 2.0 - 15 R1_Decision - Search"));
+				searchPage.getSearchPageTitle().contains("R1 Hub Technologies 2.0 - 15 R1_Decision - Search"));
 	}
 
 	@When("^user selects \"([^\"]*)\" from Search By dropdown$")
@@ -240,14 +244,14 @@ public class SearchStepDef extends PageObject {
 				String.format(commonMethods.loadQuery(queryName, dbQueryFilename), lastName + "%", firstName + "%"));
 	}
 
-	@When("^user enters (.*) text in Last Name textbox on search page$")
-	public void user_enters_text_in_Last_Name_textbox_on_search_page(String lastName) {
+	@When("^user enters (.*) text in Last Name textbox$")
+	public void user_enters_text_in_Last_Name_textbox(String lastName) {
 		this.lastName = lastName;
 		searchPage.enterLastName(this.lastName);
 	}
 
-	@When("^user enters (.*) text in First Name textbox on search page$")
-	public void user_enters_text_in_First_Name_textbox_on_search_page(String firstName) {
+	@When("^user enters (.*) text in First Name textbox$")
+	public void user_enters_text_in_First_Name_textbox(String firstName) {
 		this.firstName = firstName;
 		searchPage.enterFirstName(this.firstName);
 	}
@@ -292,14 +296,20 @@ public class SearchStepDef extends PageObject {
 				commonMethods.loadQuery(queryName, dbQueryFilename), CommonMethods.loadProperties("prcmBeUsername")));
 	}
 
-	@When("^user enters (.*) in (.*) textbox$")
+	@When("^user enters value (.*) in (.*) textbox$")
 	public void user_enters_in_textbox(String textValue, String searchByOption) {
 		if (searchPage.isVisitTxtFieldVisible()) {
-			searchPage.enterVisitNumber(textValue);
+			this.visitNumber = textValue;
+			searchPage.enterVisitNumber(this.visitNumber);
 		} else if (searchPage.isInvoiceNumberTxtFieldVisible()) {
-			searchPage.enterInvoiceNumber(textValue);
+			this.invoiceNumber = textValue;
+			searchPage.enterInvoiceNumber(this.invoiceNumber);
 		} else if (searchPage.isSSNTxtFieldVisible()) {
-			searchPage.enterSSN(textValue);
+			this.sSN = textValue;
+			searchPage.enterSSN(this.sSN);
+		} else if (searchPage.isMRNTxtFieldVisible()) {
+			this.mRN = textValue;
+			searchPage.enterMRN(this.mRN);
 		} else {
 			Assert.assertTrue(searchByOption + " text box is not visible", false);
 		}
@@ -307,7 +317,7 @@ public class SearchStepDef extends PageObject {
 
 	@Then("^user should be able to view the grid with following columns$")
 	public void user_should_be_able_to_view_the_grid_with_following_columns(DataTable resultColumns) {
-		List<String> expectedListOfGridColumns = resultColumns.asList(String.class);
+		expectedListOfGridColumns = resultColumns.asList(String.class);
 		listOfGridColumnsOnUI = searchPage.getListOfSrchAccTblHeaders();
 		Assert.assertTrue("All the grid columns are not visible",
 				expectedListOfGridColumns.containsAll(listOfGridColumnsOnUI) && !listOfGridColumnsOnUI.isEmpty());
@@ -394,45 +404,16 @@ public class SearchStepDef extends PageObject {
 	}
 
 	@When("^user runs the (.*) query to fetch name for search$")
-	public void user_runs_the_query_to_fetch_name_for_search(String queryName)
-			throws ClassNotFoundException, SQLException, Exception {
+	public void user_runs_the_query_to_fetch_name_for_search(String queryName) throws Exception {
 		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
 				String.format(commonMethods.loadQuery(queryName, dbQueryFilename)));
 	}
 
-	@Then("^user should be able to fetch Firstname and Lastname from the query\\.$")
-	public void user_should_be_able_to_fetch_Firstname_and_Lastname_from_the_query() {
-		try {
-			while (DatabaseConn.resultSet.next()) {
-				dbFirstName = DatabaseConn.resultSet.getString("firstname");
-				dbLastName = DatabaseConn.resultSet.getString("lastname");
-			}
-		} catch (SQLException sQLException) {
-			Assert.assertTrue(
-					"firstname and lastname is not fetched from DB.\nThe Technical Error is:\n" + sQLException, false);
-		}
-	}
-
-	@When("^user enters the fetched Lastname in Last Name textbox$")
-	public void user_enters_the_fetched_Lastname_in_Last_Name_textbox() {
-		searchPage.enterLastName(dbLastName);
-	}
-
-	@When("^user enters the fetched Firstname in First Name textbox$")
-	public void user_enters_the_fetched_Firstname_in_First_Name_textbox() {
-		searchPage.enterFirstName(dbFirstName);
-	}
-
-	@Then("^user runs the (.*) query to fetch firstname and lastname$")
-	public void user_runs_the_query_to_fetch_firstname_and_lastname(String queryName)
+	@Then("^user runs the (.*) query to fetch name using dbfirstname and dblastname$")
+	public void user_runs_the_query_to_fetch_name_using_dbfirstname_and_dblastname(String queryName)
 			throws ClassNotFoundException, SQLException, Exception {
-		System.out.println(dbLastName);
-		System.out.println(dbFirstName);
-		System.out.println(queryName);
-		System.out.println(commonMethods.loadQuery(queryName, dbQueryFilename));
 		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName, String
 				.format(commonMethods.loadQuery(queryName, dbQueryFilename), dbLastName + "%", dbFirstName + "%"));
-
 	}
 
 	@Then("^user should be able to view the grid with following columns for Last Name/First Name search for database firstname lastname values$")
@@ -448,38 +429,236 @@ public class SearchStepDef extends PageObject {
 				searchPageSteps.verifyOnlyLastName(dbLastName) && searchPageSteps.verifyOnlyFirstName(dbFirstName));
 	}
 
-	@When("^user runs the (.*) query to fetch SSN number for search$")
-	public void user_runs_the_query_to_fetch_SSN_number_for_search(String queryName)
-			throws ClassNotFoundException, SQLException, Exception {
-		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
-				commonMethods.loadQuery(queryName, dbQueryFilename));
+	@Then("^user should be able to fetch Firstname and Lastname from the query$")
+	public void user_should_be_able_to_fetch_Firstname_and_Lastname_from_the_query() {
+		try {
+			while (DatabaseConn.resultSet.next()) {
+				dbLastName = DatabaseConn.resultSet.getString("lastname");
+				dbFirstName = DatabaseConn.resultSet.getString("firstname");
+			}
+		} catch (SQLException sQLException) {
+			Assert.assertTrue(
+					"First name or Last name is not fetched from DB.\nThe Technical Error is:\n" + sQLException, false);
+		}
+		Assert.assertTrue("First name or Last name is not fetched from DB",
+				!dbLastName.isEmpty() && !dbFirstName.isEmpty());
+	}
+
+	@When("^user enters the fetched Lastname in Last Name textbox$")
+	public void user_enters_the_fetched_Lastname_in_Last_Name_textbox() {
+		lastName = dbLastName;
+		searchPage.enterLastName(dbLastName);
+	}
+
+	@When("^user enters the fetched Firstname in First Name textbox$")
+	public void user_enters_the_fetched_Firstname_in_First_Name_textbox() {
+		firstName = dbFirstName;
+		searchPage.enterFirstName(dbFirstName);
+	}
+
+	@Then("^user should be able to view the grid with following columns and verify searched name$")
+	public void user_should_be_able_to_view_the_grid_with_following_columns_and_verify_searched_name(
+			DataTable resultColumns) {
+		List<String> expectedListOfGridColumns = resultColumns.asList(String.class);
+		if (searchPage.isSearchAccTableVisible()) {
+			listOfGridColumnsOnUI = searchPage.getListOfSrchAccTblHeaders();
+			Assert.assertTrue("All the grid columns are not visible",
+					expectedListOfGridColumns.containsAll(listOfGridColumnsOnUI) && !listOfGridColumnsOnUI.isEmpty());
+			Assert.assertTrue("Last name or first name does not match with the searched character",
+					searchPageSteps.verifyOnlyLastName(lastName) && searchPageSteps.verifyOnlyFirstName(firstName));
+			searchPage.clickSearchInvoiceIdOrVisitNumber();
+		} else {
+			financialInfoSteps
+					.log("searched table is not visible with grid, single account present for the search result");
+		}
+		Assert.assertTrue("Incorrect account is searched",
+				searchPageSteps.verifyPatientFirstAndLastName(lastName, firstName));
+	}
+
+	@Then("^user should be able to view the same names in grid as SQL result$")
+	public void user_should_be_able_to_view_the_same_names_in_grid_as_SQL_result() throws SQLException {
+		Assert.assertTrue("Same searched names are not visible in the SQL result",
+				searchPageSteps.verifySearchedNamesWithDatabase(lastName, firstName));
 	}
 
 	@When("^user enters the query result in SSN textbox$")
-	public void user_enters_the_query_result_in_SSN_textbox(String sSN) {
-		searchPage.enterSSN(sSN);
-	}
-	
-	@Then("^user should be able to view the same result in grid as SQL result for SSN number$")
-	public void user_should_be_able_to_view_the_same_result_in_grid_as_SQL_result_for_SSN_number() {
+	public void user_enters_the_query_result_in_SSN_textbox() {
 		try {
 			while (DatabaseConn.resultSet.next()) {
-				dbListOfNames.add(DatabaseConn.resultSet.getString("Name"));
+				dbSSN = DatabaseConn.resultSet.getString("SSN");
 			}
-			Assert.assertTrue("grid columns from Database does not match with UI",
-					listOfGridColumnsOnUI.containsAll(searchPageSteps.fetchColumnNamesFromDatabaseResult()));
 		} catch (SQLException sQLException) {
-			Assert.assertTrue("Names are not fetched from DB.\nThe Technical Error is:\n" + sQLException, false);
+			Assert.assertTrue("SSN is not fetched from DB.\nThe Technical Error is:\n" + sQLException, false);
 		}
-		financialInfoSteps.log("List of names from DB:\n" + dbListOfNames);
-		Assert.assertTrue("Names displayed on UI does not match with database",
-				searchPageSteps.verifyNameOnUIWithDatabaseResult(dbListOfNames));
+		searchPage.enterSSN(dbSSN);
 	}
-	
-	@When("^user runs the (.*) query to fetch SSN number$")
-	public void user_runs_the_query_to_fetch_SSN_number(String queryName) throws ClassNotFoundException, SQLException, Exception {
-	/*	DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName, String
-				.format(commonMethods.loadQuery(queryName, dbQueryFilename), dbLastName + "%", dbFirstName + "%"));*/
 
+	@Then("^user should be able to view the grid with following columns and verify searched SSN$")
+	public void user_should_be_able_to_view_the_grid_with_following_columns_and_verify_searched_SSN(
+			DataTable resultColumns) {
+		List<String> expectedListOfGridColumns = resultColumns.asList(String.class);
+		if (searchPage.isSearchAccTableVisible()) {
+			listOfGridColumnsOnUI = searchPage.getListOfSrchAccTblHeaders();
+			Assert.assertTrue("All the grid columns are not visible",
+					expectedListOfGridColumns.containsAll(listOfGridColumnsOnUI) && !listOfGridColumnsOnUI.isEmpty());
+			searchPage.clickSearchInvoiceIdOrVisitNumber();
+		} else {
+			financialInfoSteps
+					.log("searched table is not visible with grid, single account present for the search result");
+		}
+		Assert.assertTrue("Incorrect account is searched", searchPage.getPatientSSN().contains(dbSSN));
+	}
+
+	@When("^user runs the (.*) query to fetch SSN result$")
+	public void user_runs_the_query_to_fetch_SSN_result(String queryName) throws Exception {
+		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
+				String.format(commonMethods.loadQuery(queryName, dbQueryFilename), dbSSN));
+	}
+
+	@Then("^user should be able to view the same SSN in grid as SQL result$")
+	public void user_should_be_able_to_view_the_same_SSN_in_grid_as_SQL_result() throws SQLException {
+		Assert.assertTrue("Same searched SSN are not visible in the SQL result",
+				searchPageSteps.verifySearchedSSNWithDatabase(dbSSN));
+	}
+
+	@When("^user enters the query result in Medical Record Number textbox$")
+	public void user_enters_the_query_result_in_Medical_Record_Number_textbox() {
+		try {
+			while (DatabaseConn.resultSet.next()) {
+				dbMRN = DatabaseConn.resultSet.getString("FacilityPatientID");
+			}
+		} catch (SQLException sQLException) {
+			Assert.assertTrue("MRN is not fetched from DB.\nThe Technical Error is:\n" + sQLException, false);
+		}
+		searchPage.enterMRN(dbMRN);
+	}
+
+	@Then("^user should be able to view the grid with following columns if they are visible else verify the searched account with MRN$")
+	public void user_should_be_able_to_view_the_grid_with_following_columns_and_verify_the_searched_account_with_MRN(
+			DataTable resultColumns) {
+		List<String> expectedListOfGridColumns = resultColumns.asList(String.class);
+		if (searchPage.isSearchAccTableVisible()) {
+			listOfGridColumnsOnUI = searchPage.getListOfSrchAccTblHeaders();
+			Assert.assertTrue("All the grid columns are not visible",
+					expectedListOfGridColumns.containsAll(listOfGridColumnsOnUI) && !listOfGridColumnsOnUI.isEmpty());
+			searchPage.clickSearchInvoiceIdOrVisitNumber();
+		} else {
+			financialInfoSteps
+					.log("searched table is not visible with grid, single account present for the search result");
+		}
+		Assert.assertTrue("Account with Incorrect MRN number is searched", searchPage.getPatientMRN().contains(dbMRN));
+	}
+
+	@When("^user runs the (.*) query for MRN search$")
+	public void user_runs_the_query_for_MRN_search(String queryName) throws Exception {
+		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
+				String.format(commonMethods.loadQuery(queryName, dbQueryFilename), dbMRN));
+	}
+
+	@Then("^user should be able to view the same MRN in grid as SQL result$")
+	public void user_should_be_able_to_view_the_same_MRN_in_grid_as_SQL_result() {
+		try {
+			while (DatabaseConn.resultSet.next()) {
+				dbMRN = DatabaseConn.resultSet.getString("facilitypatientid");
+			}
+		} catch (SQLException sQLException) {
+			Assert.assertTrue("MRN is not fetched from DB.\nThe Technical Error is:\n" + sQLException, false);
+		}
+		Assert.assertTrue("MRN on UI does not match with database", searchPage.getPatientMRN().contains(dbMRN));
+	}
+
+	@Then("^user should be able to view the \"([^\"]*)\" error message$")
+	public void user_should_be_able_to_view_the_error_message(String errorMsg) {
+		Assert.assertTrue("'" + errorMsg + "' message is not visible",
+				searchPage.getErrorMsg().equalsIgnoreCase(errorMsg));
+	}
+
+	@When("^user runs the (.*) query to fetch firstname and lastname$")
+	public void user_runs_the_query_to_fetch_firstname_and_lastname(String queryName)
+			throws ClassNotFoundException, SQLException, Exception {
+		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName, String
+				.format(commonMethods.loadQuery(queryName, dbQueryFilename), dbLastName + "%", dbFirstName + "%"));
+	}
+
+	@Then("^user should be able to navigate to the R1D account page for searched visit Number$")
+	public void user_should_be_able_to_navigate_to_the_R1D_account_page_for_searched_visit_Number() {
+		Assert.assertTrue("User is not navigated on R1D account page for searched visit number",
+				searchPageSteps.verifyEncounterId(dbEncounterId));
+	}
+
+	@Then("^user should be able to navigate to the R1D account page for searched Visit Number and verify invoice number should not be visible$")
+	public void user_should_be_able_to_navigate_to_the_R1D_account_page_for_searched_Visit_Number_and_verify_invoice_number_should_not_be_visible() {
+		Assert.assertTrue("User is not navigated on R1D account page for searched visit number",
+				searchPageSteps.verifyEncounterId(dbEncounterId));
+		searchPage.invoiceNumberShouldNotVisible();
+	}
+
+	@When("^user runs query and fetch visit number(.*)$")
+	public void user_runs_query_and_fetch_visit_number(String queryName) throws Exception {
+		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
+				String.format(commonMethods.loadQuery(queryName, dbQueryFilename), "%" + visitNumber));
+	}
+
+	@Then("^user should be able to view the same result in grid as SQL result for visit number$")
+	public void user_should_be_able_to_view_the_same_result_in_grid_as_SQL_result_for_visit_number() {
+		try {
+			while (DatabaseConn.resultSet.next()) {
+				dbListOfEncounterID.add(DatabaseConn.resultSet.getString("Visit #"));
+
+			}
+		} catch (SQLException sQLException) {
+			Assert.assertTrue("encounterid is not fetched from DB.\nThe Technical Error is:\n" + sQLException, false);
+		}
+		Assert.assertTrue("Fetched list of Visit number doesnt contains entered Visit number",
+				searchPageSteps.verifyEncounterIdOnUIWithDatabaseResult(dbListOfEncounterID));
+		listOfGridColumnsOnUI = searchPage.getListOfSrchAccTblHeaders();
+		Assert.assertTrue("All the grid columns are not visible",
+				expectedListOfGridColumns.containsAll(listOfGridColumnsOnUI) && !listOfGridColumnsOnUI.isEmpty());
+	}
+
+	@When("^user runs query and fetch invoice number(.*)$")
+	public void user_runs_query_and_fetch_invoice_number_(String queryName) throws Exception {
+		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
+				String.format(commonMethods.loadQuery(queryName, dbQueryFilename), "%" + invoiceNumber));
+	}
+
+	@Then("^user should be able to view the same result in grid as SQL result for invoice number$")
+	public void user_should_be_able_to_view_the_same_result_in_grid_as_SQL_result_for_invoice_number() {
+		try {
+			while (DatabaseConn.resultSet.next()) {
+				dbListOfInvoiceNumber.add(DatabaseConn.resultSet.getString("Invoice #"));
+			}
+		} catch (SQLException sQLException) {
+			Assert.assertTrue("encounterid is not fetched from DB.\nThe Technical Error is:\n" + sQLException, false);
+		}
+		Assert.assertTrue("Fetched list of visit number doesnt contains entered visit number",
+				searchPageSteps.verifyInvoiceNumberOnUIWithDatabaseResult(dbListOfInvoiceNumber));
+		
+		listOfGridColumnsOnUI = searchPage.getListOfSrchAccTblHeaders();
+		
+		Assert.assertTrue("All the grid columns are not visible",
+				expectedListOfGridColumns.containsAll(listOfGridColumnsOnUI) && !listOfGridColumnsOnUI.isEmpty());
+	}
+
+	@When("^user runs query and fetch MRN number(.*)$")
+	public void user_runs_query_and_fetch_MRN_number(String queryName) throws Exception {
+		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
+				String.format(commonMethods.loadQuery(queryName, dbQueryFilename), "%" + mRN));
+	}
+
+	@Then("^user should be able to view the same result in grid as SQL result for MRN number$")
+	public void user_should_be_able_to_view_the_same_result_in_grid_as_SQL_result_for_MRN_number() {
+		try {
+			while (DatabaseConn.resultSet.next()) {
+				dbListOfMRN.add(DatabaseConn.resultSet.getString("MRN"));
+			}
+		} catch (SQLException sQLException) {
+			Assert.assertTrue("encounterid is not fetched from DB.\nThe Technical Error is:\n" + sQLException, false);
+		}
+		listOfGridColumnsOnUI = searchPage.getListOfSrchAccTblHeaders();
+		Assert.assertTrue("Fetched list of MRN number doesnt contains entered MRN",
+				searchPageSteps.verifyMRNOnUIWithDatabaseResult(dbListOfMRN));
+		Assert.assertTrue("All the grid columns are not visible",
+				expectedListOfGridColumns.containsAll(listOfGridColumnsOnUI) && !listOfGridColumnsOnUI.isEmpty());
 	}
 }

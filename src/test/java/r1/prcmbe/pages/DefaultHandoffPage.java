@@ -178,10 +178,10 @@ public class DefaultHandoffPage extends PageObject {
 	@FindBy(xpath = "(//*[@id='WorkflowTypeDispositionSorttable'])[last()]/li[last()]/div[3]/span")
 	private WebElementFacade savedDispositionName;
 
-	@FindBy(id = "FUP0")
+	@FindBy(xpath="(//*[@id='WorkflowTypeDispositionSorttable'])[last()]/li[last()]/div[4]/span")
 	private WebElementFacade savedDispositionFollowUpDays;
 
-	@FindBy(id = "TLMT0")
+	@FindBy(xpath ="(//*[@id='WorkflowTypeDispositionSorttable'])/li[last()]/div[5]/span")
 	private WebElementFacade savedDispositionTimeLimit;
 
 	@FindBy(id = "ASName0")
@@ -238,6 +238,10 @@ public class DefaultHandoffPage extends PageObject {
 	@FindBy(xpath = "//span[contains(text(),'AHtoDecision Admin')]/ancestor::li/div[2]/span[@data-bind='text: workflowDescriptionName']")
 	private List<WebElementFacade> listOfAHtoDecisionAdminWorkflows;
 
+	
+	public boolean isAddNewActionBtnVisisble() {
+		return addNewActionButton.isVisible();
+	}
 	public String getTextDefaultHandOffPageTitle() {
 		return defaultHandOffPageTitle.getText().trim();
 	}
@@ -419,6 +423,14 @@ public class DefaultHandoffPage extends PageObject {
 		actionNameTextBox.type(actionName);
 		return actionName;
 	}
+	
+	public String getActionNameFromTextBox() {
+		return evaluateJavascript("return arguments[0].value;", actionNameTextBox).toString();
+	}
+	
+	public void enterCopiedActionName(String previousActionName) {
+		actionNameTextBox.type(previousActionName);
+	}
 
 	public String enterActionDescriptionTextBox(String actionDescription) {
 		actionDescriptionTextBox.type(actionDescription);
@@ -494,21 +506,18 @@ public class DefaultHandoffPage extends PageObject {
 		dispositionRespondDeadlineTextBox.type(dispositionRespondDeadlineValue);
 	}
 
-	public void selectDispositionStatusDD(String dispositionStatusValue) {
+	public void selectDispositionStatusDropdown(String dispositionStatusValue) {
 		dispositionStatusDD.selectByVisibleText(dispositionStatusValue);
 		getDispositionStatus = dispositionStatusDD.getSelectedVisibleTextValue();
 
 	}
 
-	public void selectDispositionStatusFromDD(String dispositionStatusValue) {
+	public void selectDispositionStatusFromDropdown(String dispositionStatusValue) {
 		dispositionStatusDD.selectByVisibleText(dispositionStatusValue);
-
-		System.out.println(" status code " + getDispositionStatus);
 	}
 
 	public boolean isSelectedValueInDispositionStatusVisible(String expectedDrpDownValue) {
 		evaluateJavascript("arguments[0].scrollIntoView(true);", dispositionStatusDD);
-		System.out.println(getDispositionStatus);
 		getDispositionStatus = dispositionStatusDD.getSelectedVisibleTextValue();
 		if (getDispositionStatus.trim().equals(expectedDrpDownValue)) {
 			return true;

@@ -37,11 +37,10 @@ public class DefaultHandoffStepDef {
 	@Steps
 	SettingsPage settingsPage;
 
-	String workFlowDescription, recipientDesc, actionDescription, followUpDays, dispositionDescription,
-			responseDeadline, dispositionCode, dispositionFollowUpDays, dispositionResponseDeadline, workFlowName,
-			recipientName, searchText, dbId = "", facilitySettingValue, invoiceNumber,
-			dbFacilitySettingValue;
-	static String dispositionStatus, actionName;
+	String workFlowDescription, actionDescription, followUpDays, responseDeadline, dispositionCode,
+			dispositionFollowUpDays, dispositionResponseDeadline, recipientName, searchText, dbId = "",
+			facilitySettingValue, invoiceNumber, dbFacilitySettingValue;
+	static String dispositionStatus, actionName, dispositionDescription, recipientDesc, workFlowName;
 	private static String dbQueryFilename = "DefaultHandoff";
 
 	@When("^click on Workflow Configuration link$")
@@ -321,7 +320,7 @@ public class DefaultHandoffStepDef {
 	@When("^For disposition user selects \"([^\"]*)\" option from Desposition Status dropdown$")
 	public void for_disposition_user_selects_option_from_Desposition_Status_dropdown(String dispositionStatusValue) {
 		dispositionStatus = dispositionStatusValue;
-		defaultHandOffPage.selectDispositionStatusDD(dispositionStatusValue);
+		defaultHandOffPage.selectDispositionStatusDropdown(dispositionStatusValue);
 	}
 
 	@When("^user enters text: \"([^\"]*)\" in Predefined Note text area$")

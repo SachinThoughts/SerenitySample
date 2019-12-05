@@ -12,14 +12,6 @@ public class SettingsPage extends PageObject {
 	@FindBy(id = "dnn_dnnSideNav_ctldnnSideNavt703")
 	private WebElementFacade uDCAdminConfig;
 
-	public void clickUDCAdminConfig() {
-		uDCAdminConfig.click();
-	}
-
-	public void clickR1D() {
-		settingsR1Decision.click();
-	}
-
 	@FindBy(xpath = "//span[not(contains(@style,'hidden')) and text()='Workflow Configuration']")
 	private WebElementFacade workflowConfig;
 
@@ -31,6 +23,18 @@ public class SettingsPage extends PageObject {
 
 	@FindBy(xpath = "//span[not(contains(@style,'hidden')) and text()='FacilitySetting Configuration']")
 	private WebElementFacade facilitySettingConfigLink;
+
+	@FindBy(xpath = "//span[not(contains(@style,'hidden')) and text()='Tag Configuration']")
+	private WebElementFacade tagConfigLink;
+
+	@FindBy(xpath = "//span[@class='txt'and text()='Cache']")
+	private WebElementFacade cacheLink;
+
+	@FindBy(id = "dnn_ctr612_Cache_btnClearAll")
+	private WebElementFacade clearAllBtn;
+
+	@FindBy(xpath = "//span[not(contains(@style,'hidden')) and text()='R1 Configuration']")
+	private WebElementFacade r1ConfigurationLink;
 
 	public void clickOnSettingsR1Decisions() {
 		waitForAngularRequestsToFinish();
@@ -50,5 +54,31 @@ public class SettingsPage extends PageObject {
 	public void clickFacilitySettingConfigLink() {
 		waitForAngularRequestsToFinish();
 		withAction().moveToElement(facilitySettingConfigLink).click().build().perform();
+	}
+
+	public void clickTagConfigLink() {
+		waitForAngularRequestsToFinish();
+		withAction().moveToElement(tagConfigLink).click().build().perform();
+	}
+
+	public void clickCacheLink() {
+		withAction().moveToElement(cacheLink).click().build().perform();
+	}
+
+	public void clickClearAllBtn() {
+		clearAllBtn.click();
+	}
+
+	public void clickUDCAdminConfig() {
+		uDCAdminConfig.click();
+	}
+
+	public void clickR1D() {
+		settingsR1Decision.click();
+	}
+
+	public void clickR1ConfigurationLink() {
+		waitForAngularRequestsToFinish();
+		withAction().moveToElement(r1ConfigurationLink).click().build().perform();
 	}
 }
