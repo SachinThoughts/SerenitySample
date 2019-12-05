@@ -14,7 +14,7 @@ public class Hooks extends PageObject {
 
 	LoginPage userLoginPage;
 	AccountInformationPage accInfoPage;
-	static String propertyName;
+	static public String propertyName;
 
 	@Steps
 	LoginSteps loginStep;
@@ -54,6 +54,44 @@ public class Hooks extends PageObject {
 				userLoginPage.clickOnProceedFurther();
 			}
 			propertyName = "nonPRCMBeUsername";
+		}
+	}
+	
+	@Before(value = "@BSOFollowUpUser")
+	public void prcmBSOFollowUpUser() throws IOException {
+		open();
+		if (accInfoPage.checkLogoutVisible() && propertyName != "BSOFollowUpUserName") {
+			accInfoPage.logOut();
+			open();
+		}
+		if (userLoginPage.verifyUsernameTextBox()) {
+			String accountuser = CommonMethods.loadProperties("BSOFollowUpUserName");
+			String passwd = CommonMethods.loadProperties("BSOFollowUpPassword");
+			loginStep.userEntersCredentials(accountuser, passwd);
+			userLoginPage.loginBtnClick();
+			if (userLoginPage.isProceedLinkVisible()) {
+				userLoginPage.clickOnProceedFurther();
+			}
+			propertyName = "BSOFollowUpUserName";
+		}
+	}
+	
+	@Before(value = "@PRCMQueueUser")
+	public void prcmBeQueueUser() throws IOException {
+		open();
+		if (accInfoPage.checkLogoutVisible() && propertyName != "prcmBeQueueUsername") {
+			accInfoPage.logOut();
+			open();
+		}
+		if (userLoginPage.verifyUsernameTextBox()) {
+			String accountuser = CommonMethods.loadProperties("prcmBeQueueUsername");
+			String passwd = CommonMethods.loadProperties("prcmBeQueuePassword");
+			loginStep.userEntersCredentials(accountuser, passwd);
+			userLoginPage.loginBtnClick();
+			if (userLoginPage.isProceedLinkVisible()) {
+				userLoginPage.clickOnProceedFurther();
+			}
+			propertyName = "prcmBeQueueUsername";
 		}
 	}
 }
