@@ -568,9 +568,8 @@ public class DefaultHandoffStepDef {
 		defaultHandOffPage.enterNote(note);
 	}
 
-	@Then("^user should be able to view \"([^\"]*)\" under event circle in blue color for newly added Handoff type on Horizontal timeline$")
-	public void user_should_be_able_to_view_under_event_circle_in_blue_color_for_newly_added_Handoff_type_on_Horizontal_timeline(
-			String bubbleText) {
+	@Then("^user should be able to view H under event circle in blue color for newly added Handoff type on Horizontal timeline$")
+	public void user_should_be_able_to_view_under_event_circle_in_blue_color_for_newly_added_Handoff_type_on_Horizontal_timeline() {
 		Assert.assertTrue("User is not able to view blue bubble with H text",
 				defaultHandOffPage.getHandoffBubbleColor().equals(BUBBLECOLOR));
 	}
@@ -594,38 +593,45 @@ public class DefaultHandoffStepDef {
 
 	@Then("^user should be able to view Handoff type value as newly added handoff type$")
 	public void user_should_be_able_to_view_Handoff_type_value_as_newly_added_handoff_type() {
-		Assert.assertTrue("User is not able to view handoff type",
+		Assert.assertTrue("User is not able to view handoff type in the handoff bubble popup",
 				defaultHandOffPage.getListOfPopupValues().contains(handoffType));
 	}
 
-	@Then("^user should be able to view Added column value as system current date$")
-	public void user_should_be_able_to_view_Added_column_value_as_system_current_date() {
-		Assert.assertTrue("Created date does not matched with system date",
-				defaultHandOffPage.getCreatedDate().equals(defaultHandoffSteps.getCurrentDate()));
+	@Then("^user should be able to view Added column value as system current date: \"([^\"]*)\"$")
+	public void user_should_be_able_to_view_Added_column_value_as_system_current_date(String query)
+			throws ClassNotFoundException, SQLException, Exception {
+		Assert.assertTrue("Created date does not matched with system date in the handoff bubble popup",
+				defaultHandOffPage.getCreatedDate()
+						.equals(defaultHandoffSteps.getHandoffCreatedDate(query, invoiceNumber)));
 	}
 
-	@Then("^user should be able to view Followup column value as system current date$")
-	public void user_should_be_able_to_view_Followup_column_value_as_system_current_date() {
-		Assert.assertTrue("Followup date does not matched with system date",
-				defaultHandOffPage.getFollowupDate().equals(defaultHandoffSteps.getCurrentDate()));
+	@Then("^user should be able to view Followup column value as system current date: \"([^\"]*)\"$")
+	public void user_should_be_able_to_view_Followup_column_value_as_system_current_date(String query)
+			throws ClassNotFoundException, SQLException, Exception {
+		Assert.assertTrue(
+				"Followup date is not as expected in the handoff bubble popup. Actual: "
+						+ defaultHandOffPage.getFollowupDate() + " Expected: "
+						+ defaultHandoffSteps.getHandoffFollowupDate(query, invoiceNumber),
+				defaultHandOffPage.getFollowupDate()
+						.equals(defaultHandoffSteps.getHandoffFollowupDate(query, invoiceNumber)));
 	}
 
 	@Then("^user should be able to view Created column value as Logged in username and userid: \"([^\"]*)\"$")
 	public void user_should_be_able_to_view_Created_column_value_as_Logged_in_username_and_userid(String queryName)
 			throws ClassNotFoundException, SQLException, IOException, Exception {
-		Assert.assertTrue("User is not able to view handoff type",
+		Assert.assertTrue("User is not able to view handoff type in the handoff bubble popup",
 				defaultHandOffPage.getListOfPopupValues().contains(defaultHandoffSteps.getDisplayName(queryName)));
 	}
 
 	@Then("^user should be able to view Action with the correct selected data$")
 	public void user_should_be_able_to_view_Action_with_the_correct_selected_data() {
-		Assert.assertTrue("User is not able to view Action with correct selected data",
+		Assert.assertTrue("User is not able to view Action with correct selected data in the handoff bubble popup",
 				defaultHandOffPage.getListOfPopupValues().contains(whyVal));
 	}
 
 	@Then("^user should be able to view Disposition with the correct selected data$")
 	public void user_should_be_able_to_view_Disposition_with_the_correct_selected_data() {
-		Assert.assertTrue("User is not able to view Action with correct selected data",
+		Assert.assertTrue("User is not able to view Action with correct selected data in the handoff bubble popup",
 				defaultHandOffPage.getListOfPopupValues().contains(dispositionVal));
 	}
 
@@ -637,7 +643,7 @@ public class DefaultHandoffStepDef {
 	@Then("^user should be able to view the following columns in Account Action History$")
 	public void user_should_be_able_to_view_the_following_columns_in_Account_Action_History(DataTable expectedHeaders) {
 		List<String> expectedListOfEventCircleCols = expectedHeaders.asList(String.class);
-		Assert.assertTrue("The column headers in the popup text are not as expected.",
+		Assert.assertTrue("The column headers in the popup text are not as expected in Account Action History.",
 				defaultHandOffPage.getAccountActionHistoryColumns().equals(expectedListOfEventCircleCols));
 	}
 
@@ -649,32 +655,45 @@ public class DefaultHandoffStepDef {
 
 	@Then("^user should be able to view Action with the correct selected data in Account Action History$")
 	public void user_should_be_able_to_view_Action_with_the_correct_selected_data_in_Account_Action_History() {
-		Assert.assertTrue("User is not able to view Action with correct selected data",
+		Assert.assertTrue("User is not able to view Action with correct selected data in Account Action History",
 				defaultHandOffPage.getAccountActionHistoryValues().contains(whyVal));
 	}
 
 	@Then("^user should be able to view Disposition with the correct selected data in Account Action History$")
 	public void user_should_be_able_to_view_Disposition_with_the_correct_selected_data_in_Account_Action_History() {
-		Assert.assertTrue("User is not able to view Action with correct selected data",
+		Assert.assertTrue("User is not able to view Action with correct selected data in Account Action History",
 				defaultHandOffPage.getAccountActionHistoryValues().contains(dispositionVal));
 	}
 
-	@Then("^user should be able to view Added column value as system current date in Account Action History$")
-	public void user_should_be_able_to_view_Added_column_value_as_system_current_date_in_Account_Action_History() {
-		Assert.assertTrue("Created date does not matched with system date",
-				defaultHandOffPage.getAccountActionHistoryAddedDate().equals(defaultHandoffSteps.getCurrentDate()));
+	@Then("^user should be able to view Added column value as system current date in Account Action History: \"([^\"]*)\"$")
+	public void user_should_be_able_to_view_Added_column_value_as_system_current_date_in_Account_Action_History(
+			String query) throws ClassNotFoundException, SQLException, Exception {
+		Assert.assertTrue("Created date does not matched with system date in Account Action History",
+				defaultHandOffPage.getAccountActionHistoryAddedDate()
+						.equals(defaultHandoffSteps.getHandoffCreatedDate(query, invoiceNumber)));
 	}
 
 	@Then("^user should be able to view Created column value as Logged in username and userid in Account Action History: \"([^\"]*)\"$")
 	public void user_should_be_able_to_view_Created_column_value_as_Logged_in_username_and_userid_in_Account_Action_History(
 			String queryName) throws ClassNotFoundException, SQLException, IOException, Exception {
-		Assert.assertTrue("User is not able to view handoff type", defaultHandOffPage.getAccountActionHistoryValues()
-				.contains(defaultHandoffSteps.getDisplayName(queryName)));
+		Assert.assertTrue("User is not able to view handoff type in Account Action History", defaultHandOffPage
+				.getAccountActionHistoryValues().contains(defaultHandoffSteps.getDisplayName(queryName)));
 	}
 
-	@Then("^user should be able to view Followup column value as system current date in Account Action History$")
-	public void user_should_be_able_to_view_Followup_column_value_as_system_current_date_in_Account_Action_History() {
-		Assert.assertTrue("Created date does not matched with system date",
-				defaultHandOffPage.getAccountActionHistoryFollowupDate().equals(defaultHandoffSteps.getCurrentDate()));
+	@Then("^user should be able to view Followup column value as system current date in Account Action History: \"([^\"]*)\"$")
+	public void user_should_be_able_to_view_Followup_column_value_as_system_current_date_in_Account_Action_History(
+			String query) throws ClassNotFoundException, SQLException, Exception {
+		Assert.assertTrue(
+				"Followup date is not as expected in Account Action History. Actual: "
+						+ defaultHandOffPage.getAccountActionHistoryFollowupDate() + " Expected: "
+						+ defaultHandoffSteps.getHandoffFollowupDate(query, invoiceNumber),
+				defaultHandOffPage.getAccountActionHistoryFollowupDate()
+						.equals(defaultHandoffSteps.getHandoffFollowupDate(query, invoiceNumber)));
+	}
+	
+	@Then("^user should be able to view the appropriate handoff success message: \"([^\"]*)\"$")
+	public void user_should_be_able_to_view_the_appropriate_handoff_success_message(String expectedSuccessMessage) {
+		Assert.assertTrue("Expected handoff success message is not displayed",
+				defaultHandOffPage.getTextHandoffSuccessMessage().contains(expectedSuccessMessage));
 	}
 }

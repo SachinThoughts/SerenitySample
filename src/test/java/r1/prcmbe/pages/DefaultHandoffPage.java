@@ -743,7 +743,8 @@ public class DefaultHandoffPage extends PageObject {
 	}
 
 	public void clickAccountActionHistoryNotesBtn() {
-		withAction().moveToElement(accountActionHistoryNotesBtn).click().build().perform();
+		withAction().moveToElement(accountActionHistoryNotesBtn).build().perform();
+		evaluateJavascript("arguments[0].click();", accountActionHistoryNotesBtn);
 	}
 
 	public List<String> getAccountActionHistoryColumns() {
@@ -781,5 +782,10 @@ public class DefaultHandoffPage extends PageObject {
 
 	public boolean isAddNewActionBtnVisisble() {
 		return addNewActionButton.isVisible();
+	}
+	
+	public String getTextHandoffSuccessMessage() {
+		waitForAngularRequestsToFinish();
+		return successMessage.withTimeoutOf(Duration.ofSeconds(60)).waitUntilVisible().getText().trim();
 	}
 }
