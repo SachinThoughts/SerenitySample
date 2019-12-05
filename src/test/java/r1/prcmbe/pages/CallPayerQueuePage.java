@@ -103,6 +103,12 @@ public class CallPayerQueuePage extends PageObject {
 	@FindBy(id = "rdoApproved")
 	private WebElementFacade approveRadioBtn;
 
+	@FindBy(xpath = "//*[@id='recentlyWorkedLabel']/following::div[@id='dvRecentWorkList']/table")
+	private WebElementFacade recentlyWorkedAccPopup;
+
+	@FindBy(xpath = "//*[@id='dvRecentWorkList']/table/tbody/tr/td[4]/a")
+	private List<WebElementFacade> listOfRecentlyWorkedInvNum;
+
 	public void clickAddtoCallPayorQueueBtn() {
 		withAction().moveToElement(addToQueueIcon).build().perform();
 		evaluateJavascript("arguments[0].click();", addToQueueIcon);
@@ -266,5 +272,17 @@ public class CallPayerQueuePage extends PageObject {
 
 	public boolean isAddToCallPayerQueueBtnDisabled() {
 		return (boolean) evaluateJavascript("return document.querySelector('#btnAddtoCallPayerQueue').disabled");
+	}
+
+	public boolean isRecentlyWorkedAccPopupVisible() {
+		return recentlyWorkedAccPopup.isVisible();
+	}
+
+	public List<String> getListOfRecentlyWorkedInvNum() {
+		List<String> listOfInvNum = new ArrayList<>();
+		for (WebElementFacade recentlyWorkedInvNum : listOfRecentlyWorkedInvNum) {
+			listOfInvNum.add(recentlyWorkedInvNum.getText());
+		}
+		return listOfInvNum;
 	}
 }
