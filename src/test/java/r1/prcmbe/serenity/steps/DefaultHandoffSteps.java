@@ -54,7 +54,6 @@ public class DefaultHandoffSteps {
 			firstName = DatabaseConn.resultSet.getString("FirstName");
 			lastName = DatabaseConn.resultSet.getString("LastName");
 		}
-		String displayName = firstName + " " + lastName;
-		return displayName;
+		return firstName + " " + lastName;
 	}
 }

@@ -178,10 +178,10 @@ public class DefaultHandoffPage extends PageObject {
 	@FindBy(xpath = "(//*[@id='WorkflowTypeDispositionSorttable'])[last()]/li[last()]/div[3]/span")
 	private WebElementFacade savedDispositionName;
 
-	@FindBy(xpath="(//*[@id='WorkflowTypeDispositionSorttable'])[last()]/li[last()]/div[4]/span")
+	@FindBy(xpath = "(//*[@id='WorkflowTypeDispositionSorttable'])[last()]/li[last()]/div[4]/span")
 	private WebElementFacade savedDispositionFollowUpDays;
 
-	@FindBy(xpath ="(//*[@id='WorkflowTypeDispositionSorttable'])/li[last()]/div[5]/span")
+	@FindBy(xpath = "(//*[@id='WorkflowTypeDispositionSorttable'])/li[last()]/div[5]/span")
 	private WebElementFacade savedDispositionTimeLimit;
 
 	@FindBy(id = "ASName0")
@@ -297,6 +297,10 @@ public class DefaultHandoffPage extends PageObject {
 
 	@FindBy(xpath = "//*[@id='notesHistory']/li[1]/div/div/div[3]/span[3]/span[2]")
 	private WebElementFacade accountActionHistoryFollowupDate;
+
+	public boolean isAddNewActionBtnVisisble() {
+		return addNewActionButton.isVisible();
+	}
 
 	public String getTextDefaultHandOffPageTitle() {
 		return defaultHandOffPageTitle.getText().trim();
@@ -478,6 +482,14 @@ public class DefaultHandoffPage extends PageObject {
 		String actionName = RandomStringUtils.randomAlphabetic(13);
 		actionNameTextBox.type(actionName);
 		return actionName;
+	}
+
+	public String getActionNameFromTextBox() {
+		return evaluateJavascript("return arguments[0].value;", actionNameTextBox).toString();
+	}
+
+	public void enterCopiedActionName(String previousActionName) {
+		actionNameTextBox.type(previousActionName);
 	}
 
 	public String enterActionDescriptionTextBox(String actionDescription) {
@@ -772,18 +784,6 @@ public class DefaultHandoffPage extends PageObject {
 		return accountActionHistoryFollowupDate.getText();
 	}
 
-	public String getActionNameFromTextBox() {
-		return evaluateJavascript("return arguments[0].value;", actionNameTextBox).toString();
-	}
-
-	public void enterCopiedActionName(String previousActionName) {
-		actionNameTextBox.type(previousActionName);
-	}
-
-	public boolean isAddNewActionBtnVisisble() {
-		return addNewActionButton.isVisible();
-	}
-	
 	public String getTextHandoffSuccessMessage() {
 		waitForAngularRequestsToFinish();
 		return successMessage.withTimeoutOf(Duration.ofSeconds(60)).waitUntilVisible().getText().trim();
