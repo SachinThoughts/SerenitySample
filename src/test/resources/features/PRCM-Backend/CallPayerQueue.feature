@@ -43,7 +43,7 @@ Feature: Verify Call Payer Queue functionality
       | handoffType   | create                      |
       | AR Supervisor | Supervisor Hand Off Request |
 
-  @427115 @Sprint102 @PRCMUser
+  @427115 @Sprint103 @PRCMUser
   Scenario: Verify Call Queue Indicator pop-up message is displayed to user 2 while adding an account already in Call Queue of User 1
     Given user is on account page
     When user clicks on Add to Queue button

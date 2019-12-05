@@ -144,3 +144,41 @@ Feature: Verify Call Payer Queue functionality
     And user enters Invoice number
     And user clicks on Submit button
     Then user should be able to view the account dropped from CPQ
+
+  @427124 @Sprint103 @BSOFollowUpUser
+  Scenario: Verify that the Account on which Write-off Response has been taken are displayed in the Recently Worked Accounts section for the R1D Approver who has taken Write-off Response
+    Given user is on account page
+    When user clicks on Approvals link
+    And user selects "Write Off" option from Category dropdown
+    And user selects "Medical Necessity" from Write Off Type dropdown
+    And user selects "MEDICAL NECESSITY ADJUSTMENT-7018" from T-Code to Use dropdown
+    And user enters amount "4.00" in Write off Amount textbox
+    And user enters "Automation Testing Note" in Notes textbox
+    And user clicks on write off Save button
+    Then user should be able to view write-off request on account
+    When user clicks on Billing & Follow-up link from footer
+    And user clicks on R1_Decision link
+    And user select "Invoice Number" from Search By dropdown
+    And user selects "=" operator from operator dropdown
+    And user enters Invoice number
+    And user clicks on Submit button
+    And user clicks on Add to queue button in Call Payer Queue Section
+    And user clicks Add without note
+    Then user should be able to view write-off request on account
+    And user should be able to view the account to users CPQ
+    When user logout from the application
+    And user logins to the application with "R1D_Approval" Role
+    And user clicks on Billing & Follow-up link
+    And user clicks on R1_Decision link
+    And user select "Invoice Number" from Search By dropdown
+    And user selects "=" operator from operator dropdown
+    And user enters Invoice number
+    And user clicks on Submit button
+    And user scrolls down to the Write Off section
+    And user clicks on radiobutton Approve
+    And user clicks on write off response Submit button
+    And user clicks on review save button
+    And user should be able to view the request "Approved" status
+    When user clicks on Recent Account Button
+    Then user should be able to view the popup with all the recently worked accounts
+    And user should be able to view the account on which Write-Off Response has been taken
