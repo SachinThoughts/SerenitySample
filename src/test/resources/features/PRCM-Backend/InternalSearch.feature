@@ -350,7 +350,7 @@ Feature: Verify internal search on R1 Decision page
 
     Examples: 
       | dropdown     | option            | AnyFiveDigitNumber | queryname8                 |
-      | Visit Number | Visit Number      |             123456 | SearchInternal_391038_SQL8 |
+      | Visit Number | Visit Number      |             12345 | SearchInternal_391038_SQL8 |
 
   @391038 @Sprint102 @PRCMUser
   Scenario Outline: Verify that user is able to search an Invoice Number with Search textbox using Like operator on R1D Page

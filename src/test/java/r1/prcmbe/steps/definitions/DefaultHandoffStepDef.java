@@ -40,11 +40,11 @@ public class DefaultHandoffStepDef {
 	@Steps
 	DefaultHandoffSteps defaultHandoffSteps;
 
-	String workFlowDescription, recipientDesc, actionDescription, followUpDays, dispositionDescription,
-			responseDeadline, dispositionCode, dispositionFollowUpDays, dispositionResponseDeadline, workFlowName,
-			recipientName, searchText, dbId = "", facilitySettingValue, invoiceNumber, dbFacilitySettingValue,
-			createVal, whyVal, dispositionVal, handoffType;
-	static String dispositionStatus, actionName;
+	String workFlowDescription, actionDescription, followUpDays, responseDeadline, dispositionCode,
+			dispositionFollowUpDays, dispositionResponseDeadline, recipientName, searchText, dbId = "",
+			facilitySettingValue, invoiceNumber, dbFacilitySettingValue, createVal, whyVal, dispositionVal, handoffType;
+	static String dispositionStatus, actionName, dispositionDescription, recipientDesc, workFlowName;
+
 	private static String dbQueryFilename = "DefaultHandoff";
 	private final String BUBBLECOLOR = "rgba(61, 100, 168, 1)";
 
@@ -690,7 +690,7 @@ public class DefaultHandoffStepDef {
 				defaultHandOffPage.getAccountActionHistoryFollowupDate()
 						.equals(defaultHandoffSteps.getHandoffFollowupDate(query, invoiceNumber)));
 	}
-	
+
 	@Then("^user should be able to view the appropriate handoff success message: \"([^\"]*)\"$")
 	public void user_should_be_able_to_view_the_appropriate_handoff_success_message(String expectedSuccessMessage) {
 		Assert.assertTrue("Expected handoff success message is not displayed",
