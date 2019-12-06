@@ -76,6 +76,24 @@ public class TaggingPage extends PageObject {
 	@FindBy(xpath = "//*[@id='cmHandoffHIMGroup']/li//div[1]//label[starts-with(text(),'Automation')]//ancestor::li//span[text()='Edit']")
 	private List<WebElementFacade> automationEditLinks;
 
+	@FindBy(xpath = "//button[text()=' Add New Tag']")
+	private WebElementFacade addNewTagBtn;
+
+	@FindBy(xpath = "//strong[text()='Selected Category']")
+	private WebElementFacade selectedCategoryLbl;
+
+	@FindBy(xpath = "//*[@class='breadcrumb defect-summary']//li//h3")
+	private WebElementFacade selectedCategoryOnBreadCrumb;
+
+	@FindBy(xpath = "//strong[text()='No Tag Found']")
+	private WebElementFacade noTagAlertMsg;
+
+	@FindBy(xpath = "//*[@id='cmHandoffHIMGroup']/li//div[1]//span[starts-with(text(),'Automation')]")
+	private List<WebElementFacade> listOfAddedTagName;
+
+	@FindBy(xpath = "//input[@placeholder='Enter Tag Name']")
+	private WebElementFacade tagNameTxtBox;
+
 	int index;
 
 	public boolean isTagConfigPageVisible() {
@@ -205,5 +223,49 @@ public class TaggingPage extends PageObject {
 
 	public void clickOnActiveSlideBarEdit() {
 		evaluateJavascript("arguments[0].click();", applicationSlideBar.get(index));
+	}
+
+	public String clickAndGetAnyRadioBtnTxt() {
+		index = automationRadioBtn.size() - 1;
+		evaluateJavascript("arguments[0].click();", automationRadioBtn.get(index));
+		System.out.println(categoryNameList.get(index).getText());
+		return categoryNameList.get(index).getText();
+
+	}
+
+	public void clickOnContinueBtn() {
+		continueBtn.click();
+	}
+
+	public void isAddNewTagBtnVisible() {
+		addNewTagBtn.isVisible();
+	}
+
+	public void isSelectedCategoryLblVisible() {
+		searchCategoryLabel.isVisible();
+	}
+
+	public String getCategoryNameFromBreadCrumb() {
+		return selectedCategoryOnBreadCrumb.getText();
+	}
+
+	public void clickOnAddNewTagBtn() {
+		addNewTagBtn.click();
+	}
+
+	public boolean isNoTagAlertMsgVisible() {
+		return noTagAlertMsg.isVisible();
+	}
+
+	public List<String> getlistOfTagName() {
+		List<String> listOfTagName = new ArrayList<>();
+		for (WebElementFacade tagName : listOfAddedTagName) {
+			listOfTagName.add(tagName.getText());
+		}
+		return listOfTagName;
+	}
+
+	public void enterTxtInTagNameTxtBox(String tagName) {
+		tagNameTxtBox.type(tagName);
 	}
 }

@@ -25,7 +25,7 @@ public class TaggingStepDef extends PageObject {
 	final String ALERTBGCOLOR = "rgba(76, 144, 221, 1)";
 	List<String> categoryNameList = new ArrayList<>();
 	List<String> listOfGridColumnsOnUI = new ArrayList<>();
-	String enteredCategoryName, dbCategoryName, dbCategoryDecs, successMsg, editedCategoryName;
+	String enteredCategoryName, dbCategoryName, dbCategoryDecs, successMsg, editedCategoryName,radioBtnTxt;
 	CommonMethods commonMethods;
 	private static String dbFileName = "Tagging";
 	@Steps
@@ -190,7 +190,7 @@ public class TaggingStepDef extends PageObject {
 
 	@When("^User edits Category Name (.*) in textbox$")
 	public void user_edits_Category_Name_AutomationTest_in_textbox(String updatedCategoryName) {
-		editedCategoryName = taggingSteps.getEditedCategoryName(updatedCategoryName, categoryNameList);
+		editedCategoryName = taggingSteps.getNewCategoryName(updatedCategoryName, categoryNameList);
 		taggingPage.enterTxtInCategoryNameTxtBox(editedCategoryName);
 	}
 
@@ -229,6 +229,65 @@ public class TaggingStepDef extends PageObject {
 	@When("^User clicks on Save button and captures success message$")
 	public void user_clicks_on_Save_button_and_captures_success_message() {
 		successMsg = taggingPage.clickOnSaveAndGetSuccessMsg();
+	}
+
+	@When("^User clicks on Radio button of any category$")
+	public void user_clicks_on_Radio_button_of_any_category() {
+		radioBtnTxt=taggingPage.clickAndGetAnyRadioBtnTxt();
+	}
+
+	@When("^User clicks on Continue button$")
+	public void user_clicks_on_Continue_button() {
+		taggingPage.clickOnContinueBtn();
+	}
+
+	@Then("^User should be able to navigate to TAG NAME tab$")
+	public void user_should_be_able_to_navigate_to_TAG_NAME_tab() {
+		taggingPage.isAddNewTagBtnVisible();
+	}
+
+	@Then("^User should be able to view Selected Category Label$")
+	public void user_should_be_able_to_view_Selected_Category_Label() {
+		taggingPage.isSelectedCategoryLblVisible();
+	}
+
+	@Then("^User should be able to view Selected Category Name label$")
+	public void user_should_be_able_to_view_Selected_Category_Name_label() {
+		Assert.assertTrue("User is not able to to view selecred category name label on UI", taggingPage.getCategoryNameFromBreadCrumb().equalsIgnoreCase(radioBtnTxt));
+	}
+
+	@When("^User clicks on Add New Tag button$")
+	public void user_clicks_on_Add_New_Tag_button() {
+		taggingPage.clickOnAddNewTagBtn();
+	}
+
+	@When("^User enters the value for Tag Name (.*) in Enter Tag Name textbox$")
+	public void user_enters_the_value_for_AutomationTest_in_Enter_Tag_Name_textbox(String tagName) {
+	  tagName=taggingSteps.getNewTagName(tagName);
+	}
+
+	@When("^User enters the value for Tag Description (.*) in Enter Tag Description textbox$")
+	public void user_enters_the_value_for_TestTagDesciption_in_Enter_Tag_Description_textbox(String tagDescription) {
+		taggingPage.enterTxtInTagDescTxtBox(tagDescription.concat((" " + RandomStringUtils.randomAlphabetic(3))));
+	}
+	@When("^user selects multiple Facilities from Facilities drop down$")
+	public void user_selects_multiple_Facilities_from_Facilities_drop_down() {
+
+	}
+
+	@Then("^User should be able to view the message \"([^\"]*)\"$")
+	public void user_should_be_able_to_view_the_message(String arg1) {
+
+	}
+
+	@When("^user runs the Tagging_(\\d+)_SQL(\\d+) query to verify newly added tag$")
+	public void user_runs_the_Tagging___SQL_query_to_verify_newly_added_tag(int arg1, int arg2) {
+
+	}
+
+	@Then("^User should be able to view the newly added Tag in SQL result\\.$")
+	public void user_should_be_able_to_view_the_newly_added_Tag_in_SQL_result() {
+
 	}
 
 }
