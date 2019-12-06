@@ -51,11 +51,9 @@ public class FacilityGroupConfigurationPage extends PageObject {
 	private WebElementFacade closeBtn;
 
 	public List<String> getAllPageControls() {
-
 		for (WebElementFacade pageControls : listOfLabels) {
 			ListOfPageControls.add(pageControls.getText().trim());
 		}
-
 		ListOfPageControls.add(physicianCheckboxText.getText().trim());
 		ListOfPageControls.add(closeBtn.getText().trim());
 		ListOfPageControls.add(saveBtn.getText().trim());
