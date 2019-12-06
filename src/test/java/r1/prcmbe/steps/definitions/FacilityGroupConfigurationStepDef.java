@@ -41,8 +41,7 @@ public class FacilityGroupConfigurationStepDef {
 
 	@Given("^user is on Facility Group Configuration screen$")
 	public void user_is_on_Facility_Group_Configuration_screen() {
-		Assert.assertTrue("failed to navigate facility Group Confifg Screen",
-				facilityGrpConfigPage.isFacilityGrpConfigHeaderVisible());
+		facilityGrpConfigPage.isFacilityGrpConfigHeaderVisible();
 	}
 
 	@When("^user runs the \"([^\"]*)\" query$")
@@ -69,7 +68,7 @@ public class FacilityGroupConfigurationStepDef {
 	@Then("^user should be able to view header name as Facility Group Configuration$")
 	public void user_should_be_able_to_view_header_name_as_facility_group_configuration() {
 		Assert.assertTrue("Header name as Facility Group Configuration",
-				facilityGrpConfigPage.isFacilityGrpConfigHeaderVisible());
+				facilityGrpConfigPage.isHeaderNameOnFacilityGrpConfigVisble());
 	}
 
 	@Then("^user should be able to view PRCM flag should be enabled having value as \"([^\"]*)\"$")
@@ -85,7 +84,7 @@ public class FacilityGroupConfigurationStepDef {
 	public void user_should_be_able_to_view_data_in_facility_group_column(String expectedFacilityGroupName) {
 		facilityGroupNameFromUI = expectedFacilityGroupName;
 		Assert.assertTrue(" Expected Facility Group is not Present ",
-				facilityGrpConfigPage.IsPRCMFacilityGroupNamePresent(expectedFacilityGroupName));
+				facilityGrpConfigPage.IsFacilityGroupNamePresent(expectedFacilityGroupName));
 	}
 
 	@Then("^user should be able to view data in facilities (.+)$")
@@ -112,4 +111,38 @@ public class FacilityGroupConfigurationStepDef {
 		Assert.assertTrue("EditButton is not visisble on the Page ", facilityGrpConfigPage.isEditBtnPresent());
 	}
 
+	@When("^user clicks on Add New Facility Group button$")
+	public void user_clicks_on_add_new_facility_group_button() {
+		facilityGrpConfigPage.clickOnAddFacilityBtn();
+	}
+
+	@Then("^user should be able to view new pop up window on clicking$")
+	public void user_should_be_able_to_view_new_pop_up_window_on_clicking() {
+		Assert.assertTrue(" Add new Facility Group is not visible ",
+				facilityGrpConfigPage.isAddNewFacilityGroupPopupVisible());
+	}
+
+	@Then("^user should be able to view controls Facility$")
+	public void user_should_be_able_to_view_controls_facility(DataTable pageControls) {
+		List<String> pageControlsOnPopup = pageControls.asList(String.class);
+		Assert.assertTrue("Controls are not seen",
+				facilityGrpConfigPage.getAllPageControls().containsAll(pageControlsOnPopup));
+	}
+
+	@When("^user search facilities in the textbox present with label search facilities, example: \"([^\"]*)\"$")
+	public void user_search_facilities_in_the_textbox_present_with_label_search_facilities_example_something(
+			String facilityCode) {
+		facilityGrpConfigPage.enterFacilityCodeInTxtBox(facilityCode);
+	}
+
+	@Then("^user should be able to view \\+Add button as disabled$")
+	public void user_should_be_able_to_view_add_button_as_disabled() {
+		Assert.assertFalse("+Add button is not disabled ", facilityGrpConfigPage.isAddBtnOnAddNewPopupEnabled());
+
+	}
+
+	@Then("^user should be able to view \\+Add button should get enabled$")
+	public void user_should_be_able_to_view_add_button_should_get_enabled() {
+		Assert.assertTrue("+Add button is not enabled ", facilityGrpConfigPage.isAddBtnOnAddNewPopupEnabled());
+	}
 }

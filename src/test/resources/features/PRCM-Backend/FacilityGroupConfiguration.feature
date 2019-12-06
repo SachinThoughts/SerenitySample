@@ -18,8 +18,8 @@ Feature: Verify Factility Group Configuration related scenarios in PRCM-BE
     Given user is on Facility Group Configuration screen
     Then user should be able to view header name as Facility Group Configuration
     Then user should be able to view column
-      |Facility Group Name|Facilities|
-     And user should be able to view Add New Facility Group button in top right and bottom right corner
+      | Facility Group Name | Facilities |
+    And user should be able to view Add New Facility Group button in top right and bottom right corner
     And user should be able to view the Edit Link button
     When user is on Facility Group Configuration screen
     Then user should be able to view data in facility group column <Facility Group Name>
@@ -33,3 +33,14 @@ Feature: Verify Factility Group Configuration related scenarios in PRCM-BE
       | Facilities | Facility Group Name      |
       | WPWI       | Ascension - Wheaton PRCM |
       | A400       | Intermountain PRCM       |
+
+  @391161 @AHtoDecisionAdmin @Sprint103
+  Scenario: Verify Availability of checkbox  named as physican scope if user add any new facility group
+    Given user is on Facility Group Configuration screen
+    When user clicks on Add New Facility Group button
+    Then user should be able to view new pop up window on clicking
+    Then user should be able to view controls Facility
+      | Facility Group Name | Search Facilities | All Facilities (Click Plus Button to Add facility) | Current Assigned facilities: | Physician InScope: | close | Save | Add |
+    Then user should be able to view +Add button as disabled
+    And user search facilities in the textbox present with label search facilities, example: "T"
+    Then user should be able to view +Add button should get enabled

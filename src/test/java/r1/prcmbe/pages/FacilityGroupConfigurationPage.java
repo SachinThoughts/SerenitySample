@@ -9,6 +9,8 @@ import net.serenitybdd.core.pages.WebElementFacade;
 
 public class FacilityGroupConfigurationPage extends PageObject {
 
+	List<String> ListOfPageControls = new ArrayList<>();
+
 	@FindBy(xpath = "//*[@id='lstFacilityGroup']/li/div[1]/span")
 	private List<WebElementFacade> facilityGroupList;
 
@@ -27,10 +29,41 @@ public class FacilityGroupConfigurationPage extends PageObject {
 	@FindBy(xpath = "//*[@id='lstFacilityGroup']/li/div[2]/span")
 	private List<WebElementFacade> listOfFacilities;
 
-	public boolean isFacilityGrpConfigHeaderVisible() {
-		return facilityGroupConfigPageHeader.isVisible();
-	}
+	@FindBy(id = "lblModalName")
+	private WebElementFacade facilityGrpModalWindow;
 
+	@FindBy(id = "btnAddFacility")
+	private WebElementFacade addBtnOnAddNewPopup;
+	//
+	@FindBy(id = "txtAssignFacility")
+	private WebElementFacade facilityCodeTxtBox;
+
+	@FindBy(xpath = "//*[@id='addFacilityGroup']//label[@class='control-label']")
+	private List<WebElementFacade> listOfLabels;
+
+	@FindBy(xpath = "//*[@id='addFacilityGroup']//div[4]/span/b")
+	private WebElementFacade physicianCheckboxText;
+
+	@FindBy(id = "btnSave")
+	private WebElementFacade saveBtn;
+
+	@FindBy(xpath = "(//button[@onclick='ShowConfirmYesNo();']/span)[1]")
+	private WebElementFacade closeBtn;
+
+	public List<String> getAllPageControls() {
+
+		for (WebElementFacade pageControls : listOfLabels) {
+			ListOfPageControls.add(pageControls.getText().trim());
+		}
+
+		ListOfPageControls.add(physicianCheckboxText.getText().trim());
+		ListOfPageControls.add(closeBtn.getText().trim());
+		ListOfPageControls.add(saveBtn.getText().trim());
+		ListOfPageControls.add(addBtnOnAddNewPopup.getText().trim());
+
+		return ListOfPageControls;
+	}
+	
 	public String getPRCMFacility() {
 		String pRCMFacility = null;
 		for (WebElementFacade facility : facilityGroupList) {
@@ -41,6 +74,29 @@ public class FacilityGroupConfigurationPage extends PageObject {
 		return pRCMFacility;
 	}
 
+	public void enterFacilityCodeInTxtBox(String code) {
+		facilityCodeTxtBox.type(code);
+	}
+
+	public boolean isAddBtnOnAddNewPopupEnabled() {
+		if (addBtnOnAddNewPopup.getAttribute("disabled") == null) {
+			return true;
+		}
+		return false;
+	}
+
+	public boolean isAddNewFacilityGroupPopupVisible() {
+		return facilityGrpModalWindow.isVisible();
+	}
+
+	public void clickOnAddFacilityBtn() {
+		listOfAddFacilityBtn.get(0).click();
+	}
+
+	public void isFacilityGrpConfigHeaderVisible() {
+		facilityGroupConfigPageHeader.shouldBeVisible();
+	}
+
 	public List<String> getTableGridHeaders() {
 		List<String> getHeaders = new ArrayList<String>();
 		for (WebElementFacade headerElement : listOfTableHeader) {
@@ -49,7 +105,7 @@ public class FacilityGroupConfigurationPage extends PageObject {
 		return getHeaders;
 	}
 
-	public boolean IsPRCMFacilityGroupNamePresent(String expectedFacilityGroupName) {
+	public boolean IsFacilityGroupNamePresent(String expectedFacilityGroupName) {
 		List<String> getListOfFacilityGroup = new ArrayList<>();
 		for (WebElementFacade facilityGrp : facilityGroupList) {
 			getListOfFacilityGroup.add(facilityGrp.getText());
@@ -77,5 +133,9 @@ public class FacilityGroupConfigurationPage extends PageObject {
 
 	public boolean isEditBtnPresent() {
 		return editBtn.isVisible();
+	}
+	
+	public boolean isHeaderNameOnFacilityGrpConfigVisble() {
+		return facilityGroupConfigPageHeader.isVisible();
 	}
 }
