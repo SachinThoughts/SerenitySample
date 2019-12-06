@@ -252,7 +252,8 @@ public class WorkflowDistributionStepDef extends PageObject {
 
 	@Then("^user should not be able to view Filters on Reps Tab$")
 	public void user_should_not_be_able_to_view_Filters_on_Rep_Tab() {
-		Assert.assertTrue("Failed to view Filters on Reps", workflowDistributionPage.isShowLinkVisibleInRepsTab());
+	//	Assert.assertTrue("Failed to view Filters on Reps", workflowDistributionPage.isShowLinkVisibleInRepsTab());
+		Assert.assertTrue("Failed to view Filters on Reps",workflowDistributionPage.isListOfFiltersOnRepsTabVisible());
 	}
 
 	@When("^User clicks on Show link on Reps Tab$")

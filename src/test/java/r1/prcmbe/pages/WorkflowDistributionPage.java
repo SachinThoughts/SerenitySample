@@ -8,6 +8,8 @@ import net.serenitybdd.core.pages.WebElementFacade;
 
 public class WorkflowDistributionPage extends PageObject {
 
+	Boolean isNotPresent;
+
 	@FindBy(xpath = "//h3[contains(text(),'Defect Management Inventory ')]")
 	private WebElementFacade workflowDistributionTitle;
 
@@ -79,25 +81,25 @@ public class WorkflowDistributionPage extends PageObject {
 
 	@FindBy(id = "ddlfacilityGroupFilters")
 	private WebElementFacade facilityGrpDrpDwn;
-	
+
 	@FindBy(xpath = "//*[@id='teamFilters']/div/label")
 	private List<WebElementFacade> listOfFiltersUnderRepsTab;
 
 	@FindBy(xpath = "//*[@id='user-inventory']/div[2]/div[1]/div/div/div[2]/h4/a[contains(text(),'Hide')]")
-	private WebElementFacade hideLinkOnRepsTab;	
-	
+	private WebElementFacade hideLinkOnRepsTab;
+
 	@FindBy(xpath = "//*[@id='user-inventory']/div[2]/div[1]//div[@class='filters-search']/h4")
-	private WebElementFacade searchLabelOnRepsTab;	
-	
+	private WebElementFacade searchLabelOnRepsTab;
+
 	@FindBy(id = "txtSearch")
-	private WebElementFacade searchTxtBoxOnRepsTab;	
-	
+	private WebElementFacade searchTxtBoxOnRepsTab;
+
 	@FindBy(xpath = "//*[@id='user-inventory']/div[2]/div[1]/div/div//input[@class='btn btnPrimary']")
 	private List<WebElementFacade> listOfButtonsOnRepsTab;
-	
+
 	@FindBy(xpath = "//*[@id='user-inventory']/div[2]/div[1]/div/div/div[2]/h4/a[contains(text(),'Show')]")
 	private WebElementFacade showLinkOnRepsTab;
-	
+
 	public void isWorkflowDistributionTitleVisible() {
 		workflowDistributionTitle.shouldBeVisible();
 	}
@@ -243,7 +245,7 @@ public class WorkflowDistributionPage extends PageObject {
 	}
 
 	public boolean isFiltersUnderAccInvtryVisible() {
-		return showLinkOnFacilityInvtryTab.isVisible();
+		return showLinkOnFacilityInvtryTab.getAttribute("class").equals("collapsed");
 	}
 
 	public void selectFacilityGroup(String facilityGrpName) {
@@ -255,11 +257,11 @@ public class WorkflowDistributionPage extends PageObject {
 		for (WebElementFacade filters : listOfFiltersUnderRepsTab) {
 			filtersUnderRepsTab.add(filters.getText());
 		}
-		return filtersUnderRepsTab;	
+		return filtersUnderRepsTab;
 	}
 
 	public boolean isHideLinkVisibleInRepsTab() {
-		return	hideLinkOnRepsTab.isVisible();
+		return hideLinkOnRepsTab.isVisible();
 	}
 
 	public void isSearchLabelOnRepsTabVisible() {
@@ -275,7 +277,7 @@ public class WorkflowDistributionPage extends PageObject {
 		for (WebElementFacade button : listOfButtonsOnRepsTab) {
 			buttonsUnderRepsTab.add(button.getAttribute("value"));
 		}
-		return buttonsUnderRepsTab;	 
+		return buttonsUnderRepsTab;
 	}
 
 	public void clickOnHideLinkOnRepsTab() {
@@ -283,14 +285,14 @@ public class WorkflowDistributionPage extends PageObject {
 	}
 
 	public boolean isShowLinkVisibleInRepsTab() {
-     return showLinkOnRepsTab.isVisible();
+		return showLinkOnRepsTab.isVisible();
 	}
 
 	public void clickOnShowLinkOnRepsTab() {
 		showLinkOnRepsTab.click();
 	}
 
-	public boolean isListOfFiltersVisible() {
-		return listOfFiltersUnderRepsTab.isEmpty();
+	public boolean isListOfFiltersOnRepsTabVisible() {
+      return showLinkOnRepsTab.getAttribute("class").equals("collapsed");
 	}
 }
