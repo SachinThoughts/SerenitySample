@@ -325,7 +325,7 @@ Feature: Verify internal search on R1 Decision page
       | SearchInternal_428161_SQL14 | Visit Number | Like     |
       | SearchInternal_428161_SQL14 | Visit Number | =        |
 
-  @391038 @Sprint101 @PRCMUser
+  @391038 @Sprint102 @PRCMUser
   Scenario Outline: Verify that user is able to search an account with Search textbox using Like operator on R1D Page
     Given user is on "R1 Hub Technologies 2.0 - 15 R1_Decision" page
     And user selects <dropdown> from Search By drop down
