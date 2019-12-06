@@ -27,7 +27,8 @@ public class FacilityGroupConfigurationStepDef {
 	
 	private static String dbQueryFilename = "FacilityGrpConfig";
 	
-	
+	String facilityGroupNameFromUI;
+	String prcmEnabledFlag;
 	
 	@When("^user mouse hovers on Settings-R(\\d+)_Decision link$")
 	public void user_mouse_hovers_on_Settings_R__Decision_link(int arg1) {
@@ -52,44 +53,59 @@ public class FacilityGroupConfigurationStepDef {
 				System.out.println(commonMethods.loadQuery(queryName, dbQueryFilename));
 	    }
 		}
+		 @When("^user runs the facility group query\"([^\"]*)\"$")
+		    public void user_runs_the_facility_group_querysomething(String queryName) throws ClassNotFoundException, SQLException, Exception  {
+			 DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,String.format(commonMethods.loadQuery(queryName, dbQueryFilename), facilityGroupNameFromUI
+						));
+		    }
 
 		@Then("^user should be able to view newly added column name as \"([^\"]*)\"$")
-	    public void user_should_be_able_to_view_newly_added_column_name_as_something(String addedCoumnName) throws Throwable {
+	    public void user_should_be_able_to_view_newly_added_column_name_as_something(String addedCoumnName) {
 			Assert.assertTrue("Newly added Column is not displayed in DB " , facilityGrpConfigSteps.IsNewAddedColumnVisibleInDB(addedCoumnName));
 	    }
 	    	
 		@Then("^user should be able to view header name as Facility Group Configuration$")
-	    public void user_should_be_able_to_view_header_name_as_facility_group_configuration() throws Throwable {
-	        
-	    Assert.assertTrue("Header name as Facility Group Configuration",
+	    public void user_should_be_able_to_view_header_name_as_facility_group_configuration()  {
+	       Assert.assertTrue("Header name as Facility Group Configuration",
 				facilityGrpConfigPage.isFacilityGrpConfigHeaderVisible());
 		}
 	    @Then("^user should be able to view PRCM flag should be enabled having value as \"([^\"]*)\"$")
-	    public void user_should_be_able_to_view_prcm_flag_should_be_enabled_having_value_as_something(String numberValue)  {
-	        
+	    public void user_should_be_able_to_view_prcm_flag_should_be_enabled_having_value_as_something(String numberValue) throws SQLException  {
+	    	while (DatabaseConn.resultSet.next()) {
+	    		 prcmEnabledFlag=DatabaseConn.resultSet.getString("IsPRCMEnabled");
+	    	}
+	    	Assert.assertTrue("PRCM flag is not enabled and having value as 1 ",prcmEnabledFlag.equals(numberValue));
 	    }
 
 	    
 
 	    @Then("^user should be able to view data in facility group column (.+)$")
-	    public void user_should_be_able_to_view_data_in_facility_group_column(String expectedFacilityGroupName) throws Throwable {
-	    	
+	    public void user_should_be_able_to_view_data_in_facility_group_column(String expectedFacilityGroupName){
+	    	facilityGroupNameFromUI=expectedFacilityGroupName;
 	    	Assert.assertTrue(" Expected Facility Group is not Present ",facilityGrpConfigPage.IsPRCMFacilityGroupNamePresent(expectedFacilityGroupName));  
 	    }
 	    
 	    @Then("^user should be able to view data in facilities (.+)$")
 	    public void user_should_be_able_to_view_data_in_facilities(String facilities) {
-	        
+	    	Assert.assertTrue(" Expected Facility  is not Present ",facilityGrpConfigPage.isExpectedFacilityPresent(facilities));    
 	    }
 
 	    @Then("^user should be able to view column$")
-	    public void user_should_be_able_to_view_column(DataTable columnsNames)  {
-	        List<String> expectedColumnControls = columnsNames.asList(String.class);
-		List<Object> listOfVal = facilityGrpConfigPage.verifyControlsOnFacilityConfigPage(expectedColumnControls);
-		boolean val = ((Boolean) listOfVal.get(listOfVal.size() - 1)).booleanValue();
-		Assert.assertTrue("Controls not visible on Add Action popup\n" + listOfVal.subList(0, listOfVal.size() - 1),
-				val);	
+	    public void user_should_be_able_to_view_column(DataTable columnHeaders)  {
+	 List<String> columnHeaderInFacilityGrpConfig = columnHeaders.asList(String.class);
+	    		Assert.assertTrue("User is not able to see column headers",
+	    				facilityGrpConfigPage.getTableGridHeaders().equals(columnHeaderInFacilityGrpConfig));
 	    }
+	    @Then("^user should be able to view Add New Facility Group button in top right and bottom right corner$")
+	    public void user_should_be_able_to_view_add_new_facility_group_button_in_top_right_and_bottom_right_corner() throws Throwable {
+	        
+	    }
+
+	    @Then("^user should be able to view the Edit Link button$")
+	    public void user_should_be_able_to_view_the_edit_link_button() throws Throwable {
+	        
+	    }
+
 
 	
 }

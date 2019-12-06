@@ -18,8 +18,7 @@ public class FacilityGroupConfigSteps {
 					return true;
 				}
 			}
-
-		} catch (SQLException exception) {
+} catch (SQLException exception) {
 			Assert.assertTrue("IsPRCMenabled column name is not displayed.\nThe Technical Error is:\n" + exception,
 					false);
 		}

@@ -18,8 +18,8 @@ public class FacilityGroupConfigurationPage extends PageObject {
 	@FindBy(xpath = "//ul[@class='list-table-header FacilityGroup-admin no-counter']/li/preceding-sibling::li")
 	private List<WebElementFacade> listOfTableHeader;
 
-	@FindBy(xpath = "(//button[contains(@data-target,'#addFacilityGroup')])[1]")
-	private WebElementFacade addFacilityBtn;
+	@FindBy(xpath = "//button[contains(@data-target,'#addFacilityGroup')")
+	private List<WebElementFacade> listOfAddFacilityBtn;
 
 	@FindBy(xpath = "(//a[@class='btn btn-link lnkEditFacilityGroup'])[1]")
 	private WebElementFacade editBtn;
@@ -41,35 +41,13 @@ public class FacilityGroupConfigurationPage extends PageObject {
 		return pRCMFacility;
 	}
 
-	public List<Object> verifyControlsOnFacilityConfigPage(List<String> listOfFields) {
-		int count = 0;
-		int size = listOfTableHeader.size();
-		List<Object> listOfVal = new ArrayList<>();
-		for (int i = 0; i < size; i++) {
-			if (listOfTableHeader.get(i).getText().equals(listOfFields.get(i))) {
-				count = count + 1;
-			} else {
-				listOfVal.add(listOfFields.get(i));
-			}
-			if (addFacilityBtn.getText().equals(listOfFields.get(2))) {
-				count = count + 1;
-			} else {
-				listOfVal.add("Add New Facility Group");
-
-			}
-			if (editBtn.getText().equals(listOfFields.get(3))) {
-				count = count + 1;
-			} else {
-				listOfVal.add("Edit");
-			}
+	public List<String> getTableGridHeaders() {
+		List<String> getHeaders = new ArrayList<String>();
+		for (WebElementFacade headerElement : listOfTableHeader) {
+			getHeaders.add(headerElement.getText().trim());
 		}
-			if (count == 4) {
-				listOfVal.add(true);
-			} else {
-				listOfVal.add(false);
-			}
-			return listOfVal;
-		}
+		return getHeaders;
+	}
 public boolean IsPRCMFacilityGroupNamePresent(String expectedFacilityGroupName) {
 	List<String> getListOfFacilityGroup= new ArrayList<>();
 	for(WebElementFacade facilityGrp:facilityGroupList) {
@@ -86,8 +64,19 @@ public boolean isExpectedFacilityPresent(String expectedFacility) {
 	return getFacilities.contains(expectedFacility);
 }
 
-
-
+public boolean AreAddFAcilityBtnPresents() {
+	int size=listOfAddFacilityBtn.size();
+	for(int i=0;i<size;i++) {
+		if(listOfAddFacilityBtn.get(i).isVisible()) {
+			return true;
+		}
+	}
+		return false;
+		
+	
+}
 
 
 }
+
+
