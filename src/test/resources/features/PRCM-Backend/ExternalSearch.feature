@@ -45,7 +45,7 @@ Feature: This is to verify external search functionality in R1 PRCM-BE
       | Medical Record Number |             1234 | Please add five or more characters |
       | Claim Number          |             1234 | Please add five or more characters |
 
-  @429058 @Sprint8 @PRCMUser
+  @429058 @Sprint101 @PRCMUser
   Scenario Outline: Verify that Submit button is enabled for Search textbox for Like Operator if user enters 5 or more characters
     Given user is on R1 Decision search page
     When user selects <dropdown> from Search By drop down
@@ -65,7 +65,7 @@ Feature: This is to verify external search functionality in R1 PRCM-BE
       | Claim Number          |            12345 |
       | Claim Number          |           123456 |
 
-  @429061 @Sprint8 @PRCMUser
+  @429061 @Sprint101 @PRCMUser
   Scenario Outline: Verify that when user does not enter anything in Search textbox then message appeared or not
     Given user is on R1 Decision search page
     When user selects <option> from Search By drop down
