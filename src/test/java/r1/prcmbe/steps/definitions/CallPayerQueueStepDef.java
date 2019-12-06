@@ -13,6 +13,7 @@ import net.thucydides.core.annotations.Steps;
 import r1.prcmbe.serenity.steps.LoginSteps;
 import r1.commons.databaseconnection.DatabaseConn;
 import r1.commons.utilities.CommonMethods;
+import r1.prcmbe.pages.AccountActionHistoryPage;
 import r1.prcmbe.pages.AccountInformationPage;
 import r1.prcmbe.pages.CallPayerQueuePage;
 import r1.prcmbe.pages.LoginPage;
@@ -40,6 +41,7 @@ public class CallPayerQueueStepDef extends PageObject {
 	AccountInformationPage accInfoPage;
 	NavigationPage navigationPage;
 	LoginPage loginPage;
+	AccountActionHistoryPage accActionHistoryPage;
 
 	String accountNo, noOfAccountsInQueueBefore, dbInvoiceNumber, amount, tCode;
 	private static String dbQueryFilename = "CallPayerQueue";
@@ -126,8 +128,8 @@ public class CallPayerQueueStepDef extends PageObject {
 		r1ConfigPage.clickSearchBtn();
 	}
 
-	@When("^user clicks on edit button to update \"([^\"]*)\" Value as per configuration requirement$")
-	public void user_clicks_on_edit_button_to_update_Value_as_per_configuration_requirement(String settingName) {
+	@When("^user clicks on edit button to update A2D-Park-Limit Value as per configuration requirement$|^user clicks on edit button to update A2D-Skip-Limit Value as per configuration requirement$|^user clicks on edit button to update A2D-Checkout-Limit Value as per configuration requirement$|^user clicks on edit button to update value$")
+	public void user_clicks_on_edit_button_to_update_Value_as_per_configuration_requirement() {
 		r1ConfigPage.clickEditBtn();
 	}
 
@@ -371,8 +373,10 @@ public class CallPayerQueueStepDef extends PageObject {
 	public void user_logins_to_the_application_with_Role(String roleName) throws IOException {
 		if (roleName.equals("R1D_Approval")) {
 			loginStep.roleLogin("R1DApproverUserName", "R1DApproverPassword");
-		} else {
+		} else if (roleName.equals("BSO_Followup")) {
 			loginStep.roleLogin("BSOFollowUpUserName", "BSOFollowUpPassword");
+		} else {
+			loginStep.roleLogin("prcmBeUsername", "prcmBePassword");
 		}
 	}
 
@@ -382,7 +386,7 @@ public class CallPayerQueueStepDef extends PageObject {
 		Assert.assertTrue("rejected status not visible", status.equals(callPayerQueuePage.getReviewStatus()));
 	}
 
-	@Then("^user should be able to view the account dropped from CPQ$|^user should not be able to view the account in users CPQ$")
+	@Then("^user should be able to view the account dropped from CPQ$|^user should not be able to view the account in users CPQ$|^user should be able to view the account deleted from CPQ$")
 	public void user_should_be_able_to_view_the_account_dropped_from_CPQ() {
 		callPayerQueuePage.clickToggleCallQueueBtn();
 		Assert.assertFalse("Account is still visible in Call Payer Queue",
@@ -394,7 +398,7 @@ public class CallPayerQueueStepDef extends PageObject {
 	public void user_clicks_on_radiobutton_Approve() {
 		callPayerQueuePage.clickApproveRadioBtn();
 	}
-	
+
 	@Then("^user should be able to view that user successfully logout from application$")
 	public void user_should_be_able_to_view_that_user_successfully_logout_from_application() {
 		Assert.assertTrue("Logout failed", loginPage.verifyUsernameTextBox());
@@ -427,5 +431,17 @@ public class CallPayerQueueStepDef extends PageObject {
 	public void user_should_be_able_to_view_the_account_on_which_Write_Off_Response_has_been_taken() {
 		Assert.assertTrue("Account on which writeoff taken is not visible under recently worked account",
 				callPayerQueuePage.getListOfRecentlyWorkedInvNum().contains(dbInvoiceNumber));
+	}
+
+	@Then("^user should be able to view the saved account in Account Action History section$")
+	public void user_should_be_able_to_view_the_saved_account_in_Account_Action_History_section() {
+		accActionHistoryPage.ifVisibleClickShowAccHistoryBtn();
+		Assert.assertTrue("Created date does not matched with system date",
+				accActionHistoryPage.getRecentAddedAccountActionHistoryValue(0).equals("Writeoff"));
+	}
+
+	@When("^user clicks on Next Account button$")
+	public void user_clicks_on_Next_Account_button() {
+		accInfoPage.clickNextAccountBtn();
 	}
 }

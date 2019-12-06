@@ -182,3 +182,4 @@ Feature: Verify Call Payer Queue functionality
     When user clicks on Recent Account Button
     Then user should be able to view the popup with all the recently worked accounts
     And user should be able to view the account on which Write-Off Response has been taken
+    
