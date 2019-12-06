@@ -41,3 +41,49 @@ Feature: Verify Tagging related scenarios in PRCM_BE
     And User clicks on Active switch
     And User clicks on Save button
     Then User should be able to view the validation message "Category Name should not more than 100 characters"
+
+  @419679 @PRCMUser @Sprint102
+  Scenario: Verify that "Category Description should not more than 500 characters" validation message display when user enters more than 100 characters in category Description.
+    Given User is on Account Tags Configuration screen 
+    When User clicks on Add New Category button
+    And User enters upto 100 alphabets in Category name
+    And User enters more than 500 alphabets in Category description
+    And User selects "R1Decision" value from the Application drop down
+    And User clicks on Active switch
+    And User clicks on Save button
+    Then User should be able to view the validation message "Category Description should not more than 500 characters"
+
+  @419677 @PRCMUser @Sprint102
+  Scenario Outline: Verify that user is able to create New Tag category
+    Given User is on Account Tags Configuration screen
+    When User clicks on Add New Category button
+    And User enters upto 100 alphabets in Category Name <Category name>  textbox
+    And User enters upto 500 alphabets in Tag Description <Tag Description> textbox
+    And User selects "R1Decision" value from the Application drop down
+    And User clicks on Active switch
+    And User clicks on Save button and captures success message
+    Then User should be able to view the Success message "Success! Category has been added successfully"
+    When user login to SQL server and connect to "Accretive" database
+    And user runs the tag category <query1> query to verify newly added tag category
+    Then User should be able to view the newly added Tag Category in SQL result
+
+    Examples:  
+      | Category name  | Tag Description | query1              |
+      | AutomationTest | TestDesciption  | Tagging_419677_SQL1 |
+
+  @419680 @PRCMUser @Sprint102
+  Scenario Outline: Verify that "Success! Category has been updated successfully" message display every time when user click on save button and changes are updated.
+    Given User is on Account Tags Configuration screen
+    When User clicks on Edit button of added category
+    And User edits Category Name <Category name> in textbox
+    And User edits Tag Description <Tag Description> in textbox
+    And User clicks on Active switch slide bar for Edit
+    And User clicks on Save button and captures success message
+    Then User should be able to view the Success message "Success! Category has been updated successfully"
+    When user login to SQL server and connect to "Accretive" database
+    And user runs the tag category query to verify newly updated tag category <query1>
+    Then User should be able to view the Updated added Tag Category in SQL result
+
+    Examples: 
+      | Category name      | Tag Description      | query1              |
+      | AutomationTestEdit | EditedTestDesciption | Tagging_419677_SQL1 |

@@ -178,10 +178,10 @@ public class DefaultHandoffPage extends PageObject {
 	@FindBy(xpath = "(//*[@id='WorkflowTypeDispositionSorttable'])[last()]/li[last()]/div[3]/span")
 	private WebElementFacade savedDispositionName;
 
-	@FindBy(id = "FUP0")
+	@FindBy(xpath = "(//*[@id='WorkflowTypeDispositionSorttable'])[last()]/li[last()]/div[4]/span")
 	private WebElementFacade savedDispositionFollowUpDays;
 
-	@FindBy(id = "TLMT0")
+	@FindBy(xpath = "(//*[@id='WorkflowTypeDispositionSorttable'])/li[last()]/div[5]/span")
 	private WebElementFacade savedDispositionTimeLimit;
 
 	@FindBy(id = "ASName0")
@@ -238,10 +238,70 @@ public class DefaultHandoffPage extends PageObject {
 	@FindBy(xpath = "//span[contains(text(),'AHtoDecision Admin')]/ancestor::li/div[2]/span[@data-bind='text: workflowDescriptionName']")
 	private List<WebElementFacade> listOfAHtoDecisionAdminWorkflows;
 
-	
+	@FindBy(id = "ddlHandOffType")
+	private WebElementFacade handoffTypeDrpdwn;
+
+	@FindBy(xpath = "//*[@id='ddlHandoffDirection']/option")
+	private List<WebElementFacade> createDrpdwnOption;
+
+	@FindBy(id = "ddlHandoffDirection")
+	private WebElementFacade createDrpdwn;
+
+	@FindBy(xpath = "//*[@id='ddlAction']/option")
+	private List<WebElementFacade> whyDrpdwnOption;
+
+	@FindBy(id = "ddlAction")
+	private WebElementFacade whyDrpdwn;
+
+	@FindBy(id = "ddlDisposition")
+	private WebElementFacade dispositionDrpdwn;
+
+	@FindBy(xpath = "//*[@id='ddlDisposition']/option")
+	private List<WebElementFacade> dispositionDrpdwnOptions;
+
+	@FindBy(id = "txtHandOffNotes")
+	private WebElementFacade noteTextBox;
+
+	@FindBy(xpath = "//h3[ text()=' Other Account Defects ']")
+	private WebElementFacade showHistoryBtn;
+
+	@FindBy(xpath = "//*[@id='carousel']//li[last()]/div[last()]//a[@class='trigger']/..")
+	private WebElementFacade addedBubble;
+
+	@FindBy(id = "btnSaveHandsOff")
+	private WebElementFacade handoffSaveBtn;
+
+	@FindBy(xpath = "//div[@class='popover-content']//span//span[1]")
+	private List<WebElementFacade> listOfEventCircleColumns;
+
+	@FindBy(xpath = "//div[@class='popover-content']//span//span[2]")
+	private List<WebElementFacade> popupValues;
+
+	@FindBy(xpath = "//div[@class='popover-content']//div[@class='timeline-details']//span[1]/child::span[2]")
+	private WebElementFacade createdDateOnPopup;
+
+	@FindBy(xpath = "//div[@class='popover-content']//div[@class='timeline-details']//span[3]/child::span[2]")
+	private WebElementFacade followupDateOnPopup;
+
+	@FindBy(xpath = "//*[@id='btnShowHistory']/span")
+	private WebElementFacade accountActionHistoryNotesBtn;
+
+	@FindBy(xpath = "//*[@id='notesHistory']/li[1]/div/div/div/span/span[1]")
+	private List<WebElementFacade> accountActionHistoryColumns;
+
+	@FindBy(xpath = "//*[@id='notesHistory']/li[1]/div/div/div/span/span[2]")
+	private List<WebElementFacade> accountActionHistoryValues;
+
+	@FindBy(xpath = "//*[@id='notesHistory']/li[1]/div/div/div[3]/span[1]/span[2]")
+	private WebElementFacade accountActionHistoryAddedDate;
+
+	@FindBy(xpath = "//*[@id='notesHistory']/li[1]/div/div/div[3]/span[3]/span[2]")
+	private WebElementFacade accountActionHistoryFollowupDate;
+
 	public boolean isAddNewActionBtnVisisble() {
 		return addNewActionButton.isVisible();
 	}
+
 	public String getTextDefaultHandOffPageTitle() {
 		return defaultHandOffPageTitle.getText().trim();
 	}
@@ -423,11 +483,11 @@ public class DefaultHandoffPage extends PageObject {
 		actionNameTextBox.type(actionName);
 		return actionName;
 	}
-	
+
 	public String getActionNameFromTextBox() {
 		return evaluateJavascript("return arguments[0].value;", actionNameTextBox).toString();
 	}
-	
+
 	public void enterCopiedActionName(String previousActionName) {
 		actionNameTextBox.type(previousActionName);
 	}
@@ -620,5 +680,112 @@ public class DefaultHandoffPage extends PageObject {
 
 	public String getSecondLastAHtoDecisionAdminWorkflow() {
 		return listOfAHtoDecisionAdminWorkflows.get(listOfAHtoDecisionAdminWorkflows.size() - 2).getText();
+	}
+
+	public String selectHandoffType(String dropdown) {
+		waitForAngularRequestsToFinish();
+		return handoffTypeDrpdwn.selectByVisibleText(dropdown).getSelectedVisibleTextValue();
+	}
+
+	public String selectAnyOptionFromCreateDrpdwn() {
+		waitForAngularRequestsToFinish();
+		int index = CommonMethods.getRandom(createDrpdwnOption.size() - 1) + 1;
+		return createDrpdwn.selectByIndex(index).getSelectedVisibleTextValue();
+	}
+
+	public String selectAnyOptionFromWhyDrpdwn() {
+		waitForAngularRequestsToFinish();
+		int index = CommonMethods.getRandom(whyDrpdwnOption.size() - 1) + 1;
+		return whyDrpdwn.selectByIndex(index).getSelectedVisibleTextValue();
+	}
+
+	public String selectAnyOptionFromDispositionDrpdwn() {
+		if (dispositionDrpdwn.isVisible()) {
+			waitForAngularRequestsToFinish();
+			int index = CommonMethods.getRandom(dispositionDrpdwnOptions.size() - 1) + 1;
+			return dispositionDrpdwn.selectByIndex(index).getSelectedVisibleTextValue();
+		}
+		return "";
+	}
+
+	public void enterNote(String note) {
+		noteTextBox.type(note);
+	}
+
+	public String getAddedBubbleText() {
+		withAction().moveToElement(addedBubble).build().perform();
+		return addedBubble.getText();
+	}
+
+	public String getHandoffBubbleColor() {
+		withAction().moveToElement(addedBubble).build().perform();
+		return addedBubble.getCssValue("background-color");
+	}
+
+	public void hoverOnAddedBubble() {
+		withAction().moveToElement(addedBubble).build().perform();
+	}
+
+	public void clickHandoffSaveBtn() {
+		handoffSaveBtn.click();
+	}
+
+	public List<String> getListOfEventCircleColumns() {
+		List<String> listOfEventCircleCols = new ArrayList<>();
+		for (WebElementFacade eventCircleCol : listOfEventCircleColumns) {
+			listOfEventCircleCols.add(eventCircleCol.getText().trim());
+		}
+		return listOfEventCircleCols;
+	}
+
+	public List<String> getListOfPopupValues() {
+		List<String> popupValList = new ArrayList<>();
+		for (WebElementFacade popupValue : popupValues) {
+			popupValList.add(popupValue.getText());
+		}
+		return popupValList;
+	}
+
+	public String getCreatedDate() {
+		return createdDateOnPopup.getText();
+	}
+
+	public String getFollowupDate() {
+		return followupDateOnPopup.getText();
+	}
+
+	public void clickAccountActionHistoryNotesBtn() {
+		withAction().moveToElement(accountActionHistoryNotesBtn).build().perform();
+		evaluateJavascript("arguments[0].click();", accountActionHistoryNotesBtn);
+	}
+
+	public List<String> getAccountActionHistoryColumns() {
+		List<String> listOfAccountActionHistoryColumns = new ArrayList<>();
+		for (WebElementFacade accountActionHistoryColumn : accountActionHistoryColumns) {
+			withAction().moveToElement(accountActionHistoryColumn).build().perform();
+			listOfAccountActionHistoryColumns.add(accountActionHistoryColumn.getText());
+		}
+		return listOfAccountActionHistoryColumns;
+	}
+
+	public List<String> getAccountActionHistoryValues() {
+		List<String> listOfAccountActionHistoryValues = new ArrayList<>();
+		for (WebElementFacade accountActionHistoryValue : accountActionHistoryValues) {
+			listOfAccountActionHistoryValues.add(accountActionHistoryValue.getText());
+		}
+		return listOfAccountActionHistoryValues;
+	}
+
+	public String getAccountActionHistoryAddedDate() {
+		return accountActionHistoryAddedDate.getText();
+	}
+
+	public String getAccountActionHistoryFollowupDate() {
+		return accountActionHistoryFollowupDate.getText();
+	}
+
+	public String getTextHandoffSuccessMessage() {
+		waitForAngularRequestsToFinish();
+		return successMessage.withTimeoutOf(Duration.ofSeconds(60)).waitUntilVisible().getText().trim();
 	}
 }

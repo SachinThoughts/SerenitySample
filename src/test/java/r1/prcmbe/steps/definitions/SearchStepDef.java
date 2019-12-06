@@ -609,7 +609,7 @@ public class SearchStepDef extends PageObject {
 		} catch (SQLException sQLException) {
 			Assert.assertTrue("encounterid is not fetched from DB.\nThe Technical Error is:\n" + sQLException, false);
 		}
-		Assert.assertTrue("Fetched list of Invoice number doesnt contains entered Invoice number",
+		Assert.assertTrue("Fetched list of Visit number doesnt contains entered Visit number",
 				searchPageSteps.verifyEncounterIdOnUIWithDatabaseResult(dbListOfEncounterID));
 		listOfGridColumnsOnUI = searchPage.getListOfSrchAccTblHeaders();
 		Assert.assertTrue("All the grid columns are not visible",
@@ -633,7 +633,9 @@ public class SearchStepDef extends PageObject {
 		}
 		Assert.assertTrue("Fetched list of visit number doesnt contains entered visit number",
 				searchPageSteps.verifyInvoiceNumberOnUIWithDatabaseResult(dbListOfInvoiceNumber));
+		
 		listOfGridColumnsOnUI = searchPage.getListOfSrchAccTblHeaders();
+		
 		Assert.assertTrue("All the grid columns are not visible",
 				expectedListOfGridColumns.containsAll(listOfGridColumnsOnUI) && !listOfGridColumnsOnUI.isEmpty());
 	}
