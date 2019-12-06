@@ -187,7 +187,7 @@ public class WorkflowDistributionStepDef extends PageObject {
 	}
 
 	@When("^User clicks on Show link on facility Inventory Tab$")
-	public void user_clicks_on_Show_link_on_facility_Inventory_Tab() {
+	public void user_clicks_on_Show_link_on_facility_Inventory_Tab() { 
 		workflowDistributionPage.clickOnShowLinkOnFacilityInvtryTab();
 	}
 
