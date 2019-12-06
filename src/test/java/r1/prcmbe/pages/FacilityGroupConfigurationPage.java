@@ -18,12 +18,12 @@ public class FacilityGroupConfigurationPage extends PageObject {
 	@FindBy(xpath = "//ul[@class='list-table-header FacilityGroup-admin no-counter']/li/preceding-sibling::li")
 	private List<WebElementFacade> listOfTableHeader;
 
-	@FindBy(xpath = "//button[contains(@data-target,'#addFacilityGroup')")
+	@FindBy(xpath = "//button[text()='Add New Facility Group']")
 	private List<WebElementFacade> listOfAddFacilityBtn;
 
 	@FindBy(xpath = "(//a[@class='btn btn-link lnkEditFacilityGroup'])[1]")
 	private WebElementFacade editBtn;
-	
+
 	@FindBy(xpath = "//*[@id='lstFacilityGroup']/li/div[2]/span")
 	private List<WebElementFacade> listOfFacilities;
 
@@ -48,35 +48,34 @@ public class FacilityGroupConfigurationPage extends PageObject {
 		}
 		return getHeaders;
 	}
-public boolean IsPRCMFacilityGroupNamePresent(String expectedFacilityGroupName) {
-	List<String> getListOfFacilityGroup= new ArrayList<>();
-	for(WebElementFacade facilityGrp:facilityGroupList) {
-		getListOfFacilityGroup.add(facilityGrp.getText());
-	}
-	return getListOfFacilityGroup.contains(expectedFacilityGroupName);
-}
 
-public boolean isExpectedFacilityPresent(String expectedFacility) {
-	List<String>getFacilities= new ArrayList<>();
-	for(WebElementFacade facility:listOfFacilities) {
-		getFacilities.add(facility.getText());
-	}
-	return getFacilities.contains(expectedFacility);
-}
-
-public boolean AreAddFAcilityBtnPresents() {
-	int size=listOfAddFacilityBtn.size();
-	for(int i=0;i<size;i++) {
-		if(listOfAddFacilityBtn.get(i).isVisible()) {
-			return true;
+	public boolean IsPRCMFacilityGroupNamePresent(String expectedFacilityGroupName) {
+		List<String> getListOfFacilityGroup = new ArrayList<>();
+		for (WebElementFacade facilityGrp : facilityGroupList) {
+			getListOfFacilityGroup.add(facilityGrp.getText());
 		}
+		return getListOfFacilityGroup.contains(expectedFacilityGroupName);
 	}
+
+	public boolean isExpectedFacilityPresent(String expectedFacility) {
+		List<String> getFacilities = new ArrayList<>();
+		for (WebElementFacade facility : listOfFacilities) {
+			getFacilities.add(facility.getText());
+		}
+		return getFacilities.contains(expectedFacility);
+	}
+
+	public boolean AreAddFAcilityBtnPresents() {
+		int size = listOfAddFacilityBtn.size();
+		for (int i = 0; i < size; i++) {
+			if (listOfAddFacilityBtn.get(i).isVisible()) {
+				return true;
+			}
+		}
 		return false;
-		
-	
+	}
+
+	public boolean isEditBtnPresent() {
+		return editBtn.isVisible();
+	}
 }
-
-
-}
-
-

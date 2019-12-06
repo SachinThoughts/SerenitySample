@@ -19,8 +19,7 @@ Feature: Verify Factility Group Configuration related scenarios in PRCM-BE
     Then user should be able to view header name as Facility Group Configuration
     Then user should be able to view column
       |Facility Group Name|Facilities|
-     
-    And user should be able to view Add New Facility Group button in top right and bottom right corner
+     And user should be able to view Add New Facility Group button in top right and bottom right corner
     And user should be able to view the Edit Link button
     When user is on Facility Group Configuration screen
     Then user should be able to view data in facility group column <Facility Group Name>
