@@ -96,7 +96,7 @@ public class FacilityGroupConfigurationPage extends PageObject {
 	}
 
 	public List<String> getTableGridHeaders() {
-		List<String> getHeaders = new ArrayList<String>();
+		List<String> getHeaders = new ArrayList<>();
 		for (WebElementFacade headerElement : listOfTableHeader) {
 			getHeaders.add(headerElement.getText().trim());
 		}
