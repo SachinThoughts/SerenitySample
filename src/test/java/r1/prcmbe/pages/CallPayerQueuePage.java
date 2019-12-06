@@ -10,7 +10,7 @@ import net.serenitybdd.core.pages.WebElementFacade;
 
 public class CallPayerQueuePage extends PageObject {
 
-	@FindBy(xpath = "//*[@id='btnAddtoCallPayerQueue']/span/i[2]")
+	@FindBy(id = "btnAddtoCallPayerQueue")
 	private WebElementFacade addToQueueIcon;
 
 	@FindBy(id = "addToCallQueueLabel")
@@ -54,6 +54,60 @@ public class CallPayerQueuePage extends PageObject {
 
 	@FindBy(xpath = "//*[@id='SELFPayers']/div/div/a[1]/span[1]")
 	private List<WebElementFacade> callPayerQueueInvoiceList;
+
+	@FindBy(id = "ddlApprovalType")
+	private WebElementFacade category;
+
+	@FindBy(id = "ddlApprovalCategory")
+	private WebElementFacade writeOffType;
+
+	@FindBy(id = "txtWriteOffAmount")
+	private WebElementFacade writeOffAmount;
+
+	@FindBy(id = "txWriteOffNotes")
+	private WebElementFacade writeOffNotes;
+
+	@FindBy(id = "btnSaveWriteOff")
+	private WebElementFacade saveWriteOffBtn;
+
+	@FindBy(id = "ddlTcode")
+	private WebElementFacade tCodeToUse;
+
+	@FindBy(xpath = "//table[@id='gvWriteOff']/tbody/tr[2]/td[1]")
+	private WebElementFacade createdWriteOffAmount;
+
+	@FindBy(xpath = "//table[@id='gvWriteOff']/tbody/tr[2]/td[3]")
+	private WebElementFacade createdTCode;
+
+	@FindBy(id = "btnSaveTransactionResponse")
+	private WebElementFacade approvalResponseSubmitBtn;
+
+	@FindBy(id = "rdoRejected")
+	private WebElementFacade denyRadioBtn;
+
+	@FindBy(id = "gvWriteOff")
+	private WebElementFacade approvalRequestTbl;
+
+	@FindBy(xpath = "//*[@class='callPayerList']/descendant::span[@class='InvoiceNo']")
+	private WebElementFacade invoiceNumberCPQ;
+
+	@FindBy(id = "btnOK")
+	private WebElementFacade appReviewSaveBtn;
+
+	@FindBy(xpath = "//*[@id='gvWriteOffReview']/tbody/tr[2]/td[2]")
+	private WebElementFacade reviewerName;
+
+	@FindBy(xpath = "//*[@id='gvWriteOffReview']/tbody/tr[2]/td[4]")
+	private WebElementFacade reviewStatus;
+
+	@FindBy(id = "rdoApproved")
+	private WebElementFacade approveRadioBtn;
+
+	@FindBy(xpath = "//*[@id='recentlyWorkedLabel']/following::div[@id='dvRecentWorkList']/table")
+	private WebElementFacade recentlyWorkedAccPopup;
+
+	@FindBy(xpath = "//*[@id='dvRecentWorkList']/table/tbody/tr/td[4]/a")
+	private List<WebElementFacade> listOfRecentlyWorkedInvNum;
 
 	public void clickAddtoCallPayorQueueBtn() {
 		withAction().moveToElement(addToQueueIcon).build().perform();
@@ -146,5 +200,89 @@ public class CallPayerQueuePage extends PageObject {
 		infoMessage.withTimeoutOf(Duration.ofSeconds(10)).waitUntilNotVisible();
 		clickToggleCallQueueBtn();
 		return callPayerQueueInvoiceList.get(0).isVisible();
+	}
+
+	public void categorySelectByText(String categoryText) {
+		category.selectByVisibleText(categoryText);
+	}
+
+	public void writeOffTypeSelectByText(String writeOffTypeText) {
+		writeOffType.selectByVisibleText(writeOffTypeText);
+	}
+
+	public void enterWriteOffAmount(String amount) {
+		writeOffAmount.type(amount);
+	}
+
+	public void enterWriteOffNotes(String notes) {
+		writeOffNotes.type(notes);
+	}
+
+	public void clickSaveWriteOffBtn() {
+		saveWriteOffBtn.click();
+	}
+
+	public void tCodeSelectByText(String tCode) {
+		tCodeToUse.selectByVisibleText(tCode);
+	}
+
+	public String getCreatedWriteOffAmount() {
+		return createdWriteOffAmount.getText();
+	}
+
+	public String getCreatedTCode() {
+		return createdTCode.getText();
+	}
+
+	public void clickApprovalResponseSubmitBtn() {
+		approvalResponseSubmitBtn.click();
+	}
+
+	public void clickDenyRadioBtn() {
+		denyRadioBtn.click();
+	}
+
+	public void moveToApprovalRequestTbl() {
+		withAction().moveToElement(approvalRequestTbl).build().perform();
+	}
+
+	public String getInvoiceNumberCPQ() {
+		return invoiceNumberCPQ.getText();
+	}
+
+	public boolean isInvoiceNumberCPQVisible() {
+		return invoiceNumberCPQ.isVisible();
+	}
+
+	public void clickAppReviewSaveBtn() {
+		appReviewSaveBtn.click();
+	}
+
+	public String getReviewerName() {
+		return reviewerName.getText();
+	}
+
+	public String getReviewStatus() {
+		return reviewStatus.getText();
+	}
+
+	public void clickApproveRadioBtn() {
+		approveRadioBtn.click();
+	}
+
+	public boolean isAddToCallPayerQueueBtnDisabled() {
+		return (boolean) evaluateJavascript("return document.querySelector('#btnAddtoCallPayerQueue').disabled");
+	}
+
+	public boolean isRecentlyWorkedAccPopupVisible() {
+		return recentlyWorkedAccPopup.isVisible();
+	}
+
+	public List<String> getListOfRecentlyWorkedInvNum() {
+		List<String> listOfInvNum = new ArrayList<>();
+		for (WebElementFacade recentlyWorkedInvNum : listOfRecentlyWorkedInvNum) {
+			listOfInvNum.add(recentlyWorkedInvNum.getText());
+		}
+		return listOfInvNum;
 	}
 }

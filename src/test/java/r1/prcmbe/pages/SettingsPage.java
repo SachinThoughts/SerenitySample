@@ -27,20 +27,18 @@ public class SettingsPage extends PageObject {
 	@FindBy(xpath = "//span[not(contains(@style,'hidden')) and text()='Tag Configuration']")
 	private WebElementFacade tagConfigLink;
 
+	@FindBy(xpath = "//span[@class='txt'and text()='Cache']")
+	private WebElementFacade cacheLink;
+
+	@FindBy(id = "dnn_ctr612_Cache_btnClearAll")
+	private WebElementFacade clearAllBtn;
+
 	@FindBy(xpath = "//span[not(contains(@style,'hidden')) and text()='R1 Configuration']")
 	private WebElementFacade r1ConfigurationLink;
 	
 	@FindBy(xpath = "//span[(contains(@class,'txt')) and text()='Facility Group Configuration']")
 	private WebElementFacade facilityGrpConfigLink;
 	
-
-	public void clickUDCAdminConfig() {
-		uDCAdminConfig.click();
-	}
-
-	public void clickR1D() {
-		settingsR1Decision.click();
-	}
 
 	public void clickOnSettingsR1Decisions() {
 		waitForAngularRequestsToFinish();
@@ -65,6 +63,22 @@ public class SettingsPage extends PageObject {
 	public void clickTagConfigLink() {
 		waitForAngularRequestsToFinish();
 		withAction().moveToElement(tagConfigLink).click().build().perform();
+	}
+
+	public void clickCacheLink() {
+		withAction().moveToElement(cacheLink).click().build().perform();
+	}
+
+	public void clickClearAllBtn() {
+		clearAllBtn.click();
+	}
+
+	public void clickUDCAdminConfig() {
+		uDCAdminConfig.click();
+	}
+
+	public void clickR1D() {
+		settingsR1Decision.click();
 	}
 
 	public void clickR1ConfigurationLink() {

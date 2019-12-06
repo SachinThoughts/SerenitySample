@@ -74,7 +74,7 @@ Feature: Verify WorkFlowConfiguration related scenarios in PRCM
     And user should no longer be able to view Add Handoff pop-up window
     And user should be able to view newly added handoff in the Choose Handoff grid
 
-  @434766 @AHtoDecisionAdmin @Sprint9
+  @434766 @AHtoDecisionAdmin @Sprint101
   Scenario Outline: Verify controls under Recipient page
     Given user having AHtoDecision Admin role is on workflow configuration home page
     When user login to SQL server and connect to database
@@ -455,3 +455,64 @@ Feature: Verify WorkFlowConfiguration related scenarios in PRCM
     Examples: 
       | query1                         | query2                          | query3                                | query4                        | query5                                   | query6                                   | query7                                      | query8                          | query9                                     |
       | 434767_WFConfig_CheckRecipient | 434767_WFConfig_CheckRecipient1 | 434776_BDD_R1D_WFConfig_workflowtypes | 434767_WFConfig_ReorderAction | 434776_BDD_R1D_WFConfig_workflowSubtypes | 434776_BDD_R1D_WFConfig_workflowSubtypesDetails | 434776_BDD_R1D_WFConfig_WorkflowTypeActions | 434776_BDD_R1D_WFConfig_Actions | 434776_BDD_R1D_WFConfig_ActionDispositions |
+      
+   
+    @434779 @AHtoDecisionAdmin @Sprint102
+      Scenario: Verify user is able to view newly added handoff type on R1 Decision screen
+    Given user having AHtoDecision Admin role is on workflow configuration home page
+    When user clicks on +Add Handoff button
+    When user enters value in Workflow Name
+    And user enters value in Workflow Description textbox: "TestHanoff123"
+    And user selects AHtoDecisionHandoff value from Worklist dropdown
+    And user enters value in AH Module Code textbox: "CodeTest1"
+    And user selects any value from Visible to Group dropdown for Add Handoff
+    And user clicks on Save Changes button for Add Handoff
+    Then user should be able to view the appropriate success message: "HandOff Inserted Successfully"
+    When user selects radio button corresponding to the newly created Handoff and user clicks on Continue button
+    Then user should be able to navigate to Recipient tab and user should be able to view the message "No Recipient exists for the selected Handoff" under Choose Recipient Grid
+    When user clicks on +Add Recipient button
+    And user enters text in Recipient Name textbox
+    And user enters text in Recipient Description textbox: "RecipientDescriptionTest123"
+    And user clicks on Add Recipient button on the popup
+    Then user should be able to view the appropriate success message: "Record inserted successfully !"
+    And user should be able to navigate to Action Type tab by clicking on Continue button
+    Then user should be able to view the info message "No Action exists for the selected Recipient" under Choose Action Type grid
+    When user clicks on +Add New Action button
+    And user enters text in Action Name textbox
+    And for Actions user enters text: "ActionDescTest123" in Action Description textbox
+    And for Actions user selects "BSO_Followup" option from Next Action By dropdown
+    And for Actions user enters "0" in Follow Up Days textbox
+    And for Actions user enters: "999" in Follow Respond Deadline textbox
+    And for Actions user selects: "Identified" option from Action Status dropdown
+    And user clicks on Save Changes button on action popup
+    Then user should be able to view the appropriate success message: "Saved successfully"
+    And user clicks on Continue button to move to Desposition tab and user should be able to view  the message "No Disposition exists for the selected action type" under Choose Disposition Type grid
+    When user clicks on +Add New Disposition button
+    And user enters text in Disposition Code textbox
+    And user enters text in Disposition Description textbox: "DespositionDesc123"
+    And user selects any option from Next Desposition By dropdown
+    And For disposition user enters "0" in Follow Up Days textbox
+    And For disposition user enters: "999" in Follow Respond Deadline textbox
+    And For disposition user selects "Identified" option from Desposition Status dropdown
+    And user enters text: "Note123" in Predefined Note text area
+    And user clicks on Save Changes button on disposition popup
+    Then user should be able to view the appropriate success message: "Saved successfully"
+    And user clicks on Billing & Follow-up link from footer
+    And user clears cache in application and login again
+    And user clicks on Billing & Follow-up link from footer
+    And user hover on R1_Decision
+    And user clicks on Billing & Follow-up link
+    And user hover on R1_Decision
+    And user clicks on search sub menu
+    And user login to SQL server and connect to database
+    And user run the query and fetch encounterId "434779_WFConfig_R1DHandoffType"
+    And user enters encounterId in visit number textfield
+    And user clicks on Submit button
+    When user clicks on Handoff button
+    And user clicks on Handoff Type dropdown
+    Then user should be able to view the newly added handoff in Handoff Type dropdown
+    When user selects newly added Handoff in Handoff Type
+    And user selects newly added value from Create dropdown
+    And user selects newly added value from Why dropdown
+    And user selects newly added value from Disposition dropdown
+    Then user should be able to view newly added Handoff Type and associated recipients, Actions and dispositions on R1 Decision screen
