@@ -145,4 +145,48 @@ public class FacilityGroupConfigurationStepDef {
 	public void user_should_be_able_to_view_add_button_should_get_enabled() {
 		Assert.assertTrue("+Add button is not enabled ", facilityGrpConfigPage.isAddBtnOnAddNewPopupEnabled());
 	}
+
+	@When("^user clicks on edit button$")
+	public void user_clicks_on_edit_button() {
+		facilityGrpConfigPage.clickOnEditBtn();
+	}
+
+	@Then("^user should be able to view edit button for each facility group present in facility group column$")
+	public void user_should_be_able_to_view_edit_button_for_each_facility_group_present_in_facility_group_column() {
+		Assert.assertTrue("Edit Button are not displayed against each facility group ",
+				facilityGrpConfigPage.isEditBtnsDisplayedAgainstEachFacilityGrp());
+	}
+
+	@Then("^user should be able to view edit window popup should be display$")
+	public void user_should_be_able_to_view_edit_window_popup_should_be_display() {
+		Assert.assertTrue("Edit window is not displayed ", facilityGrpConfigPage.isEditFacilityModalWindowVisisble());
+	}
+
+	@Then("^user should be able to view physician in scope checkbox$")
+	public void user_should_be_able_to_view_physician_in_scope_checkbox() {
+		Assert.assertTrue(" Physician checkbox is not visible ", facilityGrpConfigPage.isPhysicianCheckboxVisisble());
+	}
+
+	@When("^user can check or uncheck physician in scope checkbox$")
+	public void user_can_check_or_uncheck_physician_in_scope_checkbox() {
+		facilityGrpConfigPage.clickOnPhysicianCheckbox();
+	}
+
+	@When("^user clicks on any edit button$")
+	public void user_clicks_on_any_edit_button() throws InterruptedException {
+		facilityGrpConfigPage.clickOnEditBtnWithNoPhysicianChkboxChecked();
+		facilityGroupNameFromUI = null;
+		facilityGroupNameFromUI = facilityGrpConfigPage.getFacilityGrpNameWithPhysicianChecked();
+	}
+
+	@When("^user clicks and enable the physician scope checkbox$")
+	public void user_clicks_and_enable_the_physician_scope_checkbox() {
+
+	}
+
+	@Then("^user should be able to enable the checkbox for existing facility group$")
+	public void user_should_be_able_to_enable_the_checkbox_for_existing_facility_group() {
+
+	}
+
 }

@@ -6,10 +6,13 @@ import java.util.List;
 import net.serenitybdd.core.annotations.findby.FindBy;
 import net.serenitybdd.core.pages.PageObject;
 import net.serenitybdd.core.pages.WebElementFacade;
+import r1.commons.utilities.CommonMethods;
 
 public class FacilityGroupConfigurationPage extends PageObject {
 
 	List<String> ListOfPageControls = new ArrayList<>();
+	int index;
+	String facilityGroupName;
 
 	@FindBy(xpath = "//*[@id='lstFacilityGroup']/li/div[1]/span")
 	private List<WebElementFacade> facilityGroupList;
@@ -23,8 +26,8 @@ public class FacilityGroupConfigurationPage extends PageObject {
 	@FindBy(xpath = "//button[text()='Add New Facility Group']")
 	private List<WebElementFacade> listOfAddFacilityBtn;
 
-	@FindBy(xpath = "(//a[@class='btn btn-link lnkEditFacilityGroup'])[1]")
-	private WebElementFacade editBtn;
+	@FindBy(xpath = "//a[@class='btn btn-link lnkEditFacilityGroup']")
+	private List<WebElementFacade> listOfEditBtns;
 
 	@FindBy(xpath = "//*[@id='lstFacilityGroup']/li/div[2]/span")
 	private List<WebElementFacade> listOfFacilities;
@@ -50,6 +53,12 @@ public class FacilityGroupConfigurationPage extends PageObject {
 	@FindBy(xpath = "(//button[@onclick='ShowConfirmYesNo();']/span)[1]")
 	private WebElementFacade closeBtn;
 
+	@FindBy(id = "chkIsPRCMEnabled")
+	private WebElementFacade physicianCheckbox;
+
+	@FindBy(id = "txtFacilityGroupName")
+	private WebElementFacade facilityGrpNameOnPopup;
+
 	public List<String> getAllPageControls() {
 		for (WebElementFacade pageControls : listOfLabels) {
 			ListOfPageControls.add(pageControls.getText().trim());
@@ -58,10 +67,9 @@ public class FacilityGroupConfigurationPage extends PageObject {
 		ListOfPageControls.add(closeBtn.getText().trim());
 		ListOfPageControls.add(saveBtn.getText().trim());
 		ListOfPageControls.add(addBtnOnAddNewPopup.getText().trim());
-
 		return ListOfPageControls;
 	}
-	
+
 	public String getPRCMFacility() {
 		String pRCMFacility = null;
 		for (WebElementFacade facility : facilityGroupList) {
@@ -130,10 +138,70 @@ public class FacilityGroupConfigurationPage extends PageObject {
 	}
 
 	public boolean isEditBtnPresent() {
-		return editBtn.isVisible();
+		return listOfEditBtns.get(0).isVisible();
 	}
-	
+
 	public boolean isHeaderNameOnFacilityGrpConfigVisble() {
 		return facilityGroupConfigPageHeader.isVisible();
 	}
+
+	public boolean isEditBtnsDisplayedAgainstEachFacilityGrp() {
+		int editBtnSize = listOfEditBtns.size();
+		int facilityGrpSize = facilityGroupList.size();
+		return editBtnSize == facilityGrpSize;
+	}
+
+	public void clickOnEditBtn() {
+		listOfEditBtns.get(0).click();
+	}
+
+	public boolean isEditFacilityModalWindowVisisble() {
+		return facilityGrpModalWindow.isVisible();
+	}
+
+	public boolean isPhysicianCheckboxVisisble() {
+		return physicianCheckbox.isVisible();
+	}
+
+	public void clickOnPhysicianCheckbox() {
+		if (!physicianCheckbox.isSelected()) {
+			physicianCheckbox.click();
+		} else {
+			physicianCheckbox.click();
+		}
+	}
+
+	public void clickOnEditBtnWithNoPhysicianChkboxChecked() throws InterruptedException {
+		int check = 0;
+		int size = listOfEditBtns.size();
+		for ( index = 0; index < size; index++) {
+			evaluateJavascript("arguments[0].click();", listOfEditBtns.get(index));
+			while (physicianCheckbox.isSelected()) {
+				Thread.sleep(2000);
+				closeBtn.click();
+				check = 0;
+				break;
+			}
+			if (!physicianCheckbox.isSelected()) {
+				Thread.sleep(2000);
+				physicianCheckbox.click();
+				saveBtn.click();
+				check = 1;
+				break;
+			}
+			if (check == 1) {
+				break;
+			}
+		}
+	}
+	
+	public String getFacilityGrpNameWithPhysicianChecked() {
+		return facilityGroupList.get(index).getText();
+	}
+
+	public String getEnteredFacilityGroupName() {
+		return evaluateJavascript("return arguments[0].value;", facilityGrpNameOnPopup).toString();
+
+	}
+
 }
