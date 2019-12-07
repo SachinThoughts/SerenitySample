@@ -43,7 +43,7 @@ public class CallPayerQueueStepDef extends PageObject {
 	LoginPage loginPage;
 	AccountActionHistoryPage accActionHistoryPage;
 
-	String accountNo, noOfAccountsInQueueBefore, dbInvoiceNumber, amount, tCode;
+	String accountNo, noOfAccountsInQueueBefore, dbInvoiceNumber, amount, tCode, existingCount;
 	private static String dbQueryFilename = "CallPayerQueue";
 	private int callPayerQueueCount;
 	private String removedInvoice, handOffType, succesMessageHandOff;
@@ -166,7 +166,7 @@ public class CallPayerQueueStepDef extends PageObject {
 		searchPage.selectOperatorValue(operator);
 	}
 
-	@When("^user clicks on Toggle Call Queue button$")
+	@When("^user clicks on Toggle Call Queue button$|^user clicks on Toggle Call Queue button to expand the Call Queue Section$")
 	public void user_clicks_on_Toggle_Call_Queue_button() {
 		callPayerQueuePage.clickToggleCallQueueBtn();
 	}
@@ -443,5 +443,39 @@ public class CallPayerQueueStepDef extends PageObject {
 	@When("^user clicks on Next Account button$")
 	public void user_clicks_on_Next_Account_button() {
 		accInfoPage.clickNextAccountBtn();
+	}
+
+	@Then("^user should be able to view Add to Call Queue pop-up$")
+	public void user_should_be_able_to_view_Add_to_Call_Queue_popup() {
+		Assert.assertTrue("Add to Call Queue pop-up is not visible", callPayerQueuePage.isCallQueuePopupVisible());
+	}
+
+	@When("^user enters notes \"([^\"]*)\" in Notes Section$")
+	public void user_enters_text_in_Notes_Section(String noteText) {
+		callPayerQueuePage.enterNoteTxtBoxCPQ(noteText);
+	}
+
+	@When("^user clicks Add with Note button$|^user clicks Add with Note button to add the account that already exists in Call Queue$")
+	public void user_clicks_Add_with_Note_button() {
+		existingCount = callPayerQueuePage.getCountOfAccountsInCallPayorQueue();
+		callPayerQueuePage.clickAddCPQWithNoteBtn();
+	}
+
+	@Then("^user should be able to view the incremented count of accounts by 1 in Call Queue Section$")
+	public void user_should_be_able_to_view_the_incremented_count_of_accounts_by_1_in_Call_Queue_Section() {
+		Assert.assertTrue(callPayerQueueSteps.isCountIncrementedByOne(existingCount,
+				callPayerQueuePage.getCountOfAccountsInCallPayorQueue()));
+	}
+
+	@Then("^user should not be able to view the incremented count of accounts by 1 in Call Queue Section$")
+	public void user_should_not_be_able_to_view_the_incremented_count_of_accounts_by_1_in_Call_Queue_Section() {
+		Assert.assertFalse(callPayerQueueSteps.isCountIncrementedByOne(existingCount,
+				callPayerQueuePage.getCountOfAccountsInCallPayorQueue()));
+	}
+
+	@Then("^user should not be able to view duplicate account in Call Queue Section$")
+	public void user_should_not_be_able_to_view_duplicate_account_in_Call_Queue_Section() {
+		Assert.assertFalse("Duplicate account added in Call Queue Section",
+				callPayerQueueSteps.isAccountVisibleMoreThanOnceInCallPayerQueue(dbInvoiceNumber));
 	}
 }
