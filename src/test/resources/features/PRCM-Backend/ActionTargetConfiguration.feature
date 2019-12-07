@@ -25,5 +25,23 @@ Feature: Verify Action Target Configuration related testcases in PRCM-BE
     Given user having AHtoDecision Admin role is on Action Target Configuration page
     When user clicks on Search By dropdown
     Then user should be able to view the following values in search by dropdown
-      | Action Target Name | Username |
+      | Action Target Name | UserName |
     And user should be able to view "Action Target Name" as selected value by default in search by dropdown
+
+  @434422 @AHtoDecisionAdmin @Sprint103
+  Scenario Outline: Verify the functionality of 'Action Target Name' option present on Search By drop down on the Action target Configuration page
+    Given user having AHtoDecision Admin role is on Action Target Configuration page
+    When user enters valid text in Enter Action Target Name textbox <validText>
+    Then user should be able to view auto-suggestion list as per the entered text
+    When user selects any option from the auto-suggestion list
+    Then user should be able to view selected option in Enter Action Target Name textbox
+    And user should be able to view Apply button as enabled
+    When user clicks on Apply button
+    Then user should be able to view configurations on grid based on option selected in Enter Action Target Name textbox
+    When user enters invalid text in Enter Action Target Name textbox <invalidText>
+    And user clicks on Apply button
+    Then user should be able to view no results message "Sorry, No Results Found. Please try your search again."
+
+    Examples: 
+      | validText     | invalidText |
+      | AR Supervisor | test        |
