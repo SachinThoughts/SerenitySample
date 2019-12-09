@@ -113,6 +113,7 @@ public class PhysicianNPIConfigStepDef {
 
 	@Then("^user should be able to view updated count in header Total Payors disabled: Count$")
 	public void user_should_be_able_to_view_updated_count_in_header_Total_Payors_disabled_Count() {
+		System.out.println("count:"+physicianNPIConfigPage.getCountOfTotalPayorsDisabled());
 		Assert.assertTrue("Correct count is not updated", physicianNPIConfigPage
 				.getCountOfTotalPayorsDisabled() == physicianNPIConfigPage.getListOfDisabledPayorsName().size());
 	}
