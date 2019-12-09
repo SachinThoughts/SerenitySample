@@ -394,7 +394,7 @@ public class CallPayerQueueStepDef extends PageObject {
 	public void user_clicks_on_radiobutton_Approve() {
 		callPayerQueuePage.clickApproveRadioBtn();
 	}
-	
+
 	@Then("^user should be able to view that user successfully logout from application$")
 	public void user_should_be_able_to_view_that_user_successfully_logout_from_application() {
 		Assert.assertTrue("Logout failed", loginPage.verifyUsernameTextBox());

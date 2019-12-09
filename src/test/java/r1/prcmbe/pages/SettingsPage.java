@@ -36,6 +36,12 @@ public class SettingsPage extends PageObject {
 	@FindBy(xpath = "//span[not(contains(@style,'hidden')) and text()='R1 Configuration']")
 	private WebElementFacade r1ConfigurationLink;
 
+	@FindBy(xpath = "//span[not(contains(@style,'hidden'))and text()='Payor and Plan Config']")
+	private WebElementFacade PayorAndPlanConfigLink;
+
+	@FindBy(xpath = "//span[not(contains(@style,'hidden'))and text()='PRCM - Eligibility NPI Configuration']")
+	private WebElementFacade eligibilityNPIConfigLink;
+
 	public void clickOnSettingsR1Decisions() {
 		waitForAngularRequestsToFinish();
 		withAction().moveToElement(settingsR1Decision).click().build().perform();
@@ -80,5 +86,13 @@ public class SettingsPage extends PageObject {
 	public void clickR1ConfigurationLink() {
 		waitForAngularRequestsToFinish();
 		withAction().moveToElement(r1ConfigurationLink).click().build().perform();
+	}
+
+	public void hoverPayorAndPlanConfigLink() {
+		withAction().moveToElement(PayorAndPlanConfigLink).build().perform();
+	}
+
+	public void clickEligibilityNPIConfigLink() {
+		withAction().moveToElement(eligibilityNPIConfigLink).click().build().perform();
 	}
 }
