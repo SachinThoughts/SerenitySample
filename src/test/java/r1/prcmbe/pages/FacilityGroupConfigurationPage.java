@@ -7,7 +7,6 @@ import net.serenitybdd.core.annotations.findby.FindBy;
 import net.serenitybdd.core.pages.PageObject;
 import net.serenitybdd.core.pages.WebElementFacade;
 
-
 public class FacilityGroupConfigurationPage extends PageObject {
 
 	List<String> ListOfPageControls = new ArrayList<>();
@@ -203,23 +202,22 @@ public class FacilityGroupConfigurationPage extends PageObject {
 		return evaluateJavascript("return arguments[0].value;", facilityGrpNameOnPopup).toString();
 
 	}
-	
+
 	public boolean isPhysicianCheckboxEnabled() {
 		return physicianCheckbox.withTimeoutOf(Duration.ofSeconds(15)).waitUntilVisible().isSelected();
-		}
-	
+	}
+
 	public void clickOnFacilityGrpEditBtn(String facilityGrpName) {
 		int size = listOfEditBtns.size();
 		for (index = 0; index < size; index++) {
-			if(facilityGroupList.get(index).getText().equals(facilityGrpName)) {
+			if (facilityGroupList.get(index).getText().equals(facilityGrpName)) {
 				withAction().moveToElement(facilityGroupList.get(index)).build().perform();
 				evaluateJavascript("arguments[0].click();", listOfEditBtns.get(index));
-				}
+			}
 		}
 	}
-	
+
 	public void clickOnSaveBtn() {
 		saveBtn.click();
 	}
-	
 }

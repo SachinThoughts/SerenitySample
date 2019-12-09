@@ -63,23 +63,22 @@ Feature: Verify Factility Group Configuration related scenarios in PRCM-BE
     When user runs the facility group query"Facility_Group_Configuration_391159_SQL2"
     Then user should be able to view PRCM flag should be enabled having value as "1"
 
-@391164 @AHtoDecisionAdmin @Sprint103
-Scenario Outline: Verify that if PRCM enable checkbox is enable for any facility group then user should able to view prcm view for that facility group in payer inventory tab
-Given user is on Facility Group Configuration screen
-When user clicks on edit button of the <Facility Group Name>
-And user clicks and enable the physician scope checkbox
+  @391164 @AHtoDecisionAdmin @Sprint103
+  Scenario Outline: Verify that if PRCM enable checkbox is enable for any facility group then user should able to view prcm view for that facility group in payer inventory tab
+    Given user is on Facility Group Configuration screen
+    When user clicks on edit button of the <Facility Group Name>
+    And user clicks and enable the physician scope checkbox
+    Then user should able to enable the checkbox for existing facility group
+    And clicks on save button
+    When user clicks on billing & follow-up from the footer
+    And user hover on R1_Decision
+    And user clicks on Workflow Distribution link
+    Then user should be able to view workflow distribution screen
+    When user is on Workflow Distribution screen
+    And user selects PRCM enabled "Ascension - Providence DC" facility group from Facility Group dropdown
+    Then user should be able to view that facility group in the dropdown facility group list
+    Then user should be able to view payer inventory filter for prcm enable facility group
 
-Then user should able to enable the checkbox for existing facility group
-And clicks on save button
-#When user clicks on billing & follow-up
-#And user hovers over R1D
-#And clicks on workflow distribution
-#Then user should be able to view workflow distribution screen
-#When user is on Workflow Distribution screen
-#And user clicks on facility group dropdown list
-#Then user  should be able to view that facility group in the dropdown facility group list
-#Then user  should be able to view payer inventory filter for prcm enable facility group
-    
     Examples: 
-     | Facility Group Name      |
-     | Ascension - Providence DC |
+      | Facility Group Name       |
+      | Ascension - Providence DC |
