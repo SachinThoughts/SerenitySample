@@ -171,10 +171,32 @@ public class FacilityGroupConfigurationStepDef {
 	public void user_can_check_or_uncheck_physician_in_scope_checkbox() {
 		facilityGrpConfigPage.clickOnPhysicianCheckbox();
 	}
-
-	@When("^user clicks on any edit button$")
-	public void user_clicks_on_any_edit_button() {
+	
+	@When("^user clicks on any edit button and clicks physician checkbox to enable it$")
+    public void user_clicks_on_any_edit_button_and_clicks_physician_checkbox_to_enable_it(){
 		facilityGrpConfigPage.clickOnEditBtnWithNoPhysicianChkboxChecked();
 		facilityGroupNameFromUI = facilityGrpConfigPage.getFacilityGrpNameWithPhysicianChecked();
-	}
+    }
+	 @When("^user clicks on edit button of the (.+)$")
+	    public void user_clicks_on_edit_button_of_the(String facilitygroupname)  {
+		 facilityGrpConfigPage.clickOnFacilityGrpEditBtn(facilitygroupname);
+		 
+	    }
+
+	    @Then("^user should able to enable the checkbox for existing facility group$")
+	    public void user_should_able_to_enable_the_checkbox_for_existing_facility_group()  {
+	    	facilityGrpConfigPage.isPhysicianCheckboxEnabled();
+	    }
+
+	    @When("^user clicks and enable the physician scope checkbox$")
+	    public void user_clicks_and_enable_the_physician_scope_checkbox()  {
+	    	facilityGrpConfigPage.clickOnPhysicianCheckbox();
+	    }
+
+	    @When("^clicks on save button$")
+	    public void clicks_on_save_button()  {
+	    	facilityGrpConfigPage.clickOnSaveBtn();
+	    }
+
+
 }
