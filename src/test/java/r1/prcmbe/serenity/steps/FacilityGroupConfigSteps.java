@@ -9,7 +9,7 @@ import r1.commons.databaseconnection.DatabaseConn;
 
 public class FacilityGroupConfigSteps {
 
-	public boolean IsNewAddedColumnVisibleInDB(String newColumnName) {
+	public boolean isNewAddedColumnVisibleInDB(String newColumnName) {
 		try {
 			ResultSetMetaData rsMetaData = DatabaseConn.resultSet.getMetaData();
 			int numberOfColumns = rsMetaData.getColumnCount();

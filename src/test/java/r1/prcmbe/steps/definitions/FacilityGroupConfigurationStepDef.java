@@ -62,7 +62,7 @@ public class FacilityGroupConfigurationStepDef {
 	@Then("^user should be able to view newly added column name as \"([^\"]*)\"$")
 	public void user_should_be_able_to_view_newly_added_column_name_as_something(String addedCoumnName) {
 		Assert.assertTrue("Newly added Column is not displayed in DB ",
-				facilityGrpConfigSteps.IsNewAddedColumnVisibleInDB(addedCoumnName));
+				facilityGrpConfigSteps.isNewAddedColumnVisibleInDB(addedCoumnName));
 	}
 
 	@Then("^user should be able to view header name as Facility Group Configuration$")
