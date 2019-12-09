@@ -151,6 +151,9 @@ public class AccountInformationPage extends PageObject {
 	@FindBy(xpath = "//a[@class='btn' and text()='Recent Accounts']")
 	private WebElementFacade recentAccountsBtn;
 
+	@FindBy(id = "btnNextAccount")
+	private WebElementFacade nextAccountBtn;
+
 	public String getAccountNumber() {
 		waitForAngularRequestsToFinish();
 		return accountNumber.getText().trim();
@@ -451,5 +454,9 @@ public class AccountInformationPage extends PageObject {
 
 	public void clickRecentAccountsBtn() {
 		recentAccountsBtn.click();
+	}
+
+	public void clickNextAccountBtn() {
+		evaluateJavascript("arguments[0].click();", nextAccountBtn);
 	}
 }
