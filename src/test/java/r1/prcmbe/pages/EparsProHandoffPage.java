@@ -1,5 +1,7 @@
 package r1.prcmbe.pages;
 
+import java.time.Duration;
+
 import net.serenitybdd.core.annotations.findby.FindBy;
 import net.serenitybdd.core.pages.PageObject;
 import net.serenitybdd.core.pages.WebElementFacade;
@@ -62,51 +64,51 @@ public class EparsProHandoffPage extends PageObject {
 	}
 
 	public String getValidationMessage() {
-		return validationMessage.getText().trim();
+		return validationMessage.withTimeoutOf(Duration.ofSeconds(30)).waitUntilVisible().getText().trim();
 	}
 
 	public void enterLastNameTextBox(String textBoxValue) {
 		waitForAngularRequestsToFinish();
-		lastNameTextBox.type(textBoxValue);
+		lastNameTextBox.withTimeoutOf(Duration.ofSeconds(30)).waitUntilVisible().type(textBoxValue);
 	}
 
 	public void enterInvoiceNumberTextBox(String textBoxValue) {
 		waitForAngularRequestsToFinish();
-		invoiceNumberTextBox.type(textBoxValue);
+		invoiceNumberTextBox.withTimeoutOf(Duration.ofSeconds(30)).waitUntilVisible().type(textBoxValue);
 	}
 
 	public void enterVisitNumberTextBox(String textBoxValue) {
 		waitForAngularRequestsToFinish();
-		visitNumberTextBox.type(textBoxValue);
+		visitNumberTextBox.withTimeoutOf(Duration.ofSeconds(30)).waitUntilVisible().type(textBoxValue);
 	}
 
 	public void enterSSNTextBox(String textBoxValue) {
 		waitForAngularRequestsToFinish();
-		ssnTextBox.type(textBoxValue);
+		ssnTextBox.withTimeoutOf(Duration.ofSeconds(30)).waitUntilVisible().type(textBoxValue);
 	}
 
 	public void enterClaimNumberTextBox(String textBoxValue) {
 		waitForAngularRequestsToFinish();
-		claimNumberTextBox.type(textBoxValue);
+		claimNumberTextBox.withTimeoutOf(Duration.ofSeconds(30)).waitUntilVisible().type(textBoxValue);
 	}
 
 	public void enterDateOfServiceTextBox(String textBoxValue) {
 		waitForAngularRequestsToFinish();
-		dateOfServiceTextBox.type(textBoxValue);
+		dateOfServiceTextBox.withTimeoutOf(Duration.ofSeconds(30)).waitUntilVisible().type(textBoxValue);
 	}
 
 	public void enterDateOfBirthTextBox(String textBoxValue) {
 		waitForAngularRequestsToFinish();
-		dateOfBirthTextBox.type(textBoxValue);
+		dateOfBirthTextBox.withTimeoutOf(Duration.ofSeconds(30)).waitUntilVisible().type(textBoxValue);
 	}
 
 	public void enterMRNTextBox(String textBoxValue) {
 		waitForAngularRequestsToFinish();
-		mrnTextBox.type(textBoxValue);
+		mrnTextBox.withTimeoutOf(Duration.ofSeconds(30)).waitUntilVisible().type(textBoxValue);
 	}
 
 	public void selectOperator(String operatorValue) {
 		waitForAngularRequestsToFinish();
-		operatorBy.selectByVisibleText(operatorValue);
+		operatorBy.withTimeoutOf(Duration.ofSeconds(30)).waitUntilVisible().selectByVisibleText(operatorValue);
 	}
 }

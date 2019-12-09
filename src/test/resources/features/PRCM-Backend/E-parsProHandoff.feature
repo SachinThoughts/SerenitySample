@@ -35,8 +35,22 @@ Feature: Verify E-pars pro handoff related testcases in PRCM-BE
 
   @438750 @PRCMUser @Sprint103
   Scenario: Verify the error message displayed when user searches an invalid Search textbox like 'abc1@' with equal operator on ePARS Pro Page
-     Given user is on ePARS Pro screen
+    Given user is on ePARS Pro screen
     When user selects following values from Search By drop down on Epars Page, with operator "=" enters "abc1@" in Search textbox followed by click on Submit Button
+      | Visit Number           |
+      | Invoice Number         |
+      | Social Security Number |
+      | Last/First Name        |
+      | Medical Records Number |
+      | Claim Number           |
+      | DOB                    |
+      | Date of Service        |
+    Then user should be able to view following message on Epars page "No record found!"
+
+  @438752 @PRCMUser @Sprint103
+  Scenario: Verify the error message displayed when user searches an invalid Search textbox like 'abc1@' with Like operator on ePARS Pro Page
+    Given user is on ePARS Pro screen
+    When user selects following values from Search By drop down on Epars Page, with operator "Like" enters "abc1@" in Search textbox followed by click on Submit Button
       | Visit Number           |
       | Invoice Number         |
       | Social Security Number |
