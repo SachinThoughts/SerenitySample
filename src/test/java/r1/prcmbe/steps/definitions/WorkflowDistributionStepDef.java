@@ -276,7 +276,7 @@ public class WorkflowDistributionStepDef extends PageObject {
 	}
 
 	@When("^user clicks on any Payer from the drilldown$")
-	public void user_clicks_on_any_Payer_from_the_drilldown() {
+	public void user_clicks_on_any_Payer_from_the_drilldown() { 
 		workflowDistributionPage.clickOnFirstPayerOnPayerInvtryTab();
 	}
 }
