@@ -40,6 +40,9 @@ public class SettingsPage extends PageObject {
 	private WebElementFacade facilityGrpConfigLink;
 	
 
+	@FindBy(xpath = "//span[not(contains(@style,'hidden')) and text()='Action Target Configuration']")
+	private WebElementFacade actionTargetConfigLink;
+
 	public void clickOnSettingsR1Decisions() {
 		waitForAngularRequestsToFinish();
 		withAction().moveToElement(settingsR1Decision).click().build().perform();
@@ -88,6 +91,9 @@ public class SettingsPage extends PageObject {
 	
 	public void clickFacilityGroupConfig() {
 		withAction().moveToElement(facilityGrpConfigLink).click().build().perform();
-		
+		}
+
+	public void clickActionTargetConfigLink() {
+		withAction().moveToElement(actionTargetConfigLink).click().build().perform();
 	}
 }

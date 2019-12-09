@@ -3,11 +3,10 @@ package r1.prcmbe.pages;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
-
 import net.serenitybdd.core.annotations.findby.FindBy;
 import net.serenitybdd.core.pages.PageObject;
 import net.serenitybdd.core.pages.WebElementFacade;
-import r1.commons.utilities.CommonMethods;
+
 
 public class FacilityGroupConfigurationPage extends PageObject {
 
