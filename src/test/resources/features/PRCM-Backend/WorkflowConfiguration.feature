@@ -345,7 +345,6 @@ Feature: Verify WorkFlowConfiguration related scenarios in PRCM
     And user clicks on Continue button on Action type Tab
     Then user should be able to navigate to Disposition type page
     And user should be able to view Disposition Type tab selected highlighted in blue color
-    And user should able to view Workflow Summary label with selected Disposition Type appended
     And user should be able to view Choose a Disposition Type grid with buttons underneath
       | Add New Disposition | Save Configuration |
     And user should be able to view Save Configuration button disabled
