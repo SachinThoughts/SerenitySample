@@ -161,7 +161,6 @@ Feature: Verify Workflow Distribution related scenarios in PRCM-BE
     When user selects Non-PRCM facility group "Ascension - Genesys Health System" from Facility Group dropdown
     And user clicks on Reps tab
     Then user should be able to view Team Filter under Filters section on Reps Tab
-      | BSO Genesys Billing | BSO_Source HOV F/U_Genesys | CBO Genesys Billing | Genesys Targeted Balance |
     And user should be able to view Hide link besides Team on Reps Tab
     And user should be able to view Search label on Reps Tab
     And user should be able to view "Rep Name" search box on Reps Tab
@@ -174,7 +173,6 @@ Feature: Verify Workflow Distribution related scenarios in PRCM-BE
     And user should not be able to view Filters on Reps Tab
     When User clicks on Show link on Reps Tab
     Then user should be able to view Team Filter under Filters section on Reps Tab
-      | BSO Genesys Billing | BSO_Source HOV F/U_Genesys | CBO Genesys Billing | Genesys Targeted Balance |
     And user should be able to view Hide link besides Team on Reps Tab
     And user should be able to view Search label on Reps Tab
     And user should be able to view "Rep Name" search box on Reps Tab
@@ -182,3 +180,55 @@ Feature: Verify Workflow Distribution related scenarios in PRCM-BE
       | Search    |
       | Filter    |
       | Clear All |
+
+  @441306 @ARSupervisor @Sprint103
+  Scenario: Verify the Filters for the PRCM enabled Facility group for Reps Tab
+    Given user is on Workflow Distribution screen
+    And user selects PRCM enabled "Ascension - Wheaton PRCM" facility group from Facility Group dropdown
+    And user clicks on Reps tab
+    Then user should be able to view Team Filter under Filters section on Reps Tab
+    And user should be able to view Hide link besides Team on Reps Tab
+    And user should be able to view Search label on Reps Tab
+    And user should be able to view "Rep Name" search box on Reps Tab
+    And user should be able to view buttons on Reps Tab
+      | Search    |
+      | Filter    |
+      | Clear All |
+    When User clicks on Hide link on Reps Tab
+    Then user should be able to view Show link label on Reps Tab
+    And user should not be able to view Filters on Reps Tab
+    When User clicks on Show link on Reps Tab
+    Then user should be able to view Team Filter under Filters section on Reps Tab
+    And user should be able to view Hide link besides Team on Reps Tab
+    And user should be able to view Search label on Reps Tab
+    And user should be able to view "Rep Name" search box on Reps Tab
+    And user should be able to view buttons on Reps Tab
+      | Search    |
+      | Filter    |
+      | Clear All |
+
+  @441241 @ARSupervisor @Sprint103
+  Scenario Outline: Verify the Filters for Payer Inventory and Patient Inventory for Non-PRCM Facility group in WorkFlow Distribution  Screen
+    Given user is on Workflow Distribution screen
+    When user selects Non-PRCM facility group "Ascension - Genesys Health System" from Facility Group dropdown
+    And User clicks in "<TabName>" under Workflow Distribution
+    Then User should not be displayed any Filter
+
+    Examples: 
+      | TabName           |
+      | Patient Inventory |
+      | Payer Inventory   |
+
+  @391292 @ARSupervisor @Sprint103
+  Scenario: Verify the Payer inventory tab for PRCM enabled Facility group  when  Professional  is selected
+    Given user is on Workflow Distribution screen
+    And User clicks on Professional radio button under the  Payer Inventory Filter in Filter Section
+    Then user should be able to view the grid
+      | Payer Name | Unassigned Accounts | Unassigned Balance | Assigned Accounts | Assigned Balances | Account Age | Teams | Reps | Burn Rate | Days Inventory |
+    When user clicks on any Payer from the drilldown
+    Then user should be able to view the below sections
+      | Unassigned (Due for Work) | Assigned (Due for Work) |
+    And user should be able to view following sub sections under Unassigned (Due for Work ) section
+      | Defect SubCategory | Number of Accounts | Age | Balance | Teams | Reps | Burn Rate | Days Inventory |
+    And user should be able to view following sub sections under Assigned (Due for Work ) section
+      | Defect SubCategory | Number of Accounts | Age | Balance | Teams | Reps | Burn Rate | Days Inventory |

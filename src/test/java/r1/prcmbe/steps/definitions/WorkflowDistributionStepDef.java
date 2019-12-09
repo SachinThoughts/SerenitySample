@@ -98,9 +98,10 @@ public class WorkflowDistributionStepDef extends PageObject {
 	@Then("^user should be able to view the below sections$")
 	public void user_should_be_able_to_view_the_below_sections(DataTable expSections) {
 		List<String> expListOfSections = expSections.asList(String.class);
-		Assert.assertTrue("The expected sections are not present. Actual sections: "
-				+ workflowDistributionPage.getFacilityGrpSections() + " Expected sections: " + expListOfSections,
-				workflowDistributionPage.getFacilityGrpSections().equals(expListOfSections));
+		Assert.assertTrue(
+				"The expected sections are not present. Actual sections: " + workflowDistributionPage.getGroupSections()
+						+ " Expected sections: " + expListOfSections,
+				workflowDistributionPage.getGroupSections().equals(expListOfSections));
 	}
 
 	@Then("^user should be able to view following sub sections under Unassigned \\(Due for Work \\) section$")
@@ -109,10 +110,9 @@ public class WorkflowDistributionStepDef extends PageObject {
 		List<String> expListOfSubsectionHeaders = expSubsectionHeaders.asList(String.class);
 		Assert.assertTrue(
 				"The expected Subsections are not present for Unassigned. Actual Subsections: "
-						+ workflowDistributionPage.getListOfFacilityGroupSubSectionsForUnassigned()
-						+ " Expected sections: " + expListOfSubsectionHeaders,
-				workflowDistributionPage.getListOfFacilityGroupSubSectionsForUnassigned()
-						.equals(expListOfSubsectionHeaders));
+						+ workflowDistributionPage.getListOfGroupSubSectionsForUnassigned() + " Expected sections: "
+						+ expListOfSubsectionHeaders,
+				workflowDistributionPage.getListOfGroupSubSectionsForUnassigned().equals(expListOfSubsectionHeaders));
 	}
 
 	@Then("^user should be able to view following sub sections under Assigned \\(Due for Work \\) section$")
@@ -121,10 +121,9 @@ public class WorkflowDistributionStepDef extends PageObject {
 		List<String> expListOfSubsectionHeaders = expSubsectionHeaders.asList(String.class);
 		Assert.assertTrue(
 				"The expected Subsections are not present for Assigned. Actual Subsections: "
-						+ workflowDistributionPage.getListOfFacilityGroupSubSectionsForAssigned()
-						+ " Expected sections: " + expListOfSubsectionHeaders,
-				workflowDistributionPage.getListOfFacilityGroupSubSectionsForAssigned()
-						.equals(expListOfSubsectionHeaders));
+						+ workflowDistributionPage.getListOfGroupSubSectionsForAssigned() + " Expected sections: "
+						+ expListOfSubsectionHeaders,
+				workflowDistributionPage.getListOfGroupSubSectionsForAssigned().equals(expListOfSubsectionHeaders));
 	}
 
 	@Given("^User clicks on Payer radio button under the Account Inventory Filter in Filter Section$")
@@ -187,7 +186,7 @@ public class WorkflowDistributionStepDef extends PageObject {
 	}
 
 	@When("^User clicks on Show link on facility Inventory Tab$")
-	public void user_clicks_on_Show_link_on_facility_Inventory_Tab() { 
+	public void user_clicks_on_Show_link_on_facility_Inventory_Tab() {
 		workflowDistributionPage.clickOnShowLinkOnFacilityInvtryTab();
 	}
 
@@ -210,10 +209,9 @@ public class WorkflowDistributionStepDef extends PageObject {
 	}
 
 	@Then("^user should be able to view Team Filter under Filters section on Reps Tab$")
-	public void user_should_be_able_to_view_Team_Filter_under_Filters_section_on_Reps_Tab(DataTable filtersName) {
-		List<String> listOfFiltersName = filtersName.asList(String.class);
+	public void user_should_be_able_to_view_Team_Filter_under_Filters_section_on_Reps_Tab() {
 		Assert.assertTrue("failed to verify filters under Reps Tab",
-				listOfFiltersName.equals(workflowDistributionPage.getFiltersNameUnderRepsTab()));
+				workflowDistributionPage.isListOfFiltersNameUnderRepsTabEmpty());
 	}
 
 	@Then("^user should be able to view Hide link besides Team on Reps Tab$")
@@ -224,12 +222,14 @@ public class WorkflowDistributionStepDef extends PageObject {
 
 	@Then("^user should be able to view Search label on Reps Tab$")
 	public void user_should_be_able_to_view_Search_label_on_Reps_Tab() {
-		workflowDistributionPage.isSearchLabelOnRepsTabVisible();
+		Assert.assertTrue("failed to view search label on Reps Tab",
+				workflowDistributionPage.isSearchLabelOnRepsTabVisible());
 	}
 
 	@Then("^user should be able to view \"([^\"]*)\" search box on Reps Tab$")
 	public void user_should_be_able_to_view_search_box_on_Reps_Tab(String expectedWaterMarkText) {
-		workflowDistributionPage.getSearchBoxWaterMarkTextOnRepsTab();
+		Assert.assertTrue("expectedWaterMarkText "+" failed to view on search box on Reps",
+				workflowDistributionPage.getSearchBoxWaterMarkTextOnRepsTab().equals(expectedWaterMarkText));
 	}
 
 	@Then("^user should be able to view buttons on Reps Tab$")
@@ -252,11 +252,31 @@ public class WorkflowDistributionStepDef extends PageObject {
 
 	@Then("^user should not be able to view Filters on Reps Tab$")
 	public void user_should_not_be_able_to_view_Filters_on_Rep_Tab() {
-		Assert.assertTrue("Failed to view Filters on Reps",workflowDistributionPage.isListOfFiltersOnRepsTabVisible());
+		Assert.assertTrue("Failed to view Filters on Reps", workflowDistributionPage.isListOfFiltersOnRepsTabVisible());
 	}
 
 	@When("^User clicks on Show link on Reps Tab$")
 	public void user_clicks_on_Show_link_on_Reps_Tab() {
 		workflowDistributionPage.clickOnShowLinkOnRepsTab();
+	}
+
+	@When("^User clicks in \"([^\"]*)\" under Workflow Distribution$")
+	public void user_clicks_in_under_Workflow_Distribution(String distributionTab) {
+		workflowDistributionPage.clickOnWrkfloDistribitionTabs(distributionTab);
+	}
+
+	@Then("^User should not be displayed any Filter$")
+	public void user_should_not_be_displayed_any_Filter() {
+		Assert.assertFalse("user is able to see Filter", workflowDistributionPage.isFilterSectionPresent());
+	}
+
+	@Given("^User clicks on Professional radio button under the  Payer Inventory Filter in Filter Section$")
+	public void user_clicks_on_Professional_radio_button_under_the_Payer_Inventory_Filter_in_Filter_Section() {
+		workflowDistributionPage.clickProfessionaltRadioBtnOnPayerInvtryTab();
+	}
+
+	@When("^user clicks on any Payer from the drilldown$")
+	public void user_clicks_on_any_Payer_from_the_drilldown() {
+		workflowDistributionPage.clickOnFirstPayerOnPayerInvtryTab();
 	}
 }

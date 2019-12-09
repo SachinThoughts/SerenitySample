@@ -47,13 +47,13 @@ public class WorkflowDistributionPage extends PageObject {
 	private WebElementFacade firstFacilityGroup;
 
 	@FindBy(xpath = "//*[@id='inventoryDetail0']/li/h4[not (contains(@class,'ng-hide'))]")
-	private List<WebElementFacade> listOfFacilityGroupSections;
+	private List<WebElementFacade> listOfGroupSections;
 
 	@FindBy(xpath = "//*[@id='inventoryDetail0']/li/ul[1]/li[not (contains(@class,'ng-hide'))]")
-	private List<WebElementFacade> listOfFacilityGroupSubSectionsForUnassigned;
+	private List<WebElementFacade> listOfGroupSubSectionsForUnassigned;
 
-	@FindBy(xpath = "//*[@id='inventoryDetail0']/li/ul[4]/li[not (contains(@class,'ng-hide'))]")
-	private List<WebElementFacade> listOfFacilityGroupSubSectionsForAssigned;
+	@FindBy(xpath = "//*[@id='inventoryDetail0']/li/ul[contains(@class,'sop-header')][2]/li[not(contains(@class,'ng-hide'))]")
+	private List<WebElementFacade> listOfGroupSubSectionsForAssigned;
 
 	@FindBy(xpath = "//label[@for='inventoryFiltersPatient']")
 	private WebElementFacade patientRadioBtn;
@@ -99,6 +99,12 @@ public class WorkflowDistributionPage extends PageObject {
 
 	@FindBy(xpath = "//*[@id='user-inventory']/div[2]/div[1]/div/div/div[2]/h4/a[contains(text(),'Show')]")
 	private WebElementFacade showLinkOnRepsTab;
+
+	@FindBy(xpath = "//*[@role='tabpanel']//div[@class='well']")
+	private WebElementFacade filterSection;
+
+	@FindBy(xpath = "(//a[@class='toggle-inventory'])[1]/i")
+	private WebElementFacade firstDrildwnBtnOnPayerInvtryTab;
 
 	public void isWorkflowDistributionTitleVisible() {
 		workflowDistributionTitle.shouldBeVisible();
@@ -160,29 +166,28 @@ public class WorkflowDistributionPage extends PageObject {
 		evaluateJavascript("arguments[0].click();", firstFacilityGroup);
 	}
 
-	public List<String> getFacilityGrpSections() {
+	public List<String> getGroupSections() {
 		List<String> listOfTxtValOfFacilityGrpSections = new ArrayList<>();
-		for (WebElementFacade facilityGroupSections : listOfFacilityGroupSections) {
-			withAction().moveToElement(facilityGroupSections).build().perform();
-			listOfTxtValOfFacilityGrpSections.add(facilityGroupSections.getText().trim());
+		for (WebElementFacade groupSections : listOfGroupSections) {
+			withAction().moveToElement(groupSections).build().perform();
+			listOfTxtValOfFacilityGrpSections.add(groupSections.getText().trim());
 		}
 		return listOfTxtValOfFacilityGrpSections;
 	}
 
-	public List<String> getListOfFacilityGroupSubSectionsForUnassigned() {
-		List<String> listOfTxtValOfFacilityGrpSubSectionsForUnassigned = new ArrayList<>();
-		for (WebElementFacade facilityGroupSubSectionsForUnassigned : listOfFacilityGroupSubSectionsForUnassigned) {
-			listOfTxtValOfFacilityGrpSubSectionsForUnassigned
-					.add(facilityGroupSubSectionsForUnassigned.getText().trim());
+	public List<String> getListOfGroupSubSectionsForUnassigned() {
+		List<String> listOfTxtValOfGrpSubSectionsForUnassigned = new ArrayList<>();
+		for (WebElementFacade groupSubSectionsForUnassigned : listOfGroupSubSectionsForUnassigned) {
+			listOfTxtValOfGrpSubSectionsForUnassigned.add(groupSubSectionsForUnassigned.getText().trim());
 		}
-		return listOfTxtValOfFacilityGrpSubSectionsForUnassigned;
+		return listOfTxtValOfGrpSubSectionsForUnassigned;
 	}
 
-	public List<String> getListOfFacilityGroupSubSectionsForAssigned() {
+	public List<String> getListOfGroupSubSectionsForAssigned() {
 		List<String> listOfTxtValOfFacilityGrpSubSectionsForAssigned = new ArrayList<>();
-		for (WebElementFacade facilityGroupSubSectionsForAssigned : listOfFacilityGroupSubSectionsForAssigned) {
-			withAction().moveToElement(facilityGroupSubSectionsForAssigned).build().perform();
-			listOfTxtValOfFacilityGrpSubSectionsForAssigned.add(facilityGroupSubSectionsForAssigned.getText().trim());
+		for (WebElementFacade groupSubSectionsForAssigned : listOfGroupSubSectionsForAssigned) {
+			withAction().moveToElement(groupSubSectionsForAssigned).build().perform();
+			listOfTxtValOfFacilityGrpSubSectionsForAssigned.add(groupSubSectionsForAssigned.getText().trim());
 		}
 		return listOfTxtValOfFacilityGrpSubSectionsForAssigned;
 	}
@@ -252,20 +257,16 @@ public class WorkflowDistributionPage extends PageObject {
 		facilityGrpDrpDwn.selectByVisibleText(facilityGrpName);
 	}
 
-	public List<String> getFiltersNameUnderRepsTab() {
-		List<String> filtersUnderRepsTab = new ArrayList<>();
-		for (WebElementFacade filters : listOfFiltersUnderRepsTab) {
-			filtersUnderRepsTab.add(filters.getText());
-		}
-		return filtersUnderRepsTab;
+	public boolean isListOfFiltersNameUnderRepsTabEmpty() {
+		return !listOfFiltersUnderRepsTab.isEmpty();
 	}
 
 	public boolean isHideLinkVisibleInRepsTab() {
 		return hideLinkOnRepsTab.isVisible();
 	}
 
-	public void isSearchLabelOnRepsTabVisible() {
-		searchLabelOnRepsTab.isVisible();
+	public boolean isSearchLabelOnRepsTabVisible() {
+		return searchLabelOnRepsTab.isVisible();
 	}
 
 	public String getSearchBoxWaterMarkTextOnRepsTab() {
@@ -293,6 +294,28 @@ public class WorkflowDistributionPage extends PageObject {
 	}
 
 	public boolean isListOfFiltersOnRepsTabVisible() {
-      return showLinkOnRepsTab.getAttribute("class").equals("collapsed");
+		return showLinkOnRepsTab.getAttribute("class").equals("collapsed");
+	}
+
+	public void clickOnWrkfloDistribitionTabs(String wrkflwDistributionTabs) {
+		int size = workflowDistributionTabs.size();
+		for (int index = 0; index < size; index++) {
+			if (workflowDistributionTabs.get(index).getText().equals(wrkflwDistributionTabs)) {
+				workflowDistributionTabs.get(index).click();
+			}
+		}
+	}
+
+	public boolean isFilterSectionPresent() {
+		return filterSection.isVisible();
+	}
+
+	public void clickProfessionaltRadioBtnOnPayerInvtryTab() {
+		professionalRadioBtn.click();
+	}
+
+	public void clickOnFirstPayerOnPayerInvtryTab() {
+		evaluateJavascript("arguments[0].click();", firstDrildwnBtnOnPayerInvtryTab);
+
 	}
 }
