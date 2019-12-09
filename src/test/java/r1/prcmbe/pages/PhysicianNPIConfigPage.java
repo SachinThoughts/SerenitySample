@@ -127,4 +127,13 @@ public class PhysicianNPIConfigPage extends PageObject {
 	public String getPopUpMsgAndPhysicianNameNPI() {
 		return popUpMsgAndPhysicianNameNPI.getText();
 	}
+
+	public void enterSearchDisabledTxtBox(String disabledPayor) {
+		searchDisabledTxtBox.type(disabledPayor);
+	}
+
+	public int getCountOfTotalPayorsDisabled() {
+		String[] totalPayorDisabled = getTotalPayorsDisabled().split(": ", 0);
+		return Integer.parseInt(totalPayorDisabled[1]);
+	}
 }

@@ -23,6 +23,16 @@ Feature: Verify Physician NPI Configuration in PRCM-BE
   Scenario: Verify that Breadcrumb text Physician NPI is available
     Given user is on PRCM Eligibility NPI Configuration page
     When user copies Physician's Name and NPI
-    When user clicks on to Edit link corresponding to the Physicians Name
+    And user clicks on to Edit link corresponding to the Physicians Name
     Then user should be able to view edit pop up
     And user should be able to view "EDIT PHYSICIAN PAYOR LIST > " Physician's Name NPI message on edit pop up
+
+  @391447 @Sprint103 @PRCMUser
+  Scenario: Verify that Search disabled Payors
+    Given user is on PRCM Eligibility NPI Configuration page
+    When user clicks on to Edit link corresponding to the Physicians Name
+    Then user should be able to view edit pop up
+    When user copies payor of any disabled payor
+    And user enters a search text Payor in Search Disabled Payors textbox
+    Then user should be able to view the filtered list of payors in Total Payors Disabled
+    And user should be able to view updated count in header Total Payors disabled: Count

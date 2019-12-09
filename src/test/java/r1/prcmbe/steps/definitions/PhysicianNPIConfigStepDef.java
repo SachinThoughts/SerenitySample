@@ -5,14 +5,19 @@ import org.junit.Assert;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import net.thucydides.core.annotations.Steps;
 import r1.prcmbe.pages.PhysicianNPIConfigPage;
 import r1.prcmbe.pages.SettingsPage;
+import r1.prcmbe.serenity.steps.PhysicianNPIConfigSteps;
 
 public class PhysicianNPIConfigStepDef {
 	SettingsPage settingsPage;
 	PhysicianNPIConfigPage physicianNPIConfigPage;
 
-	String physicianName, physicianNPI;
+	@Steps
+	PhysicianNPIConfigSteps physicianNPIConfigSteps;
+
+	String physicianName, physicianNPI, payor;
 
 	@When("^user hovers Payor and Plan Config$")
 	public void user_hovers_Payor_and_Plan_Config() {
@@ -87,5 +92,28 @@ public class PhysicianNPIConfigStepDef {
 	public void user_should_be_able_to_view_Physicians_Name_NPI_message_on_edit_pop_up(String message) {
 		Assert.assertTrue("correct message, name or NPI is not visible", physicianNPIConfigPage
 				.getPopUpMsgAndPhysicianNameNPI().equalsIgnoreCase(message + physicianName + " " + physicianNPI));
+	}
+
+	@When("^user copies payor of any disabled payor$")
+	public void user_copies_payor_of_any_disabled_payor() {
+		payor = physicianNPIConfigSteps.getAnyDisabledPayor();
+	}
+
+	@When("^user enters a search text Payor in Search Disabled Payors textbox$")
+	public void user_enters_a_search_text_Payor_in_Search_Disabled_Payors_textbox() {
+		physicianNPIConfigPage.enterSearchDisabledTxtBox(payor);
+	}
+
+	@Then("^user should be able to view the filtered list of payors in Total Payors Disabled$")
+	public void user_should_be_able_to_view_the_filtered_list_of_payors_in_Total_Payors_Disabled() {
+		Assert.assertTrue("filtered list of payors in Total Payors Disabled is not visible",
+				physicianNPIConfigPage.getListOfDisabledPayorsName().size() == 1
+						&& physicianNPIConfigPage.getListOfDisabledPayorsName().contains(payor));
+	}
+
+	@Then("^user should be able to view updated count in header Total Payors disabled: Count$")
+	public void user_should_be_able_to_view_updated_count_in_header_Total_Payors_disabled_Count() {
+		Assert.assertTrue("Correct count is not updated", physicianNPIConfigPage
+				.getCountOfTotalPayorsDisabled() == physicianNPIConfigPage.getListOfDisabledPayorsName().size());
 	}
 }
