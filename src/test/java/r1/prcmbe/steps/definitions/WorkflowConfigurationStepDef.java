@@ -675,12 +675,6 @@ public class WorkflowConfigurationStepDef extends PageObject {
 				workflowConfigPage.getDispositionTabColor().equals(BLUECOLORRGBCODE));
 	}
 
-	@Then("^user should able to view Workflow Summary label with selected Disposition Type appended$")
-	public void user_should_able_to_view_Workflow_Summary_label_with_selected_Disposition_Type_appended() {
-		Assert.assertTrue("Workflow summary label does not display selected Dispositiontype", workflowConfigPage
-				.getFirstDispositionName().equalsIgnoreCase(workflowConfigPage.getDispositionBreadCrumbValue()));
-	}
-
 	@Then("^user should be able to view Choose a Disposition Type grid with buttons underneath$")
 	public void user_should_be_able_to_view_Choose_a_Disposition_Type_grid_with_buttons_underneath(
 			DataTable dispositionButtons) {
