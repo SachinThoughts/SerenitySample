@@ -26,7 +26,7 @@ public class FacilityGroupConfigurationStepDef {
 
 	private static String dbQueryFilename = "FacilityGrpConfig";
 
-	String facilityGroupNameFromUI;
+	String facilityGroupNameFromUI = null;
 	String prcmEnabledFlag;
 
 	@When("^user mouse hovers on Settings-R(\\d+)_Decision link$")
@@ -84,7 +84,7 @@ public class FacilityGroupConfigurationStepDef {
 	public void user_should_be_able_to_view_data_in_facility_group_column(String expectedFacilityGroupName) {
 		facilityGroupNameFromUI = expectedFacilityGroupName;
 		Assert.assertTrue(" Expected Facility Group is not Present ",
-				facilityGrpConfigPage.IsFacilityGroupNamePresent(expectedFacilityGroupName));
+				facilityGrpConfigPage.isFacilityGroupNamePresent(expectedFacilityGroupName));
 	}
 
 	@Then("^user should be able to view data in facilities (.+)$")
@@ -103,7 +103,7 @@ public class FacilityGroupConfigurationStepDef {
 	@Then("^user should be able to view Add New Facility Group button in top right and bottom right corner$")
 	public void user_should_be_able_to_view_add_new_facility_group_button_in_top_right_and_bottom_right_corner() {
 		Assert.assertTrue("User is not able to view Add New Facility Group button in top right and bottom right corner",
-				facilityGrpConfigPage.AreAddFAcilityBtnPresents());
+				facilityGrpConfigPage.areAddFAcilityBtnPresents());
 	}
 
 	@Then("^user should be able to view the Edit Link button$")
@@ -173,20 +173,8 @@ public class FacilityGroupConfigurationStepDef {
 	}
 
 	@When("^user clicks on any edit button$")
-	public void user_clicks_on_any_edit_button() throws InterruptedException {
+	public void user_clicks_on_any_edit_button() {
 		facilityGrpConfigPage.clickOnEditBtnWithNoPhysicianChkboxChecked();
-		facilityGroupNameFromUI = null;
 		facilityGroupNameFromUI = facilityGrpConfigPage.getFacilityGrpNameWithPhysicianChecked();
 	}
-
-	@When("^user clicks and enable the physician scope checkbox$")
-	public void user_clicks_and_enable_the_physician_scope_checkbox() {
-
-	}
-
-	@Then("^user should be able to enable the checkbox for existing facility group$")
-	public void user_should_be_able_to_enable_the_checkbox_for_existing_facility_group() {
-
-	}
-
 }

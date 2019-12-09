@@ -59,8 +59,6 @@ Feature: Verify Factility Group Configuration related scenarios in PRCM-BE
   Scenario: Verify that if PRCM checkbox is  in UI then it should be true in DB as well
     Given user is on Facility Group Configuration screen
     When user clicks on any edit button
-    When user clicks and enable the physician scope checkbox
-    Then user should be able to enable the checkbox for existing facility group
     And user login to SQL server and connect to database
     When user runs the facility group query"Facility_Group_Configuration_391159_SQL2"
     Then user should be able to view PRCM flag should be enabled having value as "1"

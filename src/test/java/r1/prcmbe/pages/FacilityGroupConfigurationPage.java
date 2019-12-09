@@ -1,5 +1,6 @@
 package r1.prcmbe.pages;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -111,7 +112,7 @@ public class FacilityGroupConfigurationPage extends PageObject {
 		return getHeaders;
 	}
 
-	public boolean IsFacilityGroupNamePresent(String expectedFacilityGroupName) {
+	public boolean isFacilityGroupNamePresent(String expectedFacilityGroupName) {
 		List<String> getListOfFacilityGroup = new ArrayList<>();
 		for (WebElementFacade facilityGrp : facilityGroupList) {
 			getListOfFacilityGroup.add(facilityGrp.getText());
@@ -127,7 +128,7 @@ public class FacilityGroupConfigurationPage extends PageObject {
 		return getFacilities.contains(expectedFacility);
 	}
 
-	public boolean AreAddFAcilityBtnPresents() {
+	public boolean areAddFAcilityBtnPresents() {
 		int size = listOfAddFacilityBtn.size();
 		for (int i = 0; i < size; i++) {
 			if (listOfAddFacilityBtn.get(i).isVisible()) {
@@ -171,19 +172,19 @@ public class FacilityGroupConfigurationPage extends PageObject {
 		}
 	}
 
-	public void clickOnEditBtnWithNoPhysicianChkboxChecked() throws InterruptedException {
+	public void clickOnEditBtnWithNoPhysicianChkboxChecked() {
 		int check = 0;
 		int size = listOfEditBtns.size();
-		for ( index = 0; index < size; index++) {
+		for (index = 0; index < size; index++) {
 			evaluateJavascript("arguments[0].click();", listOfEditBtns.get(index));
 			while (physicianCheckbox.isSelected()) {
-				Thread.sleep(2000);
+				physicianCheckbox.withTimeoutOf(Duration.ofSeconds(15)).waitUntilVisible();
 				closeBtn.click();
 				check = 0;
 				break;
 			}
 			if (!physicianCheckbox.isSelected()) {
-				Thread.sleep(2000);
+				physicianCheckbox.withTimeoutOf(Duration.ofSeconds(15)).waitUntilVisible();
 				physicianCheckbox.click();
 				saveBtn.click();
 				check = 1;
@@ -194,7 +195,7 @@ public class FacilityGroupConfigurationPage extends PageObject {
 			}
 		}
 	}
-	
+
 	public String getFacilityGrpNameWithPhysicianChecked() {
 		return facilityGroupList.get(index).getText();
 	}
@@ -203,5 +204,4 @@ public class FacilityGroupConfigurationPage extends PageObject {
 		return evaluateJavascript("return arguments[0].value;", facilityGrpNameOnPopup).toString();
 
 	}
-
 }
