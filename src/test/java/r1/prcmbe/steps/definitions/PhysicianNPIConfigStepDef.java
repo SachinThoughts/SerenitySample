@@ -12,6 +12,8 @@ public class PhysicianNPIConfigStepDef {
 	SettingsPage settingsPage;
 	PhysicianNPIConfigPage physicianNPIConfigPage;
 
+	String physicianName, physicianNPI;
+
 	@When("^user hovers Payor and Plan Config$")
 	public void user_hovers_Payor_and_Plan_Config() {
 		settingsPage.hoverPayorAndPlanConfigLink();
@@ -73,5 +75,17 @@ public class PhysicianNPIConfigStepDef {
 	public void user_should_be_able_to_view_the_cancel_and_Save_buttons() {
 		Assert.assertTrue("Cancel button is not visible", physicianNPIConfigPage.isCancelBtnVisible());
 		Assert.assertTrue("Save button is not visible", physicianNPIConfigPage.isSaveBtnVisible());
+	}
+
+	@When("^user copies Physician's Name and NPI$")
+	public void user_copies_Physicians_Name_and_NPI() {
+		physicianName = physicianNPIConfigPage.getFirstPhysicianName();
+		physicianNPI = physicianNPIConfigPage.getFirstPhysicianNPI();
+	}
+
+	@Then("^user should be able to view \"([^\"]*)\" Physician's Name NPI message on edit pop up$")
+	public void user_should_be_able_to_view_Physicians_Name_NPI_message_on_edit_pop_up(String message) {
+		Assert.assertTrue("correct message, name or NPI is not visible", physicianNPIConfigPage
+				.getPopUpMsgAndPhysicianNameNPI().equalsIgnoreCase(message + physicianName + " " + physicianNPI));
 	}
 }

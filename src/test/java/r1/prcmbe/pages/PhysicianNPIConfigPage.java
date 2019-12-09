@@ -16,6 +16,12 @@ public class PhysicianNPIConfigPage extends PageObject {
 	@FindBy(xpath = "//ul[@class='list-table-body physician-list']/li[1]//a[@class='btn btn-link']")
 	private WebElementFacade firstPhysicianConfigEditLink;
 
+	@FindBy(xpath = "//ul[@class='list-table-body physician-list']/li[1]/div[1]")
+	private WebElementFacade firstPhysicianName;
+
+	@FindBy(xpath = "//ul[@class='list-table-body physician-list']/li[1]/div[2]")
+	private WebElementFacade firstPhysicianNPI;
+
 	@FindBy(xpath = "//*[@id='editPhysicianNPIPayors']/descendant::h3[contains(text(),'Edit Physician Payor List')]")
 	private WebElementFacade editPhysicianPopUp;
 
@@ -42,6 +48,9 @@ public class PhysicianNPIConfigPage extends PageObject {
 
 	@FindBy(id = "txtSearchdisabled")
 	private WebElementFacade searchDisabledTxtBox;
+
+	@FindBy(xpath = "//*[@id='editPhysicianNPIPayors']/descendant::h3")
+	private WebElementFacade popUpMsgAndPhysicianNameNPI;
 
 	private String cancelBtnJS = "$('#editPhysicianNPIPayors > div > div > div.modal-footer > button.btn.btn-default')";
 
@@ -105,5 +114,17 @@ public class PhysicianNPIConfigPage extends PageObject {
 
 	public boolean isSaveBtnVisible() {
 		return evaluateJavascript("return " + saveBtnJS + ".text()").equals("Save");
+	}
+
+	public String getFirstPhysicianName() {
+		return firstPhysicianName.withTimeoutOf(Duration.ofSeconds(180)).waitUntilVisible().getText();
+	}
+
+	public String getFirstPhysicianNPI() {
+		return firstPhysicianNPI.withTimeoutOf(Duration.ofSeconds(20)).waitUntilVisible().getText();
+	}
+
+	public String getPopUpMsgAndPhysicianNameNPI() {
+		return popUpMsgAndPhysicianNameNPI.getText();
 	}
 }
