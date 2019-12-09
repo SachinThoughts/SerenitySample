@@ -109,6 +109,12 @@ public class CallPayerQueuePage extends PageObject {
 	@FindBy(xpath = "//*[@id='dvRecentWorkList']/table/tbody/tr/td[4]/a")
 	private List<WebElementFacade> listOfRecentlyWorkedInvNum;
 
+	@FindBy(id = "txtAddCallPayerQueueNote")
+	private WebElementFacade noteTxtBoxCPQ;
+
+	@FindBy(id = "btnAddPayerQueueWithNote")
+	private WebElementFacade addPayerQueueWithNoteBtn;
+
 	public void clickAddtoCallPayorQueueBtn() {
 		withAction().moveToElement(addToQueueIcon).build().perform();
 		evaluateJavascript("arguments[0].click();", addToQueueIcon);
@@ -284,5 +290,25 @@ public class CallPayerQueuePage extends PageObject {
 			listOfInvNum.add(recentlyWorkedInvNum.getText());
 		}
 		return listOfInvNum;
+	}
+
+	public boolean isCallQueuePopupVisible() {
+		return addToCallQueuePopup.isVisible();
+	}
+
+	public void enterNoteTxtBoxCPQ(String noteText) {
+		noteTxtBoxCPQ.type(noteText);
+	}
+
+	public void clickAddCPQWithNoteBtn() {
+		addPayerQueueWithNoteBtn.click();
+	}
+
+	public List<String> getCallPayerQueueInvoiceList() {
+		List<String> cPQInvoiceNumberList = new ArrayList<>();
+		for (WebElementFacade invoiceNumber : callPayerQueueInvoiceList) {
+			cPQInvoiceNumberList.add(invoiceNumber.getText());
+		}
+		return cPQInvoiceNumberList;
 	}
 }

@@ -182,3 +182,19 @@ Feature: Verify Call Payer Queue functionality
     When user clicks on Recent Account Button
     Then user should be able to view the popup with all the recently worked accounts
     And user should be able to view the account on which Write-Off Response has been taken
+
+  @427127 @Sprint103 @BSOFollowUpUser
+  Scenario: Verify that user is not able to add duplicate accounts in Call Queue
+    Given user is on account page
+    When user clicks on Add to queue button in Call Payer Queue Section
+    Then user should be able to view Add to Call Queue pop-up
+    When user enters notes "Automation testing Notes" in Notes Section
+    And user clicks Add with Note button
+    Then user should be able to view the incremented count of accounts by 1 in Call Queue Section
+    And user should be able to view the account to users CPQ
+    When user clicks on Add to queue button in Call Payer Queue Section
+    Then user should be able to view Add to Call Queue pop-up
+    When user enters notes "Automation testing Notes2" in Notes Section
+    And user clicks Add with Note button to add the account that already exists in Call Queue
+    Then user should not be able to view the incremented count of accounts by 1 in Call Queue Section
+    And user should not be able to view duplicate account in Call Queue Section
