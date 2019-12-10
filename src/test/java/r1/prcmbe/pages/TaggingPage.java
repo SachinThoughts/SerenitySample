@@ -10,6 +10,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 import net.serenitybdd.core.annotations.findby.FindBy;
 import net.serenitybdd.core.pages.PageObject;
 import net.serenitybdd.core.pages.WebElementFacade;
+import r1.commons.utilities.CommonMethods;
 
 public class TaggingPage extends PageObject {
 
@@ -94,8 +95,64 @@ public class TaggingPage extends PageObject {
 	@FindBy(xpath = "//input[@placeholder='Enter Tag Name']")
 	private WebElementFacade tagNameTxtBox;
 
-	int index;
+	@FindBy(xpath = "//input[@placeholder='Search']")
+	private WebElementFacade searchFacility;
 
+	@FindBy(xpath = "//*[@id='divfacilityCode0']//div[@class='fs-dropdown']//div[@class='fs-option g0']")
+	private WebElementFacade searchedFacilityCode;
+
+	@FindBy(xpath = "//*[@id='divfacilityCode0']//div[text()='Select some options']")
+	private WebElementFacade facilityDrpdwn;
+
+	@FindBy(xpath = "//*[@data-target='#Tag']//span[text()='Add Tag']")
+	private WebElementFacade tagNameLinkAtAccInfoPge;
+	
+	@FindBy(xpath="//a[@data-target='#Tag']//span[text()='Edit Tag']")
+	private WebElementFacade editTagLink;
+	
+	@FindBy(xpath="//span[@class='tag-name tag label label-info']//span")
+	private WebElementFacade removeTagBtn;
+
+	@FindBy(xpath = "//*[@id='TagCategory']//option")
+	private List<WebElementFacade> tagCategoryDrpdwnOptions;
+
+	@FindBy(xpath = "//*[@id='TagCategory']")
+	private WebElementFacade tagCategoryDrpdwn;
+
+	@FindBy(xpath = "//*[@id='TagName']//option")
+	private List<WebElementFacade> tagNameDrpdwnOptions;
+
+	@FindBy(id = "TagName")
+	private WebElementFacade tagNameDrpdwn;
+
+	@FindBy(id = "TagNotes")
+	private WebElementFacade tagNotesTxtBox;
+
+	@FindBy(id = "tagSave")
+	private WebElementFacade saveTagBtn;
+	
+	@FindBy(xpath="//div[@class='modal-body text-center alert alert-success']/h3[text()='Account Tag removed successfully.']")
+	private WebElementFacade accRmvdAlrtMsg;
+	
+	@FindBy(xpath="//div[@class='modal-body text-center alert alert-success']//h3[text()='Account Tag saved successfully.']")
+	private WebElementFacade accAddedAlrtMsg;
+	
+	@FindBy(xpath="//span[@class='tag-name tag label label-info' or @class='tag-name  tag label label-info']")
+	private WebElementFacade tagNameOnAccInfo;
+	
+	@FindBy(xpath="//h3[text()='Claims & Remittances ']")
+	private WebElementFacade claimAndRemittanceSection;
+	
+	@FindBy(xpath="//*[@id='generalTags']/li[1]/div/table//th")
+	private List <WebElementFacade> listOfTagHeadersUnderHistorySection;
+	
+	@FindBy(xpath="//*[@id='generalTags']/li[1]/div/table//td")
+	private List<WebElementFacade> listOfAddedTagDetails;
+	
+	int index;
+	String removeTagBtnJs="document.querySelector('#dnn_ctr1552_TaskPanel_spanTask > div.container > div.row > div.col-lg-9 > div:nth-child(3) > div.row > div.col-lg-3.hidden-print > ol > li > span > span').click()";
+	private String scrollToElementJs = "arguments[0].scrollIntoView(true);";
+	
 	public boolean isTagConfigPageVisible() {
 		return taggingPageTitle.isVisible();
 	}
@@ -228,9 +285,7 @@ public class TaggingPage extends PageObject {
 	public String clickAndGetAnyRadioBtnTxt() {
 		index = automationRadioBtn.size() - 1;
 		evaluateJavascript("arguments[0].click();", automationRadioBtn.get(index));
-		System.out.println(categoryNameList.get(index).getText());
 		return categoryNameList.get(index).getText();
-
 	}
 
 	public void clickOnContinueBtn() {
@@ -268,4 +323,71 @@ public class TaggingPage extends PageObject {
 	public void enterTxtInTagNameTxtBox(String tagName) {
 		tagNameTxtBox.type(tagName);
 	}
+
+	public void clickOnFacilityDrpdwn() {
+		facilityDrpdwn.click();
+	}
+
+	public void selectMultipleFacility(String searchValue) {
+		searchFacility.clear();
+		searchFacility.type(searchValue);
+		searchedFacilityCode.click();
+	}
+
+	public void clickTagNameLinkAtAccInfoPge() {
+		if(editTagLink.isVisible()) {
+			evaluateJavascript(removeTagBtnJs);
+			accRmvdAlrtMsg.withTimeoutOf(Duration.ofSeconds(20)).waitUntilNotVisible().getText();
+		}
+		tagNameLinkAtAccInfoPge.click();
+	}
+
+	public String selectAndGetAnyTagCategory() {
+		 index = CommonMethods.getRandom(tagCategoryDrpdwnOptions.size() - 1) + 1;
+		return tagCategoryDrpdwn.selectByIndex(index).getSelectedVisibleTextValue();
+	}
+
+	public String selectAndGetAnyTagName() {
+		index =CommonMethods.getRandom(tagNameDrpdwnOptions.size() - 1) + 1;
+		return tagNameDrpdwn.selectByIndex(index).getSelectedVisibleTextValue();
+	}
+
+	public void enterTagNote(String tagNote) {
+		tagNotesTxtBox.type(tagNote);
+	}
+
+	public String saveTagAndGetTagAddedSuccessMsg() {
+		saveTagBtn.click();
+		return accAddedAlrtMsg.getText();
+	}
+	
+	public String getAddedTagNameOnAccInfo() {
+		return tagNameOnAccInfo.getText();
+	}
+	
+	public void scrollTillTagHistorySection() {
+		evaluateJavascript(scrollToElementJs,claimAndRemittanceSection);	
+	}
+	
+	public List<String> getlistOfTagHeadersUnderHistorySection() {
+		List<String> listOfTagHeaders = new ArrayList<>();
+		for (WebElementFacade tagHeaders : listOfTagHeadersUnderHistorySection) {
+			listOfTagHeaders.add(tagHeaders.getText());
+		}
+		return listOfTagHeaders;
+	}
+	
+	public List<String> getlistOfAddedTagDetailsUnderHistorySection() {
+		List<String> listOfTagDetails = new ArrayList<>();
+		for(int i=1; i<=listOfAddedTagDetails.size();i++) {
+		listOfTagDetails.add(listOfAddedTagDetails.get(0).getText());
+		listOfTagDetails.add(listOfAddedTagDetails.get(1).getText());
+		listOfTagDetails.add(listOfAddedTagDetails.get(2).getText());
+		listOfTagDetails.add(listOfAddedTagDetails.get(3).getText().substring(13,18).trim());
+		listOfTagDetails.add(listOfAddedTagDetails.get(4).getText());
+		listOfTagDetails.add(listOfAddedTagDetails.get(5).getText());
+		}
+		return listOfTagDetails;
+	}
+	
 }

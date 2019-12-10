@@ -90,7 +90,7 @@ Feature: Verify Tagging related scenarios in PRCM_BE
       | Category name      | Tag Description      | query1              |
       | AutomationTestEdit | EditedTestDesciption | Tagging_419677_SQL1 |
 
-  @419682
+  @419682 @PRCMUser @Sprint103
   Scenario Outline: Verify that user is able to update tag name page
     Given User is on Account Tags Configuration screen
     When User clicks on Radio button of any category
@@ -108,13 +108,13 @@ Feature: Verify Tagging related scenarios in PRCM_BE
     When User clicks on Add New Tag button
     And User enters the value for Tag Name <Tag Name> in Enter Tag Name textbox
     And User enters the value for Tag Description <Tag Description> in Enter Tag Description textbox
-    And user selects multiple Facilities from Facilities drop down
-    And User clicks on Save button
-    Then User should be able to view the message "Success! Tag Name has been updated successfully."
-    When user login to SQL server and connect to facility database
-    And user runs the <query2> query to verify newly added tag
+    And user selects multiple Facilities <facility1> and <facility2> from Facilities drop down
+    And User clicks on Save button and captures success message
+    Then User should be able to view the Success message "Success! Tag Name has been added successfully"
+    When user login to SQL server and connect to "Accretive" database
+    And user runs query two the query to get newly added tag <query2>
     Then User should be able to view the newly added Tag in SQL result.
 
     Examples: 
-      | Tag Name       | Tag Description   | query2              |
-      | AutomationTest | TestTagDesciption | Tagging_419682_SQL1 |
+      | Tag Name       | Tag Description   | query2              | facility1 | facility2 |
+      | AutomationTest | TestTagDesciption | Tagging_419682_SQL1 | WPWI      | ABIL      |
