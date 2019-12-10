@@ -113,8 +113,27 @@ public class PhysicianNPIConfigStepDef {
 
 	@Then("^user should be able to view updated count in header Total Payors disabled: Count$")
 	public void user_should_be_able_to_view_updated_count_in_header_Total_Payors_disabled_Count() {
-		System.out.println("count:"+physicianNPIConfigPage.getCountOfTotalPayorsDisabled());
 		Assert.assertTrue("Correct count is not updated", physicianNPIConfigPage
 				.getCountOfTotalPayorsDisabled() == physicianNPIConfigPage.getListOfDisabledPayorsName().size());
+	}
+	
+	@When("^user copies payor of any eligible payor$")
+	public void user_copies_payor_of_any_eligible_payor() {
+		payor = physicianNPIConfigSteps.getAnyEligiblePayor();
+	}
+	
+	@When("^user enters a search text Payor in Search Eligible Payors textbox$")
+	public void user_enters_a_search_text_Payor_in_Search_Eligible_Payors_textbox() {
+		physicianNPIConfigPage.enterSearchEligibleTxtBox(payor);
+	}
+
+	@Then("^user should be able to view the filtered list of payors in Total Eligible Payors$")
+	public void user_should_be_able_to_view_the_filtered_list_of_payors_in_Total_Eligible_Payors() {
+		
+	}
+
+	@Then("^user should be able to view the updated count in header Total Eligible Payors: Count$")
+	public void user_should_be_able_to_view_updated_count_in_header_Total_Eligible_Payors_Count() {
+		
 	}
 }

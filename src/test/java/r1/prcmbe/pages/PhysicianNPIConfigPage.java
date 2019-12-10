@@ -136,4 +136,8 @@ public class PhysicianNPIConfigPage extends PageObject {
 		String[] totalPayorDisabled = getTotalPayorsDisabled().split(": ", 0);
 		return Integer.parseInt(totalPayorDisabled[1]);
 	}
+	
+	public void enterSearchEligibleTxtBox(String eligiblePayor) {
+		searchEligibleTxtBox.type(eligiblePayor);
+	}
 }
