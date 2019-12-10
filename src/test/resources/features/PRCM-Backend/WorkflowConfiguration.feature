@@ -345,7 +345,6 @@ Feature: Verify WorkFlowConfiguration related scenarios in PRCM
     And user clicks on Continue button on Action type Tab
     Then user should be able to navigate to Disposition type page
     And user should be able to view Disposition Type tab selected highlighted in blue color
-    And user should able to view Workflow Summary label with selected Disposition Type appended
     And user should be able to view Choose a Disposition Type grid with buttons underneath
       | Add New Disposition | Save Configuration |
     And user should be able to view Save Configuration button disabled
@@ -426,7 +425,7 @@ Feature: Verify WorkFlowConfiguration related scenarios in PRCM
     Examples: 
       | query1                         | query2                          | query3                          |
       | 434767_WFConfig_CheckRecipient | 434767_WFConfig_CheckRecipient1 | 434774_WFConfig_EditDisposition |
-      
+
   @434776 @AHtoDecisionAdmin @Sprint102
   Scenario Outline: Verify saved handoff type, associated Recipient, Actions and Disposition types from DB
     Given user having AHtoDecision Admin role is on workflow configuration home page
@@ -453,12 +452,11 @@ Feature: Verify WorkFlowConfiguration related scenarios in PRCM
     Then user should be able to view same disposition type in DB as as reflected on UI
 
     Examples: 
-      | query1                         | query2                          | query3                                | query4                        | query5                                   | query6                                   | query7                                      | query8                          | query9                                     |
+      | query1                         | query2                          | query3                                | query4                        | query5                                   | query6                                          | query7                                      | query8                          | query9                                     |
       | 434767_WFConfig_CheckRecipient | 434767_WFConfig_CheckRecipient1 | 434776_BDD_R1D_WFConfig_workflowtypes | 434767_WFConfig_ReorderAction | 434776_BDD_R1D_WFConfig_workflowSubtypes | 434776_BDD_R1D_WFConfig_workflowSubtypesDetails | 434776_BDD_R1D_WFConfig_WorkflowTypeActions | 434776_BDD_R1D_WFConfig_Actions | 434776_BDD_R1D_WFConfig_ActionDispositions |
-      
-   
-    @434779 @AHtoDecisionAdmin @Sprint102
-      Scenario: Verify user is able to view newly added handoff type on R1 Decision screen
+
+  @434779 @AHtoDecisionAdmin @Sprint102
+  Scenario: Verify user is able to view newly added handoff type on R1 Decision screen
     Given user having AHtoDecision Admin role is on workflow configuration home page
     When user clicks on +Add Handoff button
     When user enters value in Workflow Name
@@ -505,7 +503,7 @@ Feature: Verify WorkFlowConfiguration related scenarios in PRCM
     And user hover on R1_Decision
     And user clicks on search sub menu
     And user login to SQL server and connect to database
-    And user run the query and fetch encounterId "434779_WFConfig_R1DHandoffType"
+    And user run the query and fetch encounterId "PRCM_WFConfig_HandoffType"
     And user enters encounterId in visit number textfield
     And user clicks on Submit button
     When user clicks on Handoff button
