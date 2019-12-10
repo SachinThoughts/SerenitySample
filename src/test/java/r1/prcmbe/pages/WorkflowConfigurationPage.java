@@ -551,7 +551,18 @@ public class WorkflowConfigurationPage extends PageObject {
 	}
 
 	public void clickOnContinueBtnOnRecipientTab() {
-		continueBtnOnRecipientTab.click();
+	int size=listOfActionTypeRadioBtns.size();
+	continueBtnOnRecipientTab.click();
+	while(size==0||size<2) {
+		int recipientSize=recipientsRadioBtnList.size();
+		evaluateJavascript("arguments[0].click();",recipientTab);
+		for(int i=1;i<recipientSize;i++) {
+			recipientsRadioBtnList.get(i).withTimeoutOf(Duration.ofSeconds(20)).waitUntilVisible();
+			evaluateJavascript("arguments[0].click();",recipientsRadioBtnList.get(i));
+			continueBtnOnRecipientTab.click();
+		}
+		break;
+	}
 	}
 
 	public String enterAndGetDispositionNotes() {
