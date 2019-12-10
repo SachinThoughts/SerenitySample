@@ -148,6 +148,12 @@ public class AccountInformationPage extends PageObject {
 	@FindBy(xpath = "//*[@id='btn_info']/button/span")
 	private WebElementFacade infoMsgCloseBtn;
 
+	@FindBy(xpath = "//a[@class='btn' and text()='Recent Accounts']")
+	private WebElementFacade recentAccountsBtn;
+
+	@FindBy(id = "btnNextAccount")
+	private WebElementFacade nextAccountBtn;
+
 	public String getAccountNumber() {
 		waitForAngularRequestsToFinish();
 		return accountNumber.getText().trim();
@@ -444,5 +450,13 @@ public class AccountInformationPage extends PageObject {
 
 	public void closeInfoMessage() {
 		evaluateJavascript("arguments[0].click();", infoMsgCloseBtn);
+	}
+
+	public void clickRecentAccountsBtn() {
+		recentAccountsBtn.click();
+	}
+
+	public void clickNextAccountBtn() {
+		evaluateJavascript("arguments[0].click();", nextAccountBtn);
 	}
 }
