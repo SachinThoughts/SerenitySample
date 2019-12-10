@@ -2,9 +2,7 @@ package r1.prcmbe.steps.definitions;
 
 import java.sql.SQLException;
 import java.util.List;
-
 import org.junit.Assert;
-
 import cucumber.api.DataTable;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;

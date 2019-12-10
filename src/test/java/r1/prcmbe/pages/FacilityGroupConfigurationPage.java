@@ -3,9 +3,7 @@ package r1.prcmbe.pages;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.apache.commons.lang.RandomStringUtils;
-
 import net.serenitybdd.core.annotations.findby.FindBy;
 import net.serenitybdd.core.pages.PageObject;
 import net.serenitybdd.core.pages.WebElementFacade;
