@@ -9,24 +9,42 @@ import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import r1.commons.databaseconnection.DatabaseConn;
+import r1.commons.utilities.CommonMethods;
 import r1.prcmbe.pages.AccountActionHistoryPage;
 import r1.prcmbe.pages.AccountInformationPage;
+import r1.prcmbe.pages.SearchPage;
 
 public class AccountActionHistoryStepDef {
 	AccountInformationPage accInfoPage;
 	AccountActionHistoryPage accActionHistoryPage;
+	CommonMethods commonMethods;
+	SearchPage searchPage;
 	String invoiceNumber;
+	static String dbFileName = "AccountActionHistory";
 
 	@Given("^user is on Account Information Page$")
 	public void user_is_on_Account_Information_Page() {
 		accInfoPage.verifyPatientDetailsSectionVisible();
 	}
 	
+	@When("^user runs the account action history query \"([^\"]*)\"$")
+	public void user_runs_the_account_action_history_query(String queryName) throws ClassNotFoundException, SQLException, Exception {
+		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
+				commonMethods.loadQuery(queryName, dbFileName));
+		System.out.println(queryName);
+	}
+	
 	@When("^user fetch invoice number from database$")
 	public void user_fetch_invoice_number_from_database() throws SQLException {
 		while (DatabaseConn.resultSet.next()) {
-			invoiceNumber = DatabaseConn.resultSet.getString("invoicenumber");
+			invoiceNumber = DatabaseConn.resultSet.getString("InvoiceNumber");
 		}
+		System.out.println(invoiceNumber);
+	}
+	
+	@When("^user enters invoice number fetched from database$")
+	public void user_enters_invoice_number_fetched_from_database() {
+		searchPage.enterInvoiceNumber(invoiceNumber);
 	}
 
 	@When("^user clicks on back and forth arrows$")
