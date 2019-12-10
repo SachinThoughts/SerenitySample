@@ -103,7 +103,7 @@ public class Hooks extends PageObject {
 	}
 	
 	@After(value="@391164")
-	public void uncheckPrcmFaciltiyGrp() {
+	public void uncheckPrcmFacilityGrp() {
 		navPage.clickFooterSettings();
 		settingsPage.clickOnSettingsR1Decisions();
 		settingsPage.clickFacilityGroupConfig();
