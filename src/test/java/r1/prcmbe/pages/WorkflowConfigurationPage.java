@@ -379,20 +379,83 @@ public class WorkflowConfigurationPage extends PageObject {
 	@FindBy(id = "ddlDisposition")
 	private WebElementFacade dispositionDrpDwn;
 
-	@FindBy(xpath="//div[@id='dvHandOff']//li//div[2]/span")
+	@FindBy(xpath = "//div[@id='dvHandOff']//li//div[2]/span")
 	private List<WebElementFacade> listOfHandoffNameOnHandoffTab;
-	
-	@FindBy(xpath="//div[@id='dvHandOff']//li//div[1]/input[@name='workflowName']/..//label")
+
+	@FindBy(xpath = "//div[@id='dvHandOff']//li//div[1]/input[@name='workflowName']/..//label")
 	private List<WebElementFacade> listOfRadioLabelOnHandoffTab;
-	
-	@FindBy(xpath="//div[@id='dvWorkflowTypeActions']//li//div[4]/span")
+
+	@FindBy(xpath = "//div[@id='dvWorkflowTypeActions']//li//div[4]/span")
 	private WebElementFacade followDaysOnActionTypeTab;
 
-	@FindBy(xpath="//div[@id='dvWorkflowTypeActions']//li//div[5]/span")
+	@FindBy(xpath = "//div[@id='dvWorkflowTypeActions']//li//div[5]/span")
 	private WebElementFacade timeLimitOnActionTypeTab;
-	
-	@FindBy(xpath="//div[@id='dvWorkflowTypeActions']//li//div[3]/span")
+
+	@FindBy(xpath = "//div[@id='dvWorkflowTypeActions']//li//div[3]/span")
 	private WebElementFacade actionNameOnActionTypeTab;
+
+	@FindBy(xpath = "//ul[@class='sop-types workflowConfiguration']//span[text()='AR Supervisor']//ancestor::li//child::label[contains(@for,'work')]")
+	private WebElementFacade arSupervisorRadioBtn;
+
+	@FindBy(xpath = "//*[@id='dvWorkflowTypeActions']//span[contains(@id,'NA')]")
+	private List<WebElementFacade> actionTypeList;
+
+	@FindBy(xpath = "//*[@id='dvWorkflowTypeActions']//div[@class='radio']//label")
+	private List<WebElementFacade> actionTypeRadioBtnList;
+
+	@FindBy(xpath = "//*[@id='dvWorkflowDispositions']//div[3]/child::*[contains(@id,'Disp')]")
+	private List<WebElementFacade> dispositionTypeList;
+
+	@FindBy(xpath = "//*[@id='dvWorkflowDispositions']//i[@class='fa fa-edit fa-1-5x']")
+	private List<WebElementFacade> dispositionTypeEditBtnList;
+
+	@FindBy(id = "addNewDispositionLabel")
+	private WebElementFacade editDispositionPopupHeader;
+
+	@FindBy(xpath = "//*[@id='addNewDisposition']//button[text()='Save changes']")
+	private WebElementFacade saveChangesBtnDispositionPopUp;
+
+	@FindBy(id = "msg_success")
+	private WebElementFacade successMessage;
+	
+	@FindBy(xpath = "//*[@id='WorkflowTypeActionsSorttable']//ul/preceding-sibling::div//a[3]/i")
+	private List<WebElementFacade> listOfDetailsLinkActionTypeTab;
+	
+	@FindBy(xpath = "//*[@id='WorkflowTypeActionsSorttable']//li/div[5]/span")
+	private List<WebElementFacade> listOfTimeLimitInActionTypeGrid;
+	
+	@FindBy(xpath = "//ul[@id='WorkflowTypeActionsSorttable']//span[text()='Edit']")
+	private List<WebElementFacade> listOfEditLinkOnActionTypeGrid;
+	
+	@FindBy(xpath = "//*[@id='addNewAction']//*[@class='form-group']/label")
+	private List<WebElementFacade> listOfEditActionTypePopUpFields;
+	
+	@FindBy(xpath = "//*[@id='addNewAction']//*[@class='modal-footer']/button[1]")
+	private WebElementFacade closeBtnOnPopUp;
+	
+	@FindBy(xpath = "//*[@id='addNewAction']//*[@class='modal-footer']/button[2]")
+	private WebElementFacade saveChangesBtnOnPopUp;
+	
+	@FindBy(id = "txtActionName")
+	private WebElementFacade actionNameOnEditActionPopUp;
+	
+	@FindBy(id = "txtActionDescription")
+	private WebElementFacade actionDescOnEditActionPopUp;
+
+	@FindBy(id = "dnn_ctr1590_TaskPanel_taskBase_WorkflowActionType_ddlNextActionBy")
+	private WebElementFacade nextActionByOnEditActionPopUp;
+
+	@FindBy(id = "txtActionTimeLimit")
+	private WebElementFacade respondDeadlineOnEditActionPopUp;
+
+	@FindBy(id = "txtActionFUD")
+	private WebElementFacade followUpDaysOnEditActionPopUp;
+
+	@FindBy(id = "dnn_ctr1590_TaskPanel_taskBase_WorkflowActionType_ddlActionStatus")
+	private WebElementFacade actionStatusOnEditActionPopUp;
+	
+	@FindBy(id = "addEditNewActionLabel")
+	private WebElementFacade editActionPopUpHeader;
 	
 	public String getActionTextBreadcrumb() {
 		return actionTypeBreadcrumb.getText().trim();
@@ -877,7 +940,8 @@ public class WorkflowConfigurationPage extends PageObject {
 		int size = recipientsList.size();
 		for (int i = 0; i < size; i++) {
 			if (recipientsList.get(i).getText().equals(expectedRecipientName)) {
-				recipientsRadioBtnList.get(i).click();
+			//	recipientsRadioBtnList.get(i).click();
+				evaluateJavascript("arguments[0].click();", recipientsRadioBtnList.get(i));
 			}
 		}
 	}
@@ -886,7 +950,8 @@ public class WorkflowConfigurationPage extends PageObject {
 		int size = listOfRecipientNames.size();
 		for (index = 0; index < size; index++) {
 			if (listOfRecipientNames.get(index).getText().equals(recipientName)) {
-				listOfDetailsOnRecipientTab.get(index).click();
+			//	listOfDetailsOnRecipientTab.get(index).click();
+				evaluateJavascript("arguments[0].click();", listOfDetailsOnRecipientTab.get(index));
 				break;
 			}
 		}
@@ -1190,37 +1255,38 @@ public class WorkflowConfigurationPage extends PageObject {
 		handOffValues.add(dispositionDrpDwn.getSelectedVisibleTextValue());
 		return handOffValues;
 	}
-	
+
 	public int getPositionOfHandoffType(String handoffNameVal) {
-		int size=listOfHandoffNameOnHandoffTab.size();
-		int position=0;
-		for(int i=0;i<size;i++) {
-			if(listOfHandoffNameOnHandoffTab.get(i).getText().trim().equals(handoffNameVal)) {
-				position=i;
+		int size = listOfHandoffNameOnHandoffTab.size();
+		int position = 0;
+		for (int i = 0; i < size; i++) {
+			if (listOfHandoffNameOnHandoffTab.get(i).getText().trim().equals(handoffNameVal)) {
+				position = i;
 			}
 		}
 		return position;
 	}
-	
+
 	public void clickOnHandoffTypeRadioBtn(String handoffName) {
-		evaluateJavascript("arguments[0].click();",listOfRadioLabelOnHandoffTab.get(getPositionOfHandoffType(handoffName)));
+		evaluateJavascript("arguments[0].click();",
+				listOfRadioLabelOnHandoffTab.get(getPositionOfHandoffType(handoffName)));
 	}
-	
+
 	public int getPositionOfRecipient(String recipientNameVal) {
-		int size=listOfRecipientNames.size();
-		int position=0;
-		for(int i=0;i<size;i++) {
-			if(listOfRecipientNames.get(i).getText().trim().equals(recipientNameVal)) {
-				position=i;
+		int size = listOfRecipientNames.size();
+		int position = 0;
+		for (int i = 0; i < size; i++) {
+			if (listOfRecipientNames.get(i).getText().trim().equals(recipientNameVal)) {
+				position = i;
 			}
 		}
 		return position;
 	}
-	
+
 	public void clickOnRecipientRadioBtn(String recipientNameVal) {
 		listOfRecipientsRadioBtn.get(getPositionOfRecipient(recipientNameVal)).click();
 	}
-	
+
 	public String getFollowUpDayOnActionTypeTab() {
 		return followDaysOnActionTypeTab.getText().trim();
 	}
@@ -1228,8 +1294,171 @@ public class WorkflowConfigurationPage extends PageObject {
 	public String getTimeLimitOnActionTypeTab() {
 		return timeLimitOnActionTypeTab.getText().trim();
 	}
-	
+
 	public String getActionNameOnActionTypeTab() {
 		return actionNameOnActionTypeTab.getText().trim();
+	}
+
+	public void clickArSupervisorRadioBtn() {
+		withAction().moveToElement(arSupervisorRadioBtn).build().perform();
+		arSupervisorRadioBtn.click();
+	}
+
+	public void clickSpecificActionTypeRadioBtn(String actionType) {
+		int size = actionTypeList.size();
+		for (index = 0; index < size; index++) {
+			if (actionTypeList.get(index).getText().equals(actionType)) {
+				evaluateJavascript("arguments[0].click();", actionTypeRadioBtnList.get(index));
+				break;
+			}
+		}
+	}
+
+	public void clickSpecificEditDispositionTypeBtn(String dispositionType) {
+		successMsg.withTimeoutOf(Duration.ofSeconds(20)).waitUntilNotVisible();
+		int size = dispositionTypeList.size();
+		for (index = 0; index < size; index++) {
+			if (dispositionTypeList.get(index).getText().equals(dispositionType)) {
+				evaluateJavascript("arguments[0].click();", dispositionTypeEditBtnList.get(index));
+				break;
+			}
+		}
+	}
+
+	public boolean isEditDispositionPopupVisible() {
+		return editDispositionPopupHeader.isVisible();
+	}
+
+	public void clickSaveChangesBtnOnDispositionPopUp() {
+		saveChangesBtnDispositionPopUp.click();
+	}
+
+	public String getDispositionNotes() {
+		dispositionNotes.type(RandomStringUtils.randomAlphabetic(6));
+		return dispositionNotes.getText();
+	}
+
+	public String getSuccessMessage() {
+		return successMessage.getText();
+	}
+
+	public void clickSpecificActionTypeEditLink(String actionType) {
+		int size = actionTypeList.size();
+		for (index = 0; index < size; index++) {
+			if (actionTypeList.get(index).getText().equals(actionType)) {
+				evaluateJavascript("arguments[0].click();", listOfEditLinkOnActionTypeGrid.get(index));
+				break;
+			}
+		}
+		
+	}
+
+	public List<Object> verifyEditActionPopupControlsVisible(List<String> listOfFields) {
+		List<Object> listOfVal = new ArrayList<>();
+		int count = 0;
+		int size = listOfEditActionTypePopUpFields.size();
+		for (int i = 0; i < size; i++) {
+			if (listOfEditActionTypePopUpFields.get(i).getText().equals(listOfFields.get(i))) {
+				count = count + 1;
+			} else {
+				listOfVal.add(listOfFields.get(i));
+			}
+		}
+		if (closeBtnOnPopUp.getText().equals(listOfFields.get(8))) {
+			count = count + 1;
+		} else {
+			listOfVal.add("Close");
+		}
+		if (saveChangesBtnOnPopUp.getText().equals(listOfFields.get(9))) {
+			count = count + 1;
+		} else {
+			listOfVal.add("Save changes");
+		}
+		if (count == 10) {
+			listOfVal.add(true);
+		} else {
+			listOfVal.add(false);
+		}
+		return listOfVal;
+	}
+
+	public List<Object> verifyEditActionPopupPrePopulated() {
+		List<Object> listOfVal = new ArrayList<>();
+		int count = 0;
+		if (actionNameOnEditActionPopUp.getText() != null) {
+			count = count + 1;
+		} else {
+			listOfVal.add("Action name");
+		}
+		if (actionDescOnEditActionPopUp.getText() != null) {
+			count = count + 1;
+		} else {
+			listOfVal.add("Action description");
+		}
+		if (!nextActionByOnEditActionPopUp.getSelectedVisibleTextValue().equals("--Select One--")) {
+			count = count + 1;
+		} else {
+			listOfVal.add("Next action by");
+		}
+		if (respondDeadlineOnEditActionPopUp.getText() != null) {
+			count = count + 1;
+		} else {
+			listOfVal.add("Response deadline");
+		}
+		if (followUpDaysOnEditActionPopUp.getText() != null) {
+			count = count + 1;
+		} else {
+			listOfVal.add("Follow up days");
+		}
+		if (!actionStatusOnEditActionPopUp.getSelectedVisibleTextValue().equals("--Select One--")) {
+			count = count + 1;
+		} else {
+			listOfVal.add("Action status");
+		}
+		if (count == 6) {
+			listOfVal.add(true);
+		} else {
+			listOfVal.add(false);
+		}
+		return listOfVal;
+	}
+
+	public void clickRespondDeadline() {
+		respondDeadlineOnEditActionPopUp.click();
+	}
+
+	public String enterAndGetRandomValueRespondDeadline() {
+		respondDeadlineOnEditActionPopUp.type(RandomStringUtils.randomNumeric(1));
+		return respondDeadlineOnEditActionPopUp.getTextValue();
+	}
+
+	public void clickSaveChangesBtnEditActionPopup() {
+		saveChangesBtnOnPopUp.click();
+		
+	}
+
+	public boolean isEditActionPopupVisible() {
+		return editActionPopUpHeader.isVisible();
+	}
+
+	public String getSpecificTimeLimitValueInActionTypeGrid(String actionType) {
+		int size = actionTypeList.size();
+		for (index = 0; index < size; index++) {
+			if (actionTypeList.get(index).getText().equals(actionType)) {
+				break;
+			}
+		}
+		return listOfTimeLimitInActionTypeGrid.get(index).getText();
+	}
+
+	public void clickSpecificActionTypeDetailsLink(String actionType) {
+		int size = actionTypeList.size();
+		for (index = 0; index < size; index++) {
+			if (actionTypeList.get(index).getText().equals(actionType)) {
+				evaluateJavascript("arguments[0].click();", listOfDetailsLinkActionTypeTab.get(index));
+				break;
+			}
+		}
+		
 	}
 }

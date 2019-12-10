@@ -373,7 +373,7 @@ public class WorkflowConfigurationStepDef extends PageObject {
 
 	@Then("^user enters notes under Predefined Note textarea$")
 	public void user_enters_notes_under_Predefined_Note_textarea() {
-		workflowConfigPage.enterAndGetDispositionNotes();
+		dispositionNotes = workflowConfigPage.enterAndGetDispositionNotes();
 	}
 
 	@Then("^user should no longer be able to view Add New Disposition pop-up window$")
@@ -411,7 +411,7 @@ public class WorkflowConfigurationStepDef extends PageObject {
 		Assert.assertTrue(
 				"Created Date from Database " + financialInfoSteps.formatDbDateFieldWithDateTime(createdDate)
 						+ " does not match with the UI " + workflowConfigPage.getCreatedDateFieldValue(),
-						workflowConfigSteps.formatDbDateFieldWithDateTime(createdDate)
+				workflowConfigSteps.formatDbDateFieldWithDateTime(createdDate)
 						.equals(workflowConfigPage.getCreatedDateFieldValue()));
 		Assert.assertTrue(
 				"CreatedBy from the Database " + createdBy + " does not match with the UI"
@@ -872,7 +872,7 @@ public class WorkflowConfigurationStepDef extends PageObject {
 		Assert.assertTrue("Updated date does not match with DB", workflowConfigSteps
 				.formatDbDateFieldWithDateTime(updatedDate).equals(workflowConfigPage.getUpdatedDateFieldValue()));
 		Assert.assertTrue("Updated by does not match with DB",
-				updatedBy.equals(workflowConfigPage.getUpdatedByFieldValue()));
+				updatedBy.contains(workflowConfigPage.getUpdatedByFieldValue()));
 	}
 
 	@When("^user clicks on Edit link button adjacent to particular Action Type$")
@@ -1075,7 +1075,8 @@ public class WorkflowConfigurationStepDef extends PageObject {
 	}
 
 	@Then("^user should be able to view newly added Handoff Type and associated recipients, Actions and dispositions on R(\\d+) Decision screen$")
-	public void user_should_be_able_to_view_newly_added_Handoff_Type_and_associated_recipients_Actions_and_dispositions_on_R_Decision_screen(int arg) {
+	public void user_should_be_able_to_view_newly_added_Handoff_Type_and_associated_recipients_Actions_and_dispositions_on_R_Decision_screen(
+			int arg) {
 		List<String> handOffValues = new ArrayList<>();
 		handOffValues.add(DefaultHandoffStepDef.workFlowName);
 		handOffValues.add(DefaultHandoffStepDef.recipientDesc);
@@ -1109,4 +1110,149 @@ public class WorkflowConfigurationStepDef extends PageObject {
 		searchPage.enterInvoiceNumber(invoiceNumber);
 	}
 
+	@When("^user clicks radio button against \"([^\"]*)\" Handoff$")
+	public void user_clicks_radio_button_against_Handoff(String handOffType) {
+		workflowConfigPage.clickArSupervisorRadioBtn();
+	}
+
+	@When("^user clicks on radio button against \"([^\"]*)\" Recipient$")
+	public void user_clicks_on_radio_button_against_Recipient(String recipientName) {
+		workflowConfigPage.clickSpecificRecipientRadioBtn(recipientName);
+	}
+
+	@When("^user clicks on radio button against \"([^\"]*)\" Action Type$")
+	public void user_clicks_on_radio_button_against_Action_Type(String actionType) {
+		workflowConfigPage.clickSpecificActionTypeRadioBtn(actionType);
+	}
+
+	@When("^user clicks on Edit link against \"([^\"]*)\" Disposition Type$")
+	public void user_clicks_on_Edit_link_against_Disposition_Type(String dispositionType) {
+		workflowConfigPage.clickSpecificEditDispositionTypeBtn(dispositionType);
+	}
+
+	@Then("^user should able to view Edit New Disposition pop up window$")
+	public void user_should_able_to_view_Edit_New_Disposition_pop_up_window() {
+		Assert.assertTrue("Edit disposition popup is not visible", workflowConfigPage.isEditDispositionPopupVisible());
+	}
+
+	@When("^user clicks on Save Changes button on Disposition popup$")
+	public void user_clicks_on_Save_Changes_button_on_Disposition_popup() {
+		workflowConfigPage.clickSaveChangesBtnOnDispositionPopUp();
+	}
+
+	@Then("^user should be able to view the same Predefined Note entered previously$")
+	public void user_should_be_able_to_view_the_same_Predefined_Note_entered_previously() {
+		Assert.assertTrue("Predefined notes not same as previously entered",
+				dispositionNotes.equals(workflowConfigPage.getDispositionNotes()));
+	}
+
+	@When("^user clicks on Close icon at Top right hand corner of the screen$")
+	public void user_clicks_on_Close_icon_at_Top_right_hand_corner_of_the_screen() {
+		workflowConfigPage.clickDispositionPopupClose();
+	}
+
+	@Then("^Edit New Disposition pop-up window should be closed$")
+	public void edit_New_Disposition_pop_up_window_should_be_closed() {
+		Assert.assertFalse("Edit disposition popup is not closed", workflowConfigPage.isEditDispositionPopupVisible());
+	}
+
+	@Then("^user should be able to view message on Disposition page \"([^\"]*)\"$")
+	public void user_should_be_able_to_view_message_on_Disposition_page(String successMessage) {
+		Assert.assertTrue("Success message is not displayed",
+				workflowConfigPage.getSuccessMessage().equals(successMessage));
+	}
+
+	@When("^user clicks on radio button adjacent to associated Recipient fetched from above query$")
+	public void user_clicks_on_radio_button_adjacent_to_associated_Recipient_fetched_from_above_query() {
+		workflowConfigPage.clickOnRadioBtnAgnstFetchedRecipient(dbRecipientName);
+	}
+
+	@When("^user clicks on Edit link against \"([^\"]*)\" Action Type$")
+	public void user_clicks_on_Edit_link_against_Action_Type(String actionType) {
+		workflowConfigPage.clickSpecificActionTypeEditLink(actionType);
+	}
+
+	@Then("user should able to view Edit Action pop up window with controls$")
+	public void user_should_able_to_view_Edit_Action_pop_up_window_with_controls(DataTable popupControls) {
+		List<String> listOfFields = popupControls.asList(String.class);
+		List<Object> listOfVal = workflowConfigPage.verifyEditActionPopupControlsVisible(listOfFields);
+		boolean val = ((Boolean) listOfVal.get(listOfVal.size() - 1)).booleanValue();
+		Assert.assertTrue("Controls not visible on Edit Action popup\n" + listOfVal.subList(0, listOfVal.size() - 1),
+				val);
+	}
+
+	@Then("^user should be able to view prepopulated values in all controls of edit action popup$")
+	public void user_should_be_able_to_view_prepopulated_values_in_all_controls_of_edit_action_popup() {
+		List<Object> listOfVal = workflowConfigPage.verifyEditActionPopupPrePopulated();
+		boolean val = ((Boolean) listOfVal.get(listOfVal.size() - 1)).booleanValue();
+		Assert.assertTrue(
+				"Controls not prepopoulated on Edit Action popup\n" + listOfVal.subList(0, listOfVal.size() - 1), val);
+	}
+
+	@When("^user clicks on any of the field Textboxes or Dropdowns$")
+	public void user_clicks_on_any_of_the_field_Textboxes_or_Dropdowns() {
+		workflowConfigPage.clickRespondDeadline();
+	}
+
+	@When("^user updates the existing information in either of these fields$")
+	public void user_updates_the_existing_information_in_either_of_these_fields() {
+		respondDeadline = workflowConfigPage.enterAndGetRandomValueRespondDeadline();
+	}
+
+	@When("^user clicks on Save Changes button$")
+	public void user_clicks_on_Save_Changes_button() {
+		workflowConfigPage.clickSaveChangesBtnEditActionPopup();
+		successMsg = workflowConfigPage.getSuccessMessage();
+	}
+
+	@Then("^user should be able to view Action saved success message \"([^\"]*)\"$")
+	public void user_should_be_able_to_view_Action_saved_success_message(String successMessage) {
+		Assert.assertTrue("Success message displayed is not as expected", successMsg.equals(successMessage));
+	}
+
+	@Then("^user should no longer be able to view Edit Action pop-up window$")
+	public void user_should_no_longer_be_able_to_view_Edit_Action_pop_up_window() {
+		Assert.assertFalse("Edit Action popup window not closed", workflowConfigPage.isEditActionPopupVisible());
+	}
+
+	@Then("^user should be able to view updated values related to \"([^\"]*)\" in edit Action in Choose Action grid$")
+	public void user_should_be_able_to_view_updated_values_related_to_in_edit_Action_in_Choose_Action_grid(
+			String actionType) {
+		Assert.assertTrue("The updated time limit value is not matching in Action Grid",
+				workflowConfigPage.getSpecificTimeLimitValueInActionTypeGrid(actionType).equals(respondDeadline));
+	}
+
+	@When("^user clicks on Details link against \"([^\"]*)\" Action Type$")
+	public void user_clicks_on_Details_link_against_Action_Type(String actionType) {
+		workflowConfigPage.clickSpecificActionTypeDetailsLink(actionType);
+	}
+	
+	@When("^user runs the query to fetch recepient (.*)$")
+	public void user_runs_the_query_to_fetch_recepient__WFConfig_ReorderAction(String queryName)
+			throws ClassNotFoundException, SQLException, Exception {
+		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
+				commonMethods.loadQuery(queryName, dbFileName));
+		try {
+			while (DatabaseConn.resultSet.next()) {
+				dbRecipientName = DatabaseConn.resultSet.getString("Name");
+			}
+		} catch (SQLException exception) {
+			Assert.assertTrue("RecepientName is not fetched from DB.\nThe Technical Error is:\n" + exception, false);
+		}
+	}
+	
+	@When("^user runs the query to fetch Action details (.*)$")
+	public void user_runs_the_query_to_fetch_Action_details(String queryName)
+			throws ClassNotFoundException, SQLException, Exception {
+		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
+				commonMethods.loadQuery(queryName, dbFileName));
+		try {
+			while (DatabaseConn.resultSet.next()) {
+				updatedBy = DatabaseConn.resultSet.getString("DisplayName");
+				updatedDate = DatabaseConn.resultSet.getString("LastModifiedOnDate");
+			}
+		} catch (SQLException exception) {
+			Assert.assertTrue("RecepientName is not fetched from DB.\nThe Technical Error is:\n" + exception, false);
+		}
+}
 }
