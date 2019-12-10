@@ -64,8 +64,8 @@ public class PhysicianNPIConfigPage extends PageObject {
 		firstPhysicianConfigEditLink.withTimeoutOf(Duration.ofSeconds(180)).waitUntilClickable().click();
 	}
 
-	public void editPhysicianPopUpShouldBeVisible() {
-		editPhysicianPopUp.shouldBeVisible();
+	public boolean isEditPhysicianPopUpVisible() {
+		return editPhysicianPopUp.isVisible();
 	}
 
 	public String getTotalPayorsDisabled() {
@@ -92,20 +92,20 @@ public class PhysicianNPIConfigPage extends PageObject {
 		return listOfPayorNames;
 	}
 
-	public void addAllPayorsBtnShouldBeVisible() {
-		addAllPayorsBtn.shouldBeVisible();
+	public boolean isAddAllPayorsBtnVisible() {
+		return addAllPayorsBtn.isVisible();
 	}
 
-	public void removeAllPayorsBtnShouldBeVisible() {
-		removeAllPayorsBtn.shouldBeVisible();
+	public boolean isRemoveAllPayorsBtnVisible() {
+		return removeAllPayorsBtn.isVisible();
 	}
 
-	public void searchEligibleTxtBoxShouldBeVisible() {
-		searchEligibleTxtBox.shouldBeVisible();
+	public boolean isSearchEligibleTxtBoxVisible() {
+		return searchEligibleTxtBox.isVisible();
 	}
 
-	public void searchDisabledTxtBoxShouldBeVisible() {
-		searchDisabledTxtBox.shouldBeVisible();
+	public boolean isSearchDisabledTxtBoxVisible() {
+		return searchDisabledTxtBox.isVisible();
 	}
 
 	public boolean isCancelBtnVisible() {
@@ -135,9 +135,5 @@ public class PhysicianNPIConfigPage extends PageObject {
 	public int getCountOfTotalPayorsDisabled() {
 		String[] totalPayorDisabled = getTotalPayorsDisabled().split(": ", 0);
 		return Integer.parseInt(totalPayorDisabled[1]);
-	}
-	
-	public void enterSearchEligibleTxtBox(String eligiblePayor) {
-		searchEligibleTxtBox.type(eligiblePayor);
 	}
 }

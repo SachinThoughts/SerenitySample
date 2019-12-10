@@ -41,7 +41,7 @@ public class PhysicianNPIConfigStepDef {
 
 	@Then("^user should be able to view edit pop up$")
 	public void user_should_be_able_to_view_edit_pop_up() {
-		physicianNPIConfigPage.editPhysicianPopUpShouldBeVisible();
+		Assert.assertTrue("Edit Physician PopUp is not visible", physicianNPIConfigPage.isEditPhysicianPopUpVisible());
 	}
 
 	@Then("^user should be able to view the section \"([^\"]*)\" with the payors disabled for the Physician$")
@@ -62,18 +62,21 @@ public class PhysicianNPIConfigStepDef {
 
 	@Then("^user should be able to view provide Add All Payors and Remove All Payors buttons$")
 	public void user_should_be_able_to_view_provide_Add_All_Payors_and_Remove_All_Payors_buttons() {
-		physicianNPIConfigPage.addAllPayorsBtnShouldBeVisible();
-		physicianNPIConfigPage.removeAllPayorsBtnShouldBeVisible();
+		Assert.assertTrue("Add All Payors button is not visible", physicianNPIConfigPage.isAddAllPayorsBtnVisible());
+		Assert.assertTrue("Remove All Payors button is not visible",
+				physicianNPIConfigPage.isRemoveAllPayorsBtnVisible());
 	}
 
 	@Then("^user should be able to view the Search Disabled Payors section$")
 	public void user_should_be_able_to_view_the_Search_Disabled_Payors_section() {
-		physicianNPIConfigPage.searchDisabledTxtBoxShouldBeVisible();
+		Assert.assertTrue("Search Disabled Payors section is not visible",
+				physicianNPIConfigPage.isSearchDisabledTxtBoxVisible());
 	}
 
 	@Then("^user should be able to view Search Eligible Payors section$")
 	public void user_should_be_able_to_view_Search_Selected_Payors_section() {
-		physicianNPIConfigPage.searchEligibleTxtBoxShouldBeVisible();
+		Assert.assertTrue("Search Eligible Payors section is not visible",
+				physicianNPIConfigPage.isSearchEligibleTxtBoxVisible());
 	}
 
 	@Then("^user should be able to view the cancel and Save buttons$")
@@ -115,25 +118,5 @@ public class PhysicianNPIConfigStepDef {
 	public void user_should_be_able_to_view_updated_count_in_header_Total_Payors_disabled_Count() {
 		Assert.assertTrue("Correct count is not updated", physicianNPIConfigPage
 				.getCountOfTotalPayorsDisabled() == physicianNPIConfigPage.getListOfDisabledPayorsName().size());
-	}
-	
-	@When("^user copies payor of any eligible payor$")
-	public void user_copies_payor_of_any_eligible_payor() {
-		payor = physicianNPIConfigSteps.getAnyEligiblePayor();
-	}
-	
-	@When("^user enters a search text Payor in Search Eligible Payors textbox$")
-	public void user_enters_a_search_text_Payor_in_Search_Eligible_Payors_textbox() {
-		physicianNPIConfigPage.enterSearchEligibleTxtBox(payor);
-	}
-
-	@Then("^user should be able to view the filtered list of payors in Total Eligible Payors$")
-	public void user_should_be_able_to_view_the_filtered_list_of_payors_in_Total_Eligible_Payors() {
-		
-	}
-
-	@Then("^user should be able to view the updated count in header Total Eligible Payors: Count$")
-	public void user_should_be_able_to_view_updated_count_in_header_Total_Eligible_Payors_Count() {
-		
 	}
 }
