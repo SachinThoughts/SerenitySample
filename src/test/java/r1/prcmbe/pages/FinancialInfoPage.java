@@ -252,7 +252,8 @@ public class FinancialInfoPage extends PageObject {
 	}
 
 	public void expandTotalCharges() {
-		totalChargesScrollArrow.click();
+		withAction().moveToElement(totalChargesScrollArrow).build().perform();
+		evaluateJavascript("arguments[0].click();", totalChargesScrollArrow);
 	}
 
 	public List<String> getTotalChargesTableHeaders() {

@@ -345,7 +345,6 @@ Feature: Verify WorkFlowConfiguration related scenarios in PRCM
     And user clicks on Continue button on Action type Tab
     Then user should be able to navigate to Disposition type page
     And user should be able to view Disposition Type tab selected highlighted in blue color
-    And user should able to view Workflow Summary label with selected Disposition Type appended
     And user should be able to view Choose a Disposition Type grid with buttons underneath
       | Add New Disposition | Save Configuration |
     And user should be able to view Save Configuration button disabled
@@ -504,7 +503,7 @@ Feature: Verify WorkFlowConfiguration related scenarios in PRCM
     And user hover on R1_Decision
     And user clicks on search sub menu
     And user login to SQL server and connect to database
-    And user run the query and fetch encounterId "434779_WFConfig_R1DHandoffType"
+    And user run the query and fetch encounterId "PRCM_WFConfig_HandoffType"
     And user enters encounterId in visit number textfield
     And user clicks on Submit button
     When user clicks on Handoff button
