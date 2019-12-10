@@ -6,11 +6,11 @@ Feature: Verify Related Account testcases in PRCM-BE
     When user clicks on Billing & Follow-up link
     And user clicks on R1_Decision link
 
-  @439227
+  @439227 @PRCMQueueUser @Sprint103
   Scenario Outline: Verify the User is able to view Related Invoices pop up with pagination and Search box for PRCM enabled sites
-    Given user is on R1 Decision Account page
+    Given user is on R1 Decision Account information page
     When user clicks on Related Accounts under Patient & Facility Info Section
-    Then user should able to view the pop up title as "Related Accounts" 
+    Then user should able to view the pop up title as "Related Accounts"
     And user should be able to view Search button
     And user should be able to view First button
     And user should be able to view Previous button
@@ -18,7 +18,7 @@ Feature: Verify Related Account testcases in PRCM-BE
     And user should be able to view Last Button
     And user should be able to view 1 button
     And user should be able to view following grid columns
-    |Facility Code| Visit# |Invoice# | Admit Date | Discharge Date | Patient Type | Payer Plan Code | Insurance Balance | Patient Balance | Defect Type | Defect SubCategory|
+      | Visit # | Invoice # | Facility Code | Admit Date | Discharge Date | Patient Type | PayerPlan Code | Insurance Balance | Patient Balance | Defect Type | Defect SubCategory |
     And user should be able to view maximum 20 Accounts under Related Accounts grid
     When user login to SQL Server and connect to facility database
     And user runs query to fetch Related Accounts <query1>

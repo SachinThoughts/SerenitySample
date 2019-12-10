@@ -1,5 +1,6 @@
 package r1.prcmbe.pages;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import net.serenitybdd.core.annotations.findby.FindBy;
@@ -31,6 +32,21 @@ public class RelatedAccountsPage extends PageObject {
 	
 	@FindBy(xpath = "//*[@class='jp-current']")
 	private WebElementFacade defaultPage;
+	
+	@FindBy(xpath = "//*[@id='tbRelatedAccount']//th")
+	private List<WebElementFacade> relatedAccountPopupHeaderList;
+	
+	@FindBy(xpath = "//*[@id='tbRelatedAccount']//tr/td[1]")
+	private List<WebElementFacade> relatedVisitsList;
+	
+	@FindBy(xpath = "(//*[@id='AccountPageNext' and @class='disabled']/a)[1]")
+	private WebElementFacade nextBtnDisabled;
+	
+	@FindBy(xpath = "(//*[@id='AccountPageNext']/a)[1]")
+	private WebElementFacade nextBtn;
+	
+	@FindBy(xpath = "//*[@id='loadingDiv']/i")
+	private WebElementFacade paginationSpinner;
 
 	public void clickRelatedAccountsBtn() {
 		relatedAccountsBtn.click();
@@ -75,4 +91,41 @@ public class RelatedAccountsPage extends PageObject {
 	public String getDefaultSelectedPage() {
 		return defaultPage.getText();
 	}
+	
+	public List<String> getRelatedAcctPopUpHeaderList(){
+		List<String> headerList=new ArrayList<>();
+		for(WebElementFacade header:relatedAccountPopupHeaderList) {
+			headerList.add(header.getText());
+		}
+		return headerList;
+	}
+	
+	public int getRelatedAccountCount() {
+		return relatedVisitsList.size();
+	}
+	
+	public List<String> getAllVisitNumbers(){
+		List<String> visitNumbers=new ArrayList<>();
+		boolean flag=false;
+		String attribute;
+		do {
+			for(WebElementFacade visit: relatedVisitsList) {
+				visitNumbers.add(visit.getText().trim());
+			}
+			System.out.println(visitNumbers);
+			flag=nextBtnDisabled.isVisible();
+			System.out.println("flag "+flag);
+			//attribute=nextBtn.getAttribute("class");
+			if(flag==false) {
+				nextBtn.click();
+				paginationSpinner.waitUntilNotVisible();
+			}
+		}while(flag==false);
+			return visitNumbers;
+	}
+	
+	/*public List<String> compareList(List<String> dbValues, List<String> uivaluesl){
+		List<String> uncommonNumber=new ArrayList<>();
+		
+	}*/
 }
