@@ -117,7 +117,7 @@ public class FacilityGroupConfigurationStepDef extends PageObject {
 
 	@When("^user clicks on Add New Facility Group button$")
 	public void user_clicks_on_add_new_facility_group_button() {
-		pRCMEnabledFacilityCode=facilityGrpConfigPage.getPrcmEnabledFacilityCodes().get(1);
+		pRCMEnabledFacilityCode = facilityGrpConfigPage.getPrcmEnabledFacilityCodes().get(1);
 		facilityGrpConfigPage.clickOnAddFacilityBtn();
 	}
 
@@ -185,13 +185,13 @@ public class FacilityGroupConfigurationStepDef extends PageObject {
 
 	@When("^user clicks on edit button of the (.+)$")
 	public void user_clicks_on_edit_button_of_the(String facilityGroupName) {
-		checkedFacilityGrpName=facilityGroupName;
+		checkedFacilityGrpName = facilityGroupName;
 		facilityGrpConfigPage.clickOnFacilityGrpEditBtn(checkedFacilityGrpName);
 	}
 
 	@Then("^user should able to enable the checkbox for existing facility group$")
 	public void user_should_able_to_enable_the_checkbox_for_existing_facility_group() {
-		facilityGrpConfigPage.isPhysicianCheckboxEnabled();
+		Assert.assertTrue("Physician checkbox is not checked", facilityGrpConfigPage.isPhysicianCheckboxEnabled());
 	}
 
 	@When("^user clicks and enable the physician scope checkbox$")
@@ -225,32 +225,33 @@ public class FacilityGroupConfigurationStepDef extends PageObject {
 	public void user_should_be_able_to_view_payer_inventory_filter_for_prcm_enable_facility_group() {
 		Assert.assertTrue("user is not able to see Filter", workflowDistributionPage.isFilterSectionPresent());
 	}
-	
 
-    @When("^user enters the Facility Group Name as \"([^\"]*)\"$")
-    public void user_enters_the_facility_group_name_as_something(String facilityGrpName)  {
-    	facilityGrpConfigPage.enterFacilityGrpNameInTxtBox(facilityGrpName);
-    	facilityGroupNameFromUI=facilityGrpConfigPage.getEnteredFacilityGroupName();
-    	
-    }
+	@When("^user enters the Facility Group Name as \"([^\"]*)\"$")
+	public void user_enters_the_facility_group_name_as_something(String facilityGrpName) {
+		facilityGrpConfigPage.enterFacilityGrpNameInTxtBox(facilityGrpName);
+		facilityGroupNameFromUI = facilityGrpConfigPage.getEnteredFacilityGroupName();
+	}
 
-    @When("^user selects facilities such that the Facility group has atleast one PRCM enabled Facility$")
-    public void user_selects_facilities_such_that_the_facility_group_has_atleast_one_prcm_enabled_facility()  {
-    	facilityGrpConfigPage.enterFacilityCodeInTxtBox(pRCMEnabledFacilityCode);
-    	facilityGrpConfigPage.clickOnFacilityCodeFromSearchDropdown(pRCMEnabledFacilityCode);
-    	facilityGrpConfigPage.clickOnAddBtnOnPopup();
-    }
-    @Then("^user should be able to view that the IsPRCMEnabled checkbox is automatically checked$")
-    public void user_should_be_able_to_view_that_the_isprcmenabled_checkbox_is_automatically_checked() {
-    	facilityGrpConfigPage.isPhysicianCheckboxEnabled();
-    }
+	@When("^user selects facilities such that the Facility group has atleast one PRCM enabled Facility$")
+	public void user_selects_facilities_such_that_the_facility_group_has_atleast_one_prcm_enabled_facility() {
+		facilityGrpConfigPage.enterFacilityCodeInTxtBox(pRCMEnabledFacilityCode);
+		facilityGrpConfigPage.clickOnFacilityCodeFromSearchDropdown(pRCMEnabledFacilityCode);
+		facilityGrpConfigPage.clickOnAddBtnOnPopup();
+	}
 
-    @When("^user selects PRCM enabled facility group from Facility Group dropdown$")
-    public void user_selects_prcm_enabled_facility_group_from_facility_group_dropdown() {
-    	workflowDistributionPage.selectFacilityGroup(facilityGroupNameFromUI);
-    }
-    @Then("^user should be able to view the WFD screen should be displayed in PRCM view$")
-    public void user_should_be_able_to_view_the_wfd_screen_should_be_displayed_in_prcm_view()  {
-    	Assert.assertTrue("user is able to see PRCM view", workflowDistributionPage.isFilterSectionPresent());
-    }
+	@Then("^user should be able to view that the IsPRCMEnabled checkbox is automatically checked$")
+	public void user_should_be_able_to_view_that_the_isprcmenabled_checkbox_is_automatically_checked() {
+		Assert.assertTrue("Physician Checkbox is not automatically checked ",
+				facilityGrpConfigPage.isPhysicianCheckboxEnabled());
+	}
+
+	@When("^user selects PRCM enabled facility group from Facility Group dropdown$")
+	public void user_selects_prcm_enabled_facility_group_from_facility_group_dropdown() {
+		workflowDistributionPage.selectFacilityGroup(facilityGroupNameFromUI);
+	}
+
+	@Then("^user should be able to view the WFD screen should be displayed in PRCM view$")
+	public void user_should_be_able_to_view_the_wfd_screen_should_be_displayed_in_prcm_view() {
+		Assert.assertTrue("user is able to see PRCM view", workflowDistributionPage.isFilterSectionPresent());
+	}
 }
