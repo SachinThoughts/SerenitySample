@@ -1,3 +1,4 @@
+@TaggingHistory
 Feature: Verify Tagging related scenarios in PRCM-BE
 
   Background: User is able to navigate to R1 Decision search page

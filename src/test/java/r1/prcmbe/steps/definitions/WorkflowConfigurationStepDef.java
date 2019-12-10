@@ -1,10 +1,10 @@
 package r1.prcmbe.steps.definitions;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.apache.commons.lang.RandomStringUtils;
 import org.junit.Assert;
 import cucumber.api.DataTable;
@@ -17,9 +17,11 @@ import r1.commons.databaseconnection.DatabaseConn;
 import r1.commons.utilities.CommonMethods;
 import r1.prcmbe.pages.DefaultHandoffPage;
 import r1.prcmbe.pages.NavigationPage;
+import r1.prcmbe.pages.SearchPage;
 import r1.prcmbe.pages.SettingsPage;
 import r1.prcmbe.pages.WorkflowConfigurationPage;
 import r1.prcmbe.serenity.steps.FinancialInfoSteps;
+import r1.prcmbe.serenity.steps.LoginSteps;
 import r1.prcmbe.serenity.steps.WorkflowConfigurationSteps;
 
 public class WorkflowConfigurationStepDef extends PageObject {
@@ -30,22 +32,25 @@ public class WorkflowConfigurationStepDef extends PageObject {
 	WorkflowConfigurationPage workflowConfigPage;
 	DefaultHandoffPage defaultHandOffPage;
 	CommonMethods commonMethods;
+	SearchPage searchPage;
 
 	@Steps
 	FinancialInfoSteps financialInfoSteps;
 	@Steps
 	WorkflowConfigurationSteps workflowConfigSteps;
+	LoginSteps loginSteps;
 
 	String dbFileName = "WorkFlowConfiguration", dbHandOffName, dbRecipientName, defaultRecipientName,
 			recipientNameOtherThanDefault, dispositionNotes, workflowName, respondDeadline, updatedBy, updatedDate,
 			successMsg, recipientName, recipientDesc, createdBy, createdDate, nextDispositionByDropdownValue,
 			dispositionStatusByDropdownValue, dispositionCodeFromTextBox, updatedRecipientDesc,
-			respondDeadlineOnEditDispositionPopUp, actionName;
+			respondDeadlineOnEditDispositionPopUp, actionName, invoiceNumber;
 
 	List<String> listDBDispositionCode = new ArrayList<String>();
 	int dbWorkFlowTypeId, dbWorkflowSubTypeId;
 	List<String> actionIDList = new ArrayList<>();
 	List<String> dispositionNamesList = new ArrayList<>();
+	List<String> invoiceNumberList = new ArrayList<>();
 
 	@Given("^user having AHtoDecision Admin role is on R1 Hub page$")
 	public void user_having_AHtoDecision_Admin_role_is_on_R1_Hub_page() {
@@ -406,7 +411,7 @@ public class WorkflowConfigurationStepDef extends PageObject {
 		Assert.assertTrue(
 				"Created Date from Database " + financialInfoSteps.formatDbDateFieldWithDateTime(createdDate)
 						+ " does not match with the UI " + workflowConfigPage.getCreatedDateFieldValue(),
-				financialInfoSteps.formatDbDateFieldWithDateTime(createdDate)
+						workflowConfigSteps.formatDbDateFieldWithDateTime(createdDate)
 						.equals(workflowConfigPage.getCreatedDateFieldValue()));
 		Assert.assertTrue(
 				"CreatedBy from the Database " + createdBy + " does not match with the UI"
@@ -491,7 +496,8 @@ public class WorkflowConfigurationStepDef extends PageObject {
 		}
 		int dispositionCodeCounter = CommonMethods.getRandom(listDBDispositionCode.size());
 		String dispositionCodeNumber = listDBDispositionCode.get(dispositionCodeCounter);
-		workflowConfigPage.enterPreviousDispositionCode(dispositionCodeNumber.concat(RandomStringUtils.randomAlphabetic(3)));
+		workflowConfigPage
+				.enterPreviousDispositionCode(dispositionCodeNumber.concat(RandomStringUtils.randomAlphabetic(3)));
 	}
 
 	@When("^user clicks on \\+Add Recipient button under choose recipient$")
@@ -667,12 +673,6 @@ public class WorkflowConfigurationStepDef extends PageObject {
 	public void user_should_be_able_to_view_Disposition_Type_tab_selected_highlighted_in_blue_color() {
 		Assert.assertTrue("Disposition tab color is not Blue",
 				workflowConfigPage.getDispositionTabColor().equals(BLUECOLORRGBCODE));
-	}
-
-	@Then("^user should able to view Workflow Summary label with selected Disposition Type appended$")
-	public void user_should_able_to_view_Workflow_Summary_label_with_selected_Disposition_Type_appended() {
-		Assert.assertTrue("Workflow summary label does not display selected Dispositiontype", workflowConfigPage
-				.getFirstDispositionName().equalsIgnoreCase(workflowConfigPage.getDispositionBreadCrumbValue()));
 	}
 
 	@Then("^user should be able to view Choose a Disposition Type grid with buttons underneath$")
@@ -1042,4 +1042,65 @@ public class WorkflowConfigurationStepDef extends PageObject {
 		Assert.assertTrue("The disposition does not match with DB and UI",
 				dispositionNamesList.equals(workflowConfigPage.getListOfDispositionNames()));
 	}
+
+	@When("^user selects newly added Handoff in Handoff Type$")
+	public void user_selects_newly_added_Handoff_in_Handoff_Type() {
+		workflowConfigPage.selectNewHandOffType(DefaultHandoffStepDef.workFlowName);
+	}
+
+	@When("^user selects newly added value from Create dropdown$")
+	public void user_selects_newly_added_value_from_Create_dropdown() {
+		workflowConfigPage.selectCreateDrpDwn(DefaultHandoffStepDef.recipientDesc);
+	}
+
+	@When("^user selects newly added value from Why dropdown$")
+	public void user_selects_newly_added_value_from_Why_dropdown() {
+		workflowConfigPage.selectWhyDrpDwn(DefaultHandoffStepDef.actionName);
+	}
+
+	@When("^user selects newly added value from Disposition dropdown$")
+	public void user_selects_newly_added_value_from_Disposition_dropdown() {
+		workflowConfigPage.selectDispostionDrpDwn(DefaultHandoffStepDef.dispositionDescription);
+	}
+
+	@When("^user clears cache in application and login again$")
+	public void user_clears_cache_in_application_and_login_again() throws IOException {
+		workflowConfigSteps.clearCacheAndLogin();
+	}
+
+	@Then("^user should be able to view newly added Handoff Type and associated recipients, Actions and dispositions on R(\\d+) Decision screen$")
+	public void user_should_be_able_to_view_newly_added_Handoff_Type_and_associated_recipients_Actions_and_dispositions_on_R_Decision_screen(int arg) {
+		List<String> handOffValues = new ArrayList<>();
+		handOffValues.add(DefaultHandoffStepDef.workFlowName);
+		handOffValues.add(DefaultHandoffStepDef.recipientDesc);
+		handOffValues.add(DefaultHandoffStepDef.actionName);
+		handOffValues.add(DefaultHandoffStepDef.dispositionDescription);
+		Assert.assertTrue("Newly added Handoff types are not displayed on R1 decision screen",
+				workflowConfigPage.getNewHandOffValuesAdded().equals(handOffValues));
+	}
+
+	@When("^user run the query and fetch encounterId \"([^\"]*)\"$")
+	public void user_run_the_query_and_fetch_encounterid_something(String queryName)
+			throws ClassNotFoundException, SQLException, Exception {
+
+		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
+				commonMethods.loadQuery(queryName, dbFileName));
+		try {
+			while (DatabaseConn.resultSet.next()) {
+				invoiceNumberList.add(DatabaseConn.resultSet.getString("Invoicenumber"));
+			}
+		} catch (SQLException exception) {
+			Assert.assertTrue("Invoice Number is not fetched from DB.\nThe Technical Error is:\n" + exception, false);
+		}
+
+		int counter = CommonMethods.getRandom(invoiceNumberList.size());
+		invoiceNumber = invoiceNumberList.get(counter);
+	}
+
+	@When("^user enters encounterId in visit number textfield$")
+	public void user_enters_encounterid_in_visit_number_textfield() {
+		loginSteps.log("Fetched Invoice Number from Database is " + invoiceNumber);
+		searchPage.enterInvoiceNumber(invoiceNumber);
+	}
+
 }
