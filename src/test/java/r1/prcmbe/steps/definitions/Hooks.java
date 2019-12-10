@@ -2,18 +2,25 @@ package r1.prcmbe.steps.definitions;
 
 import java.io.IOException;
 
+import cucumber.api.java.After;
 import cucumber.api.java.Before;
 import net.serenitybdd.core.pages.PageObject;
 import net.thucydides.core.annotations.Steps;
 import r1.commons.utilities.CommonMethods;
 import r1.prcmbe.pages.AccountInformationPage;
+import r1.prcmbe.pages.FacilityGroupConfigurationPage;
 import r1.prcmbe.pages.LoginPage;
+import r1.prcmbe.pages.NavigationPage;
+import r1.prcmbe.pages.SettingsPage;
 import r1.prcmbe.serenity.steps.LoginSteps;
 
 public class Hooks extends PageObject {
 
 	LoginPage userLoginPage;
 	AccountInformationPage accInfoPage;
+	FacilityGroupConfigurationPage facilityGrpConfigPage;
+	NavigationPage navPage;
+	SettingsPage settingsPage;
 	static public String propertyName;
 
 	@Steps
@@ -93,5 +100,15 @@ public class Hooks extends PageObject {
 			}
 			propertyName = "prcmBeQueueUsername";
 		}
+	}
+	
+	@After(value="@391164")
+	public void uncheckPrcmFaciltiyGrp() {
+		navPage.clickFooterSettings();
+		settingsPage.clickOnSettingsR1Decisions();
+		settingsPage.clickFacilityGroupConfig();
+		facilityGrpConfigPage.clickOnFacilityGrpEditBtn(FacilityGroupConfigurationStepDef.checkedFacilityGrpName);
+		facilityGrpConfigPage.clickOnPhysicianCheckbox();
+		facilityGrpConfigPage.clickOnSaveBtn();
 	}
 }
