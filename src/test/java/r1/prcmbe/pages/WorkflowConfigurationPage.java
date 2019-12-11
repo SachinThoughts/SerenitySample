@@ -940,7 +940,6 @@ public class WorkflowConfigurationPage extends PageObject {
 		int size = recipientsList.size();
 		for (int i = 0; i < size; i++) {
 			if (recipientsList.get(i).getText().equals(expectedRecipientName)) {
-			//	recipientsRadioBtnList.get(i).click();
 				evaluateJavascript("arguments[0].click();", recipientsRadioBtnList.get(i));
 			}
 		}
@@ -950,7 +949,6 @@ public class WorkflowConfigurationPage extends PageObject {
 		int size = listOfRecipientNames.size();
 		for (index = 0; index < size; index++) {
 			if (listOfRecipientNames.get(index).getText().equals(recipientName)) {
-			//	listOfDetailsOnRecipientTab.get(index).click();
 				evaluateJavascript("arguments[0].click();", listOfDetailsOnRecipientTab.get(index));
 				break;
 			}
