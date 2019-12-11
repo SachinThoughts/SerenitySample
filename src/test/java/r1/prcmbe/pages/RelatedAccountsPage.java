@@ -269,4 +269,10 @@ public class RelatedAccountsPage extends PageObject {
 			}
 			return defectSubTypes;
 	}
+	
+	public String clickAndGetInvoiceNumber() {
+		String invoiceNumber=firstInvoiceNumber.getText();
+		firstInvoiceNumber.click();
+		return invoiceNumber;
+	}
 }
