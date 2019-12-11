@@ -145,4 +145,14 @@ public class PhysicianNPIConfigPage extends PageObject {
 		String[] totalPayorEligible = getTotalEligiblePayors().split(": ", 0);
 		return Integer.parseInt(totalPayorEligible[1]);
 	}
+
+	public void clickSearchedDisabledPayorsName(String searchedPayorName) {
+		int index = 0;
+		for (String payorName : getListOfDisabledPayorsName()) {
+			if (payorName.equals(searchedPayorName)) {
+				listOfDisabledPayorsName.get(index).click();
+			}
+			index++;
+		}
+	}
 }

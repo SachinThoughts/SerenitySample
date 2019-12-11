@@ -46,3 +46,14 @@ Feature: Verify Physician NPI Configuration in PRCM-BE
     And user enters a search text Payor in Search Eligible Payors textbox
     Then user should be able to view the filtered list of payors in Total Eligible Payors
     And user should be able to view the updated count in header Total Eligible Payors: Count
+
+  @391449 @Sprint103 @PRCMUser
+  Scenario: Verify that Select Payors to enable for physician
+    Given user is on PRCM Eligibility NPI Configuration page
+    When user clicks on to Edit link corresponding to the Physicians Name
+    Then user should be able to view edit pop up
+    When user copies payor of any disabled payor
+    And user enters a search text Payor in Search Disabled Payors textbox
+    And the user clicks on '*' sign for a Payor record under Total Payors Disabled section
+    Then user should be able to view the displayed payor name in Total Eligible Payors section
+    And user should be able to view the removed Payor name from Total Payors Disabled section

@@ -145,4 +145,21 @@ public class PhysicianNPIConfigStepDef {
 		Assert.assertTrue("Correct count is not updated", physicianNPIConfigPage
 				.getCountOfTotalEligiblePayors() == physicianNPIConfigPage.getListOfEligiblePayorsName().size());
 	}
+
+	@When("^the user clicks on '\\*' sign for a Payor record under Total Payors Disabled section$")
+	public void the_user_clicks_on_sign_for_a_Payor_record_under_Total_Payors_Disabled_section() {
+		physicianNPIConfigPage.clickSearchedDisabledPayorsName(payor);
+	}
+
+	@Then("^user should be able to view the displayed payor name in Total Eligible Payors section$")
+	public void user_should_be_able_to_view_the_displayed_payor_name_in_Total_Selected_Payors_section() {
+		Assert.assertTrue("selected payor not present in the Total Eligible Payors section",
+				physicianNPIConfigPage.getListOfEligiblePayorsName().contains(payor));
+	}
+
+	@Then("^user should be able to view the removed Payor name from Total Payors Disabled section$")
+	public void user_should_be_able_to_view_the_removed_Payor_name_from_Total_Payors_Disabled_section() {
+		Assert.assertTrue("selected payor is not removed from the Total Payors Disabled section",
+				!physicianNPIConfigPage.getListOfDisabledPayorsName().contains(payor));
+	}
 }
