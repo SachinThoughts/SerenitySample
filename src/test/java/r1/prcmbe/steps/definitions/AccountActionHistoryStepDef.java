@@ -1,6 +1,7 @@
 package r1.prcmbe.steps.definitions;
 
 import java.sql.SQLException;
+import java.util.List;
 
 import org.junit.Assert;
 
@@ -12,6 +13,7 @@ import r1.commons.databaseconnection.DatabaseConn;
 import r1.commons.utilities.CommonMethods;
 import r1.prcmbe.pages.AccountActionHistoryPage;
 import r1.prcmbe.pages.AccountInformationPage;
+import r1.prcmbe.pages.DefectWorkflowPage;
 import r1.prcmbe.pages.SearchPage;
 
 public class AccountActionHistoryStepDef {
@@ -19,8 +21,10 @@ public class AccountActionHistoryStepDef {
 	AccountActionHistoryPage accActionHistoryPage;
 	CommonMethods commonMethods;
 	SearchPage searchPage;
+	DefectWorkflowPage defectWorkflowPage;
 	String invoiceNumber;
 	static String dbFileName = "AccountActionHistory";
+	private final String BUBBLECOLOR = "rgba(61, 100, 168, 1)";
 
 	@Given("^user is on Account Information Page$")
 	public void user_is_on_Account_Information_Page() {
@@ -59,32 +63,29 @@ public class AccountActionHistoryStepDef {
 
 	@When("^user selects any checkbox in Verify All Steps Taken Section$")
 	public void user_selects_any_checkbox_in_Verify_All_Steps_Taken_Section() {
-	    
+		defectWorkflowPage.selectRandomVerifyAllStepsCheckbox();
 	}
 
 	@When("^user selects any checkbox in steps Taken Section$")
 	public void user_selects_any_checkbox_in_steps_Taken_Section() {
-	   
+		defectWorkflowPage.selectRandomStepsTakenCheckbox();
 	}
 
 	@Then("^user should be able to view the Blue bubble code display as D on horizontal timeline$")
 	public void user_should_be_able_to_view_the_Blue_bubble_code_display_as_D_on_horizontal_timeline() {
-	    
+		Assert.assertTrue("User is not able to view blue bubble with D text",
+				accActionHistoryPage.getHandoffBubbleColor().equals(BUBBLECOLOR));
 	}
 
 	@When("^user hovers the activity bubbles$")
 	public void user_hovers_the_activity_bubbles() {
-	    
+		accActionHistoryPage.hoverOnAddedBubble();
 	}
 
 	@Then("^user should be able to view all fields of that action$")
-	public void user_should_be_able_to_view_all_fields_of_that_action(DataTable arg1) {
-	    
+	public void user_should_be_able_to_view_all_fields_of_that_action(DataTable expectedFields) {
+		List<String> expectedListOfEventCircleCols = expectedFields.asList(String.class);
+		Assert.assertTrue("The column headers in the popup text are not as expected.",
+				accActionHistoryPage.getListOfEventCircleColumns().equals(expectedListOfEventCircleCols));
 	}
-
-	@Then("^user is able to view Account History Action Notes with following fields$")
-	public void user_is_able_to_view_Account_History_Action_Notes_with_following_fields(DataTable arg1) {
-	    
-	}
-
 }

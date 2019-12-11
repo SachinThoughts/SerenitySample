@@ -12,7 +12,7 @@ Feature: Verify Account Action History in PRCM-BE
     And user enters invoice number fetched from database
     And user clicks on Submit button
 
-  @391052 @AHtoDecisionAdmin @Sprint103
+  @391052 @PRCMQueueUser @Sprint103
   Scenario Outline: Verify that Account Action History should be display for Current Invoice Action when there is no any linked Invoice Associated
     Given user is on Account Information Page
     When user clicks on Handoff button
@@ -47,6 +47,10 @@ Feature: Verify Account Action History in PRCM-BE
     And user selects any value from DefectType dropdown and other Than "Uncategorized Defect" value
     And user selects any value from Defectsubcategory dropdown and other Than "Select Sub-Defect Category" value
     And user clicks on Save button
+    When user runs the account action history query "Account_Action_History_391051_SQL1"
+    And user fetch invoice number from database
+    And user enters invoice number fetched from database
+    And user clicks on Submit button
     Then user should be able to view the updated defect category in Defect Classification section
     When user clicks on back and forth arrows
     Then user should be able to view all defect subcategory previously associated with that invoice
@@ -58,15 +62,15 @@ Feature: Verify Account Action History in PRCM-BE
     Then user should be able to view the Blue bubble code display as D on horizontal timeline
     When user hovers the activity bubbles
     Then user should be able to view all fields of that action
-      | Invoice # | Type | Action | Added | Created | Followup |
+      | Type: | Action: | Added: | Created: | Followup: |
     When click on Show Account Action History Notes button
-    Then user is able to view Account History Action Notes with following fields
-      | Invoice #     |
-      | Type          |
-      | Action        |
-      | Added         |
-      | Created       |
-      | Followup Date |
+    Then user should be able to view the following columns in Account Action History
+      | Type:        |
+      | Action:      |
+      | Disposition: |
+      | Added:       |
+      | Created:     |
+      | Followup:    |
 
     Examples: 
       | HandoffType        |

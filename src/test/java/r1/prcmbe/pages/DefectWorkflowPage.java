@@ -84,6 +84,9 @@ public class DefectWorkflowPage extends PageObject {
 
 	@FindBy(id = "msg_success")
 	private WebElementFacade successMsg;
+	
+	@FindBy(xpath = "//*[@id='cblActionsRequired']/label")
+	private List<WebElementFacade> stepsTakenCheckbox;
 
 	public boolean isDefectWorkFlowSecVisible() {
 		return defectWorkflowSecHeader.isVisible();
@@ -247,5 +250,14 @@ public class DefectWorkflowPage extends PageObject {
 			index = CommonMethods.getRandom(size);
 		}
 		verifyAllStepsCheckbox.get(index).click();
+	}
+	
+	public void selectRandomStepsTakenCheckbox() {
+		int size = stepsTakenCheckbox.size();
+		int index = CommonMethods.getRandom(size);
+		while (index == size) {
+			index = CommonMethods.getRandom(size);
+		}
+		stepsTakenCheckbox.get(index).click();
 	}
 }

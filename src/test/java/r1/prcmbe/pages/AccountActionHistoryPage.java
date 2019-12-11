@@ -24,6 +24,12 @@ public class AccountActionHistoryPage extends PageObject{
 	@FindBy(xpath="//*[@class='process-type-history']//span")
 	private WebElementFacade defectSubCategoryType;
 	
+	@FindBy(xpath = "//*[@id='carousel']//li[last()]/div[last()]//a[@class='trigger']/..")
+	private WebElementFacade addedBubble;
+	
+	@FindBy(xpath = "//div[@class='popover-content']//span//span[1]")
+	private List<WebElementFacade> listOfEventCircleColumns;
+	
 	public List<String> getListOfRecentAddedAccountActionHistoryLabel(){
 		List<String> listOfRecentAddedAccntLabel=new ArrayList<>();
 		for (WebElementFacade recentAddedAccntLabel:listOfRecentAddedAccountActionHistoryLabel) {
@@ -48,5 +54,22 @@ public class AccountActionHistoryPage extends PageObject{
 	
 	public boolean isPreviousDefectSubCategoryVisible() {
 			return defectSubCategoryType.isVisible();
+	}
+	
+	public String getHandoffBubbleColor() {
+		withAction().moveToElement(addedBubble).build().perform();
+		return addedBubble.getCssValue("background-color");
+	}
+	
+	public void hoverOnAddedBubble() {
+		withAction().moveToElement(addedBubble).build().perform();
+	}
+	
+	public List<String> getListOfEventCircleColumns() {
+		List<String> listOfEventCircleCols = new ArrayList<>();
+		for (WebElementFacade eventCircleCol : listOfEventCircleColumns) {
+			listOfEventCircleCols.add(eventCircleCol.getText().trim());
+		}
+		return listOfEventCircleCols;
 	}
 }
