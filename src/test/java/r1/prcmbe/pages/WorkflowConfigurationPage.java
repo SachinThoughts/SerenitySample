@@ -379,21 +379,21 @@ public class WorkflowConfigurationPage extends PageObject {
 	@FindBy(id = "ddlDisposition")
 	private WebElementFacade dispositionDrpDwn;
 
-	@FindBy(xpath="//div[@id='dvHandOff']//li//div[2]/span")
+	@FindBy(xpath = "//div[@id='dvHandOff']//li//div[2]/span")
 	private List<WebElementFacade> listOfHandoffNameOnHandoffTab;
-	
-	@FindBy(xpath="//div[@id='dvHandOff']//li//div[1]/input[@name='workflowName']/..//label")
+
+	@FindBy(xpath = "//div[@id='dvHandOff']//li//div[1]/input[@name='workflowName']/..//label")
 	private List<WebElementFacade> listOfRadioLabelOnHandoffTab;
-	
-	@FindBy(xpath="//div[@id='dvWorkflowTypeActions']//li//div[4]/span")
+
+	@FindBy(xpath = "//div[@id='dvWorkflowTypeActions']//li//div[4]/span")
 	private WebElementFacade followDaysOnActionTypeTab;
 
-	@FindBy(xpath="//div[@id='dvWorkflowTypeActions']//li//div[5]/span")
+	@FindBy(xpath = "//div[@id='dvWorkflowTypeActions']//li//div[5]/span")
 	private WebElementFacade timeLimitOnActionTypeTab;
-	
-	@FindBy(xpath="//div[@id='dvWorkflowTypeActions']//li//div[3]/span")
+
+	@FindBy(xpath = "//div[@id='dvWorkflowTypeActions']//li//div[3]/span")
 	private WebElementFacade actionNameOnActionTypeTab;
-	
+
 	public String getActionTextBreadcrumb() {
 		return actionTypeBreadcrumb.getText().trim();
 	}
@@ -550,19 +550,41 @@ public class WorkflowConfigurationPage extends PageObject {
 		return evaluateJavascript("return document.querySelector('#wfActionBSOCP-0').checked").toString();
 	}
 
-	public void clickOnContinueBtnOnRecipientTab() {
-	int size=listOfActionTypeRadioBtns.size();
-	continueBtnOnRecipientTab.click();
-	while(size==0||size<2) {
-		int recipientSize=recipientsRadioBtnList.size();
-		evaluateJavascript("arguments[0].click();",recipientTab);
-		for(int i=1;i<recipientSize;i++) {
-			recipientsRadioBtnList.get(i).withTimeoutOf(Duration.ofSeconds(20)).waitUntilVisible();
-			evaluateJavascript("arguments[0].click();",recipientsRadioBtnList.get(i));
-			continueBtnOnRecipientTab.click();
+	public void clickOnContinueRecipientTabHavingActionNames() {
+		int recipientSize = recipientsRadioBtnList.size();
+		continueBtnOnRecipientTab.click();
+		int size = listOfActionTypeRadioBtns.size();
+		while (size < 2) {
+			evaluateJavascript("arguments[0].click();", recipientTab);
+			for (int i = 1; i < recipientSize; i++) {
+				evaluateJavascript("arguments[0].click();", listOfRecipientsRadioBtn.get(i));
+				continueBtnOnRecipientTab.click();
+				size = listOfActionTypeRadioBtns.size();
+				if (size >= 2) {
+					break;
+				}
+				evaluateJavascript("arguments[0].click();", recipientTab);
+			}
 		}
-		break;
 	}
+
+	public void clickOnContinueBtnOnRecipientTab() {
+		int recipientSize = recipientsRadioBtnList.size();
+		continueBtnOnRecipientTab.click();
+		int size = listOfActionTypeRadioBtns.size();
+		while (size < 1) {
+			evaluateJavascript("arguments[0].click();", recipientTab);
+			for (int i = 1; i < recipientSize; i++) {
+				evaluateJavascript("arguments[0].click();", listOfRecipientsRadioBtn.get(i));
+				continueBtnOnRecipientTab.click();
+				size = listOfActionTypeRadioBtns.size();
+				if (size >= 1) {
+					break;
+				}
+				evaluateJavascript("arguments[0].click();", recipientTab);
+			}
+		}
+
 	}
 
 	public String enterAndGetDispositionNotes() {
@@ -1201,37 +1223,38 @@ public class WorkflowConfigurationPage extends PageObject {
 		handOffValues.add(dispositionDrpDwn.getSelectedVisibleTextValue());
 		return handOffValues;
 	}
-	
+
 	public int getPositionOfHandoffType(String handoffNameVal) {
-		int size=listOfHandoffNameOnHandoffTab.size();
-		int position=0;
-		for(int i=0;i<size;i++) {
-			if(listOfHandoffNameOnHandoffTab.get(i).getText().trim().equals(handoffNameVal)) {
-				position=i;
+		int size = listOfHandoffNameOnHandoffTab.size();
+		int position = 0;
+		for (int i = 0; i < size; i++) {
+			if (listOfHandoffNameOnHandoffTab.get(i).getText().trim().equals(handoffNameVal)) {
+				position = i;
 			}
 		}
 		return position;
 	}
-	
+
 	public void clickOnHandoffTypeRadioBtn(String handoffName) {
-		evaluateJavascript("arguments[0].click();",listOfRadioLabelOnHandoffTab.get(getPositionOfHandoffType(handoffName)));
+		evaluateJavascript("arguments[0].click();",
+				listOfRadioLabelOnHandoffTab.get(getPositionOfHandoffType(handoffName)));
 	}
-	
+
 	public int getPositionOfRecipient(String recipientNameVal) {
-		int size=listOfRecipientNames.size();
-		int position=0;
-		for(int i=0;i<size;i++) {
-			if(listOfRecipientNames.get(i).getText().trim().equals(recipientNameVal)) {
-				position=i;
+		int size = listOfRecipientNames.size();
+		int position = 0;
+		for (int i = 0; i < size; i++) {
+			if (listOfRecipientNames.get(i).getText().trim().equals(recipientNameVal)) {
+				position = i;
 			}
 		}
 		return position;
 	}
-	
+
 	public void clickOnRecipientRadioBtn(String recipientNameVal) {
 		listOfRecipientsRadioBtn.get(getPositionOfRecipient(recipientNameVal)).click();
 	}
-	
+
 	public String getFollowUpDayOnActionTypeTab() {
 		return followDaysOnActionTypeTab.getText().trim();
 	}
@@ -1239,7 +1262,7 @@ public class WorkflowConfigurationPage extends PageObject {
 	public String getTimeLimitOnActionTypeTab() {
 		return timeLimitOnActionTypeTab.getText().trim();
 	}
-	
+
 	public String getActionNameOnActionTypeTab() {
 		return actionNameOnActionTypeTab.getText().trim();
 	}

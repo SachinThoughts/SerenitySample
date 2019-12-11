@@ -303,9 +303,15 @@ public class WorkflowConfigurationStepDef extends PageObject {
 	}
 
 	@When("^user clicks on Continue button on Recipient tab$")
-	public void user_clicks_on_Continue_button_on_Recipient_tab() {
+	public void user_clicks_on_Continue_button_on_Recipient_tab() throws InterruptedException {
 		workflowConfigPage.clickOnContinueBtnOnRecipientTab();
 	}
+	
+	 @When("^user clicks on Continue button on Recipient tab and verify Action Name exists$")
+	    public void user_clicks_on_continue_button_on_recipient_tab_and_verify_action_name_exists() {
+		 workflowConfigPage.clickOnContinueRecipientTabHavingActionNames();
+	    }
+
 
 	@When("^user verifies that radio button is selected to associated Action Type$")
 	public void user_verifies_that_radio_button_is_selected_to_associated_Action_Type() {
