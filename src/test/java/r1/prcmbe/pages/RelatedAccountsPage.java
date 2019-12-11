@@ -275,4 +275,20 @@ public class RelatedAccountsPage extends PageObject {
 		firstInvoiceNumber.click();
 		return invoiceNumber;
 	}
+	
+	public List<String> getAllInvoiceNumbers() {
+		List<String> invoiceNumbers = new ArrayList<>();
+		boolean flag = false;
+		do {
+			for (WebElementFacade invoice : relatedInvoicesList) {
+				invoiceNumbers.add(invoice.getText().trim());
+			}
+			flag = nextBtnDisabled.isVisible();
+			if (flag == false) {
+				nextBtn.click();
+				paginationSpinner.waitUntilNotVisible();
+			}
+		} while (flag == false);
+		return invoiceNumbers;
+	}
 }

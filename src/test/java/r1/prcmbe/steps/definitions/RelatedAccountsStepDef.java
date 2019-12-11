@@ -32,7 +32,6 @@ public class RelatedAccountsStepDef {
 		accInfoPage.verifyPatientDetailsSectionVisible();
 		invoiceNumber = accInfoPage.getInvoiceNumber();
 		mrnNumber = accInfoPage.getMRNNumber();
-		System.out.println(invoiceNumber);
 	}
 
 	@When("^user clicks on Related Accounts under Patient & Facility Info Section$")
@@ -143,9 +142,7 @@ public class RelatedAccountsStepDef {
 
 	@Then("^user should be able to view the previous Account in Related Accounts grid$")
 	public void user_should_be_able_to_view_the_previous_Account_in_Related_Accounts_grid() {
-		List<String> visitNumbersUi = relatedAccntsPage.getAllVisitNumbers();
-		System.out.println("visit no"+invoiceNumber);
-		System.out.println("visit UI"+visitNumbersUi);
-		Assert.assertTrue("Previous Account is not visible in Related Account grid", visitNumbersUi.contains(invoiceNumber));
+		List<String> invoiceNumbersUi = relatedAccntsPage.getAllInvoiceNumbers();
+		Assert.assertTrue("Previous Account is not visible in Related Account grid", invoiceNumbersUi.contains(invoiceNumber));
 	}
 }
