@@ -2,32 +2,36 @@ package r1.prcmbe.steps.definitions;
 
 import java.sql.SQLException;
 import java.util.List;
-
 import org.junit.Assert;
-
 import cucumber.api.DataTable;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import net.serenitybdd.core.pages.PageObject;
 import net.thucydides.core.annotations.Steps;
 import r1.commons.databaseconnection.DatabaseConn;
 import r1.commons.utilities.CommonMethods;
 import r1.prcmbe.pages.FacilityGroupConfigurationPage;
+import r1.prcmbe.pages.NavigationPage;
 import r1.prcmbe.pages.SettingsPage;
+import r1.prcmbe.pages.WorkflowDistributionPage;
 import r1.prcmbe.serenity.steps.FacilityGroupConfigSteps;
 
-public class FacilityGroupConfigurationStepDef {
+public class FacilityGroupConfigurationStepDef extends PageObject {
 	SettingsPage settingsPage;
 	FacilityGroupConfigurationPage facilityGrpConfigPage;
 	CommonMethods commonMethods;
+	NavigationPage navigationPage;
+	WorkflowDistributionPage workflowDistributionPage;
 
 	@Steps
 	FacilityGroupConfigSteps facilityGrpConfigSteps;
 
 	private static String dbQueryFilename = "FacilityGrpConfig";
+	static String checkedFacilityGrpName;
 
 	String facilityGroupNameFromUI = null;
-	String prcmEnabledFlag;
+	String prcmEnabledFlag, pRCMEnabledFacilityCode;
 
 	@When("^user mouse hovers on Settings-R(\\d+)_Decision link$")
 	public void user_mouse_hovers_on_Settings_R__Decision_link(int arg1) {
@@ -113,6 +117,7 @@ public class FacilityGroupConfigurationStepDef {
 
 	@When("^user clicks on Add New Facility Group button$")
 	public void user_clicks_on_add_new_facility_group_button() {
+		pRCMEnabledFacilityCode = facilityGrpConfigPage.getPrcmEnabledFacilityCodes().get(1);
 		facilityGrpConfigPage.clickOnAddFacilityBtn();
 	}
 
@@ -172,9 +177,81 @@ public class FacilityGroupConfigurationStepDef {
 		facilityGrpConfigPage.clickOnPhysicianCheckbox();
 	}
 
-	@When("^user clicks on any edit button$")
-	public void user_clicks_on_any_edit_button() {
+	@When("^user clicks on any edit button and clicks physician checkbox to enable it$")
+	public void user_clicks_on_any_edit_button_and_clicks_physician_checkbox_to_enable_it() {
 		facilityGrpConfigPage.clickOnEditBtnWithNoPhysicianChkboxChecked();
 		facilityGroupNameFromUI = facilityGrpConfigPage.getFacilityGrpNameWithPhysicianChecked();
+	}
+
+	@When("^user clicks on edit button of the (.+)$")
+	public void user_clicks_on_edit_button_of_the(String facilityGroupName) {
+		checkedFacilityGrpName = facilityGroupName;
+		facilityGrpConfigPage.clickOnFacilityGrpEditBtn(checkedFacilityGrpName);
+	}
+
+	@Then("^user should able to enable the checkbox for existing facility group$")
+	public void user_should_able_to_enable_the_checkbox_for_existing_facility_group() {
+		Assert.assertTrue("Physician checkbox is not checked", facilityGrpConfigPage.isPhysicianCheckboxEnabled());
+	}
+
+	@When("^user clicks and enable the physician scope checkbox$")
+	public void user_clicks_and_enable_the_physician_scope_checkbox() {
+		facilityGrpConfigPage.clickOnPhysicianCheckbox();
+	}
+
+	@When("^clicks on save button$")
+	public void clicks_on_save_button() {
+		facilityGrpConfigPage.clickOnSaveBtn();
+	}
+
+	@When("^user clicks on billing & follow\\-up from the footer$")
+	public void user_clicks_on_billing_followup_from_the_footer() {
+		navigationPage.clickFooterBillingFollowUpLink();
+	}
+
+	@Then("^user should be able to view workflow distribution screen$")
+	public void user_should_be_able_to_view_workflow_distribution_screen() {
+		Assert.assertTrue("User is not able to see Workflow Distribution screen",
+				workflowDistributionPage.isWorkflowDistributionPageVisible());
+	}
+
+	@Then("^user should be able to view that facility group in the dropdown facility group list$")
+	public void user_should_be_able_to_view_that_facility_group_in_the_dropdown_facility_group_list() {
+		Assert.assertTrue("User is not able to see the facility group name in the drop down ", workflowDistributionPage
+				.isFacilityGrpNamePresentInTheDropdown(WorkflowDistributionStepDef.pRCMEnabledFacilityGrpName));
+	}
+
+	@Then("^user should be able to view payer inventory filter for prcm enable facility group$")
+	public void user_should_be_able_to_view_payer_inventory_filter_for_prcm_enable_facility_group() {
+		Assert.assertTrue("user is not able to see Filter", workflowDistributionPage.isFilterSectionPresent());
+	}
+
+	@When("^user enters the Facility Group Name as \"([^\"]*)\"$")
+	public void user_enters_the_facility_group_name_as_something(String facilityGrpName) {
+		facilityGrpConfigPage.enterFacilityGrpNameInTxtBox(facilityGrpName);
+		facilityGroupNameFromUI = facilityGrpConfigPage.getEnteredFacilityGroupName();
+	}
+
+	@When("^user selects facilities such that the Facility group has atleast one PRCM enabled Facility$")
+	public void user_selects_facilities_such_that_the_facility_group_has_atleast_one_prcm_enabled_facility() {
+		facilityGrpConfigPage.enterFacilityCodeInTxtBox(pRCMEnabledFacilityCode);
+		facilityGrpConfigPage.clickOnFacilityCodeFromSearchDropdown(pRCMEnabledFacilityCode);
+		facilityGrpConfigPage.clickOnAddBtnOnPopup();
+	}
+
+	@Then("^user should be able to view that the IsPRCMEnabled checkbox is automatically checked$")
+	public void user_should_be_able_to_view_that_the_isprcmenabled_checkbox_is_automatically_checked() {
+		Assert.assertTrue("Physician Checkbox is not automatically checked ",
+				facilityGrpConfigPage.isPhysicianCheckboxEnabled());
+	}
+
+	@When("^user selects PRCM enabled facility group from Facility Group dropdown$")
+	public void user_selects_prcm_enabled_facility_group_from_facility_group_dropdown() {
+		workflowDistributionPage.selectFacilityGroup(facilityGroupNameFromUI);
+	}
+
+	@Then("^user should be able to view the WFD screen should be displayed in PRCM view$")
+	public void user_should_be_able_to_view_the_wfd_screen_should_be_displayed_in_prcm_view() {
+		Assert.assertTrue("user is able to see PRCM view", workflowDistributionPage.isFilterSectionPresent());
 	}
 }

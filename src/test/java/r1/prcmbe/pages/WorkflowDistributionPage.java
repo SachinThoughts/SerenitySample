@@ -100,7 +100,7 @@ public class WorkflowDistributionPage extends PageObject {
 	@FindBy(xpath = "//*[@id='user-inventory']/div[2]/div[1]/div/div/div[2]/h4/a[contains(text(),'Show')]")
 	private WebElementFacade showLinkOnRepsTab;
 
-	@FindBy(xpath = "//*[@role='tabpanel']//div[@class='well']")
+	@FindBy(xpath = "//*[@id='divPayerFilter']//div[@class='well']")
 	private WebElementFacade filterSection;
 
 	@FindBy(xpath = "(//a[@class='toggle-inventory'])[1]/i")
@@ -316,6 +316,15 @@ public class WorkflowDistributionPage extends PageObject {
 
 	public void clickOnFirstPayerOnPayerInvtryTab() {
 		evaluateJavascript("arguments[0].click();", firstDrildwnBtnOnPayerInvtryTab);
-
+}
+	public boolean isWorkflowDistributionPageVisible() {
+		return workflowDistributionTitle.isVisible();
 	}
+	
+	public boolean isFacilityGrpNamePresentInTheDropdown(String facilityGrpName) {
+		List<String> facilityGrpList;
+		facilityGrpList=facilityGrpDrpDwn.getSelectOptions();
+		return facilityGrpList.contains(facilityGrpName);
+	}
+	
 }
