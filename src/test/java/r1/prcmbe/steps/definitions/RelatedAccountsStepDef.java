@@ -10,15 +10,19 @@ import cucumber.api.DataTable;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import net.thucydides.core.annotations.Steps;
 import r1.commons.databaseconnection.DatabaseConn;
 import r1.commons.utilities.CommonMethods;
 import r1.prcmbe.pages.AccountInformationPage;
 import r1.prcmbe.pages.RelatedAccountsPage;
+import r1.prcmbe.serenity.steps.RelatedAccountsSteps;
 
 public class RelatedAccountsStepDef {
 	RelatedAccountsPage relatedAccntsPage;
 	CommonMethods commonMethods;
 	AccountInformationPage accInfoPage;
+	@Steps
+	RelatedAccountsSteps relatedAcctSteps;
 	static String dbFileName = "RelatedAccounts";
 	List<String> visitNumbersDb = new ArrayList<>();
 	String invoiceNumber, mrnNumber;
@@ -102,4 +106,28 @@ public class RelatedAccountsStepDef {
 		List<String> visitNumbersUi = relatedAccntsPage.getAllVisitNumbers();
 		Assert.assertTrue("Accounts list not same in DB and Popup", visitNumbersDb.containsAll(visitNumbersUi));
 	}
+	
+	@Then("^user should be able to view InvoiceNumber as hyperlink$")
+	public void user_should_be_able_to_view_InvoiceNumber_as_hyperlink() {
+		Assert.assertTrue("Invoice number/ VisitNumber is not a hyperlink",relatedAccntsPage.isInvoiceNumberClickable());
+	}
+
+	@Then("^user should be able to view Visit Number as hyperlink for records having InvoiceNumber as NA$")
+	public void user_should_be_able_to_view_Visit_Number_as_hyperlink_for_records_having_InvoiceNumber_as_NA() {
+		Assert.assertTrue("Visit Number is not displayed as hyperlink for NA invoice number",relatedAccntsPage.isVisitNumberHyperLinkedForNAInvoiceNumber());
+	}
+
+	@When("^user runs query to fetch all details of Related Accounts (.*)$")
+	public void user_runs_query_to_fetch_all_details_of_Related_Accounts(String queryName) throws ClassNotFoundException, SQLException, Exception {
+		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
+				String.format(commonMethods.loadQuery(queryName, dbFileName), mrnNumber, invoiceNumber, invoiceNumber));
+	}
+
+	@Then("^user should be able to view the same grid data as in SQL result$")
+	public void user_should_be_able_to_view_the_same_grid_data_as_in_SQL_result() throws SQLException {
+		List<Object> listOfVal = relatedAcctSteps.verifyGridDataWithDb();
+		boolean val = ((Boolean) listOfVal.get(listOfVal.size() - 1)).booleanValue();
+		Assert.assertTrue("Following values does not match\n" + listOfVal.subList(0, listOfVal.size() - 1), val);
+	}	
+	
 }

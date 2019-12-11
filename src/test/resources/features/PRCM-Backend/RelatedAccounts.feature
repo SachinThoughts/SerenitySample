@@ -27,3 +27,17 @@ Feature: Verify Related Account testcases in PRCM-BE
     Examples: 
       | query1                      |
       | RelatedInvoices_439227_SQL1 |
+
+  @439231 @PRCMQueueUser @Sprint103
+  Scenario Outline: Verify the Grid data for Related Accounts for PRCM sites
+    Given user is on R1 Decision Account information page
+    When user clicks on Related Accounts under Patient & Facility Info Section
+    Then user should be able to view InvoiceNumber as hyperlink
+    And user should be able to view Visit Number as hyperlink for records having InvoiceNumber as NA
+    When user login to SQL server and connect to facility database
+    And user runs query to fetch all details of Related Accounts <query3>
+    Then user should be able to view the same grid data as in SQL result
+
+    Examples: 
+      | query3                      |
+      | RelatedInvoices_439237_SQL3 |
