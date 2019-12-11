@@ -60,3 +60,52 @@ Feature: Verify E-pars pro handoff related testcases in PRCM-BE
       | DOB                    |
       | Date of Service        |
     Then user should be able to view following message on Epars page "No record found!"
+
+  @438753 @PRCMUser @Sprint103
+  Scenario: Verify the error message for Search textbox for Like Operator if user enters less than 5 characters on ePARS Pro Page
+    Given user is on ePARS Pro screen
+    When user selects following values from Search By drop down on Epars Page, with operator "Like" enters "1234" in Search textbox followed by click on Submit Button
+      | Visit Number           |
+      | Invoice Number         |
+      | Medical Records Number |
+      | Claim Number           |
+    Then user should be able to view following message on Epars page "Please add five or more characters"
+
+  @438791 @PRCMUser @Sprint103
+  Scenario: Verify the error message for Search textbox for Like Operator if user enters 5 or more characters on ePARS Pro Page
+    Given user is on ePARS Pro screen
+    When user selects following values from Search By drop down on Epars Page, with operator "Like" enters "12d45" in Search textbox followed by click on Submit Button
+      | Visit Number           |
+      | Invoice Number         |
+      | Medical Records Number |
+      | Claim Number           |
+    Then user should be able to view following message on Epars page "No record found!"
+
+  @438913 @PRCMUser @Sprint103
+  Scenario: Verify that user is able to search an account with Search textbox using operators on ePARS Pro Page
+    Given user is on ePARS Pro screen
+    When user selects following values from Search By drop down on Epars Page, with operator "Like" enters following data "12345" in Search textbox followed by click on Submit Button
+      | Visit Number           |
+      | Invoice Number         |
+      | Medical Records Number |
+       Then user should be able to view the grid with following columns:
+      | Account #                   |
+      | Invoice #                   |
+      | MRN                         |
+      | FName                       |
+      | LName                       |
+      | Service Code/DRG            |
+      | Department                  |
+      | Location                    |
+      | Major Payer                 |
+      | # of Touches                |
+      | Total Balance               |
+      | Disposition                 |
+      | Risk                        |
+      | Last User                   |
+      | Days Open                   |
+      | Billing Provider Name       |
+      | Billing Physician Specialty |
+    When user is able to login to sql server and connect to database
+    And EparsPro user runs the query to get the expected columns in the grid: "ePARSPro_438913_SQL1" 
+    Then user should be able to view the same result in grid as SQL result    
