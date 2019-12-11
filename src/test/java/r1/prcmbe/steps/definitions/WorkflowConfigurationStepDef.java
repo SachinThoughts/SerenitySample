@@ -303,7 +303,7 @@ public class WorkflowConfigurationStepDef extends PageObject {
 	}
 
 	@When("^user clicks on Continue button on Recipient tab$")
-	public void user_clicks_on_Continue_button_on_Recipient_tab() throws InterruptedException {
+	public void user_clicks_on_Continue_button_on_Recipient_tab() {
 		workflowConfigPage.clickOnContinueBtnOnRecipientTab();
 	}
 	
