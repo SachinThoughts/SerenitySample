@@ -1,5 +1,8 @@
 package r1.prcmbe.steps.definitions;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.Assert;
 
 import cucumber.api.java.en.Given;
@@ -18,6 +21,7 @@ public class PhysicianNPIConfigStepDef {
 	PhysicianNPIConfigSteps physicianNPIConfigSteps;
 
 	String physicianName, physicianNPI, payor;
+	List<String> listOfPayorNames = new ArrayList<>();
 	int payorSize;
 
 	@When("^user hovers Payor and Plan Config$")
@@ -161,5 +165,39 @@ public class PhysicianNPIConfigStepDef {
 	public void user_should_be_able_to_view_the_removed_Payor_name_from_Total_Payors_Disabled_section() {
 		Assert.assertTrue("selected payor is not removed from the Total Payors Disabled section",
 				!physicianNPIConfigPage.getListOfDisabledPayorsName().contains(payor));
+	}
+
+	@When("^the user clicks on '\\+' sign for a Payor record under Total Eligible Payors section$")
+	public void the_user_clicks_on_sign_for_a_Payor_record_under_Total_Eligible_Payors__section() {
+		physicianNPIConfigPage.clickSearchedEligiblePayorsName(payor);
+	}
+
+	@Then("^user should be able to view the display payor name in Total Payors Disabled section$")
+	public void user_should_be_able_to_view_the_display_payor_name_in_Total_Payors_Disabled_section() {
+		Assert.assertTrue("selected payor not present in the Total Payors Disabled section",
+				physicianNPIConfigPage.getListOfDisabledPayorsName().contains(payor));
+	}
+
+	@Then("^user should be able to view the removed Payor name from Total Eligible Payors section$")
+	public void user_should_be_able_to_view_the_removed_Payor_name_from_Total_Eligible_Payors_section() {
+		Assert.assertTrue("selected payor is not removed from the Total Payors Disabled section",
+				!physicianNPIConfigPage.getListOfEligiblePayorsName().contains(payor));
+	}
+
+	@When("^user clicks on <<Add All Payors  button$")
+	public void user_clicks_on_Add_All_Payors_button() {
+		listOfPayorNames = physicianNPIConfigPage.getListOfEligiblePayorsName();
+		physicianNPIConfigPage.clickAddAllPayorsBtn();
+	}
+
+	@Then("^user should be able to view the display all Payors in Total Payors Disabled section$")
+	public void user_should_be_able_to_view_the_display_all_Payors_in_Total_Payors_Disabled_section() {
+		Assert.assertTrue("All Payors in Total Payors Disabled section are not visible",
+				physicianNPIConfigPage.getListOfDisabledPayorsName().containsAll(listOfPayorNames));
+	}
+
+	@Then("^user should be able to view removed all Payors from Total Eligible Payors section$")
+	public void user_should_be_able_to_view_removed_all_Payors_from_Total_Eligible_Payors_section() {
+		Assert.assertTrue(physicianNPIConfigPage.getListOfEligiblePayorsName().isEmpty());
 	}
 }
