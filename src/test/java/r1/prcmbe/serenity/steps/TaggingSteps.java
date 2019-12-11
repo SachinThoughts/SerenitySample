@@ -16,11 +16,12 @@ import r1.prcmbe.pages.TaggingPage;
 import r1.prcmbe.steps.definitions.TaggingStepDef;
 
 public class TaggingSteps {
-	private String categoryName, newTagName;
+	private String categoryName, newTagName, editedTagCategory, editedTagName;
 	TaggingPage taggingPage;
 	CommonMethods commonMethods;
 	TaggingStepDef taggingStepDef;
 	List<String> getAddedTagHistory = new ArrayList<>();
+	List<String> editedTagDetails = new ArrayList<>();
 	private static String dbFileName = "Tagging";
 
 	@Step
@@ -70,5 +71,26 @@ public class TaggingSteps {
 					"All the added tag data is not fetched from DB.\nThe Technical Error is:\n" + sQLException, false);
 		}
 		return getAddedTagHistory;
+	}
+
+	public List<String> editAndSveTagOnAccInfoPge(String editTagNote) {
+		editedTagCategory = taggingPage.selectAndGetAnyTagCategory();
+		editedTagName = taggingPage.selectAndGetAnyTagName();
+		taggingPage.enterTagNote(editTagNote);
+		editedTagDetails.add(editedTagCategory);
+		editedTagDetails.add(editedTagName);
+		taggingPage.clickOnSaveTagBtn();
+		if (taggingPage.isAlertMsgOnDuplicateTagVisible()) {
+			while (editedTagCategory.equalsIgnoreCase(taggingPage.selectAndGetAnyTagCategory())) {
+				editedTagCategory = taggingPage.selectAndGetAnyTagCategory();
+			}
+			editedTagName = taggingPage.selectAndGetAnyTagName();
+			editedTagDetails.add(editedTagCategory);
+			editedTagDetails.add(editedTagName);
+			taggingPage.enterTagNote(editTagNote);
+			taggingPage.clickOnSaveTagBtn();
+			return editedTagDetails;
+		}
+		return editedTagDetails;
 	}
 }

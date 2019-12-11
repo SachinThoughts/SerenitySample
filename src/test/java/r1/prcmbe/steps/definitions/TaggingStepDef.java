@@ -31,6 +31,7 @@ public class TaggingStepDef extends PageObject {
 	List<String> listOfGridColumnsOnUI = new ArrayList<>();
 	List<String> listOfTagHeadersOnUI = new ArrayList<>();
 	List<String> listOfTagDetailsInDB = new ArrayList<>();
+	List<String> listOfEditedTagDetailsOnUi = new ArrayList<>();
 
 	String enteredCategoryName, dbCategoryName, dbCategoryDecs, successMsg, editedCategoryName, radioBtnTxt, newTagName,
 			tagAddedSuccessMsg, dbTagName, selectedTagName, selectedTagCategory, dbInvoiceNumber, dbInvoiceId;
@@ -255,12 +256,13 @@ public class TaggingStepDef extends PageObject {
 
 	@Then("^User should be able to navigate to TAG NAME tab$")
 	public void user_should_be_able_to_navigate_to_TAG_NAME_tab() {
-		taggingPage.isAddNewTagBtnVisible();
+		Assert.assertTrue("User is not able to navigate to  Tag Name Tab", taggingPage.isAddNewTagBtnVisible());
 	}
 
 	@Then("^User should be able to view Selected Category Label$")
 	public void user_should_be_able_to_view_Selected_Category_Label() {
-		taggingPage.isSelectedCategoryLblVisible();
+		Assert.assertTrue("User is not able to view selected category lable",
+				taggingPage.isSelectedCategoryLblVisible());
 	}
 
 	@Then("^User should be able to view Selected Category Name label$")
@@ -403,4 +405,29 @@ public class TaggingStepDef extends PageObject {
 		Assert.assertTrue("Newly added tag is not updated in the DB",
 				taggingPage.getlistOfAddedTagDetailsUnderHistorySection().containsAll(listOfTagDetailsInDB));
 	}
+
+	@When("^User Clicks on Edit Tag link$")
+	public void user_Clicks_on_Edit_Tag_link() {
+		taggingPage.clickEditTagLinkAtAccInfoPge();
+	}
+
+	@When("^User edits Tag Category , Tag Name and \"([^\"]*)\" text in notes textbox and click on save changes button$")
+	public void user_edits_Tag_Category_Tag_Name_and_text_in_notes_textbox_and_click_on_save_changes_button(
+			String editTagNote) {
+		listOfEditedTagDetailsOnUi = taggingSteps.editAndSveTagOnAccInfoPge(editTagNote);
+		tagAddedSuccessMsg = taggingPage.getaccAddedAlrtMsgAfterEdit();
+	}
+
+	@Then("^User should be able to view edited Tag Name under the title Tag$")
+	public void user_should_be_able_to_view_edited_Tag_Name_under_the_title_Tag() {
+		Assert.assertTrue("Edited Tag name is not displayed under the title tag",
+				listOfEditedTagDetailsOnUi.contains(taggingPage.getAddedTagNameOnAccInfo()));
+	}
+
+	@Then("^user should be able to view edited Tag Details in the grid$")
+	public void user_should_be_able_to_view_edited_Tag_Details_in_the_grid() {
+		Assert.assertTrue("User is not able to view Edited tag details in the grid",
+				taggingPage.getlistOfAddedTagDetailsUnderHistorySection().containsAll(listOfEditedTagDetailsOnUi));
+	}
+
 }
