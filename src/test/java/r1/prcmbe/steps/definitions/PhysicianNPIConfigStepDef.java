@@ -1,7 +1,12 @@
 package r1.prcmbe.steps.definitions;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import org.junit.Assert;
 
+import cucumber.api.DataTable;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
@@ -118,5 +123,48 @@ public class PhysicianNPIConfigStepDef {
 	public void user_should_be_able_to_view_updated_count_in_header_Total_Payors_disabled_Count() {
 		Assert.assertTrue("Correct count is not updated", physicianNPIConfigPage
 				.getCountOfTotalPayorsDisabled() == physicianNPIConfigPage.getListOfDisabledPayorsName().size());
+	}
+
+	@Then("^physician list should be displayed with the columns$")
+	public void physician_list_should_be_displayed_with_the_columns(DataTable expectedColumnNames) {
+		List<String> listOfColumnnNames = expectedColumnNames.asList(String.class);
+		Assert.assertTrue("Failed to verify Phiysician column names",
+				physicianNPIConfigPage.getListOfPhysicianColumnNames().containsAll(listOfColumnnNames));
+	}
+
+	@Then("^user shoule be able to view pagination should be displayed$")
+	public void user_shoule_be_able_to_view_pagination_should_be_displayed() {
+		Assert.assertTrue("Failed to view pagination Control", physicianNPIConfigPage.isPaginationCtrlVisible());
+	}
+
+	@Then("^user shoule be able to view header and Footer should be displayed like$")
+	public void user_shoule_be_able_to_view_header_and_Footer_should_be_displayed_like(
+			DataTable expectedHeaderAndFooterValues) {
+			List<String> listOfHeaderAndFooterValues = expectedHeaderAndFooterValues.asList(String.class);
+		Assert.assertTrue("failed to verify Header and Footer",
+				physicianNPIConfigPage.getHeaderOfPagination().containsAll(listOfHeaderAndFooterValues));
+		Assert.assertTrue("failed to verify Header and Footer",
+				physicianNPIConfigPage.getFooterOfPagination().containsAll(listOfHeaderAndFooterValues));
+	}
+
+	@Then("^user shoule be able to view page Header \"([^\"]*)\" should be displayed$")
+	public void user_shoule_be_able_to_view_page_Header_should_be_displayed(String expectedHeader) {
+		Assert.assertTrue("Failed to verify" + expectedHeader,
+				physicianNPIConfigPage.getFacilityPhysicianHeader().equals(expectedHeader));
+	}
+
+	@Then("^user shoule be able to view the physicians records should be sorted based on Total Payors Disabled desc$")
+	public void user_shoule_be_able_to_view_the_physicians_records_should_be_sorted_based_on_Total_Payors_Disabled_desc() {
+		List<String> listOfTotalPayorDisabledDesc = new ArrayList<String>(
+				physicianNPIConfigPage.getCountOfTotalDisabledPayors());
+		Collections.sort(listOfTotalPayorDisabledDesc, Collections.reverseOrder());
+		Assert.assertTrue("failed to verify physicians records should be sorted based on Total Payors Disabled desc",
+				listOfTotalPayorDisabledDesc.equals(physicianNPIConfigPage.getCountOfTotalDisabledPayors()));
+	}
+
+	@Then("^user should be able to view Edit Links$")
+	public void user_should_be_able_to_view_Edit_Links() {
+		Assert.assertFalse("Failed to view Edit links on Physician Search Page",
+				physicianNPIConfigPage.isListOfEditBtnLinkEmpty());
 	}
 }

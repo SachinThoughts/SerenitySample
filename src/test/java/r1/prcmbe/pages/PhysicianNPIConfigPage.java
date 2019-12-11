@@ -52,9 +52,33 @@ public class PhysicianNPIConfigPage extends PageObject {
 	@FindBy(xpath = "//*[@id='editPhysicianNPIPayors']/descendant::h3")
 	private WebElementFacade popUpMsgAndPhysicianNameNPI;
 
+	@FindBy(xpath = "//ul[@class='list-table-header physician-list']/li")
+	private List<WebElementFacade> listOfPhysicianColumnNames;
+
+	@FindBy(xpath = "//*[@id='dnn_ctr2647_TaskPanel_spanTask']/div/div/div[2]/ul[2]/li/div[5]/a")
+	private List<WebElementFacade> listOfEditBtnLink;
+
+	@FindBy(xpath = "//div[@class='container-fluid ng-scope']//dir-pagination-controls[1]")
+	private WebElementFacade paginationControl;
+
+	@FindBy(xpath = "//*[@id='dnn_ctr2647_TaskPanel_spanTask']/div/div/div[2]/p[1]")
+	private WebElementFacade listOfPaginationHeader;
+
+	@FindBy(xpath = "//*[@id='dnn_ctr2647_TaskPanel_spanTask']/div/div/div[2]/p[2]")
+	private WebElementFacade listOfPaginationFooter;
+
+	@FindBy(xpath = "//*[@id='dnn_ctr2647_TaskPanel_spanTask']/div/div/div[2]/h3")
+	private WebElementFacade facilityPhysicianHeader;
+
+	@FindBy(xpath = "//*[@class='list-table-body physician-list']//div[4]")
+	private List<WebElementFacade> listOfTotalPayorsDisabled;
+
 	private String cancelBtnJS = "$('#editPhysicianNPIPayors > div > div > div.modal-footer > button.btn.btn-default')";
 
 	private String saveBtnJS = "$('#btnSave')";
+
+	String[] paginationValue;
+	List<String> listOfPaginationValue = new ArrayList<>();
 
 	public void pRCMNPIConfigTitleShouldBeVisible() {
 		pRCMNPIConfigTitle.shouldBeVisible();
@@ -136,4 +160,47 @@ public class PhysicianNPIConfigPage extends PageObject {
 		String[] totalPayorDisabled = getTotalPayorsDisabled().split(": ", 0);
 		return Integer.parseInt(totalPayorDisabled[1]);
 	}
+
+	public List<String> getListOfPhysicianColumnNames() {
+		List<String> listOfColumnNames = new ArrayList<>();
+		for (WebElementFacade columnName : listOfPhysicianColumnNames)
+			listOfColumnNames.add(columnName.getText());
+
+		return listOfColumnNames;
+	}
+
+	public boolean isListOfEditBtnLinkEmpty() {
+		firstPhysicianConfigEditLink.withTimeoutOf(Duration.ofSeconds(180)).waitUntilVisible();
+		return listOfEditBtnLink.isEmpty();
+	}
+
+	public boolean isPaginationCtrlVisible() {
+		return paginationControl.isVisible();
+	}
+
+	public List<String> getHeaderOfPagination() {
+		paginationValue = listOfPaginationHeader.getText().split("\\|");
+		listOfPaginationValue.add(paginationValue[0].trim());
+		listOfPaginationValue.add(paginationValue[1].trim());
+		return listOfPaginationValue;
+	}
+
+	public List<String> getFooterOfPagination() {
+		paginationValue = listOfPaginationFooter.getText().split("\\|");
+		listOfPaginationValue.add(paginationValue[0].trim());
+		listOfPaginationValue.add(paginationValue[1].trim());
+		return listOfPaginationValue;
+	}
+
+	public String getFacilityPhysicianHeader() {
+		return facilityPhysicianHeader.getText();
+	}
+
+	public List<String> getCountOfTotalDisabledPayors() {
+		List<String> listOfTotalPayors = new ArrayList<>();
+		for (WebElementFacade totalPayors : listOfTotalPayorsDisabled)
+			listOfTotalPayors.add(totalPayors.getText());
+		return listOfTotalPayors;
+	}
+
 }

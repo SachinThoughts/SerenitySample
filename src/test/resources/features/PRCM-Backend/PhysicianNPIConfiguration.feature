@@ -36,3 +36,15 @@ Feature: Verify Physician NPI Configuration in PRCM-BE
     And user enters a search text Payor in Search Disabled Payors textbox
     Then user should be able to view the filtered list of payors in Total Payors Disabled
     And user should be able to view updated count in header Total Payors disabled: Count
+
+  @391456 @Sprint103 @PRCMUser
+  Scenario: Verify the PRCM NPI Configuration screen is opened then application should display list of Physicians with data
+    Given user is on PRCM Eligibility NPI Configuration page
+    Then physician list should be displayed with the columns
+      | Physician's Name | NPI | Facility Physician ID | Total Payors Disabled |
+    And user should be able to view Edit Links
+    And user shoule be able to view pagination should be displayed
+    And user shoule be able to view header and Footer should be displayed like
+      | Total Physicians: 222075 | Displaying Page: 1 of 22208 |
+    And user shoule be able to view page Header "FACILITY PHYSICIANS" should be displayed
+    And user shoule be able to view the physicians records should be sorted based on Total Payors Disabled desc
