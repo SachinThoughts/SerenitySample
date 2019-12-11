@@ -36,3 +36,44 @@ Feature: Verify Physician NPI Configuration in PRCM-BE
     And user enters a search text Payor in Search Disabled Payors textbox
     Then user should be able to view the filtered list of payors in Total Payors Disabled
     And user should be able to view updated count in header Total Payors disabled: Count
+
+  @391448 @Sprint103 @PRCMUser
+  Scenario: Verify that Search Eligible Payors
+    Given user is on PRCM Eligibility NPI Configuration page
+    When user clicks on to Edit link corresponding to the Physicians Name
+    Then user should be able to view edit pop up
+    When user copies payor of any eligible payor
+    And user enters a search text Payor in Search Eligible Payors textbox
+    Then user should be able to view the filtered list of payors in Total Eligible Payors
+    And user should be able to view the updated count in header Total Eligible Payors: Count
+
+  @391449 @Sprint103 @PRCMUser
+  Scenario: Verify that Select Payors to enable for physician
+    Given user is on PRCM Eligibility NPI Configuration page
+    When user clicks on to Edit link corresponding to the Physicians Name
+    Then user should be able to view edit pop up
+    When user copies payor of any disabled payor
+    And user enters a search text Payor in Search Disabled Payors textbox
+    And the user clicks on '*' sign for a Payor record under Total Payors Disabled section
+    Then user should be able to view the displayed payor name in Total Eligible Payors section
+    And user should be able to view the removed Payor name from Total Payors Disabled section
+
+  @391450 @Sprint103 @PRCMUser
+  Scenario: Verify that Select Payors to disable for physician
+    Given user is on PRCM Eligibility NPI Configuration page
+    When user clicks on to Edit link corresponding to the Physicians Name
+    Then user should be able to view edit pop up
+    When user copies payor of any eligible payor
+    And user enters a search text Payor in Search Eligible Payors textbox
+    And the user clicks on '+' sign for a Payor record under Total Eligible Payors section
+    Then user should be able to view the display payor name in Total Payors Disabled section
+    And user should be able to view the removed Payor name from Total Eligible Payors section
+
+  @391451 @Sprint103 @PRCMUser
+  Scenario: Verify that Enable all Payors
+    Given user is on PRCM Eligibility NPI Configuration page
+    When user clicks on to Edit link corresponding to the Physicians Name
+    Then user should be able to view edit pop up
+    When user clicks on <<Add All Payors  button
+    Then user should be able to view the display all Payors in Total Payors Disabled section
+    And user should be able to view removed all Payors from Total Eligible Payors section
