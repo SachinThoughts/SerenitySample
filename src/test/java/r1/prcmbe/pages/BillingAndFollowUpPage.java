@@ -11,6 +11,9 @@ public class BillingAndFollowUpPage extends PageObject {
 
 	@FindBy(xpath = "//span[text()='Search' and @class='txt']")
 	private WebElementFacade searchLink;
+	
+	@FindBy(xpath = "//span[text()='ePARS-Pro' and @class='txt']")
+	private WebElementFacade eparsProLink;
 
 	public void clickOnR1DecisionLink() {
 		withAction().moveToElement(r1DecisionLink).click().build().perform();
@@ -22,5 +25,9 @@ public class BillingAndFollowUpPage extends PageObject {
 
 	public void clickSearchLink() {
 		withAction().moveToElement(searchLink).click().build().perform();
+	}
+	
+	public void clickEparsProLink() {
+		withAction().moveToElement(eparsProLink).click().build().perform();
 	}
 }
