@@ -65,8 +65,14 @@ public class DefectOverrideStepDef {
 		}
 	}
 
-	@When("^user runs the query (.*)$")
-	public void user_runs_the_query(String queryName) throws ClassNotFoundException, SQLException, Exception {
+	@When("^user run the query to fetch InvoiceId(.*)$")
+	public void user_run_the_query_to_fetch_InvoiceId(String queryName) throws ClassNotFoundException, SQLException, Exception {
+		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
+				commonMethods.loadQuery(queryName, dbFileName));
+	}
+	
+	@When("^user run the query to fetch PRCM flag(.*)$")
+	public void user_run_the_query_to_fetch_PRCM_flag(String queryName) throws ClassNotFoundException, SQLException, Exception {
 		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
 				commonMethods.loadQuery(queryName, dbFileName));
 	}

@@ -514,3 +514,53 @@ Feature: Verify WorkFlowConfiguration related scenarios in PRCM
     And user selects newly added value from Why dropdown
     And user selects newly added value from Disposition dropdown
     Then user should be able to view newly added Handoff Type and associated recipients, Actions and dispositions on R1 Decision screen
+
+  @434780 @AHtoDecisionAdmin @Sprint103
+  Scenario: Verify user is able to add the Predefined Note in Disposition Type screen for particular Handoff Type
+    Given user having AHtoDecision Admin role is on workflow configuration home page
+    When user clicks radio button against "AR Supervisor" Handoff
+    And user clicks on Continue button on HandOff Tab
+    And user clicks on radio button against "Supervisor Request" Recipient
+    And user clicks on Continue button on Recipient tab
+    And user clicks on radio button against "General Request" Action Type
+    And user clicks on Continue button on Action type Tab
+    And user clicks on Edit link against "General Request" Disposition Type
+    Then user should able to view Edit New Disposition pop up window
+    When user enters notes under Predefined Note textarea
+    And user clicks on Save Changes button on Disposition popup
+    Then user should be able to view message on Disposition page "Saved successfully"
+    When user clicks on Edit link against "General Request" Disposition Type
+    Then user should be able to view the same Predefined Note entered previously
+    When user clicks on Close icon at Top right hand corner of the screen
+    Then Edit New Disposition pop-up window should be closed
+
+  @433684 @AHtoDecisionAdmin @Sprint103
+  Scenario Outline: Verify Edit Action functionality
+    Given user having AHtoDecision Admin role is on workflow configuration home page
+    When user login to SQL server and connect to database
+    And user run the query to fetch hand-off id <query1>
+    And user run the query to fetch hand-off name <query2>
+    And user fetches any Handoff Type from DB
+    And user clicks on Radio button against any fetched Handoff Type in Choose Handoff grid
+    And user clicks on Continue button on HandOff Tab
+    And user runs the query to fetch recepient <query3>
+    And user clicks on radio button adjacent to associated Recipient fetched from above query
+    And user clicks on Continue button on Recipient tab
+    And user clicks on Edit link against "General Request" Action Type
+    Then user should able to view Edit Action pop up window with controls
+      | Action Name | Action Description | Next Action By | Follow Up Days | Respond Deadline | Action Status | Active | Required | Close | Save changes |
+    And user should be able to view prepopulated values in all controls of edit action popup
+    When user clicks on any of the field Textboxes or Dropdowns
+    And user updates the existing information in either of these fields
+    And user clicks on Save Changes button
+    Then user should be able to view Action saved success message "Saved successfully"
+    And user should no longer be able to view Edit Action pop-up window
+    And user should be able to view updated values related to "General Request" in edit Action in Choose Action grid
+    When user clicks on Details link against "General Request" Action Type
+    And user login to SQL server and connect to database
+    And user runs the query to fetch Action details <query4>
+    Then user should be able to view same value in Updated Date and Updated By columns on UI as in SQL result
+
+    Examples: 
+      | query1                         | query2                          | query3                        | query4                             |
+      | 434767_WFConfig_CheckRecipient | 434767_WFConfig_CheckRecipient1 | 434769_WFConfig_ReorderAction | 433684_BDD_R1D_WFConfig_EditAction |
