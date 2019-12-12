@@ -12,7 +12,7 @@ Feature: Verify Account Action History in PRCM-BE
     And user enters invoice number fetched from database
     And user clicks on Submit button
 
-  @391052 @PRCMQueueUser @Sprint103
+  @391052 @AHtoDecisionAdmin @Sprint103
   Scenario Outline: Verify that Account Action History should be display for Current Invoice Action when there is no any linked Invoice Associated
     Given user is on Account Information Page
     When user clicks on Handoff button
@@ -23,10 +23,6 @@ Feature: Verify Account Action History in PRCM-BE
     And user enters any "Test Note" in Notes text area
     And user clicks on Save button on the handoff popup
     Then user should be able to view the appropriate handoff success message: "Handoff Record Saved Successfully."
-    When user runs the account action history query "Account_Action_History_391051_SQL1"
-    And user fetch invoice number from database
-    And user enters invoice number fetched from database
-    And user clicks on Submit button
     Then user should be able to view H under event circle in blue color for newly added Handoff type on Horizontal timeline
     When user hovers the event circle for newly added Handoff type
     Then user should be able to view the following columns
