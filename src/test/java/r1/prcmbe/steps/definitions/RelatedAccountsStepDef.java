@@ -25,13 +25,14 @@ public class RelatedAccountsStepDef {
 	RelatedAccountsSteps relatedAcctSteps;
 	static String dbFileName = "RelatedAccounts";
 	List<String> visitNumbersDb = new ArrayList<>();
-	String invoiceNumber, mrnNumber;
+	String invoiceNumber, mrnNumber, clickedInvoiceNumber, clickedVisitNumber, accountNumber;
 
 	@Given("^user is on R1 Decision Account information page$")
 	public void user_is_on_R1_Decision_Account_information_page() {
 		accInfoPage.verifyPatientDetailsSectionVisible();
 		invoiceNumber = accInfoPage.getInvoiceNumber();
 		mrnNumber = accInfoPage.getMRNNumber();
+		accountNumber=accInfoPage.getAccountNumber();
 	}
 
 	@When("^user clicks on Related Accounts under Patient & Facility Info Section$")
@@ -130,4 +131,35 @@ public class RelatedAccountsStepDef {
 		Assert.assertTrue("Following values does not match\n" + listOfVal.subList(0, listOfVal.size() - 1), val);
 	}	
 	
+	@When("^user clicks on Any InvoiceNumber from the grid$")
+	public void user_clicks_on_Any_InvoiceNumber_from_the_grid() {
+		clickedInvoiceNumber=relatedAccntsPage.clickAndGetInvoiceNumber();
+	}
+
+	@Then("^user should be able to view the R1D screen for that InvoiceNumber$")
+	public void user_should_be_able_to_view_the_R1D_screen_for_that_InvoiceNumber() {
+	    Assert.assertTrue("R1D screen not displayed for the clicked Invoice number "+clickedInvoiceNumber, accInfoPage.getInvoiceNumber().equals(clickedInvoiceNumber));
+	}
+
+	@Then("^user should be able to view the previous Invoice in Related Accounts grid$")
+	public void user_should_be_able_to_view_the_previous_Invoice_in_Related_Accounts_grid() {
+		List<String> invoiceNumbersUi = relatedAccntsPage.getAllInvoiceNumbers();
+		Assert.assertTrue("Previous Invoice is not visible in Related Account grid", invoiceNumbersUi.contains(invoiceNumber));
+	}
+	
+	@When("^user clicks on any Visit Number from the grid where InvoiceNumber is NA$")
+	public void user_clicks_on_any_Visit_Number_from_the_grid_where_InvoiceNumber_is_NA() {
+		clickedVisitNumber=relatedAccntsPage.clickAndGetVisitNumberHyperLinkedForNAInvoiceNumber();
+	}
+
+	@Then("^user should be able to view the R1D screen for that Visit Number$")
+	public void user_should_be_able_to_view_the_R1D_screen_for_that_Visit_Number() {
+		Assert.assertTrue("R1D screen not displayed for the clicked Visit number "+clickedVisitNumber, accInfoPage.getAccountNumber().equals(clickedVisitNumber));
+	}
+
+	@Then("^User should be able to view the previous Account in Related Accounts grid$")
+	public void user_should_be_able_to_view_the_previous_Account_in_Related_Accounts_grid() {
+		List<String> visitNumbersUi = relatedAccntsPage.getAllVisitNumbers();
+		Assert.assertTrue("Previous Account is not visible in Related Account grid", visitNumbersUi.contains(accountNumber));
+	}
 }
