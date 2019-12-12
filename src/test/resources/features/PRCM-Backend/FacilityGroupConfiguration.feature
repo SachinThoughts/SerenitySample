@@ -1,4 +1,4 @@
-@FacilityGroupConfig
+@FacilityGroupConfiguration
 Feature: Verify Factility Group Configuration related scenarios in PRCM-BE
 
   Background: user is able to navigate to Facility group configuration screen
