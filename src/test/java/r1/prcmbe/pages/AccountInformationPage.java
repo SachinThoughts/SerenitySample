@@ -473,4 +473,8 @@ public class AccountInformationPage extends PageObject {
 	public String getMRNNumber() {
 		return mrnNumber.getText();
 	}
+	
+	public void moveToAccountActionHistory() {
+		withAction().moveToElement(accntActionHistoryHeader).build().perform();
+	}
 }

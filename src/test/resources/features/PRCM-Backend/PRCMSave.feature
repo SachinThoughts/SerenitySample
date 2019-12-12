@@ -43,3 +43,15 @@ Feature: Verify PRCM Save related test cases in PRCM_BE
     And user selects checkbox from Steps Taken checkboxes
     And user clicks on A2D Save button
     Then user should be able to view the message "Saved successfully"
+
+  @391060 @Sprint103 @PRCMUser
+  Scenario: Verify Account Action History section
+    Given user is on Account Page
+    When user moves to the Account Action History section
+    When user hovers the event circle for newly added Handoff type
+    Then user should be able to view the following columns
+      | Type:     |
+      | Action:   |
+      | Added:    |
+      | Created:  |
+      | Followup: |

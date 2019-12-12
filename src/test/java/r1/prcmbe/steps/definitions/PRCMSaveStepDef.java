@@ -9,6 +9,7 @@ import cucumber.api.java.en.When;
 import net.thucydides.core.annotations.Steps;
 import r1.commons.databaseconnection.DatabaseConn;
 import r1.commons.utilities.CommonMethods;
+import r1.prcmbe.pages.AccountInformationPage;
 import r1.prcmbe.pages.DefectWorkflowPage;
 import r1.prcmbe.pages.SearchPage;
 import r1.prcmbe.serenity.steps.FinancialInfoSteps;
@@ -19,6 +20,7 @@ public class PRCMSaveStepDef {
 	DefectWorkflowPage defectWorkflowPage;
 	CommonMethods commonMethods;
 	SearchPage searchPage;
+	AccountInformationPage accInfoPage;
 
 	private String tabColorOnDefectWrkflwSection = "rgba(61, 100, 168, 1)";
 
@@ -99,5 +101,10 @@ public class PRCMSaveStepDef {
 	public void user_is_able_to_view_the_Account_Page() {
 		Assert.assertTrue("User is not navigated to the R1D account page for Searched Invoice Number",
 				searchPageSteps.verifyInvoiceNumberWithEqualOperator(dbInvoiceNumber));
+	}
+	
+	@When("^user moves to the Account Action History section$")
+	public void user_moves_to_account_action_history_section() {
+		accInfoPage.moveToAccountActionHistory();
 	}
 }
