@@ -41,3 +41,21 @@ Feature: Verify Related Account testcases in PRCM-BE
     Examples: 
       | query3                      |
       | RelatedInvoices_439237_SQL3 |
+
+  @439232 @PRCMQueueUser @Sprint103
+  Scenario: Verify when User clicks on any account from Related Accounts section then user is navigated to That Account
+    Given user is on R1 Decision Account information page
+    When user clicks on Related Accounts under Patient & Facility Info Section
+    And user clicks on Any InvoiceNumber from the grid
+    Then user should be able to view the R1D screen for that InvoiceNumber
+    When user clicks on Related Accounts under Patient & Facility Info Section
+    Then user should be able to view the previous Invoice in Related Accounts grid
+
+  @439261 @PRCMQueueUser @Sprint103
+  Scenario: Verify when User clicks on any visit number from Related Accounts section then user is navigated to That Account
+    Given user is on R1 Decision Account information page
+    When user clicks on Related Accounts under Patient & Facility Info Section
+    And user clicks on any Visit Number from the grid where InvoiceNumber is NA
+    Then user should be able to view the R1D screen for that Visit Number
+    When user clicks on Related Accounts under Patient & Facility Info Section
+    Then User should be able to view the previous Account in Related Accounts grid
