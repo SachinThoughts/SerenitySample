@@ -111,7 +111,7 @@ public class WorkflowDistributionPage extends PageObject {
 	@FindBy(id = "ddlFacilityFilters")
 	private WebElementFacade facilityDropdown;
 
-	public void clickAnyFacilityFromFacilityDrpdown() {
+	public void clickAnyFacilityFromFacilityDropdown() {
 		List<String> listOfAllFacilities;
 		listOfAllFacilities = facilityDropdown.getSelectOptions();
 		int size = listOfAllFacilities.size();

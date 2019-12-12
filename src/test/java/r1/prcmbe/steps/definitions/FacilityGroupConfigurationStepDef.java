@@ -272,7 +272,7 @@ public class FacilityGroupConfigurationStepDef extends PageObject {
 
 	@When("^user clicks to select any value from facility dropdown$")
 	public void user_clicks_to_select_any_value_from_facility_dropdown() {
-		workflowDistributionPage.clickAnyFacilityFromFacilityDrpdown();
+		workflowDistributionPage.clickAnyFacilityFromFacilityDropdown();
 	}
 
 	@When("^user should able to select \"([^\"]*)\" from facility dropdown$")
@@ -282,7 +282,7 @@ public class FacilityGroupConfigurationStepDef extends PageObject {
 
 	@Then("^user should able to view payer inventory filter for professional and technical accounts$")
 	public void user_should_able_to_view_payer_inventory_filter_for_professional_and_technical_accounts() {
-		Assert.assertTrue("user is able to see PRCM view", workflowDistributionPage.isFilterSectionPresent());
+		Assert.assertTrue("user is not able to see PRCM view", workflowDistributionPage.isFilterSectionPresent());
 	}
 
 }
