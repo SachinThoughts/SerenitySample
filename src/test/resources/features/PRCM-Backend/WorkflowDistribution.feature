@@ -232,3 +232,17 @@ Feature: Verify Workflow Distribution related scenarios in PRCM-BE
       | Defect SubCategory | Number of Accounts | Age | Balance | Teams | Reps | Burn Rate | Days Inventory |
     And user should be able to view following sub sections under Assigned (Due for Work ) section
       | Defect SubCategory | Number of Accounts | Age | Balance | Teams | Reps | Burn Rate | Days Inventory |
+
+  @391293 @ARSupervisor @Sprint103
+  Scenario: Verify the Payer inventory tab for PRCM enabled Facility group  when  Technical  is selected
+    Given user is on Workflow Distribution screen
+    And User clicks on Technical radio button under the  Payer Inventory Filter in Filter Section
+    Then user should be able to view the grid
+      | Payer Name | Unassigned Accounts | Unassigned Balance | Assigned Accounts | Assigned Balance | Account Age | Teams | Reps | Burn Rate | Days Inventory |
+    When user clicks on any Payer from the drilldown
+    Then user should be able to view the below sections
+      | Unassigned (Due for Work ) | Assigned (Due for Work) |
+    And user should be able to view following sub sections under Unassigned (Due for Work ) section
+      | Defect SubCategory | Number of Accounts | Age | Balance | Teams | Reps | Burn Rate | Days Inventory |
+    And user should be able to view following sub sections under Assigned (Due for Work ) section
+      | Defect SubCategory | Number of Accounts | Age | Balance | Teams | Reps | Burn Rate | Days Inventory |

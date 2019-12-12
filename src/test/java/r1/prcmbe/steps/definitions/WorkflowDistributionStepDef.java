@@ -279,4 +279,9 @@ public class WorkflowDistributionStepDef extends PageObject {
 	public void user_clicks_on_any_Payer_from_the_drilldown() { 
 		workflowDistributionPage.clickOnFirstPayerOnPayerInvtryTab();
 	}
+	
+	@Given("^User clicks on Technical radio button under the  Payer Inventory Filter in Filter Section$")
+	public void user_clicks_on_Technical_radio_button_under_the_Payer_Inventory_Filter_in_Filter_Section() {
+		workflowDistributionPage.clickTechnicalRadioBtnOnPayerInvtryTab();
+	}
 }

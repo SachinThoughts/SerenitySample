@@ -106,6 +106,9 @@ public class WorkflowDistributionPage extends PageObject {
 	@FindBy(xpath = "(//a[@class='toggle-inventory'])[1]/i")
 	private WebElementFacade firstDrildwnBtnOnPayerInvtryTab;
 
+	@FindBy(xpath = "//label[@for='payerInventoryType-02' and contains(text(),'Technical')]")
+	private WebElementFacade technicalRadioBtnOnPayorInvtryTab;
+	
 	public void isWorkflowDistributionTitleVisible() {
 		workflowDistributionTitle.shouldBeVisible();
 	}
@@ -316,6 +319,9 @@ public class WorkflowDistributionPage extends PageObject {
 
 	public void clickOnFirstPayerOnPayerInvtryTab() {
 		evaluateJavascript("arguments[0].click();", firstDrildwnBtnOnPayerInvtryTab);
+	}
 
+	public void clickTechnicalRadioBtnOnPayerInvtryTab() {
+		technicalRadioBtnOnPayorInvtryTab.click();
 	}
 }
