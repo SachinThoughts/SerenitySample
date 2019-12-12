@@ -25,8 +25,8 @@ Feature: Verify WorkFlowConfiguration related scenarios in PRCM
     And user clicks on Save button on handoff pop up
     Then Handoff Account modal pop-up window should be closed
     Then user should be able to view the "Handoff Record Saved Successfully." message
-    When user navigates to Account Action History section
-    And user clicks on Show Account Action History Notes button
-    And user should be able to view the Predefined Note saved at the top under Handoff action related grid
     When user mouse hovers event circle H under event circle in blue color for latest Handoff Action on Horizontal timeline
     Then user should be able to view the Predefined Note on mouse hovering H event circle highlighted in blue for latest Handoff Action on Horlization timeline
+    When user navigates to Account Action History section
+    And user clicks on Show Account Action History Notes button
+    Then user should be able to view the Predefined Note saved at the top under Handoff action related grid

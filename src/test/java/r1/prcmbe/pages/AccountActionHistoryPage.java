@@ -21,7 +21,7 @@ public class AccountActionHistoryPage extends PageObject {
 	@FindBy(xpath = "//*[@id='notesHistory']/li[1]/div/div/div[1]/span")
 	private WebElementFacade notesLabel;
 
-	@FindBy(xpath = "//*[@id='carousel']/div/ul/li[6]/div[last()]/div/a")
+	@FindBy(xpath = "//*[@id='carousel']//li[last()]/div[last()]//a[@class='trigger']/..")
 	private WebElementFacade latestBubble;
 
 	@FindBy(xpath = "//*[@class='popover fade top in']/div[2]/ul/li/div/div/div[1]/span")
@@ -62,7 +62,7 @@ public class AccountActionHistoryPage extends PageObject {
 		withAction().moveToElement(latestBubble).build().perform();
 	}
 
-	public String getPopoverTitle() {
-		return popoverTitle.getText().trim();
+	public boolean getPopoverTitle() {
+		return popoverTitle.isVisible();
 	}
 }

@@ -52,7 +52,7 @@ public class WorkflowConfigurationStepDef extends PageObject {
 			recipientNameOtherThanDefault, dispositionNotes, workflowName, respondDeadline, updatedBy, updatedDate,
 			successMsg, recipientName, recipientDesc, createdBy, createdDate, nextDispositionByDropdownValue,
 			dispositionStatusByDropdownValue, dispositionCodeFromTextBox, updatedRecipientDesc,
-			respondDeadlineOnEditDispositionPopUp, actionName, invoiceNumber, notesLabel, encounterId;
+			respondDeadlineOnEditDispositionPopUp, actionName, invoiceNumber, encounterId;
 
 	List<String> listDBDispositionCode = new ArrayList<String>();
 	int dbWorkFlowTypeId, dbWorkflowSubTypeId;
@@ -1288,10 +1288,10 @@ public class WorkflowConfigurationStepDef extends PageObject {
 		accInfoPage.clickOnShowAccountActionBtn();
 	}
 
-	@When("^user should be able to view the Predefined Note saved at the top under Handoff action related grid$")
+	@Then("^user should be able to view the Predefined Note saved at the top under Handoff action related grid$")
 	public void user_should_be_able_to_view_the_Predefined_Note_saved_at_the_top_under_Handoff_action_related_grid() {
-		accActionHistoryPage.isNotesLabelVisible();
-		notesLabel = accActionHistoryPage.getNotesLabel();
+		Assert.assertTrue("User not able to view predefined note saved at the top under handoff action grid",
+				accActionHistoryPage.isNotesLabelVisible());
 	}
 
 	@When("^user mouse hovers event circle H under event circle in blue color for latest Handoff Action on Horizontal timeline$")
@@ -1301,10 +1301,8 @@ public class WorkflowConfigurationStepDef extends PageObject {
 
 	@Then("^user should be able to view the Predefined Note on mouse hovering H event circle highlighted in blue for latest Handoff Action on Horlization timeline$")
 	public void user_should_be_able_to_view_the_Predefined_Note_on_mouse_hovering_H_event_circle_highlighted_in_blue_for_latest_Handoff_Action_on_Horlization_timeline() {
-		System.out.println(notesLabel);
-		System.out.println(accActionHistoryPage.getPopoverTitle());
 		Assert.assertTrue("Not able to view predefined note on mouse hovering H event circle",
-				accActionHistoryPage.getPopoverTitle().contains(notesLabel));
+				accActionHistoryPage.getPopoverTitle());
 	}
 
 	@When("^user run the query \"([^\"]*)\" and fetch encounterId$")
