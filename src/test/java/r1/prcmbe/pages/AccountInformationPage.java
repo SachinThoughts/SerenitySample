@@ -154,6 +154,9 @@ public class AccountInformationPage extends PageObject {
 	@FindBy(id = "btnNextAccount")
 	private WebElementFacade nextAccountBtn;
 
+	@FindBy(id = "handOffLabel")
+	private WebElementFacade handOffPopup;
+
 	public String getAccountNumber() {
 		waitForAngularRequestsToFinish();
 		return accountNumber.getText().trim();
@@ -458,5 +461,10 @@ public class AccountInformationPage extends PageObject {
 
 	public void clickNextAccountBtn() {
 		evaluateJavascript("arguments[0].click();", nextAccountBtn);
+	}
+
+	public boolean isHandOffPopupVisible() {
+		waitForLoaderInvisibility();
+		return handOffPopup.isVisible();
 	}
 }

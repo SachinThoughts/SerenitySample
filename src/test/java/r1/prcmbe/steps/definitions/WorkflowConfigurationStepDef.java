@@ -15,6 +15,8 @@ import net.serenitybdd.core.pages.PageObject;
 import net.thucydides.core.annotations.Steps;
 import r1.commons.databaseconnection.DatabaseConn;
 import r1.commons.utilities.CommonMethods;
+import r1.prcmbe.pages.AccountActionHistoryPage;
+import r1.prcmbe.pages.AccountInformationPage;
 import r1.prcmbe.pages.DefaultHandoffPage;
 import r1.prcmbe.pages.NavigationPage;
 import r1.prcmbe.pages.SearchPage;
@@ -22,6 +24,7 @@ import r1.prcmbe.pages.SettingsPage;
 import r1.prcmbe.pages.WorkflowConfigurationPage;
 import r1.prcmbe.serenity.steps.FinancialInfoSteps;
 import r1.prcmbe.serenity.steps.LoginSteps;
+import r1.prcmbe.serenity.steps.SearchPageSteps;
 import r1.prcmbe.serenity.steps.WorkflowConfigurationSteps;
 
 public class WorkflowConfigurationStepDef extends PageObject {
@@ -33,18 +36,23 @@ public class WorkflowConfigurationStepDef extends PageObject {
 	DefaultHandoffPage defaultHandOffPage;
 	CommonMethods commonMethods;
 	SearchPage searchPage;
+	AccountInformationPage accInfoPage;
+	AccountActionHistoryPage accActionHistoryPage;
 
 	@Steps
 	FinancialInfoSteps financialInfoSteps;
 	@Steps
 	WorkflowConfigurationSteps workflowConfigSteps;
+	@Steps
 	LoginSteps loginSteps;
+	@Steps
+	SearchPageSteps searchPageSteps;
 
 	String dbFileName = "WorkFlowConfiguration", dbHandOffName, dbRecipientName, defaultRecipientName,
 			recipientNameOtherThanDefault, dispositionNotes, workflowName, respondDeadline, updatedBy, updatedDate,
 			successMsg, recipientName, recipientDesc, createdBy, createdDate, nextDispositionByDropdownValue,
 			dispositionStatusByDropdownValue, dispositionCodeFromTextBox, updatedRecipientDesc,
-			respondDeadlineOnEditDispositionPopUp, actionName, invoiceNumber;
+			respondDeadlineOnEditDispositionPopUp, actionName, invoiceNumber, notesLabel, encounterId;
 
 	List<String> listDBDispositionCode = new ArrayList<String>();
 	int dbWorkFlowTypeId, dbWorkflowSubTypeId;
@@ -411,7 +419,7 @@ public class WorkflowConfigurationStepDef extends PageObject {
 		Assert.assertTrue(
 				"Created Date from Database " + financialInfoSteps.formatDbDateFieldWithDateTime(createdDate)
 						+ " does not match with the UI " + workflowConfigPage.getCreatedDateFieldValue(),
-						workflowConfigSteps.formatDbDateFieldWithDateTime(createdDate)
+				workflowConfigSteps.formatDbDateFieldWithDateTime(createdDate)
 						.equals(workflowConfigPage.getCreatedDateFieldValue()));
 		Assert.assertTrue(
 				"CreatedBy from the Database " + createdBy + " does not match with the UI"
@@ -1075,7 +1083,8 @@ public class WorkflowConfigurationStepDef extends PageObject {
 	}
 
 	@Then("^user should be able to view newly added Handoff Type and associated recipients, Actions and dispositions on R(\\d+) Decision screen$")
-	public void user_should_be_able_to_view_newly_added_Handoff_Type_and_associated_recipients_Actions_and_dispositions_on_R_Decision_screen(int arg) {
+	public void user_should_be_able_to_view_newly_added_Handoff_Type_and_associated_recipients_Actions_and_dispositions_on_R_Decision_screen(
+			int arg) {
 		List<String> handOffValues = new ArrayList<>();
 		handOffValues.add(DefaultHandoffStepDef.workFlowName);
 		handOffValues.add(DefaultHandoffStepDef.recipientDesc);
@@ -1107,6 +1116,74 @@ public class WorkflowConfigurationStepDef extends PageObject {
 	public void user_enters_encounterid_in_visit_number_textfield() {
 		loginSteps.log("Fetched Invoice Number from Database is " + invoiceNumber);
 		searchPage.enterInvoiceNumber(invoiceNumber);
+	}
+
+	@When("^user selects \"([^\"]*)\" handoff from Handoff Types dropdown$")
+	public void user_selects_handoff_from_Handoff_Types_dropdown(String handOffType) {
+		accInfoPage.selectHandOffType(handOffType);
+	}
+
+	@When("^user selects \"([^\"]*)\" from Create dropdown$")
+	public void user_selects_from_Create_dropdown(String value) {
+		accInfoPage.selectValueFromCreateDrpdwn(value);
+	}
+
+	@Then("^Handoff Account modal pop-up window should be closed$")
+	public void handoff_Account_modal_pop_up_window_should_be_closed() {
+		Assert.assertFalse("Handofff modal pop-up is visible", accInfoPage.isHandOffPopupVisible());
+	}
+
+	@When("^user navigates to Account Action History section$")
+	public void user_navigates_to_Account_Action_History_section() {
+		accInfoPage.scrollToAccountActionHistory();
+	}
+
+	@When("^user clicks on Show Account Action History Notes button$")
+	public void user_clicks_on_Show_Account_Action_History_Notes_button() {
+		accInfoPage.clickOnShowAccountActionBtn();
+	}
+
+	@When("^user should be able to view the Predefined Note saved at the top under Handoff action related grid$")
+	public void user_should_be_able_to_view_the_Predefined_Note_saved_at_the_top_under_Handoff_action_related_grid() {
+		accActionHistoryPage.isNotesLabelVisible();
+		notesLabel = accActionHistoryPage.getNotesLabel();
+	}
+
+	@When("^user mouse hovers event circle H under event circle in blue color for latest Handoff Action on Horizontal timeline$")
+	public void user_mouse_hovers_event_circle_H_under_event_circle_in_blue_color_for_latest_Handoff_Action_on_Horizontal_timeline() {
+		accActionHistoryPage.hoverOverLatestBubble();
+	}
+
+	@Then("^user should be able to view the Predefined Note on mouse hovering H event circle highlighted in blue for latest Handoff Action on Horlization timeline$")
+	public void user_should_be_able_to_view_the_Predefined_Note_on_mouse_hovering_H_event_circle_highlighted_in_blue_for_latest_Handoff_Action_on_Horlization_timeline() {
+		System.out.println(notesLabel);
+		System.out.println(accActionHistoryPage.getPopoverTitle());
+		Assert.assertTrue("Not able to view predefined note on mouse hovering H event circle",
+				accActionHistoryPage.getPopoverTitle().contains(notesLabel));
+	}
+
+	@When("^user run the query \"([^\"]*)\" and fetch encounterId$")
+	public void user_run_the_query_and_fetch_encounterId(String queryName) throws Exception {
+		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
+				commonMethods.loadQuery(queryName, dbFileName));
+		try {
+			while (DatabaseConn.resultSet.next()) {
+				encounterId = DatabaseConn.resultSet.getString("EncounterID");
+			}
+		} catch (SQLException exception) {
+			Assert.assertTrue("Encounter ID is not fetched from DB.\nThe Technical Error is:\n" + exception, false);
+		}
+	}
+
+	@When("^user enters encounter id$")
+	public void user_enter_encounter_id() {
+		searchPage.enterVisitNumber(encounterId);
+	}
+
+	@Then("^user should be able to view R1 Decision Account screen$")
+	public void user_should_be_able_to_view_R_Decision_Account_screen() {
+		searchPageSteps.verifyEncounterId(encounterId);
+		Assert.assertTrue("User not able to view R1 Decision Account screen", accInfoPage.isInvoiceNumberVisible());
 	}
 
 }
