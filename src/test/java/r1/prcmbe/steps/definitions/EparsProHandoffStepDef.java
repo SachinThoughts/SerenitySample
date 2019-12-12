@@ -157,15 +157,10 @@ public class EparsProHandoffStepDef {
 		eparsProHandoffPage.selectSearchByDropdownValue(searchByDrpDwnValue);
 	}
 
-	@When("^user runs the following query to get the Search Value for SSN from the database: \"([^\"]*)\"$")
-	public void user_runs_the_following_query_to_get_the_Search_Value_for_SSN_from_the_database(String query)
-			throws ClassNotFoundException, SQLException, Exception {
-		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
-				String.format(commonMethods.loadQuery(query, dbQueryFilename)));
-		listOfSearchValues.clear();
-		while (DatabaseConn.resultSet.next()) {
-			listOfSearchValues.add(DatabaseConn.resultSet.getString("SSN"));
-		}
+	@When("^E-pars user runs the following query to get the Search Value for \"([^\"]*)\" from the database: \"([^\"]*)\"$")
+	public void e_pars_user_runs_the_following_query_to_get_the_Search_Value_for_from_the_database(String searchBy,
+			String query) throws ClassNotFoundException, SQLException, Exception {
+		listOfSearchValues.addAll(eparsProHandoffSteps.getDBSearchByValues(searchBy, query));
 	}
 
 	@When("^E-pars user enters the query result in the required textboxes$")
@@ -177,28 +172,6 @@ public class EparsProHandoffStepDef {
 	public void e_pars_user_clicks_on_Submit_Button_and_gets_the_column_headers_displayed() {
 		eparsProHandoffPage.clickSubmitBtn();
 		listOfAllSearchHeaders.add(eparsProHandoffPage.getSearchResultsTableHeaders());
-	}
-
-	@When("^user runs the following query to get the Search Value for VisitNumber from the database: \"([^\"]*)\"$")
-	public void user_runs_the_following_query_to_get_the_Search_Value_for_VisitNumber_from_the_database(String query)
-			throws ClassNotFoundException, SQLException, Exception {
-		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
-				String.format(commonMethods.loadQuery(query, dbQueryFilename)));
-		listOfSearchValues.clear();
-		while (DatabaseConn.resultSet.next()) {
-			listOfSearchValues.add(DatabaseConn.resultSet.getString("EncounterID"));
-		}
-	}
-
-	@When("^user runs the following query to get the Search Value for InvoiceNumber from the database: \"([^\"]*)\"$")
-	public void user_runs_the_following_query_to_get_the_Search_Value_for_InvoiceNumber_from_the_database(String query)
-			throws ClassNotFoundException, SQLException, Exception {
-		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
-				String.format(commonMethods.loadQuery(query, dbQueryFilename)));
-		listOfSearchValues.clear();
-		while (DatabaseConn.resultSet.next()) {
-			listOfSearchValues.add(DatabaseConn.resultSet.getString("Invoicenumber"));
-		}
 	}
 
 	@When("^user selects following value from Search By drop down: \"([^\"]*)\" , with following values entered in the Search textboxes followed by click on Submit Button$")

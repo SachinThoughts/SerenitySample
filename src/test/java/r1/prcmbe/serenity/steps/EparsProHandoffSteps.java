@@ -1,12 +1,19 @@
 package r1.prcmbe.serenity.steps;
 
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import net.thucydides.core.annotations.Step;
+import r1.commons.databaseconnection.DatabaseConn;
+import r1.commons.utilities.CommonMethods;
 import r1.prcmbe.pages.EparsProHandoffPage;
 
 public class EparsProHandoffSteps {
 	EparsProHandoffPage eparsProHandoffPage;
+	CommonMethods commonMethods;
+	private static String dbQueryFilename = "EparsProHandoff";
+	List<String> listOfSearchValues = new ArrayList<>();
 
 	@Step
 	public void enterOperatorAndSearchByTextBox(String operatorValue, String textBoxValue) {
@@ -94,5 +101,33 @@ public class EparsProHandoffSteps {
 			eparsProHandoffPage.enterDateOfServiceTextBox(searchByValues.get(0));
 			break;
 		}
+	}
+
+	@Step
+	public List<String> getDBSearchByValues(String searchBy, String query)
+			throws ClassNotFoundException, SQLException, Exception {
+		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
+				String.format(commonMethods.loadQuery(query, dbQueryFilename)));
+		listOfSearchValues.clear();
+		switch (searchBy) {
+		case "Visit Number":
+			while (DatabaseConn.resultSet.next()) {
+				listOfSearchValues.add(DatabaseConn.resultSet.getString("EncounterID"));
+			}
+			break;
+
+		case "Invoice Number":
+			while (DatabaseConn.resultSet.next()) {
+				listOfSearchValues.add(DatabaseConn.resultSet.getString("Invoicenumber"));
+			}
+			break;
+
+		case "SSN":
+			while (DatabaseConn.resultSet.next()) {
+				listOfSearchValues.add(DatabaseConn.resultSet.getString("SSN"));
+			}
+			break;
+		}
+		return listOfSearchValues;
 	}
 }

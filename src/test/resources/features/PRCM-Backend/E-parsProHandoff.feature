@@ -86,7 +86,7 @@ Feature: Verify E-pars pro handoff related testcases in PRCM-BE
     Given user is on ePARS Pro screen
     When user login to SQL Server and connect to facility database
     When user selects following value from Search By drop down on Epars Page: "Visit Number"
-    And user runs the following query to get the Search Value for VisitNumber from the database: "ePARSPro_438913_SQL26"
+    And E-pars user runs the following query to get the Search Value for "Visit Number" from the database: "ePARSPro_438913_SQL26"
     And E-pars user enters the query result in the required textboxes
     And E-pars user clicks on Submit Button and gets the column headers displayed
     Then user should be able to view the grid with following columns:
@@ -115,7 +115,7 @@ Feature: Verify E-pars pro handoff related testcases in PRCM-BE
     Given user is on ePARS Pro screen
     When user login to SQL Server and connect to facility database
     When user selects following value from Search By drop down on Epars Page: "Invoice Number"
-    And user runs the following query to get the Search Value for InvoiceNumber from the database: "ePARSPro_438913_SQL26"
+    And E-pars user runs the following query to get the Search Value for "Invoice Number" from the database: "ePARSPro_438913_SQL26"
     And E-pars user enters the query result in the required textboxes
     And E-pars user clicks on Submit Button and gets the column headers displayed
     Then user should be able to view the grid with following columns:
@@ -144,7 +144,7 @@ Feature: Verify E-pars pro handoff related testcases in PRCM-BE
     Given user is on ePARS Pro screen
     When user login to SQL Server and connect to facility database
     When user selects following value from Search By drop down on Epars Page: "Social Security Number"
-    And user runs the following query to get the Search Value for SSN from the database: "ePARSPro_438926_SQL3"
+    And E-pars user runs the following query to get the Search Value for "SSN" from the database: "ePARSPro_438926_SQL3"
     And E-pars user enters the query result in the required textboxes
     And E-pars user clicks on Submit Button and gets the column headers displayed
     Then user should be able to view the grid with following columns:
