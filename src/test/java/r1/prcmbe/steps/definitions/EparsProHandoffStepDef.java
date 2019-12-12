@@ -5,6 +5,7 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.junit.Assert;
 
@@ -28,6 +29,7 @@ public class EparsProHandoffStepDef {
 	List<String> listOfDBSearchColumnHeaders = new ArrayList<>();
 	List<Object> listOfAllSearchHeaders = new ArrayList<>();
 	List<String> listOfSearchByDrpDwnValues = new ArrayList<>();
+	List<String> listOfSearchValues = new ArrayList<>();
 
 	@Steps
 	EparsProHandoffSteps eparsProHandoffSteps;
@@ -131,7 +133,7 @@ public class EparsProHandoffStepDef {
 		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
 				String.format(commonMethods.loadQuery(query, dbQueryFilename)));
 		ResultSetMetaData rsmd = DatabaseConn.resultSet.getMetaData();
-		for (int i = 1; i <= rsmd.getColumnCount(); i++) {
+		for (int i = 1; i < rsmd.getColumnCount(); i++) {
 			listOfDBSearchColumnHeaders.add(rsmd.getColumnName(i));
 		}
 	}
@@ -146,6 +148,71 @@ public class EparsProHandoffStepDef {
 			eparsProHandoffSteps.enterOperatorAndSearchByTextBox(operatorValue, textBoxValue);
 			eparsProHandoffPage.clickSubmitBtn();
 			listOfAllSearchHeaders.add(eparsProHandoffPage.getSearchResultsTableHeaders());
+		}
+	}
+
+	@When("^user selects following value from Search By drop down on Epars Page: \"([^\"]*)\"$")
+	public void user_selects_following_value_from_Search_By_drop_down_on_Epars_Page(String searchByDrpDwnValue) {
+		listOfSearchByDrpDwnValues.add(searchByDrpDwnValue);
+		eparsProHandoffPage.selectSearchByDropdownValue(searchByDrpDwnValue);
+	}
+
+	@When("^user runs the following query to get the Search Value for SSN from the database: \"([^\"]*)\"$")
+	public void user_runs_the_following_query_to_get_the_Search_Value_for_SSN_from_the_database(String query)
+			throws ClassNotFoundException, SQLException, Exception {
+		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
+				String.format(commonMethods.loadQuery(query, dbQueryFilename)));
+		listOfSearchValues.clear();
+		while (DatabaseConn.resultSet.next()) {
+			listOfSearchValues.add(DatabaseConn.resultSet.getString("SSN"));
+		}
+	}
+
+	@When("^E-pars user enters the query result in the required textboxes$")
+	public void e_pars_user_enters_the_query_result_in_the_required_textboxes() {
+		eparsProHandoffSteps.enterSearchByValue(listOfSearchValues);
+	}
+
+	@When("^E-pars user clicks on Submit Button and gets the column headers displayed$")
+	public void e_pars_user_clicks_on_Submit_Button_and_gets_the_column_headers_displayed() {
+		eparsProHandoffPage.clickSubmitBtn();
+		listOfAllSearchHeaders.add(eparsProHandoffPage.getSearchResultsTableHeaders());
+	}
+
+	@When("^user runs the following query to get the Search Value for VisitNumber from the database: \"([^\"]*)\"$")
+	public void user_runs_the_following_query_to_get_the_Search_Value_for_VisitNumber_from_the_database(String query)
+			throws ClassNotFoundException, SQLException, Exception {
+		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
+				String.format(commonMethods.loadQuery(query, dbQueryFilename)));
+		listOfSearchValues.clear();
+		while (DatabaseConn.resultSet.next()) {
+			listOfSearchValues.add(DatabaseConn.resultSet.getString("EncounterID"));
+		}
+	}
+
+	@When("^user runs the following query to get the Search Value for InvoiceNumber from the database: \"([^\"]*)\"$")
+	public void user_runs_the_following_query_to_get_the_Search_Value_for_InvoiceNumber_from_the_database(String query)
+			throws ClassNotFoundException, SQLException, Exception {
+		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
+				String.format(commonMethods.loadQuery(query, dbQueryFilename)));
+		listOfSearchValues.clear();
+		while (DatabaseConn.resultSet.next()) {
+			listOfSearchValues.add(DatabaseConn.resultSet.getString("Invoicenumber"));
+		}
+	}
+
+	@When("^user selects following value from Search By drop down: \"([^\"]*)\" , with following values entered in the Search textboxes followed by click on Submit Button$")
+	public void user_selects_following_value_from_Search_By_drop_down_with_following_values_entered_in_the_Search_textboxes_followed_by_click_on_Submit_Button(
+			String searchByDrpDwnValue, DataTable SearchValues) {
+		List<Map<String, String>> listOfFirstLastNameValues = SearchValues.asMaps(String.class, String.class);
+		eparsProHandoffPage.selectSearchByDropdownValue(searchByDrpDwnValue);
+		for (int i = 0; i < listOfFirstLastNameValues.size(); i++) {
+			listOfSearchValues.clear();
+			listOfSearchValues.add(listOfFirstLastNameValues.get(i).get("Lastname Textbox"));
+			listOfSearchValues.add(listOfFirstLastNameValues.get(i).get("Firstname Textbox"));
+			eparsProHandoffSteps.enterSearchByValue(listOfSearchValues);
+			eparsProHandoffPage.clickSubmitBtn();
+			listOfActualValidationMessages.add(eparsProHandoffPage.getValidationMessage());
 		}
 	}
 }

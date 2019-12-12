@@ -82,13 +82,14 @@ Feature: Verify E-pars pro handoff related testcases in PRCM-BE
     Then user should be able to view following message on Epars page "No record found!"
 
   @438913 @PRCMUser @Sprint103
-  Scenario: Verify that user is able to search an account with Search textbox using operators on ePARS Pro Page
+  Scenario: Verify that user is able to search an account with Search textbox using equal operator on ePARS Pro Page
     Given user is on ePARS Pro screen
-    When user selects following values from Search By drop down on Epars Page, with operator "Like" enters following data "12345" in Search textbox followed by click on Submit Button
-      | Visit Number           |
-      | Invoice Number         |
-      | Medical Records Number |
-       Then user should be able to view the grid with following columns:
+    When user login to SQL Server and connect to facility database
+    When user selects following value from Search By drop down on Epars Page: "Visit Number"
+    And user runs the following query to get the Search Value for VisitNumber from the database: "ePARSPro_438913_SQL26"
+    And E-pars user enters the query result in the required textboxes
+    And E-pars user clicks on Submit Button and gets the column headers displayed
+    Then user should be able to view the grid with following columns:
       | Account #                   |
       | Invoice #                   |
       | MRN                         |
@@ -106,6 +107,73 @@ Feature: Verify E-pars pro handoff related testcases in PRCM-BE
       | Days Open                   |
       | Billing Provider Name       |
       | Billing Physician Specialty |
-    When user is able to login to sql server and connect to database
-    And EparsPro user runs the query to get the expected columns in the grid: "ePARSPro_438913_SQL1" 
-    Then user should be able to view the same result in grid as SQL result    
+    When EparsPro user runs the query to get the expected columns in the grid: "ePARSPro_438913_SQL1" 
+    Then user should be able to view the same result in grid as SQL result
+
+  @438913 @PRCMUser @Sprint103
+  Scenario: Verify that user is able to search an account with Search textbox using equal operator on ePARS Pro Page
+    Given user is on ePARS Pro screen
+    When user login to SQL Server and connect to facility database
+    When user selects following value from Search By drop down on Epars Page: "Invoice Number"
+    And user runs the following query to get the Search Value for InvoiceNumber from the database: "ePARSPro_438913_SQL26"
+    And E-pars user enters the query result in the required textboxes
+    And E-pars user clicks on Submit Button and gets the column headers displayed
+    Then user should be able to view the grid with following columns:
+      | Account #                   |
+      | Invoice #                   |
+      | MRN                         |
+      | FName                       |
+      | LName                       |
+      | Service Code/DRG            |
+      | Department                  |
+      | Location                    |
+      | Major Payer                 |
+      | # of Touches                |
+      | Total Balance               |
+      | Disposition                 |
+      | Risk                        |
+      | Last User                   |
+      | Days Open                   |
+      | Billing Provider Name       |
+      | Billing Physician Specialty |
+    When EparsPro user runs the query to get the expected columns in the grid: "ePARSPro_438913_SQL1" 
+    Then user should be able to view the same result in grid as SQL result
+
+  @438926 @PRCMUser @Sprint103
+  Scenario: Verify that user is able to see the search result grid for SSN on ePARS Pro Page
+    Given user is on ePARS Pro screen
+    When user login to SQL Server and connect to facility database
+    When user selects following value from Search By drop down on Epars Page: "Social Security Number"
+    And user runs the following query to get the Search Value for SSN from the database: "ePARSPro_438926_SQL3"
+    And E-pars user enters the query result in the required textboxes
+    And E-pars user clicks on Submit Button and gets the column headers displayed
+    Then user should be able to view the grid with following columns:
+      | Account #                   |
+      | Invoice #                   |
+      | MRN                         |
+      | FName                       |
+      | LName                       |
+      | Service Code/DRG            |
+      | Department                  |
+      | Location                    |
+      | Major Payer                 |
+      | # of Touches                |
+      | Total Balance               |
+      | Disposition                 |
+      | Risk                        |
+      | Last User                   |
+      | Days Open                   |
+      | Billing Provider Name       |
+      | Billing Physician Specialty |
+    When EparsPro user runs the query to get the expected columns in the grid: "ePARSPro_438913_SQL1" 
+    Then user should be able to view the same result in grid as SQL result
+
+  @438932 @PRCMUser @Sprint103
+  Scenario: Verify the error message displayed when user searches an invalid Search textbox like 'abc1@' with Like operator on ePARS Pro Page
+    Given user is on ePARS Pro screen
+    When user selects following value from Search By drop down: "Last/First Name" , with following values entered in the Search textboxes followed by click on Submit Button
+      | Lastname Textbox | Firstname Textbox |
+      | @$#%._           | Test1             |
+      | Test1            | @$%^&             |
+      | @#$*( _          | @!~`^/            |
+    Then user should be able to view following message on Epars page "No record found!"

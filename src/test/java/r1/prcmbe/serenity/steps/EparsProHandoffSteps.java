@@ -57,4 +57,42 @@ public class EparsProHandoffSteps {
 		}
 		return true;
 	}
+
+	@Step
+	public void enterSearchByValue(List<String> searchByValues) {
+		switch (eparsProHandoffPage.getSearchByDropdownValue()) {
+		case "Visit Number":
+			eparsProHandoffPage.enterVisitNumberTextBox(searchByValues.get(0));
+			break;
+
+		case "Invoice Number":
+			eparsProHandoffPage.enterInvoiceNumberTextBox(searchByValues.get(0));
+			break;
+
+		case "Social Security Number":
+			eparsProHandoffPage.enterSSNTextBox(searchByValues.get(0));
+			break;
+
+		case "Last/First Name":
+			eparsProHandoffPage.enterLastNameTextBox(searchByValues.get(0));
+			eparsProHandoffPage.enterFirstNameTextBox(searchByValues.get(1));
+			break;
+
+		case "Medical Records Number":
+			eparsProHandoffPage.enterMRNTextBox(searchByValues.get(0));
+			break;
+
+		case "Claim Number":
+			eparsProHandoffPage.enterClaimNumberTextBox(searchByValues.get(0));
+			break;
+
+		case "DOB":
+			eparsProHandoffPage.enterDateOfBirthTextBox(searchByValues.get(0));
+			break;
+
+		case "Date of Service":
+			eparsProHandoffPage.enterDateOfServiceTextBox(searchByValues.get(0));
+			break;
+		}
+	}
 }
