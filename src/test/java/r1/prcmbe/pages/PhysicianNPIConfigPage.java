@@ -171,4 +171,8 @@ public class PhysicianNPIConfigPage extends PageObject {
 	public void clickAddAllPayorsBtn() {
 		addAllPayorsBtn.click();
 	}
+
+	public void clickRemoveAllPayorsBtn() {
+		removeAllPayorsBtn.click();
+	}
 }

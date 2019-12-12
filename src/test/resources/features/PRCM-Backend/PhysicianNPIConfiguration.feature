@@ -74,6 +74,15 @@ Feature: Verify Physician NPI Configuration in PRCM-BE
     Given user is on PRCM Eligibility NPI Configuration page
     When user clicks on to Edit link corresponding to the Physicians Name
     Then user should be able to view edit pop up
-    When user clicks on <<Add All Payors  button
+    When user clicks on <<Add All Payors button
     Then user should be able to view the display all Payors in Total Payors Disabled section
     And user should be able to view removed all Payors from Total Eligible Payors section
+
+  @391452 @Sprint103 @PRCMUser
+  Scenario: Verify that Disable all Payors
+    Given user is on PRCM Eligibility NPI Configuration page
+    When user clicks on to Edit link corresponding to the Physicians Name
+    Then user should be able to view edit pop up
+    When user clicks on Remove All Payors>> button
+    Then user should be able to view the display all Payors in Total Eligible Payors section
+    And user should be able to view removed all Payors from Total Disabled Payors section

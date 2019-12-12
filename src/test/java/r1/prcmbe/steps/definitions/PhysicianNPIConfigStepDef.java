@@ -184,7 +184,7 @@ public class PhysicianNPIConfigStepDef {
 				!physicianNPIConfigPage.getListOfEligiblePayorsName().contains(payor));
 	}
 
-	@When("^user clicks on <<Add All Payors  button$")
+	@When("^user clicks on <<Add All Payors button$")
 	public void user_clicks_on_Add_All_Payors_button() {
 		listOfPayorNames = physicianNPIConfigPage.getListOfEligiblePayorsName();
 		physicianNPIConfigPage.clickAddAllPayorsBtn();
@@ -198,6 +198,25 @@ public class PhysicianNPIConfigStepDef {
 
 	@Then("^user should be able to view removed all Payors from Total Eligible Payors section$")
 	public void user_should_be_able_to_view_removed_all_Payors_from_Total_Eligible_Payors_section() {
-		Assert.assertTrue(physicianNPIConfigPage.getListOfEligiblePayorsName().isEmpty());
+		Assert.assertTrue("All payors are not removed from Total Eligible Payors section",
+				physicianNPIConfigPage.getListOfEligiblePayorsName().isEmpty());
+	}
+
+	@When("^user clicks on Remove All Payors>> button$")
+	public void user_clicks_on_Remove_All_Payors_button() {
+		listOfPayorNames = physicianNPIConfigPage.getListOfDisabledPayorsName();
+		physicianNPIConfigPage.clickRemoveAllPayorsBtn();
+	}
+
+	@Then("^user should be able to view the display all Payors in Total Eligible Payors section$")
+	public void user_should_be_able_to_view_the_display_all_Payors_in_Total_Eligible_Payors_section() {
+		Assert.assertTrue("All Payors in Total Eligible Payors section are not visible",
+				physicianNPIConfigPage.getListOfEligiblePayorsName().containsAll(listOfPayorNames));
+	}
+
+	@Then("^user should be able to view removed all Payors from Total Disabled Payors section$")
+	public void user_should_be_able_to_view_removed_all_Payors_from_Total_Disabled_Payors_section() {
+		Assert.assertTrue("All payors are not removed from Total Payors Disabled section",
+				physicianNPIConfigPage.getListOfDisabledPayorsName().isEmpty());
 	}
 }
