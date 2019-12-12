@@ -34,6 +34,7 @@ Feature: Verify Tagging related scenarios in PRCM_BE
   @419678 @PRCMUser @Sprint102
   Scenario: Verify that "Category Name should not more than 100 characters" validation message display when user enters more than 100 characters in category Name.
     Given User is on Account Tags Configuration screen 
+
     When User clicks on Add New Category button
     And User enters more than 100 alphabets in Category name
     And User enters upto 500 alphabets in Category description
@@ -45,6 +46,7 @@ Feature: Verify Tagging related scenarios in PRCM_BE
   @419679 @PRCMUser @Sprint102
   Scenario: Verify that "Category Description should not more than 500 characters" validation message display when user enters more than 100 characters in category Description.
     Given User is on Account Tags Configuration screen 
+
     When User clicks on Add New Category button
     And User enters upto 100 alphabets in Category name
     And User enters more than 500 alphabets in Category description
@@ -87,3 +89,32 @@ Feature: Verify Tagging related scenarios in PRCM_BE
     Examples: 
       | Category name      | Tag Description      | query1              |
       | AutomationTestEdit | EditedTestDesciption | Tagging_419677_SQL1 |
+
+  @419682 @PRCMUser @Sprint103
+  Scenario Outline: Verify that user is able to update tag name page
+    Given User is on Account Tags Configuration screen
+    When User clicks on Radio button of any category
+    And User clicks on Continue button
+    Then User should be able to navigate to TAG NAME tab
+    And User should be able to view Selected Category Label
+    And User should be able to view Selected Category Name label
+    And User should be able to view following Grid headers
+      | Tag Name        |
+      | Tag Description |
+      | Facilities      |
+      | Created By      |
+      | Updated By      |
+      | Active          |
+    When User clicks on Add New Tag button
+    And User enters the value for Tag Name <Tag Name> in Enter Tag Name textbox
+    And User enters the value for Tag Description <Tag Description> in Enter Tag Description textbox
+    And user selects multiple Facilities <facility1> and <facility2> from Facilities drop down
+    And User clicks on Save button and captures success message
+    Then User should be able to view the Success message "Success! Tag Name has been added successfully"
+    When user login to SQL server and connect to "Accretive" database
+    And user runs query two the query to get newly added tag <query2>
+    Then User should be able to view the newly added Tag in SQL result.
+
+    Examples: 
+      | Tag Name       | Tag Description   | query2              | facility1 | facility2 |
+      | AutomationTest | TestTagDesciption | Tagging_419682_SQL1 | WPWI      | ABIL      |
