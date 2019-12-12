@@ -198,7 +198,7 @@ public class SearchStepDef extends PageObject {
 				commonMethods.loadQuery(queryName, dbQueryFilename));
 		try {
 			while (DatabaseConn.resultSet.next()) {
-				dbInvoiceNumber = DatabaseConn.resultSet.getString(1);
+				dbInvoiceNumber = DatabaseConn.resultSet.getString("Invoicenumber");
 			}
 		} catch (SQLException sQLException) {
 			Assert.assertTrue("Invoice number is not fetched from DB.\nThe Technical Error is:\n" + sQLException,
