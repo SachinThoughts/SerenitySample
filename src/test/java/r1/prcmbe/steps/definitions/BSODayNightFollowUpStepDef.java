@@ -1,5 +1,6 @@
 package r1.prcmbe.steps.definitions;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import org.junit.Assert;
@@ -16,9 +17,10 @@ import r1.prcmbe.pages.AccountInformationPage;
 import r1.prcmbe.pages.NavigationPage;
 import r1.prcmbe.pages.WorkflowConfigurationPage;
 import r1.prcmbe.serenity.steps.BSODayNightHandoffSteps;
+import r1.prcmbe.serenity.steps.FinancialInfoSteps;
 
 public class BSODayNightFollowUpStepDef extends PageObject {
-	
+
 	AccountInformationPage accInfoPage;
 	CommonMethods commonMethods;
 	WorkflowConfigurationPage workflowConfigPage;
@@ -27,9 +29,11 @@ public class BSODayNightFollowUpStepDef extends PageObject {
 
 	@Steps
 	BSODayNightHandoffSteps bSODayNightHandoffSteps;
+	@Steps
+	FinancialInfoSteps financialInfoSteps;
 
 	String expectedCreateDrpdwnValue, expectedWhyDrpdownValue, expectedHandoffType, junkTestData = "Testing",
-			actualValidationMessage, actualDispositionName;
+			actualValidationMessage, actualDispositionName, dbHandoffedInvoiceId;
 	private static String dbQueryFilename = "BSODayNightFollowUp";
 
 	@When("^user executes the query to fetch InvoiceNumber (.*)$")
@@ -239,11 +243,44 @@ public class BSODayNightFollowUpStepDef extends PageObject {
 				.getRecentAddedAccountActionHistoryValue(3).equals(bSODayNightHandoffSteps.getCurrentDate()));
 		Assert.assertTrue("Created User Appeared different From Handoff Taken User ",
 				bSODayNightHandoffSteps.verifySystemUserMappedWithCreatedUser());
-		
 	}
 
 	@When("^user clicks on Billing & Follow-up Footer link$")
 	public void user_clicks_on_Billing_Follow_up_Footer_link() {
 		navigationPage.clickOnBillingAndFollowUpFooterLink();
+	}
+
+	@When("^user runs the \"([^\"]*)\" query to fetch the handoffed Invoice ID$")
+	public void user_runs_the_query_to_fetch_the_handoffed_Invoice_ID(String queryName) throws ClassNotFoundException, SQLException, Exception {
+		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
+				commonMethods.loadQuery(queryName, dbQueryFilename));
+		try {
+			while (DatabaseConn.resultSet.next()) {
+				dbHandoffedInvoiceId = DatabaseConn.resultSet.getString("invoiceid");
+			}
+		} catch (SQLException sQLException) {
+			Assert.assertTrue("InvoiceId are not fetched from DB.\nThe Technical Error is:\n" + sQLException, false);
+		}
+		financialInfoSteps.log("Handoffed invoice Id of names from DB:\n" + dbHandoffedInvoiceId);
+	}
+
+	@Then("^user should be able to view invoiceid as sql result$")
+	public void user_should_be_able_to_view_invoiceid_as_sql_result() {
+		Assert.assertTrue(
+				"User is not able to view invoiceid as sql results . Invoice Id from Db :" + dbHandoffedInvoiceId,
+				!dbHandoffedInvoiceId.isEmpty());
+	}
+
+	@When("^user runs the \"([^\"]*)\" query to fetch result Set$")
+	public void user_runs_the_query_to_fetch_result_Set(String queryName) throws ClassNotFoundException, SQLException, Exception {
+		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
+				String.format(commonMethods.loadQuery(queryName, dbQueryFilename),dbHandoffedInvoiceId));
+	}
+
+	@Then("^user should be able to view hand off action as sql result$")
+	public void user_should_be_able_to_view_hand_off_action_as_sql_result() throws SQLException {
+		Assert.assertTrue(
+				"User is not able to view hand off action as sql result . " + dbHandoffedInvoiceId,
+				DatabaseConn.resultSet.next());
 	}
 }
