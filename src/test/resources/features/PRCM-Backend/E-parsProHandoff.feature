@@ -169,7 +169,7 @@ Feature: Verify E-pars pro handoff related testcases in PRCM-BE
     Then user should be able to view the same result in grid as SQL result
 
   @438932 @PRCMUser @Sprint103
-  Scenario: Verify the error message displayed when user searches an invalid Search textbox like 'abc1@' with Like operator on ePARS Pro Page
+  Scenario: Verify the error message displayed when user enter special characters in Last Name/First Name textbox on ePARS Pro screen
     Given user is on ePARS Pro screen
     When user selects following value from Search By drop down: "Last/First Name" , with following values entered in the Search textboxes followed by click on Submit Button
       | Lastname Textbox | Firstname Textbox |
