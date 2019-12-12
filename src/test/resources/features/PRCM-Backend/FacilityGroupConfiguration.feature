@@ -119,3 +119,20 @@ Feature: Verify Factility Group Configuration related scenarios in PRCM-BE
     Examples: 
       | Facility Group Name      |
       | Ascension - Wheaton PRCM |
+
+  @391425 @AHtoDecisionAdmin @Sprint103
+  Scenario: Verify the IsPRCMEnabled checkbox is remains unchecked when Facility group has NO PRCM enabled facility
+    Given user is on Facility Group Configuration screen
+    When user clicks on Add New Facility Group button
+    Then user should be able to view new pop up window on clicking
+    And user enters the Facility Group Name as "TestNoPrcmEnabled"
+    And user selects Facilities "GRMC" such no Selected Facility is PRCM enabled
+    Then user should be able to view that the IsPRCMEnabled checkbox is automatically unchecked
+    And clicks on save button
+    When user clicks on billing & follow-up from the footer
+    And user hover on R1_Decision
+    And user clicks on Workflow Distribution link
+    Then user should be able to view workflow distribution screen
+    When user is on Workflow Distribution screen
+    And user clicks on facility group dropdown list
+    Then user should be able to view the WFD screen should be displayed in non-PRCM view
