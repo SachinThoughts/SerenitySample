@@ -279,4 +279,27 @@ public class RelatedAccountsPage extends PageObject {
 		} while (flag == false);
 		return invoiceNumbers;
 	}
+	
+	public String clickAndGetVisitNumberHyperLinkedForNAInvoiceNumber() {
+		waitForAngularRequestsToFinish();
+		boolean flag = false;
+		String clickedVisitNumber="";
+		do {
+			int count = 0;
+			for (WebElementFacade invoice : relatedInvoicesList) {
+				if (invoice.getText().equals("N/A")) {
+					clickedVisitNumber=relatedVisitsList.get(count).getText();
+					relatedVisitsList.get(count).click();
+					return clickedVisitNumber;
+				}
+				count++;
+			}
+			flag = nextBtnDisabled.isVisible();
+			if (flag == false) {
+				nextBtn.click();
+				paginationSpinner.waitUntilNotVisible();
+			}
+		} while (flag == false);
+		return null;
+	}
 }
