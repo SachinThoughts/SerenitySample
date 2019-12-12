@@ -2,9 +2,11 @@ package r1.prcmbe.pages;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 import net.serenitybdd.core.annotations.findby.FindBy;
 import net.serenitybdd.core.pages.PageObject;
 import net.serenitybdd.core.pages.WebElementFacade;
+
 
 public class WorkflowDistributionPage extends PageObject {
 
@@ -105,6 +107,21 @@ public class WorkflowDistributionPage extends PageObject {
 
 	@FindBy(xpath = "(//a[@class='toggle-inventory'])[1]/i")
 	private WebElementFacade firstDrildwnBtnOnPayerInvtryTab;
+
+	@FindBy(id = "ddlFacilityFilters")
+	private WebElementFacade facilityDropdown;
+
+	public void clickAnyFacilityFromFacilityDrpdown() {
+		List<String> listOfAllFacilities;
+		listOfAllFacilities = facilityDropdown.getSelectOptions();
+		int size = listOfAllFacilities.size();
+		int randnMumber = ThreadLocalRandom.current().nextInt(1, size);
+		facilityDropdown.selectByIndex(randnMumber);
+	}
+
+	public void selectFacilityFromFacilityDropdown(String text) {
+		facilityDropdown.selectByVisibleText(text);
+	}
 
 	public void isWorkflowDistributionTitleVisible() {
 		workflowDistributionTitle.shouldBeVisible();
@@ -316,15 +333,16 @@ public class WorkflowDistributionPage extends PageObject {
 
 	public void clickOnFirstPayerOnPayerInvtryTab() {
 		evaluateJavascript("arguments[0].click();", firstDrildwnBtnOnPayerInvtryTab);
-}
+	}
+
 	public boolean isWorkflowDistributionPageVisible() {
 		return workflowDistributionTitle.isVisible();
 	}
-	
+
 	public boolean isFacilityGrpNamePresentInTheDropdown(String facilityGrpName) {
 		List<String> facilityGrpList;
-		facilityGrpList=facilityGrpDrpDwn.getSelectOptions();
+		facilityGrpList = facilityGrpDrpDwn.getSelectOptions();
 		return facilityGrpList.contains(facilityGrpName);
 	}
-	
+
 }
