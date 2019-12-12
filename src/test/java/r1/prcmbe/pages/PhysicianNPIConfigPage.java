@@ -136,4 +136,39 @@ public class PhysicianNPIConfigPage extends PageObject {
 		String[] totalPayorDisabled = getTotalPayorsDisabled().split(": ", 0);
 		return Integer.parseInt(totalPayorDisabled[1]);
 	}
+
+	public void enterSearchEligibleTxtBox(String eligiblePayor) {
+		searchEligibleTxtBox.type(eligiblePayor);
+	}
+
+	public int getCountOfTotalEligiblePayors() {
+		String[] totalPayorEligible = getTotalEligiblePayors().split(": ", 0);
+		return Integer.parseInt(totalPayorEligible[1]);
+	}
+
+	public void clickSearchedDisabledPayorsName(String searchedPayorName) {
+		int index = 0;
+		for (String payorName : getListOfDisabledPayorsName()) {
+			if (payorName.equals(searchedPayorName)) {
+				listOfDisabledPayorsName.get(index).click();
+				break;
+			}
+			index++;
+		}
+	}
+
+	public void clickSearchedEligiblePayorsName(String searchedPayorName) {
+		int index = 0;
+		for (String payorName : getListOfEligiblePayorsName()) {
+			if (payorName.equals(searchedPayorName)) {
+				listOfEligiblePayorsName.get(index).click();
+				break;
+			}
+			index++;
+		}
+	}
+
+	public void clickAddAllPayorsBtn() {
+		addAllPayorsBtn.click();
+	}
 }

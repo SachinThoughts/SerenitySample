@@ -47,40 +47,40 @@ public class RelatedAccountsPage extends PageObject {
 
 	@FindBy(xpath = "//*[@id='loadingDiv']/i")
 	private WebElementFacade paginationSpinner;
-	
+
 	@FindBy(xpath = "//*[@id='tbRelatedAccount']/tbody/tr[2]/td[2]")
 	private WebElementFacade firstInvoiceNumber;
-	
+
 	@FindBy(xpath = "//*[@id='tbRelatedAccount']/tbody/tr[2]/td[1]")
 	private WebElementFacade firstVisitNumber;
-	
+
 	@FindBy(xpath = "//*[@id='tbRelatedAccount']//tr/td[2]")
 	private List<WebElementFacade> relatedInvoicesList;
-	
+
 	@FindBy(xpath = "//*[@id='tbRelatedAccount']//tr/td[4]")
 	private List<WebElementFacade> admitDatesList;
-	
+
 	@FindBy(xpath = "//*[@id='tbRelatedAccount']//tr/td[5]")
 	private List<WebElementFacade> dischargeDatesList;
-	
+
 	@FindBy(xpath = "//*[@id='tbRelatedAccount']//tr/td[6]")
 	private List<WebElementFacade> patientTypesList;
-	
+
 	@FindBy(xpath = "//*[@id='tbRelatedAccount']//tr/td[3]")
 	private List<WebElementFacade> facilityCodesList;
-	
+
 	@FindBy(xpath = "//*[@id='tbRelatedAccount']//tr/td[7]")
 	private List<WebElementFacade> payorPlanCodesList;
-	
+
 	@FindBy(xpath = "//*[@id='tbRelatedAccount']//tr/td[8]")
 	private List<WebElementFacade> insuranceBalanceList;
-	
+
 	@FindBy(xpath = "//*[@id='tbRelatedAccount']//tr/td[9]")
 	private List<WebElementFacade> patientBalanceList;
-	
+
 	@FindBy(xpath = "//*[@id='tbRelatedAccount']//tr/td[10]")
 	private List<WebElementFacade> defectTypesList;
-	
+
 	@FindBy(xpath = "//*[@id='tbRelatedAccount']//tr/td[11]")
 	private List<WebElementFacade> defectSubTypesList;
 
@@ -97,31 +97,19 @@ public class RelatedAccountsPage extends PageObject {
 	}
 
 	public boolean isFirstBtnVisible() {
-		if (firstBtnList.size() == 2) {
-			return true;
-		}
-		return false;
+		return firstBtnList.size() == 2;
 	}
 
 	public boolean isPreviousBtnVisible() {
-		if (previousBtnList.size() == 2) {
-			return true;
-		}
-		return false;
+		return previousBtnList.size() == 2;
 	}
 
 	public boolean isNextBtnVisible() {
-		if (nextBtnList.size() == 2) {
-			return true;
-		}
-		return false;
+		return nextBtnList.size() == 2;
 	}
 
 	public boolean isLastBtnVisible() {
-		if (lastBtnList.size() == 2) {
-			return true;
-		}
-		return false;
+		return lastBtnList.size() == 2;
 	}
 
 	public String getDefaultSelectedPage() {
@@ -155,21 +143,21 @@ public class RelatedAccountsPage extends PageObject {
 		} while (flag == false);
 		return visitNumbers;
 	}
-	
+
 	public boolean isInvoiceNumberClickable() {
-		if(!firstInvoiceNumber.isClickable()) {
+		if (!firstInvoiceNumber.isClickable()) {
 			return firstVisitNumber.isClickable();
 		}
 		return firstInvoiceNumber.isClickable();
 	}
-	
+
 	public boolean isVisitNumberHyperLinkedForNAInvoiceNumber() {
 		boolean flag = false;
 		do {
-			int count=0;
+			int count = 0;
 			for (WebElementFacade invoice : relatedInvoicesList) {
-				if(invoice.getText().equals("N/A")) {
-				return relatedVisitsList.get(count).isClickable();	
+				if (invoice.getText().equals("N/A")) {
+					return relatedVisitsList.get(count).isClickable();
 				}
 				count++;
 			}
@@ -181,93 +169,93 @@ public class RelatedAccountsPage extends PageObject {
 		} while (flag == false);
 		return false;
 	}
-	
-	public List<String> getVisitsListCurrentPage(){
+
+	public List<String> getVisitsListCurrentPage() {
 		List<String> visitNumbers = new ArrayList<>();
-			for (WebElementFacade visit : relatedVisitsList) {
-				visitNumbers.add(visit.getText().trim());
-			}
-			return visitNumbers;
+		for (WebElementFacade visit : relatedVisitsList) {
+			visitNumbers.add(visit.getText().trim());
+		}
+		return visitNumbers;
 	}
-	
-	public List<String> getInvoicesListCurrentPage(){
+
+	public List<String> getInvoicesListCurrentPage() {
 		List<String> invoiceNumbers = new ArrayList<>();
-			for (WebElementFacade invoice : relatedInvoicesList) {
-				invoiceNumbers.add(invoice.getText().trim());
-			}
-			return invoiceNumbers;
+		for (WebElementFacade invoice : relatedInvoicesList) {
+			invoiceNumbers.add(invoice.getText().trim());
+		}
+		return invoiceNumbers;
 	}
-	
-	public List<String> getAdmitDatesListCurrentPage(){
+
+	public List<String> getAdmitDatesListCurrentPage() {
 		List<String> admitDates = new ArrayList<>();
-			for (WebElementFacade date : admitDatesList) {
-				admitDates.add(date.getText().trim());
-			}
-			return admitDates;
+		for (WebElementFacade date : admitDatesList) {
+			admitDates.add(date.getText().trim());
+		}
+		return admitDates;
 	}
-	
-	public List<String> getDischargeDatesListCurrentPage(){
+
+	public List<String> getDischargeDatesListCurrentPage() {
 		List<String> dischargeDates = new ArrayList<>();
-			for (WebElementFacade date : dischargeDatesList) {
-				dischargeDates.add(date.getText().trim());
-			}
-			return dischargeDates;
+		for (WebElementFacade date : dischargeDatesList) {
+			dischargeDates.add(date.getText().trim());
+		}
+		return dischargeDates;
 	}
-	
-	public List<String> getPatientTypesListCurrentPage(){
+
+	public List<String> getPatientTypesListCurrentPage() {
 		List<String> patientTypes = new ArrayList<>();
-			for (WebElementFacade patientType : patientTypesList) {
-				patientTypes.add(patientType.getText().trim());
-			}
-			return patientTypes;
+		for (WebElementFacade patientType : patientTypesList) {
+			patientTypes.add(patientType.getText().trim());
+		}
+		return patientTypes;
 	}
-	
-	public List<String> getFacilityCodesListCurrentPage(){
+
+	public List<String> getFacilityCodesListCurrentPage() {
 		List<String> facilityCodes = new ArrayList<>();
-			for (WebElementFacade facilityCode : facilityCodesList) {
-				facilityCodes.add(facilityCode.getText().trim());
-			}
-			return facilityCodes;
+		for (WebElementFacade facilityCode : facilityCodesList) {
+			facilityCodes.add(facilityCode.getText().trim());
+		}
+		return facilityCodes;
 	}
-	
-	public List<String> getPayorPlanCodesListCurrentPage(){
+
+	public List<String> getPayorPlanCodesListCurrentPage() {
 		List<String> payorPlanCodes = new ArrayList<>();
-			for (WebElementFacade planCode : payorPlanCodesList) {
-				payorPlanCodes.add(planCode.getText().trim());
-			}
-			return payorPlanCodes;
+		for (WebElementFacade planCode : payorPlanCodesList) {
+			payorPlanCodes.add(planCode.getText().trim());
+		}
+		return payorPlanCodes;
 	}
-	
-	public List<String> getInsuranceBalanceListCurrentPage(){
+
+	public List<String> getInsuranceBalanceListCurrentPage() {
 		List<String> insuranceBalances = new ArrayList<>();
-			for (WebElementFacade insuranceBalance : insuranceBalanceList) {
-				insuranceBalances.add(insuranceBalance.getText().trim());
-			}
-			return insuranceBalances;
+		for (WebElementFacade insuranceBalance : insuranceBalanceList) {
+			insuranceBalances.add(insuranceBalance.getText().trim());
+		}
+		return insuranceBalances;
 	}
-	
-	public List<String> getPatientBalanceListCurrentPage(){
+
+	public List<String> getPatientBalanceListCurrentPage() {
 		List<String> patientBalances = new ArrayList<>();
-			for (WebElementFacade patientBalance : patientBalanceList) {
-				patientBalances.add(patientBalance.getText().trim());
-			}
-			return patientBalances;
+		for (WebElementFacade patientBalance : patientBalanceList) {
+			patientBalances.add(patientBalance.getText().trim());
+		}
+		return patientBalances;
 	}
-	
-	public List<String> getDefectTypesListCurrentPage(){
+
+	public List<String> getDefectTypesListCurrentPage() {
 		List<String> defectTypes = new ArrayList<>();
-			for (WebElementFacade defectType : defectTypesList) {
-				defectTypes.add(defectType.getText().trim());
-			}
-			return defectTypes;
+		for (WebElementFacade defectType : defectTypesList) {
+			defectTypes.add(defectType.getText().trim());
+		}
+		return defectTypes;
 	}
-	
-	public List<String> getDefectSubTypesListCurrentPage(){
+
+	public List<String> getDefectSubTypesListCurrentPage() {
 		List<String> defectSubTypes = new ArrayList<>();
-			for (WebElementFacade defectSubType : defectSubTypesList) {
-				defectSubTypes.add(defectSubType.getText().trim());
-			}
-			return defectSubTypes;
+		for (WebElementFacade defectSubType : defectSubTypesList) {
+			defectSubTypes.add(defectSubType.getText().trim());
+		}
+		return defectSubTypes;
 	}
 	
 	public String clickAndGetInvoiceNumber() {
