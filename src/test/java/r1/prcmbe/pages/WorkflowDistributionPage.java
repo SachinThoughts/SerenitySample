@@ -115,8 +115,8 @@ public class WorkflowDistributionPage extends PageObject {
 		List<String> listOfAllFacilities;
 		listOfAllFacilities = facilityDropdown.getSelectOptions();
 		int size = listOfAllFacilities.size();
-		int randnMumber = ThreadLocalRandom.current().nextInt(1, size);
-		facilityDropdown.selectByIndex(randnMumber);
+		int randomNumber = ThreadLocalRandom.current().nextInt(1, size);
+		facilityDropdown.selectByIndex(randomNumber);
 	}
 
 	public void selectFacilityFromFacilityDropdown(String text) {
