@@ -12,4 +12,5 @@ import net.serenitybdd.cucumber.CucumberWithSerenity;
 
 				"r1.prcmbe.steps.definitions" })
 public class RunnerTest {
+
 }
