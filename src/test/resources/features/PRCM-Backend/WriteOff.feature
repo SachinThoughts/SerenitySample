@@ -29,16 +29,16 @@ Feature: Verify write off related testcases in PRCM-BE
   Scenario: Verify that user is able to  see Write-Off  Pop-up Window with mandatory fields and Nextfollowup date=0 and Timelimitdate=999
     #Given user should be able to view R1 Decision Account screen
     When user clicks on Approvals link
-    #Then user should be able to view the Approval Request  popup
-    #And user should be able to view Category drop down
-    #And user should be able to view Write Off Type dropdown
-    #And user should be able to view Write Off Amount dropdown
-    #And user should be able to view Notes text area
-    #And user should be able to view Close button
-    #And user should be able to view Save button
+    Then user should be able to view the Approval Request  popup
+    And user should be able to view Category drop down
+    And user should be able to view Write Off Type dropdown
+    And user should be able to view Write Off Amount dropdown
+    And user should be able to view Notes text area
+    And user should be able to view Close button
+    And user should be able to view Save button
     When user selects "Write Off" option from Category dropdown
     And user selects "Medical Necessity" from Write Off Type dropdown
-    #Then user should be able to view T-Code to Use drodown
+    Then user should be able to view T-Code to Use drodown
     And user selects "DENIED FOR FREQUENCY ADJUSTMENT-7057" from T-Code to Use dropdown
     And user enters amount "1.00" in Write off Amount textbox
     And user enters "Automation Testing Note" in Notes textbox
