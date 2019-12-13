@@ -319,14 +319,10 @@ public class FacilityGroupConfigurationStepDef extends PageObject {
 	@Then("^user should be able to view 2 facility group Test1 and Test2 having one facility \"([^\"]*)\" common on both$")
 	public void user_should_be_able_to_view_2_facility_group_test1_and_test2_having_one_facility_something_common_on_both(
 			String commonFacilityCode) {
-
 		Assert.assertTrue("Facility group 1 does not contains common facility", facilityGrpConfigPage
 				.checkFacilityGrpContainsCommonFacilityCode(facilityGroupNameFromUI, commonFacilityCode));
-		System.out.println(facilityGroupNameFromUI);
-
 		Assert.assertTrue("Facility group 2  does not contains common facility", facilityGrpConfigPage
 				.checkFacilityGrpContainsCommonFacilityCode(nonPrcmFacilityGroupNameFromUI, commonFacilityCode));
-		System.out.println(nonPrcmFacilityGroupNameFromUI);
 
 	}
 
