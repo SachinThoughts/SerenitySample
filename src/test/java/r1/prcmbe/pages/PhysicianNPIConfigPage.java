@@ -52,6 +52,12 @@ public class PhysicianNPIConfigPage extends PageObject {
 	@FindBy(xpath = "//*[@id='editPhysicianNPIPayors']/descendant::h3")
 	private WebElementFacade popUpMsgAndPhysicianNameNPI;
 
+	@FindBy(xpath = "//div[@id='generalPopUpMsg']/descendant::h3")
+	private WebElementFacade saveConfigMsg;
+
+	@FindBy(xpath = "//ul[@class='list-table-body physician-list']/li[1]/div[4]")
+	private WebElementFacade firstPhyTotalDisabledCount;
+
 	private String cancelBtnJS = "$('#editPhysicianNPIPayors > div > div > div.modal-footer > button.btn.btn-default')";
 
 	private String saveBtnJS = "$('#btnSave')";
@@ -170,5 +176,27 @@ public class PhysicianNPIConfigPage extends PageObject {
 
 	public void clickAddAllPayorsBtn() {
 		addAllPayorsBtn.click();
+	}
+
+	public void clickRemoveAllPayorsBtn() {
+		removeAllPayorsBtn.click();
+	}
+
+	public String getSaveConfigMsg() {
+		return saveConfigMsg.getText();
+	}
+
+	public void clickSaveBtn() {
+		evaluateJavascript(saveBtnJS + ".click()");
+	}
+
+	public int firstPhyTotalDisabledCount() {
+		waitForAngularRequestsToFinish();
+		return Integer.parseInt(firstPhyTotalDisabledCount.getText());
+	}
+
+	public String getFirstPhysiciansFirstName() {
+		String[] physicianName = getFirstPhysicianName().split(", ", 0);
+		return physicianName[1].trim();
 	}
 }
