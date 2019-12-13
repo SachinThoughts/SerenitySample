@@ -9,7 +9,6 @@ import org.junit.Assert;
 
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-import net.serenitybdd.core.pages.PageObject;
 import net.thucydides.core.annotations.Steps;
 import r1.commons.databaseconnection.DatabaseConn;
 import r1.commons.utilities.CommonMethods;
@@ -20,7 +19,7 @@ import r1.prcmbe.serenity.steps.FinancialInfoSteps;
 import r1.prcmbe.serenity.steps.PRCMSaveSteps;
 import r1.prcmbe.serenity.steps.SearchPageSteps;
 
-public class PRCMSaveStepDef extends PageObject {
+public class PRCMSaveStepDef {
 
 	DefectWorkflowPage defectWorkflowPage;
 	CommonMethods commonMethods;
