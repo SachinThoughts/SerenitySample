@@ -1,5 +1,6 @@
 package r1.prcmbe.steps.definitions;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,6 +10,8 @@ import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import net.thucydides.core.annotations.Steps;
+import r1.commons.databaseconnection.DatabaseConn;
+import r1.commons.utilities.CommonMethods;
 import r1.prcmbe.pages.PhysicianNPIConfigPage;
 import r1.prcmbe.pages.SettingsPage;
 import r1.prcmbe.serenity.steps.PhysicianNPIConfigSteps;
@@ -16,13 +19,15 @@ import r1.prcmbe.serenity.steps.PhysicianNPIConfigSteps;
 public class PhysicianNPIConfigStepDef {
 	SettingsPage settingsPage;
 	PhysicianNPIConfigPage physicianNPIConfigPage;
+	CommonMethods commonMethods;
 
 	@Steps
 	PhysicianNPIConfigSteps physicianNPIConfigSteps;
 
-	String physicianName, physicianNPI, payor;
+	String physicianName, physicianNPI, payor, physicianFirstName;
 	List<String> listOfPayorNames = new ArrayList<>();
-	int payorSize;
+	int payorSize = 0, existingEntryCount = 0, newEntryCount = 0, cntOfTotalPayorsDisabled = 0;
+	private static String dbQueryFilename = "PhysicianNPIConfig";
 
 	@When("^user hovers Payor and Plan Config$")
 	public void user_hovers_Payor_and_Plan_Config() {
@@ -167,7 +172,7 @@ public class PhysicianNPIConfigStepDef {
 				!physicianNPIConfigPage.getListOfDisabledPayorsName().contains(payor));
 	}
 
-	@When("^the user clicks on '\\+' sign for a Payor record under Total Eligible Payors section$")
+	@When("^the user clicks on '\\+' sign for a Payor record under Total Eligible Payors section$|^user clicks on '\\+' button to disabled some of the payer$")
 	public void the_user_clicks_on_sign_for_a_Payor_record_under_Total_Eligible_Payors__section() {
 		physicianNPIConfigPage.clickSearchedEligiblePayorsName(payor);
 	}
@@ -184,7 +189,7 @@ public class PhysicianNPIConfigStepDef {
 				!physicianNPIConfigPage.getListOfEligiblePayorsName().contains(payor));
 	}
 
-	@When("^user clicks on <<Add All Payors  button$")
+	@When("^user clicks on <<Add All Payors button$")
 	public void user_clicks_on_Add_All_Payors_button() {
 		listOfPayorNames = physicianNPIConfigPage.getListOfEligiblePayorsName();
 		physicianNPIConfigPage.clickAddAllPayorsBtn();
@@ -198,6 +203,78 @@ public class PhysicianNPIConfigStepDef {
 
 	@Then("^user should be able to view removed all Payors from Total Eligible Payors section$")
 	public void user_should_be_able_to_view_removed_all_Payors_from_Total_Eligible_Payors_section() {
-		Assert.assertTrue(physicianNPIConfigPage.getListOfEligiblePayorsName().isEmpty());
+		Assert.assertTrue("All payors are not removed from Total Eligible Payors section",
+				physicianNPIConfigPage.getListOfEligiblePayorsName().isEmpty());
+	}
+
+	@When("^user clicks on Remove All Payors>> button$")
+	public void user_clicks_on_Remove_All_Payors_button() {
+		listOfPayorNames = physicianNPIConfigPage.getListOfDisabledPayorsName();
+		physicianNPIConfigPage.clickRemoveAllPayorsBtn();
+	}
+
+	@Then("^user should be able to view the display all Payors in Total Eligible Payors section$")
+	public void user_should_be_able_to_view_the_display_all_Payors_in_Total_Eligible_Payors_section() {
+		Assert.assertTrue("All Payors in Total Eligible Payors section are not visible",
+				physicianNPIConfigPage.getListOfEligiblePayorsName().containsAll(listOfPayorNames));
+	}
+
+	@Then("^user should be able to view removed all Payors from Total Disabled Payors section$")
+	public void user_should_be_able_to_view_removed_all_Payors_from_Total_Disabled_Payors_section() {
+		Assert.assertTrue("All payors are not removed from Total Payors Disabled section",
+				physicianNPIConfigPage.getListOfDisabledPayorsName().isEmpty());
+	}
+
+	@When("^user runs the \"([^\"]*)\" query for Physician NPI$")
+	public void user_runs_the_something_query(String queryName) throws Exception {
+		physicianFirstName = physicianNPIConfigPage.getFirstPhysiciansFirstName();
+		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
+				String.format(commonMethods.loadQuery(queryName, dbQueryFilename), physicianFirstName));
+	}
+
+	@When("^user view existing entry in physician in EligibilityNPIDisabled column$")
+	public void user_view_existing_entry_in_physician_in_EligibilityNPIDisabled_column() {
+		try {
+			while (DatabaseConn.resultSet.next()) {
+				existingEntryCount++;
+			}
+		} catch (SQLException sQLException) {
+			Assert.assertTrue("results are not fetched from DB.\nThe Technical Error is:\n" + sQLException, false);
+		}
+	}
+
+	@When("^user clicks on save button$")
+	public void user_clicks_on_save_button() {
+		physicianNPIConfigPage.clickSaveBtn();
+	}
+
+	@Then("^user should be able to view the success message \"([^\"]*)\"$")
+	public void user_should_be_able_to_view_the_success_message(String message) {
+		Assert.assertTrue("'" + message + "' message is not visible",
+				physicianNPIConfigPage.getSaveConfigMsg().equals(message.toUpperCase()));
+	}
+
+	@When("^user gets count of the Total Payors Disabled$")
+	public void user_gets_count_of_the_Total_Payors_Disabled() {
+		cntOfTotalPayorsDisabled = physicianNPIConfigPage.getCountOfTotalPayorsDisabled();
+	}
+
+	@Then("^user is able to see the number of payer which are disabled in total disabled payer column$")
+	public void user_is_able_to_see_the_number_of_payer_which_are_disabled_in_total_disabled_payer_column() {
+		Assert.assertTrue("Number of payors which are disabled are not visible in total disabled payer column",
+				cntOfTotalPayorsDisabled == physicianNPIConfigPage.firstPhyTotalDisabledCount());
+	}
+
+	@Then("^user should be able to view the entry in physician in EligibilityNPIDisabled column$")
+	public void user_should_be_able_to_view_the_entry_in_physician_in_EligibilityNPIDisabled_column() {
+		try {
+			while (DatabaseConn.resultSet.next()) {
+				newEntryCount++;
+			}
+		} catch (SQLException sQLException) {
+			Assert.assertTrue("results are not fetched from DB.\nThe Technical Error is:\n" + sQLException, false);
+		}
+		Assert.assertTrue("New entry not added in EligibilityNPIDisabled",
+				newEntryCount > existingEntryCount && newEntryCount == cntOfTotalPayorsDisabled);
 	}
 }

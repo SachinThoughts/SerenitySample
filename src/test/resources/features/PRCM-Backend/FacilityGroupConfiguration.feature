@@ -1,3 +1,4 @@
+@FacilityGroupConfiguration
 Feature: Verify Factility Group Configuration related scenarios in PRCM-BE
 
   Background: user is able to navigate to Facility group configuration screen
@@ -99,3 +100,75 @@ Feature: Verify Factility Group Configuration related scenarios in PRCM-BE
     When user is on Workflow Distribution screen
     And user selects PRCM enabled facility group from Facility Group dropdown
     Then user should be able to view the WFD screen should be displayed in PRCM view
+
+  @391166 @AHtoDecisionAdmin @Sprint103
+  Scenario Outline: Verify that if there is only one facility group is prcm enable and user selects All facility Group option then prcm view should be display
+    Given user is on Facility Group Configuration screen
+    When atleast one facility group <Facility Group Name> is enable in list of all facility group
+    Then user should able to view atleast one facility group "Ascension - Wheaton PRCM" in facility group configuration screen
+    When user clicks on billing & follow-up from the footer
+    And user hover on R1_Decision
+    And user clicks on Workflow Distribution link
+    Then user should be able to view workflow distribution screen
+    When user is on Workflow Distribution screen
+    And user selects PRCM enabled "Ascension - Wheaton PRCM" facility group from Facility Group dropdown
+    And user should able to select "All Facilities" from facility dropdown
+    When user clicks to select any value from facility dropdown
+    Then user should able to view payer inventory filter for professional and technical accounts
+
+    Examples: 
+      | Facility Group Name      |
+      | Ascension - Wheaton PRCM |
+
+  @391425 @AHtoDecisionAdmin @Sprint103
+  Scenario: Verify the IsPRCMEnabled checkbox is remains unchecked when Facility group has NO PRCM enabled facility
+    Given user is on Facility Group Configuration screen
+    When user clicks on Add New Facility Group button
+    Then user should be able to view new pop up window on clicking
+    And user enters the Facility Group Name as "TestNoPrcmEnabled"
+    And user selects Facilities "GRMC" such no Selected Facility is PRCM enabled
+    Then user should be able to view that the IsPRCMEnabled checkbox is automatically unchecked
+    And clicks on save button
+    When user clicks on billing & follow-up from the footer
+    And user hover on R1_Decision
+    And user clicks on Workflow Distribution link
+    Then user should be able to view workflow distribution screen
+    When user is on Workflow Distribution screen
+    And user clicks on facility group dropdown list
+    Then user should be able to view the WFD screen should be displayed in non-PRCM view
+
+  @391165 @AHtoDecisionAdmin @Sprint103
+  Scenario: Verify if same facility is in non prcm facility group then user should not able to view payor inventory filter for that facility group
+    Given user is on Facility Group Configuration screen
+    When user clicks on Add New Facility Group button
+    And user enters the Facility Group Name as "Test1WithEnabledFacility"
+    And user enters facility as "PHDC"
+    And clicks on save button
+    When user clicks on Add New Facility Group button
+    And user enters the Facility Group Name as "Test2WithNoEnabledFacility" having no PRCM enabled facilities
+    And user enters facility as "GRMC" and "PHDC"
+    And clicks on save button
+    Then user should be able to view 2 facility group Test1 and Test2 having one facility "PHDC" common on both
+    When user is on Facility Group Configuration screen
+    And user clicks on edit button for Test1 facility group
+    And user enable prcm checkbox that is physician in scope checkbox
+    Then user should be able to enable that check box
+    And clicks on save button
+    When user is on Facility Group Configuration screen
+    And user clicks on edit button for Test2 facility group
+    Then user  should be able to view Test2 facility group should be non prcm facility group
+    And clicks on close button
+    When user clicks on billing & follow-up from the footer
+    And user hover on R1_Decision
+    And user clicks on Workflow Distribution link
+    Then user should be able to view workflow distribution screen
+    When user is on Workflow Distribution screen
+    And user selects Test1 from facility group dropdown
+    And user selects common "PHDC" facility from facility dropdown which is common in both Test1 and Test2
+    Then user  should be able to view PRCM enable view
+    And payer inventory filter should be display
+    When user is on Workflow Distribution screen
+    And user selects Test2 from facility group dropdown
+     And user selects common "PHDC" facility from facility dropdown which is common in both Test1 and Test2
+    Then user should be able to view R1D enable view
+    And payer inventory filter for technical and professional should not be display

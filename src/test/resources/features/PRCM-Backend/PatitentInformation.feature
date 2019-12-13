@@ -1,3 +1,4 @@
+@PatientInformation
 Feature: Verify patient info related test cases in PRCM-BE
 
   Background: user is able to navigate to R1 Decision Page
