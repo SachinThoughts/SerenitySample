@@ -231,6 +231,7 @@ public class FacilityGroupConfigurationPage extends PageObject {
 			if (facilityGroupList.get(index).getText().equals(facilityGrpName)) {
 				withAction().moveToElement(facilityGroupList.get(index)).build().perform();
 				evaluateJavascript("arguments[0].click();", listOfEditBtns.get(index));
+				break;
 			}
 		}
 	}
@@ -252,5 +253,9 @@ public class FacilityGroupConfigurationPage extends PageObject {
 
 	public void clickOnAddBtnOnPopup() {
 		addBtnOnAddNewPopup.click();
+	}
+
+	public void clickOnCloseBtn() {
+		closeBtn.click();
 	}
 }

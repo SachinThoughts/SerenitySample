@@ -257,4 +257,59 @@ public class RelatedAccountsPage extends PageObject {
 		}
 		return defectSubTypes;
 	}
+
+	public String clickAndGetInvoiceNumber() {
+		String invoiceNumber = firstInvoiceNumber.getText();
+		firstInvoiceNumber.click();
+		return invoiceNumber;
+	}
+
+	public List<String> getAllInvoiceNumbers() {
+		List<String> invoiceNumbers = new ArrayList<>();
+		boolean flag = false;
+		do {
+			for (WebElementFacade invoice : relatedInvoicesList) {
+				invoiceNumbers.add(invoice.getText().trim());
+			}
+			flag = nextBtnDisabled.isVisible();
+			if (flag == false) {
+				nextBtn.click();
+				paginationSpinner.waitUntilNotVisible();
+			}
+		} while (flag == false);
+		return invoiceNumbers;
+	}
+
+	public String clickAndGetVisitNumberHyperLinkedForNAInvoiceNumber() {
+		waitForAngularRequestsToFinish();
+		boolean flag = false;
+		String clickedVisitNumber = "";
+		do {
+			int count = 0;
+			for (WebElementFacade invoice : relatedInvoicesList) {
+				if (invoice.getText().equals("N/A")) {
+					clickedVisitNumber = relatedVisitsList.get(count).getText();
+					relatedVisitsList.get(count).click();
+					return clickedVisitNumber;
+				}
+				count++;
+			}
+			flag = nextBtnDisabled.isVisible();
+			if (flag == false) {
+				nextBtn.click();
+				paginationSpinner.waitUntilNotVisible();
+			}
+		} while (flag == false);
+		return null;
+	}
+	
+	public boolean isPageCountCorrespondingToRecords() {
+		List<String> visitNumbersUi = getAllVisitNumbers();
+		int pageCount=1;
+		double visitCount=visitNumbersUi.size();
+		if (visitNumbersUi.size() > 20) {
+			pageCount=(int) ((visitCount+20-1)/20);
+		} 
+		return pageCount==Integer.parseInt(defaultPage.getText());
+	}
 }
