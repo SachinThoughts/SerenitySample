@@ -12,6 +12,7 @@ import cucumber.api.java.en.When;
 import net.thucydides.core.annotations.Steps;
 import r1.commons.databaseconnection.DatabaseConn;
 import r1.commons.utilities.CommonMethods;
+import r1.prcmbe.pages.DefectWorkflowPage;
 import r1.prcmbe.pages.PhysicianNPIConfigPage;
 import r1.prcmbe.pages.SettingsPage;
 import r1.prcmbe.serenity.steps.PhysicianNPIConfigSteps;
@@ -20,6 +21,7 @@ public class PhysicianNPIConfigStepDef {
 	SettingsPage settingsPage;
 	PhysicianNPIConfigPage physicianNPIConfigPage;
 	CommonMethods commonMethods;
+	DefectWorkflowPage defectOverridePage;
 
 	@Steps
 	PhysicianNPIConfigSteps physicianNPIConfigSteps;
@@ -155,7 +157,7 @@ public class PhysicianNPIConfigStepDef {
 				.getCountOfTotalEligiblePayors() == physicianNPIConfigPage.getListOfEligiblePayorsName().size());
 	}
 
-	@When("^the user clicks on '\\*' sign for a Payor record under Total Payors Disabled section$")
+	@When("^the user clicks on '\\*' sign for a Payor record under Total Payors Disabled section$|^user clicks on '\\*' button to enable some of the payer$")
 	public void the_user_clicks_on_sign_for_a_Payor_record_under_Total_Payors_Disabled_section() {
 		physicianNPIConfigPage.clickSearchedDisabledPayorsName(payor);
 	}
@@ -261,6 +263,7 @@ public class PhysicianNPIConfigStepDef {
 
 	@Then("^user is able to see the number of payer which are disabled in total disabled payer column$")
 	public void user_is_able_to_see_the_number_of_payer_which_are_disabled_in_total_disabled_payer_column() {
+		defectOverridePage.refreshesAPage();
 		Assert.assertTrue("Number of payors which are disabled are not visible in total disabled payer column",
 				cntOfTotalPayorsDisabled == physicianNPIConfigPage.firstPhyTotalDisabledCount());
 	}
@@ -276,5 +279,42 @@ public class PhysicianNPIConfigStepDef {
 		}
 		Assert.assertTrue("New entry not added in EligibilityNPIDisabled",
 				newEntryCount > existingEntryCount && newEntryCount == cntOfTotalPayorsDisabled);
+	}
+
+	@Then("^user is able to see the count of disabled payer should decreased by the number of payer that are increased$")
+	public void user_is_able_to_see_the_count_of_disabled_payer_should_decreased_by_the_number_of_payer_that_are_increased() {
+		defectOverridePage.refreshesAPage();
+		Assert.assertTrue("user is not able to see the count of disabled payer decreased",
+				cntOfTotalPayorsDisabled == physicianNPIConfigPage.firstPhyTotalDisabledCount()
+						&& existingEntryCount > cntOfTotalPayorsDisabled);
+	}
+
+	@Then("^user should be able to view the entry deleted from EligibilityNPIDisabled Table$")
+	public void user_should_be_able_to_view_the_entry_deleted_from_EligibilityNPIDisabled_Table() {
+		try {
+			while (DatabaseConn.resultSet.next()) {
+				newEntryCount++;
+			}
+		} catch (SQLException sQLException) {
+			Assert.assertTrue("results are not fetched from DB.\nThe Technical Error is:\n" + sQLException, false);
+		}
+		Assert.assertTrue("Entry is not deleted from the EligibilityNPIDisabled table",
+				existingEntryCount > newEntryCount && newEntryCount == cntOfTotalPayorsDisabled);
+	}
+
+	@When("^user gets the count from total disabled payer column$")
+	public void user_gets_the_count_from_total_disabled_payer_column() {
+		cntOfTotalPayorsDisabled = physicianNPIConfigPage.firstPhyTotalDisabledCount();
+	}
+
+	@When("^user clicks on cancel button$")
+	public void user_clicks_on_cancel_button() {
+		physicianNPIConfigPage.clickCancelBtn();
+	}
+
+	@Then("^user should be able to view that changes are not saved$")
+	public void user_should_be_able_to_view_that_changes_are_not_saved() {
+		Assert.assertTrue("Some changes are done, counts of Total Payor disabled are changed",
+				cntOfTotalPayorsDisabled == physicianNPIConfigPage.firstPhyTotalDisabledCount());
 	}
 }

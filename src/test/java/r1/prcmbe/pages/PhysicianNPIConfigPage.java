@@ -192,11 +192,16 @@ public class PhysicianNPIConfigPage extends PageObject {
 
 	public int firstPhyTotalDisabledCount() {
 		waitForAngularRequestsToFinish();
-		return Integer.parseInt(firstPhyTotalDisabledCount.getText());
+		return Integer.parseInt(
+				firstPhyTotalDisabledCount.withTimeoutOf(Duration.ofSeconds(180)).waitUntilVisible().getText());
 	}
 
 	public String getFirstPhysiciansFirstName() {
 		String[] physicianName = getFirstPhysicianName().split(", ", 0);
 		return physicianName[1].trim();
+	}
+
+	public void clickCancelBtn() {
+		evaluateJavascript(cancelBtnJS + ".click()");
 	}
 }

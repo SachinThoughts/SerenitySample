@@ -104,3 +104,29 @@ Feature: Verify Physician NPI Configuration in PRCM-BE
     And user is able to see the number of payer which are disabled in total disabled payer column
     When user runs the "Facility_Group_Configuration_391453_SQL2" query for Physician NPI
     Then user should be able to view the entry in physician in EligibilityNPIDisabled column
+
+  @391454 @Sprint103 @PRCMUser
+  Scenario: Verify that User is able to save the physician configuration when physician is enabled
+    Given user is on PRCM Eligibility NPI Configuration page
+    When user clicks on to Edit link corresponding to the Physicians Name
+    Then user should be able to view edit pop up
+    When user login to SQL Server and connect to facility database
+    And user runs the "Facility_Group_Configuration_391454_SQL3" query for Physician NPI
+    And user view existing entry in physician in EligibilityNPIDisabled column
+    When user copies payor of any disabled payor
+    And user enters a search text Payor in Search Disabled Payors textbox
+    And user clicks on '*' button to enable some of the payer
+    And user gets count of the Total Payors Disabled
+    And user clicks on save button
+    Then user should be able to view the success message "Physician configuration is saved successfully."
+    And user is able to see the count of disabled payer should decreased by the number of payer that are increased
+    And user runs the "Facility_Group_Configuration_391454_SQL3" query for Physician NPI
+    Then user should be able to view the entry deleted from EligibilityNPIDisabled Table
+
+  @391455 @Sprint103 @PRCMUser
+  Scenario: Verify that user is canceling the configuration then no changes should be done
+    Given user is on PRCM Eligibility NPI Configuration page
+    When user gets the count from total disabled payer column 
+    When user clicks on to Edit link corresponding to the Physicians Name
+    And user clicks on cancel button
+    Then user should be able to view that changes are not saved
