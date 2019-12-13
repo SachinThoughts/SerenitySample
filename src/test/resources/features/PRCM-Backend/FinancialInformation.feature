@@ -100,7 +100,7 @@ Feature: This feature is to verify the financial Information functionality
       | queryname1                                | queryname6                                |
       | Financial_Information_Section_391021_SQL1 | Financial_Information_Section_391027_SQL6 |
 
-  @391021 @Sprint103 @PRCMUser
+  @391021 @Sprint102 @PRCMUser
   Scenario Outline: Verify the Expected payment column
     Given user is able to login to sql server and connect to database
     When user executes the query for InvoiceNumber <queryName1>
@@ -113,7 +113,7 @@ Feature: This feature is to verify the financial Information functionality
       | queryName1                                |
       | Financial_Information_Section_391021_SQL1 |
 
-  @391022 @Sprint101 @PRCMUser
+  @391022 @Sprint102 @PRCMUser
   Scenario Outline: Verify the Expected payment column
     Given user is able to login to sql server and connect to database
     When user executes the query for InvoiceNumber <queryName1>
