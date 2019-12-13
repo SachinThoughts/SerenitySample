@@ -477,4 +477,14 @@ public class AccountInformationPage extends PageObject {
 	public void moveToAccountActionHistory() {
 		withAction().moveToElement(accntActionHistoryHeader).build().perform();
 	}
+	
+	public String getCurrentApplicationUrl() {
+		return getDriver().getCurrentUrl();
+	}
+	
+	public String getDefectTypeBreadcrumb() {
+		String defectLabel = defectBreadcrumb.getText().trim();
+		String[] defectSubcategory = defectLabel.split(">>\\s");
+		return defectSubcategory[0];
+	}
 }

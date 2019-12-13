@@ -7,6 +7,7 @@ import java.util.List;
 import net.serenitybdd.core.annotations.findby.FindBy;
 import net.serenitybdd.core.pages.PageObject;
 import net.serenitybdd.core.pages.WebElementFacade;
+import net.serenitybdd.screenplay.actions.Evaluate;
 import r1.commons.utilities.CommonMethods;
 
 public class DefectWorkflowPage extends PageObject {
@@ -87,6 +88,9 @@ public class DefectWorkflowPage extends PageObject {
 	
 	@FindBy(id="btnA2DSave")
 	private WebElementFacade a2DSaveButton;
+	
+	@FindBy(id = "btnRequiredStep")
+	private WebElementFacade prevButtonOnActionSection;
 
 	public boolean isDefectWorkFlowSecVisible() {
 		return defectWorkflowSecHeader.isVisible();
@@ -273,5 +277,13 @@ public class DefectWorkflowPage extends PageObject {
 	
 	public void clickOnA2DSaveButton() {
 		evaluateJavascript("arguments[0].click();",a2DSaveButton);
+	}
+	
+	public int getSizeOfSOPActionOnActionPage() {
+		return listOfSOPActionsOnActionPage.size();
+	}
+	
+	public void clickOnPreviousButtonOnActionSection() {
+		evaluateJavascript("arguments[0].click();", prevButtonOnActionSection);
 	}
 }

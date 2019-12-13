@@ -1,11 +1,15 @@
 package r1.prcmbe.steps.definitions;
 
+import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.Assert;
 
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import net.serenitybdd.core.pages.PageObject;
 import net.thucydides.core.annotations.Steps;
 import r1.commons.databaseconnection.DatabaseConn;
 import r1.commons.utilities.CommonMethods;
@@ -13,9 +17,10 @@ import r1.prcmbe.pages.AccountInformationPage;
 import r1.prcmbe.pages.DefectWorkflowPage;
 import r1.prcmbe.pages.SearchPage;
 import r1.prcmbe.serenity.steps.FinancialInfoSteps;
+import r1.prcmbe.serenity.steps.PRCMSaveSteps;
 import r1.prcmbe.serenity.steps.SearchPageSteps;
 
-public class PRCMSaveStepDef {
+public class PRCMSaveStepDef extends PageObject {
 
 	DefectWorkflowPage defectWorkflowPage;
 	CommonMethods commonMethods;
@@ -28,9 +33,14 @@ public class PRCMSaveStepDef {
 	SearchPageSteps searchPageSteps;
 	@Steps
 	FinancialInfoSteps financialInfoStep;
+	@Steps
+	PRCMSaveSteps prcmSaveSteps;
 
-	String dbInvoiceNumber;
-	private static String dbQueryFilename = "AccountActionHistory";
+	String dbInvoiceNumber, dbDefectAccountKey, dbInvoiceId, dbUserId, dbDefectTypeId, dbDefectSubCategoryId;
+	List<String> listOfDefectAttributeTypeIdFromDb = new ArrayList<>(), listOfAttributeValueFromDb = new ArrayList<>(),
+			listOfSOPHavingIsRequired0FromDb = new ArrayList<>(), listOfSOPHavingIsRequired1FromDb = new ArrayList<>();
+	private static String dbQueryFilenameForAccntActnHistory = "AccountActionHistory",
+			dbQueryFilenameForPRCMSave = "PRCMSave";
 
 	@When("^user clicks on Next button under Defect workflow section$")
 	public void user_clicks_on_Next_button_under_Defect_workflow_section() {
@@ -81,7 +91,7 @@ public class PRCMSaveStepDef {
 	public void user_runs_the_query_to_fetch_Invoice_Number(String queryName)
 			throws ClassNotFoundException, SQLException, Exception {
 		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
-				commonMethods.loadQuery(queryName, dbQueryFilename));
+				commonMethods.loadQuery(queryName, dbQueryFilenameForAccntActnHistory));
 		try {
 			while (DatabaseConn.resultSet.next()) {
 				dbInvoiceNumber = DatabaseConn.resultSet.getString("invoiceNumber");
@@ -102,9 +112,193 @@ public class PRCMSaveStepDef {
 		Assert.assertTrue("User is not navigated to the R1D account page for Searched Invoice Number",
 				searchPageSteps.verifyInvoiceNumberWithEqualOperator(dbInvoiceNumber));
 	}
-	
+
 	@When("^user moves to the Account Action History section$")
 	public void user_moves_to_account_action_history_section() {
 		accInfoPage.moveToAccountActionHistory();
+	}
+
+	@When("^user runs the query \"([^\"]*)\" to fetch Result Set$")
+	public void user_runs_the_query_to_fetch_Result_Set(String queryName)
+			throws ClassNotFoundException, SQLException, Exception {
+		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
+				String.format(commonMethods.loadQuery(queryName, dbQueryFilenameForPRCMSave), dbInvoiceId));
+	}
+
+	@Then("^user should be able to view the entries in these tables$")
+	public void user_should_be_able_to_view_the_entries_in_these_tables() throws SQLException {
+		Assert.assertTrue("User is not able to view the entries in provide sql query ", DatabaseConn.resultSet.next());
+	}
+
+	@When("^user runs the query \"([^\"]*)\" to fetch DefectTypeAttributeId and AttributeVal$")
+	public void user_runs_the_query_to_fetch_DefectTypeAttributeId_and_AttributeVal(String queryName)
+			throws ClassNotFoundException, SQLException, Exception {
+		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName, String
+				.format(commonMethods.loadQuery(queryName, dbQueryFilenameForPRCMSave), dbDefectAccountKey, dbUserId));
+		try {
+			while (DatabaseConn.resultSet.next()) {
+				listOfDefectAttributeTypeIdFromDb.add(DatabaseConn.resultSet.getString("DefectAttributeTypeID"));
+				listOfAttributeValueFromDb.add(DatabaseConn.resultSet.getString("AttributeValue"));
+			}
+		} catch (SQLException exception) {
+			Assert.assertTrue(
+					"DefectAttributeTypeId and AttributeValue is not fetched from DB.\nThe Technical Error is:\n"
+							+ exception,
+					false);
+		}
+	}
+
+	@Then("^user should be able to view the defect Attributetypeid is (\\d+) and attributevalue is URL$")
+	public void user_should_be_able_to_view_the_defect_Attributetypeid_is_and_attributevalue_is_URL(int expectedId) {
+		Assert.assertTrue("User is not able to view the expected Defect AttributeTypeId ",
+				listOfDefectAttributeTypeIdFromDb.contains(Integer.toString(expectedId)));
+		Assert.assertTrue("User is not able to view the attribute as URL",
+				prcmSaveSteps.verifyAttributeValueFromDbAsUrl(listOfAttributeValueFromDb));
+	}
+
+	@When("^user runs the query \"([^\"]*)\" to fetch Invoice Id$")
+	public void user_runs_the_query_to_fetch_Invoice_Id(String queryName)
+			throws ClassNotFoundException, SQLException, Exception {
+		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
+				String.format(commonMethods.loadQuery(queryName, dbQueryFilenameForPRCMSave), dbInvoiceNumber));
+		try {
+			while (DatabaseConn.resultSet.next()) {
+				dbInvoiceId = DatabaseConn.resultSet.getString("id");
+			}
+			financialInfoStep.log("InvoiceId in DB" + dbInvoiceId);
+		} catch (SQLException exception) {
+			Assert.assertTrue("InvoiceId is not fetched from DB.\nThe Technical Error is:\n" + exception, false);
+		}
+	}
+
+	@When("^user runs the query \"([^\"]*)\" to fetch DefectAccountKey$")
+	public void user_runs_the_query_to_fetch_DefectAccountKey(String queryName)
+			throws ClassNotFoundException, SQLException, Exception {
+		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
+				String.format(commonMethods.loadQuery(queryName, dbQueryFilenameForPRCMSave), dbInvoiceId));
+		try {
+			while (DatabaseConn.resultSet.next()) {
+				dbDefectAccountKey = DatabaseConn.resultSet.getString("DefectAccountKey");
+			}
+			financialInfoStep.log("DefectAccountKey in DB" + dbInvoiceNumber);
+		} catch (SQLException exception) {
+			Assert.assertTrue("DefectAccountKey is not fetched from DB.\nThe Technical Error is:\n" + exception, false);
+		}
+	}
+
+	@When("^user runs the query \"([^\"]*)\" to fetch Result Set For Created User$")
+	public void user_runs_the_query_to_fetch_Result_Set_For_Created_User(String queryName)
+			throws ClassNotFoundException, SQLException, Exception {
+		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
+				String.format(commonMethods.loadQuery("getUserId", dbQueryFilenameForPRCMSave),
+						CommonMethods.loadProperties("prcmBeUsername")));
+		while (DatabaseConn.resultSet.next()) {
+			dbUserId = DatabaseConn.resultSet.getString("UserID");
+		}
+		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName, String
+				.format(commonMethods.loadQuery(queryName, dbQueryFilenameForPRCMSave), dbDefectAccountKey, dbUserId));
+	}
+
+	@When("^user fetch Defect typeid$")
+	public void user_fetch_Defect_typeid() throws SQLException {
+		while (DatabaseConn.resultSet.next()) {
+			dbDefectTypeId = DatabaseConn.resultSet.getString("DefectTypeID");
+		}
+	}
+
+	@When("^user fetch Defectsubcategoryid$")
+	public void user_fetch_Defectsubcategoryid() throws SQLException {
+		while (DatabaseConn.resultSet.next()) {
+			dbDefectSubCategoryId = DatabaseConn.resultSet.getString("DefectSubCategoryID");
+		}
+	}
+
+	@Then("^user should be able to view Defect SubCategory id for which SOP loaded$")
+	public void user_should_be_able_to_view_Defect_SubCategory_id_for_which_SOP_loaded() {
+		Assert.assertTrue(
+				"User is not able to view the Defect Subcategory Id for which SOP Loaded. Defect Category Id from ID:"
+						+ dbDefectSubCategoryId,
+				dbDefectSubCategoryId != null);
+	}
+
+	@Then("^user should be able to view optional and mandatory actions$")
+	public void user_should_be_able_to_view_optional_and_mandatory_actions() {
+		Assert.assertTrue(
+				"User is not able to view optional and mandatory actions. List Of Actions are : "
+						+ defectWorkflowPage.getSOPActionsOnActionPage(),
+				defectWorkflowPage.getSizeOfSOPActionOnActionPage() > 0);
+	}
+
+	@Then("^user should be able to view SOP actions having IsRequired=0$")
+	public void user_should_be_able_to_view_SOP_actions_having_IsRequired_0() {
+		try {
+			while (DatabaseConn.resultSet.next()) {
+				listOfSOPHavingIsRequired0FromDb.add(DatabaseConn.resultSet.getString("ActionName"));
+			}
+		} catch (SQLException exception) {
+			Assert.assertTrue("ActionName is not fetched from DB.\nThe Technical Error is:\n" + exception, false);
+		}
+		Assert.assertTrue("User is not able to view SOP Actions having IsRequired 0",
+				listOfSOPHavingIsRequired0FromDb.size() > 0);
+	}
+
+	@Then("^user should be able to view SOP actions having IsRequired=1$")
+	public void user_should_be_able_to_view_SOP_actions_having_IsRequired_1() {
+		try {
+			while (DatabaseConn.resultSet.next()) {
+				listOfSOPHavingIsRequired1FromDb.add(DatabaseConn.resultSet.getString("ActionName"));
+			}
+		} catch (SQLException exception) {
+			Assert.assertTrue("ActionName is not fetched from DB.\nThe Technical Error is:\n" + exception, false);
+		}
+		Assert.assertTrue("User is not able to view SOP Actions having IsRequired 0",
+				listOfSOPHavingIsRequired1FromDb.size() > 0);
+	}
+
+	@Then("^user should be able to view the optional Sop actions in verify All Steps Taken section$")
+	public void user_should_be_able_to_view_the_optional_Sop_actions_in_verify_All_Steps_Taken_section() {
+		List<String> listOfSOPOnTriageSection = defectWorkflowPage.getSOPActionsOnTriagePage();
+		Assert.assertTrue("User is not able to view the SOP Actions in Verify All Steps Taken Section",
+				listOfSOPOnTriageSection.containsAll(listOfSOPHavingIsRequired0FromDb));
+	}
+
+	@Then("^user should be able to view the optional Sop actions in Steps Taken section$")
+	public void user_should_be_able_to_view_the_optional_Sop_actions_in_Steps_Taken_section() {
+		List<String> listOfSOPOnActionSection = defectWorkflowPage.getSOPActionsOnActionPage();
+		Assert.assertTrue("User is not able to view the SOP Actions in Verify All Steps Taken Section",
+				listOfSOPOnActionSection.containsAll(listOfSOPHavingIsRequired1FromDb));
+	}
+
+	@When("^user runs the query \"([^\"]*)\" for fetching DefectTypeId$")
+	public void user_runs_the_query_for_fetching_DefectTypeId(String queryName)
+			throws ClassNotFoundException, SQLException, IOException, Exception {
+		String defectType = accInfoPage.getDefectTypeBreadcrumb().trim();
+		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
+				String.format(commonMethods.loadQuery(queryName, dbQueryFilenameForPRCMSave), defectType));
+	}
+
+	@When("^user runs the query \"([^\"]*)\" with passing by defecttypeid$")
+	public void user_runs_the_query_with_passing_by_defecttypeid(String queryName)
+			throws ClassNotFoundException, SQLException, Exception {
+		String defectSubCategoryDesc = accInfoPage.getDefectSubcategoryBreadcrumb().trim();
+		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName, String.format(
+				commonMethods.loadQuery(queryName, dbQueryFilenameForPRCMSave), dbDefectTypeId, defectSubCategoryDesc));
+	}
+
+	@When("^user runs the query \"([^\"]*)\" for fetching SOP having IsRequired=(\\d+)$")
+	public void user_runs_the_query_for_fetching_SOP_having_IsRequired(String queryName, int isrequired)
+			throws ClassNotFoundException, SQLException, Exception {
+		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName, String.format(
+				commonMethods.loadQuery(queryName, dbQueryFilenameForPRCMSave), isrequired, dbDefectSubCategoryId));
+	}
+
+	@Then("^user should be able to view some invoice id fetched from DB$")
+	public void user_should_be_able_to_view_some_invoice_id() {
+		Assert.assertTrue("User is not able to view invoice id fetched from DB", dbInvoiceNumber != null);
+	}
+
+	@When("^user clicks on Previous button on Action Section$")
+	public void user_clicks_on_Next_button_on_TriagePage() {
+		defectWorkflowPage.clickOnPreviousButtonOnActionSection();
 	}
 }
