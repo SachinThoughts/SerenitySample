@@ -6,8 +6,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.apache.commons.lang3.RandomStringUtils;
-import org.openqa.selenium.By;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import net.serenitybdd.core.annotations.findby.FindBy;
 import net.serenitybdd.core.pages.PageObject;
@@ -152,52 +150,7 @@ public class TaggingPage extends PageObject {
 	private List<WebElementFacade> listOfAddedTagDetails;
 
 	@FindBy(xpath = "//*[@class='alert alert-info']//span")
-	private WebElementFacade alertMsgOnAddAcTagPopup;
-
-	@FindBy(xpath = "//*[@class='alert alert-info']//span[text()='  Adding Tag on unclassified account is not allowed']")
-	private WebElementFacade alertMsgOnTagPopupForUnclassifiedAcc;
-
-	@FindBy(xpath = "//*[@id='main']//h3[text()='Mass Update']")
-	private WebElementFacade massUpdatePageTitle;
-
-	@FindBy(xpath = "//label[@for='accountOption01a']")
-	private WebElementFacade professionalRadioBtn;
-
-	@FindBy(xpath = "//label[@for='muOption01a']")
-	private WebElementFacade manualEntryRadioBtn;
-
-	@FindBy(xpath = "(//div[@class='form-group']//textarea)[1]")
-	private WebElementFacade manualEntryTextBox;
-
-	@FindBy(xpath = "//label[@for='massUpdateRequestAccountTagging']")
-	private WebElementFacade massUpdateReqAccTaggingRadioBtn;
-
-	@FindBy(xpath="//label[text()='Add']")
-	private WebElementFacade massUpdateAddTagRadioBtn;
-
-	@FindBy(id = "tagCategory")
-	private WebElementFacade tagCategoryDrpdwnOnMassUpdateScrn;
-
-	@FindBy(xpath = "//*[@id='tagCategory']/option")
-	private List<WebElementFacade> tagCategoryDrpdwnOptnsOnMUScrn;
-	
-	@FindBy(id = "tagName")
-	private WebElementFacade tagNameDrpdwnOnMassUpdateScrn;
-	
-	@FindBy(xpath = "//*[@id='tagName']/option")
-	private List<WebElementFacade> tagNameDrpdwnOptnsOnMassUpdateScrn;
-	
-	@FindBy(id = "massUpdateNotes")
-	private WebElementFacade massUpdateNotes;
-
-	@FindBy(id = "muSumbit")
-	private WebElementFacade massUpdateSubmitBtn;
-
-	@FindBy(id = "msg_info")
-	private WebElementFacade alertMsgOnMassUpdateScrn;
-
-	@FindBy(id = "dnn_ctr1025_LocationChooser_ddlLocation")
-	private WebElementFacade facilityDrpdwnOnMUScreen;
+	private WebElementFacade alertMsgOnDuplicateTag;
 
 	int index;
 	String removeTagBtnJs = "document.querySelector('#dnn_ctr1552_TaskPanel_spanTask > div.container > div.row > div.col-lg-9 > div:nth-child(3) > div.row > div.col-lg-3.hidden-print > ol > li > span > span').click()";
@@ -457,116 +410,10 @@ public class TaggingPage extends PageObject {
 	}
 
 	public boolean isAlertMsgOnDuplicateTagVisible() {
-		return alertMsgOnAddAcTagPopup.isVisible();
+		return alertMsgOnDuplicateTag.isVisible();
 	}
 
 	public String getaccAddedAlrtMsgAfterEdit() {
 		return accAddedAlrtMsg.getText();
-	}
-
-	public String getAlertMsgOnTagPopupForUnclassifiedAcc() {
-		return alertMsgOnTagPopupForUnclassifiedAcc.getText();
-	}
-
-	public boolean isSveChngesBtnDisabled() {
-		return saveTagBtn.isDisabled();
-	}
-
-	public void massUpdateScreenShouldBeVisible() {
-		massUpdatePageTitle.shouldBeVisible();
-	}
-
-	public void selectProfessionalRadioBtn() {
-		professionalRadioBtn.click();
-	}
-
-	public void selectManualEntryRadioBtn() {
-		manualEntryRadioBtn.click();
-	}
-	public void enterInvcNumInManualEntryTxtbxOnMUScrn(String invoiceNumber) {
-		String selectedFacility = facilityDrpdwnOnMUScreen.getSelectedVisibleTextValue().substring(0, 4)+invoiceNumber;
-		System.out.println(selectedFacility);
-		System.out.println(selectedFacility+invoiceNumber);
-		evaluateJavascript("document.querySelector('#muManualEntry').value='"+selectedFacility+"';", manualEntryTextBox);
-		
-	//	manualEntryTextBox.type(selectedFacility);
-	}
-
-	public void selectMUReqAccountTaggingRadioBtn() {
-		massUpdateReqAccTaggingRadioBtn.click();
-	}
-
-	public void selectAddRadioBtnOnMU() {
-		massUpdateAddTagRadioBtn.click();
-		tagCategoryDrpdwnOnMassUpdateScrn.withTimeoutOf(Duration.ofSeconds(20)).waitUntilVisible();
-	}
-	/*public List<String> getNextActionByDrpDwnValues() {
-		List<String> listOfNextActionByDropDwnValues;
-		listOfNextActionByDropDwnValues = nextActionByDrpDwn.getSelectOptions();
-		return listOfNextActionByDropDwnValues;
-	}*/
-
-	
-	public void selectAccTagCategoryOnMU() throws Exception {
-		
-/*		List<String> listOfNextActionByDropDwnValues = getNextActionByDrpDwnValues();
-		int randomNumber;
-		int size = listOfNextActionByDropDwnValues.size();
-		randomNumber = CommonMethods.getRandom(size);
-		nextActionByDrpDwn.selectByIndex(randomNumber);
-
-		while (nextActionByDrpDwn.getSelectedVisibleTextValue().equals(defaultValueOfNextActionByDrpDwn)) {
-			randomNumber = CommonMethods.getRandom(size);
-			nextActionByDrpDwn.selectByIndex(randomNumber);
-		}
-	}*/
-		
-		
-		evaluateJavascript(scrollToElementJs, tagCategoryDrpdwnOnMassUpdateScrn);
-		//evaluateJavascript("arguments[0].click();", tagCategoryDrpdwnOnMassUpdateScrn);
-		System.out.println("Size of Acc categor : "+tagCategoryDrpdwnOptnsOnMUScrn.size());
-		int size=tagCategoryDrpdwnOptnsOnMUScrn.size();
-		withAction().moveToElement(tagCategoryDrpdwnOnMassUpdateScrn).click().build().perform();
-		int index1 = CommonMethods.getRandom(tagCategoryDrpdwnOptnsOnMUScrn.size());
-		while(size==index1) {
-			index1 = CommonMethods.getRandom(tagCategoryDrpdwnOptnsOnMUScrn.size());
-		}
-		System.out.println("index of Acc categor : "+index);
-		 evaluateJavascript("document.querySelector('#tagCategory > option:nth-child("+index+")').selected=true");
-			Thread.sleep(5000);
-		System.out.println("Size of Acc categor : "+tagCategoryDrpdwnOptnsOnMUScrn.size());
-		 //tagCategoryDrpdwnOnMassUpdateScrn.selectByIndex(2);
-		 //getSelectedVisibleTextValue();
-	}
-
-	public void selectTagNameOnMU() throws Exception {
-		tagNameDrpdwnOnMassUpdateScrn.withTimeoutOf(Duration.ofSeconds(20)).waitUntilVisible();
-		//evaluateJavascript("arguments[0].click();",tagNameDrpdwnOnMassUpdateScrn);
-		Thread.sleep(5000);
-		//waitFor(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='tagName']/option[2]")));
-		withAction().moveToElement(tagNameDrpdwnOnMassUpdateScrn).click().build().perform();
-		//waitFor(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='tagName']/option[2]")));
-		System.out.println("Size of tag Name Drpdwn "+tagNameDrpdwnOptnsOnMassUpdateScrn.size());
-		System.out.println(tagNameDrpdwnOptnsOnMassUpdateScrn.get(1).getText());
-		int countOfTagDdOptns = 1;
-				//CommonMethods.getRandom(tagNameDrpdwnOptnsOnMassUpdateScrn.size() - 1)+1 ;
-		System.out.println(countOfTagDdOptns);
-		evaluateJavascript("document.querySelector('#tagName > option:nth-child("+countOfTagDdOptns+")').selected=true");
-	}
-
-	public boolean isAddCategoryDrpdwnVisibleOnMU() {
-		return tagCategoryDrpdwnOnMassUpdateScrn.isVisible();
-	}
-
-	public boolean isAddTagDrpdwnVisibleOnMU() {
-		return tagNameDrpdwnOnMassUpdateScrn.isVisible();
-	}
-
-	public void clickOnSaveBtnOnMU() {
-		massUpdateSubmitBtn.click();
-	}
-
-	public void enterNotesOnMU(String notes) {
-		massUpdateNotes.type(notes);
 	}
 }
