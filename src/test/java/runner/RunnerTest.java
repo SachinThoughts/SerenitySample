@@ -10,7 +10,7 @@ import net.serenitybdd.cucumber.CucumberWithSerenity;
 
 		"@ProfessionalUDC or @ExternalSearch or @DefectOverride or @DefaultHandoff or @FinancialInformation or @WorkflowConfiguration or @InternalSearch or @Tagging or @WorkflowDistribution or @CallPayerQueue or @AccountDocument or @BSODayNight or @PhysicianNPIConfiguration or @TaggingHistory or @E-parsProHandoff or @FacilityGroupConfiguration" }, glue = {
 
-				"r1.prcmbe.steps.definitions" })
+				"r1.prcmbe.steps.definitions" }) 
 public class RunnerTest {
 
 }
