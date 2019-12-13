@@ -11,7 +11,7 @@ Feature: Verify Account Action History in PRCM-BE
   Scenario: Verify that Account Action History should be visible at Invoice Grain
     Given user is on R1 Decision search page
     When user login to SQL server and connect to database
-    And user runs the account action history query "Account_Action_History_391051_SQL1"
+    And user runs the account action history query "Account_Action_History_391051_SQL2"
     And user selects "Invoice Number" from search by dropdown
     And user enters the result in Invoice Number search textbox
     And user clicks on submit button
