@@ -17,12 +17,21 @@ public class AccountActionHistoryPage extends PageObject {
 
 	@FindBy(xpath = "//button[@id='btnShowHistory']/span[text()='Show Account Action History Notes']")
 	private WebElementFacade showAccHistoryBtn;
-	
-	@FindBy(id="accountactionhistory")
+
+	@FindBy(id = "accountactionhistory")
 	private WebElementFacade accActionHistorySection;
-	
-	@FindBy(id="lblNoHistory")
+
+	@FindBy(id = "lblNoHistory")
 	private WebElementFacade noAccActionHistoryMsgLbl;
+
+	@FindBy(xpath = "//*[@id='notesHistory']/li[1]/div/div/div[1]/span")
+	private WebElementFacade notesLabel;
+
+	@FindBy(xpath = "//*[@id='carousel']//li[last()]/div[last()]//a[@class='trigger']/..")
+	private WebElementFacade latestBubble;
+
+	@FindBy(xpath = "//*[@class='popover fade top in']/div[2]/ul/li/div/div/div[1]/span")
+	private WebElementFacade popoverTitle;
 
 	public List<String> getListOfRecentAddedAccountActionHistoryLabel() {
 		List<String> listOfRecentAddedAccntLabel = new ArrayList<>();
@@ -42,15 +51,32 @@ public class AccountActionHistoryPage extends PageObject {
 
 	public void ifVisibleClickShowAccHistoryBtn() {
 		if (showAccHistoryBtn.isVisible()) {
-			evaluateJavascript("arguments[0].click();",showAccHistoryBtn);
+			evaluateJavascript("arguments[0].click();", showAccHistoryBtn);
 		}
 	}
-	
+
 	public void scrollToAccActionHistorySection() {
 		withAction().moveToElement(accActionHistorySection).build().perform();
 	}
-	
+
 	public String getNoAccActionHistoryMsg() {
 		return noAccActionHistoryMsgLbl.getText();
+	}
+
+	public boolean isNotesLabelVisible() {
+		return notesLabel.isVisible();
+	}
+
+	public String getNotesLabel() {
+		return notesLabel.getText().trim();
+	}
+
+	public void hoverOverLatestBubble() {
+		evaluateJavascript("arguments[0].scrollIntoView();", latestBubble);
+		withAction().moveToElement(latestBubble).build().perform();
+	}
+
+	public boolean getPopoverTitle() {
+		return popoverTitle.isVisible();
 	}
 }

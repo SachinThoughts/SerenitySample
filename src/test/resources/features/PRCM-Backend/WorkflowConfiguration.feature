@@ -366,7 +366,6 @@ Feature: Verify WorkFlowConfiguration related scenarios in PRCM
     And user selects newly added value from Disposition dropdown
     Then user should be able to view newly added Handoff Type and associated recipients, Actions and dispositions on R1 Decision screen
 
-
   @434778 @AHtoDecisionAdmin @Sprint102
   Scenario Outline: Verify user is not allowed to add same Action name for a particular Handoff and Recipient but same action can be added in any other Handoff and Recipient
     Given user having AHtoDecision Admin role is on workflow configuration home page
@@ -565,4 +564,3 @@ Feature: Verify WorkFlowConfiguration related scenarios in PRCM
     Examples: 
       | query1                         | query2                          | query3                        | query4                             |
       | 434767_WFConfig_CheckRecipient | 434767_WFConfig_CheckRecipient1 | 434769_WFConfig_ReorderAction | 433684_BDD_R1D_WFConfig_EditAction |
-
