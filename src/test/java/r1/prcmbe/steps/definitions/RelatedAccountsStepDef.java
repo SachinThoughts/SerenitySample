@@ -162,4 +162,9 @@ public class RelatedAccountsStepDef {
 		List<String> visitNumbersUi = relatedAccntsPage.getAllVisitNumbers();
 		Assert.assertTrue("Previous Account is not visible in Related Account grid", visitNumbersUi.contains(accountNumber));
 	}
+	
+	@Then("^pages count should correspond to number of records$")
+	public void pages_count_should_correspond_to_number_of_records() {
+		Assert.assertTrue("page count does not correspond to number of records", relatedAccntsPage.isPageCountCorrespondingToRecords());
+	}
 }
