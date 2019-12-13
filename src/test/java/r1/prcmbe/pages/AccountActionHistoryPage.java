@@ -18,6 +18,12 @@ public class AccountActionHistoryPage extends PageObject {
 	@FindBy(xpath = "//button[@id='btnShowHistory']/span[text()='Show Account Action History Notes']")
 	private WebElementFacade showAccHistoryBtn;
 
+	@FindBy(id = "accountactionhistory")
+	private WebElementFacade accActionHistorySection;
+
+	@FindBy(id = "lblNoHistory")
+	private WebElementFacade noAccActionHistoryMsgLbl;
+
 	@FindBy(xpath = "//*[@id='notesHistory']/li[1]/div/div/div[1]/span")
 	private WebElementFacade notesLabel;
 
@@ -47,6 +53,14 @@ public class AccountActionHistoryPage extends PageObject {
 		if (showAccHistoryBtn.isVisible()) {
 			evaluateJavascript("arguments[0].click();", showAccHistoryBtn);
 		}
+	}
+
+	public void scrollToAccActionHistorySection() {
+		withAction().moveToElement(accActionHistorySection).build().perform();
+	}
+
+	public String getNoAccActionHistoryMsg() {
+		return noAccActionHistoryMsgLbl.getText();
 	}
 
 	public boolean isNotesLabelVisible() {

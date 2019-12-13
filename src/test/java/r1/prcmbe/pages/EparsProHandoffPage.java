@@ -52,6 +52,9 @@ public class EparsProHandoffPage extends PageObject {
 	@FindBy(xpath = "//div[@class='modal-body tblsearchResults']/table/thead/tr/th")
 	private List<WebElementFacade> searchResultsTableHeaders;
 
+	@FindBy(id = "searchInputFirstName")
+	private WebElementFacade firstNameTextBox;
+
 	public void isEparsPageTitleVisible() {
 		eparsTitle.shouldBeVisible();
 	}
@@ -126,5 +129,10 @@ public class EparsProHandoffPage extends PageObject {
 				listOfSearchResultsTableHeaders.add(searchResultsTableHeader.getText().trim());
 		}
 		return listOfSearchResultsTableHeaders;
+	}
+
+	public void enterFirstNameTextBox(String textBoxValue) {
+		waitForAngularRequestsToFinish();
+		firstNameTextBox.withTimeoutOf(Duration.ofSeconds(30)).waitUntilVisible().type(textBoxValue);
 	}
 }
