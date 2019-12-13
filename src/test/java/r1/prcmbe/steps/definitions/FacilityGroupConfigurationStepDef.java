@@ -254,4 +254,59 @@ public class FacilityGroupConfigurationStepDef extends PageObject {
 	public void user_should_be_able_to_view_the_wfd_screen_should_be_displayed_in_prcm_view() {
 		Assert.assertTrue("user is able to see PRCM view", workflowDistributionPage.isFilterSectionPresent());
 	}
+
+	@When("^atleast one facility group (.+) is enable in list of all facility group$")
+	public void atleast_one_facility_group_is_enable_in_list_of_all_facility_group(String facilityGroupName) {
+		facilityGrpConfigPage.clickOnFacilityGrpEditBtn(facilityGroupName);
+		facilityGrpConfigPage.isPhysicianCheckboxEnabled();
+		facilityGrpConfigPage.clickOnCloseBtn();
+	}
+
+	@Then("^user should able to view atleast one facility group \"([^\"]*)\" in facility group configuration screen$")
+	public void user_should_able_to_view_atleast_one_facility_group_something_in_facility_group_configuration_screen(
+			String expectedFacilityGrpName) {
+		Assert.assertTrue(
+				"User is not able to see the facility group name in the Facility Group Configuration screen  ",
+				facilityGrpConfigPage.isFacilityGroupNamePresent(expectedFacilityGrpName));
+	}
+
+	@When("^user clicks to select any value from facility dropdown$")
+	public void user_clicks_to_select_any_value_from_facility_dropdown() {
+		workflowDistributionPage.clickAnyFacilityFromFacilityDropdown();
+	}
+
+	@When("^user should able to select \"([^\"]*)\" from facility dropdown$")
+	public void user_should_able_to_select_something_from_facility_dropdown(String facility) {
+		workflowDistributionPage.selectFacilityFromFacilityDropdown(facility);
+	}
+
+	@Then("^user should able to view payer inventory filter for professional and technical accounts$")
+	public void user_should_able_to_view_payer_inventory_filter_for_professional_and_technical_accounts() {
+		Assert.assertTrue("user is not able to see PRCM view", workflowDistributionPage.isFilterSectionPresent());
+	}
+
+	@When("^user selects Facilities \"([^\"]*)\" such no Selected Facility is PRCM enabled$")
+	public void user_selects_facilities_something_such_no_selected_facility_is_prcm_enabled(String facilityCode) {
+		facilityGrpConfigPage.enterFacilityCodeInTxtBox(facilityCode);
+		facilityGrpConfigPage.clickOnFacilityCodeFromSearchDropdown(facilityCode);
+		facilityGrpConfigPage.clickOnAddBtnOnPopup();
+	}
+
+	@Then("^user should be able to view that the IsPRCMEnabled checkbox is automatically unchecked$")
+	public void user_should_be_able_to_view_that_the_isprcmenabled_checkbox_is_automatically_unchecked() {
+		Assert.assertFalse("Physician Checkbox is automatically checked ",
+				facilityGrpConfigPage.isPhysicianCheckboxEnabled());
+	}
+
+	@When("^user clicks on facility group dropdown list$")
+	public void user_clicks_on_facility_group_dropdown_list() {
+		workflowDistributionPage.selectFacilityGroup(facilityGroupNameFromUI);
+		workflowDistributionPage.clickAnyFacilityFromFacilityDropdown();
+	}
+
+	@Then("^user should be able to view the WFD screen should be displayed in non\\-PRCM view$")
+	public void user_should_be_able_to_view_the_wfd_screen_should_be_displayed_in_nonprcm_view() {
+		Assert.assertFalse("user is able to see PRCM view", workflowDistributionPage.isFilterSectionPresent());
+	}
+
 }

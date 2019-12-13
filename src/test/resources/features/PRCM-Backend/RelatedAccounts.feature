@@ -7,7 +7,7 @@ Feature: Verify Related Account testcases in PRCM-BE
     And user clicks on R1_Decision link
 
   @439227 @PRCMQueueUser @Sprint103
-  Scenario Outline: Verify the User is able to view Related Invoices pop up with pagination and Search box for PRCM enabled sites
+  Scenario Outline: Verify the User is able to view Related Invoices pop up with accounts for PRCM enabled sites
     Given user is on R1 Decision Account information page
     When user clicks on Related Accounts under Patient & Facility Info Section
     Then user should able to view the pop up title as "Related Accounts"
@@ -40,7 +40,7 @@ Feature: Verify Related Account testcases in PRCM-BE
 
     Examples: 
       | query3                      |
-      | RelatedInvoices_439237_SQL3 |
+      | 439231_RelatedInvoices_SQL3 |
 
   @439232 @PRCMQueueUser @Sprint103
   Scenario: Verify when User clicks on any account from Related Accounts section then user is navigated to That Account
@@ -59,3 +59,25 @@ Feature: Verify Related Account testcases in PRCM-BE
     Then user should be able to view the R1D screen for that Visit Number
     When user clicks on Related Accounts under Patient & Facility Info Section
     Then User should be able to view the previous Account in Related Accounts grid
+
+  @446361 @PRCMQueueUser @Sprint103
+  Scenario Outline: Verify the User is able to view Related Invoices pop up with pagination and Search box for PRCM enabled sites
+    Given user is on R1 Decision Account information page
+    When user clicks on Related Accounts under Patient & Facility Info Section
+		Then user should able to view the pop up title as "Related Accounts"
+    And user should be able to view Search button
+    And user should be able to view First button
+    And user should be able to view Previous button
+    And user should be able to view Next Button
+    And user should be able to view Last Button
+    And user should be able to view 1 button
+    And pages count should correspond to number of records
+    And user should be able to view following grid columns
+      | Visit # | Invoice # | Facility Code | Admit Date | Discharge Date | Patient Type | PayerPlan Code | Insurance Balance | Patient Balance | Defect Type | Defect SubCategory |
+    When user login to SQL server and connect to facility database
+    And user runs query to fetch all details of Related Accounts <query3>
+    Then user should be able to view the same grid data as in SQL result
+
+    Examples: 
+      | query3                      |
+      | 439231_RelatedInvoices_SQL3 |

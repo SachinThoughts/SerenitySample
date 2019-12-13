@@ -13,7 +13,7 @@ public class PhysicianNPIConfigSteps {
 		return physicianNPIConfigPage.getListOfDisabledPayorsName()
 				.get(CommonMethods.getRandom(physicianNPIConfigPage.getListOfDisabledPayorsName().size() - 1));
 	}
-	
+
 	@Step
 	public String getAnyEligiblePayor() {
 		return physicianNPIConfigPage.getListOfEligiblePayorsName()
