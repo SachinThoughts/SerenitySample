@@ -73,11 +73,20 @@ public class PhysicianNPIConfigPage extends PageObject {
 	@FindBy(xpath = "//*[@class='list-table-body physician-list']//div[4]")
 	private List<WebElementFacade> listOfTotalPayorsDisabled;
 
+	@FindBy(xpath = "//div[@class='container-fluid ng-scope']/div/h3[text()='Physician Search']")
+	private WebElementFacade physicianSearchTitle;
+
+	@FindBy(xpath = "//input[@placeholder='Search Physicians Name, NPI, etc.']")
+	private WebElementFacade physicianSearchTxtField;
+
+	@FindBy(xpath = "//ul[@class='list-table-body physician-list']/li[1]/div")
+	private List<WebElementFacade> listOfSearchedPhysicianInfo;
+
 	private String cancelBtnJS = "$('#editPhysicianNPIPayors > div > div > div.modal-footer > button.btn.btn-default')";
 
 	private String saveBtnJS = "$('#btnSave')";
 
-	String[] paginationValue;
+	String[] paginationValue, paginationValueWithFirstTextValue, paginationValueWithSecondTextValue;
 	List<String> listOfPaginationValue = new ArrayList<>();
 
 	public void pRCMNPIConfigTitleShouldBeVisible() {
@@ -180,15 +189,23 @@ public class PhysicianNPIConfigPage extends PageObject {
 
 	public List<String> getHeaderOfPagination() {
 		paginationValue = listOfPaginationHeader.getText().split("\\|");
-		listOfPaginationValue.add(paginationValue[0].trim());
-		listOfPaginationValue.add(paginationValue[1].trim());
+		paginationValueWithFirstTextValue = paginationValue[0].trim().split("\\s+");
+		paginationValueWithSecondTextValue = paginationValue[1].trim().split("\\s+");
+		listOfPaginationValue
+				.add(paginationValueWithFirstTextValue[0].trim() + " " + paginationValueWithFirstTextValue[1].trim());
+		listOfPaginationValue
+				.add(paginationValueWithSecondTextValue[0].trim() + " " + paginationValueWithSecondTextValue[1].trim());
 		return listOfPaginationValue;
 	}
 
 	public List<String> getFooterOfPagination() {
 		paginationValue = listOfPaginationFooter.getText().split("\\|");
-		listOfPaginationValue.add(paginationValue[0].trim());
-		listOfPaginationValue.add(paginationValue[1].trim());
+		paginationValueWithFirstTextValue = paginationValue[0].trim().split("\\s+");
+		paginationValueWithSecondTextValue = paginationValue[1].trim().split("\\s+");
+		listOfPaginationValue
+				.add(paginationValueWithFirstTextValue[0].trim() + " " + paginationValueWithFirstTextValue[1].trim());
+		listOfPaginationValue
+				.add(paginationValueWithSecondTextValue[0].trim() + " " + paginationValueWithSecondTextValue[1].trim());
 		return listOfPaginationValue;
 	}
 
@@ -203,4 +220,22 @@ public class PhysicianNPIConfigPage extends PageObject {
 		return listOfTotalPayors;
 	}
 
+	public boolean isphysicianSearchTitleVisible() {
+		return physicianSearchTitle.isVisible();
+	}
+
+	public void clickOnPhysicianSearchTxtField() {
+		physicianSearchTxtField.click();
+	}
+
+	public void enterPhysicianSearchTxtBox(String physiciansName) {
+		physicianSearchTxtField.type(physiciansName);
+	}
+
+	public List<String> getListofSearchedPhisicianInfo() {
+		List<String> listOfphysicianInfo = new ArrayList<>();
+		for (WebElementFacade physicianInfo : listOfSearchedPhysicianInfo)
+			listOfphysicianInfo.add(evaluateJavascript("return arguments[0].innerText;", physicianInfo).toString());
+		return listOfphysicianInfo;
+	}
 }
