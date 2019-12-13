@@ -417,28 +417,28 @@ public class WorkflowConfigurationPage extends PageObject {
 
 	@FindBy(id = "msg_success")
 	private WebElementFacade successMessage;
-	
+
 	@FindBy(xpath = "//*[@id='WorkflowTypeActionsSorttable']//ul/preceding-sibling::div//a[3]/i")
 	private List<WebElementFacade> listOfDetailsLinkActionTypeTab;
-	
+
 	@FindBy(xpath = "//*[@id='WorkflowTypeActionsSorttable']//li/div[5]/span")
 	private List<WebElementFacade> listOfTimeLimitInActionTypeGrid;
-	
+
 	@FindBy(xpath = "//ul[@id='WorkflowTypeActionsSorttable']//span[text()='Edit']")
 	private List<WebElementFacade> listOfEditLinkOnActionTypeGrid;
-	
+
 	@FindBy(xpath = "//*[@id='addNewAction']//*[@class='form-group']/label")
 	private List<WebElementFacade> listOfEditActionTypePopUpFields;
-	
+
 	@FindBy(xpath = "//*[@id='addNewAction']//*[@class='modal-footer']/button[1]")
 	private WebElementFacade closeBtnOnPopUp;
-	
+
 	@FindBy(xpath = "//*[@id='addNewAction']//*[@class='modal-footer']/button[2]")
 	private WebElementFacade saveChangesBtnOnPopUp;
-	
+
 	@FindBy(id = "txtActionName")
 	private WebElementFacade actionNameOnEditActionPopUp;
-	
+
 	@FindBy(id = "txtActionDescription")
 	private WebElementFacade actionDescOnEditActionPopUp;
 
@@ -453,10 +453,10 @@ public class WorkflowConfigurationPage extends PageObject {
 
 	@FindBy(id = "dnn_ctr1590_TaskPanel_taskBase_WorkflowActionType_ddlActionStatus")
 	private WebElementFacade actionStatusOnEditActionPopUp;
-	
+
 	@FindBy(id = "addEditNewActionLabel")
 	private WebElementFacade editActionPopUpHeader;
-	
+
 	public String getActionTextBreadcrumb() {
 		return actionTypeBreadcrumb.getText().trim();
 	}
@@ -613,8 +613,41 @@ public class WorkflowConfigurationPage extends PageObject {
 		return evaluateJavascript("return document.querySelector('#wfActionBSOCP-0').checked").toString();
 	}
 
-	public void clickOnContinueBtnOnRecipientTab() {
+	public void clickOnContinueRecipientTabHavingActionNames() {
+		int recipientSize = recipientsRadioBtnList.size();
 		continueBtnOnRecipientTab.click();
+		int size = listOfActionTypeRadioBtns.size();
+		while (size < 2) {
+			evaluateJavascript("arguments[0].click();", recipientTab);
+			for (int i = 1; i < recipientSize; i++) {
+				evaluateJavascript("arguments[0].click();", listOfRecipientsRadioBtn.get(i));
+				continueBtnOnRecipientTab.click();
+				size = listOfActionTypeRadioBtns.size();
+				if (size >= 2) {
+					break;
+				}
+				evaluateJavascript("arguments[0].click();", recipientTab);
+			}
+		}
+	}
+
+	public void clickOnContinueBtnOnRecipientTab() {
+		int recipientSize = recipientsRadioBtnList.size();
+		continueBtnOnRecipientTab.click();
+		int size = listOfActionTypeRadioBtns.size();
+		while (size < 1) {
+			evaluateJavascript("arguments[0].click();", recipientTab);
+			for (int i = 1; i < recipientSize; i++) {
+				evaluateJavascript("arguments[0].click();", listOfRecipientsRadioBtn.get(i));
+				continueBtnOnRecipientTab.click();
+				size = listOfActionTypeRadioBtns.size();
+				if (size >= 1) {
+					break;
+				}
+				evaluateJavascript("arguments[0].click();", recipientTab);
+			}
+		}
+
 	}
 
 	public String enterAndGetDispositionNotes() {
@@ -1348,7 +1381,7 @@ public class WorkflowConfigurationPage extends PageObject {
 				break;
 			}
 		}
-		
+
 	}
 
 	public List<Object> verifyEditActionPopupControlsVisible(List<String> listOfFields) {
@@ -1432,7 +1465,7 @@ public class WorkflowConfigurationPage extends PageObject {
 
 	public void clickSaveChangesBtnEditActionPopup() {
 		saveChangesBtnOnPopUp.click();
-		
+
 	}
 
 	public boolean isEditActionPopupVisible() {
@@ -1457,6 +1490,6 @@ public class WorkflowConfigurationPage extends PageObject {
 				break;
 			}
 		}
-		
+
 	}
 }

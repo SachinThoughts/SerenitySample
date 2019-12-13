@@ -1,6 +1,8 @@
 package r1.prcmbe.pages;
 
 import java.time.Duration;
+import java.util.ArrayList;
+import java.util.List;
 
 import net.serenitybdd.core.annotations.findby.FindBy;
 import net.serenitybdd.core.pages.PageObject;
@@ -46,6 +48,12 @@ public class EparsProHandoffPage extends PageObject {
 
 	@FindBy(id = "ddlOperatorBy")
 	private WebElementFacade operatorBy;
+
+	@FindBy(xpath = "//div[@class='modal-body tblsearchResults']/table/thead/tr/th")
+	private List<WebElementFacade> searchResultsTableHeaders;
+
+	@FindBy(id = "searchInputFirstName")
+	private WebElementFacade firstNameTextBox;
 
 	public void isEparsPageTitleVisible() {
 		eparsTitle.shouldBeVisible();
@@ -110,5 +118,21 @@ public class EparsProHandoffPage extends PageObject {
 	public void selectOperator(String operatorValue) {
 		waitForAngularRequestsToFinish();
 		operatorBy.withTimeoutOf(Duration.ofSeconds(30)).waitUntilVisible().selectByVisibleText(operatorValue);
+	}
+
+	public List<String> getSearchResultsTableHeaders() {
+		waitForAngularRequestsToFinish();
+		List<String> listOfSearchResultsTableHeaders = new ArrayList<>();
+		for (WebElementFacade searchResultsTableHeader : searchResultsTableHeaders) {
+			withAction().moveToElement(searchResultsTableHeader).build().perform();
+			if (!searchResultsTableHeader.getText().trim().equals(""))
+				listOfSearchResultsTableHeaders.add(searchResultsTableHeader.getText().trim());
+		}
+		return listOfSearchResultsTableHeaders;
+	}
+
+	public void enterFirstNameTextBox(String textBoxValue) {
+		waitForAngularRequestsToFinish();
+		firstNameTextBox.withTimeoutOf(Duration.ofSeconds(30)).waitUntilVisible().type(textBoxValue);
 	}
 }
