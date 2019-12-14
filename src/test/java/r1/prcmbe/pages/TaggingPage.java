@@ -500,17 +500,18 @@ public class TaggingPage extends PageObject {
 		massUpdateAddTagRadioBtn.click();
 		tagCategoryDrpdwnOnMassUpdateScrn.withTimeoutOf(Duration.ofSeconds(20)).waitUntilVisible();
 	}
-	/*public List<String> getNextActionByDrpDwnValues() {
-		List<String> listOfNextActionByDropDwnValues;
-		listOfNextActionByDropDwnValues = nextActionByDrpDwn.getSelectOptions();
-		return listOfNextActionByDropDwnValues;
-	}*/
+	public List<String> getTagCategoryDrpDwnValues() {
+		List<String> listOfTagCategoryDropDwnValues;
+		listOfTagCategoryDropDwnValues = tagCategoryDrpdwnOnMassUpdateScrn.getSelectOptions();
+		System.out.println("DropDown Values"+listOfTagCategoryDropDwnValues);
+		return listOfTagCategoryDropDwnValues;
+	}
 
 	
 	public void selectAccTagCategoryOnMU() throws Exception {
-		
-/*		List<String> listOfNextActionByDropDwnValues = getNextActionByDrpDwnValues();
-		int randomNumber;
+		//getTagCategoryDrpDwnValues();
+		List<String> listOfNextActionByDropDwnValues = getTagCategoryDrpDwnValues();
+/*		int randomNumber;
 		int size = listOfNextActionByDropDwnValues.size();
 		randomNumber = CommonMethods.getRandom(size);
 		nextActionByDrpDwn.selectByIndex(randomNumber);
@@ -520,38 +521,44 @@ public class TaggingPage extends PageObject {
 			nextActionByDrpDwn.selectByIndex(randomNumber);
 		}
 	}*/
-		
+		System.out.println(listOfNextActionByDropDwnValues);
 		
 		evaluateJavascript(scrollToElementJs, tagCategoryDrpdwnOnMassUpdateScrn);
 		//evaluateJavascript("arguments[0].click();", tagCategoryDrpdwnOnMassUpdateScrn);
-		System.out.println("Size of Acc categor : "+tagCategoryDrpdwnOptnsOnMUScrn.size());
-		int size=tagCategoryDrpdwnOptnsOnMUScrn.size();
+		//System.out.println("Size of Acc categor : "+tagCategoryDrpdwnOptnsOnMUScrn.size());
+		//int size=tagCategoryDrpdwnOptnsOnMUScrn.size();
 		withAction().moveToElement(tagCategoryDrpdwnOnMassUpdateScrn).click().build().perform();
-		int index1 = CommonMethods.getRandom(tagCategoryDrpdwnOptnsOnMUScrn.size());
+		int index1 = 2;
+				/*CommonMethods.getRandom(tagCategoryDrpdwnOptnsOnMUScrn.size());
 		while(size==index1) {
 			index1 = CommonMethods.getRandom(tagCategoryDrpdwnOptnsOnMUScrn.size());
-		}
-		System.out.println("index of Acc categor : "+index);
-		 evaluateJavascript("document.querySelector('#tagCategory > option:nth-child("+index+")').selected=true");
+		}*/
+		System.out.println("index of Acc categor : "+index1);
+		evaluateJavascript("document.querySelector(\"#tagCategory > option:nth-child(2)\").selected=true");
+		// evaluateJavascript("document.querySelector('#tagCategory > option:nth-child("+index1+")').selected=true");
 			Thread.sleep(5000);
 		System.out.println("Size of Acc categor : "+tagCategoryDrpdwnOptnsOnMUScrn.size());
 		 //tagCategoryDrpdwnOnMassUpdateScrn.selectByIndex(2);
 		 //getSelectedVisibleTextValue();
 	}
-
+	public List<String> getTagNameDrpDwnValues() {
+		List<String> listOfTagNameDropDwnValues;
+		listOfTagNameDropDwnValues = tagNameDrpdwnOnMassUpdateScrn.getSelectOptions();
+		System.out.println("DropDown Values"+listOfTagNameDropDwnValues);
+		System.out.println(listOfTagNameDropDwnValues);
+		return listOfTagNameDropDwnValues;
+	}
 	public void selectTagNameOnMU() throws Exception {
 		tagNameDrpdwnOnMassUpdateScrn.withTimeoutOf(Duration.ofSeconds(20)).waitUntilVisible();
-		//evaluateJavascript("arguments[0].click();",tagNameDrpdwnOnMassUpdateScrn);
 		Thread.sleep(5000);
-		//waitFor(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='tagName']/option[2]")));
 		withAction().moveToElement(tagNameDrpdwnOnMassUpdateScrn).click().build().perform();
-		//waitFor(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='tagName']/option[2]")));
-		System.out.println("Size of tag Name Drpdwn "+tagNameDrpdwnOptnsOnMassUpdateScrn.size());
+	/*	System.out.println("Size of tag Name Drpdwn "+tagNameDrpdwnOptnsOnMassUpdateScrn.size());
 		System.out.println(tagNameDrpdwnOptnsOnMassUpdateScrn.get(1).getText());
-		int countOfTagDdOptns = 1;
+		int countOfTagDdOptns = 2;
 				//CommonMethods.getRandom(tagNameDrpdwnOptnsOnMassUpdateScrn.size() - 1)+1 ;
-		System.out.println(countOfTagDdOptns);
-		evaluateJavascript("document.querySelector('#tagName > option:nth-child("+countOfTagDdOptns+")').selected=true");
+		System.out.println(countOfTagDdOptns);*/
+		getTagNameDrpDwnValues();
+		evaluateJavascript("document.querySelector(\"#tagName > option:nth-child(2)\").selected=true");
 	}
 
 	public boolean isAddCategoryDrpdwnVisibleOnMU() {
