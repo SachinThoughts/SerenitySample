@@ -2,6 +2,7 @@ package r1.prcmbe.pages;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 import net.serenitybdd.core.annotations.findby.FindBy;
 import net.serenitybdd.core.pages.PageObject;
 import net.serenitybdd.core.pages.WebElementFacade;
@@ -100,14 +101,29 @@ public class WorkflowDistributionPage extends PageObject {
 	@FindBy(xpath = "//*[@id='user-inventory']/div[2]/div[1]/div/div/div[2]/h4/a[contains(text(),'Show')]")
 	private WebElementFacade showLinkOnRepsTab;
 
-	@FindBy(xpath = "//*[@role='tabpanel']//div[@class='well']")
+	@FindBy(xpath = "//*[@id='divPayerFilter']//div[@class='well']")
 	private WebElementFacade filterSection;
 
 	@FindBy(xpath = "(//a[@class='toggle-inventory'])[1]/i")
 	private WebElementFacade firstDrildwnBtnOnPayerInvtryTab;
 
+	@FindBy(id = "ddlFacilityFilters")
+	private WebElementFacade facilityDropdown;
+
 	@FindBy(xpath = "//label[@for='payerInventoryType-02' and contains(text(),'Technical')]")
 	private WebElementFacade technicalRadioBtnOnPayorInvtryTab;
+
+	public void clickAnyFacilityFromFacilityDropdown() {
+		List<String> listOfAllFacilities;
+		listOfAllFacilities = facilityDropdown.getSelectOptions();
+		int size = listOfAllFacilities.size();
+		int randomNumber = ThreadLocalRandom.current().nextInt(1, size);
+		facilityDropdown.selectByIndex(randomNumber);
+	}
+
+	public void selectFacilityFromFacilityDropdown(String text) {
+		facilityDropdown.selectByVisibleText(text);
+	}
 
 	public void isWorkflowDistributionTitleVisible() {
 		workflowDistributionTitle.shouldBeVisible();
@@ -319,6 +335,16 @@ public class WorkflowDistributionPage extends PageObject {
 
 	public void clickOnFirstPayerOnPayerInvtryTab() {
 		evaluateJavascript("arguments[0].click();", firstDrildwnBtnOnPayerInvtryTab);
+	}
+
+	public boolean isWorkflowDistributionPageVisible() {
+		return workflowDistributionTitle.isVisible();
+	}
+
+	public boolean isFacilityGrpNamePresentInTheDropdown(String facilityGrpName) {
+		List<String> facilityGrpList;
+		facilityGrpList = facilityGrpDrpDwn.getSelectOptions();
+		return facilityGrpList.contains(facilityGrpName);
 	}
 
 	public void clickTechnicalRadioBtnOnPayerInvtryTab() {

@@ -13,6 +13,8 @@ import r1.prcmbe.pages.WorkflowDistributionPage;
 public class WorkflowDistributionStepDef extends PageObject {
 	NavigationPage navigationPage;
 	WorkflowDistributionPage workflowDistributionPage;
+	
+	static String pRCMEnabledFacilityGrpName;
 
 	@When("^user clicks on Workflow Distribution link$")
 	public void user_clicks_on_Workflow_Distribution_link() {
@@ -200,6 +202,7 @@ public class WorkflowDistributionStepDef extends PageObject {
 
 	@Given("^user selects PRCM enabled \"([^\"]*)\" facility group from Facility Group dropdown$")
 	public void user_selects_PRCM_enabled_facility_group_from_Facility_Group_dropdown(String facilityGrpName) {
+		pRCMEnabledFacilityGrpName=facilityGrpName;
 		workflowDistributionPage.selectFacilityGroup(facilityGrpName);
 	}
 

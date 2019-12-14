@@ -151,8 +151,17 @@ public class AccountInformationPage extends PageObject {
 	@FindBy(xpath = "//a[@class='btn' and text()='Recent Accounts']")
 	private WebElementFacade recentAccountsBtn;
 
+	@FindBy(xpath = "//*[@id='patientDetails']//h3[text()='Patient & Facility Info ']")
+	private WebElementFacade patientDetailsSection;
+
+	@FindBy(id = "lblMRN")
+	private WebElementFacade mrnNumber;
+
 	@FindBy(id = "btnNextAccount")
 	private WebElementFacade nextAccountBtn;
+
+	@FindBy(id = "handOffLabel")
+	private WebElementFacade handOffPopup;
 
 	public String getAccountNumber() {
 		waitForAngularRequestsToFinish();
@@ -458,5 +467,22 @@ public class AccountInformationPage extends PageObject {
 
 	public void clickNextAccountBtn() {
 		evaluateJavascript("arguments[0].click();", nextAccountBtn);
+	}
+
+	public void verifyPatientDetailsSectionVisible() {
+		patientDetailsSection.shouldBeVisible();
+	}
+
+	public String getMRNNumber() {
+		return mrnNumber.getText();
+	}
+
+	public void moveToAccountActionHistory() {
+		withAction().moveToElement(accntActionHistoryHeader).build().perform();
+	}
+
+	public boolean isHandOffPopupVisible() {
+		waitForLoaderInvisibility();
+		return handOffPopup.isVisible();
 	}
 }

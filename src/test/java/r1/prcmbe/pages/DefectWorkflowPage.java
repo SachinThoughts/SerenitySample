@@ -84,6 +84,9 @@ public class DefectWorkflowPage extends PageObject {
 
 	@FindBy(id = "msg_success")
 	private WebElementFacade successMsg;
+	
+	@FindBy(id="btnA2DSave")
+	private WebElementFacade a2DSaveButton;
 
 	public boolean isDefectWorkFlowSecVisible() {
 		return defectWorkflowSecHeader.isVisible();
@@ -247,5 +250,28 @@ public class DefectWorkflowPage extends PageObject {
 			index = CommonMethods.getRandom(size);
 		}
 		verifyAllStepsCheckbox.get(index).click();
+	}
+	
+	public String getActionTabColourVal() {
+		return actionSectionHeader.getCssValue("color");
+	}
+	
+	public void clickSOPActionOnTriagePage() {
+		int randomVal=CommonMethods.getRandom(listOfSOPActionsOnTriagePage.size());
+		listOfSOPActionsOnTriagePage.get(randomVal).click();
+	}
+	
+	public void clickSOPActionOnActionPage() {
+		int randomVal=CommonMethods.getRandom(listOfSOPActionsOnActionPage.size());
+		listOfSOPActionsOnActionPage.get(randomVal).click();
+	}
+	
+	public String getSuccessMessage() {
+		successMsg.withTimeoutOf(Duration.ofSeconds(30)).waitUntilVisible();
+		return successMsg.getText();
+	}
+	
+	public void clickOnA2DSaveButton() {
+		evaluateJavascript("arguments[0].click();",a2DSaveButton);
 	}
 }
