@@ -124,7 +124,7 @@ Feature: Verify Physician NPI Configuration in PRCM-BE
     Then physician list should be displayed with the columns
       | Physician's Name | NPI | Facility Physician ID | Total Payors Disabled |
     When user clicks on search text field on  PRCM NPI configuration page
-    And user search on the basis of Physician's and user should be able to search successfully on  PRCM NPI configuration page
+    Then user search on the basis of Physician's and user should be able to search successfully on  PRCM NPI configuration page
       | XIONG-HANG, PLA XOUA | 1235493214 | 63974 |
     Then user should be able to view header and Footer should be displayed like
       | Total Physicians: | Displaying Page: |

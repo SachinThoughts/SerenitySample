@@ -334,7 +334,7 @@ public class PhysicianNPIConfigStepDef {
 		physicianNPIConfigPage.clickOnPhysicianSearchTxtField();
 	}
 
-	@When("^user search on the basis of Physician's and user should be able to search successfully on  PRCM NPI configuration page$")
+	@Then("^user search on the basis of Physician's and user should be able to search successfully on  PRCM NPI configuration page$")
 	public void user_search_on_the_basis_of_Physician_s(DataTable expectedphysicianInfo) {
 		List<String> listOfphysicianInfo = expectedphysicianInfo.asList(String.class);
 		physicianNPIConfigPage.enterPhysicianSearchTxtBox(listOfphysicianInfo.get(0));
@@ -347,5 +347,4 @@ public class PhysicianNPIConfigStepDef {
 		Assert.assertTrue("Failed to verify Facility physician Id",
 				physicianNPIConfigPage.getListofSearchedPhisicianInfo().contains(listOfphysicianInfo.get(2)));
 	}
-
 }
