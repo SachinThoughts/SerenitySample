@@ -8,7 +8,7 @@ Feature: Verify PRCM Save related test cases in PRCM_BE
   Scenario: Verify that Sop Actions should be loaded in Defect Workflow section according to current Defect of an Invoice
     Given user login to SQL server and connect to facility database
     And user is on R1 Hub page
-    When user runs the "Account_Action_History_391051_SQL1" query to fetch Invoice Number
+    When user runs the query "Account_Action_History_391051_SQL1" to fetch "Invoice Number"
     Then user should be able to view some invoice id fetched from DB
     When user clicks on Billing & Follow-up link
     And user hovers on R1_Decision link

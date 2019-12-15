@@ -86,21 +86,6 @@ public class PRCMSaveStepDef {
 		defectWorkflowPage.clickOnA2DSaveButton();
 	}
 
-	@When("^user runs the \"([^\"]*)\" query to fetch Invoice Number$")
-	public void user_runs_the_query_to_fetch_Invoice_Number(String queryName)
-			throws ClassNotFoundException, SQLException, Exception {
-		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
-				commonMethods.loadQuery(queryName, dbQueryFilenameForAccntActnHistory));
-		try {
-			while (DatabaseConn.resultSet.next()) {
-				dbInvoiceNumber = DatabaseConn.resultSet.getString("invoiceNumber");
-			}
-			financialInfoStep.log("invoiceNumber in DB" + dbInvoiceNumber);
-		} catch (SQLException exception) {
-			Assert.assertTrue("invoiceNumber is not fetched from DB.\nThe Technical Error is:\n" + exception, false);
-		}
-	}
-
 	@When("^user enters Invoice Number fetched from database in invoice number textbox$")
 	public void user_enters_Invoice_Number_fetched_from_database_in_invoice_number_textbox() {
 		searchPage.enterInvoiceNumber(dbInvoiceNumber);
@@ -117,34 +102,9 @@ public class PRCMSaveStepDef {
 		accInfoPage.moveToAccountActionHistory();
 	}
 
-	@When("^user runs the query \"([^\"]*)\" to fetch Result Set$")
-	public void user_runs_the_query_to_fetch_Result_Set(String queryName)
-			throws ClassNotFoundException, SQLException, Exception {
-		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
-				String.format(commonMethods.loadQuery(queryName, dbQueryFilenameForPRCMSave), dbInvoiceId));
-	}
-
 	@Then("^user should be able to view the entries in these tables$")
 	public void user_should_be_able_to_view_the_entries_in_these_tables() throws SQLException {
 		Assert.assertTrue("User is not able to view the entries in provide sql query ", DatabaseConn.resultSet.next());
-	}
-
-	@When("^user runs the query \"([^\"]*)\" to fetch DefectTypeAttributeId and AttributeVal$")
-	public void user_runs_the_query_to_fetch_DefectTypeAttributeId_and_AttributeVal(String queryName)
-			throws ClassNotFoundException, SQLException, Exception {
-		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName, String
-				.format(commonMethods.loadQuery(queryName, dbQueryFilenameForPRCMSave), dbDefectAccountKey, dbUserId));
-		try {
-			while (DatabaseConn.resultSet.next()) {
-				listOfDefectAttributeTypeIdFromDb.add(DatabaseConn.resultSet.getString("DefectAttributeTypeID"));
-				listOfAttributeValueFromDb.add(DatabaseConn.resultSet.getString("AttributeValue"));
-			}
-		} catch (SQLException exception) {
-			Assert.assertTrue(
-					"DefectAttributeTypeId and AttributeValue is not fetched from DB.\nThe Technical Error is:\n"
-							+ exception,
-					false);
-		}
 	}
 
 	@Then("^user should be able to view the defect Attributetypeid is (\\d+) and attributevalue is URL$")
@@ -155,47 +115,78 @@ public class PRCMSaveStepDef {
 				prcmSaveSteps.verifyAttributeValueFromDbAsUrl(listOfAttributeValueFromDb));
 	}
 
-	@When("^user runs the query \"([^\"]*)\" to fetch Invoice Id$")
-	public void user_runs_the_query_to_fetch_Invoice_Id(String queryName)
+	@When("^user runs the query \"([^\"]*)\" to fetch \"([^\"]*)\"$")
+	public void user_runs_the_query_to_fetch_Invoice_Id(String queryName, String valueToFetch)
 			throws ClassNotFoundException, SQLException, Exception {
-		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
-				String.format(commonMethods.loadQuery(queryName, dbQueryFilenameForPRCMSave), dbInvoiceNumber));
-		try {
-			while (DatabaseConn.resultSet.next()) {
-				dbInvoiceId = DatabaseConn.resultSet.getString("id");
+		switch (valueToFetch) {
+		case "Invoice Id":
+			DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
+					String.format(commonMethods.loadQuery(queryName, dbQueryFilenameForPRCMSave), dbInvoiceNumber));
+			try {
+				while (DatabaseConn.resultSet.next()) {
+					dbInvoiceId = DatabaseConn.resultSet.getString("id");
+				}
+				financialInfoStep.log("InvoiceId in DB" + dbInvoiceId);
+			} catch (SQLException exception) {
+				Assert.assertTrue("InvoiceId is not fetched from DB.\nThe Technical Error is:\n" + exception, false);
 			}
-			financialInfoStep.log("InvoiceId in DB" + dbInvoiceId);
-		} catch (SQLException exception) {
-			Assert.assertTrue("InvoiceId is not fetched from DB.\nThe Technical Error is:\n" + exception, false);
-		}
-	}
-
-	@When("^user runs the query \"([^\"]*)\" to fetch DefectAccountKey$")
-	public void user_runs_the_query_to_fetch_DefectAccountKey(String queryName)
-			throws ClassNotFoundException, SQLException, Exception {
-		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
-				String.format(commonMethods.loadQuery(queryName, dbQueryFilenameForPRCMSave), dbInvoiceId));
-		try {
-			while (DatabaseConn.resultSet.next()) {
-				dbDefectAccountKey = DatabaseConn.resultSet.getString("DefectAccountKey");
+			break;
+		case "Invoice Number":
+			DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
+					commonMethods.loadQuery(queryName, dbQueryFilenameForAccntActnHistory));
+			try {
+				while (DatabaseConn.resultSet.next()) {
+					dbInvoiceNumber = DatabaseConn.resultSet.getString("invoiceNumber");
+				}
+				financialInfoStep.log("invoiceNumber in DB" + dbInvoiceNumber);
+			} catch (SQLException exception) {
+				Assert.assertTrue("invoiceNumber is not fetched from DB.\nThe Technical Error is:\n" + exception,
+						false);
 			}
-			financialInfoStep.log("DefectAccountKey in DB" + dbInvoiceNumber);
-		} catch (SQLException exception) {
-			Assert.assertTrue("DefectAccountKey is not fetched from DB.\nThe Technical Error is:\n" + exception, false);
+			break;
+		case "DefectAccountKey":
+			DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
+					String.format(commonMethods.loadQuery(queryName, dbQueryFilenameForPRCMSave), dbInvoiceId));
+			try {
+				while (DatabaseConn.resultSet.next()) {
+					dbDefectAccountKey = DatabaseConn.resultSet.getString("DefectAccountKey");
+				}
+				financialInfoStep.log("DefectAccountKey in DB" + dbInvoiceNumber);
+			} catch (SQLException exception) {
+				Assert.assertTrue("DefectAccountKey is not fetched from DB.\nThe Technical Error is:\n" + exception,
+						false);
+			}
+			break;
+		case "Result Set For Created User":
+			DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
+					String.format(commonMethods.loadQuery("getUserId", dbQueryFilenameForPRCMSave),
+							CommonMethods.loadProperties("prcmBeUsername")));
+			while (DatabaseConn.resultSet.next()) {
+				dbUserId = DatabaseConn.resultSet.getString("UserID");
+			}
+			DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName, String.format(
+					commonMethods.loadQuery(queryName, dbQueryFilenameForPRCMSave), dbDefectAccountKey, dbUserId));
+			break;
+		case "DefectTypeAttributeId and AttributeVal":
+			DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName, String.format(
+					commonMethods.loadQuery(queryName, dbQueryFilenameForPRCMSave), dbDefectAccountKey, dbUserId));
+			try {
+				while (DatabaseConn.resultSet.next()) {
+					listOfDefectAttributeTypeIdFromDb.add(DatabaseConn.resultSet.getString("DefectAttributeTypeID"));
+					listOfAttributeValueFromDb.add(DatabaseConn.resultSet.getString("AttributeValue"));
+				}
+			} catch (SQLException exception) {
+				Assert.assertTrue(
+						"DefectAttributeTypeId and AttributeValue is not fetched from DB.\nThe Technical Error is:\n"
+								+ exception,
+						false);
+			}
+			break;
+		case "Result Set":
+			DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
+					String.format(commonMethods.loadQuery(queryName, dbQueryFilenameForPRCMSave), dbInvoiceId));
+			break;
 		}
-	}
-
-	@When("^user runs the query \"([^\"]*)\" to fetch Result Set For Created User$")
-	public void user_runs_the_query_to_fetch_Result_Set_For_Created_User(String queryName)
-			throws ClassNotFoundException, SQLException, Exception {
-		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
-				String.format(commonMethods.loadQuery("getUserId", dbQueryFilenameForPRCMSave),
-						CommonMethods.loadProperties("prcmBeUsername")));
-		while (DatabaseConn.resultSet.next()) {
-			dbUserId = DatabaseConn.resultSet.getString("UserID");
-		}
-		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName, String
-				.format(commonMethods.loadQuery(queryName, dbQueryFilenameForPRCMSave), dbDefectAccountKey, dbUserId));
 	}
 
 	@When("^user fetch Defect typeid$")
