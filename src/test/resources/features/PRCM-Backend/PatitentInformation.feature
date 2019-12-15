@@ -27,3 +27,19 @@ Feature: Verify patient info related test cases in PRCM-BE
     Given user is on "R1 Hub Technologies 2.0 - 15 R1_Decision" page
     When User clicks on drilldown icon of Patient & Facility Info panel
     Then user should be able to view Patient Information grid as collapsed
+
+  @391256 @Sprint103 @PRCMUser
+  Scenario Outline: TC To Verify headers on patient Info section for all tabs
+    Given user is on "R1 Hub Technologies 2.0 - 15 R1_Decision" page
+    When User clicks on tab <tabname> tab in Patient & Facility Info panel
+    Then user should be able to view the following header fields in all four tabs
+      | SSN | DOB | Facility Code | Account # | Invoice # |
+    When user login to SQL Server and connect to facility database
+    And user runs the patient info query "patient_info_391254_SQL2" and fetch the headers 
+    Then user should be able to view same data in header fields as in SQL result
+
+    Examples: 
+      | tabname                 |
+      | Patient Address         |
+      | Facility Details        |
+      | Patient & Visit Details |
