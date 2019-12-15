@@ -1,4 +1,4 @@
-	package runner;
+package runner;
 
 import org.junit.runner.RunWith;
 import cucumber.api.CucumberOptions;
@@ -8,8 +8,9 @@ import net.serenitybdd.cucumber.CucumberWithSerenity;
 
 @CucumberOptions(features = { "src/test/resources/features/PRCM-Backend" }, tags = {
 
-		"@419685" }, glue = {
+		"@ProfessionalUDC or @ExternalSearch or @DefectOverride or @DefaultHandoff or @FinancialInformation or @WorkflowConfiguration or @InternalSearch or @Tagging or @WorkflowDistribution or @CallPayerQueue or @AccountDocument or @BSODayNight or @PhysicianNPIConfiguration or @TaggingHistory or @E-parsProHandoff or @FacilityGroupConfiguration" }, glue = {
 
 				"r1.prcmbe.steps.definitions" })
 public class RunnerTest {
+
 }
