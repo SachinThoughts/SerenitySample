@@ -10,6 +10,7 @@ import r1.commons.databaseconnection.DatabaseConn;
 import r1.commons.utilities.CommonMethods;
 import r1.prcmbe.pages.AccountInformationPage;
 import r1.prcmbe.pages.CallPayerQueuePage;
+import r1.prcmbe.pages.SettingsPage;
 import r1.prcmbe.pages.WorkflowConfigurationPage;
 
 public class WriteOffStepDef extends PageObject {
@@ -18,6 +19,7 @@ public class WriteOffStepDef extends PageObject {
 	WorkflowConfigurationPage workflowConfigPage;
 	CallPayerQueuePage callPayerQueuePage;
 	AccountInformationPage accInfoPage;
+	SettingsPage settingsPage;
 
 	private static String dbQueryFilename = "WriteOff";
 
@@ -77,5 +79,14 @@ public class WriteOffStepDef extends PageObject {
 	public void user_should_be_able_to_view_the_message_after_clicking_Save_button(String expectedMessage) {
 		Assert.assertTrue("User not able to view the success message",
 				expectedMessage.equals(accInfoPage.getSuccessMsgUsingJs()));
+	}
+
+	@Given("^user is on Settings page$")
+	public void user_is_on_Settings_page() {
+		settingsPage.checkSettingsHeaderVisibility();
+	}
+
+	@Then("^user should be able to view Status as \"([^\"]*)\" for all displayed write off request actions$")
+	public void user_should_be_able_to_view_Status_as_for_all_displayed_write_off_request_actions(String value) {
 	}
 }

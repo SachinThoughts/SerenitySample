@@ -25,7 +25,7 @@ Feature: Verify write off related testcases in PRCM-BE
     And user enters Invoice number
     And user clicks on Submit button
 
-  @391092 @Sprint103 @PRCMUser
+  @391092 @Sprint103 @R1DApproval
   Scenario: Verify that user is able to  see Write-Off  Pop-up Window with mandatory fields and Nextfollowup date=0 and Timelimitdate=999
     Given user is on account page
     When user clicks on Approvals link
