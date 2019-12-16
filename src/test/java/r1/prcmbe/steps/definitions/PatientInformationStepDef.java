@@ -116,7 +116,7 @@ public class PatientInformationStepDef extends PageObject {
 	@When("^user runs the patient info query \"([^\"]*)\" and fetch the headers$")
 	public void user_runs_the_patient_info_query_and_fetch_the_headers(String queryName) throws Exception {
 		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
-				commonMethods.loadQuery(queryName, dbQueryFilename));
+				String.format(commonMethods.loadQuery(queryName, dbQueryFilename), dbInvoiceNumber));
 		try {
 			while (DatabaseConn.resultSet.next()) {
 				ResultSetMetaData md = DatabaseConn.resultSet.getMetaData();
@@ -126,9 +126,9 @@ public class PatientInformationStepDef extends PageObject {
 				}
 			}
 		} catch (SQLException sQLException) {
-			Assert.assertTrue("Invoice number is not fetched from DB.\nThe Technical Error is:\n" + sQLException,
+			Assert.assertTrue("Table Headers doesn't fetch from DB.\nThe Technical Error is:\n" + sQLException,
 					false);
 		}
-		financialInfoSteps.log("Fetched Invoice Number from Database is " + dbInvoiceNumber);
+		financialInfoSteps.log("Fetched Table Headers from Database is " + dbInvoiceNumber);
 	}
 }
