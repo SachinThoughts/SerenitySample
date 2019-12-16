@@ -314,7 +314,7 @@ public class PhysicianNPIConfigStepDef {
 
 	@Then("^user should be able to view that changes are not saved$")
 	public void user_should_be_able_to_view_that_changes_are_not_saved() {
-		Assert.assertTrue("Some changes are done, counts of Total Payor disabled are changed",
+		Assert.assertTrue("Some Changes are done, counts of Total Payor disabled are changed",
 				cntOfTotalPayorsDisabled == physicianNPIConfigPage.firstPhyTotalDisabledCount());
 	}
 }
