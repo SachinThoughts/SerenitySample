@@ -41,3 +41,29 @@ Feature: Verify PRCM Save related test cases in PRCM_BE
     And user runs the query "PRCM_Save_391019_SQL5" for fetching SOP having IsRequired=1
     Then user should be able to view SOP actions having IsRequired=1
     And user should be able to view the optional Sop actions in Steps Taken section
+
+  @391214 @Sprint103
+  Scenario: Verify new application Name R1DProfessional has been created
+    Given user login to SQL server and connect to "Accretive" database
+    When user runs the query "PRCM_Save_391214_SQL17" to fetch "Application name and Application ID"
+    Then user should be able to view the Application name and Application ID
+    And user should be able to view selected database as "Accretive"
+
+  @391216 @Sprint103 @PRCMUser
+  Scenario: Verify the Skills for professional defect subcategory
+    Given user login to SQL server and connect to facility database
+    And user is on R1 Hub page
+    When user runs the query "Account_Action_History_391051_SQL1" to fetch "Invoice Number"
+    Then user should be able to view some invoice id fetched from DB
+    When user clicks on Billing & Follow-up link
+    And user hovers on R1_Decision link
+    And user clicks on search sub menu
+    And user select "Invoice Number" from Search By dropdown
+    And user selects "=" operator from operator dropdown
+    And user enters Invoice Number fetched from database in invoice number textbox
+    And user clicks on Submit button
+    Then user is able to view the Account Page
+    When user runs the query "PRCM_Save_391216_SQL19" to fetch "DefectCategoryID"
+    And user fetch Defectsubcategoryid
+    And user runs the query "PRCM_Save_391216_SQL20" with passing by defectsubcategoryid
+    Then user should be able to view the Skillid for all Major payer for defectsubcategoryid

@@ -35,9 +35,10 @@ public class PRCMSaveStepDef {
 	@Steps
 	PRCMSaveSteps prcmSaveSteps;
 
-	String dbInvoiceNumber, dbDefectAccountKey, dbInvoiceId, dbUserId, dbDefectTypeId, dbDefectSubCategoryId;
+	String dbInvoiceNumber, dbDefectAccountKey, dbInvoiceId, dbUserId, dbDefectTypeId, dbDefectSubCategoryId, dbName;
 	List<String> listOfDefectAttributeTypeIdFromDb = new ArrayList<>(), listOfAttributeValueFromDb = new ArrayList<>(),
-			listOfSOPHavingIsRequired0FromDb = new ArrayList<>(), listOfSOPHavingIsRequired1FromDb = new ArrayList<>();
+			listOfSOPHavingIsRequired0FromDb = new ArrayList<>(), listOfSOPHavingIsRequired1FromDb = new ArrayList<>(),
+			listOfApplicationNameFromDb = new ArrayList<>(), listOfApplicationIdFromDb = new ArrayList<>();
 	private static String dbQueryFilenameForAccntActnHistory = "AccountActionHistory",
 			dbQueryFilenameForPRCMSave = "PRCMSave";
 
@@ -186,6 +187,27 @@ public class PRCMSaveStepDef {
 			DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
 					String.format(commonMethods.loadQuery(queryName, dbQueryFilenameForPRCMSave), dbInvoiceId));
 			break;
+
+		case "Application name and Application ID":
+			DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
+					commonMethods.loadQuery(queryName, dbQueryFilenameForPRCMSave));
+			try {
+				while (DatabaseConn.resultSet.next()) {
+					listOfApplicationNameFromDb.add(DatabaseConn.resultSet.getString("ApplicationName"));
+					listOfApplicationIdFromDb.add(DatabaseConn.resultSet.getString("ApplicationID"));
+				}
+			} catch (SQLException exception) {
+				Assert.assertTrue(
+						"DefectAttributeTypeId and AttributeValue is not fetched from DB.\nThe Technical Error is:\n"
+								+ exception,
+						false);
+			}
+			break;
+		case "DefectCategoryID":
+			String defectSubCategoryDesc = accInfoPage.getDefectSubcategoryBreadcrumb().trim();
+			DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName, String
+					.format(commonMethods.loadQuery(queryName, dbQueryFilenameForPRCMSave), defectSubCategoryDesc));
+			break;
 		}
 	}
 
@@ -290,5 +312,42 @@ public class PRCMSaveStepDef {
 	@When("^user clicks on Previous button on Action Section$")
 	public void user_clicks_on_Next_button_on_TriagePage() {
 		defectWorkflowPage.clickOnPreviousButtonOnActionSection();
+	}
+
+	@Then("^user should be able to view selected database as \"([^\"]*)\"$")
+	public void user_should_be_able_to_view_selected_database_as(String expectedDbName) throws ClassNotFoundException, SQLException, Exception {
+		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName, 
+				commonMethods.loadQuery("getDBName", dbQueryFilenameForPRCMSave));
+		try {
+			while (DatabaseConn.resultSet.next()) {
+				dbName = DatabaseConn.resultSet.getString("DBName");
+			}
+		} catch (SQLException exception) {
+			Assert.assertTrue("DBName is not fetched from DB.\nThe Technical Error is:\n" + exception, false);
+		}
+		Assert.assertTrue("User is not able to view selected database . Fetched Database Name :" + dbName,
+				dbName.equals(expectedDbName));
+	}
+
+	@Then("^user should be able to view the Application name and Application ID$")
+	public void user_should_be_able_to_view_the_Application_name_and_Application_ID() {
+		Assert.assertTrue("User is not able to view the Application Name .", listOfApplicationNameFromDb.size() > 0);
+		Assert.assertTrue("User is not able to view the Application Id .", listOfApplicationIdFromDb.size() > 0);
+	}
+
+	@When("^user runs the query \"([^\"]*)\" with passing by defectsubcategoryid$")
+	public void user_runs_the_query_with_passing_by_defectsubcategoryid(String queryName)
+			throws ClassNotFoundException, SQLException, Exception {
+		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
+				String.format(commonMethods.loadQuery(queryName, dbQueryFilenameForPRCMSave), dbDefectSubCategoryId));
+	}
+	
+	@Then("^user should be able to view the Skillid for all Major payer for defectsubcategoryid$")
+	public void user_should_be_able_to_view_Skillid_for_all_Major_payer_for_defectsubcategoryid() throws SQLException {
+		List<Integer> skillsId = new ArrayList<>();
+		while (DatabaseConn.resultSet.next()) {
+			skillsId.add(DatabaseConn.resultSet.getInt("SkillID"));
+		}
+		Assert.assertTrue("Skill Id's not fetched from database", !skillsId.isEmpty());
 	}
 }
