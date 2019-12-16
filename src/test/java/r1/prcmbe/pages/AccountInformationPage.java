@@ -10,6 +10,8 @@ import r1.commons.utilities.CommonMethods;
 
 public class AccountInformationPage extends PageObject {
 
+	String successMessage = "return document.querySelector('#msg_success').innerText";
+
 	@FindBy(xpath = "//span[text()='Related Accounts']")
 	private WebElementFacade relatedAccountBtn;
 
@@ -484,5 +486,9 @@ public class AccountInformationPage extends PageObject {
 	public boolean isHandOffPopupVisible() {
 		waitForLoaderInvisibility();
 		return handOffPopup.isVisible();
+	}
+
+	public String getSuccessMsgUsingJs() {
+		return evaluateJavascript(successMessage).toString();
 	}
 }

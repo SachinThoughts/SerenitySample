@@ -27,7 +27,7 @@ Feature: Verify write off related testcases in PRCM-BE
 
   @391092 @Sprint103 @PRCMUser
   Scenario: Verify that user is able to  see Write-Off  Pop-up Window with mandatory fields and Nextfollowup date=0 and Timelimitdate=999
-    #Given user should be able to view R1 Decision Account screen
+    Given user is on account page
     When user clicks on Approvals link
     Then user should be able to view the Approval Request  popup
     And user should be able to view Category drop down
@@ -43,4 +43,4 @@ Feature: Verify write off related testcases in PRCM-BE
     And user enters amount "1.00" in Write off Amount textbox
     And user enters "Automation Testing Note" in Notes textbox
     And user clicks on write off Save button
-    #Then user should be able to view the message 'Write Off saved successfully."
+    Then user should be able to view the message "Writeoff Request Saved Successfully" after clicking Save button
