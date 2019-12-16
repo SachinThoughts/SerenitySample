@@ -3,10 +3,10 @@ package r1.prcmbe.pages;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
+import org.apache.commons.lang.RandomStringUtils;
 import net.serenitybdd.core.annotations.findby.FindBy;
 import net.serenitybdd.core.pages.PageObject;
 import net.serenitybdd.core.pages.WebElementFacade;
-
 
 public class FacilityGroupConfigurationPage extends PageObject {
 
@@ -58,6 +58,23 @@ public class FacilityGroupConfigurationPage extends PageObject {
 
 	@FindBy(id = "txtFacilityGroupName")
 	private WebElementFacade facilityGrpNameOnPopup;
+
+	@FindBy(xpath = "//*[@class='tt-suggestions']/div")
+	private List<WebElementFacade> facilitySearchSuggestion;
+
+	public void clickOnFacilityCodeFromSearchDropdown(String code) {
+		int size = facilitySearchSuggestion.size();
+		for (int i = 0; i < size; i++) {
+			if (facilitySearchSuggestion.get(i).getText().contains(code)) {
+				evaluateJavascript("arguments[0].click();", facilitySearchSuggestion.get(i));
+				break;
+			}
+		}
+	}
+
+	public void enterFacilityGrpNameInTxtBox(String facilityGrpName) {
+		facilityGrpNameOnPopup.type(facilityGrpName.concat(RandomStringUtils.randomAlphabetic(3)));
+	}
 
 	public List<String> getAllPageControls() {
 		for (WebElementFacade pageControls : listOfLabels) {
@@ -202,5 +219,56 @@ public class FacilityGroupConfigurationPage extends PageObject {
 	public String getEnteredFacilityGroupName() {
 		return evaluateJavascript("return arguments[0].value;", facilityGrpNameOnPopup).toString();
 
+	}
+
+	public boolean isPhysicianCheckboxEnabled() {
+		withAction().moveToElement(physicianCheckbox).build().perform();
+		return physicianCheckbox.withTimeoutOf(Duration.ofSeconds(15)).waitUntilVisible().isSelected();
+	}
+
+	public void clickOnFacilityGrpEditBtn(String facilityGrpName) {
+		int size = listOfEditBtns.size();
+		for (index = 0; index < size; index++) {
+			if (facilityGroupList.get(index).getText().equals(facilityGrpName)) {
+				withAction().moveToElement(facilityGroupList.get(index)).build().perform();
+				evaluateJavascript("arguments[0].click();", listOfEditBtns.get(index));
+				break;
+			}
+		}
+	}
+
+	public void clickOnSaveBtn() {
+		saveBtn.click();
+	}
+
+	public List<String> getPrcmEnabledFacilityCodes() {
+		List<String> listOfPrcmEnabledFacilityGrp = new ArrayList<>();
+		int size = facilityGroupList.size();
+		for (index = 0; index < size; index++) {
+			if (facilityGroupList.get(index).getText().contains("PRCM")) {
+				listOfPrcmEnabledFacilityGrp.add(listOfFacilities.get(index).getText());
+			}
+		}
+		return listOfPrcmEnabledFacilityGrp;
+	}
+
+	public void clickOnAddBtnOnPopup() {
+		addBtnOnAddNewPopup.click();
+	}
+
+	public void clickOnCloseBtn() {
+		closeBtn.click();
+	}
+
+	public boolean checkFacilityGrpContainsCommonFacilityCode(String facilityGrpName, String commonFacilityGrpCode) {
+		int size = facilityGroupList.size();
+		int i;
+		for (i = 0; i < size; i++) {
+			if (facilityGroupList.get(i).getText().equals(facilityGrpName)) {
+				withAction().moveToElement(facilityGroupList.get(i)).build().perform();
+				break;
+			}
+		}
+		return listOfFacilities.get(i).getText().contains(commonFacilityGrpCode);
 	}
 }

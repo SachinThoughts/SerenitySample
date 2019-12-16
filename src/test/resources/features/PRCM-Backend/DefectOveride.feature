@@ -8,9 +8,9 @@ Feature: Verify Defect over ride
   @391266 @Sprint8 @PRCMUser
   Scenario Outline: Verify that Defect Workflow section should be display when searched by Invoice#
     Given user is able to login to sql server and connect to database
-    When user runs the query <query1>
+    When user run the query to fetch InvoiceId <query1>
     Then user should be able to view some invoice id
-    When user runs the query <query2>
+    When user run the query to fetch PRCM flag <query2>
     Then user should be able to view the PRCM Flag "ON"
     When user hovers on R1_Decision link
     And user clicks on search sub menu
@@ -33,7 +33,7 @@ Feature: Verify Defect over ride
   @391267 @Sprint8 @PRCMUser
   Scenario Outline: Verify Defect Override Functionality
     Given user is able to login to sql server and connect to database
-    When user runs the query <query1>
+    When user run the query to fetch InvoiceId <query1>
     Then user should be able to view some invoice id
     And user hovers on R1_Decision link
     And user clicks on search sub menu
@@ -60,7 +60,7 @@ Feature: Verify Defect over ride
   @391268 @Sprint8 @PRCMUser
   Scenario Outline: Verify Defect Classification section after overriding Defect
     Given user is able to login to sql server and connect to database
-    When user runs the query <query1>
+    When user run the query to fetch InvoiceId <query1>
     Then user should be able to view some invoice id
     And user hovers on R1_Decision link
     And user clicks on search sub menu
@@ -83,7 +83,7 @@ Feature: Verify Defect over ride
   @391270 @Sprint8 @PRCMUser
   Scenario Outline: Verify that Sop Actions should be  loaded according to current Defect of an Invoice
     Given user is able to login to sql server and connect to database
-    When user runs the query <query1>
+    When user run the query to fetch InvoiceId <query1>
     Then user should be able to view some invoice id
     And user hovers on R1_Decision link
     And user clicks on search sub menu
@@ -131,7 +131,7 @@ Feature: Verify Defect over ride
     And user clicks on search sub menu
     When user run the query to fetch defect account history "Defect_Override_391269_SQL5"
     Then user should be able to view the record get inserted to Defect History Table after overriding
-    When user run the query to fetch invoice Id "Defect_Override_391269_SQL6A" 
+    When user run the query to fetch invoice Id "Defect_Override_391269_SQL6A"
     When user run the query "Defect_Override_391269_SQL6" to check new record
     Then user should be able to view new record get inserted with appropriate data
     When user run the query "Defect_Override_391269_SQL7" to check Defect Account Attribute Table
