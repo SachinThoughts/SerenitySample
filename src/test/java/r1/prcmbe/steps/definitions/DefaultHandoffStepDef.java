@@ -570,6 +570,7 @@ public class DefaultHandoffStepDef {
 
 	@Then("^user should be able to view H under event circle in blue color for newly added Handoff type on Horizontal timeline$")
 	public void user_should_be_able_to_view_under_event_circle_in_blue_color_for_newly_added_Handoff_type_on_Horizontal_timeline() {
+		defaultHandOffPage.expandAccountActionHistory();
 		Assert.assertTrue("User is not able to view blue bubble with H text",
 				defaultHandOffPage.getHandoffBubbleColor().equals(BUBBLECOLOR));
 	}
