@@ -7,7 +7,6 @@ import java.util.List;
 import net.serenitybdd.core.annotations.findby.FindBy;
 import net.serenitybdd.core.pages.PageObject;
 import net.serenitybdd.core.pages.WebElementFacade;
-import net.serenitybdd.screenplay.actions.Evaluate;
 import r1.commons.utilities.CommonMethods;
 
 public class DefectWorkflowPage extends PageObject {
@@ -285,5 +284,14 @@ public class DefectWorkflowPage extends PageObject {
 	
 	public void clickOnPreviousButtonOnActionSection() {
 		evaluateJavascript("arguments[0].click();", prevButtonOnActionSection);
+	}
+	
+	public List<String> getListOfSOPFromUI(){
+		List<String> listOfSOP=new ArrayList<>();
+		clickOnNextButton();
+		listOfSOP.addAll(getSOPActionsOnTriagePage());
+		clickOnNextButtonOnTriagePage();
+		listOfSOP.addAll(getSOPActionsOnActionPage());
+		return listOfSOP;
 	}
 }

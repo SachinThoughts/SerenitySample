@@ -38,7 +38,8 @@ public class PRCMSaveStepDef {
 	String dbInvoiceNumber, dbDefectAccountKey, dbInvoiceId, dbUserId, dbDefectTypeId, dbDefectSubCategoryId, dbName;
 	List<String> listOfDefectAttributeTypeIdFromDb = new ArrayList<>(), listOfAttributeValueFromDb = new ArrayList<>(),
 			listOfSOPHavingIsRequired0FromDb = new ArrayList<>(), listOfSOPHavingIsRequired1FromDb = new ArrayList<>(),
-			listOfApplicationNameFromDb = new ArrayList<>(), listOfApplicationIdFromDb = new ArrayList<>();
+			listOfApplicationNameFromDb = new ArrayList<>(), listOfApplicationIdFromDb = new ArrayList<>(),
+			listOfSOPActionFromDb = new ArrayList<>(), listOfSOPFromUI = new ArrayList<>();
 	private static String dbQueryFilenameForAccntActnHistory = "AccountActionHistory",
 			dbQueryFilenameForPRCMSave = "PRCMSave";
 
@@ -208,6 +209,17 @@ public class PRCMSaveStepDef {
 			DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName, String
 					.format(commonMethods.loadQuery(queryName, dbQueryFilenameForPRCMSave), defectSubCategoryDesc));
 			break;
+		case "SOP List":
+			DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName, String
+					.format(commonMethods.loadQuery(queryName, dbQueryFilenameForPRCMSave), dbDefectSubCategoryId));
+			try {
+				while (DatabaseConn.resultSet.next()) {
+					listOfSOPActionFromDb.add(DatabaseConn.resultSet.getString("ActionName"));
+				}
+			} catch (SQLException exception) {
+				Assert.assertTrue("SOP Action is not fetched from DB.\nThe Technical Error is:\n" + exception, false);
+			}
+			break;
 		}
 	}
 
@@ -315,8 +327,9 @@ public class PRCMSaveStepDef {
 	}
 
 	@Then("^user should be able to view selected database as \"([^\"]*)\"$")
-	public void user_should_be_able_to_view_selected_database_as(String expectedDbName) throws ClassNotFoundException, SQLException, Exception {
-		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName, 
+	public void user_should_be_able_to_view_selected_database_as(String expectedDbName)
+			throws ClassNotFoundException, SQLException, Exception {
+		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
 				commonMethods.loadQuery("getDBName", dbQueryFilenameForPRCMSave));
 		try {
 			while (DatabaseConn.resultSet.next()) {
@@ -341,7 +354,7 @@ public class PRCMSaveStepDef {
 		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
 				String.format(commonMethods.loadQuery(queryName, dbQueryFilenameForPRCMSave), dbDefectSubCategoryId));
 	}
-	
+
 	@Then("^user should be able to view the Skillid for all Major payer for defectsubcategoryid$")
 	public void user_should_be_able_to_view_Skillid_for_all_Major_payer_for_defectsubcategoryid() throws SQLException {
 		List<Integer> skillsId = new ArrayList<>();
@@ -349,5 +362,23 @@ public class PRCMSaveStepDef {
 			skillsId.add(DatabaseConn.resultSet.getInt("SkillID"));
 		}
 		Assert.assertTrue("Skill Id's not fetched from database", !skillsId.isEmpty());
+	}
+
+	@Then("^user should be able to view the SOP list for the passed defect sub category$")
+	public void user_should_be_able_to_view_the_SOP_list_for_the_passed_defect_sub_category() {
+		Assert.assertTrue("User is not able to view the SOP list for passed defect sub category ",
+				!listOfSOPActionFromDb.isEmpty());
+	}
+
+	@When("^user checks the SOP steps from DB in UI$")
+	public void user_checks_the_SOP_steps_from_DB_in_UI() {
+		listOfSOPFromUI = defectWorkflowPage.getListOfSOPFromUI();
+	}
+
+	@Then("^user should be able to view same SOPs Step from DB in UI$")
+	public void user_should_be_able_to_view_same_SOPs_Step_from_DB_in_UI() {
+		Assert.assertTrue("User is not able to view same SOP Step from DB in UI .SOP Step from DB :"
+				+ listOfSOPActionFromDb + " SOP Step from UI :" + listOfSOPFromUI,
+				listOfSOPFromUI.containsAll(listOfSOPActionFromDb));
 	}
 }

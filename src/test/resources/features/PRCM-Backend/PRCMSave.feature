@@ -80,3 +80,16 @@ Feature: Verify PRCM Save related test cases in PRCM_BE
     Then user should be able to view the entries in these tables
     When user runs the query "PRCM_Save_391061_SQL10" to fetch "DefectTypeAttributeId and AttributeVal"
     Then user should be able to view the defect Attributetypeid is 24 and attributevalue is URL
+
+  @391215 @Sprint103 @PRCMUser
+  Scenario: Verify the SOPs for Professional Denials
+    Given user is on Account Page
+    When user login to SQL server and connect to facility database
+    And user runs the query "PRCM_Save_391019_SQL2" for fetching DefectTypeId
+    And user fetch Defect typeid
+    And user runs the query "PRCM_Save_391019_SQL3" with passing by defecttypeid
+    And user fetch Defectsubcategoryid
+    And user runs the query "PRCM_Save_391215_SQL18" to fetch "SOP List"
+    Then user should be able to view the SOP list for the passed defect sub category
+    When user checks the SOP steps from DB in UI
+    Then user should be able to view same SOPs Step from DB in UI
