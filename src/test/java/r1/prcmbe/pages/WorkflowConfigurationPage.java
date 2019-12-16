@@ -457,6 +457,9 @@ public class WorkflowConfigurationPage extends PageObject {
 	@FindBy(id = "addEditNewActionLabel")
 	private WebElementFacade editActionPopUpHeader;
 
+	@FindBy(xpath = "//span[text()='Identified']")
+	private List<WebElementFacade> actionTypeStatusList;
+
 	public String getActionTextBreadcrumb() {
 		return actionTypeBreadcrumb.getText().trim();
 	}
@@ -1491,5 +1494,13 @@ public class WorkflowConfigurationPage extends PageObject {
 			}
 		}
 
+	}
+
+	public List<String> getActionTypeStatusListText() {
+		List<String> statusList = new ArrayList<String>();
+		for (WebElementFacade element : actionTypeStatusList) {
+			statusList.add(element.getText().trim());
+		}
+		return statusList;
 	}
 }

@@ -6,12 +6,14 @@ import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import net.serenitybdd.core.pages.PageObject;
+import net.thucydides.core.annotations.Steps;
 import r1.commons.databaseconnection.DatabaseConn;
 import r1.commons.utilities.CommonMethods;
 import r1.prcmbe.pages.AccountInformationPage;
 import r1.prcmbe.pages.CallPayerQueuePage;
 import r1.prcmbe.pages.SettingsPage;
 import r1.prcmbe.pages.WorkflowConfigurationPage;
+import r1.prcmbe.serenity.steps.WriteOffSteps;
 
 public class WriteOffStepDef extends PageObject {
 
@@ -20,6 +22,9 @@ public class WriteOffStepDef extends PageObject {
 	CallPayerQueuePage callPayerQueuePage;
 	AccountInformationPage accInfoPage;
 	SettingsPage settingsPage;
+
+	@Steps
+	WriteOffSteps writeOffSteps;
 
 	private static String dbQueryFilename = "WriteOff";
 
@@ -88,5 +93,6 @@ public class WriteOffStepDef extends PageObject {
 
 	@Then("^user should be able to view Status as \"([^\"]*)\" for all displayed write off request actions$")
 	public void user_should_be_able_to_view_Status_as_for_all_displayed_write_off_request_actions(String value) {
+		Assert.assertTrue("user not able to view Status as Identified", writeOffSteps.verifyActionTypeStatus(value));
 	}
 }
