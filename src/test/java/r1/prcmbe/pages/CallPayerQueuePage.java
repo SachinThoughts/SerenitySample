@@ -115,6 +115,12 @@ public class CallPayerQueuePage extends PageObject {
 	@FindBy(id = "btnAddPayerQueueWithNote")
 	private WebElementFacade addPayerQueueWithNoteBtn;
 
+	@FindBy(id = "writeOffLabel")
+	private WebElementFacade approvalPopup;
+
+	@FindBy(xpath = "//*[@id='writeOff']/div/div/div[1]/button/span[text()='Close']")
+	private WebElementFacade approvalPopupCloseBtn;
+
 	public void clickAddtoCallPayorQueueBtn() {
 		withAction().moveToElement(addToQueueIcon).build().perform();
 		evaluateJavascript("arguments[0].click();", addToQueueIcon);
@@ -310,5 +316,37 @@ public class CallPayerQueuePage extends PageObject {
 			cPQInvoiceNumberList.add(invoiceNumber.getText());
 		}
 		return cPQInvoiceNumberList;
+	}
+
+	public boolean isApprovalPopupVisisble() {
+		return approvalPopup.isVisible();
+	}
+
+	public boolean isCategoryVisible() {
+		return category.isVisible();
+	}
+
+	public boolean isWriteOffTypeVisible() {
+		return writeOffType.isVisible();
+	}
+
+	public boolean isTCodeToUseTypeVisible() {
+		return tCodeToUse.isVisible();
+	}
+
+	public boolean isWriteOffAmountVisible() {
+		return writeOffAmount.isVisible();
+	}
+
+	public boolean isWriteOffNotesVisible() {
+		return writeOffNotes.isVisible();
+	}
+
+	public boolean isApprovalPopupCloseBtnVisible() {
+		return approvalPopupCloseBtn.isVisible();
+	}
+
+	public boolean isSaveWriteOffBtnVisible() {
+		return saveWriteOffBtn.isVisible();
 	}
 }
