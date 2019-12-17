@@ -485,4 +485,14 @@ public class AccountInformationPage extends PageObject {
 		waitForLoaderInvisibility();
 		return handOffPopup.isVisible();
 	}
+
+	public String getCurrentApplicationUrl() {
+		return getDriver().getCurrentUrl();
+	}
+
+	public String getDefectTypeBreadcrumb() {
+		String defectLabel = defectBreadcrumb.getText().trim();
+		String[] defectSubcategory = defectLabel.split(">>\\s");
+		return defectSubcategory[0];
+	}
 }

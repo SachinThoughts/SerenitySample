@@ -26,7 +26,7 @@ public class Hooks extends PageObject {
 	@Steps
 	LoginSteps loginStep;
 
-	@Before(value = "@AHtoDecisionAdmin or @PRCMUser or @ARSupervisor")
+	@Before(value = "@AHtoDecisionAdmin or @PRCMUser or @ARSupervisor or @SeniorManager")
 	public void prcmBeUser() throws IOException {
 		open();
 		if (accInfoPage.checkLogoutVisible() && propertyName != "prcmBeUsername") {
