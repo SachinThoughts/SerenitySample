@@ -114,8 +114,8 @@ Feature: Verify Physician NPI Configuration in PRCM-BE
     And user should be able to view pagination should be displayed
     And user should be able to view header and Footer should be displayed like
       | Total Physicians: | Displaying Page: |
-    And user shoule be able to view page Header "FACILITY PHYSICIANS" should be displayed
-    And user shoule be able to view the physicians records should be sorted based on Total Payors Disabled desc
+    And user should be able to view page Header "FACILITY PHYSICIANS" should be displayed
+    And user should be able to view the physicians records should be sorted based on Total Payors Disabled desc
 
   @391458 @Sprint103 @PRCMUser
   Scenario: Verify the Search Physician functionality

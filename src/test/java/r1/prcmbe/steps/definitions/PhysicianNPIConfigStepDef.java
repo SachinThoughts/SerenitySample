@@ -288,12 +288,12 @@ public class PhysicianNPIConfigStepDef {
 	}
 
 	@Then("^user should be able to view pagination should be displayed$")
-	public void user_shoule_be_able_to_view_pagination_should_be_displayed() {
+	public void user_should_be_able_to_view_pagination_should_be_displayed() {
 		Assert.assertTrue("Failed to view pagination Control", physicianNPIConfigPage.isPaginationCtrlVisible());
 	}
 
 	@Then("^user should be able to view header and Footer should be displayed like$")
-	public void user_shoule_be_able_to_view_header_and_Footer_should_be_displayed_like(
+	public void user_should_be_able_to_view_header_and_Footer_should_be_displayed_like(
 			DataTable expectedHeaderAndFooterValues) {
 		List<String> listOfHeaderAndFooterValues = expectedHeaderAndFooterValues.asList(String.class);
 		Assert.assertTrue("failed to verify Header and Footer",
@@ -302,14 +302,14 @@ public class PhysicianNPIConfigStepDef {
 				physicianNPIConfigPage.getFooterOfPagination().containsAll(listOfHeaderAndFooterValues));
 	}
 
-	@Then("^user shoule be able to view page Header \"([^\"]*)\" should be displayed$")
-	public void user_shoule_be_able_to_view_page_Header_should_be_displayed(String expectedHeader) {
+	@Then("^user should be able to view page Header \"([^\"]*)\" should be displayed$")
+	public void user_should_be_able_to_view_page_Header_should_be_displayed(String expectedHeader) {
 		Assert.assertTrue("Failed to verify" + expectedHeader,
 				physicianNPIConfigPage.getFacilityPhysicianHeader().equals(expectedHeader));
 	}
 
-	@Then("^user shoule be able to view the physicians records should be sorted based on Total Payors Disabled desc$")
-	public void user_shoule_be_able_to_view_the_physicians_records_should_be_sorted_based_on_Total_Payors_Disabled_desc() {
+	@Then("^user should be able to view the physicians records should be sorted based on Total Payors Disabled desc$")
+	public void user_should_be_able_to_view_the_physicians_records_should_be_sorted_based_on_Total_Payors_Disabled_desc() {
 		List<String> listOfTotalPayorDisabledDesc = new ArrayList<String>(
 				physicianNPIConfigPage.getCountOfTotalDisabledPayors());
 		Collections.sort(listOfTotalPayorDisabledDesc, Collections.reverseOrder());
