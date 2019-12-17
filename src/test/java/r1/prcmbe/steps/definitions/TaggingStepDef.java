@@ -482,14 +482,15 @@ public class TaggingStepDef extends PageObject {
 
 	@Then("^User should be able to view Account Tag Category dropdown $")
 	public void user_should_be_able_to_view_Account_Tag_Category_dropdown() {
-		taggingPage.isAddCategoryDrpdwnVisibleOnMU();
+		Assert.assertTrue("User is not able to view Account tag Category dropdown",
+				taggingPage.isAddCategoryDrpdwnVisibleOnMU());
 
 	}
 
 	@Then("^User should be able to view Account Tag Name dropdown$")
 	public void user_should_be_able_to_view_Account_Tag_Name_dropdown() {
-		taggingPage.isAddTagDrpdwnVisibleOnMU();
-
+		Assert.assertTrue("User is not able to view account tag name dropdown",
+				taggingPage.isAddTagDrpdwnVisibleOnMU());
 	}
 
 	@When("^User selects Account Tag Category from Account Tag Category drop down$")
