@@ -17,6 +17,7 @@ import r1.commons.utilities.CommonMethods;
 import r1.prcmbe.pages.PatientInformationPage;
 import r1.prcmbe.pages.SearchPage;
 import r1.prcmbe.serenity.steps.FinancialInfoSteps;
+import r1.prcmbe.serenity.steps.PatientInformationSteps;
 
 public class PatientInformationStepDef extends PageObject {
 	PatientInformationPage patientInformationPage;
@@ -25,6 +26,8 @@ public class PatientInformationStepDef extends PageObject {
 
 	@Steps
 	FinancialInfoSteps financialInfoSteps;
+	@Steps
+	PatientInformationSteps patientInformationSteps;
 
 	List<String> listOfHeadersOnUI = new ArrayList<>();
 	List<String> listOfDataHeadersInDB = new ArrayList<>();
@@ -126,9 +129,37 @@ public class PatientInformationStepDef extends PageObject {
 				}
 			}
 		} catch (SQLException sQLException) {
-			Assert.assertTrue("Table Headers doesn't fetch from DB.\nThe Technical Error is:\n" + sQLException,
-					false);
+			Assert.assertTrue("Table Headers doesn't fetch from DB.\nThe Technical Error is:\n" + sQLException, false);
 		}
 		financialInfoSteps.log("Fetched Table Headers from Database is " + dbInvoiceNumber);
+	}
+
+	@When("^User clicks on Facility Details tab$")
+	public void user_clicks_on_Facility_Details_tab() {
+		patientInformationPage.clickOnFacilityDetailsTab();
+	}
+
+	@Then("^User should be able to view the following feilds on Facility Details tab$")
+	public void user_should_be_able_to_view_the_following_feilds_on_Facility_Details_tab(DataTable expectedHeaders) {
+		List<String> expectedListOfHeaders = expectedHeaders.asList(String.class);
+		listOfHeadersOnUI = patientInformationPage.getlistOfFacilityInfoHeaders();
+		Assert.assertTrue("Expected headers are not visible on Page",
+				listOfHeadersOnUI.containsAll(expectedListOfHeaders));
+	}
+
+	@Then("^User should be able to view the same data in columns as in SQL result $")
+	public void user_should_be_able_to_view_the_same_data_in_columns_as_in_SQL_result() {
+		Assert.assertTrue("User is not able to view data header fields in sql result",
+				listOfHeadersOnUI.containsAll(listOfDataHeadersInDB));
+	}
+
+	@When("^user runs the patient info query to fetch facility data \"([^\"]*)\" query$")
+	public void user_runs_the_patient_info_query_to_fetch_facility_data_query(String queryName) throws Exception {
+		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
+				String.format(commonMethods.loadQuery(queryName, dbQueryFilename), dbInvoiceNumber));
+		List<Object> listOfVal = patientInformationSteps.verifyFacilityDetailsWithDb();
+		boolean val = ((Boolean) listOfVal.get(listOfVal.size() - 1)).booleanValue();
+		Assert.assertTrue(
+				"Following facility details values does not match\n" + listOfVal.subList(0, listOfVal.size() - 1), val);
 	}
 }

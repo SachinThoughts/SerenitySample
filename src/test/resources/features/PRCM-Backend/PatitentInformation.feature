@@ -35,7 +35,7 @@ Feature: Verify patient info related test cases in PRCM-BE
     Then user should be able to view the following header fields in all four tabs
       | SSN | DOB | Facility Code | Account # | Invoice # |
     When user login to SQL Server and connect to facility database
-    And user runs the patient info query "patient_info_391254_SQL2" and fetch the headers 
+    And user runs the patient info query "patient_info_391254_SQL2" and fetch the headers
     Then user should be able to view same data in header fields as in SQL result
 
     Examples: 
@@ -43,3 +43,23 @@ Feature: Verify patient info related test cases in PRCM-BE
       | Patient Address         |
       | Facility Details        |
       | Patient & Visit Details |
+
+  @391261 @Sprint103 @PRCMUser
+  Scenario: Verify Facility Details Tab's and Data Columns Under Patient & Facility Info module
+    Given user is on "R1 Hub Technologies 2.0 - 15 R1_Decision" page
+    When User clicks on Facility Details tab
+    And user runs the patient info query "patient_info_391261_SQL4" and fetch the headers
+    And user runs the patient info query to fetch facility data "patient_info_391261_SQL4" query
+    Then User should be able to view the following feilds on Facility Details tab
+      | Facility Code    |
+      | Facility Name    |
+      | Location Code    |
+      | Location Name    |
+      | Location Address |
+      | City             |
+      | State            |
+      | Zip Code         |
+      | NPI              |
+      | Tax ID #         |
+      | PTAN             |
+    And User should be able to view the same data in columns as in SQL result 
