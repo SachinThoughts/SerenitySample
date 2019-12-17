@@ -43,7 +43,8 @@ public class CallPayerQueueStepDef extends PageObject {
 	LoginPage loginPage;
 	AccountActionHistoryPage accActionHistoryPage;
 
-	String accountNo, noOfAccountsInQueueBefore, dbInvoiceNumber, amount, tCode, existingCount;
+	String accountNo, noOfAccountsInQueueBefore, dbInvoiceNumber, amount, tCode, existingCount, dbRegistrationId,
+			dbDefectAccountKey;
 	private static String dbQueryFilename = "CallPayerQueue";
 	private int callPayerQueueCount;
 	private String removedInvoice, handOffType, succesMessageHandOff;
@@ -477,5 +478,76 @@ public class CallPayerQueueStepDef extends PageObject {
 	public void user_should_not_be_able_to_view_duplicate_account_in_Call_Queue_Section() {
 		Assert.assertFalse("Duplicate account added in Call Queue Section",
 				callPayerQueueSteps.isAccountVisibleMoreThanOnceInCallPayerQueue(dbInvoiceNumber));
+	}
+
+	@When("^user fetch the \"([^\"]*)\" from database$")
+	public void user_fetch_the_from_database(String columnName) {
+		try {
+			while (DatabaseConn.resultSet.next()) {
+				dbRegistrationId = DatabaseConn.resultSet.getString(columnName);
+			}
+			financialInfoStep.log("Registration Id in DB" + dbRegistrationId);
+		} catch (SQLException exception) {
+			Assert.assertTrue("Registration Id is not fetched from DB.\nThe Technical Error is:\n" + exception, false);
+		}
+	}
+
+	@When("^user runs the query \"([^\"]*)\" to check if entry for write-off is created$")
+	public void user_runs_the_query_to_check_if_entry_for_write_off_is_created(String queryName) throws Exception {
+		String query = commonMethods.loadQuery(queryName, dbQueryFilename);
+		query = String.format(query, dbRegistrationId);
+		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName, query);
+	}
+
+	@When("^user runs the query \"([^\"]*)\" to check if entry for DefectAttributeType is created$")
+	public void user_runs_the_query_to_check_if_entry_for_DefectAttributeType_is_created(String queryName)
+			throws Exception {
+		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
+				commonMethods.loadQuery(queryName, dbQueryFilename));
+	}
+
+	@When("^user runs the query \"([^\"]*)\" to check if entry for write-off is created in AhCrossSite_CrossSiteWorkQueueArchive$")
+	public void user_runs_the_query_to_check_if_entry_for_write_off_is_created_in_AhCrossSite_CrossSiteWorkQueueArchive(
+			String queryName) throws Exception {
+		String query = commonMethods.loadQuery(queryName, dbQueryFilename);
+		query = String.format(query, dbDefectAccountKey);
+		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName, query);
+	}
+
+	@Then("^user verify that the new Defect Attribute has been created$")
+	public void user_verify_that_the_new_Defect_Attribute_has_been_created() throws Exception {
+		Assert.assertTrue("Defect Attribute is not created", DatabaseConn.resultSet.next());
+	}
+
+	@When("^user fetch the DefectAttributeTypeID$")
+	public void user_fetch_the_DefectAttributeTypeID() throws Exception {
+		while (DatabaseConn.resultSet.next()) {
+			financialInfoStep
+					.log("DefectAttributeTypeID in DB" + DatabaseConn.resultSet.getString("DefectAttributeTypeID"));
+		}
+	}
+
+	@When("^user fetch the DefectAccountKey$")
+	public void user_fetch_the_DefectAccountKey() {
+		try {
+			while (DatabaseConn.resultSet.next()) {
+				dbDefectAccountKey = DatabaseConn.resultSet.getString("DefectAccountKey");
+			}
+			financialInfoStep.log("DefectAccountKey in DB" + dbDefectAccountKey);
+		} catch (SQLException exception) {
+			Assert.assertTrue("DefectAccountKey is not fetched from DB.\nThe Technical Error is:\n" + exception, false);
+		}
+	}
+
+	@Then("^user should be able to view the account in AhCrossSite_CrossSiteWorkQueueArchive table with reason Approval Request$")
+	public void user_should_be_able_to_view_the_account_in_AhCrossSite_CrossSiteWorkQueueArchive_table_with_reason_Approval_Request()
+			throws Exception {
+		Assert.assertTrue("User not able to view the account in AhCrossSite_CrossSiteWorkQueueArchive table",
+				DatabaseConn.resultSet.next());
+	}
+
+	@Then("^user should be able to view new Defect Attribute created$")
+	public void user_should_be_able_to_view_new_Defect_Attribute_created() throws Exception {
+		Assert.assertTrue("User not able to view new Defect Attribute created", DatabaseConn.resultSet.next());
 	}
 }
