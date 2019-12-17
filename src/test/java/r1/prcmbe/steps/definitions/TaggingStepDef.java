@@ -28,6 +28,7 @@ public class TaggingStepDef extends PageObject {
 	TaggingPage taggingPage;
 	SearchPage searchPage;
 	BillingAndFollowUpPage billingAndFollowUpPage;
+	
 	final String ALERTBGCOLOR = "rgba(76, 144, 221, 1)";
 	List<String> categoryNameList = new ArrayList<>();
 	List<String> listOfGridColumnsOnUI = new ArrayList<>();
@@ -380,7 +381,7 @@ public class TaggingStepDef extends PageObject {
 				commonMethods.loadQuery(queryName, dbFileName));
 		try {
 			while (DatabaseConn.resultSet.next()) {
-				dbInvoiceNumber = DatabaseConn.resultSet.getString("InvoiceNumber");
+				dbInvoiceNumber = DatabaseConn.resultSet.getString("Invoicenumber");
 				dbInvoiceId = DatabaseConn.resultSet.getString("InvoiceId");
 			}
 		} catch (SQLException sQLException) {
