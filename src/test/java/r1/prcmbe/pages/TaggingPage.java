@@ -7,6 +7,8 @@ import java.util.List;
 
 import org.apache.commons.lang3.RandomStringUtils;
 
+import org.openqa.selenium.Keys;
+
 import net.serenitybdd.core.annotations.findby.FindBy;
 import net.serenitybdd.core.pages.PageObject;
 import net.serenitybdd.core.pages.WebElementFacade;
@@ -150,7 +152,55 @@ public class TaggingPage extends PageObject {
 	private List<WebElementFacade> listOfAddedTagDetails;
 
 	@FindBy(xpath = "//*[@class='alert alert-info']//span")
-	private WebElementFacade alertMsgOnDuplicateTag;
+	private WebElementFacade alertMsgOnAddAcTagPopup;
+
+	@FindBy(xpath = "//*[@class='alert alert-info']//span[text()='  Adding Tag on unclassified account is not allowed']")
+	private WebElementFacade alertMsgOnTagPopupForUnclassifiedAcc;
+
+	@FindBy(xpath = "//*[@id='main']//h3[text()='Mass Update']")
+	private WebElementFacade massUpdatePageTitle;
+
+	@FindBy(xpath = "//label[@for='accountOption01a']")
+	private WebElementFacade professionalRadioBtn;
+
+	@FindBy(xpath = "//label[@for='muOption01a']")
+	private WebElementFacade manualEntryRadioBtn;
+
+	@FindBy(xpath = "(//div[@class='form-group']//textarea)[1]")
+	private WebElementFacade manualEntryTextBox;
+
+	@FindBy(xpath = "//label[@for='massUpdateRequestAccountTagging']")
+	private WebElementFacade massUpdateReqAccTaggingRadioBtn;
+
+	@FindBy(xpath = "//label[text()='Add']")
+	private WebElementFacade massUpdateAddTagRadioBtn;
+
+	@FindBy(id = "tagCategory")
+	private WebElementFacade tagCategoryDrpdwnOnMassUpdateScrn;
+
+	@FindBy(xpath = "//*[@id='tagCategory']/option")
+	private List<WebElementFacade> tagCategoryDrpdwnOptnsOnMUScrn;
+
+	@FindBy(id = "tagName")
+	private WebElementFacade tagNameDrpdwnOnMassUpdateScrn;
+
+	@FindBy(xpath = "//*[@id='tagName']/option")
+	private List<WebElementFacade> tagNameDrpdwnOptnsOnMassUpdateScrn;
+
+	@FindBy(id = "massUpdateNotes")
+	private WebElementFacade massUpdateNotes;
+
+	@FindBy(id = "msg_info")
+	private WebElementFacade alertMsgOnMassUpdateScrn;
+
+	@FindBy(id = "dnn_ctr1025_LocationChooser_ddlLocation")
+	private WebElementFacade facilityDrpdwnOnMUScreen;
+
+	@FindBy(xpath = "//*[@id='msg_info']")
+	private WebElementFacade successMsgOnMU;
+
+	@FindBy(xpath = "//label[text()='Remove']")
+	private WebElementFacade removeRadioBtn;
 
 	int index;
 	String removeTagBtnJs = "document.querySelector('#dnn_ctr1552_TaskPanel_spanTask > div.container > div.row > div.col-lg-9 > div:nth-child(3) > div.row > div.col-lg-3.hidden-print > ol > li > span > span').click()";
@@ -410,10 +460,107 @@ public class TaggingPage extends PageObject {
 	}
 
 	public boolean isAlertMsgOnDuplicateTagVisible() {
-		return alertMsgOnDuplicateTag.isVisible();
+		return alertMsgOnAddAcTagPopup.isVisible();
 	}
 
 	public String getaccAddedAlrtMsgAfterEdit() {
 		return accAddedAlrtMsg.getText();
+	}
+
+	public String getAlertMsgOnTagPopupForUnclassifiedAcc() {
+		return alertMsgOnTagPopupForUnclassifiedAcc.getText();
+	}
+
+	public boolean isSaveChangesBtnDisabled() {
+		return saveTagBtn.isDisabled();
+	}
+
+	public void massUpdateScreenShouldBeVisible() {
+		massUpdatePageTitle.shouldBeVisible();
+	}
+
+	public void selectProfessionalRadioBtn() {
+		professionalRadioBtn.click();
+	}
+
+	public void selectManualEntryRadioBtn() {
+		manualEntryRadioBtn.click();
+	}
+
+	public void enterInvcNumInManualEntryTxtbxOnMUScrn(String invoiceNumber) {
+		String selectedFacility = facilityDrpdwnOnMUScreen.getSelectedVisibleTextValue().substring(0, 4)
+				+ invoiceNumber;
+		evaluateJavascript("document.querySelector('#muManualEntry').value='" + selectedFacility + "';",
+				manualEntryTextBox);
+	}
+
+	public void selectMUReqAccountTaggingRadioBtn() {
+		massUpdateReqAccTaggingRadioBtn.click();
+	}
+
+	public void selectAddRadioBtnOnMU() {
+		massUpdateAddTagRadioBtn.click();
+		tagCategoryDrpdwnOnMassUpdateScrn.withTimeoutOf(Duration.ofSeconds(20)).waitUntilVisible();
+	}
+
+	public List<String> getTagCategoryDrpDwnValues() {
+		List<String> listOfTagCategoryDropDwnValues;
+		listOfTagCategoryDropDwnValues = tagCategoryDrpdwnOnMassUpdateScrn.getSelectOptions();
+		return listOfTagCategoryDropDwnValues;
+	}
+
+	public void selectAccTagCategoryOnMU() {
+		int index1 = CommonMethods.getRandom(tagCategoryDrpdwnOptnsOnMUScrn.size());
+		CommonMethods.getRandom(tagCategoryDrpdwnOptnsOnMUScrn.size());
+		while (index1 == 0) {
+			index1 = CommonMethods.getRandom(tagCategoryDrpdwnOptnsOnMUScrn.size());
+		}
+		evaluateJavascript(scrollToElementJs, tagCategoryDrpdwnOnMassUpdateScrn);
+
+		for (int i = 0; i < index1; i++) {
+			withAction().moveToElement(tagCategoryDrpdwnOnMassUpdateScrn).click().sendKeys(Keys.DOWN).sendKeys(Keys.TAB)
+					.build().perform();
+		}
+	}
+
+	public List<String> getTagNameDrpDwnValues() {
+		List<String> listOfTagNameDropDwnValues;
+		listOfTagNameDropDwnValues = tagNameDrpdwnOnMassUpdateScrn.getSelectOptions();
+		return listOfTagNameDropDwnValues;
+	}
+
+	public void selectTagNameOnMU() {
+		tagNameDrpdwnOnMassUpdateScrn.withTimeoutOf(Duration.ofSeconds(20)).waitUntilVisible();
+		withAction().moveToElement(tagNameDrpdwnOnMassUpdateScrn).click().build().perform();
+
+		int index1 = CommonMethods.getRandom(tagNameDrpdwnOptnsOnMassUpdateScrn.size());
+		while (index1 == 0) {
+			index1 = CommonMethods.getRandom(tagNameDrpdwnOptnsOnMassUpdateScrn.size());
+		}
+		evaluateJavascript("document.querySelector(\"#tagName > option:nth-child(" + index1 + ")\").selected=true");
+	}
+
+	public boolean isAddCategoryDrpdwnVisibleOnMU() {
+		return tagCategoryDrpdwnOnMassUpdateScrn.isVisible();
+	}
+
+	public boolean isAddTagDrpdwnVisibleOnMU() {
+		return tagNameDrpdwnOnMassUpdateScrn.isVisible();
+	}
+
+	public void clickOnSaveBtnOnMU() {
+		evaluateJavascript("document.querySelector('#muSumbit').click()");
+	}
+
+	public void enterNotesOnMU(String notes) {
+		evaluateJavascript("document.querySelector('#massUpdateNotes').value='" + notes + "';", manualEntryTextBox);
+	}
+
+	public String getSuccessMsgOnMU() {
+		return successMsgOnMU.withTimeoutOf(Duration.ofSeconds(20)).waitUntilVisible().getText();
+	}
+
+	public void selectRemoveRadioBtnOnMU() {
+		removeRadioBtn.click();
 	}
 }
