@@ -83,6 +83,25 @@ public class Hooks extends PageObject {
 		}
 	}
 
+	@Before(value = "@R1DApproval")
+	public void prcmR1DApprovalUser() throws IOException {
+		open();
+		if (accInfoPage.checkLogoutVisible() && propertyName != "R1DApproverUserName") {
+			accInfoPage.logOut();
+			open();
+		}
+		if (userLoginPage.verifyUsernameTextBox()) {
+			String accountuser = CommonMethods.loadProperties("R1DApproverUserName");
+			String passwd = CommonMethods.loadProperties("R1DApproverPassword");
+			loginStep.userEntersCredentials(accountuser, passwd);
+			userLoginPage.loginBtnClick();
+			if (userLoginPage.isProceedLinkVisible()) {
+				userLoginPage.clickOnProceedFurther();
+			}
+			propertyName = "R1DApproverUserName";
+		}
+	}
+
 	@Before(value = "@PRCMQueueUser")
 	public void prcmBeQueueUser() throws IOException {
 		open();
@@ -99,25 +118,6 @@ public class Hooks extends PageObject {
 				userLoginPage.clickOnProceedFurther();
 			}
 			propertyName = "prcmBeQueueUsername";
-		}
-	}
-
-	@Before(value = "@R1DApproverUser")
-	public void prcmR1DApproverUpUser() throws IOException {
-		open();
-		if (accInfoPage.checkLogoutVisible() && propertyName != "R1DApproverUserName") {
-			accInfoPage.logOut();
-			open();
-		}
-		if (userLoginPage.verifyUsernameTextBox()) {
-			String accountuser = CommonMethods.loadProperties("R1DApproverUserName");
-			String passwd = CommonMethods.loadProperties("R1DApproverPassword");
-			loginStep.userEntersCredentials(accountuser, passwd);
-			userLoginPage.loginBtnClick();
-			if (userLoginPage.isProceedLinkVisible()) {
-				userLoginPage.clickOnProceedFurther();
-			}
-			propertyName = "R1DApproverUserName";
 		}
 	}
 

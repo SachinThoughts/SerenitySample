@@ -235,7 +235,7 @@ Feature: Verify Call Payer Queue functionality
     And user should be able to view the request "Approved" status
     Then user should be able to view the account dropped from CPQ
 
-  @427126 @Sprint103 @R1DApproverUser
+  @427126 @Sprint103 @R1DApproval
   Scenario: Verify that account get dropped from CPQ if the write off action is still pending
     Given user is on account page
     When user clicks on Add to queue button in Call Payer Queue Section

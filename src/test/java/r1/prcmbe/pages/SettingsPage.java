@@ -35,10 +35,9 @@ public class SettingsPage extends PageObject {
 
 	@FindBy(xpath = "//span[not(contains(@style,'hidden')) and text()='R1 Configuration']")
 	private WebElementFacade r1ConfigurationLink;
-	
+
 	@FindBy(xpath = "//span[(contains(@class,'txt')) and text()='Facility Group Configuration']")
 	private WebElementFacade facilityGrpConfigLink;
-	
 
 	@FindBy(xpath = "//span[not(contains(@style,'hidden')) and text()='Action Target Configuration']")
 	private WebElementFacade actionTargetConfigLink;
@@ -48,6 +47,9 @@ public class SettingsPage extends PageObject {
 
 	@FindBy(xpath = "//span[not(contains(@style,'hidden'))and text()='PRCM - Eligibility NPI Configuration']")
 	private WebElementFacade eligibilityNPIConfigLink;
+
+	@FindBy(xpath = "//*[@id='sidebar']/div[1]/span[text()='Settings']")
+	private WebElementFacade settingsHeader;
 
 	public void clickOnSettingsR1Decisions() {
 		waitForAngularRequestsToFinish();
@@ -94,7 +96,7 @@ public class SettingsPage extends PageObject {
 		waitForAngularRequestsToFinish();
 		withAction().moveToElement(r1ConfigurationLink).click().build().perform();
 	}
-	
+
 	public void clickFacilityGroupConfig() {
 		withAction().moveToElement(facilityGrpConfigLink).click().build().perform();
 	}
@@ -109,5 +111,9 @@ public class SettingsPage extends PageObject {
 
 	public void clickEligibilityNPIConfigLink() {
 		withAction().moveToElement(eligibilityNPIConfigLink).click().build().perform();
+	}
+
+	public void checkSettingsHeaderVisibility() {
+		settingsHeader.shouldBeVisible();
 	}
 }

@@ -10,6 +10,8 @@ import r1.commons.utilities.CommonMethods;
 
 public class AccountInformationPage extends PageObject {
 
+	String successMessage = "return document.querySelector('#msg_success').innerText";
+
 	@FindBy(xpath = "//span[text()='Related Accounts']")
 	private WebElementFacade relatedAccountBtn;
 
@@ -495,5 +497,9 @@ public class AccountInformationPage extends PageObject {
 		String defectLabel = defectBreadcrumb.getText().trim();
 		String[] defectSubcategory = defectLabel.split(">>\\s");
 		return defectSubcategory[0];
+	}
+
+	public String getSuccessMsgUsingJs() {
+		return evaluateJavascript(successMessage).toString();
 	}
 }
