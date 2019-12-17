@@ -488,6 +488,16 @@ public class AccountInformationPage extends PageObject {
 		return handOffPopup.isVisible();
 	}
 
+	public String getCurrentApplicationUrl() {
+		return getDriver().getCurrentUrl();
+	}
+
+	public String getDefectTypeBreadcrumb() {
+		String defectLabel = defectBreadcrumb.getText().trim();
+		String[] defectSubcategory = defectLabel.split(">>\\s");
+		return defectSubcategory[0];
+	}
+
 	public String getSuccessMsgUsingJs() {
 		return evaluateJavascript(successMessage).toString();
 	}

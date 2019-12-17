@@ -231,7 +231,7 @@ public class WorkflowDistributionStepDef extends PageObject {
 
 	@Then("^user should be able to view \"([^\"]*)\" search box on Reps Tab$")
 	public void user_should_be_able_to_view_search_box_on_Reps_Tab(String expectedWaterMarkText) {
-		Assert.assertTrue("expectedWaterMarkText "+" failed to view on search box on Reps",
+		Assert.assertTrue("expectedWaterMarkText " + " failed to view on search box on Reps",
 				workflowDistributionPage.getSearchBoxWaterMarkTextOnRepsTab().equals(expectedWaterMarkText));
 	}
 
@@ -279,7 +279,35 @@ public class WorkflowDistributionStepDef extends PageObject {
 	}
 
 	@When("^user clicks on any Payer from the drilldown$")
-	public void user_clicks_on_any_Payer_from_the_drilldown() { 
+	public void user_clicks_on_any_Payer_from_the_drilldown() {
 		workflowDistributionPage.clickOnFirstPayerOnPayerInvtryTab();
+	}
+
+	@Given("^User clicks on Technical radio button under the  Payer Inventory Filter in Filter Section$")
+	public void user_clicks_on_Technical_radio_button_under_the_Payer_Inventory_Filter_in_Filter_Section() {
+		workflowDistributionPage.clickTechnicalRadioBtnOnPayerInvtryTab();
+	}
+
+	@Then("^user should be able to view the below sections on Technical filter$")
+	public void user_should_be_able_to_view_the_below_sections_on_Technical_filter(DataTable expSections) {
+		List<String> expListOfSections = expSections.asList(String.class);
+		Assert.assertTrue("failed to verify sections on tab",
+				workflowDistributionPage.getGroupSectionsOnTechnicalFilter());
+	}
+
+	@Then("^user should be able to view following sub sections under Unassigned \\(Due for Work \\) section on Technical filter$")
+	public void user_should_be_able_to_view_following_sub_sections_under_Unassigned_Due_for_Work_section_on_Technical_filter(
+			DataTable expSubsectionHeaders) {
+		List<String> expListOfSubsectionHeaders = expSubsectionHeaders.asList(String.class);
+		Assert.assertTrue("failed to verify Sub-sections on tab",
+				workflowDistributionPage.getListOfGroupSubSectionsForUnassignedOnTechnicalFilter());
+	}
+
+	@Then("^user should be able to view following sub sections under Assigned \\(Due for Work \\) section on Technical filter$")
+	public void user_should_be_able_to_view_following_sub_sections_under_Assigned_Due_for_Work_section_on_Technical_filter(
+			DataTable expSubsectionHeaders) {
+		List<String> expListOfSubsectionHeaders = expSubsectionHeaders.asList(String.class);
+		Assert.assertTrue("failed to verify Sub-sections on tab",
+				workflowDistributionPage.getListOfGroupSubSectionsForAssignedOnTechnicalFilter());
 	}
 }

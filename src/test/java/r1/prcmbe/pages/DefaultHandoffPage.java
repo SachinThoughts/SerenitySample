@@ -298,6 +298,12 @@ public class DefaultHandoffPage extends PageObject {
 	@FindBy(xpath = "//*[@id='notesHistory']/li[1]/div/div/div[3]/span[3]/span[2]")
 	private WebElementFacade accountActionHistoryFollowupDate;
 
+	@FindBy(id = "patAAH")
+	private WebElementFacade accountActionHistoryExpandButton;
+
+	@FindBy(xpath = "//*[@id='carousel']/ul/li[2]/a")
+	private WebElementFacade accountActionHistoryTimelineArrow;
+
 	public boolean isAddNewActionBtnVisisble() {
 		return addNewActionButton.isVisible();
 	}
@@ -718,7 +724,7 @@ public class DefaultHandoffPage extends PageObject {
 	}
 
 	public String getHandoffBubbleColor() {
-		withAction().moveToElement(addedBubble).build().perform();
+		addedBubble.withTimeoutOf(Duration.ofSeconds(40)).waitUntilVisible();
 		return addedBubble.getCssValue("background-color");
 	}
 
@@ -787,5 +793,13 @@ public class DefaultHandoffPage extends PageObject {
 	public String getTextHandoffSuccessMessage() {
 		waitForAngularRequestsToFinish();
 		return successMessage.withTimeoutOf(Duration.ofSeconds(60)).waitUntilVisible().getText().trim();
+	}
+
+	public void expandAccountActionHistory() {
+		if (accountActionHistoryExpandButton.getAttribute("class").equals("fa toggle fa-chevron-right"))
+			evaluateJavascript("arguments[0].click();", accountActionHistoryExpandButton);
+		while (accountActionHistoryTimelineArrow.getAttribute("class").equals("flex-next")) {
+			evaluateJavascript("arguments[0].click();", accountActionHistoryTimelineArrow);
+		}
 	}
 }

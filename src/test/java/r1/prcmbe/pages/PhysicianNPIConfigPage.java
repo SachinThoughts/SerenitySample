@@ -57,7 +57,7 @@ public class PhysicianNPIConfigPage extends PageObject {
 
 	@FindBy(xpath = "//ul[@class='list-table-body physician-list']/li[1]/div[4]")
 	private WebElementFacade firstPhyTotalDisabledCount;
-	
+
 	@FindBy(xpath = "//ul[@class='list-table-header physician-list']/li")
 	private List<WebElementFacade> listOfPhysicianColumnNames;
 
@@ -91,7 +91,7 @@ public class PhysicianNPIConfigPage extends PageObject {
 	private String cancelBtnJS = "$('#editPhysicianNPIPayors > div > div > div.modal-footer > button.btn.btn-default')";
 
 	private String saveBtnJS = "$('#btnSave')";
-	
+
 	String[] paginationValue, paginationValueWithFirstTextValue, paginationValueWithSecondTextValue;
 	List<String> listOfPaginationValue = new ArrayList<>();
 
@@ -225,14 +225,15 @@ public class PhysicianNPIConfigPage extends PageObject {
 
 	public int firstPhyTotalDisabledCount() {
 		waitForAngularRequestsToFinish();
-		return Integer.parseInt(firstPhyTotalDisabledCount.getText());
+		return Integer.parseInt(
+				firstPhyTotalDisabledCount.withTimeoutOf(Duration.ofSeconds(180)).waitUntilVisible().getText());
 	}
 
 	public String getFirstPhysiciansFirstName() {
 		String[] physicianName = getFirstPhysicianName().split(", ", 0);
 		return physicianName[1].trim();
 	}
-	
+
 	public List<String> getListOfPhysicianColumnNames() {
 		List<String> listOfColumnNames = new ArrayList<>();
 		for (WebElementFacade columnName : listOfPhysicianColumnNames)
@@ -300,5 +301,9 @@ public class PhysicianNPIConfigPage extends PageObject {
 		for (WebElementFacade physicianInfo : listOfSearchedPhysicianInfo)
 			listOfphysicianInfo.add(evaluateJavascript("return arguments[0].innerText;", physicianInfo).toString());
 		return listOfphysicianInfo;
+	}
+
+	public void clickCancelBtn() {
+		evaluateJavascript(cancelBtnJS + ".click()");
 	}
 }
