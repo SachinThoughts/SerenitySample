@@ -198,3 +198,19 @@ Feature: Verify Call Payer Queue functionality
     And user clicks Add with Note button to add the account that already exists in Call Queue
     Then user should not be able to view the incremented count of accounts by 1 in Call Queue Section
     And user should not be able to view duplicate account in Call Queue Section
+
+  @427126 @Sprint103 @R1DApproverUser
+  Scenario: Verify that account get dropped from CPQ if the write off action is still pending
+    Given user is on account page
+    When user clicks on Add to queue button in Call Payer Queue Section
+    When user enters notes "Automation testing Notes" in Notes Section
+    And user clicks Add with Note button
+    And user clicks on Approvals link
+    And user selects "Write Off" option from Category dropdown
+    And user selects "Medical Necessity" from Write Off Type dropdown
+    And user selects "MEDICAL NECESSITY ADJUSTMENT-7018" from T-Code to Use dropdown
+    And user enters amount "4.00" in Write off Amount textbox
+    And user enters "Automation Testing Note" in Notes textbox
+    And user clicks on write off Save button
+    Then user should be able to view write-off request on account
+    And user should be able to view the account dropped from CPQ

@@ -353,7 +353,8 @@ public class AccountInformationPage extends PageObject {
 	}
 
 	public void clickApprovalWriteOffLink() {
-		approvalWriteOffLink.click();
+		waitForAngularRequestsToFinish();
+		evaluateJavascript("arguments[0].click();", approvalWriteOffLink);
 	}
 
 	public void clickOnCreateDrpdwn() {

@@ -59,7 +59,7 @@ public class DatabaseConn {
 			}
 
 			else if (url.contains("dev")) {
-				serverConn("DEVRHUBWTRN03", "Accretive", query);
+				serverConn("DEVRHUBWTRN16", "Accretive", query);
 				while (resultSet.next()) {
 					serverName = resultSet.getString("servername");
 					databaseName = resultSet.getString("databasename");
