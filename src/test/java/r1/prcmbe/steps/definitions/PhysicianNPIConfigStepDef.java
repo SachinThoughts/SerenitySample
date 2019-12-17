@@ -2,16 +2,19 @@ package r1.prcmbe.steps.definitions;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.junit.Assert;
 
+import cucumber.api.DataTable;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import net.thucydides.core.annotations.Steps;
 import r1.commons.databaseconnection.DatabaseConn;
 import r1.commons.utilities.CommonMethods;
+import r1.prcmbe.pages.DefectWorkflowPage;
 import r1.prcmbe.pages.PhysicianNPIConfigPage;
 import r1.prcmbe.pages.SettingsPage;
 import r1.prcmbe.serenity.steps.PhysicianNPIConfigSteps;
@@ -20,6 +23,7 @@ public class PhysicianNPIConfigStepDef {
 	SettingsPage settingsPage;
 	PhysicianNPIConfigPage physicianNPIConfigPage;
 	CommonMethods commonMethods;
+	DefectWorkflowPage defectOverridePage;
 
 	@Steps
 	PhysicianNPIConfigSteps physicianNPIConfigSteps;
@@ -155,7 +159,7 @@ public class PhysicianNPIConfigStepDef {
 				.getCountOfTotalEligiblePayors() == physicianNPIConfigPage.getListOfEligiblePayorsName().size());
 	}
 
-	@When("^the user clicks on '\\*' sign for a Payor record under Total Payors Disabled section$")
+	@When("^the user clicks on '\\*' sign for a Payor record under Total Payors Disabled section$|^user clicks on '\\*' button to enable some of the payer$")
 	public void the_user_clicks_on_sign_for_a_Payor_record_under_Total_Payors_Disabled_section() {
 		physicianNPIConfigPage.clickSearchedDisabledPayorsName(payor);
 	}
@@ -261,6 +265,7 @@ public class PhysicianNPIConfigStepDef {
 
 	@Then("^user is able to see the number of payer which are disabled in total disabled payer column$")
 	public void user_is_able_to_see_the_number_of_payer_which_are_disabled_in_total_disabled_payer_column() {
+		defectOverridePage.refreshesAPage();
 		Assert.assertTrue("Number of payors which are disabled are not visible in total disabled payer column",
 				cntOfTotalPayorsDisabled == physicianNPIConfigPage.firstPhyTotalDisabledCount());
 	}
@@ -276,5 +281,110 @@ public class PhysicianNPIConfigStepDef {
 		}
 		Assert.assertTrue("New entry not added in EligibilityNPIDisabled",
 				newEntryCount > existingEntryCount && newEntryCount == cntOfTotalPayorsDisabled);
+	}
+
+	@Then("^physician list should be displayed with the columns$")
+	public void physician_list_should_be_displayed_with_the_columns(DataTable expectedColumnNames) {
+		List<String> listOfColumnnNames = expectedColumnNames.asList(String.class);
+		Assert.assertTrue("Failed to verify Phiysician column names",
+				physicianNPIConfigPage.getListOfPhysicianColumnNames().containsAll(listOfColumnnNames));
+	}
+
+	@Then("^user should be able to view pagination should be displayed$")
+	public void user_should_be_able_to_view_pagination_should_be_displayed() {
+		Assert.assertTrue("Failed to view pagination Control", physicianNPIConfigPage.isPaginationCtrlVisible());
+	}
+
+	@Then("^user should be able to view header and Footer should be displayed like$")
+	public void user_should_be_able_to_view_header_and_Footer_should_be_displayed_like(
+			DataTable expectedHeaderAndFooterValues) {
+		List<String> listOfHeaderAndFooterValues = expectedHeaderAndFooterValues.asList(String.class);
+		Assert.assertTrue("failed to verify Header and Footer",
+				physicianNPIConfigPage.getHeaderOfPagination().containsAll(listOfHeaderAndFooterValues));
+		Assert.assertTrue("failed to verify Header and Footer",
+				physicianNPIConfigPage.getFooterOfPagination().containsAll(listOfHeaderAndFooterValues));
+	}
+
+	@Then("^user should be able to view page Header \"([^\"]*)\" should be displayed$")
+	public void user_should_be_able_to_view_page_Header_should_be_displayed(String expectedHeader) {
+		Assert.assertTrue("Failed to verify" + expectedHeader,
+				physicianNPIConfigPage.getFacilityPhysicianHeader().equals(expectedHeader));
+	}
+
+	@Then("^user should be able to view the physicians records should be sorted based on Total Payors Disabled desc$")
+	public void user_should_be_able_to_view_the_physicians_records_should_be_sorted_based_on_Total_Payors_Disabled_desc() {
+		List<String> listOfTotalPayorDisabledDesc = new ArrayList<String>(
+				physicianNPIConfigPage.getCountOfTotalDisabledPayors());
+		Collections.sort(listOfTotalPayorDisabledDesc, Collections.reverseOrder());
+		Assert.assertTrue("failed to verify physicians records should be sorted based on Total Payors Disabled desc",
+				listOfTotalPayorDisabledDesc.equals(physicianNPIConfigPage.getCountOfTotalDisabledPayors()));
+	}
+
+	@Then("^user should be able to view Edit Links$")
+	public void user_should_be_able_to_view_Edit_Links() {
+		Assert.assertFalse("Failed to view Edit links on Physician Search Page",
+				physicianNPIConfigPage.isListOfEditBtnLinkEmpty());
+	}
+
+	@Then("^user should be able to view the title Physician Search is displayed\\.$")
+	public void user_should_be_able_to_view_the_title_Physician_Search_is_displayed() {
+		Assert.assertTrue("failed to view physician Search title",
+				physicianNPIConfigPage.isphysicianSearchTitleVisible());
+	}
+
+	@When("^user clicks on search text field on  PRCM NPI configuration page$")
+	public void user_clicks_on_search_text_field_on_PRCM_NPI_configuration_page() {
+		physicianNPIConfigPage.clickOnPhysicianSearchTxtField();
+	}
+
+	@Then("^user search on the basis of Physician's and user should be able to search successfully on  PRCM NPI configuration page$")
+	public void user_search_on_the_basis_of_Physician_s(DataTable expectedphysicianInfo) {
+		List<String> listOfphysicianInfo = expectedphysicianInfo.asList(String.class);
+		physicianNPIConfigPage.enterPhysicianSearchTxtBox(listOfphysicianInfo.get(0));
+		Assert.assertTrue("failed to verify Physician's Name",
+				physicianNPIConfigPage.getListofSearchedPhisicianInfo().contains(listOfphysicianInfo.get(0)));
+		physicianNPIConfigPage.enterPhysicianSearchTxtBox(listOfphysicianInfo.get(1));
+		Assert.assertTrue("Failed to verify NPI",
+				physicianNPIConfigPage.getListofSearchedPhisicianInfo().contains(listOfphysicianInfo.get(1)));
+		physicianNPIConfigPage.enterPhysicianSearchTxtBox(listOfphysicianInfo.get(2));
+		Assert.assertTrue("Failed to verify Facility physician Id",
+				physicianNPIConfigPage.getListofSearchedPhisicianInfo().contains(listOfphysicianInfo.get(2)));
+	}
+
+	@Then("^user is able to see the count of disabled payer should decreased by the number of payer that are increased$")
+	public void user_is_able_to_see_the_count_of_disabled_payer_should_decreased_by_the_number_of_payer_that_are_increased() {
+		defectOverridePage.refreshesAPage();
+		Assert.assertTrue("user is not able to see the count of disabled payer decreased",
+				cntOfTotalPayorsDisabled == physicianNPIConfigPage.firstPhyTotalDisabledCount()
+						&& existingEntryCount > cntOfTotalPayorsDisabled);
+	}
+
+	@Then("^user should be able to view the entry deleted from EligibilityNPIDisabled Table$")
+	public void user_should_be_able_to_view_the_entry_deleted_from_EligibilityNPIDisabled_Table() {
+		try {
+			while (DatabaseConn.resultSet.next()) {
+				newEntryCount++;
+			}
+		} catch (SQLException sQLException) {
+			Assert.assertTrue("results are not fetched from DB.\nThe Technical Error is:\n" + sQLException, false);
+		}
+		Assert.assertTrue("Entry is not deleted from the EligibilityNPIDisabled table",
+				existingEntryCount > newEntryCount && newEntryCount == cntOfTotalPayorsDisabled);
+	}
+
+	@When("^user gets the count from total disabled payer column$")
+	public void user_gets_the_count_from_total_disabled_payer_column() {
+		cntOfTotalPayorsDisabled = physicianNPIConfigPage.firstPhyTotalDisabledCount();
+	}
+
+	@When("^user clicks on cancel button$")
+	public void user_clicks_on_cancel_button() {
+		physicianNPIConfigPage.clickCancelBtn();
+	}
+
+	@Then("^user should be able to view that changes are not saved$")
+	public void user_should_be_able_to_view_that_changes_are_not_saved() {
+		Assert.assertTrue("Some Changes are done, counts of Total Payor disabled are changed",
+				cntOfTotalPayorsDisabled == physicianNPIConfigPage.firstPhyTotalDisabledCount());
 	}
 }
