@@ -9,7 +9,7 @@ Feature: Verify PRCM Save related test cases in PRCM_BE
     And user clicks on search sub menu
     And user select "Invoice Number" from Search By dropdown
     And user selects "=" operator from operator dropdown
-    And user runs the "Account_Action_History_391051_SQL1" query to fetch Invoice Number
+    And user runs the query "Account_Action_History_391051_SQL1" to fetch "Invoice Number"
     And user enters Invoice Number fetched from database in invoice number textbox
     And user clicks on Submit button
 
@@ -55,3 +55,41 @@ Feature: Verify PRCM Save related test cases in PRCM_BE
       | Added:    |
       | Created:  |
       | Followup: |
+
+  @391061 @Sprint103 @PRCMUser
+  Scenario: Verify the entry in DB tables after taking AHtoDecision Save action
+    Given user is on Account Page
+    When user selects No radio button to Override Subcategory
+    And user selects any value from DefectType dropdown and other Than "Uncategorized Defect" value
+    And user selects any value from Defectsubcategory dropdown and other Than "Select Sub-Defect Category" value
+    And user clicks on Save button
+    And user refreshes a page
+    And user clicks on Next button
+    And user clicks on Next button after selecting any step
+    And user selects checkbox from Steps Taken checkboxes
+    And user clicks on A2D Save button
+    Then user should be able to view the message "Saved successfully"
+    When user is able to login to sql server and connect to database
+    And user runs the query "PRCM_Save_391061_SQL21" to fetch "Invoice Id"
+    And user runs the query "PRCM_Save_391061_SQL8" to fetch "DefectAccountKey"
+    And user runs the query "PRCM_Save_391061_SQL6" to fetch "Result Set"
+    Then user should be able to view the entries in these tables
+    When user runs the query "PRCM_Save_391061_SQL7" to fetch "Result Set"
+    Then user should be able to view the entries in these tables
+    When user runs the query "PRCM_Save_391061_SQL9" to fetch "Result Set For Created User"
+    Then user should be able to view the entries in these tables
+    When user runs the query "PRCM_Save_391061_SQL10" to fetch "DefectTypeAttributeId and AttributeVal"
+    Then user should be able to view the defect Attributetypeid is 24 and attributevalue is URL
+
+  @391215 @Sprint103 @PRCMUser
+  Scenario: Verify the SOPs for Professional Denials
+    Given user is on Account Page
+    When user login to SQL server and connect to facility database
+    And user runs the query "PRCM_Save_391019_SQL2" for fetching DefectTypeId
+    And user fetch Defect typeid
+    And user runs the query "PRCM_Save_391019_SQL3" with passing by defecttypeid
+    And user fetch Defectsubcategoryid
+    And user runs the query "PRCM_Save_391215_SQL18" to fetch "SOP List"
+    Then user should be able to view the SOP list for the passed defect sub category
+    When user checks the SOP steps from DB in UI
+    Then user should be able to view same SOPs Step from DB in UI

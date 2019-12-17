@@ -20,7 +20,6 @@ Feature: Verify default handoff
     And user selects any value from Disposition dropdown
     And user enters any "Test Note" in Notes text area
     And user clicks on Save button on the handoff popup
-    Then user should be able to view the appropriate handoff success message: "Handoff Record Saved Successfully."
     Then user should be able to view H under event circle in blue color for newly added Handoff type on Horizontal timeline
     When user hovers the event circle for newly added Handoff type
     Then user should be able to view the following columns

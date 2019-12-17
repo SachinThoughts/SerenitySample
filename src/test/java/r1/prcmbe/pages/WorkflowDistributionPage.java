@@ -7,7 +7,6 @@ import net.serenitybdd.core.annotations.findby.FindBy;
 import net.serenitybdd.core.pages.PageObject;
 import net.serenitybdd.core.pages.WebElementFacade;
 
-
 public class WorkflowDistributionPage extends PageObject {
 
 	Boolean isNotPresent;
@@ -110,6 +109,9 @@ public class WorkflowDistributionPage extends PageObject {
 
 	@FindBy(id = "ddlFacilityFilters")
 	private WebElementFacade facilityDropdown;
+
+	@FindBy(xpath = "//label[@for='payerInventoryType-02' and contains(text(),'Technical')]")
+	private WebElementFacade technicalRadioBtnOnPayorInvtryTab;
 
 	public void clickAnyFacilityFromFacilityDropdown() {
 		List<String> listOfAllFacilities;
@@ -345,4 +347,42 @@ public class WorkflowDistributionPage extends PageObject {
 		return facilityGrpList.contains(facilityGrpName);
 	}
 
+	public void clickTechnicalRadioBtnOnPayerInvtryTab() {
+		technicalRadioBtnOnPayorInvtryTab.click();
+	}
+
+	public boolean getGroupSectionsOnTechnicalFilter() {
+		if (!listOfGroupSections.isEmpty()) {
+			List<String> listOfTxtValOfFacilityGrpSections = new ArrayList<>();
+			for (WebElementFacade groupSections : listOfGroupSections) {
+				withAction().moveToElement(groupSections).build().perform();
+				listOfTxtValOfFacilityGrpSections.add(groupSections.getText().trim());
+			}
+		}
+		isNotPresent = true;
+		return isNotPresent;
+	}
+
+	public Boolean getListOfGroupSubSectionsForUnassignedOnTechnicalFilter() {
+		if (!listOfGroupSections.isEmpty()) {
+			List<String> listOfTxtValOfGrpSubSectionsForUnassigned = new ArrayList<>();
+			for (WebElementFacade groupSubSectionsForUnassigned : listOfGroupSubSectionsForUnassigned) {
+				listOfTxtValOfGrpSubSectionsForUnassigned.add(groupSubSectionsForUnassigned.getText().trim());
+			}
+		}
+		isNotPresent = true;
+		return isNotPresent;
+	}
+
+	public Boolean getListOfGroupSubSectionsForAssignedOnTechnicalFilter() {
+		if (!listOfGroupSections.isEmpty()) {
+			List<String> listOfTxtValOfFacilityGrpSubSectionsForAssigned = new ArrayList<>();
+			for (WebElementFacade groupSubSectionsForAssigned : listOfGroupSubSectionsForAssigned) {
+				withAction().moveToElement(groupSubSectionsForAssigned).build().perform();
+				listOfTxtValOfFacilityGrpSubSectionsForAssigned.add(groupSubSectionsForAssigned.getText().trim());
+			}
+		}
+		isNotPresent = true;
+		return isNotPresent;
+	}
 }
