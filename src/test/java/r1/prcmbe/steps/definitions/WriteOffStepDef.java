@@ -91,6 +91,11 @@ public class WriteOffStepDef extends PageObject {
 		settingsPage.checkSettingsHeaderVisibility();
 	}
 
+	@When("^user clicks radio button against Writeoff Handoff$")
+	public void user_clicks_radio_button_against_Writeoff_Handoff() {
+		workflowConfigPage.clickWriteOffRadioBtn();
+	}
+
 	@Then("^user should be able to view Status as \"([^\"]*)\" for all displayed write off request actions$")
 	public void user_should_be_able_to_view_Status_as_for_all_displayed_write_off_request_actions(String value) {
 		Assert.assertTrue("user not able to view Status as Identified", writeOffSteps.verifyActionTypeStatus(value));

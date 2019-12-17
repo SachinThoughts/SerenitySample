@@ -457,6 +457,9 @@ public class WorkflowConfigurationPage extends PageObject {
 	@FindBy(id = "addEditNewActionLabel")
 	private WebElementFacade editActionPopUpHeader;
 
+	@FindBy(xpath = "//ul[@class='sop-types workflowConfiguration']//span[text()='Writeoff']//ancestor::li//child::label[contains(@for,'work')]")
+	private WebElementFacade writeOffRadioBtn;
+
 	@FindBy(xpath = "//span[text()='Identified']")
 	private List<WebElementFacade> actionTypeStatusList;
 
@@ -1502,5 +1505,10 @@ public class WorkflowConfigurationPage extends PageObject {
 			statusList.add(element.getText().trim());
 		}
 		return statusList;
+	}
+
+	public void clickWriteOffRadioBtn() {
+		withAction().moveToElement(writeOffRadioBtn).build().perform();
+		writeOffRadioBtn.click();
 	}
 }

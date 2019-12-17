@@ -10,7 +10,7 @@ Feature: Verify write off related testcases in PRCM-BE
     Given user is on Settings page
     When user clicks on Settings-R1_Decision
     And user clicks on Workflow Configuration link
-    And user clicks radio button against "Writeoff" Handoff
+    And user clicks radio button against Writeoff Handoff
     And user clicks on Continue button on HandOff Tab
     And user clicks on radio button against "WriteOff SubType" Recipient
     And user clicks on Continue button on Recipient tab
