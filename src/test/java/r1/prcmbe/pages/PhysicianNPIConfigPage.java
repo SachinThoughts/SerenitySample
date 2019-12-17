@@ -57,10 +57,43 @@ public class PhysicianNPIConfigPage extends PageObject {
 
 	@FindBy(xpath = "//ul[@class='list-table-body physician-list']/li[1]/div[4]")
 	private WebElementFacade firstPhyTotalDisabledCount;
+	
+	@FindBy(xpath = "//ul[@class='list-table-header physician-list']/li")
+	private List<WebElementFacade> listOfPhysicianColumnNames;
+
+	@FindBy(xpath = "//*[@id='dnn_ctr2647_TaskPanel_spanTask']/div/div/div[2]/ul[2]/li/div[5]/a")
+	private List<WebElementFacade> listOfEditBtnLink;
+
+	@FindBy(xpath = "//div[@class='container-fluid ng-scope']//dir-pagination-controls[1]")
+	private WebElementFacade paginationControl;
+
+	@FindBy(xpath = "//*[@id='dnn_ctr2647_TaskPanel_spanTask']/div/div/div[2]/p[1]")
+	private WebElementFacade listOfPaginationHeader;
+
+	@FindBy(xpath = "//*[@id='dnn_ctr2647_TaskPanel_spanTask']/div/div/div[2]/p[2]")
+	private WebElementFacade listOfPaginationFooter;
+
+	@FindBy(xpath = "//*[@id='dnn_ctr2647_TaskPanel_spanTask']/div/div/div[2]/h3")
+	private WebElementFacade facilityPhysicianHeader;
+
+	@FindBy(xpath = "//*[@class='list-table-body physician-list']//div[4]")
+	private List<WebElementFacade> listOfTotalPayorsDisabled;
+
+	@FindBy(xpath = "//div[@class='container-fluid ng-scope']/div/h3[text()='Physician Search']")
+	private WebElementFacade physicianSearchTitle;
+
+	@FindBy(xpath = "//input[@placeholder='Search Physicians Name, NPI, etc.']")
+	private WebElementFacade physicianSearchTxtField;
+
+	@FindBy(xpath = "//ul[@class='list-table-body physician-list']/li[1]/div")
+	private List<WebElementFacade> listOfSearchedPhysicianInfo;
 
 	private String cancelBtnJS = "$('#editPhysicianNPIPayors > div > div > div.modal-footer > button.btn.btn-default')";
 
 	private String saveBtnJS = "$('#btnSave')";
+	
+	String[] paginationValue, paginationValueWithFirstTextValue, paginationValueWithSecondTextValue;
+	List<String> listOfPaginationValue = new ArrayList<>();
 
 	public void pRCMNPIConfigTitleShouldBeVisible() {
 		pRCMNPIConfigTitle.shouldBeVisible();
@@ -198,5 +231,74 @@ public class PhysicianNPIConfigPage extends PageObject {
 	public String getFirstPhysiciansFirstName() {
 		String[] physicianName = getFirstPhysicianName().split(", ", 0);
 		return physicianName[1].trim();
+	}
+	
+	public List<String> getListOfPhysicianColumnNames() {
+		List<String> listOfColumnNames = new ArrayList<>();
+		for (WebElementFacade columnName : listOfPhysicianColumnNames)
+			listOfColumnNames.add(columnName.getText());
+
+		return listOfColumnNames;
+	}
+
+	public boolean isListOfEditBtnLinkEmpty() {
+		firstPhysicianConfigEditLink.withTimeoutOf(Duration.ofSeconds(180)).waitUntilVisible();
+		return listOfEditBtnLink.isEmpty();
+	}
+
+	public boolean isPaginationCtrlVisible() {
+		return paginationControl.isVisible();
+	}
+
+	public List<String> getHeaderOfPagination() {
+		paginationValue = listOfPaginationHeader.getText().split("\\|");
+		paginationValueWithFirstTextValue = paginationValue[0].trim().split("\\s+");
+		paginationValueWithSecondTextValue = paginationValue[1].trim().split("\\s+");
+		listOfPaginationValue
+				.add(paginationValueWithFirstTextValue[0].trim() + " " + paginationValueWithFirstTextValue[1].trim());
+		listOfPaginationValue
+				.add(paginationValueWithSecondTextValue[0].trim() + " " + paginationValueWithSecondTextValue[1].trim());
+		return listOfPaginationValue;
+	}
+
+	public List<String> getFooterOfPagination() {
+		paginationValue = listOfPaginationFooter.getText().split("\\|");
+		paginationValueWithFirstTextValue = paginationValue[0].trim().split("\\s+");
+		paginationValueWithSecondTextValue = paginationValue[1].trim().split("\\s+");
+		listOfPaginationValue
+				.add(paginationValueWithFirstTextValue[0].trim() + " " + paginationValueWithFirstTextValue[1].trim());
+		listOfPaginationValue
+				.add(paginationValueWithSecondTextValue[0].trim() + " " + paginationValueWithSecondTextValue[1].trim());
+		return listOfPaginationValue;
+	}
+
+	public String getFacilityPhysicianHeader() {
+		return facilityPhysicianHeader.getText();
+	}
+
+	public List<String> getCountOfTotalDisabledPayors() {
+		List<String> listOfTotalPayors = new ArrayList<>();
+		for (WebElementFacade totalPayors : listOfTotalPayorsDisabled)
+			listOfTotalPayors.add(totalPayors.getText());
+		return listOfTotalPayors;
+	}
+
+	public boolean isphysicianSearchTitleVisible() {
+		return physicianSearchTitle.isVisible();
+	}
+
+	public void clickOnPhysicianSearchTxtField() {
+		physicianSearchTxtField.click();
+	}
+
+	public void enterPhysicianSearchTxtBox(String physiciansName) {
+		physicianSearchTxtField.type(physiciansName);
+	}
+
+	public List<String> getListofSearchedPhisicianInfo() {
+		List<String> listOfphysicianInfo = new ArrayList<>();
+		for (WebElementFacade physicianInfo : listOfSearchedPhysicianInfo)
+			listOfphysicianInfo.add(evaluateJavascript("return arguments[0].innerText;", physicianInfo).toString());
+		return listOfphysicianInfo;
 	}
 }
