@@ -87,6 +87,9 @@ public class DefectWorkflowPage extends PageObject {
 	
 	@FindBy(id="btnA2DSave")
 	private WebElementFacade a2DSaveButton;
+	
+	@FindBy(id = "btnRequiredStep")
+	private WebElementFacade prevButtonOnActionSection;
 
 	public boolean isDefectWorkFlowSecVisible() {
 		return defectWorkflowSecHeader.isVisible();
@@ -273,5 +276,22 @@ public class DefectWorkflowPage extends PageObject {
 	
 	public void clickOnA2DSaveButton() {
 		evaluateJavascript("arguments[0].click();",a2DSaveButton);
+	}
+	
+	public int getSizeOfSOPActionOnActionPage() {
+		return listOfSOPActionsOnActionPage.size();
+	}
+	
+	public void clickOnPreviousButtonOnActionSection() {
+		evaluateJavascript("arguments[0].click();", prevButtonOnActionSection);
+	}
+	
+	public List<String> getListOfSOPFromUI(){
+		List<String> listOfSOP=new ArrayList<>();
+		clickOnNextButton();
+		listOfSOP.addAll(getSOPActionsOnTriagePage());
+		clickOnNextButtonOnTriagePage();
+		listOfSOP.addAll(getSOPActionsOnActionPage());
+		return listOfSOP;
 	}
 }
