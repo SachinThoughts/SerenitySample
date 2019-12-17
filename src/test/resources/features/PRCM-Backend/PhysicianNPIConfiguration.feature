@@ -105,6 +105,30 @@ Feature: Verify Physician NPI Configuration in PRCM-BE
     When user runs the "Facility_Group_Configuration_391453_SQL2" query for Physician NPI
     Then user should be able to view the entry in physician in EligibilityNPIDisabled column
 
+  @391456 @Sprint103 @PRCMUser
+  Scenario: Verify the PRCM NPI Configuration screen is opened then application should display list of Physicians with data
+    Given user is on PRCM Eligibility NPI Configuration page
+    Then physician list should be displayed with the columns
+      | Physician's Name | NPI | Facility Physician ID | Total Payors Disabled |
+    And user should be able to view Edit Links
+    And user should be able to view pagination should be displayed
+    And user should be able to view header and Footer should be displayed like
+      | Total Physicians: | Displaying Page: |
+    And user should be able to view page Header "FACILITY PHYSICIANS" should be displayed
+    And user should be able to view the physicians records should be sorted based on Total Payors Disabled desc
+
+  @391458 @Sprint103 @PRCMUser
+  Scenario: Verify the Search Physician functionality
+    Given user is on PRCM Eligibility NPI Configuration page
+    Then user should be able to view the title Physician Search is displayed.
+    Then physician list should be displayed with the columns
+      | Physician's Name | NPI | Facility Physician ID | Total Payors Disabled |
+    When user clicks on search text field on  PRCM NPI configuration page
+    Then user search on the basis of Physician's and user should be able to search successfully on  PRCM NPI configuration page
+      | XIONG-HANG, PLA XOUA | 1235493214 | 63974 |
+    Then user should be able to view header and Footer should be displayed like
+      | Total Physicians: | Displaying Page: |
+
   @391454 @Sprint103 @PRCMUser
   Scenario: Verify that User is able to save the physician configuration when physician is enabled
     Given user is on PRCM Eligibility NPI Configuration page
@@ -126,7 +150,7 @@ Feature: Verify Physician NPI Configuration in PRCM-BE
   @391455 @Sprint103 @PRCMUser
   Scenario: Verify that user is canceling the configuration then no changes should be done
     Given user is on PRCM Eligibility NPI Configuration page
-    When user gets the count from total disabled payer column 
+    When user gets the count from total disabled payer column
     When user clicks on to Edit link corresponding to the Physicians Name
     And user clicks on cancel button
     Then user should be able to view that changes are not saved
