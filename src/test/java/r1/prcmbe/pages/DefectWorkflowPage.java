@@ -12,7 +12,6 @@ import r1.commons.utilities.CommonMethods;
 public class DefectWorkflowPage extends PageObject {
 
 	CommonMethods commonMethods;
-	AccountInformationPage accntInfrmationPage;
 
 	@FindBy(xpath = "//*[@id='divDefectWorkflow']/h3[contains(text(),'Defect Workflow')]")
 	private WebElementFacade defectWorkflowSecHeader;
@@ -279,7 +278,6 @@ public class DefectWorkflowPage extends PageObject {
 	}
 
 	public void clickOnA2DSaveButton() {
-		waitForAngularRequestsToFinish();
 		evaluateJavascript("arguments[0].click();", a2DSaveButton);
 	}
 
