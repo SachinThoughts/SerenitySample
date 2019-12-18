@@ -351,7 +351,7 @@ public class TaggingPage extends PageObject {
 	}
 
 	public boolean isSelectedCategoryLblVisible() {
-		return searchCategoryLabel.isVisible();
+		return selectedCategoryLbl.isVisible();
 	}
 
 	public String getCategoryNameFromBreadCrumb() {
