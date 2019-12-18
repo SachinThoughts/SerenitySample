@@ -12,6 +12,7 @@ import r1.commons.utilities.CommonMethods;
 public class DefectWorkflowPage extends PageObject {
 
 	CommonMethods commonMethods;
+	AccountInformationPage accntInfrmationPage;
 
 	@FindBy(xpath = "//*[@id='divDefectWorkflow']/h3[contains(text(),'Defect Workflow')]")
 	private WebElementFacade defectWorkflowSecHeader;
@@ -84,12 +85,15 @@ public class DefectWorkflowPage extends PageObject {
 
 	@FindBy(id = "msg_success")
 	private WebElementFacade successMsg;
-	
-	@FindBy(id="btnA2DSave")
+
+	@FindBy(id = "btnA2DSave")
 	private WebElementFacade a2DSaveButton;
-	
+
 	@FindBy(id = "btnRequiredStep")
 	private WebElementFacade prevButtonOnActionSection;
+
+	@FindBy(id = "verify")
+	private WebElementFacade verifyAllStepsTakenSection;
 
 	public boolean isDefectWorkFlowSecVisible() {
 		return defectWorkflowSecHeader.isVisible();
@@ -254,42 +258,45 @@ public class DefectWorkflowPage extends PageObject {
 		}
 		verifyAllStepsCheckbox.get(index).click();
 	}
-	
+
 	public String getActionTabColourVal() {
 		return actionSectionHeader.getCssValue("color");
 	}
-	
+
 	public void clickSOPActionOnTriagePage() {
-		int randomVal=CommonMethods.getRandom(listOfSOPActionsOnTriagePage.size());
+		int randomVal = CommonMethods.getRandom(listOfSOPActionsOnTriagePage.size());
 		listOfSOPActionsOnTriagePage.get(randomVal).click();
 	}
-	
+
 	public void clickSOPActionOnActionPage() {
-		int randomVal=CommonMethods.getRandom(listOfSOPActionsOnActionPage.size());
+		int randomVal = CommonMethods.getRandom(listOfSOPActionsOnActionPage.size());
 		listOfSOPActionsOnActionPage.get(randomVal).click();
 	}
-	
+
 	public String getSuccessMessage() {
 		successMsg.withTimeoutOf(Duration.ofSeconds(30)).waitUntilVisible();
 		return successMsg.getText();
 	}
-	
+
 	public void clickOnA2DSaveButton() {
-		evaluateJavascript("arguments[0].click();",a2DSaveButton);
+		waitForAngularRequestsToFinish();
+		evaluateJavascript("arguments[0].click();", a2DSaveButton);
 	}
-	
+
 	public int getSizeOfSOPActionOnActionPage() {
 		return listOfSOPActionsOnActionPage.size();
 	}
-	
+
 	public void clickOnPreviousButtonOnActionSection() {
 		evaluateJavascript("arguments[0].click();", prevButtonOnActionSection);
 	}
-	
-	public List<String> getListOfSOPFromUI(){
-		List<String> listOfSOP=new ArrayList<>();
+
+	public List<String> getListOfSOPFromUI() {
+		List<String> listOfSOP = new ArrayList<>();
 		clickOnNextButton();
+		waitForAngularRequestsToFinish();
 		listOfSOP.addAll(getSOPActionsOnTriagePage());
+		verifyAllStepsTakenSection.withTimeoutOf(Duration.ofSeconds(20)).waitUntilVisible();
 		clickOnNextButtonOnTriagePage();
 		listOfSOP.addAll(getSOPActionsOnActionPage());
 		return listOfSOP;
