@@ -259,6 +259,7 @@ public class FinancialInfoPage extends PageObject {
 	public List<String> getTotalChargesTableHeaders() {
 		List<String> listOfTextValuesOfTotalChargesTableHeaders = new ArrayList<>();
 		for (WebElementFacade totalChargesTableHeader : listOfTotalChargesTableHeaders) {
+			withAction().moveToElement(totalChargesTableHeader).build().perform();
 			listOfTextValuesOfTotalChargesTableHeaders.add(totalChargesTableHeader.getText().trim());
 		}
 		return listOfTextValuesOfTotalChargesTableHeaders;
