@@ -818,8 +818,7 @@ public class WorkflowConfigurationStepDef extends PageObject {
 				updatedBy = DatabaseConn.resultSet.getString("DisplayName");
 				updatedDate = DatabaseConn.resultSet.getString("UpdatedDate");
 			}
-			System.out.println(updatedBy);
-			System.out.println(updatedDate);
+
 		} catch (SQLException exception) {
 			Assert.assertTrue(
 					"Updated By or Updated Date is not fetched from DB.\nThe Technical Error is:\n" + exception, false);
