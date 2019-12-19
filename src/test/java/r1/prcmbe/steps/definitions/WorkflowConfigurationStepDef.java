@@ -741,7 +741,7 @@ public class WorkflowConfigurationStepDef extends PageObject {
 
 	@Then("^expanded grid for selected Disposition Type gets collapsed$")
 	public void expanded_grid_for_selected_Disposition_Type_gets_collapsed() {
-		Assert.assertTrue("Expanded details section is not collapsed",
+		Assert.assertFalse("Expanded details section is not collapsed",
 				workflowConfigPage.isDispositionDetailsCollapsed());
 	}
 
@@ -818,6 +818,8 @@ public class WorkflowConfigurationStepDef extends PageObject {
 				updatedBy = DatabaseConn.resultSet.getString("DisplayName");
 				updatedDate = DatabaseConn.resultSet.getString("UpdatedDate");
 			}
+			System.out.println(updatedBy);
+			System.out.println(updatedDate);
 		} catch (SQLException exception) {
 			Assert.assertTrue(
 					"Updated By or Updated Date is not fetched from DB.\nThe Technical Error is:\n" + exception, false);
