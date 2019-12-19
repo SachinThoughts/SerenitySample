@@ -534,7 +534,7 @@ Feature: Verify WorkFlowConfiguration related scenarios in PRCM
     When user clicks on Close icon at Top right hand corner of the screen
     Then Edit New Disposition pop-up window should be closed
 
-  @433684 @AHtoDecisionAdmin @Sprint103
+  @434781 @AHtoDecisionAdmin @Sprint103
   Scenario Outline: Verify Edit Action functionality
     Given user having AHtoDecision Admin role is on workflow configuration home page
     When user login to SQL server and connect to database
