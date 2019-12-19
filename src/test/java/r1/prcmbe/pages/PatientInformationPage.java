@@ -9,16 +9,16 @@ import net.serenitybdd.core.pages.WebElementFacade;
 
 public class PatientInformationPage extends PageObject {
 
-	@FindBy(xpath = "//*[@id='patientDetails']//div[1]")
-	private WebElementFacade patientDetailsSection;
+	@FindBy(id = "patientDetails")
+	private WebElementFacade patientAndFacilityInfoSection;
 
 	@FindBy(xpath = "//a[text()='Patient & Visit Details']//parent::li[@class='active']")
 	private WebElementFacade patientAndVisitDetailsTabSelected;
 
-	@FindBy(xpath = "//*[@id='patientDetails']/div[1]/ul/li")
+	@FindBy(xpath = "//*[@id='patientDetails']/div[@class='panel-heading']//li")
 	private List<WebElementFacade> listOfPatientInfoHeaders;
 
-	@FindBy(xpath = "//*[@id='patC']")
+	@FindBy(id ="patC")
 	private WebElementFacade drillDownBtn;
 
 	@FindBy(xpath = "(//h3[@class='panel-title'])[1]/i[contains(@class,'right')]")
@@ -73,7 +73,7 @@ public class PatientInformationPage extends PageObject {
 	private WebElementFacade facilityPTan;
 
 	public boolean isPatientAndFacilityInfoSectionVisible() {
-		return patientDetailsSection.isVisible();
+		return patientAndFacilityInfoSection.isVisible();
 	}
 
 	public List<String> getlistOfPatientInfoHeaders() {
@@ -97,7 +97,7 @@ public class PatientInformationPage extends PageObject {
 	}
 
 	public void clickOnPatientAndFacilityInfoPanel() {
-		patientDetailsSection.click();
+		patientAndFacilityInfoSection.click();
 	}
 
 	public List<String> getlistOfPatientDataHeaders() {
