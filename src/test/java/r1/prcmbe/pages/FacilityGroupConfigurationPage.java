@@ -191,7 +191,10 @@ public class FacilityGroupConfigurationPage extends PageObject {
 	public void clickOnEditBtnWithNoPhysicianChkboxChecked() {
 		int check = 0;
 		int size = listOfEditBtns.size();
+		
+		
 		for (index = 0; index < size; index++) {
+			listOfEditBtns.get(index).withTimeoutOf(Duration.ofSeconds(15)).waitUntilVisible();
 			evaluateJavascript("arguments[0].click();", listOfEditBtns.get(index));
 			while (physicianCheckbox.isSelected()) {
 				physicianCheckbox.withTimeoutOf(Duration.ofSeconds(15)).waitUntilVisible();
