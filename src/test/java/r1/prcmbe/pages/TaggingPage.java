@@ -16,7 +16,7 @@ import r1.commons.utilities.CommonMethods;
 
 public class TaggingPage extends PageObject {
 
-	@FindBy(xpath = "//h2[contains(text(),'Account Tags Configuration')]")
+	@FindBy(xpath = "//h2[text()='Account Tags Configuration']")
 	private WebElementFacade taggingPageTitle;
 
 	@FindBy(xpath = "//input[@placeholder='Search Category Name']")
