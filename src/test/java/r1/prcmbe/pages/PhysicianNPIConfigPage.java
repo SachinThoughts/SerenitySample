@@ -13,7 +13,7 @@ public class PhysicianNPIConfigPage extends PageObject {
 	@FindBy(xpath = "//span[@class='Title' and text()='PRCM NPI CONFIGURATION']")
 	private WebElementFacade pRCMNPIConfigTitle;
 
-	@FindBy(xpath = "//ul[@class='list-table-body physician-list']/li[1]//a[@class='btn btn-link']")
+	@FindBy(xpath = "//ul[@class='list-table-body physician-list']/descendant::a[1]")
 	private WebElementFacade firstPhysicianConfigEditLink;
 
 	@FindBy(xpath = "//ul[@class='list-table-body physician-list']/li[1]/div[1]")
@@ -25,16 +25,16 @@ public class PhysicianNPIConfigPage extends PageObject {
 	@FindBy(xpath = "//*[@id='editPhysicianNPIPayors']/descendant::h3[contains(text(),'Edit Physician Payor List')]")
 	private WebElementFacade editPhysicianPopUp;
 
-	@FindBy(xpath = "//*[@id='editPayorSearch']/div[1]/p")
+	@FindBy(xpath = "//*[@id='editPayorSearch']/descendant::p[1]")
 	private WebElementFacade totalPayorsDisabled;
 
-	@FindBy(xpath = "//*[@id='editPayorSearch']/div[3]/p")
+	@FindBy(xpath = "//*[@id='editPayorSearch']/descendant::p[2]")
 	private WebElementFacade totalEligiblePayors;
 
-	@FindBy(xpath = "//*[@id='editPayorSearch']/div[1]/ul[2]/li/div[2]")
+	@FindBy(xpath = "//*[@id='editPayorSearch']/descendant::ul[@class='list-table-body list-table-body-scroll payor-list remove-from-list']//descendant::div[2]")
 	private List<WebElementFacade> listOfDisabledPayorsName;
 
-	@FindBy(xpath = "//*[@id='editPayorSearch']/div[3]/ul[2]/li/div[2]")
+	@FindBy(xpath = "//*[@id='editPayorSearch']/descendant::ul[@class='list-table-body list-table-body-scroll payor-list add-to-list']//descendant::div[2]")
 	private List<WebElementFacade> listOfEligiblePayorsName;
 
 	@FindBy(xpath = "//span[text()='Add All Payors']")
@@ -61,19 +61,19 @@ public class PhysicianNPIConfigPage extends PageObject {
 	@FindBy(xpath = "//ul[@class='list-table-header physician-list']/li")
 	private List<WebElementFacade> listOfPhysicianColumnNames;
 
-	@FindBy(xpath = "//*[@id='dnn_ctr2647_TaskPanel_spanTask']/div/div/div[2]/ul[2]/li/div[5]/a")
+	@FindBy(xpath = "//ul[@class='list-table-body physician-list']/descendant::a")
 	private List<WebElementFacade> listOfEditBtnLink;
 
-	@FindBy(xpath = "//div[@class='container-fluid ng-scope']//dir-pagination-controls[1]")
+	@FindBy(xpath = "//ul[@class='pagination ng-scope']")
 	private WebElementFacade paginationControl;
 
-	@FindBy(xpath = "//*[@id='dnn_ctr2647_TaskPanel_spanTask']/div/div/div[2]/p[1]")
+	@FindBy(xpath = "//div[contains(@class,'detail-header')]/child::p[@class='range-label top-pagination ng-binding'][1]")
 	private WebElementFacade listOfPaginationHeader;
 
-	@FindBy(xpath = "//*[@id='dnn_ctr2647_TaskPanel_spanTask']/div/div/div[2]/p[2]")
+	@FindBy(xpath = "//div[contains(@class,'detail-header')]/child::p[@class='range-label top-pagination ng-binding'][2]")
 	private WebElementFacade listOfPaginationFooter;
 
-	@FindBy(xpath = "//*[@id='dnn_ctr2647_TaskPanel_spanTask']/div/div/div[2]/h3")
+	@FindBy(xpath = "//div[contains(@class,'detail-header')]/h3")
 	private WebElementFacade facilityPhysicianHeader;
 
 	@FindBy(xpath = "//*[@class='list-table-body physician-list']//div[4]")
@@ -88,7 +88,7 @@ public class PhysicianNPIConfigPage extends PageObject {
 	@FindBy(xpath = "//ul[@class='list-table-body physician-list']/li[1]/div")
 	private List<WebElementFacade> listOfSearchedPhysicianInfo;
 
-	private String cancelBtnJS = "$('#editPhysicianNPIPayors > div > div > div.modal-footer > button.btn.btn-default')";
+	private String cancelBtnJS = "$('#editPhysicianNPIPayors button.btn.btn-default')";
 
 	private String saveBtnJS = "$('#btnSave')";
 
