@@ -621,7 +621,6 @@ public class DefaultHandoffPage extends PageObject {
 				withAction().moveToElement(dispositionNameList.get(i)).build().perform();
 				flag = 1;
 			}
-			
 			if (flag == 1) {
 				break;
 			}
