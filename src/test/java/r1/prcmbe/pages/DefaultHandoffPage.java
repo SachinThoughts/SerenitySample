@@ -12,7 +12,7 @@ import net.serenitybdd.core.annotations.findby.FindBy;
 public class DefaultHandoffPage extends PageObject {
 
 	String workflowName, getDispositionStatus;
-
+	int i;
 	@FindBy(xpath = "//h3[@class='panel-title']")
 	private WebElementFacade defaultHandOffPageTitle;
 
@@ -614,14 +614,14 @@ public class DefaultHandoffPage extends PageObject {
 	 * @return the Disposition Name text of the newy created Disposition
 	 */
 	public String getTextSavedDispositionName(String dispositionName) {
-		int i;
 		int size = dispositionNameList.size();
 		int flag = 0;
 		for (i = 0; i < size; i++) {
 			if (dispositionNameList.get(i).getText().equals(dispositionName)) {
 				withAction().moveToElement(dispositionNameList.get(i)).build().perform();
+				flag = 1;
 			}
-			flag = 1;
+			
 			if (flag == 1) {
 				break;
 			}

@@ -626,12 +626,13 @@ public class WorkflowConfigurationPage extends PageObject {
 	public void clickOnNewlyDispositionDetailsLink(String dispositionName) {
 		int size = dispositionNameList.size();
 		int flag = 0;
-		for (int i = 0; i < size; i++) {
+		int i;
+		for (i = 0; i < size; i++) {
 			if (dispositionNameList.get(i).getText().equals(dispositionName)) {
 				withAction().moveToElement(dispositionNameList.get(i)).build().perform();
+				evaluateJavascript("arguments[0].click();", dispositionDetailsLinkList.get(i));
+				flag = 1;
 			}
-			evaluateJavascript("arguments[0].click();", dispositionDetailsLinkList.get(i));
-			flag = 1;
 			if (flag == 1) {
 				break;
 			}
