@@ -557,9 +557,13 @@ public class DefaultHandoffPage extends PageObject {
 		dispositionNameTextBox.type(dispositionDescription);
 		return dispositionDescription;
 	}
-	
+
+	/**
+	 * 
+	 * @return the text value entered in the Disposition text box
+	 */
 	public String getEnterDispositionName() {
-		return evaluateJavascript("return arguments[0].value;", dispositionNameTextBox).toString();	
+		return evaluateJavascript("return arguments[0].value;", dispositionNameTextBox).toString();
 	}
 
 	public void selectNextDispositionByDD() {
@@ -603,6 +607,12 @@ public class DefaultHandoffPage extends PageObject {
 		addNewDispositionSaveChangesButton.click();
 	}
 
+	/**
+	 * 
+	 * @param dispositionName
+	 *            is the name of Disposition to be passed from feature file
+	 * @return the Disposition Name text of the newy created Disposition
+	 */
 	public String getTextSavedDispositionName(String dispositionName) {
 		int i;
 		int size = dispositionNameList.size();
