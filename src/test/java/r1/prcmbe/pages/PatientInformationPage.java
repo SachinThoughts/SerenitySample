@@ -16,9 +16,9 @@ public class PatientInformationPage extends PageObject {
 	private WebElementFacade patientAndVisitDetailsTabSelected;
 
 	@FindBy(xpath = "//*[@id='patientDetails']/div[@class='panel-heading']//li")
-	private List<WebElementFacade> listOfPatientInfoHeaders;
+	private List<WebElementFacade> listOfPatientAndFacilityInfoTab;
 
-	@FindBy(id ="patC")
+	@FindBy(id = "patC")
 	private WebElementFacade drillDownBtn;
 
 	@FindBy(xpath = "(//h3[@class='panel-title'])[1]/i[contains(@class,'right')]")
@@ -37,7 +37,7 @@ public class PatientInformationPage extends PageObject {
 	private WebElementFacade facilityDetailsTab;
 
 	@FindBy(xpath = "//*[@id='invoiceView']//li//span[1]")
-	private List<WebElementFacade> listOfFacilityDetailsPageHeaders;
+	private List<WebElementFacade> listOfFacilityDetailsSectionHeaders;
 
 	@FindBy(xpath = "//*[@id='invoiceView']//li[1]//span[2]")
 	private WebElementFacade facilityCode;
@@ -72,34 +72,55 @@ public class PatientInformationPage extends PageObject {
 	@FindBy(xpath = "//*[@id='invoiceView']//li[11]//span[2]")
 	private WebElementFacade facilityPTan;
 
+	/**
+	 * @return Visibility of Patient and Facility Info section
+	 */
 	public boolean isPatientAndFacilityInfoSectionVisible() {
 		return patientAndFacilityInfoSection.isVisible();
 	}
 
-	public List<String> getlistOfPatientInfoHeaders() {
+	/**
+	 * @return List of Patient and Facility Info Tab Headers
+	 */
+	public List<String> getlistOfPatientAndFacilityInfoTab() {
 		List<String> listOfHeaders = new ArrayList<>();
-		for (WebElementFacade element : listOfPatientInfoHeaders) {
+		for (WebElementFacade element : listOfPatientAndFacilityInfoTab) {
 			listOfHeaders.add(element.getText());
 		}
 		return listOfHeaders;
 	}
 
+	/**
+	 * @return Visibility of Patient And Visit Tab
+	 */
 	public boolean isPatientAndVisitTabVisible() {
 		return patientAndVisitDetailsTabSelected.isVisible();
 	}
 
+	/**
+	 * Clicking on Drill down Button of Patient and Facility Information
+	 */
 	public void clickDrillDownBtn() {
 		drillDownBtn.click();
 	}
 
+	/**
+	 * @return Visibility of collapsed Patient Information section
+	 */
 	public boolean isPatientAndVisitCollapsedSecVisible() {
 		return collapsedPatientInfoSection.isVisible();
 	}
 
+	/**
+	 * Clicking on Patient and Facility Info Panel
+	 */
 	public void clickOnPatientAndFacilityInfoPanel() {
 		patientAndFacilityInfoSection.click();
 	}
 
+	/**
+	 * @return List of Patient Data Headers
+	 */
 	public List<String> getlistOfPatientDataHeaders() {
 		List<String> listOfHeaders = new ArrayList<>();
 		for (WebElementFacade element : listOfPatientDataHeader) {
@@ -108,66 +129,111 @@ public class PatientInformationPage extends PageObject {
 		return listOfHeaders;
 	}
 
+	/**
+	 * Clicking on Patient and Visit Details Tab
+	 */
 	public void clickOnPatientAndVisitDetailsTab() {
 		patientAndVisitDetailsTab.click();
 	}
 
+	/**
+	 * Clicking on Patient and Address Tab
+	 */
 	public void clickOnPatientAddressTab() {
 		patientAddressTab.click();
 	}
 
+	/**
+	 * Clicking on Facility Details Tab
+	 */
 	public void clickOnFacilityDetailsTab() {
 		facilityDetailsTab.click();
 	}
 
-	public List<String> getlistOfFacilityInfoHeaders() {
+	/**
+	 * @return List of Facility Information Section labels
+	 */
+	public List<String> getlistOfFacilityInfoSectionLables() {
 		List<String> listOfHeaders = new ArrayList<>();
-		for (WebElementFacade element : listOfFacilityDetailsPageHeaders) {
+		for (WebElementFacade element : listOfFacilityDetailsSectionHeaders) {
 			listOfHeaders.add(element.getText().trim());
 		}
 		return listOfHeaders;
 	}
 
+	/**
+	 * @return Facility code text
+	 */
 	public String getFacilityCode() {
 		return facilityCode.getText();
 	}
 
+	/**
+	 * @return Facility Name text
+	 */
 	public String getFacilityName() {
 		return facilityName.getText();
 	}
 
+	/**
+	 * @return Location Code text
+	 */
 	public String getLocationCode() {
 		return locationCode.getText();
 	}
 
+	/**
+	 * @return Location Name text
+	 */
 	public String getLocationName() {
 		return locationName.getText();
 	}
 
+	/**
+	 * @return Facility Address text
+	 */
 	public String getFacilityAddress() {
 		return locationAddress.getText();
 	}
 
+	/**
+	 * @return City of Facility text
+	 */
 	public String getFacilityCity() {
 		return facilityCity.getText();
 	}
 
+	/**
+	 * @return Facility state text
+	 */
 	public String getFacilityState() {
 		return facilityState.getText();
 	}
 
+	/**
+	 * @return Facility zip code text
+	 */
 	public String getFacilityZipCode() {
 		return facilityZipCode.getText();
 	}
 
+	/**
+	 * @return Facility NPI text
+	 */
 	public String getFacilityNpi() {
 		return facilityNpi.getText();
 	}
 
+	/**
+	 * @return Facility Tax Id text
+	 */
 	public String getFacilityTaxId() {
 		return facilityTaxId.getText();
 	}
 
+	/**
+	 * @return Facility PTan text
+	 */
 	public String getFacilityPTan() {
 		return facilityPTan.getText();
 	}
