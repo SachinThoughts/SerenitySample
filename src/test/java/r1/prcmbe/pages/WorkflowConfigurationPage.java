@@ -649,14 +649,14 @@ public class WorkflowConfigurationPage extends PageObject {
 	 * selects the value from the Next Disposition By dropdown
 	 * 
 	 * @param nextDrpDownValue
-	 *            value to be selected from thr dropdown
+	 *            value to be selected from the dropdown
 	 */
 	public void selectNextDispositionFromDropdown(String nextDrpDownValue) {
 		evaluateJavascript("arguments[0].scrollIntoView(true);", nextDispositionByDropdown);
 		nextDispositionByDropdown.selectByVisibleText(nextDrpDownValue);
 	}
 
-	/*
+	/**
 	 * Method checks visibility of newly added value in Next Disposition By dropdown
 	 */
 	public boolean isSelectedValueInNextDispositionByVisible(String expectedDrpDownValue) {
@@ -1283,6 +1283,11 @@ public class WorkflowConfigurationPage extends PageObject {
 		}
 	}
 
+	/**
+	 * 
+	 * @param listOfFields
+	 * @return list of Controls text values on Add Action Popup on Action Page
+	 */
 	public List<Object> verifyAddActionPopupControlsVisible(List<String> listOfFields) {
 		List<Object> listOfVal = new ArrayList<>();
 		int count = 0;
@@ -1484,23 +1489,42 @@ public class WorkflowConfigurationPage extends PageObject {
 		firstDetailsLinkOnRecipient.click();
 	}
 
+	/**
+	 * 
+	 * @return Text value of updated By field on Recipient Page
+	 */
 	public String getUpdatedByFieldValue() {
 		return recipientUpdatedByField.getText();
 	}
 
+	/**
+	 * 
+	 * @return Text value of Updated Date field on Recipient Page
+	 */
 	public String getUpdatedDateFieldValue() {
 		return recipientUpdatedDateField.getText();
 	}
 
+	/**
+	 * Method clicks on Respond Deadline on Add Disposition popup
+	 */
 	public void clickRespondDeadlineOnEditDispositionTypePopup() {
 		respondDeadLineTxtBoxOnDispositionPopup.click();
 	}
 
+	/**
+	 * 
+	 * @return the text value of Respond Deadline text box
+	 */
 	public String enterAndGetRandomValueRespondDeadlineForEditDispositionTypePopup() {
 		respondDeadLineTxtBoxOnDispositionPopup.type(RandomStringUtils.randomNumeric(1));
 		return respondDeadLineTxtBoxOnDispositionPopup.getTextValue();
 	}
 
+	/**
+	 * 
+	 * @return the text value of Time Limit on Disposition page
+	 */
 	public String getMappedDispositionTimeLimitValueOnDispositionTypeGrid() {
 		return mappedTimeLimitValueOnDispositionTypeGrid.get(0).getText();
 	}
@@ -1767,7 +1791,6 @@ public class WorkflowConfigurationPage extends PageObject {
 				break;
 			}
 		}
-
 	}
 
 	public List<String> getActionTypeStatusListText() {
