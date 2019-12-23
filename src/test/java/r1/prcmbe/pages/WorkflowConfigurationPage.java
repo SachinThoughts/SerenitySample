@@ -16,7 +16,7 @@ public class WorkflowConfigurationPage extends PageObject {
 	int index;
 	String enterWorkflowName, workflowDescriptionText, getSelectedValueFromNextDropdown, getDispositionStatus;
 
-	@FindBy(xpath = "//h3[contains(text(),'Workflow Configuration')]")
+	@FindBy(xpath = "//h3[text()='AHtoDecision Workflow Configuration']")
 	private WebElementFacade workflowTitle;
 
 	@FindBy(id = "HandoffLink")
@@ -456,6 +456,12 @@ public class WorkflowConfigurationPage extends PageObject {
 
 	@FindBy(id = "addEditNewActionLabel")
 	private WebElementFacade editActionPopUpHeader;
+
+	@FindBy(xpath = "//ul[@class='sop-types workflowConfiguration']//span[text()='Writeoff']//ancestor::li//child::label[contains(@for,'work')]")
+	private WebElementFacade writeOffRadioBtn;
+
+	@FindBy(xpath = "//span[text()='Identified']")
+	private List<WebElementFacade> actionTypeStatusList;
 
 	public String getActionTextBreadcrumb() {
 		return actionTypeBreadcrumb.getText().trim();
@@ -1152,7 +1158,7 @@ public class WorkflowConfigurationPage extends PageObject {
 	}
 
 	public boolean isDispositionDetailsCollapsed() {
-		return firstDispositionDetailsLink.isVisible();
+		return expandedDispositionDetailsLink.isVisible();
 	}
 
 	public boolean isDispositionDetailsSectionVisible() {
@@ -1491,5 +1497,18 @@ public class WorkflowConfigurationPage extends PageObject {
 			}
 		}
 
+	}
+
+	public List<String> getActionTypeStatusListText() {
+		List<String> statusList = new ArrayList<String>();
+		for (WebElementFacade element : actionTypeStatusList) {
+			statusList.add(element.getText().trim());
+		}
+		return statusList;
+	}
+
+	public void clickWriteOffRadioBtn() {
+		withAction().moveToElement(writeOffRadioBtn).build().perform();
+		writeOffRadioBtn.click();
 	}
 }

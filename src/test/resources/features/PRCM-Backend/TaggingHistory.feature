@@ -39,7 +39,7 @@ Feature: Verify Tagging related scenarios in PRCM-BE
       | query3              |
       | Tagging_419683_SQL1 |
 
-  @419684  @Sprint103 @PRCMUser
+  @419684 @Sprint103 @PRCMUser
   Scenario Outline: Verify that user is able to edit created tag category by clicking on edit button.
     Given user is on R1 Decision search page
     When user login to SQL server and connect to database
@@ -48,7 +48,7 @@ Feature: Verify Tagging related scenarios in PRCM-BE
     And user enters the query result in Invoice Number search textbox to add tag on account
     Then user is on "R1 Hub Technologies 2.0 - 15 R1_Decision" page
     When User Clicks on Edit Tag link
-    And User edits Tag Category , Tag Name and "editedtest" text in notes textbox and click on save changes button 
+    And User edits Tag Category , Tag Name and "editedtest" text in notes textbox and click on save changes button
     Then User should be able to view message "Account Tag saved successfully."
     And User should be able to view edited Tag Name under the title Tag
     When User scrolls till Tag History section

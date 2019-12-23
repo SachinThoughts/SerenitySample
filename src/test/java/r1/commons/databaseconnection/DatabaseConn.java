@@ -14,8 +14,8 @@ public class DatabaseConn {
 	public static ResultSet resultSet;
 	public static String serverName;
 	public static String databaseName;
-	private static String dbUser = "DEV_SQLAdmin";
-	private static String dbPassword = "SQLAdmin!";
+	private static String dbUser = "DEV_SQLReadOnly";
+	private static String dbPassword = "r1rcm@123";
 
 	public static void getServerDBName(String url, String facility) {
 
@@ -59,7 +59,7 @@ public class DatabaseConn {
 			}
 
 			else if (url.contains("dev")) {
-				serverConn("DEVRHUBWTRN03", "Accretive", query);
+				serverConn("DEVRHUBWTRN16", "Accretive", query);
 				while (resultSet.next()) {
 					serverName = resultSet.getString("servername");
 					databaseName = resultSet.getString("databasename");

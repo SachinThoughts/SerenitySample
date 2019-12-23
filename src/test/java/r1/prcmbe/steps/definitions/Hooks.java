@@ -26,7 +26,7 @@ public class Hooks extends PageObject {
 	@Steps
 	LoginSteps loginStep;
 
-	@Before(value = "@AHtoDecisionAdmin or @PRCMUser or @ARSupervisor")
+	@Before(value = "@AHtoDecisionAdmin or @PRCMUser or @ARSupervisor or @SeniorManager")
 	public void prcmBeUser() throws IOException {
 		open();
 		if (accInfoPage.checkLogoutVisible() && propertyName != "prcmBeUsername") {
@@ -63,7 +63,7 @@ public class Hooks extends PageObject {
 			propertyName = "nonPRCMBeUsername";
 		}
 	}
-	
+
 	@Before(value = "@BSOFollowUpUser")
 	public void prcmBSOFollowUpUser() throws IOException {
 		open();
@@ -82,7 +82,26 @@ public class Hooks extends PageObject {
 			propertyName = "BSOFollowUpUserName";
 		}
 	}
-	
+
+	@Before(value = "@R1DApproval")
+	public void prcmR1DApprovalUser() throws IOException {
+		open();
+		if (accInfoPage.checkLogoutVisible() && propertyName != "R1DApproverUserName") {
+			accInfoPage.logOut();
+			open();
+		}
+		if (userLoginPage.verifyUsernameTextBox()) {
+			String accountuser = CommonMethods.loadProperties("R1DApproverUserName");
+			String passwd = CommonMethods.loadProperties("R1DApproverPassword");
+			loginStep.userEntersCredentials(accountuser, passwd);
+			userLoginPage.loginBtnClick();
+			if (userLoginPage.isProceedLinkVisible()) {
+				userLoginPage.clickOnProceedFurther();
+			}
+			propertyName = "R1DApproverUserName";
+		}
+	}
+
 	@Before(value = "@PRCMQueueUser")
 	public void prcmBeQueueUser() throws IOException {
 		open();
@@ -101,8 +120,8 @@ public class Hooks extends PageObject {
 			propertyName = "prcmBeQueueUsername";
 		}
 	}
-	
-	@After(value="@391164")
+
+	@After(value = "@391164")
 	public void uncheckPrcmFacilityGrp() {
 		navPage.clickFooterSettings();
 		settingsPage.clickOnSettingsR1Decisions();

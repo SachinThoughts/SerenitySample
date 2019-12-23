@@ -17,7 +17,7 @@ public class FacilityGroupConfigurationPage extends PageObject {
 	@FindBy(xpath = "//*[@id='lstFacilityGroup']/li/div[1]/span")
 	private List<WebElementFacade> facilityGroupList;
 
-	@FindBy(xpath = "//h3[contains(text(),'Facility Group Configuration')]")
+	@FindBy(xpath = "//h3[text()='Facility Group Configuration']")
 	private WebElementFacade facilityGroupConfigPageHeader;
 
 	@FindBy(xpath = "//ul[@class='list-table-header FacilityGroup-admin no-counter']/li/preceding-sibling::li")
@@ -26,7 +26,7 @@ public class FacilityGroupConfigurationPage extends PageObject {
 	@FindBy(xpath = "//button[text()='Add New Facility Group']")
 	private List<WebElementFacade> listOfAddFacilityBtn;
 
-	@FindBy(xpath = "//a[@class='btn btn-link lnkEditFacilityGroup']")
+	@FindBy(xpath = "//a[@href='#addFacilityGroup']")
 	private List<WebElementFacade> listOfEditBtns;
 
 	@FindBy(xpath = "//*[@id='lstFacilityGroup']/li/div[2]/span")
@@ -37,14 +37,14 @@ public class FacilityGroupConfigurationPage extends PageObject {
 
 	@FindBy(id = "btnAddFacility")
 	private WebElementFacade addBtnOnAddNewPopup;
-	//
+	
 	@FindBy(id = "txtAssignFacility")
 	private WebElementFacade facilityCodeTxtBox;
 
-	@FindBy(xpath = "//*[@id='addFacilityGroup']//label[@class='control-label']")
+	@FindBy(xpath = "//label[@class='control-label']")
 	private List<WebElementFacade> listOfLabels;
 
-	@FindBy(xpath = "//*[@id='addFacilityGroup']//div[4]/span/b")
+	@FindBy(xpath = "//*[@id='addFacilityGroup']//b")
 	private WebElementFacade physicianCheckboxText;
 
 	@FindBy(id = "btnSave")
@@ -191,7 +191,10 @@ public class FacilityGroupConfigurationPage extends PageObject {
 	public void clickOnEditBtnWithNoPhysicianChkboxChecked() {
 		int check = 0;
 		int size = listOfEditBtns.size();
+		
+		
 		for (index = 0; index < size; index++) {
+			listOfEditBtns.get(index).withTimeoutOf(Duration.ofSeconds(15)).waitUntilVisible();
 			evaluateJavascript("arguments[0].click();", listOfEditBtns.get(index));
 			while (physicianCheckbox.isSelected()) {
 				physicianCheckbox.withTimeoutOf(Duration.ofSeconds(15)).waitUntilVisible();

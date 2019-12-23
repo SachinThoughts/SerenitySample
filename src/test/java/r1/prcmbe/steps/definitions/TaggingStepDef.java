@@ -15,6 +15,7 @@ import net.serenitybdd.core.pages.PageObject;
 import net.thucydides.core.annotations.Steps;
 import r1.commons.databaseconnection.DatabaseConn;
 import r1.commons.utilities.CommonMethods;
+import r1.prcmbe.pages.BillingAndFollowUpPage;
 import r1.prcmbe.pages.SearchPage;
 import r1.prcmbe.pages.SettingsPage;
 import r1.prcmbe.pages.TaggingPage;
@@ -26,6 +27,8 @@ public class TaggingStepDef extends PageObject {
 	SettingsPage settingsPage;
 	TaggingPage taggingPage;
 	SearchPage searchPage;
+	BillingAndFollowUpPage billingAndFollowUpPage;
+	
 	final String ALERTBGCOLOR = "rgba(76, 144, 221, 1)";
 	List<String> categoryNameList = new ArrayList<>();
 	List<String> listOfGridColumnsOnUI = new ArrayList<>();
@@ -430,4 +433,95 @@ public class TaggingStepDef extends PageObject {
 				taggingPage.getlistOfAddedTagDetailsUnderHistorySection().containsAll(listOfEditedTagDetailsOnUi));
 	}
 
+	@Then("^User should be able to view message as \"([^\"]*)\"$")
+	public void user_should_be_able_to_view_message_as(String expectedMsg) {
+		Assert.assertTrue("User is not able to view " + expectedMsg,
+				taggingPage.getAlertMsgOnTagPopupForUnclassifiedAcc().contains(expectedMsg));
+	}
+
+	@Then("^User should be able to view Save Changes button as disabled$")
+	public void user_should_be_able_to_view_Save_Changes_button_as_disabled() {
+		Assert.assertTrue("Save Changes Button is not disables on add account popup",
+				taggingPage.isSaveChangesBtnDisabled());
+	}
+
+	@When("^User clicks on Mass Update link$")
+	public void user_clicks_on_Mass_Update_link() {
+		billingAndFollowUpPage.clickMassUpdateLink();
+	}
+
+	@Given("^User is on Mass Update screen$")
+	public void user_is_on_Mass_Update_screen() {
+		taggingPage.massUpdateScreenShouldBeVisible();
+	}
+
+	@When("^user clicks on Radio button Professional under Invoice Account Type$")
+	public void user_clicks_on_Radio_button_Professional_under_Invoice_Account_Type() {
+		taggingPage.selectProfessionalRadioBtn();
+	}
+
+	@When("^user clicks on Radio button Manual Entry under Manual Entry or Upload Document\\?$")
+	public void user_clicks_on_Radio_button_Manual_Entry_under_Manual_Entry_or_Upload_Document() {
+		taggingPage.selectManualEntryRadioBtn();
+	}
+
+	@When("^user enters query result with FacilityCode prefixed under Enter Values textbox$")
+	public void user_enters_query_result_with_FacilityCode_prefixed_under_Enter_Values_textbox() {
+		taggingPage.enterInvcNumInManualEntryTxtbxOnMUScrn(dbInvoiceNumber);
+	}
+
+	@When("^user clicks on Radio button Account Tagging under Mass Tag Update Type$")
+	public void user_clicks_on_Radio_button_Account_Tagging_under_Mass_Tag_Update_Type() {
+		taggingPage.selectMUReqAccountTaggingRadioBtn();
+
+	}
+
+	@When("^user clicks on Add radio button under Account Tag Update Type$")
+	public void user_clicks_on_Add_radio_button_under_Account_Tag_Update_Type() {
+		taggingPage.selectAddRadioBtnOnMU();
+	}
+
+	@Then("^User should be able to view Account Tag Category dropdown $")
+	public void user_should_be_able_to_view_Account_Tag_Category_dropdown() {
+		Assert.assertTrue("User is not able to view Account tag Category dropdown",
+				taggingPage.isAddCategoryDrpdwnVisibleOnMU());
+
+	}
+
+	@Then("^User should be able to view Account Tag Name dropdown$")
+	public void user_should_be_able_to_view_Account_Tag_Name_dropdown() {
+		Assert.assertTrue("User is not able to view account tag name dropdown",
+				taggingPage.isAddTagDrpdwnVisibleOnMU());
+	}
+
+	@When("^User selects Account Tag Category from Account Tag Category drop down$")
+	public void user_selects_Account_Tag_Category_from_Account_Tag_Category_drop_down() {
+		taggingPage.selectAccTagCategoryOnMU();
+	}
+
+	@When("^Users selects Account Tag Name from Account Tag Name drop down$")
+	public void users_selects_Account_Tag_Name_from_Account_Tag_Name_drop_down() {
+		taggingPage.selectTagNameOnMU();
+	}
+
+	@When("^User enters the Notes \"([^\"]*)\" in notes textbox$")
+	public void user_enters_the_Notes_in_notes_textbox(String notes) {
+		taggingPage.enterNotesOnMU(notes);
+	}
+
+	@When("^User clicks on Submit button$")
+	public void user_clicks_on_Submit_button() {
+		taggingPage.clickOnSaveBtnOnMU();
+	}
+
+	@Then("^User should be able to view the message \"([^\"]*)\"$")
+	public void user_should_be_able_to_view_the_message(String expectedMsg) {
+		Assert.assertTrue("User is not able to view success message on screeen",
+				taggingPage.getSuccessMsgOnMU().contains(expectedMsg));
+	}
+
+	@When("^user clicks on Remove radio button  under Account Tag Update Type$")
+	public void user_clicks_on_Remove_radio_button_under_Account_Tag_Update_Type() {
+		taggingPage.selectRemoveRadioBtnOnMU();
+	}
 }
