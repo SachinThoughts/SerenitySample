@@ -43,7 +43,7 @@ Feature: Verify WorkFlowConfiguration related scenarios in PRCM
     Then Edit Handoff pop up window should get closed with no data saved
     When user clicks on Edit link button against particular hand off type in Choose Handoff grid
     And user updates value in any of the fields
-    And user clicks on Save changes button
+   And user clicks on Save Changes button for Add Handoff
     Then user should be able to view handoff message "HandOff Updated Successfully"
     And user should no longer be able to view Edit Handoff popup window
     And user should be able to view Updated values related to handoff type in Choose Handoff grid
