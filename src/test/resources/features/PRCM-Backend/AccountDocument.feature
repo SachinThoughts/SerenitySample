@@ -24,7 +24,7 @@ Feature: Verify AccountDocument related scenarios in PRCM
     When user selects file <invalid doctype> using ChooseFile Option
     Then user should be able to view the selected file path/name under File Name text box
     When user clicks on Upload Document button
-    Then user should be able to view message "Upload Error! ." <invalid doctype> " is invalid, allowed extensions are: .doc, .docx, .xls, .xlsx, .pdf, .gif, .jpg, .png"
+    Then user should be able to view the message "Upload Error! ." <invalid doctype> " is invalid, allowed extensions are: .doc, .docx, .xls, .xlsx, .pdf, .gif, .jpg, .png"
 
     Examples: 
       | invalid doctype |
