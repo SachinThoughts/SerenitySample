@@ -1114,7 +1114,6 @@ public class WorkflowConfigurationPage extends PageObject {
 	}
 
 	/**
-	 * 
 	 * @return the boolean value based on the visibility of edit btn on Handoff page
 	 */
 	public boolean isHandoffEditButtonVisible() {
@@ -1122,7 +1121,6 @@ public class WorkflowConfigurationPage extends PageObject {
 	}
 
 	/**
-	 * 
 	 * @return boolean value to check if the default radio btn on Handoff Page is
 	 *         selected
 	 */
