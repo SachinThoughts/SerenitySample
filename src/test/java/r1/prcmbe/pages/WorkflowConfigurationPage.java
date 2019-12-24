@@ -1316,7 +1316,9 @@ public class WorkflowConfigurationPage extends PageObject {
 		}
 		return listOfVal;
 	}
-
+/**
+ * Method clicks on the Active Check box on the Action Popup
+ */
 	public void clickRequiredCheckBoxOnActionPopup() {
 		requiredCheckBoxActionPopup.click();
 	}

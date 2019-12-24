@@ -304,6 +304,9 @@ public class DefaultHandoffPage extends PageObject {
 	@FindBy(xpath = "//*[@id='carousel']/ul/li[2]/a")
 	private WebElementFacade accountActionHistoryTimelineArrow;
 
+	/**
+	 * Method checks the visibility of Add New Action Btn
+	 */
 	public boolean isAddNewActionBtnVisisble() {
 		return addNewActionButton.isVisible();
 	}
