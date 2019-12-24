@@ -219,6 +219,9 @@ public class FinancialInfoPage extends PageObject {
 		return totalBalanceData.getText().trim().replace("$", "").replace(",", "").replace("(", "-").replace(")", "");
 	}
 
+	/**
+	 * @return Total Adjustments value
+	 */
 	public String getTotalAdjustments() {
 		return totalAdjustments.getText();
 	}
