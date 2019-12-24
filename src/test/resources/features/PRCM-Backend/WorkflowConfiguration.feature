@@ -481,7 +481,7 @@ Feature: Verify WorkFlowConfiguration related scenarios in PRCM
     When user enters alphanumeric text in Disposition Code textbox
     And user clicks on Save Changes button on Disposition pop up
     Then user should able to view info message "Please enter Disposition Name"
-    And user enters text in Disposition Description textbox: "Test1234"
+    And user enters text in Disposition Description textbox: "Testing1234"
     And user clicks on Save Changes button on Disposition pop up
     Then user should able to view info message "Please select Next Disposition By."
     When user select "AR Supervisor" value from Next Disposition By drop down, other than --Select one-- option

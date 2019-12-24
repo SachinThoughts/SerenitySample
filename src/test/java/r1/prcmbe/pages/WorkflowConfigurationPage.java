@@ -624,10 +624,9 @@ public class WorkflowConfigurationPage extends PageObject {
 	 *            is the created disposition name
 	 */
 	public void clickOnNewlyDispositionDetailsLink(String dispositionName) {
-		int size = dispositionNameList.size();
+		int size = dispositionNameList.size()-1;
 		int flag = 0;
-		int i;
-		for (i = 0; i < size; i++) {
+		for (int i = size; i>0; i--) {
 			if (dispositionNameList.get(i).getText().equals(dispositionName)) {
 				withAction().moveToElement(dispositionNameList.get(i)).build().perform();
 				evaluateJavascript("arguments[0].click();", dispositionDetailsLinkList.get(i));
