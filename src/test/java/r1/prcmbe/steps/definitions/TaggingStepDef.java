@@ -318,7 +318,7 @@ public class TaggingStepDef extends PageObject {
 
 	@When("^User Clicks on Add Tag link$")
 	public void user_Clicks_on_Add_Tag_link() {
-		taggingPage.clickTagNameLinkAtAccInfoPge();
+		taggingPage.clickOnAddTagNameLinkAtAccInfoPge();
 	}
 
 	@When("^User selects any value from Tag Category dropdown$")
@@ -355,7 +355,7 @@ public class TaggingStepDef extends PageObject {
 
 	@When("^User scrolls till Tag History section$")
 	public void user_scrolls_till_Tag_History_section() {
-		taggingPage.scrollTillTagHistorySection();
+		taggingPage.scrollToViewTagHistorySection();
 	}
 
 	@Then("^user should be able to view following grid columns under tag history section$")

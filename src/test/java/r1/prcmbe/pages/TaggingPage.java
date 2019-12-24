@@ -119,7 +119,7 @@ public class TaggingPage extends PageObject {
 	@FindBy(xpath = "//*[@id='TagCategory']//option")
 	private List<WebElementFacade> tagCategoryDrpdwnOptions;
 
-	@FindBy(xpath = "//*[@id='TagCategory']")
+	@FindBy(id= "TagCategory")
 	private WebElementFacade tagCategoryDrpdwn;
 
 	@FindBy(xpath = "//*[@id='TagName']//option")
@@ -137,7 +137,7 @@ public class TaggingPage extends PageObject {
 	@FindBy(xpath = "//div[@class='modal-body text-center alert alert-success']/h3[text()='Account Tag removed successfully.']")
 	private WebElementFacade accRmvdAlrtMsg;
 
-	@FindBy(xpath = "//div[@class='modal-body text-center alert alert-success']//h3[text()='Account Tag saved successfully.']")
+	@FindBy(xpath = "//h3[text()='Account Tag saved successfully.']")
 	private WebElementFacade accAddedAlrtMsg;
 
 	@FindBy(xpath = "//span[@class='tag-name tag label label-info' or @class='tag-name  tag label label-info']")
@@ -146,10 +146,10 @@ public class TaggingPage extends PageObject {
 	@FindBy(xpath = "//h3[text()='Claims & Remittances ']")
 	private WebElementFacade claimAndRemittanceSection;
 
-	@FindBy(xpath = "//*[@id='generalTags']/li[1]/div/table//th")
+	@FindBy(xpath = "//*[@id='generalTags']//li[position()=1]//table[@class='table']//child::th")
 	private List<WebElementFacade> listOfTagHeadersUnderHistorySection;
 
-	@FindBy(xpath = "//*[@id='generalTags']/li[1]/div/table//td")
+	@FindBy(xpath = "//*[@id='generalTags']//li[position()=1]//table[@class='table']//child::td")
 	private List<WebElementFacade> listOfAddedTagDetails;
 
 	@FindBy(xpath = "//*[@class='alert alert-info']//span")
@@ -515,7 +515,10 @@ public class TaggingPage extends PageObject {
 		searchedFacilityCode.click();
 	}
 
-	public void clickTagNameLinkAtAccInfoPge() {
+	/**
+	 *Clicking on Add tag name link at Account info page if edit tag link is visible on page first will remove tag than will add
+ 		tags */
+	public void clickOnAddTagNameLinkAtAccInfoPge() {
 		if (editTagLink.isVisible()) {
 			evaluateJavascript(removeTagBtnJs);
 			accRmvdAlrtMsg.withTimeoutOf(Duration.ofSeconds(20)).waitUntilNotVisible().getText();
@@ -523,37 +526,64 @@ public class TaggingPage extends PageObject {
 		tagNameLinkAtAccInfoPge.click();
 	}
 
+	/**
+	 * selecting any random value from tag category drop down
+	 * @return selected drop down option value
+	 */
 	public String selectAndGetAnyTagCategory() {
 		index = CommonMethods.getRandom(tagCategoryDrpdwnOptions.size() - 1) + 1;
 		return tagCategoryDrpdwn.selectByIndex(index).getSelectedVisibleTextValue();
 	}
-
+	/**
+	 * selecting any random value from tag name drop down
+	 * @return selected drop down option value
+	 */
 	public String selectAndGetAnyTagName() {
 		index = CommonMethods.getRandom(tagNameDrpdwnOptions.size() - 1) + 1;
 		return tagNameDrpdwn.selectByIndex(index).getSelectedVisibleTextValue();
 	}
 
+	/**
+	 * Entering Tag notes
+	 * @param tagNote passing from feature file
+	 */
 	public void enterTagNote(String tagNote) {
 		tagNotesTxtBox.type(tagNote);
 	}
 
+	/**
+	 * Clicking on Save button
+	 * @return Text of Alert message after adding Tag on Acc info page
+	 */
 	public String saveTagAndGetTagAddedSuccessMsg() {
 		saveTagBtn.click();
 		return accAddedAlrtMsg.getText();
 	}
 
+	/**
+	 * Clicking on save button after editing
+	 */
 	public void clickOnSaveTagBtn() {
 		saveTagBtn.click();
 	}
 
+	/**
+	 * @return Text of added tag name under title tag
+	 */
 	public String getAddedTagNameOnAccInfo() {
 		return tagNameOnAccInfo.getText();
 	}
 
-	public void scrollTillTagHistorySection() {
+	/**
+	 * Scrolling till claim and remittance section to view tag history view section
+	 */
+	public void scrollToViewTagHistorySection() {
 		evaluateJavascript(scrollToElementJs, claimAndRemittanceSection);
 	}
 
+	/**
+	 * @return List of newly added tag headers under tag history section
+	 */
 	public List<String> getlistOfTagHeadersUnderHistorySection() {
 		List<String> listOfTagHeaders = new ArrayList<>();
 		for (WebElementFacade tagHeaders : listOfTagHeadersUnderHistorySection) {
@@ -562,6 +592,9 @@ public class TaggingPage extends PageObject {
 		return listOfTagHeaders;
 	}
 
+	/**
+	 * @return List of added tag details under tag history section
+	 */
 	public List<String> getlistOfAddedTagDetailsUnderHistorySection() {
 		List<String> listOfTagDetails = new ArrayList<>();
 		for (int i = 1; i <= listOfAddedTagDetails.size(); i++) {
@@ -575,6 +608,9 @@ public class TaggingPage extends PageObject {
 		return listOfTagDetails;
 	}
 
+	/**
+	 * Clicking on Edit tag link if account doesn't have already added tag so first method will add tag than method will click on edit
+	 */
 	public void clickEditTagLinkAtAccInfoPge() {
 		if (tagNameLinkAtAccInfoPge.isVisible()) {
 			tagNameLinkAtAccInfoPge.click();
@@ -590,6 +626,9 @@ public class TaggingPage extends PageObject {
 		return alertMsgOnAddAcTagPopup.isVisible();
 	}
 
+	/**
+	 * @return text of Account add alert message after editing
+	 */
 	public String getaccAddedAlrtMsgAfterEdit() {
 		return accAddedAlrtMsg.getText();
 	}

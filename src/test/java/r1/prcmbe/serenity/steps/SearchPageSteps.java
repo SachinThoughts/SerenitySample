@@ -35,6 +35,11 @@ public class SearchPageSteps {
 				&& dbInvoiceId.contains(searchPage.getInvoiceID().toLowerCase());
 	}
 
+	/**
+	 * Description - Verifying invoice number with equal operator
+	 * @param - Passing invoice number fetched from DB 
+	 * @return - Searched Invoice number is visible or not on account info page
+	 */
 	@Step
 	public boolean verifyInvoiceNumberWithEqualOperator(String dbInvoiceNum) {
 		if (searchPage.isSearchAccTableVisible()) {

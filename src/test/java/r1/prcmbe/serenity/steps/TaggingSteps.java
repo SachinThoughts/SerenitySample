@@ -84,6 +84,11 @@ public class TaggingSteps {
 		return getAddedTagHistory;
 	}
 
+	/**
+	 * Description - Editing Tag category, Tag name and notes
+	 * @param editTagNote - Passing from feature file
+	 * @return Edited Tag details
+	 */
 	public List<String> editAndSveTagOnAccInfoPge(String editTagNote) {
 		editedTagCategory = taggingPage.selectAndGetAnyTagCategory();
 		editedTagName = taggingPage.selectAndGetAnyTagName();

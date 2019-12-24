@@ -22,7 +22,7 @@ public class SearchPage extends PageObject {
 	@FindBy(xpath = "//input[@placeholder='Invoice #']")
 	private WebElementFacade invoiceNumberTxtField;
 
-	@FindBy(xpath = "//div[@class='form-group searchBtnOnLoad']/input[@type='submit']")
+	@FindBy(xpath = "//div[@id='searchBtn']/input[@type='submit']")
 	private WebElementFacade submitBtn;
 
 	@FindBy(xpath = "//*[@id='searchLoader']//div[@class='modal-body']/i")
@@ -112,6 +112,9 @@ public class SearchPage extends PageObject {
 	String titleJS = "return document.querySelector('#Head > title').text";
 	String facilityCodeJS = "return document.querySelector('#dnn_ctr1025_ModuleContent > span > span:nth-child(1)').textContent";
 
+	/**
+	 * @return Title of R1D search page
+	 */
 	public String getSearchPageTitle() {
 		return evaluateJavascript(titleJS).toString();
 	}
@@ -120,6 +123,10 @@ public class SearchPage extends PageObject {
 		return noAccountsMessage.getText();
 	}
 
+	/**
+	 * Description - Selecting option from search by drop down 
+	 * @param dropdown - drop down value is passing from feature file
+	 */
 	public void searchBySelectText(String dropdown) {
 		searchByDropdown.selectByVisibleText(dropdown);
 	}
@@ -128,10 +135,17 @@ public class SearchPage extends PageObject {
 		operatorDropdown.selectByVisibleText(operator);
 	}
 
+	/**
+	 *  Description - Entering invoice number in invoice number text field
+	 * @param invoiceNumber - Passing Invoice number fetched from DB
+	 */
 	public void enterInvoiceNumber(String invoiceNumber) {
 		invoiceNumberTxtField.type(invoiceNumber);
 	}
 
+	/**
+	 * Clicking on submit button and waiting for loading spinner to be disappear
+	 */
 	public void clickSubmitBtn() {
 		submitBtn.click();
 		if (loadingSpinner.isVisible()) {
