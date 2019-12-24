@@ -22,7 +22,7 @@ public class SearchPage extends PageObject {
 	@FindBy(xpath = "//input[@placeholder='Invoice #']")
 	private WebElementFacade invoiceNumberTxtField;
 
-	@FindBy(id = "btnSubmitSearch")
+	@FindBy(xpath = "//div[@class='form-group searchBtnOnLoad']/input[@type='submit']")
 	private WebElementFacade submitBtn;
 
 	@FindBy(xpath = "//*[@id='searchLoader']//div[@class='modal-body']/i")
