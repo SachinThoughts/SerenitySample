@@ -253,6 +253,9 @@ public class AccountInformationPage extends PageObject {
 		return visitNo;
 	}
 
+	/**
+	 * click on Add handoff button
+	 */
 	public void clickHandOffBtn() {
 		addHandOffBtn.click();
 	}
@@ -270,10 +273,16 @@ public class AccountInformationPage extends PageObject {
 		return handOffTypeDrpdwn.getSelectedVisibleTextValue();
 	}
 
+	/**
+	 * click on handoff type dropdown
+	 */
 	public void clickHandOffTypeDrpDown() {
 		evaluateJavascript("arguments[0].click()", handOffTypeDrpdwn);
 	}
 
+	/**
+	 * @return the list if Handoff type dropdown values
+	 */
 	public List<String> getHandOffTypeDrpDownValues() {
 		return handOffTypeDrpdwn.getSelectOptions();
 	}

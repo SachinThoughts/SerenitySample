@@ -112,6 +112,9 @@ public class SearchPage extends PageObject {
 	String titleJS = "return document.querySelector('#Head > title').text";
 	String facilityCodeJS = "return document.querySelector('#dnn_ctr1025_ModuleContent > span > span:nth-child(1)').textContent";
 
+	/**
+	 * @return the text title of the search page
+	 */
 	public String getSearchPageTitle() {
 		return evaluateJavascript(titleJS).toString();
 	}
@@ -132,6 +135,9 @@ public class SearchPage extends PageObject {
 		invoiceNumberTxtField.type(invoiceNumber);
 	}
 
+	/**
+	 * click on the submit button
+	 */
 	public void clickSubmitBtn() {
 		submitBtn.click();
 		if (loadingSpinner.isVisible()) {
@@ -256,6 +262,9 @@ public class SearchPage extends PageObject {
 		return toolTip.isVisible();
 	}
 
+	/**
+	 * @param operatorValue select the operator value
+	 */
 	public void operatorSelectText(String operatorValue) {
 		operator.selectByVisibleText(operatorValue);
 	}
@@ -275,6 +284,9 @@ public class SearchPage extends PageObject {
 		closeErrorAlert.click();
 	}
 
+	/**
+	 * @return get list of the Invoice numbers
+	 */
 	public List<String> getlistOfInvNum() {
 		waitForAngularRequestsToFinish();
 		List<String> listOfInvNum = new ArrayList<>();

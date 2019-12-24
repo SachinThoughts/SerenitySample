@@ -22,10 +22,16 @@ public class BillingAndFollowUpPage extends PageObject {
 		withAction().moveToElement(r1DecisionLink).click().build().perform();
 	}
 
+	/**
+	 * hover on the R1D decision link
+	 */
 	public void hoverOnR1DecisionLink() {
 		withAction().moveToElement(r1DecisionLink).build().perform();
 	}
 
+	/**
+	 * click on the search link
+	 */
 	public void clickSearchLink() {
 		withAction().moveToElement(searchLink).click().build().perform();
 	}

@@ -25,16 +25,16 @@ public class DefaultHandoffPage extends PageObject {
 	@FindBy(xpath = "//label[@for='addWorkflowDescription']")
 	private WebElementFacade addHandOffWorkflowDescriptionLabel;
 
-	@FindBy(xpath = "//label[contains(text(),'Worklist')]")
+	@FindBy(xpath = "//label[text()='Worklist']")
 	private WebElementFacade addHandOffWorkList;
 
-	@FindBy(xpath = "//label[contains(text(),'AH Module Code')]")
+	@FindBy(xpath = "//label[text()='AH Module Code']")
 	private WebElementFacade addHandOffAHModuleCode;
 
-	@FindBy(xpath = "//label[contains(text(),'Visible to Group')]")
+	@FindBy(xpath = "//label[text()='Visible to Group']")
 	private WebElementFacade addHandOffVisibleToGroupLabel;
 
-	@FindBy(xpath = "//label[contains(text(),'Activate Handoff')]")
+	@FindBy(xpath = "//label[text()='Activate Handoff']")
 	private WebElementFacade addHandOffActivateHandOffLabel;
 
 	@FindBy(xpath = "//*[@id='addHandoff']//button[@class='btn btn-default']")
@@ -55,16 +55,16 @@ public class DefaultHandoffPage extends PageObject {
 	@FindBy(id = "addAHModuleCode")
 	private WebElementFacade ahModuleCodeTextBox;
 
-	@FindBy(xpath = "//div[contains(text(),'Select some options')]")
+	@FindBy(xpath = "//div[@class='fs-label']")
 	private WebElementFacade visibleToGroupDD;
 
 	@FindBy(xpath = "//*[@id='addHandoff']//span//strong[text()='Info']")
 	private WebElementFacade addHandOffInfoMessage;
 
-	@FindBy(xpath = "(//label[@for='addHandoffActive'])[2]")
+	@FindBy(xpath = "(//label[@for='addHandoffActive'])[position()=2]")
 	private WebElementFacade activateHandOffCheckBox;
 
-	@FindBy(xpath = "(//div//span[@class='fs-checkbox'])[1]")
+	@FindBy(xpath = "(//div//span[@class='fs-checkbox'])[position()=1]")
 	private WebElementFacade visibleToGroupCheckBox;
 
 	@FindBy(id = "msg_success")
@@ -82,7 +82,7 @@ public class DefaultHandoffPage extends PageObject {
 	@FindBy(xpath = "//div[@id='dvRecipientDetails' and text()='No Recipient exists for the selected Handoff']")
 	private WebElementFacade recipientDetailsMessage;
 
-	@FindBy(xpath = "//button[contains(text(),' Add Recipient')]")
+	@FindBy(xpath = "//button[text()=' Add Recipient']")
 	private WebElementFacade addRecipientButton;
 
 	@FindBy(id = "txtRecipientName")
@@ -91,7 +91,7 @@ public class DefaultHandoffPage extends PageObject {
 	@FindBy(id = "txtRecipientDescription")
 	private WebElementFacade recipientDescriptionTextBox;
 
-	@FindBy(xpath = "//*[@id='addRecipient']//div//button[contains(text(),'Add Recipient')]")
+	@FindBy(xpath = "//*[@id='addRecipient']//div//button[text()='Add Recipient']")
 	private WebElementFacade saveRecipientButton;
 
 	@FindBy(xpath = "//ol[@class='breadcrumb defect-summary']")
@@ -121,7 +121,7 @@ public class DefaultHandoffPage extends PageObject {
 	@FindBy(xpath = "//div[@id='dvWorkflowDispositions' and text()='No Disposition exists for the selected action type']")
 	private WebElementFacade workflowTypeDispositionMessage;
 
-	@FindBy(xpath = "//button[contains(text(),' Add New Action')]")
+	@FindBy(xpath = "//button[text()=' Add New Action']")
 	private WebElementFacade addNewActionButton;
 
 	@FindBy(xpath = "//*[@id='addNewAction']//input[@id='txtActionName']")
@@ -148,7 +148,7 @@ public class DefaultHandoffPage extends PageObject {
 	@FindBy(xpath = "//button[@class='btn btnSuccess btn-block addAction next-step step3 btnPrimary']")
 	private WebElementFacade stepThreeContinueBtn;
 
-	@FindBy(xpath = "//button[contains(text(),' Add New Disposition')]")
+	@FindBy(xpath = "//button[text()=' Add New Disposition']")
 	private WebElementFacade addNewDispositionButton;
 
 	@FindBy(xpath = "//*[@id='addNewDisposition']//input[@id='txtdispositionCode']")
@@ -175,13 +175,13 @@ public class DefaultHandoffPage extends PageObject {
 	@FindBy(xpath = "//*[@id='addNewDisposition']//button[@class='btn btnPrimary']")
 	private WebElementFacade addNewDispositionSaveChangesButton;
 
-	@FindBy(xpath = "(//*[@id='WorkflowTypeDispositionSorttable'])[last()]/li[last()]/div[3]/span")
+	@FindBy(xpath = "(//*[@id='WorkflowTypeDispositionSorttable'])[last()]/li[last()]/div[position()=3]/span")
 	private WebElementFacade savedDispositionName;
 
-	@FindBy(xpath = "(//*[@id='WorkflowTypeDispositionSorttable'])[last()]/li[last()]/div[4]/span")
+	@FindBy(xpath = "(//*[@id='WorkflowTypeDispositionSorttable'])[last()]/li[last()]/div[position()=4]/span")
 	private WebElementFacade savedDispositionFollowUpDays;
 
-	@FindBy(xpath = "(//*[@id='WorkflowTypeDispositionSorttable'])/li[last()]/div[5]/span")
+	@FindBy(xpath = "(//*[@id='WorkflowTypeDispositionSorttable'])/li[last()]/div[position()=5]/span")
 	private WebElementFacade savedDispositionTimeLimit;
 
 	@FindBy(id = "ASName0")
@@ -235,7 +235,7 @@ public class DefaultHandoffPage extends PageObject {
 	@FindBy(xpath = "//input[@type='button' and @value='Update Facility Setting']")
 	private WebElementFacade updateSettingValueBtn;
 
-	@FindBy(xpath = "//span[contains(text(),'AHtoDecision Admin')]/ancestor::li/div[2]/span[@data-bind='text: workflowDescriptionName']")
+	@FindBy(xpath = "//span[contains(text(),'AHtoDecision Admin')]/ancestor::li/div[position()=2]/span[@data-bind='text: workflowDescriptionName']")
 	private List<WebElementFacade> listOfAHtoDecisionAdminWorkflows;
 
 	@FindBy(id = "ddlHandOffType")
@@ -271,133 +271,202 @@ public class DefaultHandoffPage extends PageObject {
 	@FindBy(id = "btnSaveHandsOff")
 	private WebElementFacade handoffSaveBtn;
 
-	@FindBy(xpath = "//div[@class='popover-content']//span//span[1]")
+	@FindBy(xpath = "//div[@class='popover-content']//span//span[position()=1]")
 	private List<WebElementFacade> listOfEventCircleColumns;
 
-	@FindBy(xpath = "//div[@class='popover-content']//span//span[2]")
+	@FindBy(xpath = "//div[@class='popover-content']//span//span[position()=2]")
 	private List<WebElementFacade> popupValues;
 
-	@FindBy(xpath = "//div[@class='popover-content']//div[@class='timeline-details']//span[1]/child::span[2]")
+	@FindBy(xpath = "//div[@class='popover-content']//div[@class='timeline-details']//span[position()=1]/child::span[position()=2]")
 	private WebElementFacade createdDateOnPopup;
 
-	@FindBy(xpath = "//div[@class='popover-content']//div[@class='timeline-details']//span[3]/child::span[2]")
+	@FindBy(xpath = "//div[@class='popover-content']//div[@class='timeline-details']//span[position()=3]/child::span[position()=2]")
 	private WebElementFacade followupDateOnPopup;
 
 	@FindBy(xpath = "//*[@id='btnShowHistory']/span")
 	private WebElementFacade accountActionHistoryNotesBtn;
 
-	@FindBy(xpath = "//*[@id='notesHistory']/li[1]/div/div/div/span/span[1]")
+	@FindBy(xpath = "//*[@id='notesHistory']/li[position()=1]/div/div/div/span/span[position()=1]")
 	private List<WebElementFacade> accountActionHistoryColumns;
 
-	@FindBy(xpath = "//*[@id='notesHistory']/li[1]/div/div/div/span/span[2]")
+	@FindBy(xpath = "//*[@id='notesHistory']/li[position()=1]/div/div/div/span/span[position()=2]")
 	private List<WebElementFacade> accountActionHistoryValues;
 
-	@FindBy(xpath = "//*[@id='notesHistory']/li[1]/div/div/div[3]/span[1]/span[2]")
+	@FindBy(xpath = "//*[@id='notesHistory']/li[position()=1]/div/div/div[position()=3]/span[position()=1]/span[position()=2]")
 	private WebElementFacade accountActionHistoryAddedDate;
 
-	@FindBy(xpath = "//*[@id='notesHistory']/li[1]/div/div/div[3]/span[3]/span[2]")
+	@FindBy(xpath = "//*[@id='notesHistory']/li[position()=1]/div/div/div[position()=3]/span[position()=3]/span[position()=2]")
 	private WebElementFacade accountActionHistoryFollowupDate;
 
 	@FindBy(id = "patAAH")
 	private WebElementFacade accountActionHistoryExpandButton;
 
-	@FindBy(xpath = "//*[@id='carousel']/ul/li[2]/a")
+	@FindBy(xpath = "//*[@id='carousel']/ul/li[position()=2]/a")
 	private WebElementFacade accountActionHistoryTimelineArrow;
 
 	public boolean isAddNewActionBtnVisisble() {
 		return addNewActionButton.isVisible();
 	}
 
+	/**
+	 * @return the DefaultHandoff Page title
+	 */
 	public String getTextDefaultHandOffPageTitle() {
 		return defaultHandOffPageTitle.getText().trim();
 	}
 
+	/**
+	 * @return true if the add handoff button is visible else false
+	 */
 	public boolean verifyVisibilityOfAddHandOffButton() {
 		return addHandOffButton.isVisible();
 	}
 
+	/**
+	 * click on add handoff button
+	 */
 	public void clickAddHandOffButton() {
 		addHandOffButton.click();
 	}
 
+	/**
+	 * @return text value for Workflow Name label
+	 */
 	public String getTextAddHandOffWorkFlowNameLabel() {
 		return addHandOffWorkflowNameLabel.getText().trim();
 	}
 
+	/**
+	 * @return text value for Workflow description label
+	 */
 	public String getTextAddHandOffWorkFlowDescriptionLabel() {
 		return addHandOffWorkflowDescriptionLabel.getText().trim();
 	}
 
+	/**
+	 * @return text value for WorkList label
+	 */
 	public String getTextAddHandOffWorkList() {
 		return addHandOffWorkList.getText().trim();
 	}
 
+	/**
+	 * @return text value for AH Module
+	 */
 	public String getTextAddHandOffAHModuleCode() {
 		return addHandOffAHModuleCode.getText().trim();
 	}
 
+	/**
+	 * @return text value of Visible to Group Label
+	 */
 	public String getTextAddHandOffVisibleToGroupLabel() {
 		return addHandOffVisibleToGroupLabel.getText().trim();
 	}
 
+	/**
+	 * @return text value of Activate Handoff label
+	 */
 	public String getTextAddHandOffActivateHandOffLabel() {
 		return addHandOffActivateHandOffLabel.getText().trim();
 	}
 
+	/**
+	 * @return text value of Close button label
+	 */
 	public String getTextAddHandOffCloseButton() {
 		return addHandOffCloseButton.getText().trim();
 	}
 
+	/**
+	 * @return text value of Save Changes button
+	 */
 	public String getTextAddHandOffSaveChangesButton() {
 		return addHandOffSaveChangesButton.getText().trim();
 	}
 
+	/**
+	 * @return true if WorkflowName textbox visible else false
+	 */
 	public boolean checkVisibilityOfWorkFlowNameTextBox() {
 		return workflowNameTextBox.isVisible();
 	}
 
+	/**
+	 * @return true if Workflow description textbox is visible else false
+	 */
 	public boolean checkVisibilityOfWorkFlowDescriptionTextBox() {
 		return workflowDescriptionTextBox.isVisible();
 	}
 
+	/**
+	 * @return true if WorkList DD is visible else false
+	 */
 	public boolean checkVisibilityOfWorkListDD() {
 		return workListDD.isVisible();
 	}
 
+	/**
+	 * @return true if AH Module Code textbox is visible else false
+	 */
 	public boolean checkVisibilityOfAHModuleCodeTextBox() {
 		return ahModuleCodeTextBox.isVisible();
 	}
 
+	/**
+	 * @return true if Visible to Group is visible else false
+	 */
 	public boolean checkVisibilityOfVisibleToGroupDD() {
 		return visibleToGroupDD.isVisible();
 	}
 
+	/**
+	 * @return true if Activate Handoff is visible else false
+	 */
 	public boolean checkVisibilityOfActivateHandOffCheckBox() {
 		return activateHandOffCheckBox.isVisible();
 	}
 
+	/**
+	 * @return true if close button is visible else false
+	 */
 	public boolean checkVisibilityOfAddHandOffCloseButton() {
 		return addHandOffCloseButton.isVisible();
 	}
 
+	/**
+	 * @return true if Save Changes button is visible else false
+	 */
 	public boolean checkVisibilityOfAddHandOffSaveChangesButton() {
 		return addHandOffSaveChangesButton.isVisible();
 	}
 
+	/**
+	 * @return the success message thrown when the handoff is saved successfully
+	 */
 	public String getTextSuccessMessage() {
 		return successMessage.withTimeoutOf(Duration.ofSeconds(20)).waitUntilVisible().getText().trim();
 	}
 
+	/**
+	 * @return enter a random and unique value for Workflow Name
+	 */
 	public String enterWorkFlowName() {
 		workflowName = RandomStringUtils.randomAlphabetic(15);
 		workflowNameTextBox.type(workflowName);
 		return workflowName;
 	}
 
+	/**
+	 * @param description : Description value to be entered for WorkFlow Description
+	 */
 	public void enterWorkFlowDescription(String description) {
 		workflowDescriptionTextBox.type(description);
 	}
 
+	/**
+	 * Select a random value for WorkList
+	 */
 	public void selectWorkListDD() {
 		evaluateJavascript("arguments[0].scrollIntoView(true);", workListDD);
 		List<String> listOfValuesOfWorkListDD = workListDD.getSelectOptions();
@@ -405,6 +474,9 @@ public class DefaultHandoffPage extends PageObject {
 		workListDD.selectByIndex(index);
 	}
 
+	/**
+	 * @param ahModuleCode :AH Module code to be entered in AH Code Module textbox
+	 */
 	public void enterAHModuleCode(String ahModuleCode) {
 		ahModuleCodeTextBox.type(ahModuleCode);
 	}
@@ -414,10 +486,16 @@ public class DefaultHandoffPage extends PageObject {
 		withAction().moveToElement(visibleToGroupCheckBox).click().build().perform();
 	}
 
+	/**
+	 * click on Save Changes button
+	 */
 	public void clickAddHandOffSaveChangesButton() {
 		addHandOffSaveChangesButton.click();
 	}
 
+	/**
+	 * this method selects the handoff that is newly added
+	 */
 	public void selectNewlyAddedHandOff() {
 		List<String> listOfAddedHandOffNames = new ArrayList<>();
 		for (int i = 0; i < listOfAddedHandOffs.size(); i++) {
@@ -433,57 +511,99 @@ public class DefaultHandoffPage extends PageObject {
 		}
 	}
 
+	/**
+	 * Click on the continue button to move to the next tab
+	 */
 	public void clickStepOneContinueBtn() {
 		stepOneContinueBtn.click();
 	}
 
+	/**
+	 * @return the text message when user moves to the Recipient tab and no
+	 *         recipient is added
+	 */
 	public String getTextNoRecipientMsg() {
 		return recipientDetailsMessage.getText().trim();
 	}
 
+	/**
+	 * click on Add Recipient Button
+	 */
 	public void clickAddRecipientButton() {
 		addRecipientButton.click();
 	}
 
+	/**
+	 * @return enter random string for recipient Name
+	 */
 	public String enterRecipientNameTextBox() {
 		String recipientName = RandomStringUtils.randomAlphabetic(14);
 		recipientNameTextBox.type(recipientName);
 		return recipientName;
 	}
 
+	/**
+	 * @param recipientDescription : the value to be entered in Recipient
+	 *                             description textbox
+	 * @return the value entered in recipient description textbox
+	 */
 	public String enterRecipientDescriptionTextBox(String recipientDescription) {
 		recipientDescriptionTextBox.type(recipientDescription);
 		return recipientDescription;
 	}
 
+	/**
+	 * click on Save recipient button
+	 */
 	public void clickSaveRecipientButton() {
 		saveRecipientButton.click();
 	}
 
+	/**
+	 * @return the name of the saved recipient
+	 */
 	public String getTextSavedRecipientName() {
 		return savedRecipientName.getText().trim();
 	}
 
+	/**
+	 * @return the saved description text
+	 */
 	public String getTextSavedRecipientDescription() {
 		return savedRecipientDescription.getText().trim();
 	}
 
+	/**
+	 * @return the value of bread crumb
+	 */
 	public String getTextBreadcrumb() {
 		return breadcrumb.getText().trim();
 	}
 
+	/**
+	 * Click on the Continue button to move to the next tab
+	 */
 	public void clickStepTwoContinueBtn() {
 		stepTwoContinueBtn.click();
 	}
 
+	/**
+	 * @return the text value for validation message when there is no action present
+	 */
 	public String getTextworkFlowTypeActionsMessage() {
 		return workflowTypeActionsMessage.getText().trim();
 	}
 
+	/**
+	 * click on Add New Action Button
+	 */
 	public void clickAddNewActionButton() {
 		addNewActionButton.click();
 	}
 
+	/**
+	 * @return enter the action name and return its value
+	 */
 	public String enterActionNameTextBox() {
 		String actionName = RandomStringUtils.randomAlphabetic(13);
 		actionNameTextBox.type(actionName);
@@ -498,43 +618,74 @@ public class DefaultHandoffPage extends PageObject {
 		actionNameTextBox.type(previousActionName);
 	}
 
+	/**
+	 * @param actionDescription enter the action description in the textbox
+	 * @return the action description value
+	 */
 	public String enterActionDescriptionTextBox(String actionDescription) {
 		actionDescriptionTextBox.type(actionDescription);
 		return actionDescription;
 	}
 
+	/**
+	 * @param nextActionValue: select the next action value from the DD
+	 */
 	public void selectNextActionByDD(String nextActionValue) {
 		nextActionByDD.selectByVisibleText(nextActionValue);
 	}
 
+	/**
+	 * @param followUpDaysValue: enter followup days in the textbox
+	 */
 	public void enterFollowUpDaysTextBox(String followUpDaysValue) {
 		followUpDaysTextBox.type(followUpDaysValue);
 	}
 
+	/**
+	 * @param respondDeadlineValue: enter respond Deadline in the textbox
+	 */
 	public void enterRespondDeadlineTextBox(String respondDeadlineValue) {
 		respondDeadlineTextBox.type(respondDeadlineValue);
 	}
 
+	/**
+	 * @param actionStatusValue: select action status value
+	 */
 	public void selectActionStatusDD(String actionStatusValue) {
 		actionStatusDD.selectByVisibleText(actionStatusValue);
 	}
 
+	/**
+	 * click on Add new Action Save button
+	 */
 	public void clickAddNewActionSaveChangesButton() {
 		addNewActionSaveChangesButton.click();
 	}
 
+	/**
+	 * @return return the saved action name displayed in the table after adding it
+	 */
 	public String getTextSavedActionName() {
 		return savedActionName.getText().trim();
 	}
 
+	/**
+	 * @return return the Saved followupdays displayed in the table after adding it
+	 */
 	public String getTextSavedFollowUpDays() {
 		return savedFollowUpDays.getText().trim();
 	}
 
+	/**
+	 * @return return the Saved timeline days displayed in the table after adding it
+	 */
 	public String getTextSavedTimelineDays() {
 		return savedTimeLineDays.getText().trim();
 	}
 
+	/**
+	 * click on the continue button to move to next tab
+	 */
 	public void clickStepThreeContinueBtn() {
 		stepThreeContinueBtn.click();
 	}
@@ -543,35 +694,57 @@ public class DefaultHandoffPage extends PageObject {
 		return workflowTypeDispositionMessage.getText().trim();
 	}
 
+	/**
+	 * click on add new disposition button
+	 */
 	public void clickAddNewDispositionButton() {
 		addNewDispositionButton.click();
 	}
 
+	/**
+	 * @return enter random disposition code and return it
+	 */
 	public String enterDispositionCode() {
 		String enterDispositionCode = RandomStringUtils.randomAlphabetic(13);
 		dispositionCodeTextBox.type(enterDispositionCode);
 		return enterDispositionCode;
 	}
 
+	/**
+	 * @param dispositionDescription: the disposition Name to be entered
+	 * @return the disposition Name
+	 */
 	public String enterDispositionNameTextBox(String dispositionDescription) {
 		dispositionNameTextBox.type(dispositionDescription);
 		return dispositionDescription;
 	}
 
+	/**
+	 * select next Disposition by DD
+	 */
 	public void selectNextDispositionByDD() {
 		evaluateJavascript("arguments[0].scrollIntoView(true);", nextDispositionByDD);
 		List<String> listOfValuesOfNextDispositionDD = nextDispositionByDD.getSelectOptions();
 		nextDispositionByDD.selectByIndex(CommonMethods.getRandom(listOfValuesOfNextDispositionDD.size() - 1) + 1);
 	}
 
+	/**
+	 * @param dispositionFollowUpDaysValue : enter disposition followup days
+	 */
 	public void enterDispositionFollowUpDaysTextBox(String dispositionFollowUpDaysValue) {
 		dispositionFollowUpDaysTextBox.type(dispositionFollowUpDaysValue);
 	}
 
+	/**
+	 * @param dispositionRespondDeadlineValue: enter disposition respond deadline value
+	 */
 	public void enterDispositionRespondDeadlineTextBox(String dispositionRespondDeadlineValue) {
 		dispositionRespondDeadlineTextBox.type(dispositionRespondDeadlineValue);
 	}
 
+	/**
+	 * @param dispositionStatusValue: enter disposition status from the dropdown
+	 */
 	public void selectDispositionStatusDropdown(String dispositionStatusValue) {
 		dispositionStatusDD.selectByVisibleText(dispositionStatusValue);
 		getDispositionStatus = dispositionStatusDD.getSelectedVisibleTextValue();
@@ -591,27 +764,45 @@ public class DefaultHandoffPage extends PageObject {
 		return false;
 	}
 
+	/**
+	 * @param preDefinedNotesValue: enter notes in the Notes textbox
+	 */
 	public void enterPreDefinedNotes(String preDefinedNotesValue) {
 		preDefinedNotes.type(preDefinedNotesValue);
 	}
 
+	/**
+	 * click on save changes button of the Add new Disposition
+	 */
 	public void clickAddNewDispositionSaveChangesButton() {
 		addNewDispositionSaveChangesButton.click();
 	}
 
+	/**
+	 * @return the value of the Saved Disposition Name in the table below
+	 */
 	public String getTextSavedDispositionName() {
 		withAction().moveToElement(savedDispositionName).build().perform();
 		return savedDispositionName.getText().trim();
 	}
 
+	/**
+	 * @return the value of the Saved Disposition Followup days in the table below
+	 */
 	public String getTextSavedDispositionFollowUpDays() {
 		return savedDispositionFollowUpDays.getText().trim();
 	}
 
+	/**
+	 * @return the value of the Saved Disposition TimeLimit in the table below
+	 */
 	public String getTextSavedDispositionTimeLimit() {
 		return savedDispositionTimeLimit.getText().trim();
 	}
 
+	/**
+	 * @return the value of the Saved Disposition Status in the table below
+	 */
 	public String getTextSavedDispositionStatus() {
 		return savedDispositionStatus.getText().trim();
 	}
@@ -688,23 +879,36 @@ public class DefaultHandoffPage extends PageObject {
 		return listOfAHtoDecisionAdminWorkflows.get(listOfAHtoDecisionAdminWorkflows.size() - 2).getText();
 	}
 
+	/**
+	 * @param dropdown select the handoff type from the dropdown
+	 * @return
+	 */
 	public String selectHandoffType(String dropdown) {
 		waitForAngularRequestsToFinish();
 		return handoffTypeDrpdwn.selectByVisibleText(dropdown).getSelectedVisibleTextValue();
 	}
 
+	/**
+	 * @return select any value from create dropdown and return it
+	 */
 	public String selectAnyOptionFromCreateDrpdwn() {
 		waitForAngularRequestsToFinish();
 		int index = CommonMethods.getRandom(createDrpdwnOption.size() - 1) + 1;
 		return createDrpdwn.selectByIndex(index).getSelectedVisibleTextValue();
 	}
 
+	/**
+	 * @return select any value from Why dropdown and return it
+	 */
 	public String selectAnyOptionFromWhyDrpdwn() {
 		waitForAngularRequestsToFinish();
 		int index = CommonMethods.getRandom(whyDrpdwnOption.size() - 1) + 1;
 		return whyDrpdwn.selectByIndex(index).getSelectedVisibleTextValue();
 	}
 
+	/**
+	 * @return select any value from disposition dropdown and return it
+	 */
 	public String selectAnyOptionFromDispositionDrpdwn() {
 		if (dispositionDrpdwn.isVisible()) {
 			waitForAngularRequestsToFinish();
@@ -714,6 +918,9 @@ public class DefaultHandoffPage extends PageObject {
 		return "";
 	}
 
+	/**
+	 * @param note Enter Note in the Note textbox
+	 */
 	public void enterNote(String note) {
 		noteTextBox.type(note);
 	}
@@ -729,14 +936,23 @@ public class DefaultHandoffPage extends PageObject {
 		return addedBubble.getCssValue("background-color");
 	}
 
+	/**
+	 * hover on the added handoff bubble
+	 */
 	public void hoverOnAddedBubble() {
 		withAction().moveToElement(addedBubble).build().perform();
 	}
 
+	/**
+	 * click on handoff Save button
+	 */
 	public void clickHandoffSaveBtn() {
 		handoffSaveBtn.click();
 	}
 
+	/**
+	 * @return the list of the column headers that appear in the box after hovering over the bubble
+	 */
 	public List<String> getListOfEventCircleColumns() {
 		List<String> listOfEventCircleCols = new ArrayList<>();
 		for (WebElementFacade eventCircleCol : listOfEventCircleColumns) {
@@ -745,6 +961,9 @@ public class DefaultHandoffPage extends PageObject {
 		return listOfEventCircleCols;
 	}
 
+	/**
+	 * @return the list of the values that appear in the box after hovering over the bubble
+	 */
 	public List<String> getListOfPopupValues() {
 		List<String> popupValList = new ArrayList<>();
 		for (WebElementFacade popupValue : popupValues) {
@@ -775,6 +994,9 @@ public class DefaultHandoffPage extends PageObject {
 		return listOfAccountActionHistoryColumns;
 	}
 
+	/**
+	 * @return the Account Action History Values
+	 */
 	public List<String> getAccountActionHistoryValues() {
 		List<String> listOfAccountActionHistoryValues = new ArrayList<>();
 		for (WebElementFacade accountActionHistoryValue : accountActionHistoryValues) {
@@ -783,10 +1005,16 @@ public class DefaultHandoffPage extends PageObject {
 		return listOfAccountActionHistoryValues;
 	}
 
+	/**
+	 * @return Account Action History Added Date
+	 */
 	public String getAccountActionHistoryAddedDate() {
 		return accountActionHistoryAddedDate.getText();
 	}
 
+	/**
+	 * @return Account Action history followup date
+	 */
 	public String getAccountActionHistoryFollowupDate() {
 		return accountActionHistoryFollowupDate.getText();
 	}
@@ -796,6 +1024,9 @@ public class DefaultHandoffPage extends PageObject {
 		return successMessage.withTimeoutOf(Duration.ofSeconds(60)).waitUntilVisible().getText().trim();
 	}
 
+	/**
+	 *  expand the account action history section in case it is collapsed
+	 */
 	public void expandAccountActionHistory() {
 		if (accountActionHistoryExpandButton.getAttribute("class").equals("fa toggle fa-chevron-right"))
 			evaluateJavascript("arguments[0].click();", accountActionHistoryExpandButton);
