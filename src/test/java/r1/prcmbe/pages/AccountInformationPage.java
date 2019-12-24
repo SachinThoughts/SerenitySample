@@ -492,6 +492,9 @@ public class AccountInformationPage extends PageObject {
 		return mrnNumber.getText();
 	}
 
+	/**
+	 *This method perform move To Account Action History Section
+	 */
 	public void moveToAccountActionHistory() {
 		withAction().moveToElement(accntActionHistoryHeader).build().perform();
 	}
@@ -501,6 +504,10 @@ public class AccountInformationPage extends PageObject {
 		return handOffPopup.isVisible();
 	}
 
+	/**
+	 *This method fetch the Current Application URL
+	 *@return currentApplicationURL
+	 */
 	public String getCurrentApplicationUrl() {
 		return getDriver().getCurrentUrl();
 	}

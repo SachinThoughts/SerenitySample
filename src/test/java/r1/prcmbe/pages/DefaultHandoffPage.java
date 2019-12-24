@@ -729,6 +729,9 @@ public class DefaultHandoffPage extends PageObject {
 		return addedBubble.getCssValue("background-color");
 	}
 
+	/**
+	 *This method perform move to recently Added Bubble element
+	 */
 	public void hoverOnAddedBubble() {
 		withAction().moveToElement(addedBubble).build().perform();
 	}
@@ -737,6 +740,10 @@ public class DefaultHandoffPage extends PageObject {
 		handoffSaveBtn.click();
 	}
 
+	/**
+	 *This method stores Event Circle Columns Value in List
+	 *@return listOfEventCircleCols
+	 */
 	public List<String> getListOfEventCircleColumns() {
 		List<String> listOfEventCircleCols = new ArrayList<>();
 		for (WebElementFacade eventCircleCol : listOfEventCircleColumns) {
