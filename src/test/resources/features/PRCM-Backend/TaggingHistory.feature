@@ -67,3 +67,15 @@ Feature: Verify Tagging related scenarios in PRCM-BE
     Examples: 
       | query3              |
       | Tagging_419683_SQL1 |
+
+  @425204 @Sprint103 @PRCMUser
+  Scenario: Verify that Tag cannot be added to Unclassified account
+    Given user is on R1 Decision search page
+    When user login to SQL server and connect to database
+    And user run the query and fetch the Invoice Number to add tag"Tagging_425204_SQL1"
+    And user select "Invoice Number" from Search By dropdown
+    And user enters the query result in Invoice Number search textbox to add tag on account
+    Then user is on "R1 Hub Technologies 2.0 - 15 R1_Decision" page
+    When User Clicks on Add Tag link
+    Then User should be able to view message as "Adding Tag on unclassified account is not allowed"
+    And User should be able to view Save Changes button as disabled

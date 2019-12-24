@@ -633,10 +633,16 @@ public class TaggingPage extends PageObject {
 		return accAddedAlrtMsg.getText();
 	}
 
+	/**
+	 * @return text of alert message on unclassified account
+	 */
 	public String getAlertMsgOnTagPopupForUnclassifiedAcc() {
 		return alertMsgOnTagPopupForUnclassifiedAcc.getText();
 	}
 
+	/**
+	 * @return State of Save tag button
+	 */
 	public boolean isSaveChangesBtnDisabled() {
 		return saveTagBtn.isDisabled();
 	}
