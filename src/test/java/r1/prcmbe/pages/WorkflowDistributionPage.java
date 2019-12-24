@@ -11,7 +11,7 @@ public class WorkflowDistributionPage extends PageObject {
 
 	Boolean isNotPresent;
 
-	@FindBy(xpath = "//h3[contains(text(),'Defect Management Inventory ')]")
+	@FindBy(xpath = "//h3[text()='Defect Management Inventory ']")
 	private WebElementFacade workflowDistributionTitle;
 
 	@FindBy(xpath = "//ul[@id = 'R1DWFDTabsLink']//li/a")
@@ -125,10 +125,16 @@ public class WorkflowDistributionPage extends PageObject {
 		facilityDropdown.selectByVisibleText(text);
 	}
 
+	/**
+	 * Checks if Workflow Distribution title is visible
+	 */
 	public void isWorkflowDistributionTitleVisible() {
 		workflowDistributionTitle.shouldBeVisible();
 	}
 
+	/**
+	 * @return List of workflow Distribution tab headers
+	 */
 	public List<String> getWorkflowDistributionTabsHeaders() {
 		List<String> wrkflwTabs = new ArrayList<>();
 		for (WebElementFacade tabName : workflowDistributionTabs) {
@@ -137,34 +143,59 @@ public class WorkflowDistributionPage extends PageObject {
 		return wrkflwTabs;
 	}
 
+	/**
+	 * @param expectedTabs fetched from Datatable
+	 * @return true, if all the expected tabs are present else return false.
+	 */
 	public boolean isWorkflowDistributionTabsVisible(List<String> expectedTabs) {
 		return getWorkflowDistributionTabsHeaders().containsAll(expectedTabs);
 	}
 
+	/**
+	 * @return Breadcrumb text displayed on workflow distribution page
+	 */
 	public String getBreadCrumbText() {
 		return breadCrumb.getText();
 	}
 
+	/**
+	 * Clicks on Patient Inventory tab
+	 */
 	public void clickPatientInventoryTab() {
 		evaluateJavascript("arguments[0].click();", patientInventoryTab);
 	}
 
+	/**
+	 * Clicks on Facility Inventory tab
+	 */
 	public void clickFacilityInventoryTab() {
 		evaluateJavascript("arguments[0].click();", facilityInventoryTab);
 	}
 
+	/**
+	 * Clicks on Teams tab
+	 */
 	public void clickTeamsTab() {
 		evaluateJavascript("arguments[0].click();", teamsTab);
 	}
 
+	/**
+	 * Clicks on Reps Tab
+	 */
 	public void clickRepsTab() {
 		evaluateJavascript("arguments[0].click();", repsTab);
 	}
 
+	/**
+	 * @return True: Note section is visible, else False
+	 */
 	public boolean isNoteMsgVisible() {
 		return notesSection.isVisible();
 	}
 
+	/**
+	 * @return Note Message displayed on Workflow Distribution page
+	 */
 	public String getNoteMsgText() {
 		return noteMsg.getText().trim();
 	}
