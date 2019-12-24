@@ -200,7 +200,6 @@ public class TaggingStepDef extends PageObject {
 
 	@When("^User clicks on Edit button of added category$")
 	public void user_clicks_on_Edit_button_of_added_category() {
-		categoryNameList = taggingPage.getlistOfCategoryName();
 		taggingPage.clickEditLink();
 	}
 

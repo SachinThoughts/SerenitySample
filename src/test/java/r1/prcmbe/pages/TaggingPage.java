@@ -25,13 +25,13 @@ public class TaggingPage extends PageObject {
 	@FindBy(xpath = "//a[text()='Tag Category']//parent::li[@class='active']")
 	private WebElementFacade tagCategoryTab;
 
-	@FindBy(xpath = "//*[@id='main-content']//a[text()='Tag Name']")
+	@FindBy(xpath = "//a[text()='Tag Name']")
 	private WebElementFacade tagNameTab;
 
 	@FindBy(xpath = "//label[text()='Search Categories']")
 	private WebElementFacade searchCategoryLabel;
 
-	@FindBy(xpath = "//*[@id='main-content']//button[text()=' Add New Category']")
+	@FindBy(xpath = "//button[text()=' Add New Category']")
 	private WebElementFacade addNewCategoryBtn;
 
 	@FindBy(xpath = "//button[text()='Continue ']")
@@ -64,7 +64,8 @@ public class TaggingPage extends PageObject {
 	@FindBy(xpath = "//span[text()='Category Name should not more than 100 characters' or text()='Category Description should not more than 500 characters']")
 	private WebElementFacade invalidCategoryNameValidationMsg;
 
-	@FindBy(xpath = "//*[@id='cmHandoffHIMGroup']/li//div[1]//label")
+	@FindBy(xpath = "//*[@id='cmHandoffHIMGroup']//div[@class='radio']//label")
+	// *[@id='cmHandoffHIMGroup']/li//div[1]//label
 	private List<WebElementFacade> categoryNameList;
 
 	@FindBy(xpath = "//*[@id='cmHandoffHIMGroup']/li//div[2]//span")
@@ -73,10 +74,10 @@ public class TaggingPage extends PageObject {
 	@FindBy(xpath = "//div[@class='alert alert-success alert-dismissible']")
 	private WebElementFacade successMsg;
 
-	@FindBy(xpath = "//*[@id='cmHandoffHIMGroup']/li//div[1]//label[starts-with(text(),'Automation')]//ancestor::li//input[@type='radio']/following-sibling::label")
+	@FindBy(xpath = "//*[@id='cmHandoffHIMGroup']/li//div[@class='radio']//label[starts-with(text(),'Automation')]//ancestor::li//input[@type='radio']/following-sibling::label")
 	private List<WebElementFacade> automationRadioBtn;
 
-	@FindBy(xpath = "//*[@id='cmHandoffHIMGroup']/li//div[1]//label[starts-with(text(),'Automation')]//ancestor::li//span[text()='Edit']")
+	@FindBy(xpath = "//*[@id='cmHandoffHIMGroup']/li//label[starts-with(text(),'Automation')]//ancestor::li//span[text()='Edit']")
 	private List<WebElementFacade> automationEditLinks;
 
 	@FindBy(xpath = "//button[text()=' Add New Tag']")
@@ -91,7 +92,7 @@ public class TaggingPage extends PageObject {
 	@FindBy(xpath = "//strong[text()='No Tag Found']")
 	private WebElementFacade noTagAlertMsg;
 
-	@FindBy(xpath = "//*[@id='cmHandoffHIMGroup']/li//div[1]//span[starts-with(text(),'Automation')]")
+	@FindBy(xpath = "//*[@id='cmHandoffHIMGroup']//span[starts-with(text(),'Automation')]")
 	private List<WebElementFacade> listOfAddedTagName;
 
 	@FindBy(xpath = "//input[@placeholder='Enter Tag Name']")
@@ -202,39 +203,63 @@ public class TaggingPage extends PageObject {
 	@FindBy(xpath = "//label[text()='Remove']")
 	private WebElementFacade removeRadioBtn;
 
-	int index;
+	int index, randomNumber;
 	String removeTagBtnJs = "document.querySelector('#dnn_ctr1552_TaskPanel_spanTask > div.container > div.row > div.col-lg-9 > div:nth-child(3) > div.row > div.col-lg-3.hidden-print > ol > li > span > span').click()";
 	private String scrollToElementJs = "arguments[0].scrollIntoView(true);";
 	String tagCategory, tagName;
 
+	/**
+	 * @return Tag Configuration Page is Visible
+	 */
 	public boolean isTagConfigPageVisible() {
 		return taggingPageTitle.isVisible();
 	}
 
+	/**
+	 * @return True if Search category name textbox visible on UI
+	 */
 	public boolean isSearchCategoryNameTxtBoxVisible() {
 		return searchCategoryNameTxtBox.isVisible();
 	}
 
+	/**
+	 * @return Visibility of Tag category Tab
+	 */
 	public boolean isTagCategoryTabVisible() {
 		return tagCategoryTab.isVisible();
 	}
 
+	/**
+	 * @return Visibility of Tag Name Tab visibility
+	 */
 	public boolean isTagNameTabVisible() {
 		return tagNameTab.isVisible();
 	}
 
+	/**
+	 * @return Visibility of Search Category Label visibility
+	 */
 	public boolean isSearchCategoryLabelVisible() {
 		return searchCategoryLabel.isVisible();
 	}
 
+	/**
+	 * @return AddNew Category Button visibility
+	 */
 	public boolean isAddNewCategoryBtnVisible() {
 		return addNewCategoryBtn.isVisible();
 	}
 
+	/**
+	 * @return Visibility of continue button
+	 */
 	public boolean isContinueBtnVisible() {
 		return continueBtn.isVisible();
 	}
 
+	/**
+	 * @return List of column headers of tag Category tab
+	 */
 	public List<String> getListOfColHeaders() {
 		waitForAngularRequestsToFinish();
 		List<String> colHeaderList = new ArrayList<>();
@@ -245,64 +270,113 @@ public class TaggingPage extends PageObject {
 		return colHeaderList;
 	}
 
+	/**
+	 * Entering Random alphabets in search category name text box
+	 */
 	public void enterRandomTxtInSearchCategoryNameTxtbox() {
 		searchCategoryNameTxtBox.type(RandomStringUtils.randomAlphabetic(6));
 	}
 
+	/**
+	 * @return returns alert message text when searching invalid search category
+	 *         name
+	 */
 	public String getAlertMsg() {
 		return alertMsg.getText();
 	}
 
+	/**
+	 * @return returns background color of alert section
+	 */
 	public String getAlertSectionColor() {
 		return alertSection.getCssValue("background-color");
 	}
 
+	/**
+	 * Clicking on Add new Category Button
+	 */
 	public void clickAddNewCategoryBtn() {
 		waitForAngularRequestsToFinish();
 		addNewCategoryBtn.click();
 	}
 
+	/**
+	 * Entering More than 100 alphabets in category name text box
+	 */
 	public void enterMreThnHundredCharsInCategoryNameTxtBox() {
 		categoryNameTxtBox.type(RandomStringUtils.randomAlphabetic(105));
 	}
 
+	/**
+	 * Entering up to 500 characters in tag description text box
+	 */
 	public void enterUptoFiveHundredCharsInTagDiscTxtBox() {
 		tagDescriptionTxtBox.type(RandomStringUtils.randomAlphabetic(500));
 	}
 
+	/**
+	 * selecting application name from drop down
+	 * @param Passing parameter from feature file
+	 */
 	public void selectApplication(String applicationName) {
 		applicationDrpdwn.selectByVisibleText(applicationName);
 	}
 
+	/**
+	 * Clicking on Active slide bar through java script
+	 */
 	public void clickActiveSlider() {
 		evaluateJavascript("arguments[0].click();", applicationSlideBar.get(0));
 	}
 
+	/**
+	 * clicking on save button
+	 */
 	public void clickOnSaveBtn() {
 		waitForAngularRequestsToFinish();
 		saveBtn.click();
 	}
 
+	/**
+	 * @return Text of validation message when user entering invalid category name
+	 */
 	public String getCategoryNameValidationMsg() {
 		return invalidCategoryNameValidationMsg.getText();
 	}
 
+	/**
+	 * Entering random up to 100 characters in category name text field
+	 */
 	public void enterUptoHundredCharsInCategoryNameTxtBox() {
 		categoryNameTxtBox.type(RandomStringUtils.randomAlphabetic(100));
 	}
 
+	/**
+	 * Entering random more than 500 characters in category description text field
+	 */
 	public void enterMoreThnFiveHundredCharsInTagDiscTxtBox() {
 		tagDescriptionTxtBox.type(RandomStringUtils.randomAlphabetic(505));
 	}
 
+	/**
+	 * Entering valid category name
+	 * @param Passing through feature file
+	 */
 	public void enterTxtInCategoryNameTxtBox(String categoryName) {
 		categoryNameTxtBox.type(categoryName);
 	}
 
+	/**
+	 * Entering valid category description
+	 * @param Passing through feature file
+	 */
 	public void enterTxtInTagDescTxtBox(String tagDesc) {
 		tagDescriptionTxtBox.type(tagDesc);
 	}
 
+	/**
+	 * @return List of category name present on UI
+	 */
 	public List<String> getlistOfCategoryName() {
 		List<String> listOfCategories = new ArrayList<>();
 		for (WebElementFacade categoryName : categoryNameList) {
@@ -311,6 +385,9 @@ public class TaggingPage extends PageObject {
 		return listOfCategories;
 	}
 
+	/**
+	 * @return List of category Description present on UI
+	 */
 	public List<String> getlistOfCategoryDesc() {
 		List<String> listOfCategoriesDesc = new ArrayList<>();
 		for (WebElementFacade categoryDesc : categoryDescList) {
@@ -319,11 +396,20 @@ public class TaggingPage extends PageObject {
 		return listOfCategoriesDesc;
 	}
 
+	/**
+	 * Clicking on save button
+	 * @return Text of Success Message from UI
+	 */
 	public String clickOnSaveAndGetSuccessMsg() {
 		saveBtn.click();
 		return successMsg.withTimeoutOf(Duration.ofSeconds(20)).waitUntilVisible().getText();
 	}
 
+	/**
+	 * Taking list of radio button which have label as automation(Which is added by
+	 * automation script) Clicking on Radio button which label has started with Automation
+	 *  Clicking on corresponding edit link of selected radio button
+	 */
 	public void clickEditLink() {
 		waitForAngularRequestsToFinish();
 		index = automationRadioBtn.size() - 1;
@@ -332,40 +418,69 @@ public class TaggingPage extends PageObject {
 		evaluateJavascript("arguments[0].click();", automationEditLinks.get(index));
 	}
 
+	/**
+	 * Clicking on Active Slide bar while editing tag
+	 */
 	public void clickOnActiveSlideBarEdit() {
 		evaluateJavascript("arguments[0].click();", applicationSlideBar.get(index));
 	}
 
+	/**
+	 * Clicking on any radio button which has label as automation
+	 * @return Category name of selected radio button
+	 */
 	public String clickAndGetAnyRadioBtnTxt() {
-		index = automationRadioBtn.size() - 1;
-		evaluateJavascript("arguments[0].click();", automationRadioBtn.get(index));
-		return categoryNameList.get(index).getText();
+		index = (automationRadioBtn.size()) - 1;
+		randomNumber = CommonMethods.getRandom(index);
+		evaluateJavascript("arguments[0].click();", automationRadioBtn.get(randomNumber));
+		return categoryNameList.get(randomNumber).getText();
 	}
 
+	/**
+	 * Clicking on continue button
+	 */
 	public void clickOnContinueBtn() {
 		continueBtn.click();
 	}
 
+	/**
+	 * @return Add new tag button visibility
+	 */
 	public boolean isAddNewTagBtnVisible() {
 		return addNewTagBtn.isVisible();
 	}
 
+	/**
+	 * @return Selected category label visibility
+	 */
 	public boolean isSelectedCategoryLblVisible() {
 		return selectedCategoryLbl.isVisible();
 	}
 
+	/**
+	 * @return Category name text from bread crumb
+	 */
 	public String getCategoryNameFromBreadCrumb() {
 		return selectedCategoryOnBreadCrumb.getText();
 	}
 
+	/**
+	 * Clicking on Add new tag button
+	 */
 	public void clickOnAddNewTagBtn() {
 		addNewTagBtn.click();
 	}
 
+	/**
+	 * @return Visibility alert message
+	 */
 	public boolean isNoTagAlertMsgVisible() {
 		return noTagAlertMsg.isVisible();
 	}
 
+	/**
+	 * @return List of added tag name from UI
+	 */
 	public List<String> getlistOfTagName() {
 		List<String> listOfTagName = new ArrayList<>();
 		for (WebElementFacade tagName : listOfAddedTagName) {
@@ -374,14 +489,26 @@ public class TaggingPage extends PageObject {
 		return listOfTagName;
 	}
 
+	/**
+	 * Entering Valid Tag name 
+	 * @param tagName coming from feature file
+	 */
 	public void enterTxtInTagNameTxtBox(String tagName) {
 		tagNameTxtBox.type(tagName);
 	}
 
+	/**
+	 * Clicking on facility drop down
+	 */
 	public void clickOnFacilityDrpdwn() {
 		facilityDrpdwn.click();
 	}
 
+	/**
+	 * Clear search facility text field Entering facility name
+	 * @param searchValue from feature file
+	 * clicking on facility code
+	 */
 	public void selectMultipleFacility(String searchValue) {
 		searchFacility.clear();
 		searchFacility.type(searchValue);
