@@ -111,11 +111,15 @@ public class FacilityGroupConfigurationPage extends PageObject {
 	public boolean isAddNewFacilityGroupPopupVisible() {
 		return facilityGrpModalWindow.isVisible();
 	}
-
+/**
+ * Method clicks on Add Facility Btn
+ */
 	public void clickOnAddFacilityBtn() {
 		listOfAddFacilityBtn.get(0).click();
 	}
-
+/**
+ * Method checks that Facility GRoup Head is present
+ */
 	public void isFacilityGrpConfigHeaderVisible() {
 		facilityGroupConfigPageHeader.shouldBeVisible();
 	}
@@ -157,7 +161,10 @@ public class FacilityGroupConfigurationPage extends PageObject {
 	public boolean isEditBtnPresent() {
 		return listOfEditBtns.get(0).isVisible();
 	}
-
+/**
+ * Method checks if Header is present on the Facility Group Page
+ * @return boolean based on the visibility of the header
+ */
 	public boolean isHeaderNameOnFacilityGrpConfigVisble() {
 		return facilityGroupConfigPageHeader.isVisible();
 	}
