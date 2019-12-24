@@ -725,6 +725,7 @@ public class DefaultHandoffPage extends PageObject {
 
 	public String getHandoffBubbleColor() {
 		addedBubble.withTimeoutOf(Duration.ofSeconds(40)).waitUntilVisible();
+		withAction().moveToElement(addedBubble).build().perform();
 		return addedBubble.getCssValue("background-color");
 	}
 
