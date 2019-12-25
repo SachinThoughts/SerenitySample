@@ -112,6 +112,9 @@ public class SearchPage extends PageObject {
 	String titleJS = "return document.querySelector('#Head > title').text";
 	String facilityCodeJS = "return document.querySelector('#dnn_ctr1025_ModuleContent > span > span:nth-child(1)').textContent";
 
+	/**
+	 * @return Title of R1D search page
+	 */
 	public String getSearchPageTitle() {
 		return evaluateJavascript(titleJS).toString();
 	}
@@ -120,18 +123,32 @@ public class SearchPage extends PageObject {
 		return noAccountsMessage.getText();
 	}
 
-	public void searchBySelectText(String dropdown) {
-		searchByDropdown.selectByVisibleText(dropdown);
+	/**
+	 * Description - Selecting option from search by drop down 
+	 * @param dropdown - drop down value is passing from feature file
+	 */
+	public void searchBySelectText(String dropdownVal) {
+		searchByDropdown.selectByVisibleText(dropdownVal);
 	}
 
-	public void selectOperatorValue(String operator)  {
-		operatorDropdown.selectByVisibleText(operator);
+	/**
+	 * Selecting operator value from operator drop down
+	 * @param operatorValue - Passing through feature file
+	 */
+	public void selectOperatorValue(String operatorValue)  {
+		operatorDropdown.selectByVisibleText(operatorValue);
 	}
 
+	/**
+	 *  Description - Entering invoice number in invoice number text field
+	 * @param invoiceNumber - Passing Invoice number fetched from DB
+	 */
 	public void enterInvoiceNumber(String invoiceNumber) {
 		invoiceNumberTxtField.type(invoiceNumber);
 	}
-
+	/**
+	 * Clicking on submit button and waiting for loading spinner to be disappear
+	 */
 	public void clickSubmitBtn() {
 		submitBtn.click();
 		if (loadingSpinner.isVisible()) {
@@ -184,6 +201,9 @@ public class SearchPage extends PageObject {
 		return invoiceID.withTimeoutOf(Duration.ofSeconds(20)).waitUntilVisible().getText();
 	}
 
+	/**
+	 * @return Text of default selected option of search by drop down
+	 */
 	public String getDefaultSelectedVal() {
 		return searchByDropdown.getSelectedVisibleTextValue();
 	}
@@ -192,66 +212,120 @@ public class SearchPage extends PageObject {
 		return invoiceNumberTxtField.isVisible();
 	}
 
+	/**
+	 * @return Visibility of visit number text field
+	 */
 	public boolean isVisitTxtFieldVisible() {
 		return visitTxtField.isVisible();
 	}
 
+	/**
+	 * Entering Visit number
+	 * @param visitNumber Passing through feature file
+	 */
 	public void enterVisitNumber(String visitNumber) {
 		visitTxtField.type(visitNumber);
 	}
 
+	/**
+	 * @return Visibility of MRN text field
+	 */
 	public boolean isMRNTxtFieldVisible() {
 		return mRNTxtField.isVisible();
 	}
 
+	/**
+	 * Entering MRN number
+	 * @param mRN Passing through feature file
+	 */
 	public void enterMRN(String mRN) {
 		mRNTxtField.type(mRN);
 	}
 
+	/**
+	 * @return Visibility of Claim Number text field
+	 */
 	public boolean isClaimNumberTxtFieldVisible() {
 		return claimNumberTxtField.isVisible();
 	}
 
+	/**
+	 * Entering Claim Number
+	 * @param claimNumber - Passing through feature file
+	 */
 	public void enterClaimNumber(String claimNumber) {
 		claimNumberTxtField.type(claimNumber);
 	}
 
+	/**
+	 * @return Visibility of Last Name text field
+	 */
 	public boolean isLastNameTxtFieldVisible() {
 		return lastNameTxtBox.isVisible();
 	}
 
+	/**
+	 * Entering Last name
+	 * @param lastName - Passing through feature file
+	 */
 	public void enterLastNameTxtBox(String lastName) {
 		lastNameTxtBox.type(lastName);
 	}
 
+	/**
+	 * @return Visibility of first name text field
+	 */
 	public boolean isFirstNameTxtFieldVisible() {
 		return firstNameTxtBox.isVisible();
 	}
 
+	/**
+	 * Entering First name
+	 * @param firstName - Passing through feature file
+	 */
 	public void enterFirstName(String firstName) {
 		firstNameTxtBox.type(firstName);
 	}
 
+	/**
+	 * @return Text of Error message
+	 */
 	public String getErrorMsg() {
 		return errorMsg.withTimeoutOf(Duration.ofSeconds(10)).waitUntilVisible().getText();
 	}
 
+	/**
+	 * @return Visibility of SSN text field
+	 */
 	public boolean isSSNTxtFieldVisible() {
 		return sSNTxtBox.isVisible();
 	}
 
+	/**
+	 * Entering SSN number
+	 * @param sSN - Passing through feature file
+	 */
 	public void enterSSN(String sSN) {
 		sSNTxtBox.type(sSN);
 	}
 
+	/**
+	 * @return Text of Tool Tip Message
+	 */
 	public String getToolTipText() {
 		return toolTip.getText();
 	}
 
+	/**
+	 * @return True if button is enabled
+	 */
 	public boolean isSubmitBtnEnabled() {
 		return submitBtn.isCurrentlyEnabled();
 	}
 
+	/**
+	 * @return Visibility of Tool tip Message
+	 */
 	public boolean isToolTipVisible() {
 		return toolTip.isVisible();
 	}
