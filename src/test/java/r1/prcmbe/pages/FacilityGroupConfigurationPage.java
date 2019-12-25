@@ -29,7 +29,7 @@ public class FacilityGroupConfigurationPage extends PageObject {
 	@FindBy(xpath = "//a[@href='#addFacilityGroup']")
 	private List<WebElementFacade> listOfEditBtns;
 
-	@FindBy(xpath = "//li[text()='Facilities']/parent::ul/parent::div//li/div[count(//li[text()='Facilities'])+1]")
+	@FindBy(xpath = "//*[@id='lstFacilityGroup']/li/div[2]/span")
 	private List<WebElementFacade> listOfFacilities;
 
 	@FindBy(id = "lblModalName")
