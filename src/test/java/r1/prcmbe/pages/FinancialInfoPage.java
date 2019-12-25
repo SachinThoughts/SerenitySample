@@ -9,7 +9,7 @@ import net.serenitybdd.core.pages.WebElementFacade;
 
 public class FinancialInfoPage extends PageObject {
 
-	@FindBy(id = "patFI")
+	@FindBy(xpath = "//*[@id='financialInfoPanel']/div[1]/h3/i")
 	private WebElementFacade financialInfoSection;
 
 	@FindBy(xpath = "//*[@id='financialAccordNoDetail']/div[1]/h3/span/span[1]/h5/span")
@@ -21,7 +21,7 @@ public class FinancialInfoPage extends PageObject {
 	@FindBy(xpath = "//*[@id='financialAccordNoDetail']/div[3]/h3/span/span[1]/h5/span")
 	private List<WebElementFacade> patientBalance;
 
-	@FindBy(xpath = "//div[@id='financialAccordNoDetail']/div[4]/div/h3//span[1]/h5/span")
+	@FindBy(xpath = "//*[@id='financialAccordNoDetail']/div[4]/div/h3/span/span[1]/h5/span")
 	private List<WebElementFacade> unbilledBalance;
 
 	@FindBy(xpath = "//*[@id='accordion']/div[1]/h3/a/span[1]/h5/span")
@@ -48,7 +48,7 @@ public class FinancialInfoPage extends PageObject {
 	@FindBy(id = "onloadsearchBtn")
 	private WebElementFacade submitBtn;
 
-	@FindBy(xpath = "//a/descendant::span[text()='Adjustments']/ancestor::a/i")
+	@FindBy(xpath = "//*[@id='accordion']//a[@onclick='callServiceTotalAdjustmentsPayments();return false;']//i")
 	private WebElementFacade adjustmentScrollArrow;
 
 	@FindBy(xpath = "//*[@id='divTotalAdjustments']/table/thead/tr/th")
@@ -109,10 +109,13 @@ public class FinancialInfoPage extends PageObject {
 	private WebElementFacade expectedPaymentValue;
 
 	@FindBy(id = "lblTotalPatientPayments")
-	private WebElementFacade patientPaymentsAmount;
+	private WebElementFacade patientPaymentsValue;
 
 	@FindBy(xpath = "(//*[@id = 'divTotalPatientPaymentsNA']//h5)[2]")
-	private WebElementFacade patientPaymentsValue;
+	private WebElementFacade patientPaymentsAmount;
+
+	@FindBy(xpath = "//*[@id='lblTotalAdjustment']/ancestor::a//i")
+	private WebElementFacade expandIconAdjustments;
 
 	@FindBy(id = "spmTotalPayments")
 	private WebElementFacade adjustmentMessage;
@@ -124,9 +127,6 @@ public class FinancialInfoPage extends PageObject {
 		return getFinInfoHeaderAttributes().containsAll(expectedHeaders);
 	}
 
-	/**
-	 * Expands financial section if not already expanded
-	 */
 	public void expandFinancialInfoSectn() {
 		if (financialInfoExpandIcon.isVisible()) {
 			financialInfoExpandIcon.click();
@@ -156,9 +156,6 @@ public class FinancialInfoPage extends PageObject {
 		return financeInfoHeadersVisibleAttributes;
 	}
 
-	/**
-	 * Scrolls into Financial information section
-	 */
 	public void scrollIntoFinancialInfoPanel() {
 		waitForAngularRequestsToFinish();
 		withAction().moveToElement(financialInfoSection).build().perform();
@@ -178,9 +175,6 @@ public class FinancialInfoPage extends PageObject {
 		submitBtn.click();
 	}
 
-	/**
-	 * Clicks and expands Adjustments field
-	 */
 	public void clickAdjustmentScrollArrow() {
 		evaluateJavascript("arguments[0].click();", adjustmentScrollArrow);
 	}
@@ -219,9 +213,6 @@ public class FinancialInfoPage extends PageObject {
 		return totalBalanceData.getText().trim().replace("$", "").replace(",", "").replace("(", "-").replace(")", "");
 	}
 
-	/**
-	 * @return Total Adjustments value
-	 */
 	public String getTotalAdjustments() {
 		return totalAdjustments.getText();
 	}
@@ -324,33 +315,26 @@ public class FinancialInfoPage extends PageObject {
 		return expectedPaymentValue.getText();
 	}
 
-	/**
-	 * @return Patient payment amount is fetched
-	 */
+	public String getPatientPaymentText() {
+		withAction().moveToElement(patientPaymentsValue).build().perform();
+		return patientPaymentsValue.getText().trim();
+	}
+
 	public String getPatientPaymentAmount() {
 		withAction().moveToElement(patientPaymentsAmount).build().perform();
 		return patientPaymentsAmount.getText().trim();
 	}
 
-	/**
-	 * @return Patient payment NA value is fetched
-	 */
-	public String getPatientPaymentValue() {
-		withAction().moveToElement(patientPaymentsValue).build().perform();
-		return patientPaymentsValue.getText().trim();
+	public void clickExpandIconAdjustments() {
+		withAction().moveToElement(expandIconAdjustments).build().perform();
+		evaluateJavascript("arguments[0].click();", expandIconAdjustments);
 	}
 
-	/**
-	 * @return Adjustment message under Adjustments field
-	 */
 	public String getAdjustmentMessage() {
 		withAction().moveToElement(adjustmentMessage).build().perform();
 		return adjustmentMessage.getText();
 	}
 
-	/**
-	 * @return Unbilled balance amount is fetched
-	 */
 	public String getUnbilledBalance() {
 		withAction().moveToElement(unbilledBalanceAmount).build().perform();
 		return unbilledBalanceAmount.getText();

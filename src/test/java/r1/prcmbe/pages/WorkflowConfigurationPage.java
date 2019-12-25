@@ -115,7 +115,7 @@ public class WorkflowConfigurationPage extends PageObject {
 	@FindBy(xpath = "//ul[@class='sop-header']/li")
 	private List<WebElementFacade> listOfSopHeader;
 
-	@FindBy(xpath = "(//a[@data-target='#editRecipient'])[1]")
+	@FindBy(xpath = "(//a[contains(@data-target,'#editRecipient')])[1]")
 	private WebElementFacade editIconOnRecipientTab;
 
 	@FindBy(xpath = " (//*[@id='dvRecipientDetails']//ul)[2]/preceding-sibling::div//a[2]/i")
@@ -190,7 +190,7 @@ public class WorkflowConfigurationPage extends PageObject {
 	@FindBy(xpath = "//*[@id='WorkflowTypeActionsSorttable']//div[@class='config-tools appeals']/div/label")
 	private List<WebElementFacade> listOfActionTypeRadioBtns;
 
-	@FindBy(xpath = "//button[@data-target = '#addRecipient']")
+	@FindBy(xpath = "//button[contains(text(),' Add Recipient')]")
 	private WebElementFacade addRecipientButton;
 
 	@FindBy(xpath = "//*[@id='addRecipient']//div[@class ='form-group']/label")
@@ -199,7 +199,7 @@ public class WorkflowConfigurationPage extends PageObject {
 	@FindBy(xpath = "//*[@id = 'addRecipient']//div[@class = 'modal-footer']/button")
 	private List<WebElementFacade> listOfAddRecipientButtons;
 
-	@FindBy(xpath = "//div[@id='addRecipient']/descendant::button/descendant::i")
+	@FindBy(xpath = "//*[@id='addRecipient']//button/span[1]/i")
 	private WebElementFacade closeButtonOnAddRecipient;
 
 	@FindBy(xpath = "//*[@id='dvRecipientDetails']//li//div[2]/span")
@@ -316,7 +316,7 @@ public class WorkflowConfigurationPage extends PageObject {
 	@FindBy(xpath = "//*[@id='editRecipient']//div[@class ='form-group']/label")
 	private List<WebElementFacade> listOfEditRecipientLabels;
 
-	@FindBy(xpath = "//button[text()='Save Recipient']")
+	@FindBy(xpath = "//button[contains(text(),'Save Recipient')]")
 	private WebElementFacade saveRecipientButton;
 
 	@FindBy(id = "txteditRecipientName")
@@ -932,17 +932,11 @@ public class WorkflowConfigurationPage extends PageObject {
 		evaluateJavascript("arguments[0].click();", editLinkOnDispositionGrid);
 	}
 
-	/**
-	 * Clicks on the Add Recipient button
-	 */
 	public void clickAddRecipientButton() {
 		withAction().moveToElement(addRecipientButton).build().perform();
 		evaluateJavascript("arguments[0].click();", addRecipientButton);
 	}
 
-	/**
-	 * @return List of Add Recipient Labels
-	 */
 	public List<String> getListOfAddRecipientLabels() {
 		List<String> listOfRecipientLabels = new ArrayList<String>();
 		for (WebElementFacade element : listOfAddRecipientLabels) {
@@ -951,9 +945,6 @@ public class WorkflowConfigurationPage extends PageObject {
 		return listOfRecipientLabels;
 	}
 
-	/**
-	 * @return List of Button name on Add Recipient popup
-	 */
 	public List<String> getListOfAddRecipientButtons() {
 		List<String> listOfRecipientButtons = new ArrayList<String>();
 		for (WebElementFacade element : listOfAddRecipientButtons) {
@@ -962,18 +953,10 @@ public class WorkflowConfigurationPage extends PageObject {
 		return listOfRecipientButtons;
 	}
 
-	/**
-	 * Click close icon on Add recipient popup
-	 */
 	public void clickCloseButtonOnAddRecipient() {
 		closeButtonOnAddRecipient.click();
 	}
 
-	/**
-	 * This method checks if added recipient name is visible under all Recipient list
-	 * @param recipientName
-	 * @return true if recipient name visible else false
-	 */
 	public boolean isAddedRecipientNameVisible(String recipientName) {
 		int size = listOfRecipientNames.size();
 		for (index = 0; index < size; index++) {
@@ -985,11 +968,6 @@ public class WorkflowConfigurationPage extends PageObject {
 		return false;
 	}
 
-	/** 
-	 * This method checks if added recipient description is visible under all recipient list
-	 * @param recipientDesc
-	 * @return true if recipient desc is visible else false
-	 */
 	public boolean isAddedRecipientDescVisible(String recipientDesc) {
 		if (listOfRecipientDesc.get(index).getText().equals(recipientDesc)) {
 			return true;
@@ -997,10 +975,6 @@ public class WorkflowConfigurationPage extends PageObject {
 		return false;
 	}
 
-	/**
-	 * Clicks on recipient name passed as parameter
-	 * @param expectedRecipientName
-	 */
 	public void clickOnRadioBtnAgnstFetchedRecipient(String expectedRecipientName) {
 		int size = recipientsList.size();
 		for (int i = 0; i < size; i++) {
@@ -1010,10 +984,6 @@ public class WorkflowConfigurationPage extends PageObject {
 		}
 	}
 
-	/**
-	 * Clicks on specific Recipient passed as parameter
-	 * @param recipientName
-	 */
 	public void clickOnDetailsOfSpecificRecipient(String recipientName) {
 		int size = listOfRecipientNames.size();
 		for (index = 0; index < size; index++) {
@@ -1024,16 +994,10 @@ public class WorkflowConfigurationPage extends PageObject {
 		}
 	}
 
-	/**
-	 * @return Created by of recipient text is fetched
-	 */
 	public String getCreatedByRecipientText() {
 		return createdByRecipient.getText();
 	}
 
-	/**
-	 * @return Created date of recipient is fetched
-	 */
 	public String getCreatedDateRecipientText() {
 		return createdDateRecipient.getText();
 	}
@@ -1209,16 +1173,10 @@ public class WorkflowConfigurationPage extends PageObject {
 		return headerList;
 	}
 
-	/**
-	 * Clicks on first Edit icon on recipient tab
-	 */
 	public void clickFirstEditIconOnRecipientTab() {
 		editIconOnRecipientTab.click();
 	}
 
-	/**
-	 * @return List of Edit Recipient labels
-	 */
 	public List<String> getListOfEditRecipientLabels() {
 		List<String> listOfRecipientLabels = new ArrayList<String>();
 		for (WebElementFacade element : listOfEditRecipientLabels) {
@@ -1227,16 +1185,10 @@ public class WorkflowConfigurationPage extends PageObject {
 		return listOfRecipientLabels;
 	}
 
-	/**
-	 * @return Save recipient button value
-	 */
 	public String getSaveRecipientButtonText() {
 		return saveRecipientButton.getText();
 	}
 
-	/**
-	 * @return true for recipient name and recipient description values is present, else false
-	 */
 	public boolean verifyEditRecipientPrePopulatedFields() {
 		if (recipientNameTextbox.getText() != null && recipientDescriptionTextbox.getText() != null)
 			return true;
@@ -1244,46 +1196,27 @@ public class WorkflowConfigurationPage extends PageObject {
 			return false;
 	}
 
-	/**
-	 * Enters random recipient description in text box
-	 * @return entered recipient description
-	 */
 	public String enterAndGetRandomRecipientDescText() {
 		recipientDescriptionTextbox.type(RandomStringUtils.randomAlphanumeric(6));
 		return recipientDescriptionTextbox.getTextValue();
 	}
 
-	/**
-	 * Clicks on Save button on edit recipient popup
-	 */
 	public void clickSaveRecipientButton() {
 		saveRecipientButton.click();
 	}
 
-	/**
-	 * @return Recipient description of first entry
-	 */
 	public String getFirstRecipientDesc() {
 		return firstRecipientDesc.getText();
 	}
 
-	/**
-	 * clicks recipient details link of first entry
-	 */
 	public void clickFirstRecipientDetailsLink() {
 		firstDetailsLinkOnRecipient.click();
 	}
 
-	/**
-	 * @return Updated By field of recipient
-	 */
 	public String getUpdatedByFieldValue() {
 		return recipientUpdatedByField.getText();
 	}
 
-	/**
-	 * @return Updated Date field of recipient
-	 */
 	public String getUpdatedDateFieldValue() {
 		return recipientUpdatedDateField.getText();
 	}
