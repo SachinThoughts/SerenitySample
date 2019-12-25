@@ -152,7 +152,7 @@ public class WorkflowDistributionPage extends PageObject {
 	}
 
 	/**
-	 * @return Breadcrumb text displayed on workflow distribution page
+	 * @return Bread crumb text displayed on workflow distribution page
 	 */
 	public String getBreadCrumbText() {
 		return breadCrumb.getText();
