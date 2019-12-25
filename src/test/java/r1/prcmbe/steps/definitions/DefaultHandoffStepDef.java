@@ -128,12 +128,12 @@ public class DefaultHandoffStepDef {
 		defaultHandOffPage.clickVisibleToGrpAHtoDecisionChkBox();
 	}
 
-	@When("^user clicks on Save Changes button for Add Handoff$")
+	@When("^user clicks on Save Changes button for Add Handoff$")
 	public void user_clicks_on_Save_Changes_button_for_Add_Handoff() {
 		defaultHandOffPage.clickAddHandOffSaveChangesButton();
 	}
 
-	@When("^Default Handoff user runs the query to verify if the handoff is inserted \"([^\"]*)\"  $")
+	@When("^Default Handoff user runs the query to verify if the handoff is inserted \"([^\"]*)\"  $")
 	public void user_runs_the_query_to_verify_if_the_handoff_is_inserted(String query)
 			throws ClassNotFoundException, SQLException, Exception {
 		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
@@ -295,12 +295,12 @@ public class DefaultHandoffStepDef {
 		defaultHandOffPage.clickAddNewDispositionButton();
 	}
 
-	@When("^user enters text in Disposition Code textbox$")
+	@When("^user enters text in Disposition Code textbox$")
 	public void user_enters_text_in_Disposition_Code_textbox() {
 		dispositionCode = defaultHandOffPage.enterDispositionCode();
 	}
 
-	@When("^user enters text in Disposition Description textbox: \"([^\"]*)\"$")
+	@When("^user enters text in Disposition Description textbox: \"([^\"]*)\"$")
 	public void user_enters_text_in_Disposition_Description_textbox(String dispositionDescriptionValue) {
 		dispositionDescription = dispositionDescriptionValue;
 		defaultHandOffPage.enterDispositionNameTextBox(dispositionDescriptionValue);
