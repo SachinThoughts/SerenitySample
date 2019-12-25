@@ -12,7 +12,7 @@ import net.serenitybdd.core.annotations.findby.FindBy;
 public class DefaultHandoffPage extends PageObject {
 
 	String workflowName, getDispositionStatus;
-	int i;
+
 	@FindBy(xpath = "//h3[@class='panel-title']")
 	private WebElementFacade defaultHandOffPageTitle;
 
@@ -175,6 +175,9 @@ public class DefaultHandoffPage extends PageObject {
 	@FindBy(xpath = "//*[@id='addNewDisposition']//button[@class='btn btnPrimary']")
 	private WebElementFacade addNewDispositionSaveChangesButton;
 
+	@FindBy(xpath = "(//*[@id='WorkflowTypeDispositionSorttable'])[last()]/li[last()]/div[3]/span")
+	private WebElementFacade savedDispositionName;
+
 	@FindBy(xpath = "(//*[@id='WorkflowTypeDispositionSorttable'])[last()]/li[last()]/div[4]/span")
 	private WebElementFacade savedDispositionFollowUpDays;
 
@@ -183,9 +186,6 @@ public class DefaultHandoffPage extends PageObject {
 
 	@FindBy(id = "ASName0")
 	private WebElementFacade savedDispositionStatus;
-
-	@FindBy(xpath = "//*[@id='WorkflowTypeDispositionSorttable']//li//div[3]//span[contains(@id,'Disp')]")
-	private List<WebElementFacade> dispositionNameList;
 
 	@FindBy(xpath = "//div[@class='fs-option-label' and text()='AHtoDecision Admin']/preceding-sibling::span")
 	private WebElementFacade visibleToGrpAHtoDecisionChkBox;
@@ -304,9 +304,6 @@ public class DefaultHandoffPage extends PageObject {
 	@FindBy(xpath = "//*[@id='carousel']/ul/li[2]/a")
 	private WebElementFacade accountActionHistoryTimelineArrow;
 
-	/**
-	 * Method checks the visibility of Add New Action Btn
-	 */
 	public boolean isAddNewActionBtnVisisble() {
 		return addNewActionButton.isVisible();
 	}
@@ -561,14 +558,6 @@ public class DefaultHandoffPage extends PageObject {
 		return dispositionDescription;
 	}
 
-	/**
-	 * 
-	 * @return the text value entered in the Disposition text box
-	 */
-	public String getEnterDispositionName() {
-		return evaluateJavascript("return arguments[0].value;", dispositionNameTextBox).toString();
-	}
-
 	public void selectNextDispositionByDD() {
 		evaluateJavascript("arguments[0].scrollIntoView(true);", nextDispositionByDD);
 		List<String> listOfValuesOfNextDispositionDD = nextDispositionByDD.getSelectOptions();
@@ -610,25 +599,9 @@ public class DefaultHandoffPage extends PageObject {
 		addNewDispositionSaveChangesButton.click();
 	}
 
-	/**
-	 * 
-	 * @param dispositionName
-	 *            is the name of Disposition to be passed from feature file
-	 * @return the Disposition Name text of the newy created Disposition
-	 */
-	public String getTextSavedDispositionName(String dispositionName) {
-		int size = dispositionNameList.size();
-		int flag = 0;
-		for (i = 0; i < size; i++) {
-			if (dispositionNameList.get(i).getText().equals(dispositionName)) {
-				withAction().moveToElement(dispositionNameList.get(i)).build().perform();
-				flag = 1;
-			}
-			if (flag == 1) {
-				break;
-			}
-		}
-		return dispositionNameList.get(i).getText().trim();
+	public String getTextSavedDispositionName() {
+		withAction().moveToElement(savedDispositionName).build().perform();
+		return savedDispositionName.getText().trim();
 	}
 
 	public String getTextSavedDispositionFollowUpDays() {
