@@ -169,23 +169,6 @@ Feature: Verify Factility Group Configuration related scenarios in PRCM-BE
     And payer inventory filter should be display
     When user is on Workflow Distribution screen
     And user selects Test2 from facility group dropdown
-    And user selects common "PHDC" facility from facility dropdown which is common in both Test1 and Test2
+     And user selects common "PHDC" facility from facility dropdown which is common in both Test1 and Test2
     Then user should be able to view R1D enable view
     And payer inventory filter for technical and professional should not be display
-
-  @391427
-  Scenario: Verify the IsPRCMEnabled checkbox should be checked automatically when PRCM Enabled Facility is added to any existing facility group
-    Given user is on Facility Group Configuration screen
-    When user clicks on Edit button for NON-PRCM enabled facility group
-    Then user should be able to view edit Facility Group pop up
-    When user add any PRCM enabled Facility to the group
-    Then user should be able to view that the IsPRCMEnabled checkbox gets checked
-    When user fills all the details on edit pop up and user clicks on Save button
-    Then user should be able to view validation message Facility group chnages should be saved successfully
-    And Facility Group should be saved as non PRCM facility group
-    When user clicks on billing & follow-up from the footer
-    And user hover on R1_Decision
-    And user clicks on Workflow Distribution link
-    Then user should be able to view workflow distribution screen
-    And user clicks on facility group dropdown list
-    Then user should be able to view the WFD screen should be displayed in PRCM view
