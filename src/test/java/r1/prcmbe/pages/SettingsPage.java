@@ -50,7 +50,7 @@ public class SettingsPage extends PageObject {
 
 	@FindBy(xpath = "//*[@id='sidebar']/div[1]/span[text()='Settings']")
 	private WebElementFacade settingsHeader;
-
+	
 	public void clickOnSettingsR1Decisions() {
 		waitForAngularRequestsToFinish();
 		withAction().moveToElement(settingsR1Decision).click().build().perform();

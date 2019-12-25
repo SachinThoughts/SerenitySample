@@ -29,7 +29,7 @@ public class FacilityGroupConfigurationPage extends PageObject {
 	@FindBy(xpath = "//a[@href='#addFacilityGroup']")
 	private List<WebElementFacade> listOfEditBtns;
 
-	@FindBy(xpath = "//*[@id='lstFacilityGroup']/li/div[2]/span")
+	@FindBy(xpath = "//li[text()='Facilities']/parent::ul/parent::div//li/div[count(//li[text()='Facilities'])+1]")
 	private List<WebElementFacade> listOfFacilities;
 
 	@FindBy(id = "lblModalName")
@@ -37,7 +37,7 @@ public class FacilityGroupConfigurationPage extends PageObject {
 
 	@FindBy(id = "btnAddFacility")
 	private WebElementFacade addBtnOnAddNewPopup;
-	
+
 	@FindBy(id = "txtAssignFacility")
 	private WebElementFacade facilityCodeTxtBox;
 
@@ -100,7 +100,7 @@ public class FacilityGroupConfigurationPage extends PageObject {
 	public void enterFacilityCodeInTxtBox(String code) {
 		facilityCodeTxtBox.type(code);
 	}
-
+	
 	public boolean isAddBtnOnAddNewPopupEnabled() {
 		if (addBtnOnAddNewPopup.getAttribute("disabled") == null) {
 			return true;
@@ -191,8 +191,7 @@ public class FacilityGroupConfigurationPage extends PageObject {
 	public void clickOnEditBtnWithNoPhysicianChkboxChecked() {
 		int check = 0;
 		int size = listOfEditBtns.size();
-		
-		
+
 		for (index = 0; index < size; index++) {
 			listOfEditBtns.get(index).withTimeoutOf(Duration.ofSeconds(15)).waitUntilVisible();
 			evaluateJavascript("arguments[0].click();", listOfEditBtns.get(index));

@@ -356,6 +356,10 @@ public class WorkflowDistributionPage extends PageObject {
 		}
 	}
 
+	/**
+	 * 
+	 * @return boolean value based on the presence of PRCM filter
+	 */
 	public boolean isFilterSectionPresent() {
 		return filterSection.isVisible();
 	}
@@ -368,10 +372,21 @@ public class WorkflowDistributionPage extends PageObject {
 		evaluateJavascript("arguments[0].click();", firstDrildwnBtnOnPayerInvtryTab);
 	}
 
+	/**
+	 * 
+	 * @return the boolean value based on the visibility of Title on the Workflow
+	 *         Distribution page
+	 */
 	public boolean isWorkflowDistributionPageVisible() {
 		return workflowDistributionTitle.isVisible();
 	}
 
+	/**
+	 * @param facilityGrpName
+	 *            is passed from the feature file
+	 * @return the boolean value based on the presence of expected faciltiy group
+	 *         name from the dropdown
+	 */
 	public boolean isFacilityGrpNamePresentInTheDropdown(String facilityGrpName) {
 		List<String> facilityGrpList;
 		facilityGrpList = facilityGrpDrpDwn.getSelectOptions();
