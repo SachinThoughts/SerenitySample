@@ -69,17 +69,14 @@ public class WorkflowConfigurationPage extends PageObject {
 	@FindBy(xpath = "//input[@id='addWorkflowDescription']")
 	private WebElementFacade workflowDescriptionTextbox;
 
-	@FindBy(xpath = "//div[@id='dvHandOff']//div[3]//span[@data-bind='text: workflowDescriptionName']")
-	private List<WebElementFacade> listOfDescriptions;
+	@FindBy(xpath = "//li[text()='Description']//parent::ul/parent::div/following-sibling::div//li/div[count(//li[text()='Description'])+1]/span")
+	private List<WebElementFacade> listOfHandoffDescriptions;
 
 	@FindBy(id = "addHandoffLabel")
 	private WebElementFacade addHandOffLabel;
 
 	@FindBy(xpath = "//div[@id='dvHandOff']//div[2]//span[@data-bind='text: workflowDescriptionName']")
-	private List<WebElementFacade> listOfAddedHandOffs;
-
-	@FindBy(xpath = "//div[@id='dvHandOff']//div[2]//span[@data-bind='text: workflowDescriptionName']")
-	private List<WebElementFacade> handoffTypeList;
+	private List<WebElementFacade> listOfHandOffs;
 
 	@FindBy(xpath = "//div[@id='dvHandOff']//div[@class='radio']/label")
 	private List<WebElementFacade> handoffTypeRadioBtnList;
@@ -875,9 +872,9 @@ public class WorkflowConfigurationPage extends PageObject {
 	 * @param expectedHandoff
 	 */
 	public void clickOnRadioBtnAgnstFetchedHandOff(String expectedHandOff) {
-		int size = handoffTypeList.size();
+		int size = listOfHandOffs.size();
 		for (int i = 0; i < size; i++) {
-			if (handoffTypeList.get(i).getText().equals(expectedHandOff)) {
+			if (listOfHandOffs.get(i).getText().equals(expectedHandOff)) {
 				withAction().moveToElement(handoffTypeRadioBtnList.get(i)).build().perform();
 				evaluateJavascript("arguments[0].click();", handoffTypeRadioBtnList.get(i));
 			}
@@ -892,9 +889,9 @@ public class WorkflowConfigurationPage extends PageObject {
 	 * @return
 	 */
 	public boolean isNewlyAddedHandOffVisible(String handOffName) {
-		int size = listOfAddedHandOffs.size();
+		int size = listOfHandOffs.size();
 		for (index = 0; index < size; index++) {
-			if (listOfAddedHandOffs.get(index).getText().equals(handOffName))
+			if (listOfHandOffs.get(index).getText().equals(handOffName))
 				return true;
 		}
 		return false;
@@ -941,9 +938,9 @@ public class WorkflowConfigurationPage extends PageObject {
 	 * @return the visibility of newly added handoff
 	 */
 	public boolean isNewlyEditHandoffVisible() {
-		withAction().moveToElement(listOfDescriptions.get(index)).build().perform();
-		listOfDescriptions.get(index).withTimeoutOf(Duration.ofSeconds(40)).waitUntilVisible();
-		if (enterWorkflowName.equals(listOfDescriptions.get(index).getText().trim())) {
+		withAction().moveToElement(listOfHandoffDescriptions.get(index)).build().perform();
+		listOfHandoffDescriptions.get(index).withTimeoutOf(Duration.ofSeconds(40)).waitUntilVisible();
+		if (enterWorkflowName.equals(listOfHandoffDescriptions.get(index).getText().trim())) {
 			return true;
 		}
 		return false;
