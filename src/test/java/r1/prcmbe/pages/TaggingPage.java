@@ -167,7 +167,7 @@ public class TaggingPage extends PageObject {
 	@FindBy(xpath = "//label[@for='muOption01a']")
 	private WebElementFacade manualEntryRadioBtn;
 
-	@FindBy(xpath = "(//div[@class='form-group']//textarea)[1]")
+	@FindBy(id = "muManualEntry")
 	private WebElementFacade manualEntryTextBox;
 
 	@FindBy(xpath = "//label[@for='massUpdateRequestAccountTagging']")
@@ -197,13 +197,10 @@ public class TaggingPage extends PageObject {
 	@FindBy(id = "dnn_ctr1025_LocationChooser_ddlLocation")
 	private WebElementFacade facilityDrpdwnOnMUScreen;
 
-	@FindBy(xpath = "//*[@id='msg_info']")
-	private WebElementFacade successMsgOnMU;
-
 	@FindBy(xpath = "//label[text()='Remove']")
 	private WebElementFacade removeRadioBtn;
 
-	int index, randomNumber;
+	int index;
 	String removeTagBtnJs = "document.querySelector('#dnn_ctr1552_TaskPanel_spanTask > div.container > div.row > div.col-lg-9 > div:nth-child(3) > div.row > div.col-lg-3.hidden-print > ol > li > span > span').click()";
 	private String scrollToElementJs = "arguments[0].scrollIntoView(true);";
 	String tagCategory, tagName;
@@ -431,7 +428,7 @@ public class TaggingPage extends PageObject {
 	 */
 	public String clickAndGetAnyRadioBtnTxt() {
 		index = (automationRadioBtn.size()) - 1;
-		randomNumber = CommonMethods.getRandom(index);
+		int randomNumber = CommonMethods.getRandom(index);
 		evaluateJavascript("arguments[0].click();", automationRadioBtn.get(randomNumber));
 		return categoryNameList.get(randomNumber).getText();
 	}
@@ -647,18 +644,31 @@ public class TaggingPage extends PageObject {
 		return saveTagBtn.isDisabled();
 	}
 
+	/**
+	 * Verifying Mass update page title should be visible on page
+	 */
 	public void massUpdateScreenShouldBeVisible() {
 		massUpdatePageTitle.shouldBeVisible();
 	}
 
+	/**
+	 * Selecting Professional radio button 
+	 */
 	public void selectProfessionalRadioBtn() {
 		professionalRadioBtn.click();
 	}
 
+	/**
+	 * Selecting Manual Entry radio button
+	 */
 	public void selectManualEntryRadioBtn() {
 		manualEntryRadioBtn.click();
 	}
 
+	/**
+	 * Entering Selected Facility code followed by Invoice number in manual entry text box
+	 * @param invoiceNumber - Passing Invoice number which is fetched from DB query
+	 */
 	public void enterInvcNumInManualEntryTxtbxOnMUScrn(String invoiceNumber) {
 		String selectedFacility = facilityDrpdwnOnMUScreen.getSelectedVisibleTextValue().substring(0, 4)
 				+ invoiceNumber;
@@ -666,21 +676,24 @@ public class TaggingPage extends PageObject {
 				manualEntryTextBox);
 	}
 
+	/**
+	 * Selecting Account Tagging Radio Button on Mass update Page
+	 */
 	public void selectMUReqAccountTaggingRadioBtn() {
 		massUpdateReqAccTaggingRadioBtn.click();
 	}
 
+	/**
+	 * Selecting Add Radio Button On Mass Update Page and Waiting for Tag category drop down to be visible
+	 */
 	public void selectAddRadioBtnOnMU() {
 		massUpdateAddTagRadioBtn.click();
 		tagCategoryDrpdwnOnMassUpdateScrn.withTimeoutOf(Duration.ofSeconds(20)).waitUntilVisible();
 	}
 
-	public List<String> getTagCategoryDrpDwnValues() {
-		List<String> listOfTagCategoryDropDwnValues;
-		listOfTagCategoryDropDwnValues = tagCategoryDrpdwnOnMassUpdateScrn.getSelectOptions();
-		return listOfTagCategoryDropDwnValues;
-	}
-
+	/**
+	 * Selecting Any option from tag category drop down
+	 */
 	public void selectAccTagCategoryOnMU() {
 		int index1 = CommonMethods.getRandom(tagCategoryDrpdwnOptnsOnMUScrn.size());
 		CommonMethods.getRandom(tagCategoryDrpdwnOptnsOnMUScrn.size());
@@ -695,12 +708,9 @@ public class TaggingPage extends PageObject {
 		}
 	}
 
-	public List<String> getTagNameDrpDwnValues() {
-		List<String> listOfTagNameDropDwnValues;
-		listOfTagNameDropDwnValues = tagNameDrpdwnOnMassUpdateScrn.getSelectOptions();
-		return listOfTagNameDropDwnValues;
-	}
-
+	/**
+	 * Selecting Any option from Tag name drop down
+	 */
 	public void selectTagNameOnMU() {
 		tagNameDrpdwnOnMassUpdateScrn.withTimeoutOf(Duration.ofSeconds(20)).waitUntilVisible();
 		withAction().moveToElement(tagNameDrpdwnOnMassUpdateScrn).click().build().perform();
@@ -712,26 +722,45 @@ public class TaggingPage extends PageObject {
 		evaluateJavascript("document.querySelector(\"#tagName > option:nth-child(" + index1 + ")\").selected=true");
 	}
 
+	/**
+	 * @return Visibility of Add Category drop down on Mass update page
+	 */
 	public boolean isAddCategoryDrpdwnVisibleOnMU() {
 		return tagCategoryDrpdwnOnMassUpdateScrn.isVisible();
 	}
 
+	/**
+	 * @return Visibility ofAdd Tag drop down on Mass update page
+	 */
 	public boolean isAddTagDrpdwnVisibleOnMU() {
 		return tagNameDrpdwnOnMassUpdateScrn.isVisible();
 	}
 
+	/**
+	 * Clicking on save button using JS on Mass update page
+	 */
 	public void clickOnSaveBtnOnMU() {
 		evaluateJavascript("document.querySelector('#muSumbit').click()");
 	}
 
+	/**
+	 * Entering Test Notes in Manual entry text field on Mass update page using JS
+	 * @param notes - Passing Test notes through feature file
+	 */
 	public void enterNotesOnMU(String notes) {
 		evaluateJavascript("document.querySelector('#massUpdateNotes').value='" + notes + "';", manualEntryTextBox);
 	}
 
+	/**
+	 * @return Text of Success message on Mass update page
+	 */
 	public String getSuccessMsgOnMU() {
-		return successMsgOnMU.withTimeoutOf(Duration.ofSeconds(20)).waitUntilVisible().getText();
+		return alertMsgOnMassUpdateScrn.withTimeoutOf(Duration.ofSeconds(20)).waitUntilVisible().getText();
 	}
 
+	/**
+	 * Selecting Remove Radio Button on Mass update page
+	 */
 	public void selectRemoveRadioBtnOnMU() {
 		removeRadioBtn.click();
 	}

@@ -56,6 +56,13 @@ public class TaggingSteps {
 		return tagName.concat((" " + RandomStringUtils.randomAlphabetic(3).trim()));
 	}
 
+	/**
+	 * Running the DB query and fetching recently added tag details from DB
+	 * @param queryName
+	 * @param dbInvoiceId - Fetched from query
+	 * @return Recently Added Tag details
+	 * @throws Any Exception
+	 */
 	@Step
 	public List<String> getAddedTagDetailsFromDatabase(String queryName, String dbInvoiceId) throws Exception {
 		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
