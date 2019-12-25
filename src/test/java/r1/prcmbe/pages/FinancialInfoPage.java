@@ -179,7 +179,7 @@ public class FinancialInfoPage extends PageObject {
 	}
 
 	/**
-	 * Clicks and expands Adjustments field
+	 * Clicks and expand Adjustments field
 	 */
 	public void clickAdjustmentScrollArrow() {
 		evaluateJavascript("arguments[0].click();", adjustmentScrollArrow);
