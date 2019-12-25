@@ -24,24 +24,14 @@ public class WorkflowConfigurationSteps {
 	
 	@Steps
 	LoginSteps loginStep;
-/**
- * 
- * @param dateFromDB takes the paramter from the DB
- * @return the formatted date required
- * @throws ParseException
- */
+	
 	@Step
 	public String formatDbDateFieldWithDateTime(String dateFromDB) throws ParseException {
 		outputFormat = new SimpleDateFormat("MM/dd/yyyy");
 		inputFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		Date date = inputFormat.parse(dateFromDB);
 		return outputFormat.format(date);
-	}
-	
-/**
- * Method clears the cache and relogins again
- * @throws IOException
- */
+	}	
 	
 	@Step
 	public void clearCacheAndLogin() throws IOException {
