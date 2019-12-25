@@ -124,8 +124,10 @@ public class SearchPage extends PageObject {
 	}
 
 	/**
-	 * Description - Selecting option from search by drop down 
-	 * @param dropdown - drop down value is passing from feature file
+	 * Description - Selecting option from search by drop down
+	 * 
+	 * @param dropdown
+	 *            - drop down value is passing from feature file
 	 */
 	public void searchBySelectText(String dropdownVal) {
 		searchByDropdown.selectByVisibleText(dropdownVal);
@@ -133,19 +135,23 @@ public class SearchPage extends PageObject {
 
 	/**
 	 * Selecting operator value from operator drop down
+	 * 
 	 * @param operatorValue - Passing through feature file
 	 */
-	public void selectOperatorValue(String operatorValue)  {
+	public void selectOperatorValue(String operatorValue) {
 		operatorDropdown.selectByVisibleText(operatorValue);
 	}
 
 	/**
-	 *  Description - Entering invoice number in invoice number text field
-	 * @param invoiceNumber - Passing Invoice number fetched from DB
+	 * Description - Entering invoice number in invoice number text field
+	 * 
+	 * @param invoiceNumber
+	 *            - Passing Invoice number fetched from DB
 	 */
 	public void enterInvoiceNumber(String invoiceNumber) {
 		invoiceNumberTxtField.type(invoiceNumber);
 	}
+
 	/**
 	 * Clicking on submit button and waiting for loading spinner to be disappear
 	 */
@@ -221,7 +227,9 @@ public class SearchPage extends PageObject {
 
 	/**
 	 * Entering Visit number
-	 * @param visitNumber Passing through feature file
+	 * 
+	 * @param visitNumber
+	 *            Passing through feature file
 	 */
 	public void enterVisitNumber(String visitNumber) {
 		visitTxtField.type(visitNumber);
@@ -236,7 +244,9 @@ public class SearchPage extends PageObject {
 
 	/**
 	 * Entering MRN number
-	 * @param mRN Passing through feature file
+	 * 
+	 * @param mRN
+	 *            Passing through feature file
 	 */
 	public void enterMRN(String mRN) {
 		mRNTxtField.type(mRN);
@@ -251,7 +261,9 @@ public class SearchPage extends PageObject {
 
 	/**
 	 * Entering Claim Number
-	 * @param claimNumber - Passing through feature file
+	 * 
+	 * @param claimNumber
+	 *            - Passing through feature file
 	 */
 	public void enterClaimNumber(String claimNumber) {
 		claimNumberTxtField.type(claimNumber);
@@ -266,7 +278,9 @@ public class SearchPage extends PageObject {
 
 	/**
 	 * Entering Last name
-	 * @param lastName - Passing through feature file
+	 * 
+	 * @param lastName
+	 *            - Passing through feature file
 	 */
 	public void enterLastNameTxtBox(String lastName) {
 		lastNameTxtBox.type(lastName);
@@ -281,7 +295,9 @@ public class SearchPage extends PageObject {
 
 	/**
 	 * Entering First name
-	 * @param firstName - Passing through feature file
+	 * 
+	 * @param firstName
+	 *            - Passing through feature file
 	 */
 	public void enterFirstName(String firstName) {
 		firstNameTxtBox.type(firstName);
@@ -303,7 +319,9 @@ public class SearchPage extends PageObject {
 
 	/**
 	 * Entering SSN number
-	 * @param sSN - Passing through feature file
+	 * 
+	 * @param sSN
+	 *            - Passing through feature file
 	 */
 	public void enterSSN(String sSN) {
 		sSNTxtBox.type(sSN);
@@ -453,7 +471,7 @@ public class SearchPage extends PageObject {
 	public String getPatientMRN() {
 		return patientMRN.getText();
 	}
-	
+
 	public void waitForSpinnerToDisappear() {
 		loadingSpinner.withTimeoutOf(Duration.ofSeconds(80)).waitUntilNotVisible();
 	}
