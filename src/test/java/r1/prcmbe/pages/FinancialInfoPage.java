@@ -21,7 +21,7 @@ public class FinancialInfoPage extends PageObject {
 	@FindBy(xpath = "//*[@id='financialAccordNoDetail']/div[3]/h3/span/span[1]/h5/span")
 	private List<WebElementFacade> patientBalance;
 
-	@FindBy(xpath = "//div[@id='financialAccordNoDetail']/div[4]/div/h3//span[1]/h5/span")
+	@FindBy(xpath = "//div[@id='financialAccordNoDetail']/div[position()=4]/div//span[position()=1]/h5/span")
 	private List<WebElementFacade> unbilledBalance;
 
 	@FindBy(xpath = "//*[@id='accordion']/div[1]/h3/a/span[1]/h5/span")
