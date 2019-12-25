@@ -76,11 +76,6 @@ public class FacilityGroupConfigurationPage extends PageObject {
 		facilityGrpNameOnPopup.type(facilityGrpName.concat(RandomStringUtils.randomAlphabetic(3)));
 	}
 
-	/**
-	 * 
-	 * @return the text values of all the controls present on the Add/edit Facility
-	 *         Group Config page
-	 */
 	public List<String> getAllPageControls() {
 		for (WebElementFacade pageControls : listOfLabels) {
 			ListOfPageControls.add(pageControls.getText().trim());
@@ -102,20 +97,10 @@ public class FacilityGroupConfigurationPage extends PageObject {
 		return pRCMFacility;
 	}
 
-	/**
-	 * Method types the Facility code in the Facility code textbox
-	 * 
-	 * @param code
-	 *            is passed from the feature file
-	 */
 	public void enterFacilityCodeInTxtBox(String code) {
 		facilityCodeTxtBox.type(code);
 	}
-
-	/**
-	 * 
-	 * @return boolean value based on whether Add New Btn is enabled
-	 */
+	
 	public boolean isAddBtnOnAddNewPopupEnabled() {
 		if (addBtnOnAddNewPopup.getAttribute("disabled") == null) {
 			return true;
@@ -123,32 +108,18 @@ public class FacilityGroupConfigurationPage extends PageObject {
 		return false;
 	}
 
-	/**
-	 * 
-	 * @return boolean value based on the visibility of AddNew Facility Config popup
-	 */
 	public boolean isAddNewFacilityGroupPopupVisible() {
 		return facilityGrpModalWindow.isVisible();
 	}
 
-	/**
-	 * Method clicks on Add Facility Btn
-	 */
 	public void clickOnAddFacilityBtn() {
 		listOfAddFacilityBtn.get(0).click();
 	}
 
-	/**
-	 * Method checks that Facility Group Head is present
-	 */
 	public void isFacilityGrpConfigHeaderVisible() {
 		facilityGroupConfigPageHeader.shouldBeVisible();
 	}
 
-	/**
-	 * 
-	 * @return the text value of headers present on the facility group config page
-	 */
 	public List<String> getTableGridHeaders() {
 		List<String> getHeaders = new ArrayList<>();
 		for (WebElementFacade headerElement : listOfTableHeader) {
@@ -157,13 +128,6 @@ public class FacilityGroupConfigurationPage extends PageObject {
 		return getHeaders;
 	}
 
-	/**
-	 * Method checks the presence of Facility Group Name
-	 * 
-	 * @param expectedFacilityGroupName
-	 *            passed from featuref lile
-	 * @returns the boolean based on the presence of facility group name
-	 */
 	public boolean isFacilityGroupNamePresent(String expectedFacilityGroupName) {
 		List<String> getListOfFacilityGroup = new ArrayList<>();
 		for (WebElementFacade facilityGrp : facilityGroupList) {
@@ -172,13 +136,6 @@ public class FacilityGroupConfigurationPage extends PageObject {
 		return getListOfFacilityGroup.contains(expectedFacilityGroupName);
 	}
 
-	/**
-	 * Method checks the presence of facility code
-	 * 
-	 * @param expectedFacility
-	 *            is passed from feature
-	 * @return the boolean value based on the presence of fcilitycode
-	 */
 	public boolean isExpectedFacilityPresent(String expectedFacility) {
 		List<String> getFacilities = new ArrayList<>();
 		for (WebElementFacade facility : listOfFacilities) {
@@ -187,10 +144,6 @@ public class FacilityGroupConfigurationPage extends PageObject {
 		return getFacilities.contains(expectedFacility);
 	}
 
-	/**
-	 * 
-	 * @return the boolean based on the presence of Add facility button
-	 */
 	public boolean areAddFAcilityBtnPresents() {
 		int size = listOfAddFacilityBtn.size();
 		for (int i = 0; i < size; i++) {
@@ -201,27 +154,14 @@ public class FacilityGroupConfigurationPage extends PageObject {
 		return false;
 	}
 
-	/**
-	 * 
-	 * @return the boolean value based on the presence of edit button on the page
-	 */
 	public boolean isEditBtnPresent() {
 		return listOfEditBtns.get(0).isVisible();
 	}
 
-	/**
-	 * Method checks if Header is present on the Facility Group Page
-	 * 
-	 * @return boolean based on the visibility of the header
-	 */
 	public boolean isHeaderNameOnFacilityGrpConfigVisble() {
 		return facilityGroupConfigPageHeader.isVisible();
 	}
 
-	/**
-	 * 
-	 * @return boolean value when edit btn are displayed against each facility group
-	 */
 	public boolean isEditBtnsDisplayedAgainstEachFacilityGrp() {
 		int editBtnSize = listOfEditBtns.size();
 		int facilityGrpSize = facilityGroupList.size();
@@ -232,26 +172,14 @@ public class FacilityGroupConfigurationPage extends PageObject {
 		listOfEditBtns.get(0).click();
 	}
 
-	/**
-	 * 
-	 * @return boolean value based on the visibility of Edit Facility popup
-	 */
 	public boolean isEditFacilityModalWindowVisisble() {
 		return facilityGrpModalWindow.isVisible();
 	}
 
-	/**
-	 * 
-	 * @return boolean value based on the visibility of Physician checkbox
-	 */
 	public boolean isPhysicianCheckboxVisisble() {
 		return physicianCheckbox.isVisible();
 	}
 
-	/**
-	 * Method clicks on the physician checkbox if it is not checked else, checks the
-	 * checkbox
-	 */
 	public void clickOnPhysicianCheckbox() {
 		if (!physicianCheckbox.isSelected()) {
 			physicianCheckbox.click();
@@ -286,10 +214,6 @@ public class FacilityGroupConfigurationPage extends PageObject {
 		}
 	}
 
-	/**
-	 * 
-	 * @return the text value of facility group who's physician checkbox is checked.
-	 */
 	public String getFacilityGrpNameWithPhysicianChecked() {
 		return facilityGroupList.get(index).getText();
 	}
@@ -304,12 +228,6 @@ public class FacilityGroupConfigurationPage extends PageObject {
 		return physicianCheckbox.withTimeoutOf(Duration.ofSeconds(15)).waitUntilVisible().isSelected();
 	}
 
-	/**
-	 * Method clicks on the edit button of facility group name
-	 * 
-	 * @param facilityGrpName
-	 *            is passed from feature file
-	 */
 	public void clickOnFacilityGrpEditBtn(String facilityGrpName) {
 		int size = listOfEditBtns.size();
 		for (index = 0; index < size; index++) {
