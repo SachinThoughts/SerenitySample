@@ -43,7 +43,7 @@ Feature: Verify WorkFlowConfiguration related scenarios in PRCM
     Then Edit Handoff pop up window should get closed with no data saved
     When user clicks on Edit link button against particular hand off type in Choose Handoff grid
     And user updates value in any of the fields
-    And user clicks on Save changes button
+   And user clicks on Save Changes button for Add Handoff
     Then user should be able to view handoff message "HandOff Updated Successfully"
     And user should no longer be able to view Edit Handoff popup window
     And user should be able to view Updated values related to handoff type in Choose Handoff grid
@@ -481,7 +481,7 @@ Feature: Verify WorkFlowConfiguration related scenarios in PRCM
     When user enters alphanumeric text in Disposition Code textbox
     And user clicks on Save Changes button on Disposition pop up
     Then user should able to view info message "Please enter Disposition Name"
-    And user enters text in Disposition Description textbox: "Test1234"
+    And user enters text in Disposition Description textbox: "Testing1234"
     And user clicks on Save Changes button on Disposition pop up
     Then user should able to view info message "Please select Next Disposition By."
     When user select "AR Supervisor" value from Next Disposition By drop down, other than --Select one-- option
