@@ -49,6 +49,12 @@ public class FinancialInfoSteps extends PageObject {
 		waitForAngularRequestsToFinish();
 	}
 
+	/**
+	 * This method formats database date to pattern 'M/d/yyyy'
+	 * @param dateFromDB
+	 * @return formated date 
+	 * @throws ParseException
+	 */
 	@Step
 	public String formatDbDateFieldWithDateTime(String dateFromDB) throws ParseException {
 		outputFormat = new SimpleDateFormat("M/d/yyyy");
@@ -63,7 +69,7 @@ public class FinancialInfoSteps extends PageObject {
 	}
 
 	/**
-	 * This method handles positive or negative value and converts into respective pattern 
+	 * This method handles positive or negative value and converts into respective currency pattern 
 	 * @param value
 	 * @return formatted string, depending on value 
 	 */

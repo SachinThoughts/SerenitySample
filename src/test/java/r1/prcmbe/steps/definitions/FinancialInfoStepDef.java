@@ -199,7 +199,7 @@ public class FinancialInfoStepDef {
 	@Then("^User should be able to view following total charges fields:$")
 	public void user_should_be_able_to_view_following_total_charges_fields(DataTable datatable) {
 		List<String> expectedTotalChargesTableHeaders = datatable.asList(String.class);
-		Assert.assertTrue("Total charges Headers do not match",
+		Assert.assertTrue("Total charges headers do not match",
 				financialInfoPage.getTotalChargesTableHeaders().equals(expectedTotalChargesTableHeaders));
 	}
 

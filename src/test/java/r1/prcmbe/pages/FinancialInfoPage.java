@@ -325,7 +325,7 @@ public class FinancialInfoPage extends PageObject {
 	}
 
 	/**
-	 * @return Patient Payment Amount is fetched
+	 * @return Patient payment amount is fetched
 	 */
 	public String getPatientPaymentAmount() {
 		withAction().moveToElement(patientPaymentsAmount).build().perform();
@@ -349,7 +349,7 @@ public class FinancialInfoPage extends PageObject {
 	}
 
 	/**
-	 * @return Unbilled Balance Amount is fetched
+	 * @return Unbilled balance amount is fetched
 	 */
 	public String getUnbilledBalance() {
 		withAction().moveToElement(unbilledBalanceAmount).build().perform();
