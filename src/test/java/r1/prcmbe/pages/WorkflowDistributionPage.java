@@ -354,7 +354,7 @@ public class WorkflowDistributionPage extends PageObject {
 	 * @param facilityGrpName
 	 *            is passed from the feature file
 	 * @return the boolean value based on the presence of expected faciltiy group
-	 *         name from the dropdown -
+	 *         name from the dropdown
 	 */
 	public boolean isFacilityGrpNamePresentInTheDropdown(String facilityGrpName) {
 		List<String> facilityGrpList;
