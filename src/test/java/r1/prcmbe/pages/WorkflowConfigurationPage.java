@@ -246,7 +246,7 @@ public class WorkflowConfigurationPage extends PageObject {
 	@FindBy(xpath = "//*[@class='btn btnSuccess btn-block next-step last-step step4 saveconf btnPrimary']")
 	private WebElementFacade dispositionSaveConfigBtn;
 
-	@FindBy(xpath = "//*[@id='WorkflowTypeDispositionSorttable']//li//div[3]//span[contains(@id,'Disp')]")
+	@FindBy(xpath = "//div[@id='dvWorkflowDispositions']//li//div[3]//span[contains(@id,'Disp')]")
 	private List<WebElementFacade> dispositionNameList;
 
 	@FindBy(xpath = "//div[@id='dvWorkflowDispositions']//li//i[@class='fa fa-edit fa-1-5x']")

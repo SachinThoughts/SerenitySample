@@ -184,7 +184,7 @@ public class DefaultHandoffPage extends PageObject {
 	@FindBy(id = "ASName0")
 	private WebElementFacade savedDispositionStatus;
 
-	@FindBy(xpath = "//*[@id='WorkflowTypeDispositionSorttable']//li//div[3]//span[contains(@id,'Disp')]")
+	@FindBy(xpath = "//*[@id='dvWorkflowDispositions']//li//div[3]//span[contains(@id,'Disp')]")
 	private List<WebElementFacade> dispositionNameList;
 
 	@FindBy(xpath = "//div[@class='fs-option-label' and text()='AHtoDecision Admin']/preceding-sibling::span")

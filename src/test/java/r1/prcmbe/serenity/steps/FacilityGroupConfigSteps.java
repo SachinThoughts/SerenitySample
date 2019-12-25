@@ -8,11 +8,7 @@ import org.junit.Assert;
 import r1.commons.databaseconnection.DatabaseConn;
 
 public class FacilityGroupConfigSteps {
-	/**
-	 * Method checks if the new column called IsPCRMEnabled preset in the DB
-	 * @param newColumnName is passed through feature file
-	 * @return
-	 */
+
 	public boolean isNewAddedColumnVisibleInDB(String newColumnName) {
 		try {
 			ResultSetMetaData rsMetaData = DatabaseConn.resultSet.getMetaData();
@@ -22,7 +18,7 @@ public class FacilityGroupConfigSteps {
 					return true;
 				}
 			}
-		} catch (SQLException exception) {
+} catch (SQLException exception) {
 			Assert.assertTrue("IsPRCMenabled column name is not displayed.\nThe Technical Error is:\n" + exception,
 					false);
 		}
