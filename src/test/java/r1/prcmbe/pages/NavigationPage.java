@@ -131,9 +131,6 @@ public class NavigationPage extends PageObject {
 		withAction().moveToElement(billingAndFollowUpLink).click().build().perform();
 	}
 
-	/**
-	 * Method clicks on the biiling and followup link from the footer
-	 */
 	public void clickFooterBillingFollowUpLink() {
 		evaluateJavascript("arguments[0].click();", footerBillingFollowUpLink);
 	}
