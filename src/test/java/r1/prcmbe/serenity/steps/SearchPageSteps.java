@@ -179,7 +179,7 @@ public class SearchPageSteps {
 			searchPage.clickErrorMsg();
 		}
 		return searchPage.isPatientAndVisitHeaderVisible()
-				&& dbEncounterID.equalsIgnoreCase(searchPage.getAccountNumber());
+				&& dbEncounterID.equalsIgnoreCase(searchPage.getPatientAccountNo());
 	}
 
 	@Step
@@ -189,7 +189,7 @@ public class SearchPageSteps {
 			return dblistOfEncounterID.containsAll(new ArrayList<>(new HashSet<>(searchPage.getlistOfAccNum())));
 		}
 		return searchPage.isPatientAndVisitHeaderVisible()
-				&& dblistOfEncounterID.contains(searchPage.getAccountNumber());
+				&& dblistOfEncounterID.contains(searchPage.getPatientAccountNo());
 	}
 
 	@Step
