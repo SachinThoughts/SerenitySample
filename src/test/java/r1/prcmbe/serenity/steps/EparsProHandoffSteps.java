@@ -15,8 +15,12 @@ public class EparsProHandoffSteps {
 	private static String dbQueryFilename = "EparsProHandoff";
 	List<String> listOfSearchValues = new ArrayList<>();
 
+	/** The method selects the operator '=' or 'Like' and enters the Search value depending on the SearchBy value selected
+	 * @param operatorValue: The value to be entered for operator: = or Like
+	 * @param textBoxValue: The value entered for search depending upon the SearchBy value selected
+	 */
 	@Step
-	public void enterOperatorAndSearchByTextBox(String operatorValue, String textBoxValue) {
+	public void enterOperatorAndSearchTextBox(String operatorValue, String textBoxValue) {
 		switch (eparsProHandoffPage.getSearchByDropdownValue()) {
 		case "Visit Number":
 			eparsProHandoffPage.selectOperator(operatorValue);
@@ -56,6 +60,11 @@ public class EparsProHandoffSteps {
 		}
 	}
 
+	/** the method compares the list of all validation messages displayed against the list of expected validation messages and returns true/false
+	 * @param listOfValidationMsgs: List of all validation messages displayed as per the SearchBy value selected
+	 * @param expValidationMsg: List of expected validation messages that should be displayed as per the SearchBy value selected
+	 * @return: true or false after comparing if the actual validation messages match the expected validation messages
+	 */
 	@Step
 	public boolean verifyValidationMessages(List<String> listOfValidationMsgs, String expValidationMsg) {
 		for (String validationMsg : listOfValidationMsgs) {
@@ -65,46 +74,58 @@ public class EparsProHandoffSteps {
 		return true;
 	}
 
+	/** The method enters the Search values in the textboxes depending on the SearchBy dropdown value selected
+	 * @param searchValues: the Search values in the textboxes depending on the SearchBy dropdown value selected
+	 */
 	@Step
-	public void enterSearchByValue(List<String> searchByValues) {
+	public void enterSearchValue(List<String> searchValues) {
 		switch (eparsProHandoffPage.getSearchByDropdownValue()) {
 		case "Visit Number":
-			eparsProHandoffPage.enterVisitNumberTextBox(searchByValues.get(0));
+			eparsProHandoffPage.enterVisitNumberTextBox(searchValues.get(0));
 			break;
 
 		case "Invoice Number":
-			eparsProHandoffPage.enterInvoiceNumberTextBox(searchByValues.get(0));
+			eparsProHandoffPage.enterInvoiceNumberTextBox(searchValues.get(0));
 			break;
 
 		case "Social Security Number":
-			eparsProHandoffPage.enterSSNTextBox(searchByValues.get(0));
+			eparsProHandoffPage.enterSSNTextBox(searchValues.get(0));
 			break;
 
 		case "Last/First Name":
-			eparsProHandoffPage.enterLastNameTextBox(searchByValues.get(0));
-			eparsProHandoffPage.enterFirstNameTextBox(searchByValues.get(1));
+			eparsProHandoffPage.enterLastNameTextBox(searchValues.get(0));
+			eparsProHandoffPage.enterFirstNameTextBox(searchValues.get(1));
 			break;
 
 		case "Medical Records Number":
-			eparsProHandoffPage.enterMRNTextBox(searchByValues.get(0));
+			eparsProHandoffPage.enterMRNTextBox(searchValues.get(0));
 			break;
 
 		case "Claim Number":
-			eparsProHandoffPage.enterClaimNumberTextBox(searchByValues.get(0));
+			eparsProHandoffPage.enterClaimNumberTextBox(searchValues.get(0));
 			break;
 
 		case "DOB":
-			eparsProHandoffPage.enterDateOfBirthTextBox(searchByValues.get(0));
+			eparsProHandoffPage.enterDateOfBirthTextBox(searchValues.get(0));
 			break;
 
 		case "Date of Service":
-			eparsProHandoffPage.enterDateOfServiceTextBox(searchByValues.get(0));
+			eparsProHandoffPage.enterDateOfServiceTextBox(searchValues.get(0));
 			break;
 		}
 	}
 
+	/**
+	 * The method fetches the database values for Search depending upon the SearchBy value selected and returns them
+	 * @param searchBy: The SearchBy Value selected
+	 * @param query: The DataBase query to fetch the Search value depending upon the SearchBy value selected. example: Invoice# for Invoice Number selected in SearchBy
+	 * @return: the fetched Search Values from the database
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 * @throws Exception
+	 */
 	@Step
-	public List<String> getDBSearchByValues(String searchBy, String query)
+	public List<String> getDBSearchValues(String searchBy, String query)
 			throws ClassNotFoundException, SQLException, Exception {
 		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
 				String.format(commonMethods.loadQuery(query, dbQueryFilename)));
