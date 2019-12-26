@@ -362,7 +362,7 @@ public class PhysicianNPIConfigPage extends PageObject {
 
 	/**
 	 * This method is used to click on the Save Button on the edit pop up. For
-	 * clicking javascript is used since the button position changes as per the
+	 * clicking JavaScript is used since the button position changes as per the
 	 * screen resolution
 	 */
 	public void clickSaveBtn() {
@@ -429,6 +429,13 @@ public class PhysicianNPIConfigPage extends PageObject {
 		return paginationControl.isVisible();
 	}
 
+	/**
+	 * This method is used to get the text values 'Total Physicians' and 'Displaying
+	 * Page' from the pagination header. Split method is used so that the required
+	 * two text are extracted from the displayed text
+	 * 
+	 * @return two text values
+	 */
 	public List<String> getHeaderOfPagination() {
 		paginationValue = listOfPaginationHeader.getText().split("\\|");
 		paginationValueWithFirstTextValue = paginationValue[0].trim().split("\\s+");
@@ -440,6 +447,13 @@ public class PhysicianNPIConfigPage extends PageObject {
 		return listOfPaginationValue;
 	}
 
+	/**
+	 * This method is used to get the text values 'Total Physicians' and 'Displaying
+	 * Page' from the pagination footer. Split method is used so that the required
+	 * two text are extracted from the displayed text
+	 * 
+	 * @return two text values
+	 */
 	public List<String> getFooterOfPagination() {
 		paginationValue = listOfPaginationFooter.getText().split("\\|");
 		paginationValueWithFirstTextValue = paginationValue[0].trim().split("\\s+");
@@ -460,6 +474,11 @@ public class PhysicianNPIConfigPage extends PageObject {
 		return facilityPhysicianHeader.getText();
 	}
 
+	/**
+	 * This method is used to get count of disabled payor for each physician
+	 * 
+	 * @return the list of all the disabled payor count
+	 */
 	public List<String> getCountOfTotalDisabledPayors() {
 		List<String> listOfTotalPayors = new ArrayList<>();
 		for (WebElementFacade totalPayors : listOfTotalPayorsDisabled)
@@ -467,18 +486,38 @@ public class PhysicianNPIConfigPage extends PageObject {
 		return listOfTotalPayors;
 	}
 
-	public boolean isphysicianSearchTitleVisible() {
+	/**
+	 * This method checks visibility of the 'Physician Search' title
+	 * 
+	 * @return the value true if title is visible else return false
+	 */
+	public boolean isPhysicianSearchTitleVisible() {
 		return physicianSearchTitle.isVisible();
 	}
 
+	/**
+	 * This method is used to click on the Physician Search text box
+	 */
 	public void clickOnPhysicianSearchTxtField() {
 		physicianSearchTxtField.click();
 	}
 
+	/**
+	 * This method is used to type value in the Physician Search text box
+	 * 
+	 * @param physiciansName
+	 *            the name of physician to be typed in the Physician Search text box
+	 */
 	public void enterPhysicianSearchTxtBox(String physiciansName) {
 		physicianSearchTxtField.type(physiciansName);
 	}
 
+	/**
+	 * This method is used to get the details of searched Physician like Name, NPI,
+	 * Facility ID, count of payor disabled
+	 * 
+	 * @return details of the searched physician
+	 */
 	public List<String> getListofSearchedPhisicianInfo() {
 		List<String> listOfphysicianInfo = new ArrayList<>();
 		for (WebElementFacade physicianInfo : listOfSearchedPhysicianInfo)
@@ -486,6 +525,11 @@ public class PhysicianNPIConfigPage extends PageObject {
 		return listOfphysicianInfo;
 	}
 
+	/**
+	 * This method is used to click on the Cancel Button on the edit pop up. For
+	 * clicking JavaScript is used since the button position changes as per the
+	 * screen resolution
+	 */
 	public void clickCancelBtn() {
 		evaluateJavascript(cancelBtnJS + ".click()");
 	}
