@@ -61,7 +61,7 @@ public class DefectWorkflowPage extends PageObject {
 	@FindBy(id = "overrideStep")
 	private WebElementFacade defectOverrideSec;
 
-	@FindBy(xpath = "//*[@id='cblActionsRequired']/label")
+	@FindBy(xpath = "//span[@id='cblActionsRequired']/label")
 	private List<WebElementFacade> listOfSOPActionsOnActionPage;
 
 	@FindBy(xpath = "//fieldset[@id='required']/h2")
@@ -76,7 +76,7 @@ public class DefectWorkflowPage extends PageObject {
 	@FindBy(xpath = "//table[@id='rdoAssignCat']//td/label[contains(text(),'Yes')]")
 	private WebElementFacade yesRadioBtn;
 
-	@FindBy(xpath = "//*[@id='cblActionsOptional']/label")
+	@FindBy(xpath = "//span[@id='cblActionsOptional']/label")
 	private List<WebElementFacade> verifyAllStepsCheckbox;
 
 	@FindBy(id = "msg_success")
