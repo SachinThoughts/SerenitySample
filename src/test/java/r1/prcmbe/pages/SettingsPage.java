@@ -59,6 +59,9 @@ public class SettingsPage extends PageObject {
 		withAction().moveToElement(settingsR1Decision).click().build().perform();
 	}
 
+	/**
+	 * This method clicks on WorkFlow Configuration on Settings Page
+	 */
 	public void clickWorkflowConfig() {
 		waitForAngularRequestsToFinish();
 		withAction().moveToElement(workflowConfig).click().build().perform();

@@ -97,6 +97,9 @@ public class NavigationPage extends PageObject {
 		waitForAngularRequestsToFinish();
 	}
 
+	/**
+	 * This method clicks on Footer Settings
+	 */
 	public void clickFooterSettings() {
 		spinner.withTimeoutOf(Duration.ofSeconds(60)).waitUntilNotVisible();
 		evaluateJavascript("arguments[0].click();", footerSettings);

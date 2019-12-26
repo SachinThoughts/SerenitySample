@@ -266,19 +266,33 @@ public class AccountInformationPage extends PageObject {
 		return visitNo;
 	}
 
+	/**
+	 * This method click on HandOff Button
+	 */
 	public void clickHandOffBtn() {
 		addHandOffBtn.click();
 	}
 
+	/**
+	 * This method checks the visibility of HandOff PopUp
+	 * @return boolean value based on visibility
+	 */
 	public boolean isHandOffPopUpVisible() {
 		return handOffPopUp.isVisible();
 	}
 
+	/**
+	 * This method selects HandOff Type from DropDown
+	 */
 	public void selectHandOffType(String handOffType) {
 		waitForLoaderInvisibility();
 		handOffTypeDrpdwn.selectByVisibleText(handOffType);
 	}
 
+	/**
+	 * This method fetches HandOffType Value
+	 * @return selected HandOffType Value
+	 */
 	public String getSelectedHandOffTypeValue() {
 		return handOffTypeDrpdwn.getSelectedVisibleTextValue();
 	}
