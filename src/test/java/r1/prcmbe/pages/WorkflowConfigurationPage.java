@@ -16,7 +16,7 @@ public class WorkflowConfigurationPage extends PageObject {
 	int index;
 	String enterWorkflowName, workflowDescriptionText, getSelectedValueFromNextDropdown, getDispositionStatus;
 
-	@FindBy(xpath = "//h3[contains(text(),'Workflow Configuration')]")
+	@FindBy(xpath = "//h3[text()='AHtoDecision Workflow Configuration']")
 	private WebElementFacade workflowTitle;
 
 	@FindBy(id = "HandoffLink")
@@ -1158,7 +1158,7 @@ public class WorkflowConfigurationPage extends PageObject {
 	}
 
 	public boolean isDispositionDetailsCollapsed() {
-		return firstDispositionDetailsLink.isVisible();
+		return expandedDispositionDetailsLink.isVisible();
 	}
 
 	public boolean isDispositionDetailsSectionVisible() {

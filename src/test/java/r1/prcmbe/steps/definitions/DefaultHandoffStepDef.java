@@ -43,7 +43,8 @@ public class DefaultHandoffStepDef {
 	String workFlowDescription, actionDescription, followUpDays, responseDeadline, dispositionCode,
 			dispositionFollowUpDays, dispositionResponseDeadline, recipientName, searchText, dbId = "",
 			facilitySettingValue, invoiceNumber, dbFacilitySettingValue, createVal, whyVal, dispositionVal, handoffType;
-	static String dispositionStatus, actionName, dispositionDescription, recipientDesc, workFlowName;
+	static String dispositionStatus, actionName, dispositionDescription, recipientDesc, workFlowName,
+			enteredDispositionName;
 
 	private static String dbQueryFilename = "DefaultHandoff";
 	private final String BUBBLECOLOR = "rgba(61, 100, 168, 1)";
@@ -127,12 +128,12 @@ public class DefaultHandoffStepDef {
 		defaultHandOffPage.clickVisibleToGrpAHtoDecisionChkBox();
 	}
 
-	@When("^user clicks on Save Changes button for Add Handoff$")
+	@When("^user clicks on Save Changes button for Add Handoff$")
 	public void user_clicks_on_Save_Changes_button_for_Add_Handoff() {
 		defaultHandOffPage.clickAddHandOffSaveChangesButton();
 	}
 
-	@When("^Default Handoff user runs the query to verify if the handoff is inserted \"([^\"]*)\"  $")
+	@When("^Default Handoff user runs the query to verify if the handoff is inserted \"([^\"]*)\"  $")
 	public void user_runs_the_query_to_verify_if_the_handoff_is_inserted(String query)
 			throws ClassNotFoundException, SQLException, Exception {
 		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
@@ -294,15 +295,16 @@ public class DefaultHandoffStepDef {
 		defaultHandOffPage.clickAddNewDispositionButton();
 	}
 
-	@When("^user enters text in Disposition Code textbox$")
+	@When("^user enters text in Disposition Code textbox$")
 	public void user_enters_text_in_Disposition_Code_textbox() {
 		dispositionCode = defaultHandOffPage.enterDispositionCode();
 	}
 
-	@When("^user enters text in Disposition Description textbox: \"([^\"]*)\"$")
+	@When("^user enters text in Disposition Description textbox: \"([^\"]*)\"$")
 	public void user_enters_text_in_Disposition_Description_textbox(String dispositionDescriptionValue) {
 		dispositionDescription = dispositionDescriptionValue;
 		defaultHandOffPage.enterDispositionNameTextBox(dispositionDescriptionValue);
+		enteredDispositionName = defaultHandOffPage.getEnterDispositionName();
 	}
 
 	@When("^user selects any option from Next Desposition By dropdown$")
@@ -336,7 +338,7 @@ public class DefaultHandoffStepDef {
 	@Then("^user should be able to view the newly created Disposition in Choose Disposition Type grid with correct data in the columns$")
 	public void user_should_be_able_to_view_the_newly_created_Disposition_in_Choose_Disposition_Type_grid_with_correct_data_in_the_columns() {
 		Assert.assertTrue("Disposition name displayed in the table does not match with one selected",
-				defaultHandOffPage.getTextSavedDispositionName().equals(dispositionDescription));
+				defaultHandOffPage.getTextSavedDispositionName(enteredDispositionName).equals(dispositionDescription));
 		Assert.assertTrue("Disposition followup days displayed in the table does not match with one selected",
 				defaultHandOffPage.getTextSavedDispositionFollowUpDays().equals(dispositionFollowUpDays));
 		Assert.assertTrue("Disposition time limit displayed in the table does not match with one selected",

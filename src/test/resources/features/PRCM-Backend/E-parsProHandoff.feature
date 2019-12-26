@@ -1,4 +1,4 @@
-@E-parsProHandoff
+@EparsProHandoff
 Feature: Verify E-pars pro handoff related testcases in PRCM-BE
 
   Background: 
