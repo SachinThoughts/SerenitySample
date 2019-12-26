@@ -89,11 +89,14 @@ public class PatientInformationStepDef extends PageObject {
 		if (tabName.trim().equals("Patient Address tab")) {
 			patientInformationPage.clickOnPatientAddressTab();
 		}
-		if (tabName.trim().equals("Facility Details tab")) {
+		else if (tabName.trim().equals("Facility Details tab")) {
 			patientInformationPage.clickOnFacilityDetailsTab();
 		}
-		if (tabName.trim().equals("Patient & Visit Details tab")) {
+		else if (tabName.trim().equals("Patient & Visit Details tab")) {
 			patientInformationPage.clickOnPatientAndVisitDetailsTab();
+		}
+		else {
+			Assert.assertTrue("No Tab is visible on page",false);
 		}
 	}
 
