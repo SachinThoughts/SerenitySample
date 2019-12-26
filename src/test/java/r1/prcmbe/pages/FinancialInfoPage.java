@@ -316,10 +316,16 @@ public class FinancialInfoPage extends PageObject {
 		return descCharge;
 	}
 
+	/**
+	 * @return Total charges value 
+	 */
 	public String getTotalCharges() {
 		return totalChargesValue.getText();
 	}
 
+	/**
+	 * @return Expected payment value
+	 */
 	public Object getExpectedPayment() {
 		return expectedPaymentValue.getText();
 	}
