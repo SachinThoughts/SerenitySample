@@ -202,10 +202,10 @@ public class DefaultHandoffPage extends PageObject {
 	@FindBy(id = "BtnLocSearch")
 	private WebElementFacade searchBtn;
 
-	@FindBy(xpath = "//*[@id='LocationGridData']/div[@class='Rows']/div[@class='col'][1]")
+	@FindBy(xpath = "//*[@id='LocationGridData']/div[@class='Rows']/div[@class='col'][position()=1]")
 	private WebElementFacade searchFacilityCode;
 
-	@FindBy(xpath = "//*[@id='LocationGridData']/div[@class='Rows']/div[@class='col'][10]/a")
+	@FindBy(xpath = "//*[@id='LocationGridData']/div[@class='Rows']/div[@class='col'][position()=10]/a")
 	private WebElementFacade searchFacilityViewLink;
 
 	@FindBy(id = "pnlFacilitySettings")
@@ -220,7 +220,7 @@ public class DefaultHandoffPage extends PageObject {
 	@FindBy(id = "BtnFSSearch")
 	private WebElementFacade facilitySettingSearchBtn;
 
-	@FindBy(xpath = "//*[@id='FacilitySettingsGridData']/div[@class='Rows']/div[@class='col'][1]")
+	@FindBy(xpath = "//*[@id='FacilitySettingsGridData']/div[@class='Rows']/div[@class='col'][position()=1]")
 	private WebElementFacade searchFacilitySettingText;
 
 	@FindBy(xpath = "//*[@id='FacilitySettingsGridData']/div[@class='Rows']/div[@title='Update Facility Setting']")
@@ -811,70 +811,121 @@ public class DefaultHandoffPage extends PageObject {
 		visibleToGrpAHtoDecisionChkBox.click();
 	}
 
+	/**
+	 * @return get the Title text for Facility Setting Configuration
+	 */
 	public String getFacilitySettingConfigTitle() {
 		return facilitySettingConfigTitle.getText();
 	}
 
+	/**
+	 * @param searchValue: Select value for Search
+	 */
 	public void selectTextSearchDrpdwn(String searchValue) {
 		searchDrpdwn.selectByVisibleText(searchValue);
 	}
 
+	/**
+	 * @param value : Enter value for Search
+	 */
 	public void enterSearchTxtBox(String value) {
 		searchTxtBox.type(value);
 	}
 
+	/**
+	 * click Search button
+	 */
 	public void clickSearchBtn() {
 		searchBtn.click();
 	}
 
+	/**
+	 * @return Search Facility Code
+	 */
 	public String getSearchFacilityCode() {
 		return searchFacilityCode.getText();
 	}
 
+	/**
+	 * click on Search Facility View link
+	 */
 	public void clickSearchFacilityViewLink() {
 		searchFacilityViewLink.click();
 	}
 
+	/**
+	 * @return true if Search Facility Setting Grid is visible else false
+	 */
 	public boolean isSearchFacilitySettingGridVisible() {
 		return searchFacilitySettingGrid.isVisible();
 	}
 
+	/**
+	 * @param searchValue: For FacilitySettingSearch dropdown
+	 */
 	public void selectTextFSSearchDrpdwn(String searchValue) {
 		facilitySettingSearchDrpdwn.selectByVisibleText(searchValue);
 	}
 
+	/**
+	 * @param value : For FacilitySettingSearch dropdown
+	 */
 	public void enterFSSearchTxtBox(String value) {
 		facilitySettingSearchTxtBox.type(value);
 	}
 
+	/**
+	 * click facility Setting Search Button
+	 */
 	public void clickFSSearchBtn() {
 		facilitySettingSearchBtn.click();
 	}
 
+	/**
+	 * click Facility Setting Edit button
+	 */
 	public void clickSearchFSEditIcon() {
 		searchFSEditIcon.click();
 	}
 
+	/**
+	 * @return text value for search Facility
+	 */
 	public String getSearchFacilitySettingText() {
 		return searchFacilitySettingText.getText();
 	}
 
+	/**
+	 * @return true if Facility Setting Details popup is visible else false
+	 */
 	public boolean isFSDetailsPopupVisible() {
 		return facilitySettingDetailsPopup.isVisible();
 	}
 
+	/**
+	 * @return Setting Value Text data
+	 */
 	public String getSettingValueTxtArea() {
 		return evaluateJavascript("return document.querySelector('#txtSettingValue').value").toString();
 	}
 
+	/**
+	 * @param settingValue: append value at the end of the data values in the textbox
+	 */
 	public void updateSettingValueTxtArea(String settingValue) {
 		settingValueTxtArea.type(getSettingValueTxtArea() + settingValue);
 	}
 
+	/**
+	 * click Update Setting Button
+	 */
 	public void clickUpdateSettingValueBtn() {
 		updateSettingValueBtn.click();
 	}
 
+	/**
+	 * @return second Last value in AHtoDecision Admin Workflow
+	 */
 	public String getSecondLastAHtoDecisionAdminWorkflow() {
 		return listOfAHtoDecisionAdminWorkflows.get(listOfAHtoDecisionAdminWorkflows.size() - 2).getText();
 	}
@@ -972,10 +1023,16 @@ public class DefaultHandoffPage extends PageObject {
 		return popupValList;
 	}
 
+	/**
+	 * @return Created Date for Handoff
+	 */
 	public String getCreatedDate() {
 		return createdDateOnPopup.getText();
 	}
 
+	/**
+	 * @return Followup Date for Handoff
+	 */
 	public String getFollowupDate() {
 		return followupDateOnPopup.getText();
 	}
