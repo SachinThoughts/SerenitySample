@@ -55,7 +55,7 @@ public class DefaultHandoffPage extends PageObject {
 	@FindBy(id = "addAHModuleCode")
 	private WebElementFacade ahModuleCodeTextBox;
 
-	@FindBy(xpath = "//div[@class='fs-label']")
+	@FindBy(className = "fs-label")
 	private WebElementFacade visibleToGroupDD;
 
 	@FindBy(xpath = "//*[@id='addHandoff']//span//strong[text()='Info']")
