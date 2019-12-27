@@ -5,12 +5,13 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.serenitybdd.core.pages.PageObject;
 import net.thucydides.core.annotations.Step;
 import r1.commons.databaseconnection.DatabaseConn;
 import r1.commons.utilities.CommonMethods;
 import r1.prcmbe.pages.AccountDocumentPage;
 
-public class AccountDocumentSteps {
+public class AccountDocumentSteps extends PageObject{
 
 	AccountDocumentPage decisionAccntDocumentPage;
 	CommonMethods commonMethods;
@@ -20,6 +21,10 @@ public class AccountDocumentSteps {
 
 	static String dbFileName = "AccountDocument";
 
+	/**
+	 * This method verify the ColourCode For Text Message 
+	 * @return boolean value based on verification
+	 */
 	@Step
 	public boolean verifyColourCodeForTextMsg() {
 		List<String> listOfColourVal;
@@ -32,6 +37,11 @@ public class AccountDocumentSteps {
 		return true;
 	}
 
+	/**
+	 * This method verify the UploadedDocument Title
+	 * @param documentTitle for verification
+	 * @return boolean value based on verification
+	 */
 	@Step
 	public boolean verifyUploadedDocsTitle(String documentTitle) {
 		String actualTitle;
@@ -47,8 +57,13 @@ public class AccountDocumentSteps {
 		return false;
 	}
 
+	/**
+	 * This method checks whether the Document is downloaded On System
+	 * @param Takes two parameter : fileName and timeout
+	 * @return boolean value based on presence of file
+	 */
 	@Step
-	public boolean isDocumentDownloadedOnSystem(String fileName, int timeOut) throws InterruptedException {
+	public boolean isDocumentDownloadedOnSystem(String fileName, int timeOut){
 		String userName = System.getProperty("user.name");
 		File folder = new File("\\\\R1-UEM-1.accretivehealth.local\\redirection$\\" + userName + "\\Downloads");
 		File[] listOfFiles = folder.listFiles();
@@ -58,12 +73,16 @@ public class AccountDocumentSteps {
 					return true;
 				}
 			}
-			Thread.sleep(500);
+			waitABit(500);
 			listOfFiles = folder.listFiles();
 		}
 		return false;
 	}
 
+	/**
+	 * This method delete the file from the System
+	 * @param Takes fileName as parameter to delete
+	 */
 	public void deleteFileFromSystem(String fileName) {
 		String userName = System.getProperty("user.name");
 		File folder = new File("\\\\R1-UEM-1.accretivehealth.local\\redirection$\\" + userName + "\\Downloads");
@@ -75,6 +94,11 @@ public class AccountDocumentSteps {
 		}
 	}
 
+	/**
+	 * This method store the database value in List
+	 * @param Takes two parameter :queryVal and columnName
+	 * @return List of Value from Database
+	 */
 	@Step("Retrieves List Of value from database for given query")
 	public List<String> fetchListOfValFromDb(String queryVal, String columnName)
 			throws ClassNotFoundException, SQLException {

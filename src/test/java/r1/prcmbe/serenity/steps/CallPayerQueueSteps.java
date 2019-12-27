@@ -15,7 +15,7 @@ public class CallPayerQueueSteps {
 	public boolean isRemovedAccountFromCallQueueVisible(String removedInvoice) {
 		searchPage.enterInvoiceNumber(removedInvoice);
 		searchPage.clickSubmitBtn();
-		return removedInvoice.equals(searchPage.getInvoiceID());
+		return removedInvoice.equals(searchPage.getInvoiceNumber());
 	}
 
 	@Step

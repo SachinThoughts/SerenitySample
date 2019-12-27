@@ -40,9 +40,6 @@ public class SearchPage extends PageObject {
 	@FindBy(xpath = "//div[@id='visit']//h4[text()='Patient & Visit Details']")
 	private WebElementFacade patientAndVisit;
 
-	@FindBy(xpath = "//*[@id='lblInvoiceNo']")
-	private WebElementFacade invoiceID;
-
 	@FindBy(xpath = "//head/title")
 	WebElementFacade searchPageTitle;
 
@@ -116,6 +113,9 @@ public class SearchPage extends PageObject {
 		return evaluateJavascript(titleJS).toString();
 	}
 
+	/**
+	 * @return Text validation message when accounts are not present
+	 */
 	public String getNoAccountsMessage() {
 		return noAccountsMessage.getText();
 	}
@@ -191,10 +191,16 @@ public class SearchPage extends PageObject {
 		return index;
 	}
 
+	/**
+	 * Clicking on Searched invoice number open on searched account table
+	 */
 	public void clickSearchInvoiceID() {
 		listOfSearchedInvoiceId.get(getFacilityIndex()).click();
 	}
 
+	/**
+	 * @return Taking facility code after login
+	 */
 	public String getFacilityCodeText() {
 		return evaluateJavascript(facilityCodeJS).toString();
 	}
@@ -207,10 +213,6 @@ public class SearchPage extends PageObject {
 		return patientAndVisit.isVisible();
 	}
 
-	public String getInvoiceID() {
-		return invoiceID.withTimeoutOf(Duration.ofSeconds(20)).waitUntilVisible().getText();
-	}
-
 	/**
 	 * @return Text of default selected option of search by drop down
 	 */
@@ -218,6 +220,9 @@ public class SearchPage extends PageObject {
 		return searchByDropdown.getSelectedVisibleTextValue();
 	}
 
+	/**
+	 * @return invoiceNumber Visibility of invoice number text field
+	 */
 	public boolean isInvoiceNumberTxtFieldVisible() {
 		return invoiceNumberTxtField.isVisible();
 	}
@@ -509,4 +514,5 @@ public class SearchPage extends PageObject {
 	public void waitForSpinnerToDisappear() {
 		loadingSpinner.withTimeoutOf(Duration.ofSeconds(80)).waitUntilNotVisible();
 	}
+
 }
