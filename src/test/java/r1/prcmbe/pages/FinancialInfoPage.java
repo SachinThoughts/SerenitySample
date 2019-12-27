@@ -12,16 +12,16 @@ public class FinancialInfoPage extends PageObject {
 	@FindBy(id = "patFI")
 	private WebElementFacade financialInfoSection;
 
-	@FindBy(xpath = "//*[@id='financialAccordNoDetail']/div[1]/h3/span/span[1]/h5/span")
+	@FindBy(xpath = "//div[@id='financialAccordNoDetail']/div[1]//span[1]/h5/span")
 	private List<WebElementFacade> totalBalance;
 
-	@FindBy(xpath = "//*[@id='financialAccordNoDetail']/div[2]/h3/span/span[1]/h5/span")
+	@FindBy(xpath = "//div[@id='financialAccordNoDetail']/div[2]//span[1]/h5/span")
 	private List<WebElementFacade> insuranceBalance;
 
-	@FindBy(xpath = "//*[@id='financialAccordNoDetail']/div[3]/h3/span/span[1]/h5/span")
+	@FindBy(xpath = "//*[@id='financialAccordNoDetail']/div[3]//span[1]/h5/span")
 	private List<WebElementFacade> patientBalance;
 
-	@FindBy(xpath = "//div[@id='financialAccordNoDetail']/div[position()=4]/div//span[position()=1]/h5/span")
+	@FindBy(xpath = "//div[@id='financialAccordNoDetail']/div[4]//span[1]/h5/span")
 	private List<WebElementFacade> unbilledBalance;
 
 	@FindBy(xpath = "//*[@id='accordion']/div[1]/h3/a/span[1]/h5/span")
@@ -45,9 +45,6 @@ public class FinancialInfoPage extends PageObject {
 	@FindBy(id = "financialInfoPanel")
 	private WebElementFacade financialInfoPanel;
 
-	@FindBy(id = "onloadsearchBtn")
-	private WebElementFacade submitBtn;
-
 	@FindBy(xpath = "//a/descendant::span[text()='Adjustments']/ancestor::a/i")
 	private WebElementFacade adjustmentScrollArrow;
 
@@ -69,7 +66,7 @@ public class FinancialInfoPage extends PageObject {
 	@FindBy(id = "lblTotalAdjustment")
 	private WebElementFacade totalAdjustments;
 
-	@FindBy(xpath = "//*[@id='accordion']//a[@onclick='callChargeDetailsService();return false;']//i")
+	@FindBy(xpath = "//a/descendant::span[text()='Total']/ancestor::a/i")
 	private WebElementFacade totalChargesScrollArrow;
 
 	@FindBy(xpath = "//*[@id='divTotalCharges']/table/thead/tr/th")
@@ -120,8 +117,13 @@ public class FinancialInfoPage extends PageObject {
 	@FindBy(id = "lblUnbilledBalance")
 	private WebElementFacade unbilledBalanceAmount;
 
+	/**
+	 * Checks Financial information headers are visible
+	 * @param expectedHeaders of financial information
+	 * @return true or false depending on header visibility
+	 */
 	public boolean isFinanceInfoHeadersVisible(List<String> expectedHeaders) {
-		return getFinInfoHeaderAttributes().containsAll(expectedHeaders);
+		return getFinancialInfoHeaders().containsAll(expectedHeaders);
 	}
 
 	/**
@@ -133,27 +135,31 @@ public class FinancialInfoPage extends PageObject {
 		}
 	}
 
-	public List<String> getFinInfoHeaderAttributes() {
-		List<String> financeInfoHeadersVisibleAttributes = new ArrayList<>();
-		financeInfoHeadersVisibleAttributes
+	/**
+	 * Fetches list of Financial Info Headers
+	 * @return list of headers
+	 */
+	public List<String> getFinancialInfoHeaders() {
+		List<String> financialInfoHeaders = new ArrayList<>();
+		financialInfoHeaders
 				.add(totalBalance.get(0).getText().trim().concat(" " + totalBalance.get(1).getText().trim()));
-		financeInfoHeadersVisibleAttributes
+		financialInfoHeaders
 				.add(insuranceBalance.get(0).getText().trim().concat(" " + insuranceBalance.get(1).getText().trim()));
-		financeInfoHeadersVisibleAttributes
+		financialInfoHeaders
 				.add(patientBalance.get(0).getText().trim().concat(" " + patientBalance.get(1).getText().trim()));
-		financeInfoHeadersVisibleAttributes
+		financialInfoHeaders
 				.add(unbilledBalance.get(0).getText().trim().concat(" " + unbilledBalance.get(1).getText().trim()));
-		financeInfoHeadersVisibleAttributes
+		financialInfoHeaders
 				.add(totalCharges.get(0).getText().trim().concat(" " + totalCharges.get(1).getText().trim()));
-		financeInfoHeadersVisibleAttributes
+		financialInfoHeaders
 				.add(expectedPayment.get(0).getText().trim().concat(" " + expectedPayment.get(1).getText().trim()));
-		financeInfoHeadersVisibleAttributes
+		financialInfoHeaders
 				.add(insurancePayments.get(0).getText().trim().concat(" " + insurancePayments.get(1).getText().trim()));
-		financeInfoHeadersVisibleAttributes
+		financialInfoHeaders
 				.add(patientPayments.get(0).getText().trim().concat(" " + patientPayments.get(1).getText().trim()));
-		financeInfoHeadersVisibleAttributes.add(adjustments.get(1).getText().trim());
+		financialInfoHeaders.add(adjustments.get(1).getText().trim());
 
-		return financeInfoHeadersVisibleAttributes;
+		return financialInfoHeaders;
 	}
 
 	/**
@@ -174,10 +180,6 @@ public class FinancialInfoPage extends PageObject {
 		}
 	}
 
-	public void clickSubmitBtn() {
-		submitBtn.click();
-	}
-
 	/**
 	 * Clicks and expand Adjustments field
 	 */
@@ -185,6 +187,10 @@ public class FinancialInfoPage extends PageObject {
 		evaluateJavascript("arguments[0].click();", adjustmentScrollArrow);
 	}
 
+	/**
+	 * Fetches Adjustments table headers
+	 * @return list of Adjustments table header values
+	 */
 	public List<String> getAdjustmentTableHeaders() {
 		withAction().moveToElement(firstRowOfAdjustmentTable).build().perform();
 		List<String> listOfTextValuesOfAdjustmentTableHeaders = new ArrayList<>();
@@ -195,6 +201,10 @@ public class FinancialInfoPage extends PageObject {
 		return listOfTextValuesOfAdjustmentTableHeaders;
 	}
 
+	/**
+	 * Fetches Adjustments table data in a list
+	 * @return list of adjustments table data
+	 */
 	public List<String> getAdjustmentTableData() {
 		List<String> listOfTextValuesOfAdjustmentTableData = new ArrayList<>();
 		for (WebElementFacade adjustmentTableData : listOfAdjustmentTableData) {
@@ -215,6 +225,9 @@ public class FinancialInfoPage extends PageObject {
 		withAction().moveToElement(totalBalanceColumn).build().perform();
 	}
 
+	/**
+	 * @return total balance value
+	 */
 	public String getTotalBalanceData() {
 		return totalBalanceData.getText().trim().replace("$", "").replace(",", "").replace("(", "-").replace(")", "");
 	}
@@ -226,11 +239,17 @@ public class FinancialInfoPage extends PageObject {
 		return totalAdjustments.getText();
 	}
 
+	/**
+	 * Expands Total charges by clicking on expand icon
+	 */
 	public void expandTotalCharges() {
 		withAction().moveToElement(totalChargesScrollArrow).build().perform();
 		evaluateJavascript("arguments[0].click();", totalChargesScrollArrow);
 	}
 
+	/**
+	 * @return list of total charges table header values
+	 */
 	public List<String> getTotalChargesTableHeaders() {
 		List<String> listOfTextValuesOfTotalChargesTableHeaders = new ArrayList<>();
 		for (WebElementFacade totalChargesTableHeader : listOfTotalChargesTableHeaders) {
@@ -240,6 +259,9 @@ public class FinancialInfoPage extends PageObject {
 		return listOfTextValuesOfTotalChargesTableHeaders;
 	}
 
+	/**
+	 * @return list of Service date under total charges
+	 */
 	public List<String> getServiceDateList() {
 		List<String> dateService = new ArrayList<>();
 		for (WebElementFacade element : serviceDate) {
@@ -248,6 +270,9 @@ public class FinancialInfoPage extends PageObject {
 		return dateService;
 	}
 
+	/**
+	 * @return list of Posting date under total charges
+	 */
 	public List<String> getPostingDateList() {
 		List<String> datePosting = new ArrayList<>();
 		for (WebElementFacade element : chargePostingDate) {
@@ -256,6 +281,9 @@ public class FinancialInfoPage extends PageObject {
 		return datePosting;
 	}
 
+	/**
+	 * @return list of UB Rev code values under total charges
+	 */
 	public List<String> getUBRevCodeList() {
 		List<String> code = new ArrayList<>();
 		for (WebElementFacade element : ubRevCode) {
@@ -264,6 +292,9 @@ public class FinancialInfoPage extends PageObject {
 		return code;
 	}
 
+	/**
+	 * @return list of Revenue code values under total charges
+	 */
 	public List<String> getRevenueCodeList() {
 		List<String> revenueCodes = new ArrayList<>();
 		for (WebElementFacade element : revenueCenterCode) {
@@ -272,6 +303,9 @@ public class FinancialInfoPage extends PageObject {
 		return revenueCodes;
 	}
 
+	/**
+	 * @return list of Cpt code values under total charges
+	 */
 	public List<String> getCptCodeList() {
 		List<String> cptCodes = new ArrayList<>();
 		for (WebElementFacade element : cptCode) {
@@ -280,6 +314,9 @@ public class FinancialInfoPage extends PageObject {
 		return cptCodes;
 	}
 
+	/**
+	 * @return list of Number of units under total charges
+	 */
 	public List<String> getNoOfUnitsList() {
 		List<String> units = new ArrayList<>();
 		for (WebElementFacade element : noOfUnits) {
@@ -288,6 +325,9 @@ public class FinancialInfoPage extends PageObject {
 		return units;
 	}
 
+	/**
+	 * @return list of Total charges values
+	 */
 	public List<String> getTotalChargesInDetailsList() {
 		List<String> charges = new ArrayList<>();
 		for (WebElementFacade element : totalCharge) {
@@ -296,6 +336,9 @@ public class FinancialInfoPage extends PageObject {
 		return charges;
 	}
 
+	/**
+	 * @return list of Charge item code values under total charges
+	 */
 	public List<String> getChargeItemCodeList() {
 		List<String> itemCodes = new ArrayList<>();
 		for (WebElementFacade element : chargeItemCode) {
@@ -304,6 +347,9 @@ public class FinancialInfoPage extends PageObject {
 		return itemCodes;
 	}
 
+	/**
+	 * @return list of Charge description under total charges
+	 */
 	public List<String> getChargeDescList() {
 		List<String> descCharge = new ArrayList<>();
 		int size = chargeDesc.size();

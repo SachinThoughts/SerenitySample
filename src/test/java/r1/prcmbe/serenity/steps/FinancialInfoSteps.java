@@ -81,6 +81,12 @@ public class FinancialInfoSteps extends PageObject {
 		return decimalFormat.format(Float.parseFloat(value)).toString();
 	}
 
+	/**
+	 * This method compares data in Total charges table from UI and Database 
+	 * @return list of values which does not match from UI and Database
+	 * @throws SQLException
+	 * @throws ParseException
+	 */
 	@Step
 	public List<Object> verifyTotalChargesDbValuesWithUI() throws SQLException, ParseException {
 		List<Object> listOfVal = new ArrayList<>();
