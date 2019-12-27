@@ -50,7 +50,7 @@ public class PRCMSaveStepDef {
 
 	@When("^user clicks on Next button after selecting any step$")
 	public void user_clicks_on_Next_button_after_selecting_any_step() {
-		defectWorkflowPage.clickSOPActionOnTriagePage();
+		defectWorkflowPage.clickSOPActionOnTriageSection();
 		defectWorkflowPage.clickOnNextButtonOnTriagePage();
 	}
 
@@ -63,24 +63,24 @@ public class PRCMSaveStepDef {
 	@Then("^user should be able to view the bar move to Action$")
 	public void user_should_be_able_to_view_the_bar_move_to_Action() {
 		Assert.assertTrue("User is not able to view the bar moved to Action",
-				defectWorkflowPage.getActionTabColourVal().trim().equals(tabColorOnDefectWrkflwSection));
+				tabColorOnDefectWrkflwSection.equals(defectWorkflowPage.getActionTabColourVal().trim()));
 	}
 
 	@When("^user selects checkbox from Verify All Steps Taken checkboxes$")
 	public void user_selects_checkbox_from_Verify_All_Steps_Taken_checkboxes() {
-		defectWorkflowPage.clickSOPActionOnTriagePage();
+		defectWorkflowPage.clickSOPActionOnTriageSection();
 	}
 
 	@When("^user selects checkbox from Steps Taken checkboxes$")
 	public void user_selects_checkbox_from_Steps_Taken_checkboxes() {
-		defectWorkflowPage.clickSOPActionOnActionPage();
+		defectWorkflowPage.clickSOPActionOnActionSection();
 	}
 
 	@Then("^user should be able to view the message \"([^\"]*)\"$")
 	public void user_should_be_able_to_view_the_message(String expectedMsg) {
 		String actualSuccessMsg = defectWorkflowPage.getSuccessMessage();
 		Assert.assertTrue("User is not able to view the expected message . Actual Message :" + actualSuccessMsg,
-				actualSuccessMsg.equals(expectedMsg));
+				expectedMsg.equals(actualSuccessMsg));
 	}
 
 	@When("^user clicks on A2D Save button$")
