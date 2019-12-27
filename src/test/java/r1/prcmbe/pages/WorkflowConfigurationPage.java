@@ -408,7 +408,7 @@ public class WorkflowConfigurationPage extends PageObject {
 	@FindBy(id = "txtdispositionDescription")
 	private WebElementFacade dispositionNameTextBox;
 
-	@FindBy(xpath = "//select[@id='dnn_ctr1590_TaskPanel_taskBase_WorkflowDisposition_ddldispositionTarget']")
+	@FindBy(xpath = "//*[@id='dnn_ctr1590_TaskPanel_taskBase_WorkflowDisposition_ddldispositionTarget']")
 	private WebElementFacade nextDispositionByDropdown;
 
 	@FindBy(xpath = "//*[@class='more-info workflowConfigdetailsInfo']//span[text()='Created Date']/following-sibling::span")
@@ -766,19 +766,33 @@ public class WorkflowConfigurationPage extends PageObject {
 
 	}
 
+	/**
+	 * Method enters the random string in the Disposition textbox
+	 * 
+	 * @return text value from the textbox
+	 */
 	public String enterAndGetDispositionNotes() {
 		dispositionNotes.type(RandomStringUtils.randomAlphabetic(6));
 		return dispositionNotes.getText();
 	}
 
+	/**
+	 * Method clicks on the save button on the Disposition popup
+	 */
 	public void clickSaveChangesBtn() {
 		saveChangesBtn.click();
 	}
 
+	/**
+	 * Method clicks on the close button on Disposition
+	 */
 	public void clickDispositionPopupClose() {
 		dispositionPopupClose.click();
 	}
 
+	/**
+	 * Method clicks on the continue on Action Type page
+	 */
 	public void clickContinueBtnOnActionTypeTab() {
 		continueBtnOnActionTypeTab.click();
 	}
@@ -1268,6 +1282,12 @@ public class WorkflowConfigurationPage extends PageObject {
 		return createdDateRecipient.getText();
 	}
 
+	/**
+	 * Method clicks on the specified radio button on Recipient Page
+	 * 
+	 * @param recipientName
+	 *            name is passed from the feature file
+	 */
 	public void clickSpecificRecipientRadioBtn(String recipientName) {
 		int size = listOfRecipientsName.size();
 		for (int i = 0; i < size; i++) {
@@ -1333,18 +1353,34 @@ public class WorkflowConfigurationPage extends PageObject {
 		}
 	}
 
+	/**
+	 * 
+	 * @return created date text
+	 */
 	public String getActionCreatedDate() {
 		return actionCreatedDate.getText();
 	}
 
+	/**
+	 * 
+	 * @return Create by text
+	 */
 	public String getActionCreatedBy() {
 		return actionCreatedBy.getText();
 	}
 
+	/**
+	 * 
+	 * @return updated date text
+	 */
 	public String getActionUpdatedDate() {
 		return actionUpdatedDate.getText();
 	}
 
+	/**
+	 * 
+	 * @return updated by text
+	 */
 	public String getActionUpdatedBy() {
 		if (actionUpdatedBy.isVisible()) {
 			return actionUpdatedBy.getText();
@@ -1353,6 +1389,10 @@ public class WorkflowConfigurationPage extends PageObject {
 		}
 	}
 
+	/**
+	 * 
+	 * @return error message text on Edit/Add Action popup
+	 */
 	public String getErrorMsgOnActionPopup() {
 		withAction().moveToElement(errorMsgForEmptyFieldsOnActionPopup).build().perform();
 		String expectedMEssage = errorMsgForEmptyFieldsOnActionPopup.withTimeoutOf(Duration.ofSeconds(20))
@@ -1361,6 +1401,11 @@ public class WorkflowConfigurationPage extends PageObject {
 
 	}
 
+	/**
+	 * 
+	 * @param actionName
+	 * @return boolean value based on visibility of new Action type
+	 */
 	public boolean isNewlyAddedActionVisibleInGrid(String actionName) {
 		int size = listOfActionNames.size();
 		for (int i = 0; i < size; i++) {
@@ -1371,22 +1416,42 @@ public class WorkflowConfigurationPage extends PageObject {
 		return false;
 	}
 
+	/**
+	 * 
+	 * @return boolean value based on the visisbility of Disposition tab
+	 */
 	public boolean isDispositionTabVisible() {
 		return dispositionTab.isVisible();
 	}
 
+	/**
+	 * 
+	 * @return Disposition tab colour
+	 */
 	public String getDispositionTabColor() {
 		return dispositionTab.getCssValue(backgroundColour);
 	}
 
+	/**
+	 * 
+	 * @return first disposition name
+	 */
 	public String getFirstDispositionName() {
 		return firstDispositionName.getText();
 	}
 
+	/**
+	 * 
+	 * @return disposition name from the bread crumb
+	 */
 	public String getDispositionBreadCrumbValue() {
 		return dispositionBreadCrumb.getText();
 	}
 
+	/**
+	 * 
+	 * @return text from Disposition button
+	 */
 	public List<String> getDispositionButtonText() {
 		List<String> dispositionBtnText = new ArrayList<>();
 		for (WebElementFacade dispositionBtn : dispositionChooseGridButtons) {
@@ -1395,30 +1460,57 @@ public class WorkflowConfigurationPage extends PageObject {
 		return dispositionBtnText;
 	}
 
+	/**
+	 * 
+	 * @return boolean value if save btn is disable
+	 */
 	public boolean isSaveConfigBtnOnDispositionTabDisabled() {
 		return dispositionSaveConfigBtn.isDisabled();
 	}
 
+	/**
+	 * 
+	 * @return count of Disposition names
+	 */
 	public int getDispositionNameCount() {
 		return dispositionNameList.size();
 	}
 
+	/**
+	 * 
+	 * @return count of disposition edit links
+	 */
 	public int getDispositionEditLinksCount() {
 		return dispositionEditLinkList.size();
 	}
 
+	/**
+	 * 
+	 * @return count of disposition details link
+	 */
 	public int getDispositionDetailsLinkCount() {
 		return dispositionDetailsLinkList.size();
 	}
 
+	/**
+	 * 
+	 * @return count of reorder links
+	 */
 	public int getDispositionReorderLinksCount() {
 		return dispositionReorderLinksList.size();
 	}
 
+	/**
+	 * Method clicks on the first Disposition
+	 */
 	public void clickFirstDispositionDetailsLink() {
 		evaluateJavascript("arguments[0].click();", dispositionDetailsLinkList.get(0));
 	}
 
+	/**
+	 * 
+	 * @return the the headers when details btn is clicked
+	 */
 	public List<String> getDispositionDetailsColumnNamesList() {
 		List<String> columnNames = new ArrayList<>();
 		for (WebElementFacade columnName : dispositionDetailsColumnList) {
@@ -1427,18 +1519,33 @@ public class WorkflowConfigurationPage extends PageObject {
 		return columnNames;
 	}
 
+	/**
+	 * Method click on details link
+	 */
 	public void clickExpandedDetailsLinkOnDispositionTab() {
 		expandedDispositionDetailsLink.click();
 	}
 
+	/**
+	 * 
+	 * @return boolean value if disposition section is expanded
+	 */
 	public boolean isDispositionDetailsCollapsed() {
 		return expandedDispositionDetailsLink.isVisible();
 	}
 
+	/**
+	 * 
+	 * @return boolean value on presence of Disposition section
+	 */
 	public boolean isDispositionDetailsSectionVisible() {
 		return dispositionDetailsSection.isVisible();
 	}
 
+	/**
+	 * 
+	 * @return column header names
+	 */
 	public List<String> getDispositionGridHeaderList() {
 		List<String> headerList = new ArrayList<String>();
 		for (WebElementFacade dispositionHeader : listOfDispositionHeader) {
@@ -1629,11 +1736,20 @@ public class WorkflowConfigurationPage extends PageObject {
 		return actionNameOnActionTypeTab.getText().trim();
 	}
 
+	/**
+	 * Method moves to Ar Supervisior
+	 */
 	public void clickArSupervisorRadioBtn() {
 		withAction().moveToElement(arSupervisorRadioBtn).build().perform();
 		arSupervisorRadioBtn.click();
 	}
 
+	/**
+	 * Method clicks on the specified Action name
+	 * 
+	 * @param actionType
+	 *            is passed from the feature
+	 */
 	public void clickSpecificActionTypeRadioBtn(String actionType) {
 		int size = actionTypeList.size();
 		for (index = 0; index < size; index++) {
@@ -1644,6 +1760,12 @@ public class WorkflowConfigurationPage extends PageObject {
 		}
 	}
 
+	/**
+	 * Method clicks on the specified Disposition Name
+	 * 
+	 * @param dispositionType
+	 *            is passed from the feature file
+	 */
 	public void clickSpecificEditDispositionTypeBtn(String dispositionType) {
 		successMsg.withTimeoutOf(Duration.ofSeconds(20)).waitUntilNotVisible();
 		int size = dispositionTypeList.size();
@@ -1655,23 +1777,44 @@ public class WorkflowConfigurationPage extends PageObject {
 		}
 	}
 
+	/**
+	 * 
+	 * @return boolean value based on the visibility of Edit popup
+	 */
 	public boolean isEditDispositionPopupVisible() {
 		return editDispositionPopupHeader.isVisible();
 	}
 
+	/**
+	 * Method clicks on Save btn on Disposition popup
+	 */
 	public void clickSaveChangesBtnOnDispositionPopUp() {
 		saveChangesBtnDispositionPopUp.click();
 	}
 
+	/**
+	 * 
+	 * @return text value on the Disposition notes textbox
+	 */
 	public String getDispositionNotes() {
 		dispositionNotes.type(RandomStringUtils.randomAlphabetic(6));
 		return dispositionNotes.getText();
 	}
 
+	/**
+	 * 
+	 * @return success message on saving a Disposition
+	 */
 	public String getSuccessMessage() {
 		return successMessage.getText();
 	}
 
+	/**
+	 * Method clicks on the specified edit link
+	 * 
+	 * @param actionType
+	 *            passed from feature file
+	 */
 	public void clickSpecificActionTypeEditLink(String actionType) {
 		int size = actionTypeList.size();
 		for (index = 0; index < size; index++) {
@@ -1683,6 +1826,13 @@ public class WorkflowConfigurationPage extends PageObject {
 
 	}
 
+	/**
+	 * Method verifies the Editable controls on Action popup
+	 * 
+	 * @param listOfFields
+	 *            passed from the fearure file
+	 * @return list of text values of controls
+	 */
 	public List<Object> verifyEditActionPopupControlsVisible(List<String> listOfFields) {
 		List<Object> listOfVal = new ArrayList<>();
 		int count = 0;
@@ -1712,6 +1862,11 @@ public class WorkflowConfigurationPage extends PageObject {
 		return listOfVal;
 	}
 
+	/**
+	 * Method verifies if Values are pre populated
+	 * 
+	 * @return list of text values from the fields
+	 */
 	public List<Object> verifyEditActionPopupPrePopulated() {
 		List<Object> listOfVal = new ArrayList<>();
 		int count = 0;
@@ -1753,24 +1908,45 @@ public class WorkflowConfigurationPage extends PageObject {
 		return listOfVal;
 	}
 
+	/**
+	 * Method clicks on the Respond DEadline on Action popup
+	 */
 	public void clickRespondDeadline() {
 		respondDeadlineOnEditActionPopUp.click();
 	}
 
+	/**
+	 * 
+	 * @return the text value of Respond Deadline field
+	 */
 	public String enterAndGetRandomValueRespondDeadline() {
 		respondDeadlineOnEditActionPopUp.type(RandomStringUtils.randomNumeric(1));
 		return respondDeadlineOnEditActionPopUp.getTextValue();
 	}
 
+	/**
+	 * Method clicks on Save button on Edit Action Popup
+	 */
 	public void clickSaveChangesBtnEditActionPopup() {
 		saveChangesBtnOnPopUp.click();
 
 	}
 
+	/**
+	 * 
+	 * @return the
+	 */
 	public boolean isEditActionPopupVisible() {
 		return editActionPopUpHeader.isVisible();
 	}
 
+	/**
+	 * Method gets TimeLimit of particulat Action Type
+	 * 
+	 * @param actionType
+	 *            is passed from feature file
+	 * @return the text value of Time Limit
+	 */
 	public String getSpecificTimeLimitValueInActionTypeGrid(String actionType) {
 		int size = actionTypeList.size();
 		for (index = 0; index < size; index++) {
@@ -1781,16 +1957,10 @@ public class WorkflowConfigurationPage extends PageObject {
 		return listOfTimeLimitInActionTypeGrid.get(index).getText();
 	}
 
-	public void clickSpecificActionTypeDetailsLink(String actionType) {
-		int size = actionTypeList.size();
-		for (index = 0; index < size; index++) {
-			if (actionTypeList.get(index).getText().equals(actionType)) {
-				evaluateJavascript("arguments[0].click();", listOfDetailsLinkActionTypeTab.get(index));
-				break;
-			}
-		}
-	}
-
+	/**
+	 * 
+	 * @return the text of Action type status
+	 */
 	public List<String> getActionTypeStatusListText() {
 		List<String> statusList = new ArrayList<>();
 		for (WebElementFacade element : actionTypeStatusList) {
@@ -1804,4 +1974,3 @@ public class WorkflowConfigurationPage extends PageObject {
 		writeOffRadioBtn.click();
 	}
 }
-
