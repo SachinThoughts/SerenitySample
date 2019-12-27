@@ -130,6 +130,9 @@ public class NavigationPage extends PageObject {
 		facilityDropdown.selectByVisibleText(facilityName);
 	}
 
+	/**
+	 * This method clicks on Billing And FollowUp Link
+	 */
 	public void clickOnBillingAndFollowUpLink() {
 		withAction().moveToElement(billingAndFollowUpLink).click().build().perform();
 	}

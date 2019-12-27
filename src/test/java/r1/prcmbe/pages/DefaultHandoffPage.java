@@ -12,7 +12,7 @@ import net.serenitybdd.core.annotations.findby.FindBy;
 public class DefaultHandoffPage extends PageObject {
 
 	String workflowName, getDispositionStatus;
-
+	int i;
 	@FindBy(xpath = "//h3[@class='panel-title']")
 	private WebElementFacade defaultHandOffPageTitle;
 
@@ -61,7 +61,7 @@ public class DefaultHandoffPage extends PageObject {
 	@FindBy(xpath = "//*[@id='addHandoff']//span//strong[text()='Info']")
 	private WebElementFacade addHandOffInfoMessage;
 
-	@FindBy(xpath = "(//label[@for='addHandoffActive'])[position()=2]")
+	@FindBy(xpath = "//label[text()='Activate Handoff']/following::label[@for='addHandoffActive']")
 	private WebElementFacade activateHandOffCheckBox;
 
 	@FindBy(xpath = "(//div//span[@class='fs-checkbox'])[position()=1]")
@@ -179,6 +179,7 @@ public class DefaultHandoffPage extends PageObject {
 	private WebElementFacade savedDispositionName;
 
 	@FindBy(xpath = "(//*[@id='WorkflowTypeDispositionSorttable'])[last()]/li[last()]/div[position()=4]/span")
+
 	private WebElementFacade savedDispositionFollowUpDays;
 
 	@FindBy(xpath = "(//*[@id='WorkflowTypeDispositionSorttable'])/li[last()]/div[position()=5]/span")
@@ -186,6 +187,9 @@ public class DefaultHandoffPage extends PageObject {
 
 	@FindBy(id = "ASName0")
 	private WebElementFacade savedDispositionStatus;
+
+	@FindBy(xpath = "//*[@id='WorkflowTypeDispositionSorttable']//li//div[3]//span[contains(@id,'Disp')]")
+	private List<WebElementFacade> dispositionNameList;
 
 	@FindBy(xpath = "//div[@class='fs-option-label' and text()='AHtoDecision Admin']/preceding-sibling::span")
 	private WebElementFacade visibleToGrpAHtoDecisionChkBox;
@@ -304,6 +308,9 @@ public class DefaultHandoffPage extends PageObject {
 	@FindBy(xpath = "//*[@id='carousel']/ul/li[position()=2]/a")
 	private WebElementFacade accountActionHistoryTimelineArrow;
 
+	/**
+	 * Method checks the visibility of Add New Action Btn
+	 */
 	public boolean isAddNewActionBtnVisisble() {
 		return addNewActionButton.isVisible();
 	}
@@ -720,8 +727,13 @@ public class DefaultHandoffPage extends PageObject {
 	}
 
 	/**
-	 * select next Disposition by DD
+	 * select next Disposition by DD	
+	 * @return the text value entered in the Disposition text box
 	 */
+	public String getEnterDispositionName() {
+		return evaluateJavascript("return arguments[0].value;", dispositionNameTextBox).toString();
+	}
+
 	public void selectNextDispositionByDD() {
 		evaluateJavascript("arguments[0].scrollIntoView(true);", nextDispositionByDD);
 		List<String> listOfValuesOfNextDispositionDD = nextDispositionByDD.getSelectOptions();
@@ -779,11 +791,24 @@ public class DefaultHandoffPage extends PageObject {
 	}
 
 	/**
-	 * @return the value of the Saved Disposition Name in the table below
+	 * 
+	 * @param dispositionName
+	 *            is the name of Disposition to be passed from feature file
+	 * @return the Disposition Name text of the newy created Disposition
 	 */
-	public String getTextSavedDispositionName() {
-		withAction().moveToElement(savedDispositionName).build().perform();
-		return savedDispositionName.getText().trim();
+	public String getTextSavedDispositionName(String dispositionName) {
+		int size = dispositionNameList.size();
+		int flag = 0;
+		for (i = 0; i < size; i++) {
+			if (dispositionNameList.get(i).getText().equals(dispositionName)) {
+				withAction().moveToElement(dispositionNameList.get(i)).build().perform();
+				flag = 1;
+			}
+			if (flag == 1) {
+				break;
+			}
+		}
+		return dispositionNameList.get(i).getText().trim();
 	}
 
 	/**
@@ -988,7 +1013,11 @@ public class DefaultHandoffPage extends PageObject {
 	}
 
 	/**
+<<<<<<< HEAD
 	 * hover on the added handoff bubble
+=======
+	 *This method perform move to recently Added Bubble element
+>>>>>>> fbe12705709a548f8b1d551822cd968b28231848
 	 */
 	public void hoverOnAddedBubble() {
 		withAction().moveToElement(addedBubble).build().perform();
@@ -1002,7 +1031,12 @@ public class DefaultHandoffPage extends PageObject {
 	}
 
 	/**
+<<<<<<< HEAD
 	 * @return the list of the column headers that appear in the box after hovering over the bubble
+=======
+	 *This method stores Event Circle Columns Value in List
+	 *@return listOfEventCircleCols
+>>>>>>> fbe12705709a548f8b1d551822cd968b28231848
 	 */
 	public List<String> getListOfEventCircleColumns() {
 		List<String> listOfEventCircleCols = new ArrayList<>();

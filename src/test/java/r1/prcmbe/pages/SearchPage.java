@@ -113,7 +113,8 @@ public class SearchPage extends PageObject {
 	String facilityCodeJS = "return document.querySelector('#dnn_ctr1025_ModuleContent > span > span:nth-child(1)').textContent";
 
 	/**
-	 * @return the text title of the search page
+	 * This method fetch the Page Title 
+	 * @return pageTitle in String format
 	 */
 	public String getSearchPageTitle() {
 		return evaluateJavascript(titleJS).toString();
@@ -123,6 +124,10 @@ public class SearchPage extends PageObject {
 		return noAccountsMessage.getText();
 	}
 
+	/**
+	 * This method select value from SearchBy Dropdown 
+	 * @param dropdown To be selected from Dropdown
+	 */
 	public void searchBySelectText(String dropdown) {
 		searchByDropdown.selectByVisibleText(dropdown);
 	}
@@ -131,12 +136,16 @@ public class SearchPage extends PageObject {
 		operatorDropdown.selectByVisibleText(operator);
 	}
 
+	/**
+	 * This method enter value in InvoiceNumber Text Field 
+	 * @param invoiceNumber To be entered in Text field
+	 */
 	public void enterInvoiceNumber(String invoiceNumber) {
 		invoiceNumberTxtField.type(invoiceNumber);
 	}
 
 	/**
-	 * click on the submit button
+	 * This method click on Submit Button 
 	 */
 	public void clickSubmitBtn() {
 		submitBtn.click();

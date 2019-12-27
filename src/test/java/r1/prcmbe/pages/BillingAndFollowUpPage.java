@@ -23,14 +23,14 @@ public class BillingAndFollowUpPage extends PageObject {
 	}
 
 	/**
-	 * hover on the R1D decision link
+	 * This method hovers on R1Decision Link
 	 */
 	public void hoverOnR1DecisionLink() {
 		withAction().moveToElement(r1DecisionLink).build().perform();
 	}
 
 	/**
-	 * click on the search link
+	 * This method clicks on Search Link
 	 */
 	public void clickSearchLink() {
 		withAction().moveToElement(searchLink).click().build().perform();
@@ -39,6 +39,7 @@ public class BillingAndFollowUpPage extends PageObject {
 	public void clickEparsProLink() {
 		withAction().moveToElement(eparsProLink).click().build().perform();
 	}
+
 	public void clickMassUpdateLink() {
 		withAction().moveToElement(massUpdateLink).click().build().perform();
 	}
