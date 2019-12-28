@@ -25,7 +25,7 @@ public class SearchPage extends PageObject {
 	@FindBy(xpath = "//div[@class='form-group searchBtnOnLoad']/input[@type='submit']")
 	private WebElementFacade submitBtn;
 
-	@FindBy(xpath = "//*[@id='searchLoader']//div[@class='modal-body']/i")
+	@FindBy(xpath = "//*[@id='searchLoader']//i[@class='fa fa-refresh fa-spin fa-3x text-center']")
 	private WebElementFacade loadingSpinner;
 
 	@FindBy(xpath = "//*[@id='dvAccountSearch' or @class='modal-body']/child::table")
@@ -94,7 +94,7 @@ public class SearchPage extends PageObject {
 	@FindBy(xpath = "//*[@id='dvAccountSearch' or @class='modal-body']/table[@class='table']/child::tbody//child::td[1]")
 	private List<WebElementFacade> listOfSearchedAccNum;
 
-	@FindBy(xpath = "//*[@id='dvAccountSearch' or @class='modal-body']/table/tbody/tr/td[5]")
+	@FindBy(xpath = "//*[@id='dvAccountSearch' or @class='modal-body']/table[@class='table']/child::tbody//child::td[5]")
 	private List<WebElementFacade> listOfSearchedMRN;
 
 	@FindBy(id = "lblMRN")
@@ -483,10 +483,16 @@ public class SearchPage extends PageObject {
 		return listOfAccNum;
 	}
 
+	/**
+	 * Validating Invoice number should not be visible not on account info page
+	 */
 	public void invoiceNumberShouldNotVisible() {
 		invoiceNumber.shouldNotBeVisible();
 	}
 
+	/**
+	 * @return List of MRN numbers present on searched account popup
+	 */
 	public List<String> getlistOfMRN() {
 		waitForAngularRequestsToFinish();
 		List<String> listOfMRN = new ArrayList<>();
@@ -496,10 +502,13 @@ public class SearchPage extends PageObject {
 		return listOfMRN;
 	}
 
+	/**
+	 * @return MRN present on account info page
+	 */
 	public String getMRNText() {
 		return patientMRN.withTimeoutOf(Duration.ofSeconds(20)).waitUntilVisible().getText();
 	}
-
+	
 	/**
 	 * @return SSN number present on account info page
 	 */
@@ -507,10 +516,9 @@ public class SearchPage extends PageObject {
 		return patientSSN.getText();
 	}
 
-	public String getPatientMRN() {
-		return patientMRN.getText();
-	}
-
+	/**
+	 * Waiting for loading spinner to be disappear
+	 */
 	public void waitForSpinnerToDisappear() {
 		loadingSpinner.withTimeoutOf(Duration.ofSeconds(80)).waitUntilNotVisible();
 	}
