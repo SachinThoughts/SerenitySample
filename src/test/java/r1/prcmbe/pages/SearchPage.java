@@ -25,23 +25,20 @@ public class SearchPage extends PageObject {
 	@FindBy(xpath = "//div[@class='form-group searchBtnOnLoad']/input[@type='submit']")
 	private WebElementFacade submitBtn;
 
-	@FindBy(xpath = "//*[@id='searchLoader']//div[@class='modal-body']/i")
+	@FindBy(xpath = "//*[@id='searchLoader']//i[@class='fa fa-refresh fa-spin fa-3x text-center']")
 	private WebElementFacade loadingSpinner;
 
 	@FindBy(xpath = "//*[@id='dvAccountSearch' or @class='modal-body']/child::table")
 	private WebElementFacade searchAccountTable;
 
-	@FindBy(xpath = "//*[@id='dvAccountSearch' or @class='modal-body']/table/tbody/tr/td[2]/a")
+	@FindBy(xpath = "//*[@id='dvAccountSearch' or @class='modal-body']/table[@class='table']/child::tbody//child::td[2]/child::a")
 	private List<WebElementFacade> listOfSearchedInvoiceId;
 
-	@FindBy(xpath = "//*[@id='dvAccountSearch' or @class='modal-body']/table/tbody/tr/td[4]")
+	@FindBy(xpath = "//*[@id='dvAccountSearch' or @class='modal-body']/table[@class='table']/child::tbody//child::td[4]")
 	private List<WebElementFacade> listOfSearchedFacility;
 
-	@FindBy(xpath = "//div[@id='visit']/h4")
+	@FindBy(xpath = "//div[@id='visit']//h4[text()='Patient & Visit Details']")
 	private WebElementFacade patientAndVisit;
-
-	@FindBy(xpath = "//*[@id='lblInvoiceNo']")
-	private WebElementFacade invoiceID;
 
 	@FindBy(xpath = "//head/title")
 	WebElementFacade searchPageTitle;
@@ -73,22 +70,19 @@ public class SearchPage extends PageObject {
 	@FindBy(xpath = "//select[@class='form-control ddlOperator']")
 	private WebElementFacade operator;
 
-	@FindBy(xpath = "//*[@id='dvAccountSearch' or @class='modal-body']/table/tbody/tr/td[2]")
-	private List<WebElementFacade> listOfSearchedInvNum;
-
 	@FindBy(id = "msg_info")
 	private WebElementFacade errorAlert;
 
 	@FindBy(xpath = "//div[@class = 'alert alert-info']//button")
 	private WebElementFacade closeErrorAlert;
 
-	@FindBy(xpath = "//span[@id='lblInvoiceNo']")
+	@FindBy(id = "lblInvoiceNo")
 	private WebElementFacade invoiceNumber;
 
-	@FindBy(xpath = "//*[@id='dvAccountSearch' or @class='modal-body']/child::table/thead/tr/th")
+	@FindBy(xpath = "//*[@id='dvAccountSearch' or @class='modal-body']/table[@class='table']//thead//child::th")
 	private List<WebElementFacade> listOfSrchAccTblHeaders;
 
-	@FindBy(xpath = "//*[@id='dvAccountSearch' or @class='modal-body']/child::table/tbody/tr/td[3]")
+	@FindBy(xpath = "//*[@id='dvAccountSearch' or @class='modal-body']/table[@class='table']/child::tbody//child::td[3]")
 	private List<WebElementFacade> listOfSearchedNames;
 
 	@FindBy(id = "lblPatientName")
@@ -97,10 +91,10 @@ public class SearchPage extends PageObject {
 	@FindBy(id = "lblAccountNo")
 	private WebElementFacade patientAccountNo;
 
-	@FindBy(xpath = "//*[@id='dvAccountSearch' or @class='modal-body']/table/tbody/tr/td[1]")
+	@FindBy(xpath = "//*[@id='dvAccountSearch' or @class='modal-body']/table[@class='table']/child::tbody//child::td[1]")
 	private List<WebElementFacade> listOfSearchedAccNum;
 
-	@FindBy(xpath = "//*[@id='dvAccountSearch' or @class='modal-body']/table/tbody/tr/td[5]")
+	@FindBy(xpath = "//*[@id='dvAccountSearch' or @class='modal-body']/table[@class='table']/child::tbody//child::td[5]")
 	private List<WebElementFacade> listOfSearchedMRN;
 
 	@FindBy(id = "lblMRN")
@@ -113,39 +107,51 @@ public class SearchPage extends PageObject {
 	String facilityCodeJS = "return document.querySelector('#dnn_ctr1025_ModuleContent > span > span:nth-child(1)').textContent";
 
 	/**
-	 * This method fetch the Page Title 
-	 * @return pageTitle in String format
+	 * @return Title of R1D search page
 	 */
 	public String getSearchPageTitle() {
 		return evaluateJavascript(titleJS).toString();
 	}
 
+	/**
+	 * @return Text validation message when accounts are not present
+	 */
 	public String getNoAccountsMessage() {
 		return noAccountsMessage.getText();
 	}
 
 	/**
-	 * This method select value from SearchBy Dropdown 
-	 * @param dropdown To be selected from Dropdown
+	 * Selecting option from search by drop down
+	 * 
+	 * @param dropdown-
+	 *            drop down value is passing from feature file
 	 */
-	public void searchBySelectText(String dropdown) {
-		searchByDropdown.selectByVisibleText(dropdown);
-	}
-
-	public void selectOperatorValue(String operator)  {
-		operatorDropdown.selectByVisibleText(operator);
+	public void searchBySelectText(String dropdownVal) {
+		searchByDropdown.selectByVisibleText(dropdownVal);
 	}
 
 	/**
-	 * This method enter value in InvoiceNumber Text Field 
-	 * @param invoiceNumber To be entered in Text field
+	 * Selecting operator value from operator drop down
+	 * 
+	 * @param operatorValue
+	 *            - Passing through feature file
+	 */
+	public void selectOperatorValue(String operatorValue) {
+		operatorDropdown.selectByVisibleText(operatorValue);
+	}
+
+	/**
+	 * Entering invoice number in invoice number text field
+	 * 
+	 * @param invoiceNumber-
+	 *            Passing Invoice number fetched from DB or Feature file
 	 */
 	public void enterInvoiceNumber(String invoiceNumber) {
 		invoiceNumberTxtField.type(invoiceNumber);
 	}
 
 	/**
-	 * This method click on Submit Button 
+	 * Clicking on submit button and waiting for loading spinner to be disappear
 	 */
 	public void clickSubmitBtn() {
 		submitBtn.click();
@@ -154,11 +160,18 @@ public class SearchPage extends PageObject {
 		}
 	}
 
+	/**
+	 * @return Visibility of search account table after searching any account using
+	 *         like operator
+	 */
 	public boolean isSearchAccTableVisible() {
 		waitForAngularRequestsToFinish();
 		return searchAccountTable.isVisible();
 	}
 
+	/**
+	 * @return List of Invoice Id's which is present on search account table
+	 */
 	public List<String> getlistOfInvoiceID() {
 		List<String> listOfInvoiceID = new ArrayList<>();
 		for (WebElementFacade element : listOfSearchedInvoiceId) {
@@ -167,6 +180,12 @@ public class SearchPage extends PageObject {
 		return listOfInvoiceID;
 	}
 
+	/**
+	 * Taking list of facility code which is present on search account table and
+	 * comparing list with login facility
+	 * 
+	 * @return Index of login facility
+	 */
 	public int getFacilityIndex() {
 		/** Returns index of matched facility code **/
 		String facilityCode = getFacilityCodeText();
@@ -181,92 +200,168 @@ public class SearchPage extends PageObject {
 		return index;
 	}
 
+	/**
+	 * Clicking on Searched invoice number open on searched account table
+	 */
 	public void clickSearchInvoiceID() {
 		listOfSearchedInvoiceId.get(getFacilityIndex()).click();
 	}
 
+	/**
+	 * @return Taking facility code after login
+	 */
 	public String getFacilityCodeText() {
 		return evaluateJavascript(facilityCodeJS).toString();
 	}
 
+	/**
+	 * @return searched account's details is visible on the page or not
+	 */
 	public boolean isPatientAndVisitHeaderVisible() {
-		/** return searched account's details is visible on the page or not **/
 		waitForAngularRequestsToFinish();
 		return patientAndVisit.isVisible();
 	}
 
-	public String getInvoiceID() {
-		return invoiceID.withTimeoutOf(Duration.ofSeconds(20)).waitUntilVisible().getText();
-	}
-
+	/**
+	 * @return Text of default selected option of search by drop down
+	 */
 	public String getDefaultSelectedVal() {
 		return searchByDropdown.getSelectedVisibleTextValue();
 	}
 
+	/**
+	 * @return invoiceNumber Visibility of invoice number text field
+	 */
 	public boolean isInvoiceNumberTxtFieldVisible() {
 		return invoiceNumberTxtField.isVisible();
 	}
 
+	/**
+	 * @return Visibility of visit number text field
+	 */
 	public boolean isVisitTxtFieldVisible() {
 		return visitTxtField.isVisible();
 	}
 
+	/**
+	 * Entering Visit number
+	 * 
+	 * @param visitNumber-
+	 *            Passing through feature file or data base
+	 */
 	public void enterVisitNumber(String visitNumber) {
 		visitTxtField.type(visitNumber);
 	}
 
+	/**
+	 * @return Visibility of MRN text field
+	 */
 	public boolean isMRNTxtFieldVisible() {
 		return mRNTxtField.isVisible();
 	}
 
+	/**
+	 * Entering MRN number
+	 * 
+	 * @param mRN
+	 *            Passing through feature file or Data base query
+	 */
 	public void enterMRN(String mRN) {
 		mRNTxtField.type(mRN);
 	}
 
+	/**
+	 * @return Visibility of Claim Number text field
+	 */
 	public boolean isClaimNumberTxtFieldVisible() {
 		return claimNumberTxtField.isVisible();
 	}
 
+	/**
+	 * Entering Claim Number
+	 * 
+	 * @param claimNumber-
+	 *            Passing through feature file
+	 */
 	public void enterClaimNumber(String claimNumber) {
 		claimNumberTxtField.type(claimNumber);
 	}
 
+	/**
+	 * @return Visibility of Last Name text field
+	 */
 	public boolean isLastNameTxtFieldVisible() {
 		return lastNameTxtBox.isVisible();
 	}
 
+	/**
+	 * Entering Last name
+	 * 
+	 * @param lastName
+	 *            - Passing through feature file or Data base Query
+	 */
 	public void enterLastNameTxtBox(String lastName) {
 		lastNameTxtBox.type(lastName);
 	}
 
+	/**
+	 * @return Visibility of first name text field
+	 */
 	public boolean isFirstNameTxtFieldVisible() {
 		return firstNameTxtBox.isVisible();
 	}
 
+	/**
+	 * Entering First name
+	 * 
+	 * @param firstName
+	 *            - Passing through feature file or Data base Query
+	 */
 	public void enterFirstName(String firstName) {
 		firstNameTxtBox.type(firstName);
 	}
 
+	/**
+	 * @return Text of Error message
+	 */
 	public String getErrorMsg() {
 		return errorMsg.withTimeoutOf(Duration.ofSeconds(10)).waitUntilVisible().getText();
 	}
 
+	/**
+	 * @return Visibility of SSN text field
+	 */
 	public boolean isSSNTxtFieldVisible() {
 		return sSNTxtBox.isVisible();
 	}
 
+	/**
+	 * Entering SSN number
+	 * 
+	 * @param sSN
+	 *            - Passing through feature file or Data base
+	 */
 	public void enterSSN(String sSN) {
 		sSNTxtBox.type(sSN);
 	}
 
+	/**
+	 * @return Text of Tool Tip Message
+	 */
 	public String getToolTipText() {
 		return toolTip.getText();
 	}
 
+	/**
+	 * @return True if button is enabled
+	 */
 	public boolean isSubmitBtnEnabled() {
 		return submitBtn.isCurrentlyEnabled();
 	}
 
+	/**
+	 * @return Visibility of Tool tip Message
+	 */
 	public boolean isToolTipVisible() {
 		return toolTip.isVisible();
 	}
@@ -276,37 +371,58 @@ public class SearchPage extends PageObject {
 	}
 
 	public void clickSearchInvoiceNumber() {
-		listOfSearchedInvNum.get(getFacilityIndex()).click();
+		listOfSearchedInvoiceId.get(getFacilityIndex()).click();
 		if (isErrorMsgVisible()) {
 			clickErrorMsg();
 		}
 	}
 
+	/**
+	 * @return Visibility of Error Alert Message
+	 */
 	public boolean isErrorMsgVisible() {
 		return errorAlert.isVisible();
 	}
 
+	/**
+	 * Clicking on Error Message
+	 */
 	public void clickErrorMsg() {
 		closeErrorAlert.click();
 	}
 
+	/**
+	 * @return List of Invoice number appeared on searched account table
+	 */
 	public List<String> getlistOfInvNum() {
 		waitForAngularRequestsToFinish();
 		List<String> listOfInvNum = new ArrayList<>();
-		for (WebElementFacade invoiceNoElement : listOfSearchedInvNum) {
+		for (WebElementFacade invoiceNoElement : listOfSearchedInvoiceId) {
 			listOfInvNum.add(invoiceNoElement.getText());
 		}
 		return listOfInvNum;
 	}
 
+	/**
+	 * @return Text of Invoice number visible on account info page
+	 */
 	public String getInvoiceNumber() {
 		return invoiceNumber.withTimeoutOf(Duration.ofSeconds(20)).waitUntilVisible().getText();
 	}
 
+	/**
+	 * Entering last name
+	 * 
+	 * @param lastName
+	 *            - Passing through Feature file or data base
+	 */
 	public void enterLastName(String lastName) {
 		lastNameTxtBox.type(lastName);
 	}
 
+	/**
+	 * @return List of search account table column headers
+	 */
 	public List<String> getListOfSrchAccTblHeaders() {
 		List<String> listOfTblHeaders = new ArrayList<>();
 		for (WebElementFacade headerName : listOfSrchAccTblHeaders) {
@@ -315,6 +431,9 @@ public class SearchPage extends PageObject {
 		return listOfTblHeaders;
 	}
 
+	/**
+	 * @return List of Searched Names on searched account table
+	 */
 	public List<String> getListOfSearchedNames() {
 		List<String> listOfNames = new ArrayList<>();
 		for (WebElementFacade searchedName : listOfSearchedNames) {
@@ -323,20 +442,32 @@ public class SearchPage extends PageObject {
 		return listOfNames;
 	}
 
+	/**
+	 * @return Text of Patient name present on account info page
+	 */
 	public String getPatientName() {
 		return patientName.getText();
 	}
 
+	/**
+	 * @return Patient Last name
+	 */
 	public String getPatientLastName() {
 		String[] lastName = patientName.getText().split(",", 0);
 		return lastName[0].trim();
 	}
 
+	/**
+	 * @return Patient First name
+	 */
 	public String getPatientFirstName() {
 		String[] firstName = patientName.getText().split(",", 0);
 		return firstName[1].trim();
 	}
 
+	/**
+	 * @return List of Facility of appeared on search account table
+	 */
 	public List<String> getlistOfSearchedFacility() {
 		List<String> listOfFacilities = new ArrayList<>();
 		for (WebElementFacade facilityCode : listOfSearchedFacility) {
@@ -345,18 +476,27 @@ public class SearchPage extends PageObject {
 		return listOfFacilities;
 	}
 
+	/**
+	 * @return Text of Patient Account number present on Account info page
+	 */
 	public String getPatientAccountNo() {
-		return patientAccountNo.getText();
+		return patientAccountNo.withTimeoutOf(Duration.ofSeconds(20)).waitUntilVisible().getText();
 	}
 
+	/**
+	 * Clicking on searched invoice number or account number
+	 */
 	public void clickSearchInvoiceIdOrVisitNumber() {
 		int index = getFacilityIndex();
-		if (!listOfSearchedInvNum.get(index).getText().equals("N/A"))
+		if (!listOfSearchedInvoiceId.get(index).getText().equals("N/A"))
 			listOfSearchedInvoiceId.get(index).click();
 		else
 			listOfSearchedAccNum.get(index).click();
 	}
 
+	/**
+	 * @return List of Account number present on searched account table
+	 */
 	public List<String> getlistOfAccNum() {
 		waitForAngularRequestsToFinish();
 		List<String> listOfAccNum = new ArrayList<>();
@@ -366,14 +506,16 @@ public class SearchPage extends PageObject {
 		return listOfAccNum;
 	}
 
-	public String getAccountNumber() {
-		return patientAccountNo.withTimeoutOf(Duration.ofSeconds(20)).waitUntilVisible().getText();
-	}
-
+	/**
+	 * Validating Invoice number should not be visible not on account info page
+	 */
 	public void invoiceNumberShouldNotVisible() {
 		invoiceNumber.shouldNotBeVisible();
 	}
 
+	/**
+	 * @return List of MRN numbers present on searched account popup
+	 */
 	public List<String> getlistOfMRN() {
 		waitForAngularRequestsToFinish();
 		List<String> listOfMRN = new ArrayList<>();
@@ -383,19 +525,25 @@ public class SearchPage extends PageObject {
 		return listOfMRN;
 	}
 
+	/**
+	 * @return MRN present on account info page
+	 */
 	public String getMRNText() {
 		return patientMRN.withTimeoutOf(Duration.ofSeconds(20)).waitUntilVisible().getText();
 	}
 
+	/**
+	 * @return SSN number present on account info page
+	 */
 	public String getPatientSSN() {
 		return patientSSN.getText();
 	}
 
-	public String getPatientMRN() {
-		return patientMRN.getText();
-	}
-	
+	/**
+	 * Waiting for loading spinner to be disappear
+	 */
 	public void waitForSpinnerToDisappear() {
 		loadingSpinner.withTimeoutOf(Duration.ofSeconds(80)).waitUntilNotVisible();
 	}
+
 }
