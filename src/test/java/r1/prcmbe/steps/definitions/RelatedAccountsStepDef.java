@@ -174,7 +174,7 @@ public class RelatedAccountsStepDef {
 		Assert.assertTrue("page count does not correspond to number of records", relatedAccntsPage.isPageCountCorrespondingToRecords());
 	}
 	
-	@Given("^user login to SQL server and connect to specific database$")
+	@When("^user login to SQL server and connect to specific database$")
 	public void user_login_to_SQL_server_and_connect_to_specific_database() throws IOException {
 		String webdriverURL = EnvironmentSpecificConfiguration.from(environmentVariables)
 				.getProperty("webdriver.base.url");
