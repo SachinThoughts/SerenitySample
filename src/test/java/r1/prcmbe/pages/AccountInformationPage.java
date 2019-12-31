@@ -162,6 +162,9 @@ public class AccountInformationPage extends PageObject {
 	@FindBy(id = "handOffLabel")
 	private WebElementFacade handOffPopup;
 
+	/**
+	 * @return the Patient visit/account number
+	 */
 	public String getAccountNumber() {
 		waitForAngularRequestsToFinish();
 		return accountNumber.getText().trim();
@@ -484,10 +487,16 @@ public class AccountInformationPage extends PageObject {
 		evaluateJavascript("arguments[0].click();", nextAccountBtn);
 	}
 
+	/**
+	 * to verify Patient details section visible
+	 */
 	public void verifyPatientDetailsSectionVisible() {
 		patientDetailsSection.shouldBeVisible();
 	}
 
+	/**
+	 * @return Patient MRN number
+	 */
 	public String getMRNNumber() {
 		return mrnNumber.getText();
 	}
