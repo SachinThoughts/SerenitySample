@@ -64,11 +64,17 @@ public class SettingsPage extends PageObject {
 		withAction().moveToElement(workflowConfig).click().build().perform();
 	}
 
+	/**
+	 * hover over the IT tools link
+	 */
 	public void hoverITToolsLink() {
 		waitForAngularRequestsToFinish();
 		withAction().moveToElement(iTToolsLink).click().build().perform();
 	}
 
+	/**
+	 * click on facility setting configuration link
+	 */
 	public void clickFacilitySettingConfigLink() {
 		waitForAngularRequestsToFinish();
 		withAction().moveToElement(facilitySettingConfigLink).click().build().perform();
