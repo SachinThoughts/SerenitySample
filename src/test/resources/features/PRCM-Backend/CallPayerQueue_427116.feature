@@ -7,7 +7,7 @@ Feature: Verify Call Payer Queue functionality
     And user hovers IT Tools link
     And user clicks on R1 Configuration
 
-  @427116 @Sprint102 @PRCMUser
+  @427116 @Sprint102 @PRCMUser @NonDB
   Scenario Outline: There should be configuration settings for Call payer queue Park,Skip and Checkout Limit
     Given user is on R1 Configuration Setting Page
     When user selects "Setting Name" from search dropdown

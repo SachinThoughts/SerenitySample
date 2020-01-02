@@ -8,13 +8,13 @@ Feature: Verify WorkFlowConfiguration related scenarios in PRCM
     And user clicks on Settings-R1_Decision
     And user clicks on Workflow Configuration link
 
-  @434762 @AHtoDecisionAdmin @Sprint8
+  @434762 @AHtoDecisionAdmin @Sprint8 @NonDB
   Scenario: Verify user with AHtoDecision Admin role is able to access "Workflow Configuration" screen
     Given user having AHtoDecision Admin role is on workflow configuration home page
     Then user should be able to view Hand off tab selected by default
     And the hand off tab is highlighted in blue color
 
-  @434763 @AHtoDecisionAdmin @Sprint8
+  @434763 @AHtoDecisionAdmin @Sprint8 @NonDB
   Scenario: Verify controls under Handoff tab in "Workflow Configuration" screen
     Given user having AHtoDecision Admin role is on workflow configuration home page
     Then user should be able to view tabs
@@ -30,7 +30,7 @@ Feature: Verify WorkFlowConfiguration related scenarios in PRCM
     And user should be able to view Edit link button
     And user should able to view Radio button checked against first handoff type
 
-  @434765 @AHtoDecisionAdmin @Sprint8
+  @434765 @AHtoDecisionAdmin @Sprint8 @NonDB
   Scenario: Verify that user is able to edit handoff type
     Given user having AHtoDecision Admin role is on workflow configuration home page
     When user clicks on Edit link button against particular hand off type in Choose Handoff grid
@@ -43,12 +43,12 @@ Feature: Verify WorkFlowConfiguration related scenarios in PRCM
     Then Edit Handoff pop up window should get closed with no data saved
     When user clicks on Edit link button against particular hand off type in Choose Handoff grid
     And user updates value in any of the fields
-   And user clicks on Save Changes button for Add Handoff
+    And user clicks on Save Changes button for Add Handoff
     Then user should be able to view handoff message "HandOff Updated Successfully"
     And user should no longer be able to view Edit Handoff popup window
     And user should be able to view Updated values related to handoff type in Choose Handoff grid
 
-  @434764 @AHtoDecisionAdmin @Sprint8
+  @434764 @AHtoDecisionAdmin @Sprint8 @NonDB
   Scenario: Verify that user is able to add new handoff type
     Given user having AHtoDecision Admin role is on workflow configuration home page
     When user clicks on +Add Handoff button
@@ -515,7 +515,7 @@ Feature: Verify WorkFlowConfiguration related scenarios in PRCM
       | query1                         | query2                          |
       | 434767_WFConfig_CheckRecipient | 434767_WFConfig_CheckRecipient1 |
 
-  @434780 @AHtoDecisionAdmin @Sprint103
+  @434780 @AHtoDecisionAdmin @Sprint103 @NonDB
   Scenario: Verify user is able to add the Predefined Note in Disposition Type screen for particular Handoff Type
     Given user having AHtoDecision Admin role is on workflow configuration home page
     When user clicks radio button against "AR Supervisor" Handoff
