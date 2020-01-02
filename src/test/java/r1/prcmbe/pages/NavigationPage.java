@@ -97,6 +97,9 @@ public class NavigationPage extends PageObject {
 		waitForAngularRequestsToFinish();
 	}
 
+	/**
+	 * click on the Settings link present in the footer
+	 */
 	public void clickFooterSettings() {
 		spinner.withTimeoutOf(Duration.ofSeconds(60)).waitUntilNotVisible();
 		evaluateJavascript("arguments[0].click();", footerSettings);
@@ -127,10 +130,16 @@ public class NavigationPage extends PageObject {
 		facilityDropdown.selectByVisibleText(facilityName);
 	}
 
+	/**
+	 * This method clicks on Billing And FollowUp Link
+	 */
 	public void clickOnBillingAndFollowUpLink() {
 		withAction().moveToElement(billingAndFollowUpLink).click().build().perform();
 	}
 
+	/**
+	 * click on the Billing FollowupUp link present in the footer
+	 */
 	public void clickFooterBillingFollowUpLink() {
 		evaluateJavascript("arguments[0].click();", footerBillingFollowUpLink);
 	}

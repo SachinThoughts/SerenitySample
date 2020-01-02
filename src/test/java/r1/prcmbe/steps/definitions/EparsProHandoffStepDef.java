@@ -87,7 +87,7 @@ public class EparsProHandoffStepDef {
 		listOfActualValidationMessages.clear();
 		for (String searchByDrpDwnValue : listOfSearchByDrpDwnValues) {
 			eparsProHandoffPage.selectSearchByDropdownValue(searchByDrpDwnValue);
-			eparsProHandoffSteps.enterOperatorAndSearchByTextBox(operatorValue, textBoxValue);
+			eparsProHandoffSteps.enterOperatorAndSearchTextBox(operatorValue, textBoxValue);
 			eparsProHandoffPage.clickSubmitBtn();
 			listOfActualValidationMessages.add(eparsProHandoffPage.getValidationMessage());
 		}
@@ -145,7 +145,7 @@ public class EparsProHandoffStepDef {
 		listOfSearchByDrpDwnValues = searchByDrpDwnValues.asList(String.class);
 		for (String searchByDrpDwnValue : listOfSearchByDrpDwnValues) {
 			eparsProHandoffPage.selectSearchByDropdownValue(searchByDrpDwnValue);
-			eparsProHandoffSteps.enterOperatorAndSearchByTextBox(operatorValue, textBoxValue);
+			eparsProHandoffSteps.enterOperatorAndSearchTextBox(operatorValue, textBoxValue);
 			eparsProHandoffPage.clickSubmitBtn();
 			listOfAllSearchHeaders.add(eparsProHandoffPage.getSearchResultsTableHeaders());
 		}
@@ -160,12 +160,12 @@ public class EparsProHandoffStepDef {
 	@When("^E-pars user runs the following query to get the Search Value for \"([^\"]*)\" from the database: \"([^\"]*)\"$")
 	public void e_pars_user_runs_the_following_query_to_get_the_Search_Value_for_from_the_database(String searchBy,
 			String query) throws ClassNotFoundException, SQLException, Exception {
-		listOfSearchValues.addAll(eparsProHandoffSteps.getDBSearchByValues(searchBy, query));
+		listOfSearchValues.addAll(eparsProHandoffSteps.getDBSearchValues(searchBy, query));
 	}
 
 	@When("^E-pars user enters the query result in the required textboxes$")
 	public void e_pars_user_enters_the_query_result_in_the_required_textboxes() {
-		eparsProHandoffSteps.enterSearchByValue(listOfSearchValues);
+		eparsProHandoffSteps.enterSearchValue(listOfSearchValues);
 	}
 
 	@When("^E-pars user clicks on Submit Button and gets the column headers displayed$")
@@ -183,7 +183,7 @@ public class EparsProHandoffStepDef {
 			listOfSearchValues.clear();
 			listOfSearchValues.add(listOfFirstLastNameValues.get(i).get("Lastname Textbox"));
 			listOfSearchValues.add(listOfFirstLastNameValues.get(i).get("Firstname Textbox"));
-			eparsProHandoffSteps.enterSearchByValue(listOfSearchValues);
+			eparsProHandoffSteps.enterSearchValue(listOfSearchValues);
 			eparsProHandoffPage.clickSubmitBtn();
 			listOfActualValidationMessages.add(eparsProHandoffPage.getValidationMessage());
 		}

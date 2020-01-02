@@ -55,7 +55,7 @@ public class AccountDocumentStepDef {
 
 	@When("^user scrolls down till Account Documents section$")
 	public void user_scrolls_down_till_Account_Documents_section() throws Exception {
-		accntDocumentPage.clickOnDocumentLink();
+		accntDocumentPage.clickOnDocumentTab();
 	}
 
 	@When("^user selects any document type from Document Type dropdown$")
@@ -66,7 +66,7 @@ public class AccountDocumentStepDef {
 	@Then("^user should be able to view the selected document type in Document type drop down$")
 	public void user_should_be_able_to_view_the_selected_document_type_in_Document_type_drop_down() {
 		Assert.assertTrue("Actual DocumentType DropDowwn Val doesnot match with Selected DocumentType DropDown Val",
-				accntDocumentPage.getSelectedDocumentTypeVal().equals(selectedDocumentType));
+				selectedDocumentType.equals(accntDocumentPage.getSelectedDocumentTypeVal()));
 	}
 
 	@When("^user enters document title \"([^\"]*)\" in Document Title field$")
@@ -98,12 +98,12 @@ public class AccountDocumentStepDef {
 		accntDocumentPage.clickOnUploadFileBtn();
 	}
 
-	@Then("^user should be able to view message \"([^\"]*)\" (.*) \"([^\"]*)\"$")
-	public void user_should_be_able_to_view_message(String arg1, String arg2, String arg3) {
+	@Then("^user should be able to view the message \"([^\"]*)\" (.*) \"([^\"]*)\"$")
+	public void user_should_be_able_to_view_message(String msg1, String msg2, String msg3) {
 		Assert.assertTrue(
 				"Actual Error Message doesnot match with Expected Error Message : Actual Error Msg :"
 						+ accntDocumentPage.getUploadErrorMsg(),
-				accntDocumentPage.getUploadErrorMsg().equals(arg1 + arg2 + arg3));
+				(msg1 + msg2 + msg3).equals(accntDocumentPage.getUploadErrorMsg()));
 	}
 
 	@When("^user selects file (.*) with size of more than (?:\\d+) MB$")
@@ -117,7 +117,7 @@ public class AccountDocumentStepDef {
 		Assert.assertTrue(
 				"Actual Error Message doesnot match with Expected Error Message : Actual Error Msg :"
 						+ accntDocumentPage.getUploadErrorMsg(),
-				accntDocumentPage.getUploadErrorMsg().equals(expectAlertMsg));
+				expectAlertMsg.equals(accntDocumentPage.getUploadErrorMsg()));
 	}
 
 	@Then("^user should be able to view the error message without entering any Value \"([^\"]*)\"$")
@@ -125,7 +125,7 @@ public class AccountDocumentStepDef {
 		Assert.assertTrue(
 				"Actual Error Message doesnot match with Expected Error Message : Actual Error Msg :"
 						+ accntDocumentPage.getUploadErrorMsg(),
-				accntDocumentPage.getUploadErrorMsg().equals(expectAlertMsg));
+				expectAlertMsg.equals(accntDocumentPage.getUploadErrorMsg()));
 	}
 
 	@Then("^user should be able to view the message \"([^\"]*)\" below File Name field in maroon color text$")
@@ -134,7 +134,7 @@ public class AccountDocumentStepDef {
 		Assert.assertTrue(
 				"Actual Error Message doesnot match with Expected Error Message : Actual Error Msg :"
 						+ accntDocumentPage.getMsgBelowFileName(),
-				accntDocumentPage.getMsgBelowFileName().equals(expectAlertMsg));
+				expectAlertMsg.equals(accntDocumentPage.getMsgBelowFileName()));
 		Assert.assertTrue("Colour of Text does not match with Maroon Color",
 				accntDocumentSteps.verifyColourCodeForTextMsg());
 	}
@@ -186,7 +186,7 @@ public class AccountDocumentStepDef {
 	@Then("^user should be able to view the Show All Documents checkbox checked$")
 	public void user_should_be_able_to_view_the_Show_All_Documents_checkbox_checked() {
 		Assert.assertTrue("Show All Document CheckBox not Checked",
-				accntDocumentPage.getShowAllDocumentCheckBoxSelectedStatus().equals("true"));
+				"true".equals(accntDocumentPage.getShowAllDocumentCheckBoxSelectedStatus()));
 	}
 
 	@Then("^user should be able to view the validation message \"([^\"]*)\" below Upload Document button$")
@@ -277,7 +277,7 @@ public class AccountDocumentStepDef {
 
 	@When("^user go to Account Documents section$")
 	public void user_go_to_Account_Documents_section$() {
-		accntDocumentPage.clickOnDocumentLink();
+		accntDocumentPage.clickOnDocumentTab();
 	}
 
 	@Then("user should not be able to view the uploaded documents in the list which were uploaded in previous account")
@@ -315,7 +315,7 @@ public class AccountDocumentStepDef {
 				accntDocumentSteps.verifyUploadedDocsTitle(enteredDocumentTitle));
 	}
 
-	@When("^user runs the query \"([^\"]*)\" query to fetch invoice number based on result of above query$")
+	@When("^^user runs the query \"([^\"]*)\" query to fetch invoice number based on result of above query$")
 	public void user_runs_the_query_query_to_fetch_invoice_number_based_on_result_of_above_query(String queryName)
 			throws ClassNotFoundException, SQLException, Exception {
 		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,

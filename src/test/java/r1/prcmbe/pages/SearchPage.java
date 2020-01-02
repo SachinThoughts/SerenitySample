@@ -22,7 +22,7 @@ public class SearchPage extends PageObject {
 	@FindBy(xpath = "//input[@placeholder='Invoice #']")
 	private WebElementFacade invoiceNumberTxtField;
 
-	@FindBy(xpath = "//div[@id='searchBtn']/input[@type='submit']")
+	@FindBy(xpath = "//div[@class='form-group searchBtnOnLoad']/input[@type='submit']")
 	private WebElementFacade submitBtn;
 
 	@FindBy(xpath = "//*[@id='searchLoader']//div[@class='modal-body']/i")
@@ -113,7 +113,8 @@ public class SearchPage extends PageObject {
 	String facilityCodeJS = "return document.querySelector('#dnn_ctr1025_ModuleContent > span > span:nth-child(1)').textContent";
 
 	/**
-	 * @return Title of R1D search page
+	 * This method fetch the Page Title 
+	 * @return pageTitle in String format
 	 */
 	public String getSearchPageTitle() {
 		return evaluateJavascript(titleJS).toString();
@@ -124,8 +125,8 @@ public class SearchPage extends PageObject {
 	}
 
 	/**
-	 * Description - Selecting option from search by drop down 
-	 * @param dropdown - drop down value is passing from feature file
+	 * This method select value from SearchBy Dropdown 
+	 * @param dropdown To be selected from Dropdown
 	 */
 	public void searchBySelectText(String dropdown) {
 		searchByDropdown.selectByVisibleText(dropdown);
@@ -136,15 +137,15 @@ public class SearchPage extends PageObject {
 	}
 
 	/**
-	 *  Description - Entering invoice number in invoice number text field
-	 * @param invoiceNumber - Passing Invoice number fetched from DB
+	 * This method enter value in InvoiceNumber Text Field 
+	 * @param invoiceNumber To be entered in Text field
 	 */
 	public void enterInvoiceNumber(String invoiceNumber) {
 		invoiceNumberTxtField.type(invoiceNumber);
 	}
 
 	/**
-	 * Clicking on submit button and waiting for loading spinner to be disappear
+	 * This method click on Submit Button 
 	 */
 	public void clickSubmitBtn() {
 		submitBtn.click();
@@ -270,6 +271,9 @@ public class SearchPage extends PageObject {
 		return toolTip.isVisible();
 	}
 
+	/**
+	 * @param operatorValue select the operator value
+	 */
 	public void operatorSelectText(String operatorValue) {
 		operator.selectByVisibleText(operatorValue);
 	}
@@ -289,6 +293,9 @@ public class SearchPage extends PageObject {
 		closeErrorAlert.click();
 	}
 
+	/**
+	 * @return get list of the Invoice numbers
+	 */
 	public List<String> getlistOfInvNum() {
 		waitForAngularRequestsToFinish();
 		List<String> listOfInvNum = new ArrayList<>();

@@ -27,13 +27,10 @@ public class AccountInformationPage extends PageObject {
 	@FindBy(xpath = "//*[@id='related']//*[@class='modal-body']//table/tbody")
 	private WebElementFacade relatedAcctTable;
 
-	@FindBy(xpath = "//*[@id='related']//*[@class='modal-body']//table/tbody/tr/td//a")
-	private List<WebElementFacade> listOfVisitNumbersOnRelatedAccntPopUp;
-
-	@FindBy(xpath = "//*[@id='tbRelatedAccount']//tbody/tr/td[3]")
+	@FindBy(xpath = "//th[.='Facility Code']/ancestor::tbody/tr/td[count(//tr/th[.='Facility Code']/preceding-sibling::th)+1]")
 	private List<WebElementFacade> listOfFacilityCodeOnRelatedAccntPopUp;
 
-	@FindBy(xpath = "//*[@id='related']//div[@class='modal-content']")
+	@FindBy(xpath = "//div[@id='related']//div[@class='modal-content']")
 	private WebElementFacade relatedAccountPoup;
 
 	@FindBy(id = "lblPatientInfoFacilityCode")
@@ -54,7 +51,7 @@ public class AccountInformationPage extends PageObject {
 	@FindBy(id = "lblInvoiceNo")
 	private WebElementFacade invoiceNumber;
 
-	@FindBy(xpath = "//*[@id='tbRelatedAccount']//tbody/tr/td[2]//a")
+	@FindBy(xpath = "//th[.='Invoice #']/ancestor::tbody/tr/td[count(//tr/th[.='Invoice #']/preceding-sibling::th)+1]/a")
 	private List<WebElementFacade> listOfInvoiceNumbersOnRelatedAccntPopUp;
 
 	@FindBy(id = "lnkHandOff")
@@ -170,19 +167,28 @@ public class AccountInformationPage extends PageObject {
 		return accountNumber.getText().trim();
 	}
 
+	/**
+	 * This method checks the visibility of Related Account PopUp
+	 * 
+	 * @return boolean value based on visibility of element
+	 */
 	public boolean isRelatedAccntPopUpVisible() {
 		return relatedAccountPoup.isVisible();
 	}
 
-	public int getSizeOfRelatedAccntVisitNo() {
-		return listOfVisitNumbersOnRelatedAccntPopUp.size();
-	}
-
+	/**
+	 * This method click on Related Account Button
+	 */
 	public void clicksRelatedAccountButton() {
 		evaluateJavascript("arguments[0].scrollIntoView(true);", relatedAccountBtn);
 		evaluateJavascript("arguments[0].click();", relatedAccountBtn);
 	}
 
+	/**
+	 * This method fetch the FacilityCode Value
+	 * 
+	 * @return facilityCode Value
+	 */
 	public String getFacilityCodeValue() {
 		waitForAngularRequestsToFinish();
 		return facilityCodeValue.getText();
@@ -194,24 +200,6 @@ public class AccountInformationPage extends PageObject {
 
 	public int getSizeOfRelatedAccntFacilityCode() {
 		return listOfFacilityCodeOnRelatedAccntPopUp.size();
-	}
-
-	public String clickOnRelatedAccntBasedOnFacilityAndFetchVisitNo(String facilityCode) {
-		int size = listOfFacilityCodeOnRelatedAccntPopUp.size();
-		String visitNo = "";
-		for (int i = 0; i < size; i++) {
-			if (listOfFacilityCodeOnRelatedAccntPopUp.get(i).getText().equals(facilityCode)) {
-				visitNo = clickOnVisitNoOnRelatedAccntPopUpAndGetVisitNo(i);
-				break;
-			}
-		}
-		return visitNo;
-	}
-
-	public String clickOnVisitNoOnRelatedAccntPopUpAndGetVisitNo(int index) {
-		String visitNo = listOfVisitNumbersOnRelatedAccntPopUp.get(index).getText();
-		listOfVisitNumbersOnRelatedAccntPopUp.get(index).click();
-		return visitNo;
 	}
 
 	public boolean checkLogoutVisible() {
@@ -226,27 +214,50 @@ public class AccountInformationPage extends PageObject {
 		documentLink.click();
 	}
 
+	/**
+	 * This method fetch the Invoice Number
+	 * 
+	 * @return invoiceNo
+	 */
 	public String getInvoiceNumber() {
 		waitForAngularRequestsToFinish();
 		return invoiceNumber.getText().trim();
 	}
 
+	/**
+	 * This method get the size of Related Account Invoice Number on PopUp
+	 * 
+	 * @return size of RelatedAccountInvoiceNo
+	 */
 	public int getSizeOfRelatedAccntInvoiceNo() {
-		return listOfVisitNumbersOnRelatedAccntPopUp.size();
+		return listOfInvoiceNumbersOnRelatedAccntPopUp.size();
 	}
 
+	/**
+	 * This method click On Related Account Based on Facility Code and Fetch Invoice
+	 * No
+	 * 
+	 * @param facilityCode for mapping purpose
+	 * @return invoiceNo on RelatedAccount Popup
+	 */
 	public String clickRelatedAccountBasedOnFacilityCodeAndFetchInvoiceNo(String facilityCode) {
 		int size = listOfFacilityCodeOnRelatedAccntPopUp.size();
-		String visitNo = "";
+		String invoiceNo = "";
 		for (int i = 0; i < size; i++) {
 			if (listOfFacilityCodeOnRelatedAccntPopUp.get(i).getText().equals(facilityCode)) {
-				visitNo = clickOnVisitNoOnRelatedAccntPopUpAndGetVisitNo(i);
+				invoiceNo = clickOnInvoiceNoOnRelatedAccntPopUpAndGetInvoiceNo(i);
 				break;
 			}
 		}
-		return visitNo;
+		return invoiceNo;
 	}
 
+	/**
+	 * This method click On Invoice No on Related Account Popup and Fetch Invoice No
+	 * 
+	 * @param index : Based on which Invoice Number is fetched
+	 * @return invoiceNo on RelatedAccount Popup
+	 */
 	public String clickOnInvoiceNoOnRelatedAccntPopUpAndGetInvoiceNo(int index) {
 		String visitNo = listOfInvoiceNumbersOnRelatedAccntPopUp.get(index).getText();
 		listOfInvoiceNumbersOnRelatedAccntPopUp.get(index).click();
@@ -270,10 +281,16 @@ public class AccountInformationPage extends PageObject {
 		return handOffTypeDrpdwn.getSelectedVisibleTextValue();
 	}
 
+	/**
+	 * click on handoff type dropdown
+	 */
 	public void clickHandOffTypeDrpDown() {
 		evaluateJavascript("arguments[0].click()", handOffTypeDrpdwn);
 	}
 
+	/**
+	 * @return return the list if Handoff type dropdown values
+	 */
 	public List<String> getHandOffTypeDrpDownValues() {
 		return handOffTypeDrpdwn.getSelectOptions();
 	}
@@ -355,8 +372,7 @@ public class AccountInformationPage extends PageObject {
 	}
 
 	public void clickApprovalWriteOffLink() {
-		waitForAngularRequestsToFinish();
-		evaluateJavascript("arguments[0].click();", approvalWriteOffLink);
+		approvalWriteOffLink.click();
 	}
 
 	public void clickOnCreateDrpdwn() {
@@ -480,6 +496,9 @@ public class AccountInformationPage extends PageObject {
 		return mrnNumber.getText();
 	}
 
+	/**
+	 * This method perform move To Account Action History Section
+	 */
 	public void moveToAccountActionHistory() {
 		withAction().moveToElement(accntActionHistoryHeader).build().perform();
 	}
@@ -489,6 +508,11 @@ public class AccountInformationPage extends PageObject {
 		return handOffPopup.isVisible();
 	}
 
+	/**
+	 * This method fetch the Current Application URL
+	 * 
+	 * @return currentApplicationURL
+	 */
 	public String getCurrentApplicationUrl() {
 		return getDriver().getCurrentUrl();
 	}
