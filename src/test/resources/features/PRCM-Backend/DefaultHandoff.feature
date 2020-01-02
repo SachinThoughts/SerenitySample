@@ -28,9 +28,9 @@ Feature: Verify default handoff
     And user selects AHtoDecisionHandoff value from Worklist dropdown
     And user enters value in AH Module Code textbox: "CodeTest1"
     And user selects any value from Visible to Group dropdown for Add Handoff
-    And user clicks on Save Changes button for Add Handoff
+    And user clicks on Save Changes button for Add Handoff
     Then user should be able to view the appropriate success message: "HandOff Inserted Successfully"
-    And Default Handoff user runs the query to verify if the handoff is inserted "Defaulthandoff_434985_SQL1"  
+    And Default Handoff user runs the query to verify if the handoff is inserted "Defaulthandoff_434985_SQL1"
     Then user should be able to view newly inserted Handoff type in SQL result
     When user selects radio button corresponding to the newly created Handoff and user clicks on Continue button
     Then user should be able to navigate to Recipient tab and user should be able to view the message "No Recipient exists for the selected Handoff" under Choose Recipient Grid
@@ -56,7 +56,7 @@ Feature: Verify default handoff
     And user should be able to view newly created Action Name updated in Workflow Summary breadcrumb just after Handoff type and Recipient Name (For eg. Handoff Type >> Recipient name >> Action Name)
     And user clicks on Continue button to move to Desposition tab and user should be able to view  the message "No Disposition exists for the selected action type" under Choose Disposition Type grid
     When user clicks on +Add New Disposition button
-    And user enters text in Disposition Code textbox
+    And user enters text in Disposition Code textbox
     And user enters text in Disposition Description textbox: "DispositionDesc123"
     And user selects any option from Next Desposition By dropdown
     And For disposition user enters "0" in Follow Up Days textbox
@@ -77,7 +77,7 @@ Feature: Verify default handoff
     And user selects AHtoDecisionHandoff value from Worklist dropdown
     And user enters value in AH Module Code textbox: "CodeTest1"
     And user selects any value from Visible to Group dropdown for Add Handoff
-    And user clicks on Save Changes button for Add Handoff
+    And user clicks on Save Changes button for Add Handoff
     Then user should be able to view the appropriate success message: "HandOff Inserted Successfully"
     When user clicks on Settings link from footer
     And user mouse hover on IT Tools link
