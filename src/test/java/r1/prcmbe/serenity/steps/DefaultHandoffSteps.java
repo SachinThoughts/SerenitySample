@@ -18,6 +18,14 @@ public class DefaultHandoffSteps {
 	String firstName, lastName, createdDate, followupDate;
 	DateFormat outputFormat, inputFormat;
 
+	/**
+	 * @param query to get created Date
+	 * @param invoiceNumber the invoice number of the account for which created date is needed
+	 * @return
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 * @throws Exception
+	 */
 	@Step
 	public String getHandoffCreatedDate(String query, String invoiceNumber)
 			throws ClassNotFoundException, SQLException, Exception {
@@ -32,6 +40,14 @@ public class DefaultHandoffSteps {
 		return outputFormat.format(date);
 	}
 
+	/**
+	 * @param query to get followup date
+	 * @param invoiceNumber: the invoice number of the account for which followup date is needed
+	 * @return expected followup date
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 * @throws Exception
+	 */
 	@Step
 	public String getHandoffFollowupDate(String query, String invoiceNumber)
 			throws ClassNotFoundException, SQLException, Exception {
@@ -46,6 +62,14 @@ public class DefaultHandoffSteps {
 		return outputFormat.format(date);
 	}
 
+	/**
+	 * @param queryName: query to get display name
+	 * @return the display name
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 * @throws IOException
+	 * @throws Exception
+	 */
 	@Step
 	public String getDisplayName(String queryName) throws ClassNotFoundException, SQLException, IOException, Exception {
 		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName, String.format(

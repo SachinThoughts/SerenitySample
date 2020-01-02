@@ -42,6 +42,7 @@ public class BillingAndFollowUpPage extends PageObject {
 	public void clickEparsProLink() {
 		withAction().moveToElement(eparsProLink).click().build().perform();
 	}
+
 	public void clickMassUpdateLink() {
 		withAction().moveToElement(massUpdateLink).click().build().perform();
 	}

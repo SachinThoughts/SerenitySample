@@ -1,3 +1,4 @@
+
 package r1.prcmbe.pages;
 
 import java.time.Duration;
@@ -522,5 +523,4 @@ public class SearchPage extends PageObject {
 	public void waitForSpinnerToDisappear() {
 		loadingSpinner.withTimeoutOf(Duration.ofSeconds(80)).waitUntilNotVisible();
 	}
-
 }
