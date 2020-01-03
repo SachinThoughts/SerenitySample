@@ -49,7 +49,7 @@ Feature: Verify patient info related test cases in PRCM-BE
     Given user is on "R1 Hub Technologies 2.0 - 15 R1_Decision" page
     When User clicks on Facility Details tab
     And user runs the patient info query "patient_info_391261_SQL4" and fetch the headers
-    And user runs the patient info query to fetch facility data "patient_info_391261_SQL4" query
+    And user runs the patient info query to fetch facility data "patient_info_391261_SQL4" query
     Then User should be able to view the following feilds on Facility Details tab
       | Facility Code    |
       | Facility Name    |
