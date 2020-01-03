@@ -280,30 +280,28 @@ public class FacilityGroupConfigurationPage extends PageObject {
 	 * is not checked
 	 */
 	public void clickOnEditBtnWithNoPhysicianChkboxChecked() {
-		int check = 0;
-		int size = listOfEditBtns.size();
-
-		for (index = 0; index < size; index++) {
-			listOfEditBtns.get(index).withTimeoutOf(Duration.ofSeconds(15)).waitUntilVisible();
-			evaluateJavascript("arguments[0].click();", listOfEditBtns.get(index));
-			while (physicianCheckbox.isSelected()) {
-				physicianCheckbox.withTimeoutOf(Duration.ofSeconds(15)).waitUntilVisible();
-				closeBtn.click();
-				check = 0;
-				break;
-			}
-			if (!physicianCheckbox.isSelected()) {
-				physicianCheckbox.withTimeoutOf(Duration.ofSeconds(15)).waitUntilVisible();
-				physicianCheckbox.click();
-				saveBtn.click();
-				check = 1;
-				break;
-			}
-			if (check == 1) {
-				break;
-			}
-		}
-	}
+ 		int check = 0;
+ 		int size = listOfEditBtns.size();
+ 		for (index = 0; index < size; index++) {
+ 			evaluateJavascript("arguments[0].click();", listOfEditBtns.get(index));
+ 			while (physicianCheckbox.isSelected()) {
+ 				physicianCheckbox.withTimeoutOf(Duration.ofSeconds(15)).waitUntilVisible();
+ 				closeBtn.click();
+ 				check = 0;
+ 				break;
+ 			}
+ 			if (!physicianCheckbox.isSelected()) {
+ 				physicianCheckbox.withTimeoutOf(Duration.ofSeconds(15)).waitUntilVisible();
+ 				physicianCheckbox.click();
+ 				saveBtn.click();
+ 				check = 1;
+ 				break;
+ 			}
+ 			if (check == 1) {
+ 				break;
+ 			}
+ 		}
+ 	}
 
 	/**
 	 * 
