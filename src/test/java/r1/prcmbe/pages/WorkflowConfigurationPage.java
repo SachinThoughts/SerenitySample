@@ -623,7 +623,7 @@ public class WorkflowConfigurationPage extends PageObject {
 	public void clickOnNewlyDispositionDetailsLink(String dispositionName) {
 		int size = dispositionNameList.size() - 1;
 		int flag = 0;
-		for (int i = size; i > 0; i--) {
+		for (int i = size; i >= 0; i--) {
 			if (dispositionNameList.get(i).getText().equals(dispositionName)) {
 				withAction().moveToElement(dispositionNameList.get(i)).build().perform();
 				evaluateJavascript("arguments[0].click();", dispositionDetailsLinkList.get(i));
@@ -1552,6 +1552,23 @@ public class WorkflowConfigurationPage extends PageObject {
 			headerList.add(dispositionHeader.getText().trim());
 		}
 		return headerList;
+	}
+
+	/**
+	 * Method clicks on the specific Action Type
+	 * 
+	 * @param actionType
+	 *            passed from feature file
+	 */
+	public void clickSpecificActionTypeDetailsLink(String actionType) {
+		int size = actionTypeList.size();
+		for (index = 0; index < size; index++) {
+			if (actionTypeList.get(index).getText().equals(actionType)) {
+				evaluateJavascript("arguments[0].click();", listOfDetailsLinkActionTypeTab.get(index));
+				break;
+			}
+		}
+
 	}
 
 	public void clickFirstEditIconOnRecipientTab() {
