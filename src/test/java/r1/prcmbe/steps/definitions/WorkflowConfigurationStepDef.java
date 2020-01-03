@@ -397,7 +397,7 @@ public class WorkflowConfigurationStepDef extends PageObject {
 
 	@When("^user clicks on Details link button adjacent to newly created Disposition Name$")
 	public void user_clicks_on_Details_link_button_adjacent_to_newly_created_Disposition_Name() {
-		workflowConfigPage.clickOnNewlyDispositionDetailsLink();
+		workflowConfigPage.clickOnNewlyDispositionDetailsLink(DefaultHandoffStepDef.enteredDispositionName);
 	}
 
 	@When("^user runs the Add Disposition Detail query \"([^\"]*)\"$")
@@ -422,7 +422,7 @@ public class WorkflowConfigurationStepDef extends PageObject {
 	public void user_should_be_able_to_view_same_value_in_Created_Date_and_CreatedBy_columns_on_UI_as_in_SQL_result()
 			throws ParseException {
 		Assert.assertTrue(
-				"Created Date from Database " + financialInfoSteps.formatDbDateFieldWithDateTime(createdDate)
+				"Created Date from Database " + workflowConfigSteps.formatDbDateFieldWithDateTime(createdDate)
 						+ " does not match with the UI " + workflowConfigPage.getCreatedDateFieldValue(),
 				workflowConfigSteps.formatDbDateFieldWithDateTime(createdDate)
 						.equals(workflowConfigPage.getCreatedDateFieldValue()));
