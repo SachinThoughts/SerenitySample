@@ -329,7 +329,7 @@ public class PhysicianNPIConfigStepDef {
 	@Then("^user should be able to view the title Physician Search is displayed\\.$")
 	public void user_should_be_able_to_view_the_title_Physician_Search_is_displayed() {
 		Assert.assertTrue("failed to view physician Search title",
-				physicianNPIConfigPage.isphysicianSearchTitleVisible());
+				physicianNPIConfigPage.isPhysicianSearchTitleVisible());
 	}
 
 	@When("^user clicks on search text field on  PRCM NPI configuration page$")
