@@ -20,7 +20,7 @@ Feature: Verify Related Account testcases in PRCM-BE
     And user should be able to view following grid columns
       | Visit # | Invoice # | Facility Code | Admit Date | Discharge Date | Patient Type | PayerPlan Code | Insurance Balance | Patient Balance | Defect Type | Defect SubCategory |
     And user should be able to view maximum 20 Accounts under Related Accounts grid
-    When user login to SQL Server and connect to facility database
+    When user login to SQL server and connect to specific database
     And user runs query to fetch Related Accounts <query1>
     Then user should be able to view same list of accounts in grid as in SQL result
 
@@ -34,7 +34,7 @@ Feature: Verify Related Account testcases in PRCM-BE
     When user clicks on Related Accounts under Patient & Facility Info Section
     Then user should be able to view InvoiceNumber as hyperlink
     And user should be able to view Visit Number as hyperlink for records having InvoiceNumber as NA
-    When user login to SQL server and connect to facility database
+    When user login to SQL server and connect to specific database
     And user runs query to fetch all details of Related Accounts <query3>
     Then user should be able to view the same grid data as in SQL result
 
@@ -74,7 +74,7 @@ Feature: Verify Related Account testcases in PRCM-BE
     And pages count should correspond to number of records
     And user should be able to view following grid columns
       | Visit # | Invoice # | Facility Code | Admit Date | Discharge Date | Patient Type | PayerPlan Code | Insurance Balance | Patient Balance | Defect Type | Defect SubCategory |
-    When user login to SQL server and connect to facility database
+    When user login to SQL server and connect to specific database
     And user runs query to fetch all details of Related Accounts <query3>
     Then user should be able to view the same grid data as in SQL result
 

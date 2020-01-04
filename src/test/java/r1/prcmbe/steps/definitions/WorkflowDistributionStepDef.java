@@ -13,7 +13,7 @@ import r1.prcmbe.pages.WorkflowDistributionPage;
 public class WorkflowDistributionStepDef extends PageObject {
 	NavigationPage navigationPage;
 	WorkflowDistributionPage workflowDistributionPage;
-	
+
 	static String pRCMEnabledFacilityGrpName;
 
 	@When("^user clicks on Workflow Distribution link$")
@@ -202,7 +202,7 @@ public class WorkflowDistributionStepDef extends PageObject {
 
 	@Given("^user selects PRCM enabled \"([^\"]*)\" facility group from Facility Group dropdown$")
 	public void user_selects_PRCM_enabled_facility_group_from_Facility_Group_dropdown(String facilityGrpName) {
-		pRCMEnabledFacilityGrpName=facilityGrpName;
+		pRCMEnabledFacilityGrpName = facilityGrpName;
 		workflowDistributionPage.selectFacilityGroup(facilityGrpName);
 	}
 
@@ -288,6 +288,11 @@ public class WorkflowDistributionStepDef extends PageObject {
 		workflowDistributionPage.clickTechnicalRadioBtnOnPayerInvtryTab();
 	}
 
+	/**
+	 * @param expSections coming from feature file after clicking on dril-down then
+	 *                    there is no data so that we are not using
+	 *                    expListOfSections list
+	 */
 	@Then("^user should be able to view the below sections on Technical filter$")
 	public void user_should_be_able_to_view_the_below_sections_on_Technical_filter(DataTable expSections) {
 		List<String> expListOfSections = expSections.asList(String.class);
@@ -295,6 +300,11 @@ public class WorkflowDistributionStepDef extends PageObject {
 				workflowDistributionPage.getGroupSectionsOnTechnicalFilter());
 	}
 
+	/**
+	 * @param expSubsectionHeaders coming from feature file after clicking on
+	 *                             dril-down then there is no data so that we are
+	 *                             not using expListOfSubsectionHeaders list
+	 */
 	@Then("^user should be able to view following sub sections under Unassigned \\(Due for Work \\) section on Technical filter$")
 	public void user_should_be_able_to_view_following_sub_sections_under_Unassigned_Due_for_Work_section_on_Technical_filter(
 			DataTable expSubsectionHeaders) {
@@ -303,6 +313,11 @@ public class WorkflowDistributionStepDef extends PageObject {
 				workflowDistributionPage.getListOfGroupSubSectionsForUnassignedOnTechnicalFilter());
 	}
 
+	/**
+	 * @param expSubsectionHeaders coming from feature file after clicking on
+	 *                             dril-down then there is no data so that we are
+	 *                             not using expListOfSubsectionHeaders list
+	 */
 	@Then("^user should be able to view following sub sections under Assigned \\(Due for Work \\) section on Technical filter$")
 	public void user_should_be_able_to_view_following_sub_sections_under_Assigned_Due_for_Work_section_on_Technical_filter(
 			DataTable expSubsectionHeaders) {

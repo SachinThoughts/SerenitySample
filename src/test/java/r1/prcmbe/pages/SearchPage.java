@@ -271,6 +271,9 @@ public class SearchPage extends PageObject {
 		return toolTip.isVisible();
 	}
 
+	/**
+	 * @param operatorValue select the operator value
+	 */
 	public void operatorSelectText(String operatorValue) {
 		operator.selectByVisibleText(operatorValue);
 	}
@@ -290,6 +293,9 @@ public class SearchPage extends PageObject {
 		closeErrorAlert.click();
 	}
 
+	/**
+	 * @return get list of the Invoice numbers
+	 */
 	public List<String> getlistOfInvNum() {
 		waitForAngularRequestsToFinish();
 		List<String> listOfInvNum = new ArrayList<>();

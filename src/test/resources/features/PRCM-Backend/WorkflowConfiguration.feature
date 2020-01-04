@@ -43,7 +43,7 @@ Feature: Verify WorkFlowConfiguration related scenarios in PRCM
     Then Edit Handoff pop up window should get closed with no data saved
     When user clicks on Edit link button against particular hand off type in Choose Handoff grid
     And user updates value in any of the fields
-    And user clicks on Save Changes button for Add Handoff
+    And user clicks on Save Changes button for Add Handoff
     Then user should be able to view handoff message "HandOff Updated Successfully"
     And user should no longer be able to view Edit Handoff popup window
     And user should be able to view Updated values related to handoff type in Choose Handoff grid
@@ -69,7 +69,7 @@ Feature: Verify WorkFlowConfiguration related scenarios in PRCM
     And user selects AHtoDecisionHandoff value from Worklist dropdown
     And user enters value in AH Module Code textbox: "CodeTest1"
     And user selects any value from Visible to Group dropdown for Add Handoff
-    And user clicks on Save Changes button for Add Handoff
+    And user clicks on Save Changes button for Add Handoff
     Then user should be able to view the appropriate success message: "HandOff Inserted Successfully"
     And user should no longer be able to view Add Handoff pop-up window
     And user should be able to view newly added handoff in the Choose Handoff grid
@@ -315,7 +315,7 @@ Feature: Verify WorkFlowConfiguration related scenarios in PRCM
     And user selects AHtoDecisionHandoff value from Worklist dropdown
     And user enters value in AH Module Code textbox: "CodeTest1"
     And user selects any value from Visible to Group dropdown for Add Handoff
-    And user clicks on Save Changes button for Add Handoff
+    And user clicks on Save Changes button for Add Handoff
     Then user should be able to view the appropriate success message: "HandOff Inserted Successfully"
     When user selects radio button corresponding to the newly created Handoff and user clicks on Continue button
     Then user should be able to navigate to Recipient tab and user should be able to view the message "No Recipient exists for the selected Handoff" under Choose Recipient Grid
@@ -337,7 +337,7 @@ Feature: Verify WorkFlowConfiguration related scenarios in PRCM
     Then user should be able to view the appropriate success message: "Saved successfully"
     And user clicks on Continue button to move to Desposition tab and user should be able to view  the message "No Disposition exists for the selected action type" under Choose Disposition Type grid
     When user clicks on +Add New Disposition button
-    And user enters text in Disposition Code textbox
+    And user enters alphanumeric text in Disposition Code textbox
     And user enters text in Disposition Description textbox: "DespositionDesc123"
     And user selects any option from Next Desposition By dropdown
     And For disposition user enters "0" in Follow Up Days textbox
