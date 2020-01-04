@@ -462,7 +462,8 @@ public class SearchPage extends PageObject {
 	}
 
 	/**
-	 * Clicking on searched invoice number or account number
+	 * Taking Index of login facility
+	 * Clicking on searched invoice number or account number if searched invoice number is not NA it will click on invoice number or else it will click on Account number
 	 */
 	public void clickSearchInvoiceIdOrVisitNumber() {
 		int index = getFacilityIndex();
