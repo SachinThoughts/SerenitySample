@@ -65,7 +65,6 @@ public class TaggingPage extends PageObject {
 	private WebElementFacade invalidCategoryNameValidationMsg;
 
 	@FindBy(xpath = "//*[@id='cmHandoffHIMGroup']//div[@class='radio']//label")
-	// *[@id='cmHandoffHIMGroup']/li//div[1]//label
 	private List<WebElementFacade> categoryNameList;
 
 	@FindBy(xpath = "//*[@id='cmHandoffHIMGroup']/li//div[2]//span")
@@ -695,13 +694,12 @@ public class TaggingPage extends PageObject {
 	 * Selecting Any option from tag category drop down
 	 */
 	public void selectAccTagCategoryOnMU() {
+		evaluateJavascript(scrollToElementJs, tagCategoryDrpdwnOnMassUpdateScrn);
 		int index1 = CommonMethods.getRandom(tagCategoryDrpdwnOptnsOnMUScrn.size());
 		CommonMethods.getRandom(tagCategoryDrpdwnOptnsOnMUScrn.size());
 		while (index1 == 0) {
 			index1 = CommonMethods.getRandom(tagCategoryDrpdwnOptnsOnMUScrn.size());
 		}
-		evaluateJavascript(scrollToElementJs, tagCategoryDrpdwnOnMassUpdateScrn);
-
 		for (int i = 0; i < index1; i++) {
 			withAction().moveToElement(tagCategoryDrpdwnOnMassUpdateScrn).click().sendKeys(Keys.DOWN).sendKeys(Keys.TAB)
 					.build().perform();
