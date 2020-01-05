@@ -11,7 +11,6 @@ Feature: Verify Related Account testcases in PRCM-BE
     Given user is on R1 Decision Account information page
     When user clicks on Related Accounts under Patient & Facility Info Section
     Then user should able to view the pop up title as "Related Accounts"
-    And user should be able to view Search button
     And user should be able to view First button
     And user should be able to view Previous button
     And user should be able to view Next Button
@@ -65,7 +64,6 @@ Feature: Verify Related Account testcases in PRCM-BE
     Given user is on R1 Decision Account information page
     When user clicks on Related Accounts under Patient & Facility Info Section
 		Then user should able to view the pop up title as "Related Accounts"
-    And user should be able to view Search button
     And user should be able to view First button
     And user should be able to view Previous button
     And user should be able to view Next Button

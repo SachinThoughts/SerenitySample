@@ -52,10 +52,10 @@ public class RelatedAccountsStepDef {
 				relatedAccntsPage.getRelatedAccPopupLabelTxt().equals(popupTitle));
 	}
 
-	@Then("^user should be able to view Search button$")
+	/*@Then("^user should be able to view Search button$")
 	public void user_should_be_able_to_view_Search_button() {
 		Assert.assertTrue("Search button is not visible", relatedAccntsPage.isSearchBtnVisible());
-	}
+	}*/
 
 	@Then("^user should be able to view First button$")
 	public void user_should_be_able_to_view_First_button() {
