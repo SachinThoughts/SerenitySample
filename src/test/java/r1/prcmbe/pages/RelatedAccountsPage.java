@@ -15,9 +15,6 @@ public class RelatedAccountsPage extends PageObject {
 	@FindBy(id = "relatedLabel")
 	private WebElementFacade relatedAccountsPopupLbl;
 
-	/*@FindBy(xpath = "//button[text()='Search']")
-	private WebElementFacade searchBtn;*/
-
 	@FindBy(xpath = "//*[@id='AccountFirst']/a")
 	private List<WebElementFacade> firstBtnList;
 
@@ -91,13 +88,6 @@ public class RelatedAccountsPage extends PageObject {
 	public String getRelatedAccPopupLabelTxt() {
 		return relatedAccountsPopupLbl.getText();
 	}
-
-	/**
-	 * @return visibility of Search button on Related Account popup
-	 */
-/*	public boolean isSearchBtnVisible() {
-		return searchBtn.isVisible();
-	}*/
 
 	/**
 	 * @return visibility of first pagination button on Related Account popup
