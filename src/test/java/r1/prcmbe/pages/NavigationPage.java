@@ -57,9 +57,6 @@ public class NavigationPage extends PageObject {
 	@FindBy(id = "dnn_dnnUSER_registerLink")
 	private WebElementFacade userRegisterLink;
 
-	@FindBy(xpath = "//a[text()='Billing & Follow-up']")
-	private WebElementFacade billingAndFollowUpFooterLink;
-
 	public WebElementFacade getChartManagerLink() {
 		return chartManagerLink;
 	}
@@ -98,7 +95,7 @@ public class NavigationPage extends PageObject {
 	}
 
 	/**
-	 * This method clicks on Footer Settings
+	 * click on the Settings link present in the footer
 	 */
 	public void clickFooterSettings() {
 		spinner.withTimeoutOf(Duration.ofSeconds(60)).waitUntilNotVisible();
@@ -137,15 +134,18 @@ public class NavigationPage extends PageObject {
 		withAction().moveToElement(billingAndFollowUpLink).click().build().perform();
 	}
 
+	/**
+	 * click on the Billing FollowupUp link present in the footer
+	 */
 	public void clickFooterBillingFollowUpLink() {
 		evaluateJavascript("arguments[0].click();", footerBillingFollowUpLink);
 	}
 
+	/**
+	 * This method fetches User Login Name
+	 * @return user Login Name
+	 */
 	public String getUserLoginName() {
 		return userRegisterLink.getText();
-	}
-
-	public void clickOnBillingAndFollowUpFooterLink() {
-		billingAndFollowUpFooterLink.click();
 	}
 }

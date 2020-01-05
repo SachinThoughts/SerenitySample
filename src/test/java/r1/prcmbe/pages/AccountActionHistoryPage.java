@@ -33,6 +33,10 @@ public class AccountActionHistoryPage extends PageObject {
 	@FindBy(xpath = "//*[@class='popover fade top in']/div[2]/ul/li/div/div/div[1]/span")
 	private WebElementFacade popoverTitle;
 
+	/**
+	 * This method stores the Recent Added Account Action History Label in List
+	 * @return listOfRecentAddedAccntLabel
+	 */
 	public List<String> getListOfRecentAddedAccountActionHistoryLabel() {
 		List<String> listOfRecentAddedAccntLabel = new ArrayList<>();
 		for (WebElementFacade recentAddedAccntLabel : listOfRecentAddedAccountActionHistoryLabel) {
@@ -41,10 +45,20 @@ public class AccountActionHistoryPage extends PageObject {
 		return listOfRecentAddedAccntLabel;
 	}
 
+	/**
+	 * This method fetches Recent Added Account Action History Value
+	 * @param positionOfElement
+	 * @return recent Added Account Action History Value
+	 */
 	public String getRecentAddedAccountActionHistoryValue(int positionOfElement) {
 		return listOfRecentAddedAccountActionHistoryVal.get(positionOfElement).getText();
 	}
 
+	/**
+	 * This method checks the visibility of Recent Added Account Action History Label
+	 * @param labelPosition
+	 * @return boolean value based on visibility
+	 */
 	public boolean isRecentAddedAccountActionHistoryLabelVisible(int labelPosition) {
 		return listOfRecentAddedAccountActionHistoryLabel.get(labelPosition).isVisible();
 	}
@@ -55,10 +69,16 @@ public class AccountActionHistoryPage extends PageObject {
 		}
 	}
 
+	/**
+	 * scrolls to Account Action History section
+	 */
 	public void scrollToAccActionHistorySection() {
 		withAction().moveToElement(accActionHistorySection).build().perform();
 	}
 
+	/**
+	 * @return No Account Action History message
+	 */
 	public String getNoAccActionHistoryMsg() {
 		return noAccActionHistoryMsgLbl.getText();
 	}

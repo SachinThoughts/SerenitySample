@@ -277,7 +277,7 @@ public class FacilityGroupConfigurationStepDef extends PageObject {
 
 	@When("^user should able to select \"([^\"]*)\" from facility dropdown$")
 	public void user_should_able_to_select_something_from_facility_dropdown(String facility) {
-		workflowDistributionPage.selectFacilityFromFacilityDropdown(facility);
+		workflowDistributionPage.selectFacilityFromDropdown(facility);
 	}
 
 	@Then("^user should able to view payer inventory filter for professional and technical accounts$")
@@ -390,7 +390,7 @@ public class FacilityGroupConfigurationStepDef extends PageObject {
 	@When("^user selects common \"([^\"]*)\" facility from facility dropdown which is common in both Test1 and Test2$")
 	public void user_selects_common_something_facility_from_facility_dropdown_which_is_common_in_both_test1_and_test2(
 			String commonFacilityCode) {
-		workflowDistributionPage.selectFacilityFromFacilityDropdown(commonFacilityCode);
+		workflowDistributionPage.selectFacilityFromDropdown(commonFacilityCode);
 	}
 
 	@Then("^payer inventory filter should be display$")

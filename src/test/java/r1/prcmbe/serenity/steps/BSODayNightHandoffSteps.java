@@ -18,6 +18,10 @@ public class BSODayNightHandoffSteps {
 	AccountActionHistoryPage acntActionHistoryPage;
 	NavigationPage navigationPage;
 
+	/**
+	 * This method fetches the Current Date
+	 * @return current Date
+	 */
 	@Step
 	public String getCurrentDate() {
 		SimpleDateFormat formatter = new SimpleDateFormat("d MMMM yyyy");
@@ -25,10 +29,15 @@ public class BSODayNightHandoffSteps {
 		return formatter.format(date);
 	}
 
+	/**
+	 * This method verifies multiple attribute on HandOff PopUp
+	 * @param dataTable
+	 * @return list of Object 
+	 */
 	@Step
-	public List<Object> verifyMultipleAttributeOnHandoffPopup(DataTable table) {
+	public List<Object> verifyMultipleAttributeOnHandoffPopup(DataTable dataTable) {
 		List<Object> listOfVal = new ArrayList<>();
-		List<String> listOfExpctdVal = table.asList(String.class);
+		List<String> listOfExpctdVal = dataTable.asList(String.class);
 
 		int count = 0;
 		for (String attribute : listOfExpctdVal) {
@@ -86,11 +95,19 @@ public class BSODayNightHandoffSteps {
 		return listOfVal;
 	}
 
+	/**
+	 * This method verifies Recently Added HandOff Saved Value
+	 * @param dataTable
+	 * @param handoffType
+	 * @param actionValue
+	 * @param dispositionValue
+	 * @return list of Object
+	 */
 	@Step
-	public List<Object> verifyRecentlyHandoffSavedValue(DataTable table, String handoffType, String actionValue,
+	public List<Object> verifyRecentlyHandoffSavedValue(DataTable dataTable, String handoffType, String actionValue,
 			String dispositionValue) {
 		List<Object> listOfVal = new ArrayList<>();
-		List<String> listOfExpctdVal = table.asList(String.class);
+		List<String> listOfExpctdVal = dataTable.asList(String.class);
 
 		int count = 0;
 		for (String attribute : listOfExpctdVal) {
@@ -157,6 +174,11 @@ public class BSODayNightHandoffSteps {
 		return listOfVal;
 	}
 
+	/**
+	 * This method fetches Position Of Label Based On Attribute
+	 * @param attribute
+	 * @return position
+	 */
 	@Step
 	public int getPositionOfLabelBasedOnAttribute(String attribute) {
 		int position = 0;
@@ -169,6 +191,10 @@ public class BSODayNightHandoffSteps {
 		return position;
 	}
 
+	/**
+	 * This method verifies whether System User is Mapped with Created User
+	 * @return boolean value based on verification
+	 */
 	@Step
 	public boolean verifySystemUserMappedWithCreatedUser() {
 		String userNameFromAcctnAcnt = acntActionHistoryPage.getRecentAddedAccountActionHistoryValue(4);

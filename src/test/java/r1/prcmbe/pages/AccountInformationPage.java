@@ -9,9 +9,9 @@ import net.serenitybdd.core.pages.WebElementFacade;
 import r1.commons.utilities.CommonMethods;
 
 public class AccountInformationPage extends PageObject {
-	
+
 	String successMessage = "return document.querySelector('#msg_success').innerText";
-	
+
 	@FindBy(xpath = "//span[text()='Related Accounts']")
 	private WebElementFacade relatedAccountBtn;
 
@@ -162,6 +162,9 @@ public class AccountInformationPage extends PageObject {
 	@FindBy(id = "handOffLabel")
 	private WebElementFacade handOffPopup;
 
+	/**
+	 * @return the Patient visit/account number
+	 */
 	public String getAccountNumber() {
 		waitForAngularRequestsToFinish();
 		return accountNumber.getText().trim();
@@ -237,8 +240,7 @@ public class AccountInformationPage extends PageObject {
 	 * This method click On Related Account Based on Facility Code and Fetch Invoice
 	 * No
 	 * 
-	 * @param facilityCode
-	 *            for mapping purpose
+	 * @param facilityCode for mapping purpose
 	 * @return invoiceNo on RelatedAccount Popup
 	 */
 	public String clickRelatedAccountBasedOnFacilityCodeAndFetchInvoiceNo(String facilityCode) {
@@ -256,8 +258,7 @@ public class AccountInformationPage extends PageObject {
 	/**
 	 * This method click On Invoice No on Related Account Popup and Fetch Invoice No
 	 * 
-	 * @param index
-	 *            : Based on which Invoice Number is fetched
+	 * @param index : Based on which Invoice Number is fetched
 	 * @return invoiceNo on RelatedAccount Popup
 	 */
 	public String clickOnInvoiceNoOnRelatedAccntPopUpAndGetInvoiceNo(int index) {
@@ -297,10 +298,16 @@ public class AccountInformationPage extends PageObject {
 		return handOffTypeDrpdwn.getSelectedVisibleTextValue();
 	}
 
+	/**
+	 * click on handoff type dropdown
+	 */
 	public void clickHandOffTypeDrpDown() {
 		evaluateJavascript("arguments[0].click()", handOffTypeDrpdwn);
 	}
 
+	/**
+	 * @return return the list if Handoff type dropdown values
+	 */
 	public List<String> getHandOffTypeDrpDownValues() {
 		return handOffTypeDrpdwn.getSelectOptions();
 	}
@@ -385,99 +392,190 @@ public class AccountInformationPage extends PageObject {
 		approvalWriteOffLink.click();
 	}
 
+	/**
+	 * This method clicks on Create DropDown On HandOff PopUp
+	 */
 	public void clickOnCreateDrpdwn() {
 		handoffCreateDrpdwn.waitUntilEnabled();
 		handoffCreateDrpdwn.click();
 	}
 
+	/**
+	 * This method fetches Create DropDown Options Value On HandOff PopUp
+	 * @return create DropDown Options Value
+	 */
 	public List<String> getListOfCreateDrpdwnVal() {
 		return handoffCreateDrpdwn.getSelectOptions();
 	}
 
+	/**
+	 * This method fetches Default Value of Create DropDown On HandOff PopUp
+	 * @return default Value of Create DropDown
+	 */
 	public String getDefaultValueForCreateDrpdwn() {
 		return handoffCreateDrpdwn.getSelectedVisibleTextValue();
 	}
 
+	/**
+	 * This method select Value from Create DropDown on HandOff PopUp
+	 * @param createValue
+	 */
 	public void selectFromCreateDrpdwn(String createValue) {
 		handoffCreateDrpdwn.selectByVisibleText(createValue);
 	}
 
+	/**
+	 * This method fetches selected Value from Create DropDown On HandOff PopUp
+	 * @return selected Value from Create DropDown
+	 */
 	public String getSelectedValueForCreateDrpdwn() {
 		return handoffCreateDrpdwn.getSelectedVisibleTextValue();
 	}
 
+	/**
+	 * This method checks the visibility of Why DropDown on HandOff PopUp
+	 * @return boolean value based on visibility
+	 */
 	public boolean isWhyDrpdwnVisible() {
 		return handoffWhyDrpdwn.isVisible();
 	}
 
+	/**
+	 * This method clicks on Why DropDown On HandOff PopUp
+	 */
 	public void clickOnWhyDrpdown() {
 		handoffWhyDrpdwn.click();
 	}
 
+	/**
+	 * This method fetches Why DropDown Option Value on HandOff PopUp
+	 * @return why DropDown Option Value
+	 */
 	public List<String> getListOfWhyDrpdwnVal() {
 		return handoffWhyDrpdwn.getSelectOptions();
 	}
 
+	/**
+	 * This method select Value From Why DropDown On HandOff PopUp
+	 * @param whyValue
+	 */
 	public void selectFromWhyDrpdwn(String whyValue) {
 		handoffWhyDrpdwn.selectByVisibleText(whyValue);
 	}
 
+	/**
+	 * This method checks the visibility of Disposition DropDown on HandOff PopUp
+	 * @return boolean value based on visibility
+	 */
 	public boolean isDispositionDrpdwnVisible() {
 		return dispositionDrpdwn.isVisible();
 	}
 
+	/**
+	 * This method enter value in Note Text Field On HandOff PopUp
+	 * @param textValue
+	 */
 	public void enterValueInNoteTxtField(String textValue) {
 		handoffNotesTxtBox.type(textValue);
 	}
 
+	/**
+	 * This method clicks on SaveHandOff Button On HandOff PopUp
+	 */
 	public void clickOnSaveHandoffBtn() {
 		saveHandoffBtn.click();
 	}
 
+	/**
+	 * This method fetches HandOff Saved Message 
+	 * @return handOff Saved Message
+	 */
 	public String getHandoffSavedMessage() {
 		return handoffSavedMessage.getText();
 	}
 
+	/**
+	 *This method scrolls to Account Action History Section 
+	 */
 	public void scrollToAccountActionHistory() {
 		evaluateJavascript("arguments[0].scrollIntoView();", accntActionHistoryHeader);
 	}
 
+	/**
+	 * This method clicks on Show Account Action Button
+	 */
 	public void clickOnShowAccountActionBtn() {
 		evaluateJavascript("arguments[0].click();", showAccountActionHistoryBtn);
 	}
 
+	/**
+	 * This method fetches TagName of Notes TextBox On HandOff PopUp
+	 * @return tagName of Notes TextBox
+	 */
 	public String getTagNameForNotesTxtBox() {
 		return handoffNotesTxtBox.getTagName();
 	}
 
+	/**
+	 * This method checks the visibility of HandOff Type Label on HandOff PopUp
+	 * @return boolean value based on visibility
+	 */
 	public boolean isHandoffTypeLabelVisible() {
 		return handoffTypeLabel.isVisible();
 	}
 
+	/**
+	 * This method checks the visibility of Create Label on HandOff PopUp
+	 * @return boolean value based on visibility
+	 */
 	public boolean isCreateLabelVisible() {
 		return createLabel.isVisible();
 	}
 
+	/**
+	 * This method checks the visibility of Note Label on HandOff PopUp
+	 * @return boolean value based on visibility
+	 */
 	public boolean isNoteLabelVisible() {
 		return noteLabel.isVisible();
 	}
 
+	/**
+	 * This method checks the visibility of Close Button on HandOff PopUp
+	 * @return boolean value based on visibility
+	 */
 	public boolean isCloseBtnOnHandoffPopupVisible() {
 		return closeBtnOnHandoffPopup.isVisible();
 	}
 
+	/**
+	 * This method checks the visibility of Save Button on HandOff PopUp
+	 * @return boolean value based on visibility
+	 */
 	public boolean isSaveBtnOnHandoffPopupVisible() {
 		return saveHandoffBtn.isVisible();
 	}
 
+	/**
+	 * This method checks the visibility of Save And MoveToNextAccnt Button on HandOff PopUp
+	 * @return boolean value based on visibility
+	 */
 	public boolean isSaveAndMoveToNxtAccntBtnOnHandoffPopupVisible() {
 		return saveAndMoveNxtAccntBtn.isVisible();
 	}
 
+	/**
+	 * This method fetches Disposition DropDown Option Value  on HandOff PopUp
+	 * @return disposition DropDown Option Value
+	 */
 	public List<String> getListOfDispositionDrpdwnVal() {
 		return dispositionDrpdwn.getSelectOptions();
 	}
 
+	/**
+	 * This method select value from Disposition DropDown on HandOff PopUp
+	 * @param dispositionVal
+	 */
 	public void selectFromDispositionDrpdwn(String dispositionVal) {
 		dispositionDrpdwn.selectByVisibleText(dispositionVal);
 	}
@@ -498,16 +596,22 @@ public class AccountInformationPage extends PageObject {
 		evaluateJavascript("arguments[0].click();", nextAccountBtn);
 	}
 
+	/**
+	 * to verify Patient details section visible
+	 */
 	public void verifyPatientDetailsSectionVisible() {
 		patientDetailsSection.shouldBeVisible();
 	}
 
+	/**
+	 * @return Patient MRN number
+	 */
 	public String getMRNNumber() {
 		return mrnNumber.getText();
 	}
 
 	/**
-	 *This method perform move To Account Action History Section
+	 * This method perform move To Account Action History Section
 	 */
 	public void moveToAccountActionHistory() {
 		withAction().moveToElement(accntActionHistoryHeader).build().perform();
@@ -519,8 +623,9 @@ public class AccountInformationPage extends PageObject {
 	}
 
 	/**
-	 *This method fetch the Current Application URL
-	 *@return currentApplicationURL
+	 * This method fetch the Current Application URL
+	 * 
+	 * @return currentApplicationURL
 	 */
 	public String getCurrentApplicationUrl() {
 		return getDriver().getCurrentUrl();
@@ -531,7 +636,7 @@ public class AccountInformationPage extends PageObject {
 		String[] defectSubcategory = defectLabel.split(">>\\s");
 		return defectSubcategory[0];
 	}
-	
+
 	public String getSuccessMsgUsingJs() {
 		return evaluateJavascript(successMessage).toString();
 	}
