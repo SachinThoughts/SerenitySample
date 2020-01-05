@@ -9,9 +9,9 @@ import net.serenitybdd.core.pages.WebElementFacade;
 import r1.commons.utilities.CommonMethods;
 
 public class AccountInformationPage extends PageObject {
-	
+
 	String successMessage = "return document.querySelector('#msg_success').innerText";
-	
+
 	@FindBy(xpath = "//span[text()='Related Accounts']")
 	private WebElementFacade relatedAccountBtn;
 
@@ -240,8 +240,7 @@ public class AccountInformationPage extends PageObject {
 	 * This method click On Related Account Based on Facility Code and Fetch Invoice
 	 * No
 	 * 
-	 * @param facilityCode
-	 *            for mapping purpose
+	 * @param facilityCode for mapping purpose
 	 * @return invoiceNo on RelatedAccount Popup
 	 */
 	public String clickRelatedAccountBasedOnFacilityCodeAndFetchInvoiceNo(String facilityCode) {
@@ -259,8 +258,7 @@ public class AccountInformationPage extends PageObject {
 	/**
 	 * This method click On Invoice No on Related Account Popup and Fetch Invoice No
 	 * 
-	 * @param index
-	 *            : Based on which Invoice Number is fetched
+	 * @param index : Based on which Invoice Number is fetched
 	 * @return invoiceNo on RelatedAccount Popup
 	 */
 	public String clickOnInvoiceNoOnRelatedAccntPopUpAndGetInvoiceNo(int index) {
@@ -286,10 +284,16 @@ public class AccountInformationPage extends PageObject {
 		return handOffTypeDrpdwn.getSelectedVisibleTextValue();
 	}
 
+	/**
+	 * click on handoff type dropdown
+	 */
 	public void clickHandOffTypeDrpDown() {
 		evaluateJavascript("arguments[0].click()", handOffTypeDrpdwn);
 	}
 
+	/**
+	 * @return return the list if Handoff type dropdown values
+	 */
 	public List<String> getHandOffTypeDrpDownValues() {
 		return handOffTypeDrpdwn.getSelectOptions();
 	}
@@ -502,7 +506,7 @@ public class AccountInformationPage extends PageObject {
 	}
 
 	/**
-	 *This method perform move To Account Action History Section
+	 * This method perform move To Account Action History Section
 	 */
 	public void moveToAccountActionHistory() {
 		withAction().moveToElement(accntActionHistoryHeader).build().perform();
@@ -514,8 +518,9 @@ public class AccountInformationPage extends PageObject {
 	}
 
 	/**
-	 *This method fetch the Current Application URL
-	 *@return currentApplicationURL
+	 * This method fetch the Current Application URL
+	 * 
+	 * @return currentApplicationURL
 	 */
 	public String getCurrentApplicationUrl() {
 		return getDriver().getCurrentUrl();
@@ -526,7 +531,7 @@ public class AccountInformationPage extends PageObject {
 		String[] defectSubcategory = defectLabel.split(">>\\s");
 		return defectSubcategory[0];
 	}
-	
+
 	public String getSuccessMsgUsingJs() {
 		return evaluateJavascript(successMessage).toString();
 	}

@@ -9,6 +9,11 @@ import r1.commons.databaseconnection.DatabaseConn;
 
 public class DefectOverrideSteps {
 
+	/**
+	 * This method verify Selected Defect SubCategory Value with Database
+	 * @return boolean Value based on verification
+	 * @throws SQLException
+	 */
 	@Step
 	public boolean verifySelectedDefectSubCategoryWithDB(String selectedSubCatValue) throws SQLException {
 		List<String> listOfDefectSubCategoryInDB = new ArrayList<>();

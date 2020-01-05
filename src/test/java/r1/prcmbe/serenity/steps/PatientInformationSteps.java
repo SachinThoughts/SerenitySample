@@ -12,6 +12,12 @@ public class PatientInformationSteps {
 	 PatientInformationPage patientInfoPage;
 	List<String> getDBFacilityDetails = new ArrayList<>();
 	String facilityTaxId1,facilityPTan1;
+	
+	/**
+	 * Below method verifies value fetched from DB and UI are Equal or not
+	 * @return List of values which are not matched with UI and DB
+	 * @throws SQLException
+	 */
 	@Step
 	public  List<Object> verifyFacilityDetailsWithDb() throws SQLException {
 		int count = 0;
@@ -28,6 +34,7 @@ public class PatientInformationSteps {
 			String Npi = DatabaseConn.resultSet.getString("NPI").trim();
 			String facilityTaxId = DatabaseConn.resultSet.getString("Tax ID #");
 			String facilityPTan = DatabaseConn.resultSet.getString("PTAN");
+			
 			if (facilityTaxId.isEmpty()) {
 				facilityTaxId = "-";
 			}

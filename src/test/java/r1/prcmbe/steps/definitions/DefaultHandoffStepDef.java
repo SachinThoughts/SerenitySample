@@ -133,7 +133,7 @@ public class DefaultHandoffStepDef {
 		defaultHandOffPage.clickAddHandOffSaveChangesButton();
 	}
 
-	@When("^Default Handoff user runs the query to verify if the handoff is inserted \"([^\"]*)\"  $")
+	@When("^Default Handoff user runs the query to verify if the handoff is inserted \"([^\"]*)\"$")
 	public void user_runs_the_query_to_verify_if_the_handoff_is_inserted(String query)
 			throws ClassNotFoundException, SQLException, Exception {
 		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
@@ -300,7 +300,7 @@ public class DefaultHandoffStepDef {
 		dispositionCode = defaultHandOffPage.enterDispositionCode();
 	}
 
-	@When("^user enters text in Disposition Description textbox: \"([^\"]*)\"$")
+	@When("^user enters text in Disposition Description textbox: \"([^\"]*)\"$")
 	public void user_enters_text_in_Disposition_Description_textbox(String dispositionDescriptionValue) {
 		dispositionDescription = dispositionDescriptionValue;
 		defaultHandOffPage.enterDispositionNameTextBox(dispositionDescriptionValue);

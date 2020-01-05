@@ -42,7 +42,7 @@ public class PatientInformationStepDef extends PageObject {
 	@Then("^user should be able to view the following tabs$")
 	public void user_should_be_able_to_view_the_folllowing_tabs_Patient_Visit_Details(DataTable expectedTabHeaders) {
 		List<String> expectedListOfGridColumns = expectedTabHeaders.asList(String.class);
-		listOfHeadersOnUI = patientInformationPage.getlistOfPatientInfoHeaders();
+		listOfHeadersOnUI = patientInformationPage.getlistOfPatientAndFacilityInfoTab();
 		Assert.assertTrue("User is not able to view following Test case" + expectedTabHeaders,
 				listOfHeadersOnUI.containsAll(expectedListOfGridColumns));
 	}
@@ -89,11 +89,14 @@ public class PatientInformationStepDef extends PageObject {
 		if (tabName.trim().equals("Patient Address tab")) {
 			patientInformationPage.clickOnPatientAddressTab();
 		}
-		if (tabName.trim().equals("Facility Details tab")) {
+		else if (tabName.trim().equals("Facility Details tab")) {
 			patientInformationPage.clickOnFacilityDetailsTab();
 		}
-		if (tabName.trim().equals("Patient & Visit Details tab")) {
+		else if (tabName.trim().equals("Patient & Visit Details tab")) {
 			patientInformationPage.clickOnPatientAndVisitDetailsTab();
+		}
+		else {
+			Assert.assertTrue("No Tab is visible on page",false);
 		}
 	}
 
@@ -142,7 +145,7 @@ public class PatientInformationStepDef extends PageObject {
 	@Then("^User should be able to view the following feilds on Facility Details tab$")
 	public void user_should_be_able_to_view_the_following_feilds_on_Facility_Details_tab(DataTable expectedHeaders) {
 		List<String> expectedListOfHeaders = expectedHeaders.asList(String.class);
-		listOfHeadersOnUI = patientInformationPage.getlistOfFacilityInfoHeaders();
+		listOfHeadersOnUI = patientInformationPage.getlistOfFacilityInfoSectionLables();
 		Assert.assertTrue("Expected headers are not visible on Page",
 				listOfHeadersOnUI.containsAll(expectedListOfHeaders));
 	}
@@ -153,7 +156,7 @@ public class PatientInformationStepDef extends PageObject {
 				listOfHeadersOnUI.containsAll(listOfDataHeadersInDB));
 	}
 
-	@When("^user runs the patient info query to fetch facility data \"([^\"]*)\" query$")
+	@When("^user runs the patient info query to fetch facility data \"([^\"]*)\" query$")
 	public void user_runs_the_patient_info_query_to_fetch_facility_data_query(String queryName) throws Exception {
 		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
 				String.format(commonMethods.loadQuery(queryName, dbQueryFilename), dbInvoiceNumber));
