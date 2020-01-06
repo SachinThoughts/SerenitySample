@@ -144,7 +144,7 @@ public class TaggingPage extends PageObject {
 
 	@FindBy(xpath = "//h3[text()='Claims & Remittances ']")
 	private WebElementFacade claimAndRemittanceSection;
-
+	
 	@FindBy(xpath = "//*[@id='generalTags']//li[position()=1]//table[@class='table']//child::th")
 	private List<WebElementFacade> listOfTagHeadersUnderHistorySection;
 
@@ -695,12 +695,12 @@ public class TaggingPage extends PageObject {
 	 */
 	public void selectAccTagCategoryOnMU() {
 		evaluateJavascript(scrollToElementJs, tagCategoryDrpdwnOnMassUpdateScrn);
-		int index1 = CommonMethods.getRandom(tagCategoryDrpdwnOptnsOnMUScrn.size());
+		int index = CommonMethods.getRandom(tagCategoryDrpdwnOptnsOnMUScrn.size());
 		CommonMethods.getRandom(tagCategoryDrpdwnOptnsOnMUScrn.size());
-		while (index1 == 0) {
-			index1 = CommonMethods.getRandom(tagCategoryDrpdwnOptnsOnMUScrn.size());
+		while (index == 0) {
+			index = CommonMethods.getRandom(tagCategoryDrpdwnOptnsOnMUScrn.size());
 		}
-		for (int i = 0; i < index1; i++) {
+		for (int i = 0; i < index; i++) {
 			withAction().moveToElement(tagCategoryDrpdwnOnMassUpdateScrn).click().sendKeys(Keys.DOWN).sendKeys(Keys.TAB)
 					.build().perform();
 		}
@@ -717,7 +717,10 @@ public class TaggingPage extends PageObject {
 		while (index1 == 0) {
 			index1 = CommonMethods.getRandom(tagNameDrpdwnOptnsOnMassUpdateScrn.size());
 		}
-		evaluateJavascript("document.querySelector(\"#tagName > option:nth-child(" + index1 + ")\").selected=true");
+		for (int i = 0; i < index1; i++) {
+			withAction().moveToElement(tagNameDrpdwnOnMassUpdateScrn).click().sendKeys(Keys.DOWN).sendKeys(Keys.TAB)
+					.build().perform();
+		}
 	}
 
 	/**
