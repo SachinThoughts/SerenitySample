@@ -3,6 +3,7 @@ package r1.prcmbe.steps.definitions;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.junit.Assert;
@@ -66,13 +67,15 @@ public class DefectOverrideStepDef {
 	}
 
 	@When("^user run the query to fetch InvoiceId(.*)$")
-	public void user_run_the_query_to_fetch_InvoiceId(String queryName) throws ClassNotFoundException, SQLException, Exception {
+	public void user_run_the_query_to_fetch_InvoiceId(String queryName)
+			throws ClassNotFoundException, SQLException, Exception {
 		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
 				commonMethods.loadQuery(queryName, dbFileName));
 	}
-	
+
 	@When("^user run the query to fetch PRCM flag(.*)$")
-	public void user_run_the_query_to_fetch_PRCM_flag(String queryName) throws ClassNotFoundException, SQLException, Exception {
+	public void user_run_the_query_to_fetch_PRCM_flag(String queryName)
+			throws ClassNotFoundException, SQLException, Exception {
 		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
 				commonMethods.loadQuery(queryName, dbFileName));
 	}
@@ -135,7 +138,7 @@ public class DefectOverrideStepDef {
 	@Then("^user should be able to view the progesssbar selected as \"([^\"]*)\"$")
 	public void user_should_be_able_to_view_the_progesssbar_selected_as_Confirm(String stepName) {
 		Assert.assertTrue("Confirm step is not selected on progress bar",
-				defectOverridePage.verifyDefaultSelectedStepOnProgressBar(stepName));
+				stepName.equals(defectOverridePage.getConfirmStepOnProgressBarValue()));
 	}
 
 	@Then("^user should be able to view the assigned defect sub category below progress bar$")
@@ -275,7 +278,6 @@ public class DefectOverrideStepDef {
 		try {
 			while (DatabaseConn.resultSet.next()) {
 				listOfSOPActionsOnTriage.add(DatabaseConn.resultSet.getString("ActionName"));
-
 			}
 		} catch (SQLException exception) {
 			Assert.assertTrue("ActionName is not fetched from DB.\nThe Technical Error is:\n" + exception, false);
@@ -284,6 +286,9 @@ public class DefectOverrideStepDef {
 
 	@Then("^user should be able to view Required Sops actions in verify All steps taken$")
 	public void user_should_be_able_to_view_Required_Sops_actions_in_verify_All_steps_taken() {
+		List<String> listOfSOPActionFromUI = defectOverridePage.getSOPActionsOnTriagePage();
+		Collections.sort(listOfSOPActionsOnTriage);
+		Collections.sort(listOfSOPActionFromUI);
 		Assert.assertTrue("Failed to view Sop Actions On verify All Step taken",
 				listOfSOPActionsOnTriage.equals(defectOverridePage.getSOPActionsOnTriagePage()));
 	}
@@ -314,8 +319,11 @@ public class DefectOverrideStepDef {
 
 	@Then("^user should be able to view Required Sops actions in Step taken section$")
 	public void user_should_be_able_to_view_Required_Sops_actions_in_Step_taken_section() {
+		List<String> listOfSOPActionFromUI = defectOverridePage.getSOPActionsOnActionPage();
+		Collections.sort(listOfSOPActionsOnAction);
+		Collections.sort(listOfSOPActionFromUI);
 		Assert.assertTrue("Failed to view required Sop Actions On Step taken",
-				listOfSOPActionsOnAction.equals(defectOverridePage.getSOPActionsOnActionPage()));
+				listOfSOPActionFromUI.equals(listOfSOPActionsOnAction));
 	}
 
 	@Then("^user runs with DefectTypID and DefectSubCategoryDesc the query (.*)$")
@@ -388,7 +396,7 @@ public class DefectOverrideStepDef {
 	@Then("^user should be able to view override entry in Defect Account Attribute Table$")
 	public void user_should_be_able_to_view_override_entry_in_Defect_Account_Attribute_Table() throws SQLException {
 		isRecordPresent = false;
-		while (DatabaseConn.resultSet.next()) { 
+		while (DatabaseConn.resultSet.next()) {
 			isRecordPresent = true;
 		}
 		Assert.assertTrue("failed to override entry in Defect Account Attribute Table", isRecordPresent);

@@ -23,6 +23,11 @@ public class RelatedAccountsSteps {
 	List<String> defectSubTypesDb = new ArrayList<>();
 	List<String> formattedPatientTypesDb = new ArrayList<>();
 
+	/**
+	 * This methods verifies the Related Account popup grid data on UI with DB
+	 * @return list of values
+	 * @throws SQLException
+	 */
 	@Step
 	public List<Object> verifyGridDataWithDb() throws SQLException {
 		int count = 0;
