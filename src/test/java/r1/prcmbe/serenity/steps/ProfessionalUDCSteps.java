@@ -9,6 +9,13 @@ public class ProfessionalUDCSteps {
 
 	private String defectTypeName, defectSubCategoryName;
 
+	/**
+	 * This method generates unique defect type name
+	 * 
+	 * @param value          This parameter contains defect type name
+	 * @param defectTypeList This parameter contains list of defect type names
+	 * @return String This returns defect type name
+	 */
 	@Step
 	public String getDefectTypeValue(String value, List<String> defectTypeList) {
 		int size = defectTypeList.size();
@@ -19,6 +26,14 @@ public class ProfessionalUDCSteps {
 		return defectTypeName;
 	}
 
+	/**
+	 * This method generates unique defect sub category name
+	 * 
+	 * @param value                 This parameter contains defect sub category name
+	 * @param defectSubCategoryList This parameter contains list of defect sub
+	 *                              category names
+	 * @return String This returns defect sub category name
+	 */
 	@Step
 	public String getDefectSubTypeValue(String value, List<String> defectSubCategoryList) {
 		int size = defectSubCategoryList.size();

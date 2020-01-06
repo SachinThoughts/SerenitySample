@@ -15,9 +15,6 @@ public class RelatedAccountsPage extends PageObject {
 	@FindBy(id = "relatedLabel")
 	private WebElementFacade relatedAccountsPopupLbl;
 
-	@FindBy(xpath = "//button[text()='Search']")
-	private WebElementFacade searchBtn;
-
 	@FindBy(xpath = "//*[@id='AccountFirst']/a")
 	private List<WebElementFacade> firstBtnList;
 
@@ -36,86 +33,100 @@ public class RelatedAccountsPage extends PageObject {
 	@FindBy(xpath = "//*[@id='tbRelatedAccount']//th")
 	private List<WebElementFacade> relatedAccountPopupHeaderList;
 
-	@FindBy(xpath = "//*[@id='tbRelatedAccount']//tr/td[1]")
+	@FindBy(xpath = "//th[.=' Visit #']/ancestor::tbody/tr/td[count(//tr/th[.=' Visit #']/preceding-sibling::th)+1]")
 	private List<WebElementFacade> relatedVisitsList;
 
-	@FindBy(xpath = "(//*[@id='AccountPageNext' and @class='disabled']/a)[1]")
+	@FindBy(xpath = "//*[@id='AccountDiv']//*[@id='AccountPageNext' and @class='disabled']/a")
 	private WebElementFacade nextBtnDisabled;
 
-	@FindBy(xpath = "(//*[@id='AccountPageNext']/a)[1]")
+	@FindBy(xpath = "//*[@id='AccountDiv']//*[@id='AccountPageNext']/a")
 	private WebElementFacade nextBtn;
 
 	@FindBy(xpath = "//*[@id='loadingDiv']/i")
 	private WebElementFacade paginationSpinner;
 
-	@FindBy(xpath = "//*[@id='tbRelatedAccount']/tbody/tr[2]/td[2]")
-	private WebElementFacade firstInvoiceNumber;
-
-	@FindBy(xpath = "//*[@id='tbRelatedAccount']/tbody/tr[2]/td[1]")
-	private WebElementFacade firstVisitNumber;
-
-	@FindBy(xpath = "//*[@id='tbRelatedAccount']//tr/td[2]")
+	@FindBy(xpath = "//th[.='Invoice #']/ancestor::tbody/tr/td[count(//tr/th[.='Invoice #']/preceding-sibling::th)+1]")
 	private List<WebElementFacade> relatedInvoicesList;
 
-	@FindBy(xpath = "//*[@id='tbRelatedAccount']//tr/td[4]")
+	@FindBy(xpath = "//th[.='Admit Date']/ancestor::tbody/tr/td[count(//tr/th[.='Admit Date']/preceding-sibling::th)+1]")
 	private List<WebElementFacade> admitDatesList;
 
-	@FindBy(xpath = "//*[@id='tbRelatedAccount']//tr/td[5]")
+	@FindBy(xpath = "//th[.='Discharge Date']/ancestor::tbody/tr/td[count(//tr/th[.='Discharge Date']/preceding-sibling::th)+1]")
 	private List<WebElementFacade> dischargeDatesList;
 
-	@FindBy(xpath = "//*[@id='tbRelatedAccount']//tr/td[6]")
+	@FindBy(xpath = "//th[.='Patient Type']/ancestor::tbody/tr/td[count(//tr/th[.='Patient Type']/preceding-sibling::th)+1]")
 	private List<WebElementFacade> patientTypesList;
 
-	@FindBy(xpath = "//*[@id='tbRelatedAccount']//tr/td[3]")
+	@FindBy(xpath = "//th[.='Facility Code']/ancestor::tbody/tr/td[count(//tr/th[.='Facility Code']/preceding-sibling::th)+1]")
 	private List<WebElementFacade> facilityCodesList;
 
-	@FindBy(xpath = "//*[@id='tbRelatedAccount']//tr/td[7]")
+	@FindBy(xpath = "//th[.='PayerPlan Code']/ancestor::tbody/tr/td[count(//tr/th[.='PayerPlan Code']/preceding-sibling::th)+1]")
 	private List<WebElementFacade> payorPlanCodesList;
 
-	@FindBy(xpath = "//*[@id='tbRelatedAccount']//tr/td[8]")
+	@FindBy(xpath = "//th[.='Insurance Balance']/ancestor::tbody/tr/td[count(//tr/th[.='Insurance Balance']/preceding-sibling::th)+1]")
 	private List<WebElementFacade> insuranceBalanceList;
 
-	@FindBy(xpath = "//*[@id='tbRelatedAccount']//tr/td[9]")
+	@FindBy(xpath = "//th[.='Patient Balance']/ancestor::tbody/tr/td[count(//tr/th[.='Patient Balance']/preceding-sibling::th)+1]")
 	private List<WebElementFacade> patientBalanceList;
 
-	@FindBy(xpath = "//*[@id='tbRelatedAccount']//tr/td[10]")
+	@FindBy(xpath = "//th[.='Defect Type']/ancestor::tbody/tr/td[count(//tr/th[.='Defect Type']/preceding-sibling::th)+1]")
 	private List<WebElementFacade> defectTypesList;
 
-	@FindBy(xpath = "//*[@id='tbRelatedAccount']//tr/td[11]")
+	@FindBy(xpath = "//th[.='Defect SubCategory']/ancestor::tbody/tr/td[count(//tr/th[.='Defect SubCategory']/preceding-sibling::th)+1]")
 	private List<WebElementFacade> defectSubTypesList;
 
+	/**
+	 * clicks on Related Account button
+	 */
 	public void clickRelatedAccountsBtn() {
 		relatedAccountsBtn.click();
 	}
 
+	/**
+	 * @return the Related Account popup label text
+	 */
 	public String getRelatedAccPopupLabelTxt() {
 		return relatedAccountsPopupLbl.getText();
 	}
 
-	public boolean isSearchBtnVisible() {
-		return searchBtn.isVisible();
-	}
-
+	/**
+	 * @return visibility of first pagination button on Related Account popup
+	 */
 	public boolean isFirstBtnVisible() {
 		return firstBtnList.size() == 2;
 	}
 
+	/**
+	 * @return visibility of Previous button on Related Account popup
+	 */
 	public boolean isPreviousBtnVisible() {
 		return previousBtnList.size() == 2;
 	}
 
+	/**
+	 * @return visibility of Next button on Related Account popup
+	 */
 	public boolean isNextBtnVisible() {
 		return nextBtnList.size() == 2;
 	}
 
+	/**
+	 * @return visibility of Last button on Related Account popup
+	 */
 	public boolean isLastBtnVisible() {
 		return lastBtnList.size() == 2;
 	}
 
+	/**
+	 * @return default selected page text
+	 */
 	public String getDefaultSelectedPage() {
 		return defaultPage.getText();
 	}
 
+	/**
+	 * @return Related Account popup Header list
+	 */
 	public List<String> getRelatedAcctPopUpHeaderList() {
 		List<String> headerList = new ArrayList<>();
 		for (WebElementFacade header : relatedAccountPopupHeaderList) {
@@ -124,10 +135,16 @@ public class RelatedAccountsPage extends PageObject {
 		return headerList;
 	}
 
+	/**
+	 * @return Related accounts count in the Related Account popup
+	 */
 	public int getRelatedAccountCount() {
 		return relatedVisitsList.size();
 	}
 
+	/**
+	 * @return List of visit numbers
+	 */
 	public List<String> getAllVisitNumbers() {
 		List<String> visitNumbers = new ArrayList<>();
 		boolean flag = false;
@@ -144,13 +161,19 @@ public class RelatedAccountsPage extends PageObject {
 		return visitNumbers;
 	}
 
+	/**
+	 * @return whether Invoice number is clickable
+	 */
 	public boolean isInvoiceNumberClickable() {
-		if (!firstInvoiceNumber.isClickable()) {
-			return firstVisitNumber.isClickable();
+		if (!relatedInvoicesList.get(1).isClickable()) {
+			return relatedVisitsList.get(1).isClickable();
 		}
-		return firstInvoiceNumber.isClickable();
+		return relatedInvoicesList.get(1).isClickable();
 	}
 
+	/**
+	 * @return whether Visit number is hyperlinked for NA Invoice number
+	 */
 	public boolean isVisitNumberHyperLinkedForNAInvoiceNumber() {
 		boolean flag = false;
 		do {
@@ -170,6 +193,9 @@ public class RelatedAccountsPage extends PageObject {
 		return false;
 	}
 
+	/**
+	 * @return List of Visit numbers in current page
+	 */
 	public List<String> getVisitsListCurrentPage() {
 		List<String> visitNumbers = new ArrayList<>();
 		for (WebElementFacade visit : relatedVisitsList) {
@@ -178,6 +204,9 @@ public class RelatedAccountsPage extends PageObject {
 		return visitNumbers;
 	}
 
+	/**
+	 * @return List of Invoice numbers in Current page
+	 */
 	public List<String> getInvoicesListCurrentPage() {
 		List<String> invoiceNumbers = new ArrayList<>();
 		for (WebElementFacade invoice : relatedInvoicesList) {
@@ -186,6 +215,9 @@ public class RelatedAccountsPage extends PageObject {
 		return invoiceNumbers;
 	}
 
+	/**
+	 * @return List of Admit dates in Current page
+	 */
 	public List<String> getAdmitDatesListCurrentPage() {
 		List<String> admitDates = new ArrayList<>();
 		for (WebElementFacade date : admitDatesList) {
@@ -194,6 +226,9 @@ public class RelatedAccountsPage extends PageObject {
 		return admitDates;
 	}
 
+	/**
+	 * @return List of Discharge Dates in Current page
+	 */
 	public List<String> getDischargeDatesListCurrentPage() {
 		List<String> dischargeDates = new ArrayList<>();
 		for (WebElementFacade date : dischargeDatesList) {
@@ -202,6 +237,9 @@ public class RelatedAccountsPage extends PageObject {
 		return dischargeDates;
 	}
 
+	/**
+	 * @return List of Patient types in current page
+	 */
 	public List<String> getPatientTypesListCurrentPage() {
 		List<String> patientTypes = new ArrayList<>();
 		for (WebElementFacade patientType : patientTypesList) {
@@ -210,6 +248,9 @@ public class RelatedAccountsPage extends PageObject {
 		return patientTypes;
 	}
 
+	/**
+	 * @return List of Facility Codes in Current page
+	 */
 	public List<String> getFacilityCodesListCurrentPage() {
 		List<String> facilityCodes = new ArrayList<>();
 		for (WebElementFacade facilityCode : facilityCodesList) {
@@ -218,6 +259,9 @@ public class RelatedAccountsPage extends PageObject {
 		return facilityCodes;
 	}
 
+	/**
+	 * @return List of Payor plan codes in Current page
+	 */
 	public List<String> getPayorPlanCodesListCurrentPage() {
 		List<String> payorPlanCodes = new ArrayList<>();
 		for (WebElementFacade planCode : payorPlanCodesList) {
@@ -226,6 +270,9 @@ public class RelatedAccountsPage extends PageObject {
 		return payorPlanCodes;
 	}
 
+	/**
+	 * @return List of Insurance balance in Current page
+	 */
 	public List<String> getInsuranceBalanceListCurrentPage() {
 		List<String> insuranceBalances = new ArrayList<>();
 		for (WebElementFacade insuranceBalance : insuranceBalanceList) {
@@ -234,6 +281,9 @@ public class RelatedAccountsPage extends PageObject {
 		return insuranceBalances;
 	}
 
+	/**
+	 * @return List of Patient balance in Current page
+	 */
 	public List<String> getPatientBalanceListCurrentPage() {
 		List<String> patientBalances = new ArrayList<>();
 		for (WebElementFacade patientBalance : patientBalanceList) {
@@ -242,6 +292,9 @@ public class RelatedAccountsPage extends PageObject {
 		return patientBalances;
 	}
 
+	/**
+	 * @return List of Defect types in Current page
+	 */
 	public List<String> getDefectTypesListCurrentPage() {
 		List<String> defectTypes = new ArrayList<>();
 		for (WebElementFacade defectType : defectTypesList) {
@@ -250,6 +303,9 @@ public class RelatedAccountsPage extends PageObject {
 		return defectTypes;
 	}
 
+	/**
+	 * @return List of defect subtypes in current page               
+	 */
 	public List<String> getDefectSubTypesListCurrentPage() {
 		List<String> defectSubTypes = new ArrayList<>();
 		for (WebElementFacade defectSubType : defectSubTypesList) {
@@ -258,12 +314,19 @@ public class RelatedAccountsPage extends PageObject {
 		return defectSubTypes;
 	}
 
+	/**
+	 * Clicks on first Invoice number
+	 * @return Invoice number which is clicked
+	 */
 	public String clickAndGetInvoiceNumber() {
-		String invoiceNumber = firstInvoiceNumber.getText();
-		firstInvoiceNumber.click();
+		String invoiceNumber = relatedInvoicesList.get(1).getText();
+		relatedInvoicesList.get(1).click();
 		return invoiceNumber;
 	}
 
+	/**
+	 * @return list of Invoice numbers in Related Account popup
+	 */
 	public List<String> getAllInvoiceNumbers() {
 		List<String> invoiceNumbers = new ArrayList<>();
 		boolean flag = false;
@@ -280,6 +343,9 @@ public class RelatedAccountsPage extends PageObject {
 		return invoiceNumbers;
 	}
 
+	/**
+	 * @return Visit number where Invoice Number is NA on Related Account popup
+	 */
 	public String clickAndGetVisitNumberHyperLinkedForNAInvoiceNumber() {
 		waitForAngularRequestsToFinish();
 		boolean flag = false;
@@ -303,6 +369,9 @@ public class RelatedAccountsPage extends PageObject {
 		return null;
 	}
 	
+	/**
+	 * @return Page Count corresponding to the number of records in Related Account popup
+	 */
 	public boolean isPageCountCorrespondingToRecords() {
 		List<String> visitNumbersUi = getAllVisitNumbers();
 		int pageCount=1;

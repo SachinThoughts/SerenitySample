@@ -1,5 +1,6 @@
 package r1.prcmbe.steps.definitions;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,17 +11,22 @@ import cucumber.api.DataTable;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import net.serenitybdd.core.environment.EnvironmentSpecificConfiguration;
 import net.thucydides.core.annotations.Steps;
+import net.thucydides.core.util.EnvironmentVariables;
 import r1.commons.databaseconnection.DatabaseConn;
 import r1.commons.utilities.CommonMethods;
 import r1.prcmbe.pages.AccountInformationPage;
 import r1.prcmbe.pages.RelatedAccountsPage;
+import r1.prcmbe.pages.SearchPage;
 import r1.prcmbe.serenity.steps.RelatedAccountsSteps;
 
 public class RelatedAccountsStepDef {
 	RelatedAccountsPage relatedAccntsPage;
 	CommonMethods commonMethods;
 	AccountInformationPage accInfoPage;
+	EnvironmentVariables environmentVariables;
+	SearchPage searchPage;
 	@Steps
 	RelatedAccountsSteps relatedAcctSteps;
 	static String dbFileName = "RelatedAccounts";
@@ -44,11 +50,6 @@ public class RelatedAccountsStepDef {
 	public void user_should_able_to_view_the_pop_up_title_as(String popupTitle) {
 		Assert.assertTrue("Popup title is not displayed",
 				relatedAccntsPage.getRelatedAccPopupLabelTxt().equals(popupTitle));
-	}
-
-	@Then("^user should be able to view Search button$")
-	public void user_should_be_able_to_view_Search_button() {
-		Assert.assertTrue("Search button is not visible", relatedAccntsPage.isSearchBtnVisible());
 	}
 
 	@Then("^user should be able to view First button$")
@@ -166,5 +167,13 @@ public class RelatedAccountsStepDef {
 	@Then("^pages count should correspond to number of records$")
 	public void pages_count_should_correspond_to_number_of_records() {
 		Assert.assertTrue("page count does not correspond to number of records", relatedAccntsPage.isPageCountCorrespondingToRecords());
+	}
+	
+	@When("^user login to SQL server and connect to specific database$")
+	public void user_login_to_SQL_server_and_connect_to_specific_database() throws IOException {
+		String webdriverURL = EnvironmentSpecificConfiguration.from(environmentVariables)
+				.getProperty("webdriver.base.url");
+		String facility = searchPage.getFacilityCodeText();
+		DatabaseConn.getServerDBName(webdriverURL, facility);
 	}
 }

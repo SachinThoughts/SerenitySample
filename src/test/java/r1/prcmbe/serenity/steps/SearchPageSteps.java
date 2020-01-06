@@ -32,14 +32,9 @@ public class SearchPageSteps {
 			searchPage.clickSearchInvoiceID();
 		}
 		return searchPage.isPatientAndVisitHeaderVisible()
-				&& dbInvoiceId.contains(searchPage.getInvoiceID().toLowerCase());
+				&& dbInvoiceId.contains(searchPage.getInvoiceNumber().toLowerCase());
 	}
 
-	/**
-	 * Description - Verifying invoice number with equal operator
-	 * @param - Passing invoice number fetched from DB 
-	 * @return - Searched Invoice number is visible or not on account info page
-	 */
 	@Step
 	public boolean verifyInvoiceNumberWithEqualOperator(String dbInvoiceNum) {
 		if (searchPage.isSearchAccTableVisible()) {
@@ -184,7 +179,7 @@ public class SearchPageSteps {
 			searchPage.clickErrorMsg();
 		}
 		return searchPage.isPatientAndVisitHeaderVisible()
-				&& dbEncounterID.equalsIgnoreCase(searchPage.getAccountNumber());
+				&& dbEncounterID.equalsIgnoreCase(searchPage.getPatientAccountNo());
 	}
 
 	@Step
@@ -194,7 +189,7 @@ public class SearchPageSteps {
 			return dblistOfEncounterID.containsAll(new ArrayList<>(new HashSet<>(searchPage.getlistOfAccNum())));
 		}
 		return searchPage.isPatientAndVisitHeaderVisible()
-				&& dblistOfEncounterID.contains(searchPage.getAccountNumber());
+				&& dblistOfEncounterID.contains(searchPage.getPatientAccountNo());
 	}
 
 	@Step
@@ -203,7 +198,7 @@ public class SearchPageSteps {
 		if (searchPage.isSearchAccTableVisible()) {
 			return dblistOfInvoiceNumber.containsAll(new ArrayList<>(new HashSet<>(searchPage.getlistOfInvNum())));
 		}
-		return searchPage.isPatientAndVisitHeaderVisible() && dblistOfInvoiceNumber.contains(searchPage.getInvoiceID());
+		return searchPage.isPatientAndVisitHeaderVisible() && dblistOfInvoiceNumber.contains(searchPage.getInvoiceNumber());
 	}
 
 	@Step

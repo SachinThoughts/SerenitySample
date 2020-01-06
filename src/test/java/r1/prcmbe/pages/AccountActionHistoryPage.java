@@ -55,10 +55,16 @@ public class AccountActionHistoryPage extends PageObject {
 		}
 	}
 
+	/**
+	 * scrolls to Account Action History section
+	 */
 	public void scrollToAccActionHistorySection() {
 		withAction().moveToElement(accActionHistorySection).build().perform();
 	}
 
+	/**
+	 * @return No Account Action History message
+	 */
 	public String getNoAccActionHistoryMsg() {
 		return noAccActionHistoryMsgLbl.getText();
 	}
