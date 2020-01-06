@@ -27,8 +27,10 @@ public class CallPayerQueueSteps {
 	/**
 	 * Checks if invoice count is increased by 1
 	 * 
-	 * @param existingCount This parameter is used to pass current invoice count
-	 * @param newCount      This parameter is used to pass expected invoice count
+	 * @param existingCount
+	 *            This parameter is used to pass current invoice count
+	 * @param newCount
+	 *            This parameter is used to pass expected invoice count
 	 * @return boolean This returns true or false depending on element visibility
 	 */
 	@Step
@@ -39,7 +41,8 @@ public class CallPayerQueueSteps {
 	/**
 	 * Checks if invoice number is visible more than once in Call payer queue
 	 * 
-	 * @param invoiceNumber This parameter is used to pass invoice number
+	 * @param invoiceNumber
+	 *            This parameter is used to pass invoice number
 	 * @return boolean This returns true or false depending on element visibility
 	 */
 	@Step
@@ -51,5 +54,22 @@ public class CallPayerQueueSteps {
 				visiblityCount++;
 		}
 		return visiblityCount > 1;
+	}
+
+	/**
+	 * This method is used to check invoice number present in the call payer queue
+	 * 
+	 * @param invoiceNumber
+	 *            the invoice number to be search in the List
+	 * @return value 'true' if the invoice number is present in the list else return
+	 *         'false'
+	 */
+	@Step
+	public boolean isAccountVisibleInCallPayerQueue(String invoiceNumber) {
+		for (String invoiceNum : callPayorQueuePage.getListOfInvoiceNumberCPQ()) {
+			if (invoiceNum.contains(invoiceNumber))
+				return true;
+		}
+		return false;
 	}
 }

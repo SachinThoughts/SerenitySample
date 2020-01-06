@@ -367,7 +367,7 @@ public class CallPayerQueueStepDef extends PageObject {
 	public void user_should_be_able_to_view_the_account_to_users_CPQ() {
 		callPayerQueuePage.clickToggleCallQueueBtn();
 		Assert.assertTrue("Account not visible in Call Payer Queue",
-				callPayerQueuePage.getInvoiceNumberCPQ().contains(dbInvoiceNumber));
+				callPayerQueueSteps.isAccountVisibleInCallPayerQueue(dbInvoiceNumber));
 	}
 
 	@When("^user logins to the application with \"([^\"]*)\" Role$")
@@ -392,7 +392,7 @@ public class CallPayerQueueStepDef extends PageObject {
 		callPayerQueuePage.clickToggleCallQueueBtn();
 		Assert.assertFalse("Account is still visible in Call Payer Queue",
 				callPayerQueuePage.isInvoiceNumberCPQVisible()
-						&& callPayerQueuePage.getInvoiceNumberCPQ().contains(dbInvoiceNumber));
+						&& callPayerQueueSteps.isAccountVisibleInCallPayerQueue(dbInvoiceNumber));
 	}
 
 	@When("^user clicks on radiobutton Approve$")

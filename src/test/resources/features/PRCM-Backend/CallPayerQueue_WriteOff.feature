@@ -5,16 +5,16 @@ Feature: Verify Call Payer Queue functionality
     Given user is on R1 Hub Page with BSO_Followup user
     When user clicks on Billing & Follow-up link
     And user clicks on R1_Decision link
-    When user login to SQL server and connect to database
-    And user runs the "getAccountsForWriteOff" query to fetch account for CPQ
+
+  @427121 @Sprint102 @BSOFollowUpUser
+  Scenario: Verify that the Account is dropped from CPQ when R1D Approver takes Deny Action on the Account
+  	When user login to SQL server and connect to database
+    And user runs the "getAccountsForWriteOff1" query to fetch account for CPQ
     And user select "Invoice Number" from Search By dropdown
     And user selects "=" operator from operator dropdown
     And user fetch the InvoiceNumber from database
     And user enters Invoice number
     And user clicks on Submit button
-
-  @427121 @Sprint102 @BSOFollowUpUser
-  Scenario: Verify that the Account is dropped from CPQ when R1D Approver takes Deny Action on the Account
     Given user is on account page
     When user clicks on Approvals link
     And user selects "Write Off" option from Category dropdown
@@ -59,6 +59,13 @@ Feature: Verify Call Payer Queue functionality
 
   @427122 @Sprint102 @BSOFollowUpUser
   Scenario: Verify that the Account is dropped from CPQ of Rep when R1D Approver takes Approve Action on the Account.
+    When user login to SQL server and connect to database
+    And user runs the "getAccountsForWriteOff2" query to fetch account for CPQ
+    And user select "Invoice Number" from Search By dropdown
+    And user selects "=" operator from operator dropdown
+    And user fetch the InvoiceNumber from database
+    And user enters Invoice number
+    And user clicks on Submit button
     Given user is on account page
     When user clicks on Approvals link
     And user selects "Write Off" option from Category dropdown
@@ -103,6 +110,13 @@ Feature: Verify Call Payer Queue functionality
 
   @427123 @Sprint102 @BSOFollowUpUser
   Scenario: Verify that the Account is dropped from CPQ of Rep when R1D Approver takes Deny Action on the Account
+    When user login to SQL server and connect to database
+    And user runs the "getAccountsForWriteOff3" query to fetch account for CPQ
+    And user select "Invoice Number" from Search By dropdown
+    And user selects "=" operator from operator dropdown
+    And user fetch the InvoiceNumber from database
+    And user enters Invoice number
+    And user clicks on Submit button
     Given user is on account page
     When user clicks on Approvals link
     And user selects "Write Off" option from Category dropdown
@@ -147,6 +161,13 @@ Feature: Verify Call Payer Queue functionality
 
   @427124 @Sprint103 @BSOFollowUpUser
   Scenario: Verify that the Account on which Write-off Response has been taken are displayed in the Recently Worked Accounts section for the R1D Approver who has taken Write-off Response
+    When user login to SQL server and connect to database
+    And user runs the "getAccountsForWriteOff4" query to fetch account for CPQ
+    And user select "Invoice Number" from Search By dropdown
+    And user selects "=" operator from operator dropdown
+    And user fetch the InvoiceNumber from database
+    And user enters Invoice number
+    And user clicks on Submit button
     Given user is on account page
     When user clicks on Approvals link
     And user selects "Write Off" option from Category dropdown
@@ -185,6 +206,13 @@ Feature: Verify Call Payer Queue functionality
 
   @427127 @Sprint103 @BSOFollowUpUser
   Scenario: Verify that user is not able to add duplicate accounts in Call Queue
+    When user login to SQL server and connect to database
+    And user runs the "getAccountsForWriteOff5" query to fetch account for CPQ
+    And user select "Invoice Number" from Search By dropdown
+    And user selects "=" operator from operator dropdown
+    And user fetch the InvoiceNumber from database
+    And user enters Invoice number
+    And user clicks on Submit button
     Given user is on account page
     When user clicks on Add to queue button in Call Payer Queue Section
     Then user should be able to view Add to Call Queue pop-up
@@ -201,6 +229,13 @@ Feature: Verify Call Payer Queue functionality
 
   @427119 @Sprint103 @BSOFollowUpUser
   Scenario: Verify that the Account is dropped from CPQ when R1D Approver takes Approve Action on the Account
+    When user login to SQL server and connect to database
+    And user runs the "getAccountsForWriteOff6" query to fetch account for CPQ
+    And user select "Invoice Number" from Search By dropdown
+    And user selects "=" operator from operator dropdown
+    And user fetch the InvoiceNumber from database
+    And user enters Invoice number
+    And user clicks on Submit button
     Given user is on account page
     When user clicks on Approvals link
     And user selects "Write Off" option from Category dropdown
@@ -237,6 +272,13 @@ Feature: Verify Call Payer Queue functionality
 
   @427126 @Sprint103 @R1DApproval
   Scenario: Verify that account get dropped from CPQ if the write off action is still pending
+    When user login to SQL server and connect to database
+    And user runs the "getAccountsForWriteOff7" query to fetch account for CPQ
+    And user select "Invoice Number" from Search By dropdown
+    And user selects "=" operator from operator dropdown
+    And user fetch the InvoiceNumber from database
+    And user enters Invoice number
+    And user clicks on Submit button
     Given user is on account page
     When user clicks on Add to queue button in Call Payer Queue Section
     When user enters notes "Automation testing Notes" in Notes Section

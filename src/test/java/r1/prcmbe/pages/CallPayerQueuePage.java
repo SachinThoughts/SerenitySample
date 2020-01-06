@@ -86,7 +86,7 @@ public class CallPayerQueuePage extends PageObject {
 	private WebElementFacade approvalRequestTbl;
 
 	@FindBy(xpath = "//*[@class='callPayerList']/descendant::span[@class='InvoiceNo']")
-	private WebElementFacade invoiceNumberCPQ;
+	private List<WebElementFacade> invoiceNumberCPQ;
 
 	@FindBy(id = "btnOK")
 	private WebElementFacade appReviewSaveBtn;
@@ -287,7 +287,8 @@ public class CallPayerQueuePage extends PageObject {
 	/**
 	 * Selects value from category drop down
 	 * 
-	 * @param categoryText This parameter is used to pass Category value
+	 * @param categoryText
+	 *            This parameter is used to pass Category value
 	 */
 	public void categorySelectByText(String categoryText) {
 		category.selectByVisibleText(categoryText);
@@ -296,7 +297,8 @@ public class CallPayerQueuePage extends PageObject {
 	/**
 	 * Selects value from WriteOff Type drop down
 	 * 
-	 * @param writeOffTypeText This parameter is used to pass WriteOff Type value
+	 * @param writeOffTypeText
+	 *            This parameter is used to pass WriteOff Type value
 	 */
 	public void writeOffTypeSelectByText(String writeOffTypeText) {
 		writeOffType.selectByVisibleText(writeOffTypeText);
@@ -305,7 +307,8 @@ public class CallPayerQueuePage extends PageObject {
 	/**
 	 * Enters WriteOff amount in textbox
 	 * 
-	 * @param amount This parameter is used to pass WriteOff amount
+	 * @param amount
+	 *            This parameter is used to pass WriteOff amount
 	 */
 	public void enterWriteOffAmount(String amount) {
 		writeOffAmount.type(amount);
@@ -314,7 +317,8 @@ public class CallPayerQueuePage extends PageObject {
 	/**
 	 * Enters values in writeoff notes textbox
 	 * 
-	 * @param notes This parameter is used to pass WriteOff notes value
+	 * @param notes
+	 *            This parameter is used to pass WriteOff notes value
 	 */
 	public void enterWriteOffNotes(String notes) {
 		writeOffNotes.type(notes);
@@ -330,7 +334,8 @@ public class CallPayerQueuePage extends PageObject {
 	/**
 	 * Selects TCode value from drop down
 	 * 
-	 * @param tCode This parameter is used to pass TCode value
+	 * @param tCode
+	 *            This parameter is used to pass TCode value
 	 */
 	public void tCodeSelectByText(String tCode) {
 		tCodeToUse.selectByVisibleText(tCode);
@@ -376,12 +381,16 @@ public class CallPayerQueuePage extends PageObject {
 	}
 
 	/**
-	 * Captures invoice number from Call Payer Queue
+	 * Captures all invoice numbers from Call Payer Queue
 	 * 
-	 * @return String This returns Invoice number
+	 * @return List of String This returns list of Invoice numbers
 	 */
-	public String getInvoiceNumberCPQ() {
-		return invoiceNumberCPQ.getText();
+	public List<String> getListOfInvoiceNumberCPQ() {
+		List<String> listOfInvoiceNum = new ArrayList<>();
+		for (WebElementFacade InvoiceNum : invoiceNumberCPQ) {
+			listOfInvoiceNum.add(InvoiceNum.getText());
+		}
+		return listOfInvoiceNum;
 	}
 
 	/**
@@ -390,7 +399,7 @@ public class CallPayerQueuePage extends PageObject {
 	 * @return boolean This returns true or false depending on element visibility
 	 */
 	public boolean isInvoiceNumberCPQVisible() {
-		return invoiceNumberCPQ.isVisible();
+		return invoiceNumberCPQ.get(0).isVisible();
 	}
 
 	/**
@@ -468,7 +477,8 @@ public class CallPayerQueuePage extends PageObject {
 	/**
 	 * Enters values in notes textbox
 	 * 
-	 * @param noteText This parameter is used to pass note value
+	 * @param noteText
+	 *            This parameter is used to pass note value
 	 */
 	public void enterNoteTxtBoxCPQ(String noteText) {
 		noteTxtBoxCPQ.type(noteText);
