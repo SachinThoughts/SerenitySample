@@ -135,7 +135,7 @@ public class AccountInformationPage extends PageObject {
 	@FindBy(xpath = "//label[text()='Note:']")
 	private WebElementFacade noteLabel;
 
-	@FindBy(xpath = "//*[@id='handOff']/div/div/div[3]/button")
+	@FindBy(xpath = "//div[@id='handOff']//button[text()='Close']")
 	private WebElementFacade closeBtnOnHandoffPopup;
 
 	@FindBy(id = "btnSaveHandsOff_nextaccount")

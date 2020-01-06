@@ -120,7 +120,7 @@ public class WorkflowConfigurationPage extends PageObject {
 	@FindBy(xpath = "//ul[@class='more-info workflowConfigdetailsInfo']/li/span[1]")
 	private List<WebElementFacade> listOfDetailColumnsRecipientTab;
 
-	@FindBy(xpath = "//div[@id='step3']//div[@class='row']/div[2]/button")
+	@FindBy(xpath = "//div[@id='step3']//button[text()='Continue ']")
 	private WebElementFacade continueBtnOnActionTypeTab;
 
 	@FindBy(id = "ActionTypeLink")
@@ -330,16 +330,16 @@ public class WorkflowConfigurationPage extends PageObject {
 	@FindBy(xpath = "//div[@id='dvHandOff']//li//div[2]/span")
 	private List<WebElementFacade> listOfHandoffNameOnHandoffTab;
 
-	@FindBy(xpath = "//div[@id='dvHandOff']//li//div[1]/input[@name='workflowName']/..//label")
+	@FindBy(xpath = "//div[@id='dvHandOff']//label[contains(@for,'workflowChoiceID')]")
 	private List<WebElementFacade> listOfRadioLabelOnHandoffTab;
 
-	@FindBy(xpath = "//div[@id='dvWorkflowTypeActions']//li//div[4]/span")
+	@FindBy(xpath = "//div[@id='dvWorkflowTypeActions']//span[contains(@id,'FD')]")
 	private WebElementFacade followDaysOnActionTypeTab;
 
-	@FindBy(xpath = "//div[@id='dvWorkflowTypeActions']//li//div[5]/span")
+	@FindBy(xpath = "//div[@id='dvWorkflowTypeActions']//span[contains(@id,'TL')]")
 	private WebElementFacade timeLimitOnActionTypeTab;
 
-	@FindBy(xpath = "//div[@id='dvWorkflowTypeActions']//li//div[3]/span")
+	@FindBy(xpath = "//div[@id='dvWorkflowTypeActions']//span[contains(@id,'NA')]")
 	private WebElementFacade actionNameOnActionTypeTab;
 
 	@FindBy(xpath = "//ul[@class='sop-types workflowConfiguration']//span[text()='AR Supervisor']//ancestor::li//child::label[contains(@for,'work')]")
