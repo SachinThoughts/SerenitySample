@@ -13,19 +13,19 @@ public class DefectWorkflowPage extends PageObject {
 
 	CommonMethods commonMethods;
 
-	@FindBy(xpath = "//*[@id='divDefectWorkflow']/h3[contains(text(),'Defect Workflow')]")
+	@FindBy(xpath = "//div[@id='divDefectWorkflow']/h3")
 	private WebElementFacade defectWorkflowSecHeader;
 
-	@FindBy(xpath = "//*[@id='msform']/ul/li")
+	@FindBy(xpath = "//ul[contains(@class,'DefectWorkflowProgress')]//li")
 	private List<WebElementFacade> listOfProgressBars;
 
-	@FindBy(xpath = "//*[@id='msform']/ul/li[1]")
+	@FindBy(xpath = "//div[@id='msform']//li[text()='Confirm']")
 	private WebElementFacade confirmStepOnProgressBar;
 
 	@FindBy(xpath = "//h2[contains(text(),'Current Defect')]")
 	private WebElementFacade defectSubCategrySec;
 
-	@FindBy(xpath = "//*[@id='rdoAssignCat']//td/label")
+	@FindBy(xpath = "//table[@id='rdoAssignCat']//label")
 	private List<WebElementFacade> listOfRadioBtnOnOverrideSubCat;
 
 	@FindBy(id = "ddlDefType")
@@ -40,7 +40,7 @@ public class DefectWorkflowPage extends PageObject {
 	@FindBy(id = "lblCurrentDefectSubCategory")
 	private WebElementFacade defectSubCatUnderCurrentDefect;
 
-	@FindBy(xpath = "//p[@class='dc-text']/strong[contains(text(),'Defect Classification')]")
+	@FindBy(xpath = "//strong[text()='Defect Classification']")
 	private WebElementFacade defectClassificationSection;
 
 	@FindBy(id = "lblBreadcrumb")
@@ -49,7 +49,7 @@ public class DefectWorkflowPage extends PageObject {
 	@FindBy(id = "btnOverrideNextStep")
 	private WebElementFacade nextButton;
 
-	@FindBy(xpath = "//*[@id='verify']/h2")
+	@FindBy(xpath = "//fieldset[@id='verify']/h2")
 	private WebElementFacade triageSectionHeader;
 
 	@FindBy(xpath = "//a[starts-with(@id,'btnVerify')]")
@@ -61,25 +61,22 @@ public class DefectWorkflowPage extends PageObject {
 	@FindBy(id = "overrideStep")
 	private WebElementFacade defectOverrideSec;
 
-	@FindBy(xpath = "//*[@id='cblActionsOptional']/label")
-	private List<WebElementFacade> listOfSOPActionsOnTriagePage;
-
-	@FindBy(xpath = "//*[@id='cblActionsRequired']/label")
+	@FindBy(xpath = "//span[@id='cblActionsRequired']/label")
 	private List<WebElementFacade> listOfSOPActionsOnActionPage;
 
-	@FindBy(xpath = "//*[@id='required']/h2")
+	@FindBy(xpath = "//fieldset[@id='required']/h2")
 	private WebElementFacade actionSectionHeader;
 
 	@FindBy(id = "btnVerifyNextStep")
 	private WebElementFacade nextBtnOnTriagePage;
 
-	@FindBy(xpath = "//*[@id='rdoAssignCat']//td/label[contains(text(),'No')]")
+	@FindBy(xpath = "//table[@id='rdoAssignCat']//td/label[contains(text(),'No')]")
 	private WebElementFacade noRadioBtn;
 
-	@FindBy(xpath = "//*[@id='rdoAssignCat']//td/label[contains(text(),'Yes')]")
+	@FindBy(xpath = "//table[@id='rdoAssignCat']//td/label[contains(text(),'Yes')]")
 	private WebElementFacade yesRadioBtn;
 
-	@FindBy(xpath = "//*[@id='cblActionsOptional']/label")
+	@FindBy(xpath = "//span[@id='cblActionsOptional']/label")
 	private List<WebElementFacade> verifyAllStepsCheckbox;
 
 	@FindBy(id = "msg_success")
@@ -94,14 +91,25 @@ public class DefectWorkflowPage extends PageObject {
 	@FindBy(id = "verify")
 	private WebElementFacade verifyAllStepsTakenSection;
 
+	/**
+	 * This method checks whether the Defect WorkFlow Section is Visible or not
+	 * @return boolean value based on visibility
+	 */
 	public boolean isDefectWorkFlowSecVisible() {
 		return defectWorkflowSecHeader.isVisible();
 	}
 
+	/**
+	 * This method moves the control to Defect WorkFlow Section
+	 */
 	public void moveToDefectWorkflowSec() {
 		withAction().moveToElement(defectWorkflowSecHeader).build().perform();
 	}
 
+	/**
+	 * This method stores the Progress Bar Steps value in List
+	 * @return listOfProgressBarsValues
+	 */
 	public List<String> getProgressBarSteps() {
 		List<String> listOfProgressBarsValues = new ArrayList<>();
 		for (WebElementFacade progressBarValue : listOfProgressBars) {
@@ -110,14 +118,21 @@ public class DefectWorkflowPage extends PageObject {
 		return listOfProgressBarsValues;
 	}
 
+	/**
+	 * This method checks whether the Defect SubCategory Section is Visible or not
+	 * @return boolean value based on visibility
+	 */
 	public boolean isAssignedSubCategryVisible() {
 		return defectSubCategrySec.isVisible();
 	}
 
-	public boolean verifyDefaultSelectedStepOnProgressBar(String stepName) {
-		return confirmStepOnProgressBar.getText().equals(stepName);
+	/**
+	 * This method fetches Confirm Step On ProgressBar Value
+	 * @return Confirm Step On ProgressBar Value
+	 */
+	public String getConfirmStepOnProgressBarValue() {
+		return confirmStepOnProgressBar.getText();
 	}
-
 
 	/**
 	 *This method selects No Radio Button On OverrideSub Category
@@ -128,6 +143,10 @@ public class DefectWorkflowPage extends PageObject {
 		}
 	}
 
+	/**
+	 * This method stores the Defect Type DropDown Values
+	 * @return listOfDefectTypeValue
+	 */
 	public List<String> getDefectTypeValues() {
 		List<String> listOfDefectTypeValue;
 		listOfDefectTypeValue = defectTypeValuesDrpdwn.getSelectOptions();
@@ -152,6 +171,10 @@ public class DefectWorkflowPage extends PageObject {
 		return defectTypeValuesDrpdwn.getSelectedVisibleTextValue();
 	}
 
+	/**
+	 * This method stores the Defect SubCategory DropDown Values
+	 * @return listOfDefectTypeValue
+	 */
 	public List<String> getDefectSubCategoryValues() {
 		List<String> listOfDefectSubCategory;
 		listOfDefectSubCategory = defectSubCategoryValuesDrpdwn.getSelectOptions();
@@ -189,15 +212,26 @@ public class DefectWorkflowPage extends PageObject {
 		getDriver().navigate().refresh();
 	}
 
+	/**
+	 * This method fetches Defect SubCategory Under Current Defect Value
+	 * @return Defect SubCategory Under Current Defect Value
+	 */
 	public String getDefectSubCategoryUnderCurrentDefect() {
 		successMsg.withTimeoutOf(Duration.ofSeconds(10)).waitUntilNotVisible();
 		return defectSubCatUnderCurrentDefect.getText();
 	}
 
+	/**
+	 * This method moves the control to Defect Classification Section
+	 */
 	public void moveToDefectClassificationSec() {
 		withAction().moveToElement(defectClassificationSection).build().perform();
 	}
 
+	/**
+	 * This method fetches Defect Classification BreadCrumb Value
+	 * @return Defect Classification BreadCrumb Value
+	 */
 	public String getDefectCategoryUnderDefectClassSec() {
 		return bredCrumUnderDefectClassification.getText();
 	}
@@ -250,7 +284,7 @@ public class DefectWorkflowPage extends PageObject {
 	 */
 	public List<String> getSOPActionsOnTriagePage() {
 		List<String> listOfSOPActions = new ArrayList<>();
-		for (WebElementFacade SOPActionValue : listOfSOPActionsOnTriagePage) {
+		for (WebElementFacade SOPActionValue : verifyAllStepsCheckbox) {
 			listOfSOPActions.add(SOPActionValue.getText());
 		}
 		return listOfSOPActions;
@@ -286,24 +320,42 @@ public class DefectWorkflowPage extends PageObject {
 		}
 	}
 
+	/**
+	 * This method checks whether DefectType DropDown is visible or not
+	 * @return boolean value based on visibility
+	 */
 	public boolean isDefectTypeDrpdwnVisible() {
 		return defectTypeValuesDrpdwn.isVisible();
 	}
 
+	/**
+	 * This method checks whether Defect SubCategory DropDown is visible or not
+	 * @return boolean value based on visibility
+	 */
 	public boolean isDefectSubCategoryDrpdwnVisible() {
 		return defectSubCategoryValuesDrpdwn.isVisible();
 	}
 
+	/**
+	 * This method checks whether Save Button is visible or not
+	 * @return boolean value based on visibility
+	 */
 	public boolean isSaveBtnVisible() {
 		return saveButton.isVisible();
 	}
 
+	/**
+	 * This method clicks on Yes RadioButton
+	 */
 	public void selectYesRadioBtn() {
 		if (!defectTypeValuesDrpdwn.isVisible()) {
 			yesRadioBtn.click();
 		}
 	}
 
+	/**
+	 * This method randomly selects Verify All Steps CheckBox
+	 */
 	public void selectRandomVerifyAllStepsCheckbox() {
 		int size = verifyAllStepsCheckbox.size();
 		int index = CommonMethods.getRandom(size);
@@ -325,8 +377,8 @@ public class DefectWorkflowPage extends PageObject {
 	 * This method clicks on any SOP Action on Triage Section
 	 */
 	public void clickSOPActionOnTriageSection() {
-		int randomVal = CommonMethods.getRandom(listOfSOPActionsOnTriagePage.size());
-		listOfSOPActionsOnTriagePage.get(randomVal).click();
+		int randomVal = CommonMethods.getRandom(verifyAllStepsCheckbox.size());
+		verifyAllStepsCheckbox.get(randomVal).click();
 	}
 
 	/**
