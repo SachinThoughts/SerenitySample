@@ -123,7 +123,7 @@ public class SearchPage extends PageObject {
 	/**
 	 * Selecting option from search by drop down
 	 * 
-	 * @param dropdown-
+	 * @param dropdown
 	 *            drop down value is passing from feature file
 	 */
 	public void searchBySelectText(String dropdownVal) {
@@ -134,7 +134,7 @@ public class SearchPage extends PageObject {
 	 * Selecting operator value from operator drop down
 	 * 
 	 * @param operatorValue
-	 *            - Passing through feature file
+	 *            Passing through feature file
 	 */
 	public void selectOperatorValue(String operatorValue) {
 		operatorDropdown.selectByVisibleText(operatorValue);
@@ -143,7 +143,7 @@ public class SearchPage extends PageObject {
 	/**
 	 * Entering invoice number in invoice number text field
 	 * 
-	 * @param invoiceNumber-
+	 * @param invoiceNumber
 	 *            Passing Invoice number fetched from DB or Feature file
 	 */
 	public void enterInvoiceNumber(String invoiceNumber) {
@@ -187,7 +187,6 @@ public class SearchPage extends PageObject {
 	 * @return Index of login facility
 	 */
 	public int getFacilityIndex() {
-		/** Returns index of matched facility code **/
 		String facilityCode = getFacilityCodeText();
 		int index = 0;
 		int size = listOfSearchedFacility.size();
@@ -246,7 +245,7 @@ public class SearchPage extends PageObject {
 	/**
 	 * Entering Visit number
 	 * 
-	 * @param visitNumber-
+	 * @param visitNumber
 	 *            Passing through feature file or data base
 	 */
 	public void enterVisitNumber(String visitNumber) {
@@ -280,7 +279,7 @@ public class SearchPage extends PageObject {
 	/**
 	 * Entering Claim Number
 	 * 
-	 * @param claimNumber-
+	 * @param claimNumber
 	 *            Passing through feature file
 	 */
 	public void enterClaimNumber(String claimNumber) {
@@ -298,7 +297,7 @@ public class SearchPage extends PageObject {
 	 * Entering Last name
 	 * 
 	 * @param lastName
-	 *            - Passing through feature file or Data base Query
+	 *            Passing through feature file or Data base Query
 	 */
 	public void enterLastNameTxtBox(String lastName) {
 		lastNameTxtBox.type(lastName);
@@ -315,7 +314,7 @@ public class SearchPage extends PageObject {
 	 * Entering First name
 	 * 
 	 * @param firstName
-	 *            - Passing through feature file or Data base Query
+	 *            Passing through feature file or Data base Query
 	 */
 	public void enterFirstName(String firstName) {
 		firstNameTxtBox.type(firstName);
@@ -339,7 +338,7 @@ public class SearchPage extends PageObject {
 	 * Entering SSN number
 	 * 
 	 * @param sSN
-	 *            - Passing through feature file or Data base
+	 *            Passing through feature file or Data base
 	 */
 	public void enterSSN(String sSN) {
 		sSNTxtBox.type(sSN);
@@ -366,10 +365,20 @@ public class SearchPage extends PageObject {
 		return toolTip.isVisible();
 	}
 
+	/**
+	 * This method select value from SelectBy Dropdown
+	 * 
+	 * @param operatorValue
+	 *            To be selected from Dropdown
+	 */
 	public void operatorSelectText(String operatorValue) {
 		operator.selectByVisibleText(operatorValue);
 	}
 
+	/**
+	 * This method clicks on the invoice number visible on the searched account
+	 * table
+	 */
 	public void clickSearchInvoiceNumber() {
 		listOfSearchedInvoiceId.get(getFacilityIndex()).click();
 		if (isErrorMsgVisible()) {
@@ -414,7 +423,7 @@ public class SearchPage extends PageObject {
 	 * Entering last name
 	 * 
 	 * @param lastName
-	 *            - Passing through Feature file or data base
+	 *            Passing through Feature file or data base
 	 */
 	public void enterLastName(String lastName) {
 		lastNameTxtBox.type(lastName);
@@ -443,6 +452,8 @@ public class SearchPage extends PageObject {
 	}
 
 	/**
+	 * This method gives the complete name of the patient
+	 * 
 	 * @return Text of Patient name present on account info page
 	 */
 	public String getPatientName() {
@@ -450,6 +461,8 @@ public class SearchPage extends PageObject {
 	}
 
 	/**
+	 * This method gives last name of the patient
+	 * 
 	 * @return Patient Last name
 	 */
 	public String getPatientLastName() {
@@ -458,6 +471,8 @@ public class SearchPage extends PageObject {
 	}
 
 	/**
+	 * This method gives first name of the patient
+	 * 
 	 * @return Patient First name
 	 */
 	public String getPatientFirstName() {
@@ -466,6 +481,8 @@ public class SearchPage extends PageObject {
 	}
 
 	/**
+	 * This method gives names of all the facilities present on searched table
+	 * 
 	 * @return List of Facility of appeared on search account table
 	 */
 	public List<String> getlistOfSearchedFacility() {
@@ -545,5 +562,4 @@ public class SearchPage extends PageObject {
 	public void waitForSpinnerToDisappear() {
 		loadingSpinner.withTimeoutOf(Duration.ofSeconds(80)).waitUntilNotVisible();
 	}
-
 }
