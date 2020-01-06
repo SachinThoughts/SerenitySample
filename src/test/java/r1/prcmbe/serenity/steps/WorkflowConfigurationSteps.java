@@ -42,7 +42,7 @@ public class WorkflowConfigurationSteps {
 	 */
 
 	@Step
-	public void clearCacheAndLogin() throws IOException {
+	public void clearCacheAndLogin() throws IOException { 
 		navigationPage.clickSettings();
 		settingsPage.hoverITToolsLink();
 		settingsPage.clickCacheLink();
