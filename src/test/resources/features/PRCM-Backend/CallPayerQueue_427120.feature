@@ -3,7 +3,7 @@ Feature: Verify Call Payer Queue functionality
 
   Background: user is able to connect to SQL server for PRCM facility
     Given user is able to login to sql server and connect to database
-    When user runs the "getAccountsForWriteOff9" query to fetch account for CPQ
+    When user runs the "getAccountsForWriteOff6" query to fetch account for CPQ
     And user fetch the "RegistrationID" from database
 
   @427120 @Sprint103
