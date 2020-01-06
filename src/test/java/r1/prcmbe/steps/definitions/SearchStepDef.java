@@ -546,7 +546,7 @@ public class SearchStepDef extends PageObject {
 			financialInfoSteps
 					.log("searched table is not visible with grid, single account present for the search result");
 		}
-		Assert.assertTrue("Account with Incorrect MRN number is searched", searchPage.getPatientMRN().contains(dbMRN));
+		Assert.assertTrue("Account with Incorrect MRN number is searched", searchPage.getMRNText().contains(dbMRN));
 	}
 
 	@When("^user runs the (.*) query for MRN search$")
@@ -564,7 +564,7 @@ public class SearchStepDef extends PageObject {
 		} catch (SQLException sQLException) {
 			Assert.assertTrue("MRN is not fetched from DB.\nThe Technical Error is:\n" + sQLException, false);
 		}
-		Assert.assertTrue("MRN on UI does not match with database", searchPage.getPatientMRN().contains(dbMRN));
+		Assert.assertTrue("MRN on UI does not match with database", searchPage.getMRNText().contains(dbMRN));
 	}
 
 	@Then("^user should be able to view the \"([^\"]*)\" error message$")
