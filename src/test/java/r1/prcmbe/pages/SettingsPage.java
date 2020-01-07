@@ -50,7 +50,10 @@ public class SettingsPage extends PageObject {
 
 	@FindBy(xpath = "//*[@id='sidebar']/div[1]/span[text()='Settings']")
 	private WebElementFacade settingsHeader;
-	
+
+	/**
+	 * Method clicks on R1D Decision on Settings Page
+	 */
 	public void clickOnSettingsR1Decisions() {
 		waitForAngularRequestsToFinish();
 		withAction().moveToElement(settingsR1Decision).click().build().perform();
@@ -61,11 +64,17 @@ public class SettingsPage extends PageObject {
 		withAction().moveToElement(workflowConfig).click().build().perform();
 	}
 
+	/**
+	 * hover over the IT tools link
+	 */
 	public void hoverITToolsLink() {
 		waitForAngularRequestsToFinish();
 		withAction().moveToElement(iTToolsLink).click().build().perform();
 	}
 
+	/**
+	 * click on facility setting configuration link
+	 */
 	public void clickFacilitySettingConfigLink() {
 		waitForAngularRequestsToFinish();
 		withAction().moveToElement(facilitySettingConfigLink).click().build().perform();
@@ -96,6 +105,10 @@ public class SettingsPage extends PageObject {
 		waitForAngularRequestsToFinish();
 		withAction().moveToElement(r1ConfigurationLink).click().build().perform();
 	}
+
+	/**
+	 * Method clicks on the Facility GRoup Configuration in R1D Decision
+	 */
 
 	public void clickFacilityGroupConfig() {
 		withAction().moveToElement(facilityGrpConfigLink).click().build().perform();
