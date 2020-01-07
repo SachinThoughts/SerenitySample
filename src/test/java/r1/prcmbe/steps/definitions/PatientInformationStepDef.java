@@ -129,7 +129,6 @@ public class PatientInformationStepDef extends PageObject {
 				int col = md.getColumnCount();
 				for (int i = 1; i <= col; i++) {
 					listOfDataHeadersInDB.add(md.getColumnName(i));
-					System.out.println(listOfDataHeadersInDB);
 				}
 			}
 		} catch (SQLException sQLException) {

@@ -35,26 +35,7 @@ public class PatientInformationSteps {
 			String Npi = DatabaseConn.resultSet.getString("NPI").trim();
 			String facilityTaxId = DatabaseConn.resultSet.getString("Tax ID #");
 			String facilityPTan = DatabaseConn.resultSet.getString("PTAN");
-			if (locationCode.isEmpty()) {
-				locationCode = "-";
-			}
-			if (locationName.isEmpty()) {
-				locationName = "-";
-			}
-
-			if (locationAddress.isEmpty()) {
-				locationAddress = "-";
-			}
-			if (facilityCity.isEmpty()) {
-				facilityCity = "-";
-			}
-			if (facilityState.isEmpty()) {
-				facilityState = "-";
-			}
-			if (facilityZipCode.isEmpty()) {
-				facilityZipCode = "-";
-			}
-
+			
 			if (facilityTaxId.isEmpty()) {
 				facilityTaxId = "-";
 			}
