@@ -867,7 +867,7 @@ public class WorkflowConfigurationPage extends PageObject {
 	/*
 	 * Method clicks Continue btn on the Handoff page
 	 */
-	public void clickOnContinueBtnOnHandoffTab() {
+	public void clickOnContinueBtnOnHandoffTab() { 
 		continueBtnOnHandoff.click();
 	}
 
