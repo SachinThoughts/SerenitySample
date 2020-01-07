@@ -244,7 +244,7 @@ public class CallPayerQueueStepDef extends PageObject {
 	@When("^user clicks on Save button on handoff pop up$")
 	public void user_clicks_on_Save_button_on_handoff_pop_up() {
 		accInfoPage.clickSaveBtn();
-		succesMessageHandOff = accInfoPage.getSuccessMsg();
+		succesMessageHandOff = accInfoPage.getSuccessMsgUsingJs();
 	}
 
 	@Then("^user should be able to view the \"([^\"]*)\" message$")
@@ -365,7 +365,6 @@ public class CallPayerQueueStepDef extends PageObject {
 
 	@Then("^user should be able to view the account to users CPQ$")
 	public void user_should_be_able_to_view_the_account_to_users_CPQ() {
-		callPayerQueuePage.clickToggleCallQueueBtn();
 		Assert.assertTrue("Account not visible in Call Payer Queue",
 				callPayerQueueSteps.isAccountVisibleInCallPayerQueue(dbInvoiceNumber));
 	}
@@ -390,9 +389,7 @@ public class CallPayerQueueStepDef extends PageObject {
 	@Then("^user should be able to view the account dropped from CPQ$|^user should not be able to view the account in users CPQ$|^user should be able to view the account deleted from CPQ$")
 	public void user_should_be_able_to_view_the_account_dropped_from_CPQ() {
 		callPayerQueuePage.clickToggleCallQueueBtn();
-		Assert.assertFalse("Account is still visible in Call Payer Queue",
-				callPayerQueuePage.isInvoiceNumberCPQVisible()
-						&& callPayerQueueSteps.isAccountVisibleInCallPayerQueue(dbInvoiceNumber));
+		Assert.assertFalse("Account is still visible in Call Payer Queue",callPayerQueueSteps.isAccountVisibleInCallPayerQueue(dbInvoiceNumber));
 	}
 
 	@When("^user clicks on radiobutton Approve$")
@@ -549,5 +546,10 @@ public class CallPayerQueueStepDef extends PageObject {
 	@Then("^user should be able to view new Defect Attribute created$")
 	public void user_should_be_able_to_view_new_Defect_Attribute_created() throws Exception {
 		Assert.assertTrue("User not able to view new Defect Attribute created", DatabaseConn.resultSet.next());
+	}
+
+	@Given("^Remove searched account if present in Call payer queue$")
+	public void remove_searched_account_if_present_in_Call_payer_queue() {
+		callPayerQueueSteps.removeInvoiceFromCPQ(dbInvoiceNumber);
 	}
 }

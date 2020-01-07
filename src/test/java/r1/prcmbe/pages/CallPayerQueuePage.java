@@ -177,7 +177,7 @@ public class CallPayerQueuePage extends PageObject {
 	public List<String> getListOfAccountsInCallPayorQueue() {
 		List<String> listOfAcctInCallPayorQueue = new ArrayList<>();
 		for (WebElementFacade acctInCallPayorQueue : listOfAccountsInCallPayorQueue) {
-			listOfAcctInCallPayorQueue.add(acctInCallPayorQueue.getText().trim());
+			listOfAcctInCallPayorQueue.add(acctInCallPayorQueue.getText().trim().substring(7));
 		}
 		return listOfAcctInCallPayorQueue;
 	}
@@ -280,7 +280,6 @@ public class CallPayerQueuePage extends PageObject {
 	 */
 	public boolean isCallPayerQueueInvoiceVisible() {
 		infoMessage.withTimeoutOf(Duration.ofSeconds(10)).waitUntilNotVisible();
-		clickToggleCallQueueBtn();
 		return listOfAccountsInCallPayorQueue.get(0).isVisible();
 	}
 
@@ -393,14 +392,6 @@ public class CallPayerQueuePage extends PageObject {
 		return listOfInvoiceNum;
 	}
 
-	/**
-	 * Checks Invoice Number CPQ visibility
-	 * 
-	 * @return boolean This returns true or false depending on element visibility
-	 */
-	public boolean isInvoiceNumberCPQVisible() {
-		return invoiceNumberCPQ.get(0).isVisible();
-	}
 
 	/**
 	 * Clicks on Approve Review Save button
@@ -574,5 +565,15 @@ public class CallPayerQueuePage extends PageObject {
 	 */
 	public boolean isSaveWriteOffBtnVisible() {
 		return saveWriteOffBtn.isVisible();
+	}
+
+	/**
+	 * Clicks remove button in CPQ
+	 * 
+	 * @param index
+	 *            This parameter is used to pass index value
+	 */
+	public void removeInvoiceFromCPQ(int index) {
+		evaluateJavascript("arguments[0].click();", removeCallPayerQueueAccountBtnList.get(index));
 	}
 }

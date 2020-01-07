@@ -3,13 +3,15 @@ package r1.prcmbe.serenity.steps;
 import java.util.List;
 
 import net.thucydides.core.annotations.Step;
+import r1.prcmbe.pages.AccountInformationPage;
 import r1.prcmbe.pages.CallPayerQueuePage;
 import r1.prcmbe.pages.SearchPage;
 
 public class CallPayerQueueSteps {
 
-	CallPayerQueuePage callPayorQueuePage;
+	CallPayerQueuePage callPayerQueuePage;
 	SearchPage searchPage;
+	AccountInformationPage accInfoPage;
 
 	/**
 	 * Checks if removed invoice number from call queue is visible
@@ -48,7 +50,7 @@ public class CallPayerQueueSteps {
 	@Step
 	public boolean isAccountVisibleMoreThanOnceInCallPayerQueue(String invoiceNumber) {
 		int visiblityCount = 0;
-		List<String> cPQInvoiceNumberList = callPayorQueuePage.getCallPayerQueueInvoiceList();
+		List<String> cPQInvoiceNumberList = callPayerQueuePage.getCallPayerQueueInvoiceList();
 		for (String invoiceNumFromList : cPQInvoiceNumberList) {
 			if (invoiceNumFromList.contains(invoiceNumber))
 				visiblityCount++;
@@ -66,10 +68,31 @@ public class CallPayerQueueSteps {
 	 */
 	@Step
 	public boolean isAccountVisibleInCallPayerQueue(String invoiceNumber) {
-		for (String invoiceNum : callPayorQueuePage.getListOfInvoiceNumberCPQ()) {
+		for (String invoiceNum : callPayerQueuePage.getListOfInvoiceNumberCPQ()) {
 			if (invoiceNum.contains(invoiceNumber))
 				return true;
 		}
 		return false;
+	}
+
+	/**
+	 * Remove search invoice from CPQ
+	 * 
+	 * @param dbInvoiceNumber
+	 *            This parameter is used to pass invoice number
+	 */
+	@Step
+	public void removeInvoiceFromCPQ(String dbInvoiceNumber) {
+		accInfoPage.closeInfoMessage();
+		callPayerQueuePage.clickToggleCallQueueBtn();
+		List<String> invoiceNumber = callPayerQueuePage.getListOfAccountsInCallPayorQueue();
+		int size = invoiceNumber.size();
+		int index = 0;
+		for (index = 0; index < size; index++) {
+			if (invoiceNumber.get(index).equals(dbInvoiceNumber)) {
+				callPayerQueuePage.removeInvoiceFromCPQ(index);
+				break;
+			}
+		}
 	}
 }

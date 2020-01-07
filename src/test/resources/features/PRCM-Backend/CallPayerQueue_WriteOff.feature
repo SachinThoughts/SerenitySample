@@ -30,6 +30,7 @@ Feature: Verify Call Payer Queue functionality
     And user selects "=" operator from operator dropdown
     And user enters Invoice number
     And user clicks on Submit button
+    And Remove searched account if present in Call payer queue
     And user clicks on Add to queue button in Call Payer Queue Section
     And user clicks Add without note
     Then user should be able to view write-off request on account
@@ -81,6 +82,7 @@ Feature: Verify Call Payer Queue functionality
     And user selects "=" operator from operator dropdown
     And user enters Invoice number
     And user clicks on Submit button
+    And Remove searched account if present in Call payer queue
     And user clicks on Add to queue button in Call Payer Queue Section
     And user clicks Add without note
     Then user should be able to view write-off request on account
@@ -132,6 +134,7 @@ Feature: Verify Call Payer Queue functionality
     And user selects "=" operator from operator dropdown
     And user enters Invoice number
     And user clicks on Submit button
+    And Remove searched account if present in Call payer queue
     And user clicks on Add to queue button in Call Payer Queue Section
     And user clicks Add without note
     Then user should be able to view write-off request on account
@@ -183,6 +186,7 @@ Feature: Verify Call Payer Queue functionality
     And user selects "=" operator from operator dropdown
     And user enters Invoice number
     And user clicks on Submit button
+    And Remove searched account if present in Call payer queue
     And user clicks on Add to queue button in Call Payer Queue Section
     And user clicks Add without note
     Then user should be able to view write-off request on account
@@ -214,6 +218,7 @@ Feature: Verify Call Payer Queue functionality
     And user enters Invoice number
     And user clicks on Submit button
     Given user is on account page
+    And Remove searched account if present in Call payer queue
     When user clicks on Add to queue button in Call Payer Queue Section
     Then user should be able to view Add to Call Queue pop-up
     When user enters notes "Automation testing Notes" in Notes Section
@@ -230,7 +235,7 @@ Feature: Verify Call Payer Queue functionality
   @427119 @Sprint103 @BSOFollowUpUser
   Scenario: Verify that the Account is dropped from CPQ when R1D Approver takes Approve Action on the Account
     When user login to SQL server and connect to database
-    And user runs the "getAccountsForWriteOff6" query to fetch account for CPQ
+    And user runs the "getAccountsForWriteOff5" query to fetch account for CPQ
     And user select "Invoice Number" from Search By dropdown
     And user selects "=" operator from operator dropdown
     And user fetch the InvoiceNumber from database
@@ -251,6 +256,7 @@ Feature: Verify Call Payer Queue functionality
     And user selects "=" operator from operator dropdown
     And user enters Invoice number
     And user clicks on Submit button
+    And Remove searched account if present in Call payer queue
     And user clicks on Add to queue button in Call Payer Queue Section
     And user clicks Add without note
     Then user should be able to view write-off request on account
@@ -280,6 +286,7 @@ Feature: Verify Call Payer Queue functionality
     And user enters Invoice number
     And user clicks on Submit button
     Given user is on account page
+    And Remove searched account if present in Call payer queue
     When user clicks on Add to queue button in Call Payer Queue Section
     When user enters notes "Automation testing Notes" in Notes Section
     And user clicks Add with Note button
