@@ -38,10 +38,6 @@ public class FinancialInfoSteps extends PageObject {
 	public void log(String message) {
 	}
 
-	/**
-	 * This method enters invoice number in search box and clicks submit button
-	 * @param invoiceNumber
-	 */
 	@Step
 	public void searchInvoiceNumber(String invoiceNumber) {
 		searchPage.enterInvoiceNumber(invoiceNumber);
@@ -49,12 +45,6 @@ public class FinancialInfoSteps extends PageObject {
 		waitForAngularRequestsToFinish();
 	}
 
-	/**
-	 * This method formats database date to pattern 'M/d/yyyy'
-	 * @param dateFromDB
-	 * @return formated date 
-	 * @throws ParseException
-	 */
 	@Step
 	public String formatDbDateFieldWithDateTime(String dateFromDB) throws ParseException {
 		outputFormat = new SimpleDateFormat("M/d/yyyy");
@@ -68,11 +58,6 @@ public class FinancialInfoSteps extends PageObject {
 		return amount.substring(0, amount.length() - 2);
 	}
 
-	/**
-	 * This method handles positive or negative value and converts into respective currency pattern 
-	 * @param value
-	 * @return formatted string, depending on value 
-	 */
 	@Step
 	public String formatCurrency(String value) {
 		final String PATTERN = "$#,##0.00;($#,##0.00)";

@@ -9,7 +9,7 @@ import net.serenitybdd.core.pages.WebElementFacade;
 
 public class FinancialInfoPage extends PageObject {
 
-	@FindBy(id = "patFI")
+	@FindBy(xpath = "//*[@id='financialInfoPanel']/div[1]/h3/i")
 	private WebElementFacade financialInfoSection;
 
 	@FindBy(xpath = "//div[@id='financialAccordNoDetail']/div[1]//span[1]/h5/span")
@@ -44,6 +44,9 @@ public class FinancialInfoPage extends PageObject {
 
 	@FindBy(id = "financialInfoPanel")
 	private WebElementFacade financialInfoPanel;
+
+	@FindBy(id = "onloadsearchBtn")
+	private WebElementFacade submitBtn;
 
 	@FindBy(xpath = "//a/descendant::span[text()='Adjustments']/ancestor::a/i")
 	private WebElementFacade adjustmentScrollArrow;
@@ -106,10 +109,13 @@ public class FinancialInfoPage extends PageObject {
 	private WebElementFacade expectedPaymentValue;
 
 	@FindBy(id = "lblTotalPatientPayments")
-	private WebElementFacade patientPaymentsAmount;
+	private WebElementFacade patientPaymentsValue;
 
 	@FindBy(xpath = "(//*[@id = 'divTotalPatientPaymentsNA']//h5)[2]")
-	private WebElementFacade patientPaymentsValue;
+	private WebElementFacade patientPaymentsAmount;
+
+	@FindBy(xpath = "//*[@id='lblTotalAdjustment']/ancestor::a//i")
+	private WebElementFacade expandIconAdjustments;
 
 	@FindBy(id = "spmTotalPayments")
 	private WebElementFacade adjustmentMessage;
@@ -127,7 +133,7 @@ public class FinancialInfoPage extends PageObject {
 	}
 
 	/**
-	 * Expands financial section if not already expanded
+	 * checks and expands financial information section if not visible
 	 */
 	public void expandFinancialInfoSectn() {
 		if (financialInfoExpandIcon.isVisible()) {
@@ -163,25 +169,29 @@ public class FinancialInfoPage extends PageObject {
 	}
 
 	/**
-	 * Scrolls into Financial information section
+	 * Scrolls into financial information section
 	 */
 	public void scrollIntoFinancialInfoPanel() {
 		waitForAngularRequestsToFinish();
 		withAction().moveToElement(financialInfoSection).build().perform();
 	}
 
+	/**
+	 * @return true or false if financial info section is visible
+	 */
 	public boolean isFinancialInfoSectionVisible() {
 		return financialInfoSection.isVisible();
 	}
 
-	public void clickExpandFinancialInfo() {
-		if (financialInfoExpandIcon.isVisible()) {
-			financialInfoExpandIcon.click();
-		}
+	/**
+	 * Clicks and expand Adjustments field
+	 */
+	public void clickSubmitBtn() {
+		submitBtn.click();
 	}
 
 	/**
-	 * Clicks and expand Adjustments field
+	 * Clicks and expand adjustment section
 	 */
 	public void clickAdjustmentScrollArrow() {
 		evaluateJavascript("arguments[0].click();", adjustmentScrollArrow);
@@ -221,6 +231,9 @@ public class FinancialInfoPage extends PageObject {
 		return listOfTextValuesOfAdjustmentTableData;
 	}
 
+	/**
+	 * Scroll to total balance section
+	 */
 	public void scrollToTotalBalance() {
 		withAction().moveToElement(totalBalanceColumn).build().perform();
 	}
@@ -233,7 +246,7 @@ public class FinancialInfoPage extends PageObject {
 	}
 
 	/**
-	 * @return Total Adjustments value
+	 * @return total adjustments value
 	 */
 	public String getTotalAdjustments() {
 		return totalAdjustments.getText();
@@ -377,7 +390,15 @@ public class FinancialInfoPage extends PageObject {
 	}
 
 	/**
-	 * @return Patient payment amount is fetched
+	 * @return patient payment text
+	 */
+	public String getPatientPaymentText() {
+		withAction().moveToElement(patientPaymentsValue).build().perform();
+		return patientPaymentsValue.getText().trim();
+	}
+
+	/**
+	 * @return patient payment amount value
 	 */
 	public String getPatientPaymentAmount() {
 		withAction().moveToElement(patientPaymentsAmount).build().perform();
@@ -385,15 +406,15 @@ public class FinancialInfoPage extends PageObject {
 	}
 
 	/**
-	 * @return Patient payment NA value is fetched
+	 * expands the Adjustment section
 	 */
-	public String getPatientPaymentValue() {
-		withAction().moveToElement(patientPaymentsValue).build().perform();
-		return patientPaymentsValue.getText().trim();
+	public void clickExpandIconAdjustments() {
+		withAction().moveToElement(expandIconAdjustments).build().perform();
+		evaluateJavascript("arguments[0].click();", expandIconAdjustments);
 	}
 
 	/**
-	 * @return Adjustment message under Adjustments field
+	 * @return adjustment message text
 	 */
 	public String getAdjustmentMessage() {
 		withAction().moveToElement(adjustmentMessage).build().perform();
@@ -401,7 +422,7 @@ public class FinancialInfoPage extends PageObject {
 	}
 
 	/**
-	 * @return Unbilled balance amount is fetched
+	 * @return unbilled balance amount
 	 */
 	public String getUnbilledBalance() {
 		withAction().moveToElement(unbilledBalanceAmount).build().perform();

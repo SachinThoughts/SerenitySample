@@ -189,7 +189,7 @@ public class FinancialInfoStepDef {
 	@Then("^User should be able to view following total charges fields:$")
 	public void user_should_be_able_to_view_following_total_charges_fields(DataTable datatable) {
 		List<String> expectedTotalChargesTableHeaders = datatable.asList(String.class);
-		Assert.assertTrue("Total charges headers do not match",
+		Assert.assertTrue("Total charges Headers do not match",
 				financialInfoPage.getTotalChargesTableHeaders().equals(expectedTotalChargesTableHeaders));
 	}
 
@@ -229,19 +229,19 @@ public class FinancialInfoStepDef {
 	public void user_should_be_able_to_view_some_dollar_value_in_Patient_Payment_column() {
 		Assert.assertTrue(
 				"Patient Payments from DB:" + financialInfoElementVal + " and UI:"
-						+ financialInfoPage.getPatientPaymentAmount() + " doesnt match for Account#: " + invoiceNumber,
-				("$" + financialInfoElementVal).contains(financialInfoPage.getPatientPaymentAmount()));
+						+ financialInfoPage.getPatientPaymentText() + " doesnt match for Account#: " + invoiceNumber,
+				("$" + financialInfoElementVal).contains(financialInfoPage.getPatientPaymentText()));
 	}
 
 	@Then("^user should be able to view \"([^\"]*)\" against Patient Payment under Financial Information section$")
 	public void user_should_be_able_to_view_against_Patient_Payment_under_Financial_Information_section(String status) {
 		Assert.assertTrue("Patient Payment is displaying a value instead of N/A",
-				financialInfoPage.getPatientPaymentValue().equals(status));
+				financialInfoPage.getPatientPaymentAmount().equals(status));
 	}
 
 	@When("^User clicks on Adjustment Amount drill down$")
 	public void user_clicks_on_Adjustment_Amount_drill_down() {
-		financialInfoPage.clickAdjustmentScrollArrow();		
+		financialInfoPage.clickExpandIconAdjustments();
 	}
 
 	@Then("^User should be able to view the message \"([^\"]*)\" under Adjustment amount column $")
@@ -251,7 +251,7 @@ public class FinancialInfoStepDef {
 	}
 
 	@Then("^user should be able to view the same amount in Unbilled Balance column as SQL result $")
-	public void user_should_be_able_to_view_the_same_amount_in_Unbilled_Balance_column_as_SQL_result() {		
+	public void user_should_be_able_to_view_the_same_amount_in_Unbilled_Balance_column_as_SQL_result() {
 		Assert.assertTrue("Unbilled Balance is not same as fetched from DB", financialInfoPage.getUnbilledBalance()
 				.equals(financialInfoStep.formatCurrency(financialInfoElementVal)));
 	}
