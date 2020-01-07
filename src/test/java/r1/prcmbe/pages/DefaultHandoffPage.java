@@ -191,6 +191,9 @@ public class DefaultHandoffPage extends PageObject {
 	@FindBy(xpath = "//*[@id='WorkflowTypeDispositionSorttable']//li//div[3]//span[contains(@id,'Disp')]")
 	private List<WebElementFacade> dispositionNameList;
 
+	@FindBy(xpath = "//*[@id='WorkflowTypeDispositionSorttable']//li//div//span[contains(@id,'ASName')]")
+	private List<WebElementFacade> dispositionStatusList;
+
 	@FindBy(xpath = "//div[@class='fs-option-label' and text()='AHtoDecision Admin']/preceding-sibling::span")
 	private WebElementFacade visibleToGrpAHtoDecisionChkBox;
 
@@ -465,7 +468,8 @@ public class DefaultHandoffPage extends PageObject {
 	}
 
 	/**
-	 * @param description : Description value to be entered for WorkFlow Description
+	 * @param description
+	 *            : Description value to be entered for WorkFlow Description
 	 */
 	public void enterWorkFlowDescription(String description) {
 		workflowDescriptionTextBox.type(description);
@@ -482,7 +486,8 @@ public class DefaultHandoffPage extends PageObject {
 	}
 
 	/**
-	 * @param ahModuleCode :AH Module code to be entered in AH Code Module textbox
+	 * @param ahModuleCode
+	 *            :AH Module code to be entered in AH Code Module textbox
 	 */
 	public void enterAHModuleCode(String ahModuleCode) {
 		ahModuleCodeTextBox.type(ahModuleCode);
@@ -550,8 +555,8 @@ public class DefaultHandoffPage extends PageObject {
 	}
 
 	/**
-	 * @param recipientDescription : the value to be entered in Recipient
-	 *                             description textbox
+	 * @param recipientDescription
+	 *            : the value to be entered in Recipient description textbox
 	 * @return the value entered in recipient description textbox
 	 */
 	public String enterRecipientDescriptionTextBox(String recipientDescription) {
@@ -626,7 +631,8 @@ public class DefaultHandoffPage extends PageObject {
 	}
 
 	/**
-	 * @param actionDescription enter the action description in the textbox
+	 * @param actionDescription
+	 *            enter the action description in the textbox
 	 * @return the action description value
 	 */
 	public String enterActionDescriptionTextBox(String actionDescription) {
@@ -635,28 +641,32 @@ public class DefaultHandoffPage extends PageObject {
 	}
 
 	/**
-	 * @param nextActionValue: select the next action value from the DD
+	 * @param nextActionValue:
+	 *            select the next action value from the DD
 	 */
 	public void selectNextActionByDD(String nextActionValue) {
 		nextActionByDD.selectByVisibleText(nextActionValue);
 	}
 
 	/**
-	 * @param followUpDaysValue: enter followup days in the textbox
+	 * @param followUpDaysValue:
+	 *            enter followup days in the textbox
 	 */
 	public void enterFollowUpDaysTextBox(String followUpDaysValue) {
 		followUpDaysTextBox.type(followUpDaysValue);
 	}
 
 	/**
-	 * @param respondDeadlineValue: enter respond Deadline in the textbox
+	 * @param respondDeadlineValue:
+	 *            enter respond Deadline in the textbox
 	 */
 	public void enterRespondDeadlineTextBox(String respondDeadlineValue) {
 		respondDeadlineTextBox.type(respondDeadlineValue);
 	}
 
 	/**
-	 * @param actionStatusValue: select action status value
+	 * @param actionStatusValue:
+	 *            select action status value
 	 */
 	public void selectActionStatusDD(String actionStatusValue) {
 		actionStatusDD.selectByVisibleText(actionStatusValue);
@@ -718,7 +728,8 @@ public class DefaultHandoffPage extends PageObject {
 	}
 
 	/**
-	 * @param dispositionDescription: the disposition Name to be entered
+	 * @param dispositionDescription:
+	 *            the disposition Name to be entered
 	 * @return the disposition Name
 	 */
 	public String enterDispositionNameTextBox(String dispositionDescription) {
@@ -727,7 +738,8 @@ public class DefaultHandoffPage extends PageObject {
 	}
 
 	/**
-	 * select next Disposition by DD	
+	 * select next Disposition by DD
+	 * 
 	 * @return the text value entered in the Disposition text box
 	 */
 	public String getEnterDispositionName() {
@@ -741,21 +753,24 @@ public class DefaultHandoffPage extends PageObject {
 	}
 
 	/**
-	 * @param dispositionFollowUpDaysValue : enter disposition followup days
+	 * @param dispositionFollowUpDaysValue
+	 *            : enter disposition followup days
 	 */
 	public void enterDispositionFollowUpDaysTextBox(String dispositionFollowUpDaysValue) {
 		dispositionFollowUpDaysTextBox.type(dispositionFollowUpDaysValue);
 	}
 
 	/**
-	 * @param dispositionRespondDeadlineValue: enter disposition respond deadline value
+	 * @param dispositionRespondDeadlineValue:
+	 *            enter disposition respond deadline value
 	 */
 	public void enterDispositionRespondDeadlineTextBox(String dispositionRespondDeadlineValue) {
 		dispositionRespondDeadlineTextBox.type(dispositionRespondDeadlineValue);
 	}
 
 	/**
-	 * @param dispositionStatusValue: enter disposition status from the dropdown
+	 * @param dispositionStatusValue:
+	 *            enter disposition status from the dropdown
 	 */
 	public void selectDispositionStatusDropdown(String dispositionStatusValue) {
 		dispositionStatusDD.selectByVisibleText(dispositionStatusValue);
@@ -763,10 +778,21 @@ public class DefaultHandoffPage extends PageObject {
 
 	}
 
-	public void selectDispositionStatusFromDropdown(String dispositionStatusValue) {
-		dispositionStatusDD.selectByVisibleText(dispositionStatusValue);
+	/**
+	 * 
+	 * @return the disposition status visible in the field
+	 */
+	public String getDispositionStatus() {
+		return getDispositionStatus;
 	}
 
+	/**
+	 * 
+	 * @param expectedDrpDownValue:
+	 *            Disposition status is passed from feature file
+	 * @return the boolean value based on the presence of expected disposition
+	 *         status
+	 */
 	public boolean isSelectedValueInDispositionStatusVisible(String expectedDrpDownValue) {
 		evaluateJavascript("arguments[0].scrollIntoView(true);", dispositionStatusDD);
 		getDispositionStatus = dispositionStatusDD.getSelectedVisibleTextValue();
@@ -777,7 +803,8 @@ public class DefaultHandoffPage extends PageObject {
 	}
 
 	/**
-	 * @param preDefinedNotesValue: enter notes in the Notes textbox
+	 * @param preDefinedNotesValue:
+	 *            enter notes in the Notes textbox
 	 */
 	public void enterPreDefinedNotes(String preDefinedNotesValue) {
 		preDefinedNotes.type(preDefinedNotesValue);
@@ -826,12 +853,28 @@ public class DefaultHandoffPage extends PageObject {
 	}
 
 	/**
-	 * @return the value of the Saved Disposition Status in the table below
+	 * 
+	 * @param status
+	 * @return the text value of Disposition status
 	 */
-	public String getTextSavedDispositionStatus() {
-		return savedDispositionStatus.getText().trim();
+	public String getTextSavedDispositionStatus(String status) {
+		int size = dispositionStatusList.size();
+		int flag = 0;
+		for (i = 0; i < size; i++) {
+			if (dispositionStatusList.get(i).getText().equals(status)) {
+				withAction().moveToElement(dispositionStatusList.get(i)).build().perform();
+				flag = 1;
+			}
+			if (flag == 1) {
+				break;
+			}
+		}
+		return dispositionStatusList.get(i).getText().trim();
 	}
 
+	/**
+	 * Method checks the checkbox of AHtoDecisionCheckbox
+	 */
 	public void clickVisibleToGrpAHtoDecisionChkBox() {
 		visibleToGrpAHtoDecisionChkBox.click();
 	}
@@ -844,14 +887,16 @@ public class DefaultHandoffPage extends PageObject {
 	}
 
 	/**
-	 * @param searchValue: Select value for Search
+	 * @param searchValue:
+	 *            Select value for Search
 	 */
 	public void selectTextSearchDrpdwn(String searchValue) {
 		searchDrpdwn.selectByVisibleText(searchValue);
 	}
 
 	/**
-	 * @param value : Enter value for Search
+	 * @param value
+	 *            : Enter value for Search
 	 */
 	public void enterSearchTxtBox(String value) {
 		searchTxtBox.type(value);
@@ -886,14 +931,16 @@ public class DefaultHandoffPage extends PageObject {
 	}
 
 	/**
-	 * @param searchValue: For FacilitySettingSearch dropdown
+	 * @param searchValue:
+	 *            For FacilitySettingSearch dropdown
 	 */
 	public void selectTextFSSearchDrpdwn(String searchValue) {
 		facilitySettingSearchDrpdwn.selectByVisibleText(searchValue);
 	}
 
 	/**
-	 * @param value : For FacilitySettingSearch dropdown
+	 * @param value
+	 *            : For FacilitySettingSearch dropdown
 	 */
 	public void enterFSSearchTxtBox(String value) {
 		facilitySettingSearchTxtBox.type(value);
@@ -935,7 +982,8 @@ public class DefaultHandoffPage extends PageObject {
 	}
 
 	/**
-	 * @param settingValue: append value at the end of the data values in the textbox
+	 * @param settingValue:
+	 *            append value at the end of the data values in the textbox
 	 */
 	public void updateSettingValueTxtArea(String settingValue) {
 		settingValueTxtArea.type(getSettingValueTxtArea() + settingValue);
@@ -956,7 +1004,8 @@ public class DefaultHandoffPage extends PageObject {
 	}
 
 	/**
-	 * @param dropdown select the handoff type from the dropdown
+	 * @param dropdown
+	 *            select the handoff type from the dropdown
 	 * @return
 	 */
 	public String selectHandoffType(String dropdown) {
@@ -995,7 +1044,8 @@ public class DefaultHandoffPage extends PageObject {
 	}
 
 	/**
-	 * @param note Enter Note in the Note textbox
+	 * @param note
+	 *            Enter Note in the Note textbox
 	 */
 	public void enterNote(String note) {
 		noteTextBox.type(note);
@@ -1013,11 +1063,9 @@ public class DefaultHandoffPage extends PageObject {
 	}
 
 	/**
-<<<<<<< HEAD
-	 * hover on the added handoff bubble
-=======
-	 *This method perform move to recently Added Bubble element
->>>>>>> fbe12705709a548f8b1d551822cd968b28231848
+	 * <<<<<<< HEAD hover on the added handoff bubble ======= This method perform
+	 * move to recently Added Bubble element >>>>>>>
+	 * fbe12705709a548f8b1d551822cd968b28231848
 	 */
 	public void hoverOnAddedBubble() {
 		withAction().moveToElement(addedBubble).build().perform();
@@ -1031,12 +1079,13 @@ public class DefaultHandoffPage extends PageObject {
 	}
 
 	/**
-<<<<<<< HEAD
-	 * @return the list of the column headers that appear in the box after hovering over the bubble
-=======
-	 *This method stores Event Circle Columns Value in List
-	 *@return listOfEventCircleCols
->>>>>>> fbe12705709a548f8b1d551822cd968b28231848
+	 * <<<<<<< HEAD
+	 * 
+	 * @return the list of the column headers that appear in the box after hovering
+	 *         over the bubble ======= This method stores Event Circle Columns Value
+	 *         in List
+	 * @return listOfEventCircleCols >>>>>>>
+	 *         fbe12705709a548f8b1d551822cd968b28231848
 	 */
 	public List<String> getListOfEventCircleColumns() {
 		List<String> listOfEventCircleCols = new ArrayList<>();
@@ -1047,7 +1096,8 @@ public class DefaultHandoffPage extends PageObject {
 	}
 
 	/**
-	 * @return the list of the values that appear in the box after hovering over the bubble
+	 * @return the list of the values that appear in the box after hovering over the
+	 *         bubble
 	 */
 	public List<String> getListOfPopupValues() {
 		List<String> popupValList = new ArrayList<>();
@@ -1116,7 +1166,7 @@ public class DefaultHandoffPage extends PageObject {
 	}
 
 	/**
-	 *  expand the account action history section in case it is collapsed
+	 * expand the account action history section in case it is collapsed
 	 */
 	public void expandAccountActionHistory() {
 		if (accountActionHistoryExpandButton.getAttribute("class").equals("fa toggle fa-chevron-right"))
