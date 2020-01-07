@@ -381,7 +381,6 @@ public class AccountInformationPage extends PageObject {
 	 */
 	public void clickApprovalWriteOffLink() {
 		evaluateJavascript("arguments[0].click();", approvalWriteOffLink);
-		//approvalWriteOffLink.click();
 	}
 
 	public void clickOnCreateDrpdwn() {
