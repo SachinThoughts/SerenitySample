@@ -9,17 +9,18 @@ import r1.commons.databaseconnection.DatabaseConn;
 import r1.prcmbe.pages.PatientInformationPage;
 
 public class PatientInformationSteps {
-	 PatientInformationPage patientInfoPage;
+	PatientInformationPage patientInfoPage;
 	List<String> getDBFacilityDetails = new ArrayList<>();
-	String facilityTaxId1,facilityPTan1;
-	
+	String facilityTaxId1, facilityPTan1;
+
 	/**
 	 * Below method verifies value fetched from DB and UI are Equal or not
+	 * 
 	 * @return List of values which are not matched with UI and DB
 	 * @throws SQLException
 	 */
 	@Step
-	public  List<Object> verifyFacilityDetailsWithDb() throws SQLException {
+	public List<Object> verifyFacilityDetailsWithDb() throws SQLException {
 		int count = 0;
 		List<Object> listOfVal = new ArrayList<>();
 		while (DatabaseConn.resultSet.next()) {
