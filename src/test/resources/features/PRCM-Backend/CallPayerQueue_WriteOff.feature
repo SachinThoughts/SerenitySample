@@ -15,7 +15,7 @@ Feature: Verify Call Payer Queue functionality
     And user fetch the InvoiceNumber from database
     And user enters Invoice number
     And user clicks on Submit button
-    Given user is on account page
+    Then user is on account page
     When user clicks on Approvals link
     And user selects "Write Off" option from Category dropdown
     And user selects "Medical Necessity" from Write Off Type dropdown
@@ -67,7 +67,7 @@ Feature: Verify Call Payer Queue functionality
     And user fetch the InvoiceNumber from database
     And user enters Invoice number
     And user clicks on Submit button
-    Given user is on account page
+    Then user is on account page
     When user clicks on Approvals link
     And user selects "Write Off" option from Category dropdown
     And user selects "Medical Necessity" from Write Off Type dropdown
@@ -119,7 +119,7 @@ Feature: Verify Call Payer Queue functionality
     And user fetch the InvoiceNumber from database
     And user enters Invoice number
     And user clicks on Submit button
-    Given user is on account page
+    Then user is on account page
     When user clicks on Approvals link
     And user selects "Write Off" option from Category dropdown
     And user selects "Non-Covered" from Write Off Type dropdown
@@ -171,7 +171,7 @@ Feature: Verify Call Payer Queue functionality
     And user fetch the InvoiceNumber from database
     And user enters Invoice number
     And user clicks on Submit button
-    Given user is on account page
+    Then user is on account page
     When user clicks on Approvals link
     And user selects "Write Off" option from Category dropdown
     And user selects "Medical Necessity" from Write Off Type dropdown
@@ -217,8 +217,8 @@ Feature: Verify Call Payer Queue functionality
     And user fetch the InvoiceNumber from database
     And user enters Invoice number
     And user clicks on Submit button
-    Given user is on account page
-    And Remove searched account if present in Call payer queue
+    Then user is on account page
+    When Remove searched account if present in Call payer queue
     When user clicks on Add to queue button in Call Payer Queue Section
     Then user should be able to view Add to Call Queue pop-up
     When user enters notes "Automation testing Notes" in Notes Section
@@ -241,7 +241,7 @@ Feature: Verify Call Payer Queue functionality
     And user fetch the InvoiceNumber from database
     And user enters Invoice number
     And user clicks on Submit button
-    Given user is on account page
+    Then user is on account page
     When user clicks on Approvals link
     And user selects "Write Off" option from Category dropdown
     And user selects "Medical Necessity" from Write Off Type dropdown
@@ -285,8 +285,8 @@ Feature: Verify Call Payer Queue functionality
     And user fetch the InvoiceNumber from database
     And user enters Invoice number
     And user clicks on Submit button
-    Given user is on account page
-    And Remove searched account if present in Call payer queue
+    Then user is on account page
+    When Remove searched account if present in Call payer queue
     When user clicks on Add to queue button in Call Payer Queue Section
     When user enters notes "Automation testing Notes" in Notes Section
     And user clicks Add with Note button
