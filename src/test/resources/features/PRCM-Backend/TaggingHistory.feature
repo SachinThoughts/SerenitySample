@@ -14,7 +14,7 @@ Feature: Verify Tagging related scenarios in PRCM-BE
     And user run the query and fetch the Invoice Number to add tag"Tagging_419683_SQL4"
     And user select "Invoice Number" from Search By dropdown
     And user enters the query result in Invoice Number search textbox to add tag on account
-    Then  user is on R1 Decision Account information page
+    Then User is on R1 Account information page
     When User Clicks on Add Tag link
     And User selects any value from Tag Category dropdown
     And User selects any value from Tag Name dropdown
@@ -46,7 +46,7 @@ Feature: Verify Tagging related scenarios in PRCM-BE
     And user run the query and fetch the Invoice Number to add tag"Tagging_419683_SQL6"
     And user select "Invoice Number" from Search By dropdown
     And user enters the query result in Invoice Number search textbox to add tag on account
-    Then user is on R1 Decision Account information page
+    Then User is on R1 Account information page
     When User Clicks on Edit Tag link
     And User edits Tag Category , Tag Name and "editedtest" text in notes textbox and click on save changes button
     Then User should be able to view message "Account Tag saved successfully."
@@ -75,7 +75,7 @@ Feature: Verify Tagging related scenarios in PRCM-BE
     And user run the query and fetch the Invoice Number to add tag"Tagging_425204_SQL1"
     And user select "Invoice Number" from Search By dropdown
     And user enters the query result in Invoice Number search textbox to add tag on account
-    Then user is on "R1 Hub Technologies 2.0 - 15 R1_Decision" page
+    Then User is on R1 Account information page
     When User Clicks on Add Tag link
     Then User should be able to view message as "Adding Tag on unclassified account is not allowed"
     And User should be able to view Save Changes button as disabled
