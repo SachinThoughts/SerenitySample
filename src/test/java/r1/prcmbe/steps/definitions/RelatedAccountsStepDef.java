@@ -90,7 +90,7 @@ public class RelatedAccountsStepDef {
 	@Then("^user should be able to view maximum (\\d+) Accounts under Related Accounts grid$")
 	public void user_should_be_able_to_view_maximum_Accounts_under_Related_Accounts_grid(int count) {
 		Assert.assertTrue("Expected count not displayed in the Related Accounts grid",
-				relatedAccntsPage.getRelatedAccountCount() == count);
+				relatedAccntsPage.getRelatedAccountCount() <= count);
 	}
 
 	@When("^user runs query to fetch Related Accounts(.*)$")

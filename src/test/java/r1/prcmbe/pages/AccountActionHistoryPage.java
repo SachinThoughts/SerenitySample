@@ -32,6 +32,9 @@ public class AccountActionHistoryPage extends PageObject {
 
 	@FindBy(xpath = "//*[@class='popover fade top in']/div[2]/ul/li/div/div/div[1]/span")
 	private WebElementFacade popoverTitle;
+	
+	@FindBy(xpath = "//*[@id='accountactionhistory']//i[@class='fa toggle fa-chevron-right']")
+	private WebElementFacade expandIcon;
 
 	public List<String> getListOfRecentAddedAccountActionHistoryLabel() {
 		List<String> listOfRecentAddedAccntLabel = new ArrayList<>();
@@ -84,5 +87,14 @@ public class AccountActionHistoryPage extends PageObject {
 
 	public boolean getPopoverTitle() {
 		return popoverTitle.isVisible();
+	}
+	
+	/**
+	 * This method clicks on expand icon of Account action history incase it is collapsed 
+	 */
+	public void expandAccountActionHistorySection() {
+		if(expandIcon.isVisible()) {
+			expandIcon.click();
+		}
 	}
 }

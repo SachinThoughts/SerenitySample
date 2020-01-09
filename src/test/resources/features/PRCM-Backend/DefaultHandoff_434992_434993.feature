@@ -1,3 +1,4 @@
+@DefaultHandoff
 Feature: Verify default handoff
 
   Background: user is able to navigate to R1 Decision search page
