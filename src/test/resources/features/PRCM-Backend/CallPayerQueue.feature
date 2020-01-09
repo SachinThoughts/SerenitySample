@@ -26,6 +26,7 @@ Feature: Verify Call Payer Queue functionality
   @427114 @Sprint102 @PRCMUser
   Scenario Outline: Verify that added account in call payer queue after taking Handoff Action
     Given user is on account page
+    And Remove searched account if present in Call payer queue
     When user clicks on Add to Queue button
     Then user should be able to view the account added to Call Queue
     When user clicks on Handoff button
@@ -43,9 +44,10 @@ Feature: Verify Call Payer Queue functionality
       | handoffType   | create                      |
       | AR Supervisor | Supervisor Hand Off Request |
 
-  @427115 @Sprint103 @PRCMUser
+  @427115 @Sprint103 @R1DApproval
   Scenario: Verify Call Queue Indicator pop-up message is displayed to user 2 while adding an account already in Call Queue of User 1
     Given user is on account page
+    And Remove searched account if present in Call payer queue
     When user clicks on Add to Queue button
     Then user should be able to view the account added to Call Queue
     When user logout from the application
