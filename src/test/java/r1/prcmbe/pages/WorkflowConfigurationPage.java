@@ -267,6 +267,7 @@ public class WorkflowConfigurationPage extends PageObject {
 	@FindBy(xpath = "//*[@class='more-info workflowConfigdetailsInfo']")
 	private WebElementFacade dispositionDetailsSection;
 
+
 	@FindBy(xpath = "//ul[@class='sop-header dispositions']/li[string-length(text())>4]")
 	private List<WebElementFacade> listOfDispositionHeader;
 
@@ -617,8 +618,7 @@ public class WorkflowConfigurationPage extends PageObject {
 	/**
 	 * Method clicks on the newly created Disposition from the list of Dispositions
 	 * 
-	 * @param dispositionName
-	 *            is the created disposition name
+	 * @param dispositionName is the created disposition name
 	 */
 	public void clickOnNewlyDispositionDetailsLink(String dispositionName) {
 		int size = dispositionNameList.size() - 1;
@@ -645,8 +645,7 @@ public class WorkflowConfigurationPage extends PageObject {
 	/**
 	 * selects the value from the Next Disposition By dropdown
 	 * 
-	 * @param nextDrpDownValue
-	 *            value to be selected from the dropdown
+	 * @param nextDrpDownValue value to be selected from the dropdown
 	 */
 	public void selectNextDispositionFromDropdown(String nextDrpDownValue) {
 		evaluateJavascript("arguments[0].scrollIntoView(true);", nextDispositionByDropdown);
@@ -692,8 +691,7 @@ public class WorkflowConfigurationPage extends PageObject {
 	/**
 	 * Methods enters the previously copied Disposition code into new Disposition
 	 * 
-	 * @param copiedCode
-	 *            is the code that is copied from existing Disposition code
+	 * @param copiedCode is the code that is copied from existing Disposition code
 	 */
 	public void enterPreviousDispositionCode(String copiedCode) {
 		withAction().moveToElement(dispositionCodeTextBox).build().perform();
@@ -805,6 +803,9 @@ public class WorkflowConfigurationPage extends PageObject {
 		return headerList;
 	}
 
+	/**
+	 * @return boolean text value by checking first recipient button selected
+	 */
 	public String isFirstRecipientBtnSelected() {
 		return evaluateJavascript("return document.querySelector('#workflowSubTypeID-0').checked").toString();
 	}
@@ -834,10 +835,8 @@ public class WorkflowConfigurationPage extends PageObject {
 	}
 
 	/**
-	 * @param exiting
-	 *            handoffName
-	 * @param added
-	 *            recipientName
+	 * @param exiting handoffName
+	 * @param added   recipientName
 	 * @returns the text value of the bread crumb present having handoff and
 	 *          recipient name
 	 */
@@ -869,7 +868,7 @@ public class WorkflowConfigurationPage extends PageObject {
 	/*
 	 * Method clicks Continue btn on the Handoff page
 	 */
-	public void clickOnContinueBtnOnHandoffTab() {
+	public void clickOnContinueBtnOnHandoffTab() { 
 		continueBtnOnHandoff.click();
 	}
 
@@ -883,7 +882,7 @@ public class WorkflowConfigurationPage extends PageObject {
 	/**
 	 * Method clicks on the radio button of handoff
 	 * 
-	 * @param expectedHandoff
+	 * @param expectedHandoff coming from stepDef and fetched from database
 	 */
 	public void clickOnRadioBtnAgnstFetchedHandOff(String expectedHandOff) {
 		int size = listOfHandOffs.size();
@@ -898,8 +897,7 @@ public class WorkflowConfigurationPage extends PageObject {
 	/**
 	 * Checks the visibility of the newly added handoff
 	 * 
-	 * @param handOffName
-	 *            is the new handoff added
+	 * @param handOffName is the new handoff added
 	 * @return
 	 */
 	public boolean isNewlyAddedHandOffVisible(String handOffName) {
@@ -1233,8 +1231,7 @@ public class WorkflowConfigurationPage extends PageObject {
 
 	/**
 	 * 
-	 * @param recipientName
-	 *            is the newly added recipient name
+	 * @param recipientName is the newly added recipient name
 	 * @return the boolean value based on the visibility of Recipient name present
 	 */
 	public boolean isAddedRecipientNameVisible(String recipientName) {
@@ -1255,6 +1252,12 @@ public class WorkflowConfigurationPage extends PageObject {
 		return false;
 	}
 
+	/**
+	 * clicks on radio button against expected recipient name
+	 * 
+	 * @param expectedRecipientName coming from feature file
+	 * 
+	 */
 	public void clickOnRadioBtnAgnstFetchedRecipient(String expectedRecipientName) {
 		int size = recipientsList.size();
 		for (int i = 0; i < size; i++) {
@@ -1285,8 +1288,7 @@ public class WorkflowConfigurationPage extends PageObject {
 	/**
 	 * Method clicks on the specified radio button on Recipient Page
 	 * 
-	 * @param recipientName
-	 *            name is passed from the feature file
+	 * @param recipientName name is passed from the feature file
 	 */
 	public void clickSpecificRecipientRadioBtn(String recipientName) {
 		int size = listOfRecipientsName.size();
@@ -1339,10 +1341,18 @@ public class WorkflowConfigurationPage extends PageObject {
 		requiredCheckBoxActionPopup.click();
 	}
 
+	/**
+	 * @return boolean value by checking visibility of add new Action pop-up
+	 */
 	public boolean isAddActionPopupVisible() {
 		return addActionPopup.isVisible();
 	}
 
+	/**
+	 * clicks on details link on action tab
+	 * 
+	 * @param actionName coming from DefaultHandoffStepDef
+	 */
 	public void clickSpecificDetailsLinkOnActionTab(String actionName) {
 		int size = listOfActionNames.size();
 		for (int i = 0; i < size; i++) {
@@ -1403,7 +1413,7 @@ public class WorkflowConfigurationPage extends PageObject {
 
 	/**
 	 * 
-	 * @param actionName
+	 * @param actionName coming from DefaultHandoffStepDef
 	 * @return boolean value based on visibility of new Action type
 	 */
 	public boolean isNewlyAddedActionVisibleInGrid(String actionName) {
@@ -1557,8 +1567,7 @@ public class WorkflowConfigurationPage extends PageObject {
 	/**
 	 * Method clicks on the specific Action Type
 	 * 
-	 * @param actionType
-	 *            passed from feature file
+	 * @param actionType passed from feature file
 	 */
 	public void clickSpecificActionTypeDetailsLink(String actionType) {
 		int size = actionTypeList.size();
@@ -1655,10 +1664,16 @@ public class WorkflowConfigurationPage extends PageObject {
 		closeBtnOnActionPopup.click();
 	}
 
+	/**
+	 * @return integer value of action names counts
+	 */
 	public int getActionNamesCount() {
 		return listOfActionNames.size();
 	}
 
+	/**
+	 * @return list of action names
+	 */
 	public List<String> getListOfActionNames() {
 		List<String> actionNamesList = new ArrayList<>();
 		for (WebElementFacade actionName : listOfActionNames) {
@@ -1667,6 +1682,11 @@ public class WorkflowConfigurationPage extends PageObject {
 		return actionNamesList;
 	}
 
+	/**
+	 * clicks on radio button on Action tab
+	 * 
+	 * @param actionName coming from stepDef and fetched from database
+	 */
 	public void clickSpecificRadioBtnOnActionTab(String actionName) {
 		int size = listOfActionNames.size();
 		for (int i = 0; i < size; i++) {
@@ -1677,6 +1697,9 @@ public class WorkflowConfigurationPage extends PageObject {
 		}
 	}
 
+	/**
+	 * @return list of Disposition names
+	 */
 	public List<String> getListOfDispositionNames() {
 		List<String> listOfDispositionNames = new ArrayList<>();
 		for (WebElementFacade dispositionName : dispositionNameList) {
@@ -1764,8 +1787,7 @@ public class WorkflowConfigurationPage extends PageObject {
 	/**
 	 * Method clicks on the specified Action name
 	 * 
-	 * @param actionType
-	 *            is passed from the feature
+	 * @param actionType is passed from the feature
 	 */
 	public void clickSpecificActionTypeRadioBtn(String actionType) {
 		int size = actionTypeList.size();
@@ -1780,8 +1802,7 @@ public class WorkflowConfigurationPage extends PageObject {
 	/**
 	 * Method clicks on the specified Disposition Name
 	 * 
-	 * @param dispositionType
-	 *            is passed from the feature file
+	 * @param dispositionType is passed from the feature file
 	 */
 	public void clickSpecificEditDispositionTypeBtn(String dispositionType) {
 		successMsg.withTimeoutOf(Duration.ofSeconds(20)).waitUntilNotVisible();
@@ -1829,8 +1850,7 @@ public class WorkflowConfigurationPage extends PageObject {
 	/**
 	 * Method clicks on the specified edit link
 	 * 
-	 * @param actionType
-	 *            passed from feature file
+	 * @param actionType passed from feature file
 	 */
 	public void clickSpecificActionTypeEditLink(String actionType) {
 		int size = actionTypeList.size();
@@ -1846,8 +1866,7 @@ public class WorkflowConfigurationPage extends PageObject {
 	/**
 	 * Method verifies the Editable controls on Action popup
 	 * 
-	 * @param listOfFields
-	 *            passed from the fearure file
+	 * @param listOfFields passed from the fearure file
 	 * @return list of text values of controls
 	 */
 	public List<Object> verifyEditActionPopupControlsVisible(List<String> listOfFields) {
@@ -1951,7 +1970,7 @@ public class WorkflowConfigurationPage extends PageObject {
 
 	/**
 	 * 
-	 * @return the
+	 * @return the boolean value by verifying visibility of edit action pop up
 	 */
 	public boolean isEditActionPopupVisible() {
 		return editActionPopUpHeader.isVisible();
@@ -1960,8 +1979,7 @@ public class WorkflowConfigurationPage extends PageObject {
 	/**
 	 * Method gets TimeLimit of particulat Action Type
 	 * 
-	 * @param actionType
-	 *            is passed from feature file
+	 * @param actionType is passed from feature file
 	 * @return the text value of Time Limit
 	 */
 	public String getSpecificTimeLimitValueInActionTypeGrid(String actionType) {

@@ -134,7 +134,7 @@ public class PatientInformationStepDef extends PageObject {
 		} catch (SQLException sQLException) {
 			Assert.assertTrue("Table Headers doesn't fetch from DB.\nThe Technical Error is:\n" + sQLException, false);
 		}
-		financialInfoSteps.log("Fetched Table Headers from Database is " + dbInvoiceNumber);
+		financialInfoSteps.log("Fetched Table Headers from Database is " + listOfDataHeadersInDB);
 	}
 
 	@When("^User clicks on Facility Details tab$")
