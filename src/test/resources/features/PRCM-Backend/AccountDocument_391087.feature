@@ -10,7 +10,7 @@ Feature: Verify AccountDocument related scenarios in PRCM
 
   @391087 @Sprint8 @PRCMUser
   Scenario Outline: Verify that if account uploaded in one of the linked invoices then it should be available in all other invoices as well as in Account
-    Given user is on "R1 Hub Technologies 2.0 - 15 R1_Decision - Search" page
+    Given user is on R1 Decision search page
     When user login to SQL server and connect to database
     And user runs the "PRCM_Account_Document_391087_SQL2" query to fetch invoice number and ChargeTransactionID
     Then user should be able to fetch InvoiceNumber and ChargeTransactionID

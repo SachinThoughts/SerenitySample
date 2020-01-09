@@ -8,7 +8,7 @@ Feature: Verify default handoff
 
   @434992 @434993 @Sprint103 @PRCMUser
   Scenario Outline: Verify user is able to add newly added handoff type on R1 Decision screen
-    Given user is on "R1 Hub Technologies 2.0 - 15 R1_Decision" page
+    Given user is on R1 Decision search page
     And user login to SQL server and connect to database
     And user runs the "Defaulthandoff_434990_SQL4" query for default handoff
     And user enters the SQL result in Visit Number Search textbox

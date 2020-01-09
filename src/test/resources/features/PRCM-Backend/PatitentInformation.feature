@@ -14,7 +14,7 @@ Feature: Verify patient info related test cases in PRCM-BE
 
   @391254 @Sprint103 @PRCMUser
   Scenario: TC To Verify that Patient& Facility Info  Panel should be displayed if open via searching an Invoice Number
-    Given user is on "R1 Hub Technologies 2.0 - 15 R1_Decision" page
+    Given user is on R1 Decision Account information page
     Then user should be able to view the Patient and Facility Info section on R1D Page
     And user should be able to view the following tabs
       | Patient & Visit Details |
@@ -24,13 +24,13 @@ Feature: Verify patient info related test cases in PRCM-BE
 
   @391255 @Sprint103 @PRCMUser
   Scenario: TC To Verify "Patient & Facility Info" Panel should be expandable when user click on Drill Down symbol
-    Given user is on "R1 Hub Technologies 2.0 - 15 R1_Decision" page
+    Given user is on R1 Decision Account information page
     When User clicks on drilldown icon of Patient & Facility Info panel
     Then user should be able to view Patient Information grid as collapsed
 
   @391256 @Sprint103 @PRCMUser
   Scenario Outline: TC To Verify headers on patient Info section for all tabs
-    Given user is on "R1 Hub Technologies 2.0 - 15 R1_Decision" page
+    Given user is on R1 Decision Account information page
     When User clicks on tab <tabname> tab in Patient & Facility Info panel
     Then user should be able to view the following header fields in all four tabs
       | SSN | DOB | Facility Code | Account # | Invoice # |
@@ -46,7 +46,7 @@ Feature: Verify patient info related test cases in PRCM-BE
 
   @391261 @Sprint103 @PRCMUser
   Scenario: Verify Facility Details Tab's and Data Columns Under Patient & Facility Info module
-    Given user is on "R1 Hub Technologies 2.0 - 15 R1_Decision" page
+    Given user is on R1 Decision Account information page
     When User clicks on Facility Details tab
     And user runs the patient info query "patient_info_391261_SQL4" and fetch the headers
     And user runs the patient info query to fetch facility data "patient_info_391261_SQL4" query
