@@ -202,7 +202,7 @@ public class DefectWorkflowPage extends PageObject {
 	 * This method clicks on Save Button Below Defect SubCategory Drop Down
 	 */
 	public void clickOnSaveBtn() {
-		saveButton.click();
+		evaluateJavascript("arguments[0].click();",saveButton);
 	}
 
 	/**
@@ -267,7 +267,7 @@ public class DefectWorkflowPage extends PageObject {
 	 * This method clicks on Previous Button On Triage Section
 	 */
 	public void clickOnPrevBtn() {
-		prevButton.click();
+		evaluateJavascript("arguments[0].click();",prevButton);
 	}
 
 	/**
@@ -314,7 +314,10 @@ public class DefectWorkflowPage extends PageObject {
 	 * This method clicks on Next Button On Traige Page
 	 */
 	public void clickOnNextButtonOnTriagePage() {
-		nextBtnOnTriagePage.click();
+		if(nextBtnOnTriagePage.withTimeoutOf(Duration.ofSeconds(30)).isVisible()) {
+			evaluateJavascript("arguments[0].scrollIntoView();",nextBtnOnTriagePage);
+			withAction().moveToElement(nextBtnOnTriagePage).click().build().perform();
+		}
 	}
 
 	/**
@@ -399,7 +402,8 @@ public class DefectWorkflowPage extends PageObject {
 	 * This method clicks on Save Button under Defect WorkFlow Section
 	 */
 	public void clickOnA2DSaveButton() {
-		evaluateJavascript("arguments[0].click();", a2DSaveButton);
+		evaluateJavascript("arguments[0].scrollIntoView();",a2DSaveButton);
+		withAction().moveToElement(a2DSaveButton).click().build().perform();
 	}
 
 	/**
@@ -426,7 +430,6 @@ public class DefectWorkflowPage extends PageObject {
 		clickOnNextButton();
 		waitForAngularRequestsToFinish();
 		listOfSOP.addAll(getSOPActionsOnTriagePage());
-		verifyAllStepsTakenSection.withTimeoutOf(Duration.ofSeconds(20)).waitUntilVisible();
 		clickOnNextButtonOnTriagePage();
 		listOfSOP.addAll(getSOPActionsOnActionPage());
 		return listOfSOP;
