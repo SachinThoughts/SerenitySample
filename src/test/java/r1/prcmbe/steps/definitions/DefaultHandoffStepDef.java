@@ -345,7 +345,7 @@ public class DefaultHandoffStepDef {
 		Assert.assertTrue("Disposition time limit displayed in the table does not match with one selected",
 				defaultHandOffPage.getTextSavedDispositionTimeLimit().equals(dispositionResponseDeadline));
 		Assert.assertTrue("Disposition Status displayed in the table does not match with one selected",
-				defaultHandOffPage.getTextSavedDispositionStatus(selectedDispositionStatus).equals(dispositionStatus));
+				defaultHandOffPage.getTextSavedDispositionStatus(enteredDispositionName,selectedDispositionStatus).equals(dispositionStatus));
 	}
 
 	@Given("^user login to SQL server and connect to \"([^\"]*)\" database$")

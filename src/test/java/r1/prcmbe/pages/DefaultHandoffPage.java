@@ -857,17 +857,16 @@ public class DefaultHandoffPage extends PageObject {
 	 * @param status
 	 * @return the text value of Disposition status
 	 */
-	public String getTextSavedDispositionStatus(String status) {
-		int size = dispositionStatusList.size();
-		int flag = 0;
+	public String getTextSavedDispositionStatus(String status, String dispositionName) {
+		int i;
+		int size = dispositionNameList.size() - 1;
 		for (i = 0; i < size; i++) {
-			if (dispositionStatusList.get(i).getText().equals(status)) {
-				withAction().moveToElement(dispositionStatusList.get(i)).build().perform();
-				flag = 1;
-			}
-			if (flag == 1) {
+			if (dispositionNameList.get(i).getText().equals(dispositionName)) {
+				withAction().moveToElement(dispositionNameList.get(i)).build().perform();
 				break;
 			}
+
+			withAction().moveToElement(dispositionStatusList.get(i)).build().perform();
 		}
 		return dispositionStatusList.get(i).getText().trim();
 	}
