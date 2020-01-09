@@ -1,4 +1,4 @@
-/*package runner;
+package runner;
 
 import org.junit.runner.RunWith;
 import cucumber.api.CucumberOptions;
@@ -9,4 +9,3 @@ import net.serenitybdd.cucumber.CucumberWithSerenity;
 		"r1.prcmbe.steps.definitions" })
 public class RunnerTestTwo {
 }
-*/
