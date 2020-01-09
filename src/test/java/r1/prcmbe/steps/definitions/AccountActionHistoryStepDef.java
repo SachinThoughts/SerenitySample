@@ -21,6 +21,8 @@ public class AccountActionHistoryStepDef {
 	@When("^user scrolls down to reach Account Action History Section$")
 	public void user_scrolls_down_to_reach_Account_Action_History_Section() {
 		accActionHistoryPage.scrollToAccActionHistorySection();
+		accActionHistoryPage.expandAccountActionHistorySection();
+		
 	}
 
 	@Then("^user should be able to view the message \"([^\"]*)\" at Account Action History Section$")
