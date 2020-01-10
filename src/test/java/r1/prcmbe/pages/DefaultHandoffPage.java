@@ -860,14 +860,10 @@ public class DefaultHandoffPage extends PageObject {
 	public String getTextSavedDispositionStatus(String dispositionName, String status) {
 		int index = 0;
 		int size = dispositionNameList.size() - 1;
-		int flag = 0;
 		for (int j = 0; j < size; j++) {
 			if (dispositionNameList.get(j).getText().equals(dispositionName)) {
 				withAction().moveToElement(dispositionNameList.get(j)).build().perform();
 				index = j;
-				flag = 1;
-			}
-			if (flag == 1) {
 				break;
 			}
 		}
