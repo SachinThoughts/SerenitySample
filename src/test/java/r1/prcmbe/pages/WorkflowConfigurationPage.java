@@ -267,7 +267,8 @@ public class WorkflowConfigurationPage extends PageObject {
 	@FindBy(xpath = "//*[@class='more-info workflowConfigdetailsInfo']")
 	private WebElementFacade dispositionDetailsSection;
 
-	@FindBy(xpath = "//ul[@class='sop-header dispositions']/li[position()>2]")
+
+	@FindBy(xpath = "//ul[@class='sop-header dispositions']/li[string-length(text())>4]")
 	private List<WebElementFacade> listOfDispositionHeader;
 
 	@FindBy(id = "txtDispositionsNotes")
