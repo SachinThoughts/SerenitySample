@@ -270,9 +270,9 @@ public class FacilityGroupConfigurationPage extends PageObject {
 	public void clickOnPhysicianCheckbox() {
 		if (!physicianCheckbox.isSelected()) {
 			physicianCheckbox.click();
-		} else {
+		} else
 			physicianCheckbox.click();
-		}
+
 	}
 
 	/**

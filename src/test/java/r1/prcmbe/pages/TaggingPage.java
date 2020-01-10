@@ -756,7 +756,7 @@ public class TaggingPage extends PageObject {
 	 * @return Text of Success message on Mass update page
 	 */
 	public String getSuccessMsgOnMU() {
-		return alertMsgOnMassUpdateScrn.withTimeoutOf(Duration.ofSeconds(20)).waitUntilVisible().getText();
+		return alertMsgOnMassUpdateScrn.withTimeoutOf(Duration.ofSeconds(30)).waitUntilVisible().getText();
 	}
 
 	/**
