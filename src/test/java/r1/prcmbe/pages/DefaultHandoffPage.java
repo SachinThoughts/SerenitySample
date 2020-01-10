@@ -1006,6 +1006,9 @@ public class DefaultHandoffPage extends PageObject {
 		return addedBubble.getText();
 	}
 
+	/**
+	 * @return the Color of the handoff bubble
+	 */
 	public String getHandoffBubbleColor() {
 		addedBubble.withTimeoutOf(Duration.ofSeconds(40)).waitUntilVisible();
 		withAction().moveToElement(addedBubble).build().perform();
@@ -1027,12 +1030,8 @@ public class DefaultHandoffPage extends PageObject {
 	}
 
 	/**
-<<<<<<< HEAD
-	 * @return the list of the column headers that appear in the box after hovering over the bubble
-=======
 	 *This method stores Event Circle Columns Value in List
 	 *@return listOfEventCircleCols
->>>>>>> fbe12705709a548f8b1d551822cd968b28231848
 	 */
 	public List<String> getListOfEventCircleColumns() {
 		List<String> listOfEventCircleCols = new ArrayList<>();
