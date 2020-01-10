@@ -94,17 +94,7 @@ public class FinancialInfoStepDef {
 			loginSteps.log("The fetched invoice number is: " + invoiceNumber);
 		}
 	}
-
-	@When("^user enters fetched Invoice Number in the Invoice Number textbox$")
-	public void user_enters_fetched_Invoice_Number_in_the_Invoice_Number_textbox() {
-		searchPage.enterInvoiceNumber(invoiceNumber);
-	}
-
-	@When("^user clicks on Submit button on R1D page$")
-	public void user_clicks_on_Submit_button_on_R_D_page() {
-		financialInfoPage.clickSubmitBtn();
-	}
-
+	
 	@When("^User Clicks on drill down icon of Adjustment drilldown$")
 	public void user_Clicks_on_drill_down_icon_of_Adjustment_drilldown() {
 		financialInfoPage.clickAdjustmentScrollArrow();
@@ -155,7 +145,7 @@ public class FinancialInfoStepDef {
 		Assert.assertTrue(
 				"The Balances donot match. Value from database is:" + expTotalBalance + "and on UI is: "
 						+ financialInfoPage.getTotalBalanceData(),
-				expTotalBalance.equals(financialInfoPage.getTotalBalanceData()));
+						financialInfoPage.getTotalBalanceData().equals(expTotalBalance));
 	}
 
 	@When("^user runs Financial_Information_Section_SQL3(.+)$")

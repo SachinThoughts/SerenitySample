@@ -26,8 +26,7 @@ Feature: This feature is to verify the financial Information functionality
     Given user is able to login to sql server and connect to database
     When user executes the query for InvoiceNumber <queryName5>
     Then user should be able to fetch Invoice Number
-    When user enters fetched Invoice Number in the Invoice Number textbox
-    And user clicks on Submit button on R1D page
+    And user enters InvoiceNumber in the InvoiceNumber field and click on submit button
     And user scrolls down till Financial Information Section
     And User Clicks on drill down icon of Adjustment drilldown
     Then User should be able to view following fields:
@@ -52,8 +51,7 @@ Feature: This feature is to verify the financial Information functionality
     Given user is able to login to sql server and connect to database
     When user runs Financial_Information_Section_SQL3 <queryname3>
     Then user should be able to fetch Invoice Number and Total Balance
-    When user enters fetched Invoice Number in the Invoice Number textbox
-    And user clicks on Submit button on R1D page
+ 		And user enters InvoiceNumber in the InvoiceNumber field and click on submit button
     And user scrolls down till Financial Information Section
     And user moves to Total Balance column
     Then User should be able to view the same amount of Total Balance as SQL result
