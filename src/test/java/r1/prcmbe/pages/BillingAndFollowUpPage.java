@@ -19,7 +19,7 @@ public class BillingAndFollowUpPage extends PageObject {
 	private WebElementFacade massUpdateLink;
 
 	/**
-	 * This method clicks on R1 Decision Link
+	 * Clicking on R1 Decision Link
 	 */
 	public void clickOnR1DecisionLink() {
 		withAction().moveToElement(r1DecisionLink).click().build().perform();

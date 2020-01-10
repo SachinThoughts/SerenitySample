@@ -23,6 +23,10 @@ public class WorkflowConfigurationSteps {
 	@Steps
 	LoginSteps loginStep;
 
+	/**
+	 * @param dateFromDB coming from database
+	 * @return date in MM/dd/yyyy format from yyyy-MM-dd HH:mm:ss
+	 */
 	@Step
 	public String formatDbDateFieldWithDateTime(String dateFromDB) throws ParseException {
 		outputFormat = new SimpleDateFormat("MM/dd/yyyy");
@@ -32,13 +36,13 @@ public class WorkflowConfigurationSteps {
 	}
 
 	/**
-	 * Method clears the cache and relogins again
+	 * Method clears the cache and re-logins again
 	 * 
 	 * @throws IOException
 	 */
 
 	@Step
-	public void clearCacheAndLogin() throws IOException {
+	public void clearCacheAndLogin() throws IOException { 
 		navigationPage.clickSettings();
 		settingsPage.hoverITToolsLink();
 		settingsPage.clickCacheLink();

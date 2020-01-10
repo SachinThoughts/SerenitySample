@@ -240,7 +240,8 @@ public class AccountInformationPage extends PageObject {
 	 * This method click On Related Account Based on Facility Code and Fetch Invoice
 	 * No
 	 * 
-	 * @param facilityCode for mapping purpose
+	 * @param facilityCode
+	 *            for mapping purpose
 	 * @return invoiceNo on RelatedAccount Popup
 	 */
 	public String clickRelatedAccountBasedOnFacilityCodeAndFetchInvoiceNo(String facilityCode) {
@@ -258,7 +259,8 @@ public class AccountInformationPage extends PageObject {
 	/**
 	 * This method click On Invoice No on Related Account Popup and Fetch Invoice No
 	 * 
-	 * @param index : Based on which Invoice Number is fetched
+	 * @param index
+	 *            : Based on which Invoice Number is fetched
 	 * @return invoiceNo on RelatedAccount Popup
 	 */
 	public String clickOnInvoiceNoOnRelatedAccntPopUpAndGetInvoiceNo(int index) {
@@ -388,8 +390,11 @@ public class AccountInformationPage extends PageObject {
 		return invoiceNumber.isVisible();
 	}
 
+	/**
+	 * Click on the approval link on account
+	 */
 	public void clickApprovalWriteOffLink() {
-		approvalWriteOffLink.click();
+		evaluateJavascript("arguments[0].click();", approvalWriteOffLink);
 	}
 
 	/**
@@ -584,8 +589,12 @@ public class AccountInformationPage extends PageObject {
 		return infoMessage.getText().trim();
 	}
 
+	/**
+	 * Close the message alert if it is visible
+	 */
 	public void closeInfoMessage() {
-		evaluateJavascript("arguments[0].click();", infoMsgCloseBtn);
+		if(infoMsgCloseBtn.isVisible())
+			evaluateJavascript("arguments[0].click();", infoMsgCloseBtn);
 	}
 
 	public void clickRecentAccountsBtn() {
