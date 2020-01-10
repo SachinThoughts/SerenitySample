@@ -76,7 +76,7 @@ public class PhysicianNPIConfigPage extends PageObject {
 	@FindBy(xpath = "//div[contains(@class,'detail-header')]/h3")
 	private WebElementFacade facilityPhysicianHeader;
 
-	@FindBy(xpath = "//ul[@class='list-table-body physician-list']//div[4]")
+	@FindBy(xpath = "//*[@class='list-table-body physician-list']//div[4]")
 	private List<WebElementFacade> listOfTotalPayorsDisabled;
 
 	@FindBy(xpath = "//div[contains(@class,'search-header')]/h3[text()='Physician Search']")
