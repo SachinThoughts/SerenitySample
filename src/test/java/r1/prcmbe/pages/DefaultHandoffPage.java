@@ -1013,11 +1013,7 @@ public class DefaultHandoffPage extends PageObject {
 	}
 
 	/**
-<<<<<<< HEAD
 	 * hover on the added handoff bubble
-=======
-	 *This method perform move to recently Added Bubble element
->>>>>>> fbe12705709a548f8b1d551822cd968b28231848
 	 */
 	public void hoverOnAddedBubble() {
 		withAction().moveToElement(addedBubble).build().perform();

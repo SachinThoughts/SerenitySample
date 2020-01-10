@@ -579,6 +579,8 @@ public class DefaultHandoffStepDef {
 
 	@When("^user hovers the event circle for newly added Handoff type$")
 	public void user_hovers_the_event_circle_for_newly_added_Handoff_type() {
+		defaultHandOffPage.expandAccountActionHistory();
+		defaultHandOffPage.hoverOnAddedBubble();
 		defaultHandOffPage.hoverOnAddedBubble();
 	}
 
