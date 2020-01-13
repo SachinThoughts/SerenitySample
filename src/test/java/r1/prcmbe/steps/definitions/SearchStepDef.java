@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.junit.Assert;
 
+import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
@@ -131,7 +132,7 @@ public class SearchStepDef extends PageObject {
 			searchPage.selectOperatorValue(operator);
 	}
 
-	@When("^user enters less than 5 characters in (.*) textbox$")
+	/*@When("^user enters less than 5 characters in (.*) textbox$")
 	public void user_enters_less_than_characters_in_textbox(String value) {
 		if (searchPage.isVisitTxtFieldVisible()) {
 			searchPage.enterVisitNumber(value);
@@ -146,7 +147,7 @@ public class SearchStepDef extends PageObject {
 		} else {
 			Assert.assertTrue("Search text box not visible", false);
 		}
-	}
+	}*/
 
 	@Then("^user should able to view tool-tip message (.*)$")
 	public void user_should_able_to_view_tool_tip_message_Please_add_five_or_more_characters(String toolTipMessage) {
@@ -159,7 +160,8 @@ public class SearchStepDef extends PageObject {
 		Assert.assertFalse("Submit button is enabled", searchPage.isSubmitBtnEnabled());
 	}
 
-	@When("^user enters more than or equal to 5 characters (.*) in textbox$")
+	@When("^user enters less than 5 characters in (.*) textbox$")
+	@And("^user enters more than or equal to 5 characters (.*) in textbox$")
 	public void user_enters_more_than_or_equal_to_characters_in_textbox(String value) {
 		if (searchPage.isVisitTxtFieldVisible()) {
 			searchPage.enterVisitNumber(value);
