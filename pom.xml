@@ -13,7 +13,7 @@
 		<serenity.cucumber.version>1.9.40</serenity.cucumber.version>
 		<encoding>UTF-8</encoding>
 		<tags></tags>
-		<parallel.tests>7</parallel.tests>
+		<parallel.tests>2</parallel.tests>
 	</properties>
 
 	<dependencies>
