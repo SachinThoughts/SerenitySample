@@ -280,7 +280,6 @@ public class SearchStepDef extends PageObject {
 		} catch (SQLException sQLException) {
 			Assert.assertTrue("Names are not fetched from DB.\nThe Technical Error is:\n" + sQLException, false);
 		}
-		financialInfoSteps.log("List of names from DB:\n" + dbListOfNames);
 		Assert.assertTrue("Names displayed on UI does not match with database",
 				searchPageSteps.verifyNameOnUIWithDatabaseResult(dbListOfNames));
 	}
@@ -633,9 +632,9 @@ public class SearchStepDef extends PageObject {
 		}
 		Assert.assertTrue("Fetched list of visit number doesnt contains entered visit number",
 				searchPageSteps.verifyInvoiceNumberOnUIWithDatabaseResult(dbListOfInvoiceNumber));
-		
+
 		listOfGridColumnsOnUI = searchPage.getListOfSrchAccTblHeaders();
-		
+
 		Assert.assertTrue("All the grid columns are not visible",
 				expectedListOfGridColumns.containsAll(listOfGridColumnsOnUI) && !listOfGridColumnsOnUI.isEmpty());
 	}
