@@ -226,7 +226,7 @@ public class SearchStepDef extends PageObject {
 	@Then("^user navigates on internal search page$")
 	public void user_navigates_on_internal_search_page() {
 		Assert.assertTrue("User is not navigated on R1 Internal Search Page",
-				searchPage.getSearchPageTitle().contains("R1 Hub Technologies 2.0 - 15 R1_Decision"));
+				searchPage.getSearchPageTitle().contains("R1 Hub Technologies 2.0"));
 	}
 
 	@Given("^user is on R1 Decision search page$")

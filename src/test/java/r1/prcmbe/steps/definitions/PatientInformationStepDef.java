@@ -8,12 +8,14 @@ import java.util.List;
 import org.junit.Assert;
 
 import cucumber.api.DataTable;
+import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import net.serenitybdd.core.pages.PageObject;
 import net.thucydides.core.annotations.Steps;
 import r1.commons.databaseconnection.DatabaseConn;
 import r1.commons.utilities.CommonMethods;
+import r1.prcmbe.pages.AccountInformationPage;
 import r1.prcmbe.pages.PatientInformationPage;
 import r1.prcmbe.pages.SearchPage;
 import r1.prcmbe.serenity.steps.FinancialInfoSteps;
@@ -23,6 +25,7 @@ public class PatientInformationStepDef extends PageObject {
 	PatientInformationPage patientInformationPage;
 	CommonMethods commonMethods;
 	SearchPage searchPage;
+	AccountInformationPage accInfoPage;
 
 	@Steps
 	FinancialInfoSteps financialInfoSteps;
@@ -32,6 +35,11 @@ public class PatientInformationStepDef extends PageObject {
 	List<String> listOfHeadersOnUI = new ArrayList<>();
 	List<String> listOfDataHeadersInDB = new ArrayList<>();
 	String dbQueryFilename = "PatientInformation", dbInvoiceNumber;
+	
+	@Given("^User is on R1 Account information page$")
+	public void user_is_on_R_Account_information_page() {
+		accInfoPage.verifyPatientDetailsSectionVisible();
+	}
 
 	@Then("^user should be able to view the Patient and Facility Info section on R1D Page$")
 	public void user_should_be_able_to_view_the_Patient_and_Facility_Info_section_on_R1D_Page() {
@@ -134,7 +142,7 @@ public class PatientInformationStepDef extends PageObject {
 		} catch (SQLException sQLException) {
 			Assert.assertTrue("Table Headers doesn't fetch from DB.\nThe Technical Error is:\n" + sQLException, false);
 		}
-		financialInfoSteps.log("Fetched Table Headers from Database is " + dbInvoiceNumber);
+		financialInfoSteps.log("Fetched Table Headers from Database is " + listOfDataHeadersInDB);
 	}
 
 	@When("^User clicks on Facility Details tab$")

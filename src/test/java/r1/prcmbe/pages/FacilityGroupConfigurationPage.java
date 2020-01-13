@@ -26,7 +26,7 @@ public class FacilityGroupConfigurationPage extends PageObject {
 	@FindBy(xpath = "//button[text()='Add New Facility Group']")
 	private List<WebElementFacade> listOfAddFacilityBtn;
 
-	@FindBy(xpath = "//a[@href='#addFacilityGroup']")
+	@FindBy(xpath = "//a[@class='btn btn-link lnkEditFacilityGroup']")
 	private List<WebElementFacade> listOfEditBtns;
 
 	@FindBy(xpath = "//li[text()='Facilities']/parent::ul/parent::div//li/div[count(//li[text()='Facilities'])+1]")
@@ -270,9 +270,9 @@ public class FacilityGroupConfigurationPage extends PageObject {
 	public void clickOnPhysicianCheckbox() {
 		if (!physicianCheckbox.isSelected()) {
 			physicianCheckbox.click();
-		} else {
+		} else
 			physicianCheckbox.click();
-		}
+
 	}
 
 	/**
@@ -282,9 +282,7 @@ public class FacilityGroupConfigurationPage extends PageObject {
 	public void clickOnEditBtnWithNoPhysicianChkboxChecked() {
 		int check = 0;
 		int size = listOfEditBtns.size();
-
 		for (index = 0; index < size; index++) {
-			listOfEditBtns.get(index).withTimeoutOf(Duration.ofSeconds(15)).waitUntilVisible();
 			evaluateJavascript("arguments[0].click();", listOfEditBtns.get(index));
 			while (physicianCheckbox.isSelected()) {
 				physicianCheckbox.withTimeoutOf(Duration.ofSeconds(15)).waitUntilVisible();
