@@ -35,12 +35,12 @@ public class SearchPageSteps {
 	@Step
 	public boolean verifyInvoiceNumberWithLikeOperator(String invoiceNum) {
 		if (searchPage.isSearchAccTableVisible()) {
-			for (String invoiceNumFromList : searchPage.getlistOfInvoiceID()) {
+			for (String invoiceNumFromList : searchPage.getlistOfInvNum()) {
 				if (!invoiceNumFromList.toLowerCase().contains(invoiceNum.toLowerCase())) {
 					return false;
 				}
 			}
-			searchPage.clickSearchInvoiceID();
+			searchPage.clickSearchInvoiceIdOrVisitNumber();
 		}
 		return searchPage.isPatientAndVisitHeaderVisible()
 				&& invoiceNum.contains(searchPage.getInvoiceNumber().toLowerCase());
