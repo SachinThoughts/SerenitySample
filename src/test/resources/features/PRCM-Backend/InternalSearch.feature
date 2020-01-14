@@ -14,12 +14,12 @@ Feature: Verify internal search on R1 Decision page
 
   @391031 @Sprint101 @PRCMUser
   Scenario: Verify that R1D page for PRCM enabled site Invoice number should be default criteria
-    Given user is on "R1 Hub Technologies 2.0 - 15 R1_Decision" page
+    Given User is on R1 Account information page
     Then user should be able to view Invoice Number selected by default in Search By drop down
 
   @391032 @Sprint101 @PRCMUser
   Scenario Outline: Verify the error message displayed when user searches an invalid data in Search textbox with equal operator
-    Given user is on "R1 Hub Technologies 2.0 - 15 R1_Decision" page
+    Given User is on R1 Account information page
     When user selects <dropdown> from Search By drop down
     And user enters invalid value in <Invalid Data> textbox 
     And user clicks on Submit button
@@ -36,7 +36,7 @@ Feature: Verify internal search on R1 Decision page
 
   @391033 @Sprint101 @PRCMUser
   Scenario Outline: Verify that Submit button is disabled for Search textbox for Like Operator if user enters less than five characters
-    Given user is on "R1 Hub Technologies 2.0 - 15 R1_Decision" page
+    Given User is on R1 Account information page
     When user selects <dropdown> from Search By drop down
     And user selects "Like" operator from operator dropdown
     And user enters less than 5 characters in <lessThanFivetext> textbox
@@ -52,7 +52,7 @@ Feature: Verify internal search on R1 Decision page
 
   @391034 @Sprint101 @PRCMUser
   Scenario Outline: Verify that Submit button is enabled for Search textbox for Like Operator if user enters 5 or more characters
-    Given user is on "R1 Hub Technologies 2.0 - 15 R1_Decision" page
+    Given User is on R1 Account information page
     When user selects <dropdown> from Search By drop down
     And user selects "Like" operator from operator dropdown
     And user enters more than or equal to 5 characters <moreThanFivetext> in textbox
@@ -72,7 +72,7 @@ Feature: Verify internal search on R1 Decision page
 
   @391035 @Sprint101 @PRCMUser
   Scenario Outline: Verify that when user does not enter anything in Search textbox then message appeared or not
-    Given user is on "R1 Hub Technologies 2.0 - 15 R1_Decision" page
+    Given User is on R1 Account information page
     When user selects <option> from Search By drop down
     And user clicks on Submit button
     Then user should be able to view message "Please enter the value for" <option>
@@ -88,7 +88,7 @@ Feature: Verify internal search on R1 Decision page
 
   @391036 @Sprint101 @PRCMUser
   Scenario Outline: Verify the error message displayed when user searches an invalid Search textbox with Like operator on R1D Page
-    Given user is on "R1 Hub Technologies 2.0 - 15 R1_Decision" page
+    Given User is on R1 Account information page
     When user selects <dropdown> from Search By drop down
     And user selects "Like" operator from operator dropdown
     And user enters invalid value in <Invalid Data> textbox 
@@ -104,14 +104,14 @@ Feature: Verify internal search on R1 Decision page
 
   @391037 @Sprint101 @PRCMUser
   Scenario: Verify that user is able to search an account with Invoice Number using equal operator on R1D Page
-    Given user is on "R1 Hub Technologies 2.0 - 15 R1_Decision" page
+    Given User is on R1 Account information page
     When user enter the query result of SQL1 in Invoice Number search textbox
     And user clicks on Submit button
     Then user should be able to navigate to the R1D account page for searched Invoice Number
 
   @428162 @Sprint101 @PRCMUser
   Scenario Outline: Verify that user is able to search an account with Visit Number having invoice number associated to it on R1D Page
-    Given user is on "R1 Hub Technologies 2.0 - 15 R1_Decision" page
+    Given User is on R1 Account information page
     When user login to SQL Server and connect to facility database
     And user runs the <queryname3> query to fetch account data
     And user selects "Visit Number" from Search By dropdown
@@ -141,7 +141,7 @@ Feature: Verify internal search on R1 Decision page
 
   @428172 @PRCMUser @Sprint102
   Scenario Outline: Verify the error message displayed when user enter special characters in Last Name/First Name textbox
-    Given user is on "R1 Hub Technologies 2.0 - 15 R1_Decision" page
+    Given User is on R1 Account information page
     When user selects "Last Name/First Name" from Search By dropdown
     And user enters <LastName> text in Last Name textbox
     And user enters <FirstName> text in First Name textbox
@@ -156,7 +156,7 @@ Feature: Verify internal search on R1 Decision page
 
   @433695 @PRCMUser @Sprint102
   Scenario Outline: Verify the Search functionality of Cross Site Facility on R1D Page
-    Given user is on "R1 Hub Technologies 2.0 - 15 R1_Decision" page
+    Given User is on R1 Account information page
     When user selects <option> from Search By drop down
     And user selects "Like" operator from operator dropdown
     And user enters value <textvalue> in <option> textbox
@@ -184,7 +184,7 @@ Feature: Verify internal search on R1 Decision page
 
   @428877 @PRCMUser @Sprint102
   Scenario Outline: Verify that user is able to see the search result grid for exact Last Name/First Name on R1D Page
-    Given user is on "R1 Hub Technologies 2.0 - 15 R1_Decision" page
+    Given User is on R1 Account information page
     When user selects "Last Name/First Name" from Search By dropdown
     And user login to SQL Server and connect to facility database
     And user runs the <queryname5> query to fetch account data
@@ -213,7 +213,7 @@ Feature: Verify internal search on R1 Decision page
 
   @428167 @PRCMUser @Sprint102
   Scenario Outline: Verify that user is able to see the search result grid for SSN on R1D Page
-    Given user is on "R1 Hub Technologies 2.0 - 15 R1_Decision" page
+    Given User is on R1 Account information page
     When user selects "SSN" from Search By dropdown
     And user login to SQL Server and connect to facility database
     And user runs the <queryname4> query to fetch account data
@@ -240,7 +240,7 @@ Feature: Verify internal search on R1 Decision page
 
   @433692 @PRCMUser @Sprint102
   Scenario Outline: Verify that user is able to see the search result grid for Last Name/First Name on R1D Page
-    Given user is on "R1 Hub Technologies 2.0 - 15 R1_Decision" page
+    Given User is on R1 Account information page
     When user selects "Last Name/First Name" from Search By dropdown
     And user enters <lastName> text in Last Name textbox
     And user enters <firstName> text in First Name textbox
@@ -267,7 +267,7 @@ Feature: Verify internal search on R1 Decision page
 
   @433693 @PRCMUser @Sprint102
   Scenario Outline: Verify that user is able to see the search result grid for Medical Record Number with operators on R1D Page
-    Given user is on "R1 Hub Technologies 2.0 - 15 R1_Decision" page
+    Given User is on R1 Account information page
     When user selects "Medical Record Number" from Search By dropdown
     And user login to SQL Server and connect to facility database
     And user runs the <queryname6> query to fetch account data
@@ -296,7 +296,7 @@ Feature: Verify internal search on R1 Decision page
 
   @428160 @Sprint102 @PRCMUser
   Scenario Outline: Verify that user is able to search an account with Visit Number using equal operator on R1D Page
-    Given user is on "R1 Hub Technologies 2.0 - 15 R1_Decision" page
+    Given User is on R1 Account information page
     When user login to SQL Server and connect to facility database
     And user runs the <queryname2> query for search
     And user selects <dropdown> from Search By drop down
@@ -311,7 +311,7 @@ Feature: Verify internal search on R1 Decision page
 
   @428161 @Sprint102 @PRCMUser
   Scenario Outline: Verify that user is able to search an account with Visit Number does not having invoice number associated to it on R1D Page
-    Given user is on "R1 Hub Technologies 2.0 - 15 R1_Decision" page
+    Given User is on R1 Account information page
     And user selects <dropdown> from Search By drop down
     And user selects <Operator> from Operator dropdown
     And user login to SQL Server and connect to facility database
@@ -327,7 +327,7 @@ Feature: Verify internal search on R1 Decision page
 
   @391038 @Sprint102 @PRCMUser
   Scenario Outline: Verify that user is able to search an account with Search textbox using Like operator on R1D Page
-    Given user is on "R1 Hub Technologies 2.0 - 15 R1_Decision" page
+    Given User is on R1 Account information page
     And user selects <dropdown> from Search By drop down
     And user selects "Like" operator from operator dropdown
     And user enters value <AnyFiveDigitNumber> in <option> textbox
@@ -354,7 +354,7 @@ Feature: Verify internal search on R1 Decision page
 
   @391038 @Sprint102 @PRCMUser
   Scenario Outline: Verify that user is able to search an Invoice Number with Search textbox using Like operator on R1D Page
-    Given user is on "R1 Hub Technologies 2.0 - 15 R1_Decision" page
+    Given User is on R1 Account information page
     And user selects <dropdown> from Search By drop down
     And user selects "Like" operator from operator dropdown
     And user enters value <AnyFiveDigitNumber> in <option> textbox
@@ -381,7 +381,7 @@ Feature: Verify internal search on R1 Decision page
 
   @391038 @Sprint102 @PRCMUser
   Scenario Outline: Verify that user is able to search an MRN with Search textbox using Like operator on R1D Page
-    Given user is on "R1 Hub Technologies 2.0 - 15 R1_Decision" page
+    Given User is on R1 Account information page
     And user selects <dropdown> from Search By drop down
     And user selects "Like" operator from operator dropdown
     And user enters value <AnyFiveDigitNumber> in <option> textbox
