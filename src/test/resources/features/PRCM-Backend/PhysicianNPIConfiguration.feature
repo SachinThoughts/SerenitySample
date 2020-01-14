@@ -152,5 +152,8 @@ Feature: Verify Physician NPI Configuration in PRCM-BE
     Given user is on PRCM Eligibility NPI Configuration page
     When user gets the count from total disabled payer column
     When user clicks on to Edit link corresponding to the Physicians Name
+    And user copies payor of any disabled payor
+    And user enters a search text Payor in Search Disabled Payors textbox
+    And user clicks on '*' button to enable some of the payer
     And user clicks on cancel button
     Then user should be able to view that changes are not saved

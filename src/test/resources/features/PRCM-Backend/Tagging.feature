@@ -33,8 +33,7 @@ Feature: Verify Tagging related scenarios in PRCM_BE
 
   @419678 @PRCMUser @Sprint102 @NonDB
   Scenario: Verify that "Category Name should not more than 100 characters" validation message display when user enters more than 100 characters in category Name.
-    Given User is on Account Tags Configuration screen 
-
+    Given User is on Account Tags Configuration screen
     When User clicks on Add New Category button
     And User enters more than 100 alphabets in Category name
     And User enters upto 500 alphabets in Category description
@@ -46,7 +45,6 @@ Feature: Verify Tagging related scenarios in PRCM_BE
   @419679 @PRCMUser @Sprint102 @NonDB
   Scenario: Verify that "Category Description should not more than 500 characters" validation message display when user enters more than 100 characters in category Description.
     Given User is on Account Tags Configuration screen 
-
     When User clicks on Add New Category button
     And User enters upto 100 alphabets in Category name
     And User enters more than 500 alphabets in Category description
