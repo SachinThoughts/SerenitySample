@@ -347,12 +347,6 @@ public class DefaultHandoffStepDef {
 				defaultHandOffPage.getTextSavedDispositionStatus().equals(dispositionStatus));
 	}
 
-	@Given("^user login to SQL server and connect to \"([^\"]*)\" database$")
-	public void user_login_to_SQL_server_and_connect_to_database(String database) throws IOException {
-		DatabaseConn.serverName = EnvironmentSpecificConfiguration.from(environmentVariables).getProperty("bindURL");
-		DatabaseConn.databaseName = database;
-	}
-
 	@When("^user mouse hover on IT Tools link$")
 	public void user_mouse_On_IT_Tools_links() {
 		settingsPage.hoverITToolsLink();
