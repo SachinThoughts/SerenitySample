@@ -103,6 +103,9 @@ public class SearchPage extends PageObject {
 
 	@FindBy(id = "lblSSN")
 	private WebElementFacade patientSSN;
+	
+	@FindBy(xpath="//*[contains(text(),'no accounts')]")
+	private WebElementFacade noAccInQueueMsg;
 
 	String titleJS = "return document.querySelector('#Head > title').text";
 	String facilityCodeJS = "return document.querySelector('#dnn_ctr1025_ModuleContent > span > span:nth-child(1)').textContent";
@@ -523,5 +526,12 @@ public class SearchPage extends PageObject {
 	 */
 	public void waitForSpinnerToDisappear() {
 		loadingSpinner.withTimeoutOf(Duration.ofSeconds(80)).waitUntilNotVisible();
+	}
+	
+	/**
+	 * @return True if No Accounts in Queue message is visible , else it will return false
+	 */
+	public boolean noAccInQueueMsgIsVisbile() {
+		return noAccInQueueMsg.isVisible();
 	}
 }

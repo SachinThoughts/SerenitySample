@@ -161,6 +161,9 @@ public class AccountInformationPage extends PageObject {
 
 	@FindBy(id = "handOffLabel")
 	private WebElementFacade handOffPopup;
+	
+	@FindBy(xpath="//label[contains(text(),'Search By')]")
+	private WebElementFacade searchByLabel;
 
 	/**
 	 * @return the Patient visit/account number
@@ -544,4 +547,8 @@ public class AccountInformationPage extends PageObject {
 	public String getSuccessMsgUsingJs() {
 		return evaluateJavascript(successMessage).toString();
 	}
+	
+	public void searchByTextShouldBeVisible() {
+		 searchByLabel.shouldBeVisible();
+}
 }

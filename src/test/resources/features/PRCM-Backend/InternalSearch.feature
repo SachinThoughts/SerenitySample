@@ -8,25 +8,24 @@ Feature: Verify internal search on R1 Decision page
     And user clicks on R1_Decision link
     When user login to SQL server and connect to database
     And user run the query and fetch the Invoice Number "SearchInternal_391031_SQL1"
-    And user select "Invoice Number" from Search By dropdown
+    #And user select "Invoice Number" from Search By dropdown
     And user enters the query result in Invoice Number search textbox and can view the same invoice number of selected facility or different facility
-    Then user navigates on internal search page
 
-  @391031 @Sprint101 @PRCMUser
+  @391031 @Sprint101 @PRCMQueueUser
   Scenario: Verify that R1D page for PRCM enabled site Invoice number should be default criteria
-    Given User is on R1 Account information page
+    Given User is on Internal search page
     Then user should be able to view Invoice Number selected by default in Search By drop down
 
   @391032 @Sprint101 @PRCMUser
   Scenario Outline: Verify the error message displayed when user searches an invalid data in Search textbox with equal operator
-    Given User is on R1 Account information page
-    When user selects <dropdown> from Search By drop down
-    And user enters invalid value in <Invalid Data> textbox 
+    Given User is on Internal search page
+    When user select "<DropdownOption>" from Search By dropdown
+    And user enters <Invalid Data> in search textbox
     And user clicks on Submit button
     Then user should be able to view error message <ErrorMsg>
 
     Examples: 
-      | dropdown              | Invalid Data | ErrorMsg                                              |
+      | DropdownOption        | Invalid Data | ErrorMsg                                              |
       | Visit Number          | @@$34        | No Record Found!                                      |
       | Invoice Number        | 34@$@$       | No Record Found!                                      |
       | SSN                   | @#$$@43242   | No Record Found!                                      |
@@ -36,15 +35,15 @@ Feature: Verify internal search on R1 Decision page
 
   @391033 @Sprint101 @PRCMUser
   Scenario Outline: Verify that Submit button is disabled for Search textbox for Like Operator if user enters less than five characters
-    Given User is on R1 Account information page
-    When user selects <dropdown> from Search By drop down
-    And user selects "Like" operator from operator dropdown
-    And user enters less than 5 characters in <lessThanFivetext> textbox
+    Given User is on Internal search page
+    When user select "<DropdownOption>" from Search By dropdown
+    And user selects "Like" from operator dropdown
+    And user enters <lessThanFivetext> in search textbox
     Then user should able to view tool-tip message <tooltipMessage>
     And user should be able to view Submit Button in disabled state
 
     Examples: 
-      | dropdown              | lessThanFivetext | tooltipMessage                     |
+      | DropdownOption        | lessThanFivetext | tooltipMessage                     |
       | Visit Number          |             1234 | Please add five or more characters |
       | Invoice Number        |             1234 | Please add five or more characters |
       | Medical Record Number |             1234 | Please add five or more characters |
@@ -52,15 +51,15 @@ Feature: Verify internal search on R1 Decision page
 
   @391034 @Sprint101 @PRCMUser
   Scenario Outline: Verify that Submit button is enabled for Search textbox for Like Operator if user enters 5 or more characters
-    Given User is on R1 Account information page
-    When user selects <dropdown> from Search By drop down
-    And user selects "Like" operator from operator dropdown
-    And user enters more than or equal to 5 characters <moreThanFivetext> in textbox
+    Given User is on Internal search page
+    When user select "<DropdownOption>" from Search By dropdown
+    And user selects "Like" from operator dropdown
+    And user enters <moreThanFivetext> in search textbox
     Then user should not able to view tool-tip message
     And user should be able to view Submit Button in enabled state
 
     Examples: 
-      | dropdown              | moreThanFivetext |
+      | DropdownOption        | moreThanFivetext |
       | Visit Number          |            12345 |
       | Visit Number          |           123456 |
       | Invoice Number        |            12345 |
@@ -72,13 +71,13 @@ Feature: Verify internal search on R1 Decision page
 
   @391035 @Sprint101 @PRCMUser
   Scenario Outline: Verify that when user does not enter anything in Search textbox then message appeared or not
-    Given User is on R1 Account information page
-    When user selects <option> from Search By drop down
+    Given User is on Internal search page
+    When user select "<DropdownOption>" from Search By dropdown
     And user clicks on Submit button
-    Then user should be able to view message "Please enter the value for" <option>
+    Then user should be able to view message "Please enter the value for" <DropdownOption>
 
     Examples: 
-      | option                |
+      | DropdownOption        |
       | Visit Number          |
       | Invoice Number        |
       | SSN                   |
@@ -88,15 +87,15 @@ Feature: Verify internal search on R1 Decision page
 
   @391036 @Sprint101 @PRCMUser
   Scenario Outline: Verify the error message displayed when user searches an invalid Search textbox with Like operator on R1D Page
-    Given User is on R1 Account information page
-    When user selects <dropdown> from Search By drop down
-    And user selects "Like" operator from operator dropdown
-    And user enters invalid value in <Invalid Data> textbox 
+    Given User is on Internal search page
+    When user select "<DropdownOption>" from Search By dropdown
+    And user selects "Like" from operator dropdown
+    And user enters <Invalid Data> in search textbox
     And user clicks on Submit button
     Then user should be able to view error message <ErrorMsg>
 
     Examples: 
-      | dropdown              | Invalid Data | ErrorMsg         |
+      | DropdownOption        | Invalid Data | ErrorMsg         |
       | Visit Number          | q31&@$^      | No Record Found! |
       | Invoice Number        | 34%&^*45     | No Record Found! |
       | Medical Record Number | 5643^*^$     | No Record Found! |
@@ -104,18 +103,18 @@ Feature: Verify internal search on R1 Decision page
 
   @391037 @Sprint101 @PRCMUser
   Scenario: Verify that user is able to search an account with Invoice Number using equal operator on R1D Page
-    Given User is on R1 Account information page
+    Given User is on Internal search page
     When user enter the query result of SQL1 in Invoice Number search textbox
     And user clicks on Submit button
     Then user should be able to navigate to the R1D account page for searched Invoice Number
 
   @428162 @Sprint101 @PRCMUser
   Scenario Outline: Verify that user is able to search an account with Visit Number having invoice number associated to it on R1D Page
-    Given User is on R1 Account information page
+    Given User is on Internal search page
     When user login to SQL Server and connect to facility database
     And user runs the <queryname3> query to fetch account data
-    And user selects "Visit Number" from Search By dropdown
-    And user selects <Operator> from Operator dropdown
+    And user select "Visit Number" from Search By dropdown
+    And user selects "<Operator>" from operator dropdown
     And user enters the query result in Visit Number search textbox
     And user clicks on Submit button
     Then user should be able to view the grid with following columns if they are visible else verify the searched account
@@ -141,8 +140,8 @@ Feature: Verify internal search on R1 Decision page
 
   @428172 @PRCMUser @Sprint102
   Scenario Outline: Verify the error message displayed when user enter special characters in Last Name/First Name textbox
-    Given User is on R1 Account information page
-    When user selects "Last Name/First Name" from Search By dropdown
+    Given User is on Internal search page
+    When user select "Last Name/First Name" from Search By dropdown
     And user enters <LastName> text in Last Name textbox
     And user enters <FirstName> text in First Name textbox
     And user clicks on Submit button
@@ -156,10 +155,10 @@ Feature: Verify internal search on R1 Decision page
 
   @433695 @PRCMUser @Sprint102
   Scenario Outline: Verify the Search functionality of Cross Site Facility on R1D Page
-    Given User is on R1 Account information page
-    When user selects <option> from Search By drop down
-    And user selects "Like" operator from operator dropdown
-    And user enters value <textvalue> in <option> textbox
+    Given User is on Internal search page
+    When user select "<DropdownOption>" from Search By dropdown
+    And user selects "Like" from operator dropdown
+    And user enters value <AnyFiveDigitNumber> in search textbox
     And user clicks on Submit button
     Then user should be able to view the grid with following columns
       | Visit #             |
@@ -178,14 +177,14 @@ Feature: Verify internal search on R1 Decision page
     Then user should be able to view only those facilities in Facility Code column which are coming in SQL result
 
     Examples: 
-      | option         | textvalue | queryname15                 |
-      | Visit Number   |     12345 | SearchInternal_433695_SQL15 |
-      | Invoice Number |     12345 | SearchInternal_433695_SQL15 |
+      | DropdownOption | AnyFiveDigitNumber | queryname15                 |
+      | Visit Number   |              12345 | SearchInternal_433695_SQL15 |
+      | Invoice Number |              12345 | SearchInternal_433695_SQL15 |
 
   @428877 @PRCMUser @Sprint102
   Scenario Outline: Verify that user is able to see the search result grid for exact Last Name/First Name on R1D Page
-    Given User is on R1 Account information page
-    When user selects "Last Name/First Name" from Search By dropdown
+    Given User is on Internal search page
+    When user select "Last Name/First Name" from Search By dropdown
     And user login to SQL Server and connect to facility database
     And user runs the <queryname5> query to fetch account data
     Then user should be able to fetch Firstname and Lastname from the query
@@ -213,8 +212,8 @@ Feature: Verify internal search on R1 Decision page
 
   @428167 @PRCMUser @Sprint102
   Scenario Outline: Verify that user is able to see the search result grid for SSN on R1D Page
-    Given User is on R1 Account information page
-    When user selects "SSN" from Search By dropdown
+    Given User is on Internal search page
+    When user select "SSN" from Search By dropdown
     And user login to SQL Server and connect to facility database
     And user runs the <queryname4> query to fetch account data
     And user enters the query result in SSN textbox
@@ -240,8 +239,8 @@ Feature: Verify internal search on R1 Decision page
 
   @433692 @PRCMUser @Sprint102
   Scenario Outline: Verify that user is able to see the search result grid for Last Name/First Name on R1D Page
-    Given User is on R1 Account information page
-    When user selects "Last Name/First Name" from Search By dropdown
+    Given User is on Internal search page
+    When user select "Last Name/First Name" from Search By dropdown
     And user enters <lastName> text in Last Name textbox
     And user enters <firstName> text in First Name textbox
     And user clicks on Submit button
@@ -267,11 +266,11 @@ Feature: Verify internal search on R1 Decision page
 
   @433693 @PRCMUser @Sprint102
   Scenario Outline: Verify that user is able to see the search result grid for Medical Record Number with operators on R1D Page
-    Given User is on R1 Account information page
-    When user selects "Medical Record Number" from Search By dropdown
+    Given User is on Internal search page
+    When user select "Medical Record Number" from Search By dropdown
     And user login to SQL Server and connect to facility database
     And user runs the <queryname6> query to fetch account data
-    And user selects <Operator> from Operator dropdown
+    And user selects "<Operator>" from operator dropdown
     And user enters the query result in Medical Record Number textbox
     And user clicks on Submit button
     Then user should be able to view the grid with following columns if they are visible else verify the searched account with MRN
@@ -296,24 +295,24 @@ Feature: Verify internal search on R1 Decision page
 
   @428160 @Sprint102 @PRCMUser
   Scenario Outline: Verify that user is able to search an account with Visit Number using equal operator on R1D Page
-    Given User is on R1 Account information page
+    Given User is on Internal search page
     When user login to SQL Server and connect to facility database
     And user runs the <queryname2> query for search
-    And user selects <dropdown> from Search By drop down
-    And user selects "=" operator from operator dropdown
+    And user select "<DropdownOption>" from Search By dropdown
+    And user selects "=" from operator dropdown
     And user enters the query result in Visit Number search textbox
     And user clicks on Submit button
     Then user should be able to navigate to the R1D account page for searched visit Number
 
     Examples: 
-      | queryname2                 | dropdown     |
-      | SearchInternal_428160_SQL2 | Visit Number |
+      | queryname2                 | DropdownOption |
+      | SearchInternal_428160_SQL2 | Visit Number   |
 
   @428161 @Sprint102 @PRCMUser
   Scenario Outline: Verify that user is able to search an account with Visit Number does not having invoice number associated to it on R1D Page
-    Given User is on R1 Account information page
-    And user selects <dropdown> from Search By drop down
-    And user selects <Operator> from Operator dropdown
+    Given User is on Internal search page
+    And user select "<DropdownOption>" from Search By dropdown
+    And user selects "<Operator>" from operator dropdown
     And user login to SQL Server and connect to facility database
     And user runs the <queryname14> query for search
     And user enters the query result in Visit Number search textbox
@@ -321,16 +320,16 @@ Feature: Verify internal search on R1 Decision page
     Then user should be able to navigate to the R1D account page for searched Visit Number and verify invoice number should not be visible
 
     Examples: 
-      | queryname14                 | dropdown     | Operator |
-      | SearchInternal_428161_SQL14 | Visit Number | Like     |
-      | SearchInternal_428161_SQL14 | Visit Number | =        |
+      | queryname14                 | DropdownOption | Operator |
+      | SearchInternal_428161_SQL14 | Visit Number   | Like     |
+      | SearchInternal_428161_SQL14 | Visit Number   | =        |
 
   @391038 @Sprint102 @PRCMUser
   Scenario Outline: Verify that user is able to search an account with Search textbox using Like operator on R1D Page
-    Given User is on R1 Account information page
-    And user selects <dropdown> from Search By drop down
-    And user selects "Like" operator from operator dropdown
-    And user enters value <AnyFiveDigitNumber> in <option> textbox
+    Given User is on Internal search page
+    And user select "<DropdownOption>" from Search By dropdown
+    And user selects "Like" from operator dropdown
+    And user enters <AnyFiveDigitNumber> in search textbox
     And user clicks on Submit button
     Then user should be able to view the grid with following columns
       | Visit #             |
@@ -349,15 +348,15 @@ Feature: Verify internal search on R1 Decision page
     Then user should be able to view the same result in grid as SQL result for visit number
 
     Examples: 
-      | dropdown     | option            | AnyFiveDigitNumber | queryname8                 |
-      | Visit Number | Visit Number      |             12345 | SearchInternal_391038_SQL8 |
+      | DropdownOption | option            | AnyFiveDigitNumber | queryname8                 |
+      | Visit Number   | Visit Number      |              12345 | SearchInternal_391038_SQL8 |
 
   @391038 @Sprint102 @PRCMUser
   Scenario Outline: Verify that user is able to search an Invoice Number with Search textbox using Like operator on R1D Page
-    Given User is on R1 Account information page
-    And user selects <dropdown> from Search By drop down
-    And user selects "Like" operator from operator dropdown
-    And user enters value <AnyFiveDigitNumber> in <option> textbox
+    Given User is on Internal search page
+    And user select "<DropdownOption>" from Search By dropdown
+    And user selects "Like" from operator dropdown
+    And user enters <AnyFiveDigitNumber> in search textbox
     And user clicks on Submit button
     Then user should be able to view the grid with following columns
       | Visit #             |
@@ -376,15 +375,15 @@ Feature: Verify internal search on R1 Decision page
     Then user should be able to view the same result in grid as SQL result for invoice number
 
     Examples: 
-      | dropdown       | option            | AnyFiveDigitNumber | queryname9                   |
+      | DropdownOption | option            | AnyFiveDigitNumber | queryname9                   |
       | Invoice Number | Invoice Number    |              12345 | SearchInternal_391038_1_SQL8 |
 
   @391038 @Sprint102 @PRCMUser
   Scenario Outline: Verify that user is able to search an MRN with Search textbox using Like operator on R1D Page
-    Given User is on R1 Account information page
-    And user selects <dropdown> from Search By drop down
-    And user selects "Like" operator from operator dropdown
-    And user enters value <AnyFiveDigitNumber> in <option> textbox
+    Given User is on Internal search page
+    And user select "<DropdownOption>" from Search By dropdown
+    And user selects "Like" from operator dropdown
+    And user enters <AnyFiveDigitNumber> in search textbox
     And user clicks on Submit button
     Then user should be able to view the grid with following columns
       | Visit #             |
@@ -403,5 +402,5 @@ Feature: Verify internal search on R1 Decision page
     Then user should be able to view the same result in grid as SQL result for MRN number
 
     Examples: 
-      | dropdown              | option                | AnyFiveDigitNumber | queryname9                   |
+      | DropdownOption        | option                | AnyFiveDigitNumber | queryname9                   |
       | Medical Record Number | Medical Record Number |              12345 | SearchInternal_391038_2_SQL8 |
