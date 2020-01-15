@@ -269,7 +269,6 @@ public class SearchStepDef extends PageObject {
 		} catch (SQLException sQLException) {
 			Assert.assertTrue("Names are not fetched from DB.\nThe Technical Error is:\n" + sQLException, false);
 		}
-		financialInfoSteps.log("List of names from DB:\n" + dbListOfNames);
 		Assert.assertTrue("Names displayed on UI does not match with database",
 				searchPageSteps.verifyNameOnUIWithDatabaseResult(dbListOfNames));
 	}
