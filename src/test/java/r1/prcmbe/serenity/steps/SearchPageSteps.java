@@ -21,26 +21,48 @@ public class SearchPageSteps {
 	@Steps
 	FinancialInfoSteps financialInfoSteps;
 
+	/**
+	 * This method is used to compare the searched Invoice Number with the search
+	 * results displayed using like operator. If there are multiple records in
+	 * search result then this Method will check Invoice number of all the records.
+	 * If single record searched then directly the Invoice number of that record is
+	 * checked
+	 * 
+	 * @param invoiceNum
+	 *            the invoice number which is searched
+	 * @return the value 'True' if invoice number is matched else return 'False'
+	 */
 	@Step
-	public boolean verifyInvoiceIDWithLikeOperator(String dbInvoiceId) {
+	public boolean verifyInvoiceNumberWithLikeOperator(String invoiceNum) {
 		if (searchPage.isSearchAccTableVisible()) {
-			for (String invoiceID : searchPage.getlistOfInvoiceID()) {
-				if (!invoiceID.toLowerCase().contains(dbInvoiceId.toLowerCase())) {
+			for (String invoiceNumFromList : searchPage.getlistOfInvNum()) {
+				if (!invoiceNumFromList.toLowerCase().contains(invoiceNum.toLowerCase())) {
 					return false;
 				}
 			}
-			searchPage.clickSearchInvoiceID();
+			searchPage.clickSearchInvoiceIdOrVisitNumber();
 		}
 		return searchPage.isPatientAndVisitHeaderVisible()
-				&& dbInvoiceId.contains(searchPage.getInvoiceNumber().toLowerCase());
+				&& invoiceNum.contains(searchPage.getInvoiceNumber().toLowerCase());
 	}
 
+	/**
+	 * This method is used to compare the searched Invoice Number with the search
+	 * results displayed using equal operator. If there are multiple records in
+	 * search result then this Method will check Invoice number of all the records.
+	 * If single record searched then directly the Invoice number of that record is
+	 * checked
+	 * 
+	 * @param invoiceNum
+	 *            the invoice number which is searched
+	 * @return the value 'True' if invoice number is matched else return 'False'
+	 */
 	@Step
-	public boolean verifyInvoiceNumberWithEqualOperator(String dbInvoiceNum) {
+	public boolean verifyInvoiceNumberWithEqualOperator(String invoiceNum) {
 		if (searchPage.isSearchAccTableVisible()) {
-			for (String invoiceNum : searchPage.getlistOfInvNum()) {
-				if (!invoiceNum.equalsIgnoreCase(dbInvoiceNum)) {
-					loginSteps.log("The incorrect searched Invoice Number is " + invoiceNum);
+			for (String invoiceNumFromList : searchPage.getlistOfInvNum()) {
+				if (!invoiceNumFromList.equalsIgnoreCase(invoiceNum)) {
+					loginSteps.log("The incorrect searched Invoice Number is " + invoiceNumFromList);
 					return false;
 				}
 			}
@@ -50,9 +72,16 @@ public class SearchPageSteps {
 			searchPage.clickErrorMsg();
 		}
 		return searchPage.isPatientAndVisitHeaderVisible()
-				&& dbInvoiceNum.equalsIgnoreCase(searchPage.getInvoiceNumber());
+				&& invoiceNum.equalsIgnoreCase(searchPage.getInvoiceNumber());
 	}
 
+	/**
+	 * This method is used to get names of all the columns from the database result
+	 * set.
+	 * 
+	 * @return list of all the column names
+	 * @throws SQLException
+	 */
 	@Step
 	public List<String> fetchColumnNamesFromDatabaseResult() throws SQLException {
 		List<String> dbColumnNames = new ArrayList<>();
@@ -64,6 +93,17 @@ public class SearchPageSteps {
 		return dbColumnNames;
 	}
 
+	/**
+	 * This method is used to compare the searched last name with the search results
+	 * displayed. If there are multiple records in search result then this Method
+	 * will check last name of all the records. If single record searched then
+	 * directly the last name is checked. The Name displayed on UI consist of both
+	 * First and Last name, hence Split method is used to get only last name
+	 * 
+	 * @param lastName
+	 *            the Last Name which is searched
+	 * @return the value 'True' if last name is matched else return 'False'
+	 */
 	@Step
 	public boolean verifyOnlyLastName(String lastName) {
 		if (searchPage.isSearchAccTableVisible()) {
@@ -79,6 +119,17 @@ public class SearchPageSteps {
 				&& lastName.equalsIgnoreCase(searchPage.getPatientLastName());
 	}
 
+	/**
+	 * This method is used to compare the searched first name with the search
+	 * results displayed. If there are multiple records in search result then this
+	 * Method will check first name of all the records. If single record searched
+	 * then directly the first name is checked. The Name displayed on UI consist of
+	 * both First and Last name, hence Split method is used to get only first name
+	 * 
+	 * @param firstName
+	 *            the First Name which is searched
+	 * @return the value 'True' if first name is matched else return 'False'
+	 */
 	@Step
 	public boolean verifyOnlyFirstName(String firstName) {
 		if (searchPage.isSearchAccTableVisible()) {
@@ -94,6 +145,15 @@ public class SearchPageSteps {
 				&& firstName.equalsIgnoreCase(searchPage.getPatientFirstName());
 	}
 
+	/**
+	 * This method is used to compare all the names fetched from data base with the
+	 * names displayed in multiple search results on UI
+	 * 
+	 * @param dblistOfNames
+	 *            the list of names from database result set
+	 * @return the value 'True' if both First and Last name is matched else will
+	 *         return 'False'
+	 */
 	@Step
 	public boolean verifyNameOnUIWithDatabaseResult(List<String> dblistOfNames) {
 		financialInfoSteps.log("List of names from UI:\n" + searchPage.getListOfSearchedNames());
@@ -108,12 +168,35 @@ public class SearchPageSteps {
 		return searchPage.isPatientAndVisitHeaderVisible() && dblistOfNames.contains(lastName + ", " + firstName);
 	}
 
+	/**
+	 * This method is used to compare first name and last name on UI starting with
+	 * the searched first and last name
+	 * 
+	 * @param lastName
+	 *            the Last Name which is searched
+	 * @param firstName
+	 *            the First Name which is searched
+	 * @return the value 'True' if both First and Last name is matched else will
+	 *         return 'False'
+	 */
 	@Step
 	public boolean verifyPatientFirstAndLastName(String lastName, String firstName) {
 		return searchPage.getPatientLastName().toLowerCase().startsWith(lastName.toLowerCase())
 				&& searchPage.getPatientFirstName().toLowerCase().startsWith(firstName.toLowerCase());
 	}
 
+	/**
+	 * This method is used to compare the single character searched in first and
+	 * last name with the results displayed in database
+	 * 
+	 * @param lastName
+	 *            the Last Name which is searched
+	 * @param firstName
+	 *            the First Name which is searched
+	 * @return the value 'True' if both First and Last name is matched else will
+	 *         return 'False'
+	 * @throws SQLException
+	 */
 	@Step
 	public boolean verifySearchedNamesWithDatabase(String lastName, String firstName) throws SQLException {
 		List<String> listOfDBLastName = new ArrayList<>();
@@ -145,6 +228,16 @@ public class SearchPageSteps {
 		return fValue && lValue;
 	}
 
+	/**
+	 * This method is used to compare the searched SSN with all the SSN from the
+	 * database
+	 * 
+	 * @param sSN
+	 *            the SSN which is searched
+	 * @return the value 'True' if the searched SSN is part of all the SSN from
+	 *         Database else return 'False'
+	 * @throws SQLException
+	 */
 	@Step
 	public boolean verifySearchedSSNWithDatabase(String sSN) throws SQLException {
 		List<String> listOfDBSSN = new ArrayList<>();
@@ -164,12 +257,24 @@ public class SearchPageSteps {
 		return sValue;
 	}
 
+	/**
+	 * This method is used to compare the searched encounter id/account number with
+	 * the search results displayed. If there are multiple records in search result
+	 * then this Method will check encounter id of all the records and then click on
+	 * a record and again check its encounter id. If single record searched then
+	 * directly the encounter id is checked
+	 * 
+	 * @param encounterID
+	 *            EncounterID which is searched on UI
+	 * @return the value 'True' if the searched encounter id is part of all the
+	 *         encounter ids from Database else return 'False'
+	 */
 	@Step
-	public boolean verifyEncounterId(String dbEncounterID) {
+	public boolean verifyEncounterId(String encounterID) {
 		if (searchPage.isSearchAccTableVisible()) {
-			for (String encounterID : searchPage.getlistOfAccNum()) {
-				if (!encounterID.contains(dbEncounterID)) {
-					financialInfoSteps.log("The incorrect searched Encounter id is " + encounterID);
+			for (String eIDFromList : searchPage.getlistOfAccNum()) {
+				if (!eIDFromList.contains(encounterID)) {
+					financialInfoSteps.log("The incorrect searched Encounter id is " + eIDFromList);
 					return false;
 				}
 			}
@@ -179,9 +284,20 @@ public class SearchPageSteps {
 			searchPage.clickErrorMsg();
 		}
 		return searchPage.isPatientAndVisitHeaderVisible()
-				&& dbEncounterID.equalsIgnoreCase(searchPage.getPatientAccountNo());
+				&& encounterID.equalsIgnoreCase(searchPage.getPatientAccountNo());
 	}
 
+	/**
+	 * This method is used to compare the searched encounter id with the search
+	 * results displayed. If there are multiple records in search result then this
+	 * Method will check encounter id of all the records. If single record searched
+	 * then directly the encounter id of that record is checked
+	 * 
+	 * @param dblistOfEncounterID
+	 *            the list of encounter ids fetched from database
+	 * @return the value 'True' if the searched encounter id is part of all the
+	 *         encounter ids from Database else return 'False'
+	 */
 	@Step
 	public boolean verifyEncounterIdOnUIWithDatabaseResult(List<String> dblistOfEncounterID) {
 		financialInfoSteps.log("List of Encounter ID from UI:\n" + searchPage.getlistOfAccNum());
@@ -192,15 +308,38 @@ public class SearchPageSteps {
 				&& dblistOfEncounterID.contains(searchPage.getPatientAccountNo());
 	}
 
+	/**
+	 * This method is used to compare the searched invoice number with the search
+	 * results displayed. If there are multiple records in search result then this
+	 * Method will check invoice numbers of all the records. If single record
+	 * searched then directly the invoice number of that record is checked
+	 * 
+	 * @param dblistOfInvoiceNumber
+	 *            the list of invoice numbers fetched from database
+	 * @return the value 'True' if the searched invoice number is part of all the
+	 *         invoice numbers from Database else return 'False'
+	 */
 	@Step
 	public boolean verifyInvoiceNumberOnUIWithDatabaseResult(List<String> dblistOfInvoiceNumber) {
 		financialInfoSteps.log("List of Invoice Number from UI:\n" + searchPage.getlistOfInvNum());
 		if (searchPage.isSearchAccTableVisible()) {
 			return dblistOfInvoiceNumber.containsAll(new ArrayList<>(new HashSet<>(searchPage.getlistOfInvNum())));
 		}
-		return searchPage.isPatientAndVisitHeaderVisible() && dblistOfInvoiceNumber.contains(searchPage.getInvoiceNumber());
+		return searchPage.isPatientAndVisitHeaderVisible()
+				&& dblistOfInvoiceNumber.contains(searchPage.getInvoiceNumber());
 	}
 
+	/**
+	 * This method is used to compare the searched MRN with the search results
+	 * displayed. If there are multiple records in search result then this method
+	 * will check MRNs of all the records. If single record searched then directly
+	 * the MRN of that record is checked
+	 * 
+	 * @param dblistOfMRN
+	 *            the list of MRNs fetched from Database
+	 * @return the value 'True' if the searched MRN is part of all the MRNs from
+	 *         Database else return 'False'
+	 */
 	@Step
 	public boolean verifyMRNOnUIWithDatabaseResult(List<String> dblistOfMRN) {
 		financialInfoSteps.log("List of MRN from UI:\n" + searchPage.getlistOfMRN());

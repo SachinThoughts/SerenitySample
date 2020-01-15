@@ -45,7 +45,7 @@ public class DefectWorkflowPage extends PageObject {
 
 	@FindBy(id = "lblBreadcrumb")
 	private WebElementFacade bredCrumUnderDefectClassification;
-	
+
 	@FindBy(id = "btnOverrideNextStep")
 	private WebElementFacade nextButton;
 
@@ -93,6 +93,7 @@ public class DefectWorkflowPage extends PageObject {
 
 	/**
 	 * This method checks whether the Defect WorkFlow Section is Visible or not
+	 * 
 	 * @return boolean value based on visibility
 	 */
 	public boolean isDefectWorkFlowSecVisible() {
@@ -108,6 +109,7 @@ public class DefectWorkflowPage extends PageObject {
 
 	/**
 	 * This method stores the Progress Bar Steps value in List
+	 * 
 	 * @return listOfProgressBarsValues
 	 */
 	public List<String> getProgressBarSteps() {
@@ -120,6 +122,7 @@ public class DefectWorkflowPage extends PageObject {
 
 	/**
 	 * This method checks whether the Defect SubCategory Section is Visible or not
+	 * 
 	 * @return boolean value based on visibility
 	 */
 	public boolean isAssignedSubCategryVisible() {
@@ -128,6 +131,7 @@ public class DefectWorkflowPage extends PageObject {
 
 	/**
 	 * This method fetches Confirm Step On ProgressBar Value
+	 * 
 	 * @return Confirm Step On ProgressBar Value
 	 */
 	public String getConfirmStepOnProgressBarValue() {
@@ -135,7 +139,7 @@ public class DefectWorkflowPage extends PageObject {
 	}
 
 	/**
-	 *This method selects No Radio Button On OverrideSub Category
+	 * This method selects No Radio Button On OverrideSub Category
 	 */
 	public void selectNoRadioBtnOnOverrideSubCat() {
 		if (!defectTypeValuesDrpdwn.isVisible()) {
@@ -145,6 +149,7 @@ public class DefectWorkflowPage extends PageObject {
 
 	/**
 	 * This method stores the Defect Type DropDown Values
+	 * 
 	 * @return listOfDefectTypeValue
 	 */
 	public List<String> getDefectTypeValues() {
@@ -153,10 +158,10 @@ public class DefectWorkflowPage extends PageObject {
 		return listOfDefectTypeValue;
 	}
 
-
 	/**
-	 *This method select Defect Type From Dropdown and fetches the value selected
-	 *@return SelectedVisibleText Value
+	 * This method select Defect Type From Dropdown and fetches the value selected
+	 * 
+	 * @return SelectedVisibleText Value
 	 */
 	public String selectAndGetTextDefectType(String defaultValueDefectTypeDrpDwn) {
 		List<String> listOfDefectTypeDropDwnValues = getDefectTypeValues();
@@ -173,6 +178,7 @@ public class DefectWorkflowPage extends PageObject {
 
 	/**
 	 * This method stores the Defect SubCategory DropDown Values
+	 * 
 	 * @return listOfDefectTypeValue
 	 */
 	public List<String> getDefectSubCategoryValues() {
@@ -182,8 +188,10 @@ public class DefectWorkflowPage extends PageObject {
 	}
 
 	/**
-	 *This method select Defect SubCategory From Dropdown and fetches the value selected
-	 *@return SelectedVisibleText Value
+	 * This method select Defect SubCategory From Dropdown and fetches the value
+	 * selected
+	 * 
+	 * @return SelectedVisibleText Value
 	 */
 	public String selectAndGetTextDefectSubCategory(String defaultValueDefectSubCatTypeDrpDwn) {
 		List<String> listOfDefectSubCatDropDwnValues = getDefectSubCategoryValues();
@@ -202,7 +210,8 @@ public class DefectWorkflowPage extends PageObject {
 	 * This method clicks on Save Button Below Defect SubCategory Drop Down
 	 */
 	public void clickOnSaveBtn() {
-		evaluateJavascript("arguments[0].click();",saveButton);
+		evaluateJavascript("arguments[0].scrollIntoView(true);", saveButton);
+		saveButton.click();
 	}
 
 	/**
@@ -214,6 +223,7 @@ public class DefectWorkflowPage extends PageObject {
 
 	/**
 	 * This method fetches Defect SubCategory Under Current Defect Value
+	 * 
 	 * @return Defect SubCategory Under Current Defect Value
 	 */
 	public String getDefectSubCategoryUnderCurrentDefect() {
@@ -230,6 +240,7 @@ public class DefectWorkflowPage extends PageObject {
 
 	/**
 	 * This method fetches Defect Classification BreadCrumb Value
+	 * 
 	 * @return Defect Classification BreadCrumb Value
 	 */
 	public String getDefectCategoryUnderDefectClassSec() {
@@ -240,11 +251,13 @@ public class DefectWorkflowPage extends PageObject {
 	 * This method clicks on Next Button On Defect Override Section
 	 */
 	public void clickOnNextButton() {
+		evaluateJavascript("arguments[0].scrollIntoView(true);", nextButton);
 		nextButton.click();
 	}
 
 	/**
 	 * This method fetches the Triage Section Header Value
+	 * 
 	 * @return triage Section Header Value
 	 */
 	public String getTriageSectionHeaderText() {
@@ -253,7 +266,8 @@ public class DefectWorkflowPage extends PageObject {
 
 	/**
 	 * This method stores the Button Values on Section in List
-	 * @return listOfBtnValues 
+	 * 
+	 * @return listOfBtnValues
 	 */
 	public List<String> getButtonValuesOnSection() {
 		List<String> listOfBtnValues = new ArrayList<>();
@@ -267,11 +281,13 @@ public class DefectWorkflowPage extends PageObject {
 	 * This method clicks on Previous Button On Triage Section
 	 */
 	public void clickOnPrevBtn() {
-		evaluateJavascript("arguments[0].click();",prevButton);
+		evaluateJavascript("arguments[0].scrollIntoView(true);", prevButton);
+		prevButton.click();
 	}
 
 	/**
 	 * This method checks the visibility of Override Defect Category Section
+	 * 
 	 * @return boolean value based on visibility
 	 */
 	public boolean checkOverrideDefectCatSec() {
@@ -280,6 +296,7 @@ public class DefectWorkflowPage extends PageObject {
 
 	/**
 	 * This method stores the SOP On Triage Page in List
+	 * 
 	 * @return listOfSOPActions
 	 */
 	public List<String> getSOPActionsOnTriagePage() {
@@ -292,6 +309,7 @@ public class DefectWorkflowPage extends PageObject {
 
 	/**
 	 * This method fetches the Action Section Header Text Value
+	 * 
 	 * @return Action Section Header Text Value
 	 */
 	public String getActionSectionHeaderText() {
@@ -300,6 +318,7 @@ public class DefectWorkflowPage extends PageObject {
 
 	/**
 	 * This method stores the SOP On Action Page in List
+	 * 
 	 * @return listOfSOPActions
 	 */
 	public List<String> getSOPActionsOnActionPage() {
@@ -314,14 +333,15 @@ public class DefectWorkflowPage extends PageObject {
 	 * This method clicks on Next Button On Traige Page
 	 */
 	public void clickOnNextButtonOnTriagePage() {
-		if(nextBtnOnTriagePage.withTimeoutOf(Duration.ofSeconds(30)).isVisible()) {
-			evaluateJavascript("arguments[0].scrollIntoView();",nextBtnOnTriagePage);
+		if (nextBtnOnTriagePage.withTimeoutOf(Duration.ofSeconds(30)).isVisible()) {
+			evaluateJavascript("arguments[0].scrollIntoView();", nextBtnOnTriagePage);
 			withAction().moveToElement(nextBtnOnTriagePage).click().build().perform();
 		}
 	}
 
 	/**
 	 * This method checks whether DefectType DropDown is visible or not
+	 * 
 	 * @return boolean value based on visibility
 	 */
 	public boolean isDefectTypeDrpdwnVisible() {
@@ -330,6 +350,7 @@ public class DefectWorkflowPage extends PageObject {
 
 	/**
 	 * This method checks whether Defect SubCategory DropDown is visible or not
+	 * 
 	 * @return boolean value based on visibility
 	 */
 	public boolean isDefectSubCategoryDrpdwnVisible() {
@@ -338,6 +359,7 @@ public class DefectWorkflowPage extends PageObject {
 
 	/**
 	 * This method checks whether Save Button is visible or not
+	 * 
 	 * @return boolean value based on visibility
 	 */
 	public boolean isSaveBtnVisible() {
@@ -367,6 +389,7 @@ public class DefectWorkflowPage extends PageObject {
 
 	/**
 	 * This method fetches Action Tab Color Value
+	 * 
 	 * @return Action Tab Color Value
 	 */
 	public String getActionTabColourVal() {
@@ -391,6 +414,7 @@ public class DefectWorkflowPage extends PageObject {
 
 	/**
 	 * This method fetches Success Message on saving the Defect
+	 * 
 	 * @return successMsg
 	 */
 	public String getSuccessMessage() {
@@ -402,12 +426,13 @@ public class DefectWorkflowPage extends PageObject {
 	 * This method clicks on Save Button under Defect WorkFlow Section
 	 */
 	public void clickOnA2DSaveButton() {
-		evaluateJavascript("arguments[0].scrollIntoView();",a2DSaveButton);
+		evaluateJavascript("arguments[0].scrollIntoView();", a2DSaveButton);
 		withAction().moveToElement(a2DSaveButton).click().build().perform();
 	}
 
 	/**
 	 * This method fetches Size of SOPActions List
+	 * 
 	 * @return size of SOPActions List
 	 */
 	public int getSizeOfSOPActionOnActionPage() {
@@ -423,6 +448,7 @@ public class DefectWorkflowPage extends PageObject {
 
 	/**
 	 * This method stores the SOP On Defect Workflow Section in List
+	 * 
 	 * @return listOfSOP
 	 */
 	public List<String> getListOfSOPFromUI() {

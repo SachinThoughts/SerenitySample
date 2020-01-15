@@ -44,7 +44,7 @@ public class DefaultHandoffStepDef {
 			dispositionFollowUpDays, dispositionResponseDeadline, recipientName, searchText, dbId = "",
 			facilitySettingValue, invoiceNumber, dbFacilitySettingValue, createVal, whyVal, dispositionVal, handoffType;
 	static String dispositionStatus, actionName, dispositionDescription, recipientDesc, workFlowName,
-			enteredDispositionName;
+			enteredDispositionName, selectedDispositionStatus;
 
 	private static String dbQueryFilename = "DefaultHandoff";
 	private final String BUBBLECOLOR = "rgba(61, 100, 168, 1)";
@@ -328,6 +328,7 @@ public class DefaultHandoffStepDef {
 	public void for_disposition_user_selects_option_from_Desposition_Status_dropdown(String dispositionStatusValue) {
 		dispositionStatus = dispositionStatusValue;
 		defaultHandOffPage.selectDispositionStatusDropdown(dispositionStatusValue);
+		selectedDispositionStatus= defaultHandOffPage.getDispositionStatus();
 	}
 
 	@When("^user enters text: \"([^\"]*)\" in Predefined Note text area$")
@@ -344,7 +345,7 @@ public class DefaultHandoffStepDef {
 		Assert.assertTrue("Disposition time limit displayed in the table does not match with one selected",
 				defaultHandOffPage.getTextSavedDispositionTimeLimit().equals(dispositionResponseDeadline));
 		Assert.assertTrue("Disposition Status displayed in the table does not match with one selected",
-				defaultHandOffPage.getTextSavedDispositionStatus().equals(dispositionStatus));
+				defaultHandOffPage.getTextSavedDispositionStatus(enteredDispositionName,selectedDispositionStatus).equals(dispositionStatus));
 	}
 
 	@When("^user mouse hover on IT Tools link$")
@@ -573,6 +574,8 @@ public class DefaultHandoffStepDef {
 
 	@When("^user hovers the event circle for newly added Handoff type$")
 	public void user_hovers_the_event_circle_for_newly_added_Handoff_type() {
+		defaultHandOffPage.expandAccountActionHistory();
+		defaultHandOffPage.hoverOnAddedBubble();
 		defaultHandOffPage.hoverOnAddedBubble();
 	}
 

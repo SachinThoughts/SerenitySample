@@ -16,7 +16,7 @@ import r1.prcmbe.pages.TaggingPage;
 import r1.prcmbe.steps.definitions.TaggingStepDef;
 
 public class TaggingSteps {
-	private String categoryName, newTagName, editedTagCategory, editedTagName;
+	private String newCategoryName, newTagName, editedTagCategory, editedTagName;
 	TaggingPage taggingPage;
 	CommonMethods commonMethods;
 	TaggingStepDef taggingStepDef;
@@ -24,15 +24,26 @@ public class TaggingSteps {
 	List<String> editedTagDetails = new ArrayList<>();
 	private static String dbFileName = "Tagging";
 
+	/**
+	 * Description - Creating Unique category name using random string generator
+	 * @param value - Value is coming from feature file which is category name
+	 * @param categoryNameList  - Taking list of category name which is fetched from UI
+	 * @return	- New category name which is not present in category name list
+	 */
 	@Step
 	public String getNewCategoryName(String value, List<String> categoryNameList) {
-		categoryName = value.concat((" " + RandomStringUtils.randomAlphabetic(3).trim()));
-		while (categoryNameList.contains(categoryName)) {
-			categoryName = value.concat((" " + RandomStringUtils.randomAlphabetic(3).trim()));
+		newCategoryName = value.concat((" " + RandomStringUtils.randomAlphabetic(3).trim()));
+		while (categoryNameList.contains(newCategoryName)) {
+			newCategoryName = value.concat((" " + RandomStringUtils.randomAlphabetic(3).trim()));
 		}
-		return categoryName;
+		return newCategoryName;
 	}
 
+	/**
+	 *  Description - Creating Unique tag name using random string generator
+	 * @param tagName - tag name is coming from feature file
+	 * @return New Tag name which is not present in tag name list
+	 */
 	@Step
 	public String getNewTagName(String tagName) {
 		if (!taggingPage.getlistOfTagName().isEmpty()) {
@@ -45,6 +56,13 @@ public class TaggingSteps {
 		return tagName.concat((" " + RandomStringUtils.randomAlphabetic(3).trim()));
 	}
 
+	/**
+	 * Running the DB query and fetching recently added tag details from DB
+	 * @param queryName
+	 * @param dbInvoiceId - Fetched from query
+	 * @return Recently Added Tag details
+	 * @throws Any Exception
+	 */
 	@Step
 	public List<String> getAddedTagDetailsFromDatabase(String queryName, String dbInvoiceId) throws Exception {
 		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
@@ -73,6 +91,11 @@ public class TaggingSteps {
 		return getAddedTagHistory;
 	}
 
+	/**
+	 * Description - Editing Tag category, Tag name and notes
+	 * @param editTagNote - Passing from feature file
+	 * @return Edited Tag details
+	 */
 	public List<String> editAndSveTagOnAccInfoPge(String editTagNote) {
 		editedTagCategory = taggingPage.selectAndGetAnyTagCategory();
 		editedTagName = taggingPage.selectAndGetAnyTagName();
