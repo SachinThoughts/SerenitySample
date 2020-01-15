@@ -18,7 +18,7 @@ Feature: This is to verify external search functionality in R1 PRCM-BE
     When user select "<DropdownOption>" from Search By dropdown
     And user enters <Invalid Data> in search textbox
     And user clicks on Submit button
-    Then user should be able to view error message <ErrorMsg>
+    Then user should be able to view the "<ErrorMsg>" error message
 
     Examples: 
       | DropdownOption        | Invalid Data | ErrorMsg                                              |
@@ -115,7 +115,7 @@ Feature: This is to verify external search functionality in R1 PRCM-BE
     And user selects "Like" from operator dropdown
     And user enters <Invalid Data> in search textbox
     And user clicks on Submit button
-    Then user should be able to view error message <ErrorMsg>
+    Then user should be able to view the "<ErrorMsg>" error message
 
     Examples: 
       | DropdownOption        | Invalid Data | ErrorMsg         |
@@ -160,7 +160,7 @@ Feature: This is to verify external search functionality in R1 PRCM-BE
     And user enters <lastName> text in Last Name textbox
     And user enters <firstName> text in First Name textbox
     And user clicks on Submit button
-    Then user should be able to view error message <ErrorMsg>
+    Then user should be able to view the "<ErrorMsg>" error message
 
     Examples: 
       | lastName | firstName | ErrorMsg                                              |
@@ -202,7 +202,7 @@ Feature: This is to verify external search functionality in R1 PRCM-BE
     Given user is on R1 Decision search page
     When user select "Last Name/First Name" from Search By dropdown
     And user login to SQL Server and connect to facility database
-    And user runs the <queryname5> query to fetch name for search
+    And user runs the <queryname5> query to fetch account data
     Then user should be able to fetch Firstname and Lastname from the query
     When user enters the fetched Lastname in Last Name textbox
     And user enters the fetched Firstname in First Name textbox
@@ -285,7 +285,7 @@ Feature: This is to verify external search functionality in R1 PRCM-BE
     Given user is on R1 Decision search page
     When user login to SQL server and connect to database
     And user run the query and fetch the Invoice Number "SearchInternal_391031_SQL1"
-    When user enter the query result of SQL1 in Invoice Number search textbox
+    When user enter the query result of in Invoice Number search textbox
     And user clicks on Submit button
     Then user should be able to navigate to the R1D account page for searched Invoice Number
 

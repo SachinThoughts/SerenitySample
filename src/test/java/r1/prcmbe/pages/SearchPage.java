@@ -105,6 +105,12 @@ public class SearchPage extends PageObject {
 	
 	@FindBy(xpath="//*[contains(text(),'no accounts')]")
 	private WebElementFacade noAccInQueueMsg;
+	
+	@FindBy(xpath="//label[contains(text(),'Search By')]")
+	private WebElementFacade searchByLabel;
+	
+	@FindBy(xpath = "//*[@id='patientDetails']//h3[text()='Patient & Facility Info ']")
+	private WebElementFacade patientDetailsSection;
 
 	String titleJS = "return document.querySelector('#Head > title').text";
 	String facilityCodeJS = "return document.querySelector('#dnn_ctr1025_ModuleContent > span > span:nth-child(1)').textContent";
@@ -530,8 +536,8 @@ public class SearchPage extends PageObject {
 	/**
 	 * Validating Invoice number should not be visible not on account info page
 	 */
-	public void invoiceNumberShouldNotVisible() {
-		invoiceNumber.shouldNotBeVisible();
+	public boolean isInvoiceNumberVisible() {
+		return invoiceNumber.isVisible();
 	}
 
 	/**
@@ -573,4 +579,20 @@ public class SearchPage extends PageObject {
 	public boolean noAccInQueueMsgIsVisbile() {
 		return noAccInQueueMsg.isVisible();
 	}
+	
+	/**
+	 * Search By text should be visible
+	 * Return true if text is visible else return false
+	 */
+	public void searchByTextShouldBeVisible() {
+		searchByLabel.shouldBeVisible();
+}
+	/**
+	 * Search By text should be visible
+	 * Return true if text is not visible else return false
+	 */
+	public void patientDetailsSectionShouldNotVisible() {
+		patientDetailsSection.shouldNotBeVisible();
+	}
+
 }

@@ -22,7 +22,7 @@ Feature: Verify internal search on R1 Decision page
     When user select "<DropdownOption>" from Search By dropdown
     And user enters <Invalid Data> in search textbox
     And user clicks on Submit button
-    Then user should be able to view error message <ErrorMsg>
+    Then user should be able to view the "<ErrorMsg>" error message
 
     Examples: 
       | DropdownOption        | Invalid Data | ErrorMsg                                              |
@@ -92,7 +92,7 @@ Feature: Verify internal search on R1 Decision page
     And user selects "Like" from operator dropdown
     And user enters <Invalid Data> in search textbox
     And user clicks on Submit button
-    Then user should be able to view error message <ErrorMsg>
+    Then user should be able to view the "<ErrorMsg>" error message
 
     Examples: 
       | DropdownOption        | Invalid Data | ErrorMsg         |
@@ -104,7 +104,7 @@ Feature: Verify internal search on R1 Decision page
   @391037 @Sprint101 @PRCMUser
   Scenario: Verify that user is able to search an account with Invoice Number using equal operator on R1D Page
     Given User is on Internal search page
-    When user enter the query result of SQL1 in Invoice Number search textbox
+    When user enter the query result of in Invoice Number search textbox
     And user clicks on Submit button
     Then user should be able to navigate to the R1D account page for searched Invoice Number
 
