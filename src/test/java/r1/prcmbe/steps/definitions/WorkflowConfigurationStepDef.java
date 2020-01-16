@@ -1295,17 +1295,6 @@ public class WorkflowConfigurationStepDef extends PageObject {
 				accActionHistoryPage.isNotesLabelVisible());
 	}
 
-	@When("^user mouse hovers event circle H under event circle in blue color for latest Handoff Action on Horizontal timeline$")
-	public void user_mouse_hovers_event_circle_H_under_event_circle_in_blue_color_for_latest_Handoff_Action_on_Horizontal_timeline() {
-		accActionHistoryPage.hoverOverLatestBubble();
-	}
-
-	@Then("^user should be able to view the Predefined Note on mouse hovering H event circle highlighted in blue for latest Handoff Action on Horlization timeline$")
-	public void user_should_be_able_to_view_the_Predefined_Note_on_mouse_hovering_H_event_circle_highlighted_in_blue_for_latest_Handoff_Action_on_Horlization_timeline() {
-		Assert.assertTrue("Not able to view predefined note on mouse hovering H event circle",
-				accActionHistoryPage.getPopoverTitle());
-	}
-
 	@When("^user run the query \"([^\"]*)\" and fetch encounterId$")
 	public void user_run_the_query_and_fetch_encounterId(String queryName) throws Exception {
 		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
@@ -1329,5 +1318,4 @@ public class WorkflowConfigurationStepDef extends PageObject {
 		searchPageSteps.verifyEncounterId(encounterId);
 		Assert.assertTrue("User not able to view R1 Decision Account screen", accInfoPage.isInvoiceNumberVisible());
 	}
-
 }

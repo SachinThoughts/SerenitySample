@@ -26,16 +26,13 @@ public class AccountActionHistoryPage extends PageObject {
 
 	@FindBy(xpath = "//*[@id='notesHistory']/li[1]/div/div/div[1]/span")
 	private WebElementFacade notesLabel;
-
-	@FindBy(xpath = "//*[@id='carousel']//li[last()]/div[last()]//a[@class='trigger']/..")
-	private WebElementFacade latestBubble;
-
-	@FindBy(xpath = "//*[@class='popover fade top in']/div[2]/ul/li/div/div/div[1]/span")
-	private WebElementFacade popoverTitle;
 	
 	@FindBy(xpath = "//*[@id='accountactionhistory']//i[@class='fa toggle fa-chevron-right']")
 	private WebElementFacade expandIcon;
 
+	/**
+	 * @return list of Recent added account action history labels
+	 */
 	public List<String> getListOfRecentAddedAccountActionHistoryLabel() {
 		List<String> listOfRecentAddedAccntLabel = new ArrayList<>();
 		for (WebElementFacade recentAddedAccntLabel : listOfRecentAddedAccountActionHistoryLabel) {
@@ -44,14 +41,25 @@ public class AccountActionHistoryPage extends PageObject {
 		return listOfRecentAddedAccntLabel;
 	}
 
+	/**
+	 * @param positionOfElement
+	 * @return Recent added account action history value at specific position
+	 */
 	public String getRecentAddedAccountActionHistoryValue(int positionOfElement) {
 		return listOfRecentAddedAccountActionHistoryVal.get(positionOfElement).getText();
 	}
 
+	/**
+	 * @param labelPosition
+	 * @return whether Recent added account action history is visible
+	 */
 	public boolean isRecentAddedAccountActionHistoryLabelVisible(int labelPosition) {
 		return listOfRecentAddedAccountActionHistoryLabel.get(labelPosition).isVisible();
 	}
 
+	/**
+	 * clicks on Show Acc Action history button if visible
+	 */
 	public void ifVisibleClickShowAccHistoryBtn() {
 		if (showAccHistoryBtn.isVisible()) {
 			evaluateJavascript("arguments[0].click();", showAccHistoryBtn);
@@ -72,21 +80,11 @@ public class AccountActionHistoryPage extends PageObject {
 		return noAccActionHistoryMsgLbl.getText();
 	}
 
+	/**
+	 * @return visibility of Notes label on the handoff bubble
+	 */
 	public boolean isNotesLabelVisible() {
 		return notesLabel.isVisible();
-	}
-
-	public String getNotesLabel() {
-		return notesLabel.getText().trim();
-	}
-
-	public void hoverOverLatestBubble() {
-		evaluateJavascript("arguments[0].scrollIntoView();", latestBubble);
-		withAction().moveToElement(latestBubble).build().perform();
-	}
-
-	public boolean getPopoverTitle() {
-		return popoverTitle.isVisible();
 	}
 	
 	/**
