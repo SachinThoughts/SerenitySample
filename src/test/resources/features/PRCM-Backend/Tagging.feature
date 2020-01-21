@@ -7,7 +7,7 @@ Feature: Verify Tagging related scenarios in PRCM_BE
     And user clicks on Settings-R1_Decision
     And User clicks on Tag Configuration link
 
-  @419675 @PRCMUser @Sprint102
+  @419675 @PRCMUser @Sprint102 @NonDB
   Scenario: Verify that user is able to navigate Tag category screen and verifies the UI.
     Given User is on Account Tags Configuration screen
     Then User should be able to view Account Tags Configuration as page title
@@ -25,13 +25,13 @@ Feature: Verify Tagging related scenarios in PRCM_BE
       | Updated By           |
       | Active               |
 
-  @419676 @PRCMUser @Sprint102
+  @419676 @PRCMUser @Sprint102 @NonDB
   Scenario: Verify that No Tag Category Found in blue Tab
     Given User is on Account Tags Configuration screen
     When user enters some random text in Search Category Name Textbox
     Then User should be able to view the validation message "No Tag Category Found" with blue background.
 
-  @419678 @PRCMUser @Sprint102
+  @419678 @PRCMUser @Sprint102 @NonDB
   Scenario: Verify that "Category Name should not more than 100 characters" validation message display when user enters more than 100 characters in category Name.
     Given User is on Account Tags Configuration screen
     When User clicks on Add New Category button
@@ -42,7 +42,7 @@ Feature: Verify Tagging related scenarios in PRCM_BE
     And User clicks on Save button
     Then User should be able to view the validation message "Category Name should not more than 100 characters"
 
-  @419679 @PRCMUser @Sprint102
+  @419679 @PRCMUser @Sprint102 @NonDB
   Scenario: Verify that "Category Description should not more than 500 characters" validation message display when user enters more than 100 characters in category Description.
     Given User is on Account Tags Configuration screen 
     When User clicks on Add New Category button

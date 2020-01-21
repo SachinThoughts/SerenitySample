@@ -7,12 +7,12 @@ Feature: This is to verify external search functionality in R1 PRCM-BE
     And user hovers on R1_Decision link
     And user clicks on search sub menu
 
-  @429052 @Sprint8 @PRCMUser
+  @429052 @Sprint8 @PRCMUser @NonDB
   Scenario: Verify whether Invoice Number is appearing by default selected in Search By dropdown for PRCM enabled site
     Given user is on R1 Decision search page
     Then user should be able to view Invoice Number selected by default in Search By drop down
 
-  @429053 @Sprint8 @PRCMUser
+  @429053 @Sprint8 @PRCMUser @NonDB
   Scenario Outline: Verify the error message displayed when user searches an invalid data in Search textbox with equal operator
     Given user is on R1 Decision search page
     When user selects <dropdown> from Search By drop down
@@ -29,7 +29,7 @@ Feature: This is to verify external search functionality in R1 PRCM-BE
       | Medical Record Number | %%3424$      | No Record Found!                                      |
       | Claim Number          | $$$cdf5435   | No Record Found!                                      |
 
-  @429054 @Sprint8 @PRCMUser
+  @429054 @Sprint8 @PRCMUser @NonDB
   Scenario Outline: Verify that Submit button is disabled for Search textbox for Like Operator if user enters less than five characters
     Given user is on R1 Decision search page
     When user selects <dropdown> from Search By drop down
@@ -45,7 +45,7 @@ Feature: This is to verify external search functionality in R1 PRCM-BE
       | Medical Record Number |             1234 | Please add five or more characters |
       | Claim Number          |             1234 | Please add five or more characters |
 
-  @429058 @Sprint101 @PRCMUser
+  @429058 @Sprint101 @PRCMUser @NonDB
   Scenario Outline: Verify that Submit button is enabled for Search textbox for Like Operator if user enters 5 or more characters
     Given user is on R1 Decision search page
     When user selects <dropdown> from Search By drop down
@@ -65,7 +65,7 @@ Feature: This is to verify external search functionality in R1 PRCM-BE
       | Claim Number          |            12345 |
       | Claim Number          |           123456 |
 
-  @429061 @Sprint101 @PRCMUser
+  @429061 @Sprint101 @PRCMUser @NonDB
   Scenario Outline: Verify that when user does not enter anything in Search textbox then message appeared or not
     Given user is on R1 Decision search page
     When user selects <option> from Search By drop down
@@ -108,7 +108,7 @@ Feature: This is to verify external search functionality in R1 PRCM-BE
       | queryname11                 | lastName | firstName |
       | SearchExternal_429995_SQL11 | a        | b         |
 
-  @429062 @PRCMUser @Sprint101
+  @429062 @PRCMUser @Sprint101 @NonDB
   Scenario Outline: Verify the error message displayed when user searches an invalid Search textbox with Like operator
     Given user is on R1 Decision search page
     When user selects <option> from Search By drop down
@@ -153,7 +153,7 @@ Feature: This is to verify external search functionality in R1 PRCM-BE
       | Visit Number   |     12345 | SearchExternal_433633_SQL15 |
       | Invoice Number |     12345 | SearchExternal_433633_SQL15 |
 
-  @429265 @PRCMUser @Sprint101
+  @429265 @PRCMUser @Sprint101 @NonDB
   Scenario Outline: Verify the error message displayed when user enter special characters in Last Name/First Name textbox
     Given user is on R1 Decision search page
     When user selects "Last Name/First Name" from Search By dropdown

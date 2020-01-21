@@ -1,4 +1,4 @@
-@ActionTargetConfiguration
+@ActionTargetConfiguration @NonDB
 Feature: Verify Action Target Configuration related testcases in PRCM-BE
 
   Background: User is on Action Target Configuration page
