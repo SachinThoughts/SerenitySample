@@ -49,7 +49,6 @@ Feature: Verify Factility Group Configuration related scenarios in PRCM-BE
   @391162 @AHtoDecisionAdmin @Sprint103
   Scenario: Verify Availability of checkbox named as physician scope if user edit any existing facility group
     Given user is on Facility Group Configuration screen
-    When user is on Facility Group Configuration screen
     Then user should be able to view edit button for each facility group present in facility group column
     When user clicks on edit button
     Then user should be able to view edit window popup should be display
