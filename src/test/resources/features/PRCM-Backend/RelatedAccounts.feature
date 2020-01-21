@@ -41,7 +41,7 @@ Feature: Verify Related Account testcases in PRCM-BE
       | query3                      |
       | 439231_RelatedInvoices_SQL3 |
 
-  @439232 @PRCMQueueUser @Sprint103
+  @439232 @PRCMQueueUser @Sprint103 @NonDB
   Scenario: Verify when User clicks on any account from Related Accounts section then user is navigated to That Account
     Given user is on R1 Decision Account information page
     When user clicks on Related Accounts under Patient & Facility Info Section
@@ -50,7 +50,7 @@ Feature: Verify Related Account testcases in PRCM-BE
     When user clicks on Related Accounts under Patient & Facility Info Section
     Then user should be able to view the previous Invoice in Related Accounts grid
 
-  @439261 @PRCMQueueUser @Sprint103
+  @439261 @PRCMQueueUser @Sprint103 @NonDB
   Scenario: Verify when User clicks on any visit number from Related Accounts section then user is navigated to That Account
     Given user is on R1 Decision Account information page
     When user clicks on Related Accounts under Patient & Facility Info Section
@@ -63,7 +63,7 @@ Feature: Verify Related Account testcases in PRCM-BE
   Scenario Outline: Verify the User is able to view Related Invoices pop up with pagination and Search box for PRCM enabled sites
     Given user is on R1 Decision Account information page
     When user clicks on Related Accounts under Patient & Facility Info Section
-		Then user should able to view the pop up title as "Related Accounts"
+    Then user should able to view the pop up title as "Related Accounts"
     And user should be able to view First button
     And user should be able to view Previous button
     And user should be able to view Next Button

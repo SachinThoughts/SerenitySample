@@ -5,7 +5,7 @@ Feature: Verify write off related testcases in PRCM-BE
     Given user having level 1 Approver role is on R1 Hub page
     When user clicks on setting link
 
-  @441253 @Sprint103 @R1DApproval
+  @441253 @Sprint103 @R1DApproval @NonDB
   Scenario: Verify write off request actions are in open state and have status "Identified" in Workflow Configuration screen
     Given user is on Settings page
     When user clicks on Settings-R1_Decision

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 @FacilityGroupConfiguration
 Feature: Verify Factility Group Configuration related scenarios in PRCM-BE
 
