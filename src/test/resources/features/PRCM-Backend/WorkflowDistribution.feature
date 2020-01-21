@@ -1,4 +1,4 @@
-@WorkflowDistribution
+@WorkflowDistribution @NonDB
 Feature: Verify Workflow Distribution related scenarios in PRCM-BE
 
   Background: User is able to navigate to Workflow Distribution page

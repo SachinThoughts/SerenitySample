@@ -1,4 +1,4 @@
-@BSODayNight
+@BSODayNight @NonDB
 Feature: Verify BSODayNight related scenarios in PRCM
   To check BSODayNight related scenarios in PRCM application
 

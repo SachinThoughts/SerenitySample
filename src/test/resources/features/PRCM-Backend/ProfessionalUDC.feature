@@ -8,7 +8,7 @@ Feature: Verify ProfessionalUDC related scenarios in PRCM
     And user clicks on Settings-R1_Decision
     And user clicks on UDC Admin configuration
 
-  @391392 @PRCMUser @Sprint8
+  @391392 @PRCMUser @Sprint8 @NonDB
   Scenario: Verify that user having admin role is able to view UDC screen for Technical as well as Professional separately
     Given user is on UDC Admin configuration page
     When user clicks on setting link
@@ -83,7 +83,7 @@ Feature: Verify ProfessionalUDC related scenarios in PRCM
       | defectTypeName | defectSubCategoryName       |
       | Automation     | AutomationDefectSubcategory |
 
-  @391395 @NonPRCMUser @Sprint8
+  @391395 @NonPRCMUser @Sprint8 @NonDB
   Scenario: Verify that for Professional Config UDC user should have atleast one Facility that have PRCM access
     Given user is on UDC Admin configuration page
     Then user should be able to view R1 Decision UDC screen for technical only
@@ -95,7 +95,7 @@ Feature: Verify ProfessionalUDC related scenarios in PRCM
     And user clicks on UDC Admin configuration
     Then user should able to view both application Tabs for technical as well as professional
 
-  @434958 @PRCMUser @Sprint8
+  @434958 @PRCMUser @Sprint8 @NonDB
   Scenario: Verify that user is able to add SOP Actions
     Given user having AHtoDecision Admin role is on Universal Defect Configuration  page
     When user select the radio button against any defect type
@@ -118,7 +118,7 @@ Feature: Verify ProfessionalUDC related scenarios in PRCM
     And Add SOP Action pop-up should disappear
     And user should be able to view added SOP Action on SOP Actions screen
 
-  @434931 @Sprint102 @PRCMUser
+  @434931 @Sprint102 @PRCMUser @NonDB
   Scenario Outline: Verify the functionality of +Add New SOP button in SOP Type grid page and same can be viewed on R1D screen
     Given user having AHtoDecision Admin role is on Universal Defect Configuration  page
     When user select the radio button against any defect type
@@ -165,7 +165,7 @@ Feature: Verify ProfessionalUDC related scenarios in PRCM
       | invoice |
       | 7012345 |
 
-  @439344 @Sprint101 @PRCMUser
+  @439344 @Sprint101 @PRCMUser @NonDB
   Scenario Outline: Verify the functionality of +Add New SOP button in SOP Type grid page
     Given user having AHtoDecision Admin role is on Universal Defect Configuration  page
     When user select the radio button against any defect type

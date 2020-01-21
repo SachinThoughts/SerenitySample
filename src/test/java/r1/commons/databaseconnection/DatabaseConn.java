@@ -7,10 +7,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import org.junit.Assert;
+
 import r1.commons.utilities.CommonMethods;
 
 public class DatabaseConn {
 
+	public static Connection conn;
+	public static Statement stmt;
 	public static ResultSet resultSet;
 	public static String serverName;
 	public static String databaseName;
@@ -67,7 +71,7 @@ public class DatabaseConn {
 			}
 
 		} catch (Exception e) {
-			System.out.println(e);
+			Assert.assertTrue("The Technical Error is: " + e, false);
 		}
 	}
 
@@ -97,12 +101,18 @@ public class DatabaseConn {
 
 			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
 
-			Connection conn = DriverManager.getConnection(dbUrl);
-			Statement stmt = conn.createStatement();
+			conn = DriverManager.getConnection(dbUrl);
+			stmt = conn.createStatement();
 			resultSet = stmt.executeQuery(query);
 
 		} catch (Exception e) {
-			System.out.println(e);
+			Assert.assertTrue("The Technical Error is: " + e, false);
 		}
+	}
+
+	public static void closeConnection() throws SQLException {
+		resultSet.close();
+		stmt.close();
+		conn.close();
 	}
 }
