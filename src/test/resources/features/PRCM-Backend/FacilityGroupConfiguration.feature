@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 @FacilityGroupConfiguration
 Feature: Verify Factility Group Configuration related scenarios in PRCM-BE
 
@@ -35,7 +36,7 @@ Feature: Verify Factility Group Configuration related scenarios in PRCM-BE
       | WPWI       | Ascension - Wheaton PRCM |
       | A400       | Intermountain PRCM       |
 
-  @391161 @AHtoDecisionAdmin @Sprint103 @NonDB
+  @391161 @AHtoDecisionAdmin @Sprint103
   Scenario: Verify Availability of checkbox  named as physican scope if user add any new facility group
     Given user is on Facility Group Configuration screen
     When user clicks on Add New Facility Group button
@@ -46,10 +47,9 @@ Feature: Verify Factility Group Configuration related scenarios in PRCM-BE
     And user search facilities in the textbox present with label search facilities, example: "T"
     Then user should be able to view +Add button should get enabled
 
-  @391162 @AHtoDecisionAdmin @Sprint103 @NonDB
+  @391162 @AHtoDecisionAdmin @Sprint103
   Scenario: Verify Availability of checkbox named as physician scope if user edit any existing facility group
     Given user is on Facility Group Configuration screen
-    When user is on Facility Group Configuration screen
     Then user should be able to view edit button for each facility group present in facility group column
     When user clicks on edit button
     Then user should be able to view edit window popup should be display
@@ -64,7 +64,7 @@ Feature: Verify Factility Group Configuration related scenarios in PRCM-BE
     When user runs the facility group query"Facility_Group_Configuration_391159_SQL2"
     Then user should be able to view PRCM flag should be enabled having value as "1"
 
-  @391164 @AHtoDecisionAdmin @Sprint103 @NonDB
+  @391164 @AHtoDecisionAdmin @Sprint103
   Scenario Outline: Verify that if PRCM enable checkbox is enable for any facility group then user should able to view prcm view for that facility group in payer inventory tab
     Given user is on Facility Group Configuration screen
     When user clicks on edit button of the <Facility Group Name>
@@ -84,7 +84,7 @@ Feature: Verify Factility Group Configuration related scenarios in PRCM-BE
       | Facility Group Name       |
       | Ascension - Providence DC |
 
-  @391424 @AHtoDecisionAdmin @Sprint103 @NonDB
+  @391424 @AHtoDecisionAdmin @Sprint103
   Scenario: Verify the IsPRCMEnabled checkbox is automatically checked when Facility group has any PRCM enabled facility
     Given user is on Facility Group Configuration screen
     When user clicks on Add New Facility Group button
@@ -101,7 +101,7 @@ Feature: Verify Factility Group Configuration related scenarios in PRCM-BE
     And user selects PRCM enabled facility group from Facility Group dropdown
     Then user should be able to view the WFD screen should be displayed in PRCM view
 
-  @391166 @AHtoDecisionAdmin @Sprint103 @NonDB
+  @391166 @AHtoDecisionAdmin @Sprint103
   Scenario Outline: Verify that if there is only one facility group is prcm enable and user selects All facility Group option then prcm view should be display
     Given user is on Facility Group Configuration screen
     When atleast one facility group <Facility Group Name> is enable in list of all facility group
@@ -120,7 +120,7 @@ Feature: Verify Factility Group Configuration related scenarios in PRCM-BE
       | Facility Group Name      |
       | Ascension - Wheaton PRCM |
 
-  @391425 @AHtoDecisionAdmin @Sprint103 @NonDB
+  @391425 @AHtoDecisionAdmin @Sprint103
   Scenario: Verify the IsPRCMEnabled checkbox is remains unchecked when Facility group has NO PRCM enabled facility
     Given user is on Facility Group Configuration screen
     When user clicks on Add New Facility Group button
@@ -137,7 +137,7 @@ Feature: Verify Factility Group Configuration related scenarios in PRCM-BE
     And user clicks on facility group dropdown list
     Then user should be able to view the WFD screen should be displayed in non-PRCM view
 
-  @391165 @AHtoDecisionAdmin @Sprint103 @NonDB
+  @391165 @AHtoDecisionAdmin @Sprint103
   Scenario: Verify if same facility is in non prcm facility group then user should not able to view payor inventory filter for that facility group
     Given user is on Facility Group Configuration screen
     When user clicks on Add New Facility Group button
@@ -169,6 +169,6 @@ Feature: Verify Factility Group Configuration related scenarios in PRCM-BE
     And payer inventory filter should be display
     When user is on Workflow Distribution screen
     And user selects Test2 from facility group dropdown
-    And user selects common "PHDC" facility from facility dropdown which is common in both Test1 and Test2
+     And user selects common "PHDC" facility from facility dropdown which is common in both Test1 and Test2
     Then user should be able to view R1D enable view
     And payer inventory filter for technical and professional should not be display
