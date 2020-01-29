@@ -6,10 +6,10 @@ Feature: Verify internal search on R1 Decision page
     Given user is on R1 Hub page
     When user clicks on Billing & Follow-up link
     And user clicks on R1_Decision link
-    When user login to SQL server and connect to database
-    And user run the query and fetch the Invoice Number "SearchInternal_391031_SQL1"
+    And user login to SQL server and connect to database
+    #And user run the query and fetch the Invoice Number "SearchInternal_391031_SQL1"
     #And user select "Invoice Number" from Search By dropdown
-    And user enters the query result in Invoice Number search textbox and can view the same invoice number of selected facility or different facility
+    #And user enters the query result in Invoice Number search textbox and can view the same invoice number of selected facility or different facility
 
   @391031 @Sprint101 @PRCMQueueUser
   Scenario: Verify that R1D page for PRCM enabled site Invoice number should be default criteria
@@ -104,7 +104,8 @@ Feature: Verify internal search on R1 Decision page
   @391037 @Sprint101 @PRCMUser
   Scenario: Verify that user is able to search an account with Invoice Number using equal operator on R1D Page
     Given User is on Internal search page
-    When user enter the query result of in Invoice Number search textbox
+    When user run the query and fetch the Invoice Number "SearchInternal_391031_SQL1"
+    And user enter the query result of in Invoice Number search textbox
     And user clicks on Submit button
     Then user should be able to navigate to the R1D account page for searched Invoice Number
 

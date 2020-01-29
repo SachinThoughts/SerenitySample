@@ -144,7 +144,7 @@ Feature: Verify ProfessionalUDC related scenarios in PRCM
     And user hovers on R1_Decision link
     And user clicks on search sub menu
     And user selects "Invoice Number" from search by dropdown
-    And user selects "Like" operator from operator dropdown
+    And user selects "Like" from operator dropdown
     And user enters any <invoice> number
     And user clicks on submit button
     Then user should be able to view account with matching patient detail or patient record page directly if there is only one Search result

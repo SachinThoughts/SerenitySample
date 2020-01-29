@@ -209,6 +209,17 @@ public class SearchStepDef extends PageObject {
 
 	@Given("^User is on Internal search page$|^User is on R1 Account information page$")
 	public void user_is_on_Internal_search_page() {
+		if (searchPage.noAccInQueueMsgIsVisbile()) {
+			try {
+				user_run_the_query_and_fetch_the_Invoice_Number("SearchInternal_391031_SQL1");
+			} catch (Exception e) {
+				 Assert.assertTrue("Invoice number is not fetched from DB.\nThe Technical Error is:\n" + e, false);
+			}
+			searchPage.searchBySelectText("Invoice Number");
+			searchPage.enterInvoiceNumber(dbInvoiceNumber);
+			searchPage.clickSubmitBtn();
+			searchPageSteps.verifyInvoiceNumberWithEqualOperator(dbInvoiceNumber);
+		}
 		accInfoPage.verifyPatientDetailsSectionVisible();
 		 searchPage.searchByTextShouldBeVisible();
 	}

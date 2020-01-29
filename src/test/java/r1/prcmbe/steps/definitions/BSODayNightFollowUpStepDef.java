@@ -67,9 +67,14 @@ public class BSODayNightFollowUpStepDef extends PageObject {
 				accInfoPage.getSelectedHandOffTypeValue().equals(handOffType));
 	}
 
-	@Given("^user is on setting page$")
+	/*@Given("^user is on setting page$")
 	public void user_is_on_setting_page() {
 		Assert.assertTrue(getDriver().getTitle().contains("R1 Hub Technologies 2.0 - 15 Settings"));
+	}*/
+	
+	@Given("^user is on setting page$")
+	public void user_is_on_setting_page() {
+		Assert.assertTrue(getDriver().getTitle().contains("Settings"));
 	}
 
 	@When("^user selects \"([^\"]*)\" radio button and clicks on continue button$")
@@ -201,10 +206,10 @@ public class BSODayNightFollowUpStepDef extends PageObject {
 		accInfoPage.selectFromDispositionDrpdwn(actualDispositionName);
 	}
 
-	@When("^user enters any value in Note$")
-	public void user_enters_any_value_in_Note() {
-		accInfoPage.enterValueInNoteTxtField(junkTestData);
-	}
+		@When("^user enters any value in Note$")
+		public void user_enters_any_value_in_Note() {
+			accInfoPage.enterValueInNoteTxtField(junkTestData);
+		}
 
 	@When("^user clicks on Save button on HandOff$")
 	public void user_clicks_on_Save_button_on_HandOff() {

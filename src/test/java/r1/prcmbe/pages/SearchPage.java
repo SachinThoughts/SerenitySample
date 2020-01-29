@@ -586,7 +586,7 @@ public class SearchPage extends PageObject {
 	 */
 	public void searchByTextShouldBeVisible() {
 		searchByLabel.shouldBeVisible();
-}
+	}
 	/**
 	 * Search By text should be visible
 	 * Return true if text is not visible else return false
