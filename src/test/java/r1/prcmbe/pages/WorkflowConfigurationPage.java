@@ -129,9 +129,6 @@ public class WorkflowConfigurationPage extends PageObject {
 	@FindBy(xpath = "//ul[@id='WorkflowTypeActionsSorttable']//div[@class='config-tools appeals']/div/label")
 	private List<WebElementFacade> listOfActionTypeRadioBtns;
 
-	@FindBy(xpath = "//button[contains(text(),' Add Recipient')]")
-	private WebElementFacade addRecipientButton;
-
 	@FindBy(xpath = "//div[@id='addRecipient']//div[@class ='form-group']/label")
 	private List<WebElementFacade> listOfAddRecipientLabels;
 
@@ -659,10 +656,7 @@ public class WorkflowConfigurationPage extends PageObject {
 	public boolean isSelectedValueInNextDispositionByVisible(String expectedDrpDownValue) {
 		evaluateJavascript("arguments[0].scrollIntoView(true);", nextDispositionByDropdown);
 		getSelectedValueFromNextDropdown = nextDispositionByDropdown.getSelectedVisibleTextValue();
-		if (getSelectedValueFromNextDropdown.trim().equals(expectedDrpDownValue)) {
-			return true;
-		}
-		return false;
+		return getSelectedValueFromNextDropdown.trim().equals(expectedDrpDownValue);
 	}
 
 	/**
@@ -677,9 +671,9 @@ public class WorkflowConfigurationPage extends PageObject {
 	 */
 	public String getErrorMsgOnDispositionPopup() {
 		withAction().moveToElement(errorMsgOnEmptyFields).build().perform();
-		String expectedMEssage = errorMsgOnEmptyFields.withTimeoutOf(Duration.ofSeconds(20)).waitUntilVisible()
+		String expectedMessage = errorMsgOnEmptyFields.withTimeoutOf(Duration.ofSeconds(20)).waitUntilVisible()
 				.getText().trim();
-		return expectedMEssage;
+		return expectedMessage;
 	}
 
 	/**
@@ -763,7 +757,6 @@ public class WorkflowConfigurationPage extends PageObject {
 				evaluateJavascript("arguments[0].click();", recipientTab);
 			}
 		}
-
 	}
 
 	/**
@@ -958,10 +951,7 @@ public class WorkflowConfigurationPage extends PageObject {
 	public boolean isNewlyEditHandoffVisible() {
 		withAction().moveToElement(listOfHandoffDescriptions.get(index)).build().perform();
 		listOfHandoffDescriptions.get(index).withTimeoutOf(Duration.ofSeconds(40)).waitUntilVisible();
-		if (enterWorkflowName.equals(listOfHandoffDescriptions.get(index).getText().trim())) {
-			return true;
-		}
-		return false;
+		return enterWorkflowName.equals(listOfHandoffDescriptions.get(index).getText().trim());
 	}
 
 	/**
@@ -1018,10 +1008,7 @@ public class WorkflowConfigurationPage extends PageObject {
 	public boolean areValuesPopulatedInTheControls() {
 		String workflowNameText = evaluateJavascript("return document.querySelector('#addWorkflowName').value;")
 				.toString();
-		if (!(workflowNameText == null && workflowDescriptionText == null)) {
-			return true;
-		}
-		return false;
+		return !(workflowNameText == null && workflowDescriptionText == null);
 	}
 
 	/**
@@ -1260,10 +1247,7 @@ public class WorkflowConfigurationPage extends PageObject {
 	 * @return true if recipient desc is visible else false
 	 */
 	public boolean isAddedRecipientDescVisible(String recipientDesc) {
-		if (listOfRecipientDesc.get(index).getText().equals(recipientDesc)) {
-			return true;
-		}
-		return false;
+		return listOfRecipientDesc.get(index).getText().equals(recipientDesc);
 	}
 
 	/**
@@ -1640,10 +1624,7 @@ public class WorkflowConfigurationPage extends PageObject {
 	 *         else false
 	 */
 	public boolean verifyEditRecipientPrePopulatedFields() {
-		if (recipientNameTextbox.getText() != null && recipientDescriptionTextbox.getText() != null)
-			return true;
-		else
-			return false;
+		return recipientNameTextbox.getText() != null && recipientDescriptionTextbox.getText() != null;
 	}
 
 	/**
