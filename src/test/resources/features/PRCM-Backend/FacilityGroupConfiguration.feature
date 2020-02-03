@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 @FacilityGroupConfiguration
 Feature: Verify Factility Group Configuration related scenarios in PRCM-BE
 
@@ -169,6 +168,6 @@ Feature: Verify Factility Group Configuration related scenarios in PRCM-BE
     And payer inventory filter should be display
     When user is on Workflow Distribution screen
     And user selects Test2 from facility group dropdown
-     And user selects common "PHDC" facility from facility dropdown which is common in both Test1 and Test2
+    And user selects common "PHDC" facility from facility dropdown which is common in both Test1 and Test2
     Then user should be able to view R1D enable view
     And payer inventory filter for technical and professional should not be display
