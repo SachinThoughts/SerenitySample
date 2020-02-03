@@ -161,8 +161,8 @@ public class AccountInformationPage extends PageObject {
 
 	@FindBy(id = "handOffLabel")
 	private WebElementFacade handOffPopup;
-	
-	@FindBy(xpath="//label[contains(text(),'Search By')]")
+
+	@FindBy(xpath = "//label[contains(text(),'Search By')]")
 	private WebElementFacade searchByLabel;
 
 	/**
@@ -491,7 +491,7 @@ public class AccountInformationPage extends PageObject {
 	 * Close the message alert if it is visible
 	 */
 	public void closeInfoMessage() {
-		if(infoMsgCloseBtn.isVisible())
+		if (infoMsgCloseBtn.isVisible())
 			evaluateJavascript("arguments[0].click();", infoMsgCloseBtn);
 	}
 
@@ -547,8 +547,12 @@ public class AccountInformationPage extends PageObject {
 	public String getSuccessMsgUsingJs() {
 		return evaluateJavascript(successMessage).toString();
 	}
-	
+
+	/**
+	 * This method check the visibility of the Search by lable, assertion error will
+	 * be thrown if the lable is not visible
+	 */
 	public void searchByTextShouldBeVisible() {
-		 searchByLabel.shouldBeVisible();
-}
+		searchByLabel.shouldBeVisible();
+	}
 }
