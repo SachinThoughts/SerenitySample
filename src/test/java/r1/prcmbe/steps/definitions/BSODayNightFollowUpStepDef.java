@@ -67,11 +67,6 @@ public class BSODayNightFollowUpStepDef extends PageObject {
 				accInfoPage.getSelectedHandOffTypeValue().equals(handOffType));
 	}
 
-	/*@Given("^user is on setting page$")
-	public void user_is_on_setting_page() {
-		Assert.assertTrue(getDriver().getTitle().contains("R1 Hub Technologies 2.0 - 15 Settings"));
-	}*/
-	
 	@Given("^user is on setting page$")
 	public void user_is_on_setting_page() {
 		Assert.assertTrue(getDriver().getTitle().contains("Settings"));
@@ -206,10 +201,10 @@ public class BSODayNightFollowUpStepDef extends PageObject {
 		accInfoPage.selectFromDispositionDrpdwn(actualDispositionName);
 	}
 
-		@When("^user enters any value in Note$")
-		public void user_enters_any_value_in_Note() {
-			accInfoPage.enterValueInNoteTxtField(junkTestData);
-		}
+	@When("^user enters any value in Note$")
+	public void user_enters_any_value_in_Note() {
+		accInfoPage.enterValueInNoteTxtField(junkTestData);
+	}
 
 	@When("^user clicks on Save button on HandOff$")
 	public void user_clicks_on_Save_button_on_HandOff() {
@@ -256,7 +251,8 @@ public class BSODayNightFollowUpStepDef extends PageObject {
 	}
 
 	@When("^user runs the \"([^\"]*)\" query to fetch the handoffed Invoice ID$")
-	public void user_runs_the_query_to_fetch_the_handoffed_Invoice_ID(String queryName) throws ClassNotFoundException, SQLException, Exception {
+	public void user_runs_the_query_to_fetch_the_handoffed_Invoice_ID(String queryName)
+			throws ClassNotFoundException, SQLException, Exception {
 		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
 				commonMethods.loadQuery(queryName, dbQueryFilename));
 		try {
@@ -277,15 +273,15 @@ public class BSODayNightFollowUpStepDef extends PageObject {
 	}
 
 	@When("^user runs the \"([^\"]*)\" query to fetch result Set$")
-	public void user_runs_the_query_to_fetch_result_Set(String queryName) throws ClassNotFoundException, SQLException, Exception {
+	public void user_runs_the_query_to_fetch_result_Set(String queryName)
+			throws ClassNotFoundException, SQLException, Exception {
 		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
-				String.format(commonMethods.loadQuery(queryName, dbQueryFilename),dbHandoffedInvoiceId));
+				String.format(commonMethods.loadQuery(queryName, dbQueryFilename), dbHandoffedInvoiceId));
 	}
 
 	@Then("^user should be able to view hand off action as sql result$")
 	public void user_should_be_able_to_view_hand_off_action_as_sql_result() throws SQLException {
-		Assert.assertTrue(
-				"User is not able to view hand off action as sql result . " + dbHandoffedInvoiceId,
+		Assert.assertTrue("User is not able to view hand off action as sql result . " + dbHandoffedInvoiceId,
 				DatabaseConn.resultSet.next());
 	}
 }

@@ -78,61 +78,16 @@ public class SearchStepDef extends PageObject {
 				searchPage.getDefaultSelectedVal().equals("Invoice Number"));
 	}
 
-	/*
-	 * @When("^user selects (.*) from Search By drop down$") public void
-	 * user_selects_Visit_Number_from_Search_By_drop_down(String dropdown) {
-	 * searchPage.searchBySelectText(dropdown); }
-	 */
-
-	/*
-	 * @When("^user enters invalid value in (.*) textbox $") public void
-	 * user_enters_invalid_value_in_$_textbox(String invalidVal) { if
-	 * (searchPage.isVisitTxtFieldVisible()) {
-	 * searchPage.enterVisitNumber(invalidVal); } else if
-	 * (searchPage.isMRNTxtFieldVisible()) { searchPage.enterMRN(invalidVal); } else
-	 * if (searchPage.isClaimNumberTxtFieldVisible()) {
-	 * searchPage.enterClaimNumber(invalidVal); } else if
-	 * (searchPage.isInvoiceNumberTxtFieldVisible()) {
-	 * searchPage.enterInvoiceNumber(invalidVal); } else if
-	 * (searchPage.isFirstNameTxtFieldVisible() &&
-	 * searchPage.isLastNameTxtFieldVisible()) {
-	 * searchPage.enterLastNameTxtBox(invalidVal);
-	 * searchPage.enterFirstName(invalidVal); } else if
-	 * (searchPage.isSSNTxtFieldVisible()) { searchPage.enterSSN(invalidVal); } else
-	 * { Assert.assertTrue("Search text box not visible", false); } }
-	 */
 	@When("^user clicks on Submit button$")
 	public void user_clicks_on_Submit_button() {
 		searchPage.clickSubmitBtn();
 	}
-
-	/*
-	 * @Then("^user should be able to view error message (.*)$")/ public void
-	 * user_should_be_able_to_view_error_message(String errorMsg) {
-	 * Assert.assertTrue("'" + errorMsg + "' message is not visible",
-	 * searchPage.getErrorMsg().equalsIgnoreCase(errorMsg));
-	 * 
-	 * }
-	 */
 
 	@When("^user selects \"([^\"]*)\" from operator dropdown$")
 	public void user_selects_operator_from_operator_dropdown(String operator) {
 		if (!searchPage.isSSNTxtFieldVisible())
 			searchPage.selectOperatorValue(operator);
 	}
-
-	/*
-	 * @When("^user enters less than 5 characters in (.*) textbox$") public void
-	 * user_enters_less_than_characters_in_textbox(String value) { if
-	 * (searchPage.isVisitTxtFieldVisible()) { searchPage.enterVisitNumber(value); }
-	 * else if (searchPage.isMRNTxtFieldVisible()) { searchPage.enterMRN(value); }
-	 * else if (searchPage.isClaimNumberTxtFieldVisible()) {
-	 * searchPage.enterClaimNumber(value); } else if
-	 * (searchPage.isInvoiceNumberTxtFieldVisible()) {
-	 * searchPage.enterInvoiceNumber(value); } else if
-	 * (searchPage.isSSNTxtFieldVisible()) { searchPage.enterSSN(value); } else {
-	 * Assert.assertTrue("Search text box not visible", false); } }
-	 */
 
 	@Then("^user should able to view tool-tip message (.*)$")
 	public void user_should_able_to_view_tool_tip_message_Please_add_five_or_more_characters(String toolTipMessage) {
@@ -144,22 +99,6 @@ public class SearchStepDef extends PageObject {
 	public void user_should_be_able_to_view_Submit_Button_in_disabled_state() {
 		Assert.assertFalse("Submit button is enabled", searchPage.isSubmitBtnEnabled());
 	}
-
-	/*
-	 * @When("^user enters less than 5 characters in (.*) textbox$")
-	 * 
-	 * @And("^user enters more than or equal to 5 characters (.*) in textbox$")
-	 * public void user_enters_more_than_or_equal_to_characters_in_textbox(String
-	 * value) { if (searchPage.isVisitTxtFieldVisible()) {
-	 * searchPage.enterVisitNumber(value); } else if
-	 * (searchPage.isMRNTxtFieldVisible()) { searchPage.enterMRN(value); } else if
-	 * (searchPage.isClaimNumberTxtFieldVisible()) {
-	 * searchPage.enterClaimNumber(value); } else if
-	 * (searchPage.isInvoiceNumberTxtFieldVisible()) {
-	 * searchPage.enterInvoiceNumber(value); } else if
-	 * (searchPage.isSSNTxtFieldVisible()) { searchPage.enterSSN(value); } else {
-	 * Assert.assertTrue("Search text box not visible", false); } }
-	 */
 
 	@Then("^user should be able to view Submit Button in enabled state$")
 	public void user_should_be_able_to_view_Submit_Button_in_enabled_state() {
@@ -213,7 +152,7 @@ public class SearchStepDef extends PageObject {
 			try {
 				user_run_the_query_and_fetch_the_Invoice_Number("SearchInternal_391031_SQL1");
 			} catch (Exception e) {
-				 Assert.assertTrue("Invoice number is not fetched from DB.\nThe Technical Error is:\n" + e, false);
+				Assert.assertTrue("Invoice number is not fetched from DB.\nThe Technical Error is:\n" + e, false);
 			}
 			searchPage.searchBySelectText("Invoice Number");
 			searchPage.enterInvoiceNumber(dbInvoiceNumber);
@@ -221,7 +160,7 @@ public class SearchStepDef extends PageObject {
 			searchPageSteps.verifyInvoiceNumberWithEqualOperator(dbInvoiceNumber);
 		}
 		accInfoPage.verifyPatientDetailsSectionVisible();
-		 searchPage.searchByTextShouldBeVisible();
+		searchPage.searchByTextShouldBeVisible();
 	}
 
 	@Given("^user is on R1 Decision search page$|^user should be able to view R1D Search page$")
@@ -230,12 +169,6 @@ public class SearchStepDef extends PageObject {
 				searchPage.getSearchPageTitle().contains("R1_Decision - Search"));
 		searchPage.patientDetailsSectionShouldNotVisible();
 	}
-
-	/*
-	 * @When("^user selects \"([^\"]*)\" from Search By dropdown$") public void
-	 * user_selects_option_from_Search_By_dropdown(String dropdownVal) {
-	 * searchPage.searchBySelectText(dropdownVal); }
-	 */
 
 	@When("^user runs the (.*) query to fetch name$")
 	public void user_runs_the_query_to_fetch_name(String queryName) throws Exception {
@@ -283,29 +216,11 @@ public class SearchStepDef extends PageObject {
 				searchPageSteps.verifyNameOnUIWithDatabaseResult(dbListOfNames));
 	}
 
-	/*
-	 * @When("^user selects (.*) from Operator dropdown$") public void
-	 * user_selects_from_Operator_dropdown(String operator) {
-	 * searchPage.selectOperatorValue(operator); }
-	 */
 	@When("^user runs the (.*) query for search$")
 	public void user_runs_the_query_for_search(String queryName) throws Exception {
 		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName, String.format(
 				commonMethods.loadQuery(queryName, dbQueryFilename), CommonMethods.loadProperties("prcmBeUsername")));
 	}
-
-	/*
-	 * @When("^user enters value (.*) in (.*) textbox$") public void
-	 * user_enters_in_textbox(String textValue, String searchByOption) { if
-	 * (searchPage.isVisitTxtFieldVisible()) { this.visitNumber = textValue;
-	 * searchPage.enterVisitNumber(this.visitNumber); } else if
-	 * (searchPage.isInvoiceNumberTxtFieldVisible()) { this.invoiceNumber =
-	 * textValue; searchPage.enterInvoiceNumber(this.invoiceNumber); } else if
-	 * (searchPage.isSSNTxtFieldVisible()) { this.sSN = textValue;
-	 * searchPage.enterSSN(this.sSN); } else if (searchPage.isMRNTxtFieldVisible())
-	 * { this.mRN = textValue; searchPage.enterMRN(this.mRN); } else {
-	 * Assert.assertTrue(searchByOption + " text box is not visible", false); } }
-	 */
 
 	@Then("^user should be able to view the grid with following columns$")
 	public void user_should_be_able_to_view_the_grid_with_following_columns(DataTable resultColumns) {
@@ -394,13 +309,6 @@ public class SearchStepDef extends PageObject {
 		Assert.assertTrue("Visit number or Invoice number on UI does not match with database",
 				searchPage.getPatientAccountNo().contains(dbEncounterId));
 	}
-	/*
-	 * @When("^user runs the (.*) query to fetch name for search$") public void
-	 * user_runs_the_query_to_fetch_name_for_search(String queryName) throws
-	 * Exception { DatabaseConn.serverConn(DatabaseConn.serverName,
-	 * DatabaseConn.databaseName, String.format(commonMethods.loadQuery(queryName,
-	 * dbQueryFilename))); }
-	 */
 
 	@Then("^user runs the (.*) query to fetch name using dbfirstname and dblastname$")
 	public void user_runs_the_query_to_fetch_name_using_dbfirstname_and_dblastname(String queryName) throws Exception {
@@ -581,7 +489,7 @@ public class SearchStepDef extends PageObject {
 	@Then("^user should be able to navigate to the R1D account page for searched Visit Number and verify invoice number should not be visible$")
 	public void user_should_be_able_to_navigate_to_the_R1D_account_page_for_searched_Visit_Number_and_verify_invoice_number_should_not_be_visible() {
 		Assert.assertTrue("User is not navigated on R1D account page for searched visit number",
-				searchPageSteps.verifyEncounterId(dbEncounterId)&&!searchPage.isInvoiceNumberVisible());
+				searchPageSteps.verifyEncounterId(dbEncounterId) && !searchPage.isInvoiceNumberVisible());
 	}
 
 	@When("^user runs query and fetch visit number(.*)$")
