@@ -64,7 +64,7 @@ public class BSODayNightFollowUpStepDef extends PageObject {
 	@Then("^user should be able to select Hand Off Type as \"([^\"]*)\"$")
 	public void user_should_be_able_to_select_Hand_Off_Type_as(String handOffType) {
 		Assert.assertTrue("Expected HandOff type is not selected",
-				accInfoPage.getSelectedHandOffTypeValue().equals(handOffType));
+				handOffType.equals(accInfoPage.getSelectedHandOffTypeValue()));
 	}
 
 	@Given("^user is on setting page$")
@@ -126,7 +126,7 @@ public class BSODayNightFollowUpStepDef extends PageObject {
 	@Then("^user should be able to view note as \"([^\"]*)\"$")
 	public void user_should_be_able_to_view_note_as(String textArea) {
 		Assert.assertTrue("User is not able view note as TextArea",
-				accInfoPage.getTagNameForNotesTxtBox().equalsIgnoreCase(textArea));
+				textArea.equalsIgnoreCase(accInfoPage.getTagNameForNotesTxtBox()));
 	}
 
 	@When("^user clicks on Create Dropdown menu$")
@@ -138,7 +138,7 @@ public class BSODayNightFollowUpStepDef extends PageObject {
 	public void user_should_be_able_to_view_below_dropdown_value(DataTable dataTableVal) {
 		List<String> expectedCreateDrpdwnVal = dataTableVal.asList(String.class);
 		Assert.assertTrue("User is not to view DropDown Values for Create Field",
-				accInfoPage.getListOfCreateDrpdwnVal().equals(expectedCreateDrpdwnVal));
+				expectedCreateDrpdwnVal.equals(accInfoPage.getListOfCreateDrpdwnVal()));
 	}
 
 	@Then("^\"([^\"]*)\" value should be display by default$")
@@ -216,7 +216,7 @@ public class BSODayNightFollowUpStepDef extends PageObject {
 	public void user_should_be_able_to_view_the_validation_message(String expectedMessage) {
 		Assert.assertTrue(
 				"User is not able to view expected validation message : Actual Message " + actualValidationMessage,
-				actualValidationMessage.equals(actualValidationMessage));
+				expectedMessage.equals(actualValidationMessage));
 	}
 
 	@When("^user scrolls to account action history section$")
@@ -247,7 +247,7 @@ public class BSODayNightFollowUpStepDef extends PageObject {
 
 	@When("^user clicks on Billing & Follow-up Footer link$")
 	public void user_clicks_on_Billing_Follow_up_Footer_link() {
-		navigationPage.clickOnBillingAndFollowUpFooterLink();
+		navigationPage.clickFooterBillingFollowUpLink();
 	}
 
 	@When("^user runs the \"([^\"]*)\" query to fetch the handoffed Invoice ID$")
@@ -281,7 +281,8 @@ public class BSODayNightFollowUpStepDef extends PageObject {
 
 	@Then("^user should be able to view hand off action as sql result$")
 	public void user_should_be_able_to_view_hand_off_action_as_sql_result() throws SQLException {
-		Assert.assertTrue("User is not able to view hand off action as sql result . " + dbHandoffedInvoiceId,
+		Assert.assertTrue(
+				"User is not able to view hand off action as sql result . " + dbHandoffedInvoiceId,
 				DatabaseConn.resultSet.next());
 	}
 }

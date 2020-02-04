@@ -17,17 +17,10 @@ Feature: Verify write off related testcases in PRCM-BE
     Then user should be able to view the appropriate success message: "Saved successfully"
     When user clicks on Billing & Follow-up link from footer
     And user clicks on R1_Decision link
-    And user login to SQL server and connect to database
-    And user runs the "getAccountsForWriteOff" query to fetch the invoice number
-    And user select "Invoice Number" from Search By dropdown
-    And user selects "=" operator from operator dropdown
-    And user fetch the InvoiceNumber from database
-    And user enters Invoice number
-    And user clicks on Submit button
 
-  @391092 @Sprint103 @R1DApproval
+  @391092 @Sprint103 @R1DApproval @NonDB
   Scenario: Verify that user is able to  see Write-Off  Pop-up Window with mandatory fields and Nextfollowup date=0 and Timelimitdate=999
-    Given user is on account page
+    Given user is on R1 Decision Account information page
     When user clicks on Approvals link
     Then user should be able to view the Approval Request  popup
     And user should be able to view Category drop down
