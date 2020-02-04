@@ -52,11 +52,11 @@ public class SettingsPage extends PageObject {
 	private WebElementFacade settingsHeader;
 
 	/**
-	 * Method clicks on R1D Decision on Settings Page
+	 * Method hovers on R1D Decision on Settings Page
 	 */
-	public void clickOnSettingsR1Decisions() {
+	public void hoversOnSettingsR1Decisions() {
 		waitForAngularRequestsToFinish();
-		withAction().moveToElement(settingsR1Decision).click().build().perform();
+		withAction().moveToElement(settingsR1Decision).build().perform();
 	}
 
 	public void clickWorkflowConfig() {
@@ -128,5 +128,13 @@ public class SettingsPage extends PageObject {
 
 	public void checkSettingsHeaderVisibility() {
 		settingsHeader.shouldBeVisible();
+	}
+	
+	/**
+	 * Method clicks on settings R1 decisions
+	 */
+	public void clickOnSettingsR1Decisions() {
+		waitForAngularRequestsToFinish();
+		withAction().moveToElement(settingsR1Decision).click().build().perform();
 	}
 }
