@@ -310,7 +310,7 @@ public class SearchStepDef extends PageObject {
 				searchPage.getPatientAccountNo().contains(dbEncounterId));
 	}
 
-	@Then("^user runs the (.*) query to fetch name using dbfirstname and dblastname$")
+	@When("^user runs the (.*) query to fetch name using dbfirstname and dblastname$")
 	public void user_runs_the_query_to_fetch_name_using_dbfirstname_and_dblastname(String queryName) throws Exception {
 		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName, String
 				.format(commonMethods.loadQuery(queryName, dbQueryFilename), dbLastName + "%", dbFirstName + "%"));

@@ -7,9 +7,6 @@ Feature: Verify internal search on R1 Decision page
     When user clicks on Billing & Follow-up link
     And user clicks on R1_Decision link
     And user login to SQL server and connect to database
-    #And user run the query and fetch the Invoice Number "SearchInternal_391031_SQL1"
-    #And user select "Invoice Number" from Search By dropdown
-    #And user enters the query result in Invoice Number search textbox and can view the same invoice number of selected facility or different facility
 
   @391031 @Sprint101 @PRCMQueueUser
   Scenario: Verify that R1D page for PRCM enabled site Invoice number should be default criteria
