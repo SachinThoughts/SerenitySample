@@ -56,6 +56,9 @@ public class NavigationPage extends PageObject {
 
 	@FindBy(id = "dnn_dnnUSER_registerLink")
 	private WebElementFacade userRegisterLink;
+	
+	@FindBy(xpath = "(//span[@class='TitleHeader'])[last()-1]")
+	private WebElementFacade hubPageTitleHeader;
 
 	public WebElementFacade getChartManagerLink() {
 		return chartManagerLink;
@@ -147,5 +150,12 @@ public class NavigationPage extends PageObject {
 	 */
 	public String getUserLoginName() {
 		return userRegisterLink.getText();
+	}
+	
+	/**
+	 * @return visibility of Hub page title header
+	 */
+	public boolean isHubPageTitleHeaderVisible() {
+		return hubPageTitleHeader.isVisible();
 	}
 }

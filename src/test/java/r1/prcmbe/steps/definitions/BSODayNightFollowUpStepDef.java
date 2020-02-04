@@ -69,7 +69,7 @@ public class BSODayNightFollowUpStepDef extends PageObject {
 
 	@Given("^user is on setting page$")
 	public void user_is_on_setting_page() {
-		Assert.assertTrue(getDriver().getTitle().contains("R1 Hub Technologies 2.0 - 15 Settings"));
+		Assert.assertTrue(getDriver().getTitle().contains("Settings"));
 	}
 
 	@When("^user selects \"([^\"]*)\" radio button and clicks on continue button$")
