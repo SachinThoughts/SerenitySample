@@ -1,13 +1,15 @@
 package r1.prcmbe.pages;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
+
 import net.serenitybdd.core.annotations.findby.FindBy;
 import net.serenitybdd.core.pages.PageObject;
 import net.serenitybdd.core.pages.WebElementFacade;
 
-public class WorkflowDistributionPage extends PageObject {
+public class WorkflowDistributionPage extends PageObject { 
 
 	Boolean isNotPresent;
 
@@ -218,6 +220,7 @@ public class WorkflowDistributionPage extends PageObject {
 	 * @return list of facility Header Text
 	 */
 	public List<String> getListOfFacilityInventoryHeaders() {
+		listOfFacilityInventoryHeaders.get(0).withTimeoutOf(Duration.ofSeconds(20)).waitUntilVisible();
 		List<String> listOfFacilityHeaderText = new ArrayList<>();
 		for (WebElementFacade facilityInventoryHeader : listOfFacilityInventoryHeaders) {
 			listOfFacilityHeaderText.add(facilityInventoryHeader.getText().replace("\n", " ").trim());
