@@ -166,11 +166,6 @@ public class DefectOverrideStepDef {
 		defectOverridePage.clickOnSaveBtn();
 	}
 
-	@When("^user refreshes a page$")
-	public void user_refreshes_a_page() {
-		defectOverridePage.refreshesAPage();
-	}
-
 	@Then("^user should be able to view changed sub category below current defect under Defect workflow section$")
 	public void user_should_be_able_to_view_changed_sub_category_below_current_defect_under_Defect_workflow_section() {
 		Assert.assertTrue("Failed to view changed sub category in below current defect",
