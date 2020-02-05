@@ -6,13 +6,12 @@ Feature: Verify WorkFlowConfiguration related scenarios in PRCM
     Given user having AHtoDecision Admin role is on R1 Hub page
     When user clicks on Billing & Follow-up link
     And user clicks on R1_Decision link
-    When user login to SQL server and connect to specific database
+   When user login to SQL server and connect to database
     And user run the query "434779_WFConfig_R1DHandoffType" and fetch encounterId
     And user select "Visit Number" from Search By dropdown
     And user selects "=" operator from operator dropdown
     And user enters encounter id
     And user clicks on Submit button
-    Then user should be able to view R1 Decision Account screen
 
   @434783 @AHtoDecisionAdmin @Sprint103
   Scenario: Verify user is able to view the added Predefined Note for particular Disposition Type associated with respective Handoff Type
