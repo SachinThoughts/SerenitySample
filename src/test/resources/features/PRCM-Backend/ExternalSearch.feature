@@ -193,7 +193,7 @@ Feature: This is to verify external search functionality in R1 PRCM-BE
     Then user should be able to view the same MRN in grid as SQL result
 
     Examples: 
-      | queryname12                 | queryname6                 | operator |
+      | queryname12                 | queryname6                 | Operator |
       | SearchExternal_430694_SQL12 | SearchExternal_430694_SQL6 | =        |
       | SearchExternal_430694_SQL12 | SearchExternal_430694_SQL6 | Like     |
 

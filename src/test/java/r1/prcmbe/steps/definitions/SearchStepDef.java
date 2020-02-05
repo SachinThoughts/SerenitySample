@@ -577,6 +577,8 @@ public class SearchStepDef extends PageObject {
 		} else if (searchPage.isFirstNameTxtFieldVisible() && searchPage.isLastNameTxtFieldVisible()) {
 			searchPage.enterLastNameTxtBox(textValue);
 			searchPage.enterFirstName(textValue);
+		} else if (searchPage.isClaimNumberTxtFieldVisible()) {
+			searchPage.enterClaimNumber(textValue);
 		} else {
 			Assert.assertTrue("Search text box not visible", false);
 		}

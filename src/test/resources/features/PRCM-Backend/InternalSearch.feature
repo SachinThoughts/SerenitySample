@@ -156,7 +156,7 @@ Feature: Verify internal search on R1 Decision page
     Given User is on Internal search page
     When user select "<DropdownOption>" from Search By dropdown
     And user selects "Like" from operator dropdown
-    And user enters value <AnyFiveDigitNumber> in search textbox
+    And user enters <AnyFiveDigitNumber> in search textbox
     And user clicks on Submit button
     Then user should be able to view the grid with following columns
       | Visit #             |
@@ -346,8 +346,8 @@ Feature: Verify internal search on R1 Decision page
     Then user should be able to view the same result in grid as SQL result for visit number
 
     Examples: 
-      | DropdownOption | option            | AnyFiveDigitNumber | queryname8                 |
-      | Visit Number   | Visit Number      |              12345 | SearchInternal_391038_SQL8 |
+      | DropdownOption | AnyFiveDigitNumber | queryname8                 |
+      | Visit Number   |              12345 | SearchInternal_391038_SQL8 |
 
   @391038 @Sprint102 @PRCMUser
   Scenario Outline: Verify that user is able to search an Invoice Number with Search textbox using Like operator on R1D Page
@@ -373,8 +373,8 @@ Feature: Verify internal search on R1 Decision page
     Then user should be able to view the same result in grid as SQL result for invoice number
 
     Examples: 
-      | DropdownOption | option            | AnyFiveDigitNumber | queryname9                   |
-      | Invoice Number | Invoice Number    |              12345 | SearchInternal_391038_1_SQL8 |
+      | DropdownOption | AnyFiveDigitNumber | queryname9                   |
+      | Invoice Number |              12345 | SearchInternal_391038_1_SQL8 |
 
   @391038 @Sprint102 @PRCMUser
   Scenario Outline: Verify that user is able to search an MRN with Search textbox using Like operator on R1D Page
@@ -400,5 +400,5 @@ Feature: Verify internal search on R1 Decision page
     Then user should be able to view the same result in grid as SQL result for MRN number
 
     Examples: 
-      | DropdownOption        | option                | AnyFiveDigitNumber | queryname9                   |
-      | Medical Record Number | Medical Record Number |              12345 | SearchInternal_391038_2_SQL8 |
+      | DropdownOption        | AnyFiveDigitNumber | queryname9                   |
+      | Medical Record Number |              12345 | SearchInternal_391038_2_SQL8 |

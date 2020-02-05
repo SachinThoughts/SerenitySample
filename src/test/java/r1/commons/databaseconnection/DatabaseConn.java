@@ -18,8 +18,8 @@ public class DatabaseConn {
 	public static ResultSet resultSet;
 	public static String serverName;
 	public static String databaseName;
-	private static String dbUser = "DEV_SQLReadOnly";
-	private static String dbPassword = "r1rcm@123";
+	private static String dbUser = "DEV_SQLRead";
+	private static String dbPassword = "r1rcm@12345";
 
 	public static void getServerDBName(String url, String facility) {
 
