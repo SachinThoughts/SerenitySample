@@ -14,7 +14,7 @@ Feature: Verify PRCM Save related test cases in PRCM_BE
     And user hovers on R1_Decision link
     And user clicks on search sub menu
     And user select "Invoice Number" from Search By dropdown
-    And user selects "=" operator from operator dropdown
+    And user selects "=" from operator dropdown
     And user enters Invoice Number fetched from database in invoice number textbox
     And user clicks on Submit button
     Then user is able to view the Account Page
@@ -59,7 +59,7 @@ Feature: Verify PRCM Save related test cases in PRCM_BE
     And user hovers on R1_Decision link
     And user clicks on search sub menu
     And user select "Invoice Number" from Search By dropdown
-    And user selects "=" operator from operator dropdown
+    And user selects "=" from operator dropdown
     And user enters Invoice Number fetched from database in invoice number textbox
     And user clicks on Submit button
     Then user is able to view the Account Page

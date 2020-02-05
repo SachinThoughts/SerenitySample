@@ -6,15 +6,16 @@ import java.util.List;
 
 import org.junit.Assert;
 
+import cucumber.api.DataTable;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import net.serenitybdd.core.pages.PageObject;
 import net.thucydides.core.annotations.Steps;
 import net.thucydides.core.util.EnvironmentVariables;
 import r1.commons.databaseconnection.DatabaseConn;
 import r1.commons.utilities.CommonMethods;
-import net.serenitybdd.core.pages.PageObject;
-import cucumber.api.DataTable;
+import r1.prcmbe.pages.AccountInformationPage;
 import r1.prcmbe.pages.BillingAndFollowUpPage;
 import r1.prcmbe.pages.NavigationPage;
 import r1.prcmbe.pages.SearchPage;
@@ -27,6 +28,7 @@ public class SearchStepDef extends PageObject {
 	SearchPage searchPage;
 	EnvironmentVariables environmentVariables;
 	CommonMethods commonMethods;
+	AccountInformationPage accInfoPage;
 
 	@Steps
 	SearchPageSteps searchPageSteps;
@@ -54,12 +56,6 @@ public class SearchStepDef extends PageObject {
 		billingAndFollowUpPage.clickOnR1DecisionLink();
 	}
 
-	@Then("^user should be able to view R1D Search page$")
-	public void user_should_be_able_to_view_R1_D_Search_page() {
-		Assert.assertTrue("User is not navigated on R1 D Search Page",
-				searchPage.getSearchPageTitle().contains("R1 Hub Technologies 2.0 - 15 R1_Decision - Search"));
-	}
-
 	@Then("^user should be able to view message \"([^\"]*)\"$")
 	public void user_should_be_able_to_view_message(String expectedMessage) {
 		Assert.assertTrue("'" + expectedMessage + "' message not visible",
@@ -76,41 +72,10 @@ public class SearchStepDef extends PageObject {
 		billingAndFollowUpPage.clickSearchLink();
 	}
 
-	@Given("^user is on \"([^\"]*)\" page$")
-	public void user_is_on_page(String searchPageTitle) {
-		Assert.assertTrue(searchPageTitle + " page is not displayed",
-				searchPage.getSearchPageTitle().contains(searchPageTitle));
-	}
-
 	@Then("^user should be able to view Invoice Number selected by default in Search By drop down$")
 	public void user_should_be_able_to_view_Invoice_Number_selected_by_default_in_Search_By_drop_down() {
 		Assert.assertTrue("Invoice number is not selected by default",
 				searchPage.getDefaultSelectedVal().equals("Invoice Number"));
-	}
-
-	@When("^user selects (.*) from Search By drop down$")
-	public void user_selects_Visit_Number_from_Search_By_drop_down(String dropdown) {
-		searchPage.searchBySelectText(dropdown);
-	}
-
-	@When("^user enters invalid value in (.*) textbox $")
-	public void user_enters_invalid_value_in_$_textbox(String invalidVal) {
-		if (searchPage.isVisitTxtFieldVisible()) {
-			searchPage.enterVisitNumber(invalidVal);
-		} else if (searchPage.isMRNTxtFieldVisible()) {
-			searchPage.enterMRN(invalidVal);
-		} else if (searchPage.isClaimNumberTxtFieldVisible()) {
-			searchPage.enterClaimNumber(invalidVal);
-		} else if (searchPage.isInvoiceNumberTxtFieldVisible()) {
-			searchPage.enterInvoiceNumber(invalidVal);
-		} else if (searchPage.isFirstNameTxtFieldVisible() && searchPage.isLastNameTxtFieldVisible()) {
-			searchPage.enterLastNameTxtBox(invalidVal);
-			searchPage.enterFirstName(invalidVal);
-		} else if (searchPage.isSSNTxtFieldVisible()) {
-			searchPage.enterSSN(invalidVal);
-		} else {
-			Assert.assertTrue("Search text box not visible", false);
-		}
 	}
 
 	@When("^user clicks on Submit button$")
@@ -118,34 +83,10 @@ public class SearchStepDef extends PageObject {
 		searchPage.clickSubmitBtn();
 	}
 
-	@Then("^user should be able to view error message (.*)$")
-	public void user_should_be_able_to_view_error_message(String errorMsg) {
-		Assert.assertTrue("'" + errorMsg + "' message is not visible",
-				searchPage.getErrorMsg().equalsIgnoreCase(errorMsg));
-
-	}
-
-	@When("^user selects \"([^\"]*)\" operator from operator dropdown$")
+	@When("^user selects \"([^\"]*)\" from operator dropdown$")
 	public void user_selects_operator_from_operator_dropdown(String operator) {
 		if (!searchPage.isSSNTxtFieldVisible())
 			searchPage.selectOperatorValue(operator);
-	}
-
-	@When("^user enters less than 5 characters in (.*) textbox$")
-	public void user_enters_less_than_characters_in_textbox(String value) {
-		if (searchPage.isVisitTxtFieldVisible()) {
-			searchPage.enterVisitNumber(value);
-		} else if (searchPage.isMRNTxtFieldVisible()) {
-			searchPage.enterMRN(value);
-		} else if (searchPage.isClaimNumberTxtFieldVisible()) {
-			searchPage.enterClaimNumber(value);
-		} else if (searchPage.isInvoiceNumberTxtFieldVisible()) {
-			searchPage.enterInvoiceNumber(value);
-		} else if (searchPage.isSSNTxtFieldVisible()) {
-			searchPage.enterSSN(value);
-		} else {
-			Assert.assertTrue("Search text box not visible", false);
-		}
 	}
 
 	@Then("^user should able to view tool-tip message (.*)$")
@@ -157,23 +98,6 @@ public class SearchStepDef extends PageObject {
 	@Then("^user should be able to view Submit Button in disabled state$")
 	public void user_should_be_able_to_view_Submit_Button_in_disabled_state() {
 		Assert.assertFalse("Submit button is enabled", searchPage.isSubmitBtnEnabled());
-	}
-
-	@When("^user enters more than or equal to 5 characters (.*) in textbox$")
-	public void user_enters_more_than_or_equal_to_characters_in_textbox(String value) {
-		if (searchPage.isVisitTxtFieldVisible()) {
-			searchPage.enterVisitNumber(value);
-		} else if (searchPage.isMRNTxtFieldVisible()) {
-			searchPage.enterMRN(value);
-		} else if (searchPage.isClaimNumberTxtFieldVisible()) {
-			searchPage.enterClaimNumber(value);
-		} else if (searchPage.isInvoiceNumberTxtFieldVisible()) {
-			searchPage.enterInvoiceNumber(value);
-		} else if (searchPage.isSSNTxtFieldVisible()) {
-			searchPage.enterSSN(value);
-		} else {
-			Assert.assertTrue("Search text box not visible", false);
-		}
 	}
 
 	@Then("^user should be able to view Submit Button in enabled state$")
@@ -214,28 +138,36 @@ public class SearchStepDef extends PageObject {
 
 	@When("^user enters the query result in Invoice Number search textbox and can view the same invoice number of selected facility or different facility$")
 	public void user_enters_the_query_result_in_Invoice_Number_search_textbox_and_can_view_the_same_invoice_number_of_selected_facility_or_different_facility() {
-		if (searchPage.getSearchPageTitle().contains("R1 Hub Technologies 2.0 - 15 R1_Decision - Search")) {
+		if (searchPage.noAccInQueueMsgIsVisbile()) {
+			searchPage.searchBySelectText("Invoice Number");
 			searchPage.enterInvoiceNumber(dbInvoiceNumber);
 			searchPage.clickSubmitBtn();
 			searchPageSteps.verifyInvoiceNumberWithEqualOperator(dbInvoiceNumber);
 		}
 	}
 
-	@Then("^user navigates on internal search page$")
-	public void user_navigates_on_internal_search_page() {
-		Assert.assertTrue("User is not navigated on R1 Internal Search Page",
-				searchPage.getSearchPageTitle().contains("R1 Hub Technologies 2.0"));
+	@Given("^User is on Internal search page$|^User is on R1 Account information page$")
+	public void user_is_on_Internal_search_page() {
+		if (searchPage.noAccInQueueMsgIsVisbile()) {
+			try {
+				user_run_the_query_and_fetch_the_Invoice_Number("SearchInternal_391031_SQL1");
+			} catch (Exception e) {
+				Assert.assertTrue("Invoice number is not fetched from DB.\nThe Technical Error is:\n" + e, false);
+			}
+			searchPage.searchBySelectText("Invoice Number");
+			searchPage.enterInvoiceNumber(dbInvoiceNumber);
+			searchPage.clickSubmitBtn();
+			searchPageSteps.verifyInvoiceNumberWithEqualOperator(dbInvoiceNumber);
+		}
+		accInfoPage.verifyPatientDetailsSectionVisible();
+		searchPage.searchByTextShouldBeVisible();
 	}
 
-	@Given("^user is on R1 Decision search page$")
+	@Given("^user is on R1 Decision search page$|^user should be able to view R1D Search page$")
 	public void user_is_on_R1_Decision_search_page() {
 		Assert.assertTrue("User is not navigated on R1 D Search Page",
-				searchPage.getSearchPageTitle().contains("R1 Hub Technologies 2.0 - 15 R1_Decision - Search"));
-	}
-
-	@When("^user selects \"([^\"]*)\" from Search By dropdown$")
-	public void user_selects_option_from_Search_By_dropdown(String dropdownVal) {
-		searchPage.searchBySelectText(dropdownVal);
+				searchPage.getSearchPageTitle().contains("R1_Decision - Search"));
+		searchPage.patientDetailsSectionShouldNotVisible();
 	}
 
 	@When("^user runs the (.*) query to fetch name$")
@@ -259,11 +191,11 @@ public class SearchStepDef extends PageObject {
 	@Then("^user should be able to view the grid with following columns for Last Name/First Name search$")
 	public void user_should_be_able_to_view_the_grid_with_following_columns_for_LastName_FirstName_search(
 			DataTable resultColumns) {
-		List<String> expectedListOfGridColumns = resultColumns.asList(String.class);
+		List<String> expListOfGridColumns = resultColumns.asList(String.class);
 		listOfGridColumnsOnUI = searchPage.getListOfSrchAccTblHeaders();
 
 		Assert.assertTrue("All the grid columns are not visible",
-				expectedListOfGridColumns.containsAll(listOfGridColumnsOnUI) && !listOfGridColumnsOnUI.isEmpty());
+				expListOfGridColumns.containsAll(listOfGridColumnsOnUI) && !listOfGridColumnsOnUI.isEmpty());
 
 		Assert.assertTrue("Last name or first name does not match with the searched character",
 				searchPageSteps.verifyOnlyLastName(lastName) && searchPageSteps.verifyOnlyFirstName(firstName));
@@ -284,34 +216,10 @@ public class SearchStepDef extends PageObject {
 				searchPageSteps.verifyNameOnUIWithDatabaseResult(dbListOfNames));
 	}
 
-	@When("^user selects (.*) from Operator dropdown$")
-	public void user_selects_from_Operator_dropdown(String operator) {
-		searchPage.selectOperatorValue(operator);
-	}
-
 	@When("^user runs the (.*) query for search$")
 	public void user_runs_the_query_for_search(String queryName) throws Exception {
 		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName, String.format(
 				commonMethods.loadQuery(queryName, dbQueryFilename), CommonMethods.loadProperties("prcmBeUsername")));
-	}
-
-	@When("^user enters value (.*) in (.*) textbox$")
-	public void user_enters_in_textbox(String textValue, String searchByOption) {
-		if (searchPage.isVisitTxtFieldVisible()) {
-			this.visitNumber = textValue;
-			searchPage.enterVisitNumber(this.visitNumber);
-		} else if (searchPage.isInvoiceNumberTxtFieldVisible()) {
-			this.invoiceNumber = textValue;
-			searchPage.enterInvoiceNumber(this.invoiceNumber);
-		} else if (searchPage.isSSNTxtFieldVisible()) {
-			this.sSN = textValue;
-			searchPage.enterSSN(this.sSN);
-		} else if (searchPage.isMRNTxtFieldVisible()) {
-			this.mRN = textValue;
-			searchPage.enterMRN(this.mRN);
-		} else {
-			Assert.assertTrue(searchByOption + " text box is not visible", false);
-		}
 	}
 
 	@Then("^user should be able to view the grid with following columns$")
@@ -337,8 +245,8 @@ public class SearchStepDef extends PageObject {
 				dbListOfFacility.containsAll(searchPage.getlistOfSearchedFacility()));
 	}
 
-	@When("^user enter the query result of SQL1 in Invoice Number search textbox$")
-	public void user_enter_the_query_result_of_SQL1_in_Invoice_Number_search_textbox() {
+	@When("^user enter the query result of in Invoice Number search textbox$")
+	public void user_enter_the_query_result_of_in_Invoice_Number_search_textbox() {
 		searchPage.enterInvoiceNumber(dbInvoiceNumber);
 	}
 
@@ -369,11 +277,11 @@ public class SearchStepDef extends PageObject {
 	@Then("^user should be able to view the grid with following columns if they are visible else verify the searched account$")
 	public void user_should_be_able_to_view_the_grid_with_following_columns_and_verify_the_searched_account(
 			DataTable resultColumns) {
-		List<String> expectedListOfGridColumns = resultColumns.asList(String.class);
+		List<String> expListOfGridColumns = resultColumns.asList(String.class);
 		if (searchPage.isSearchAccTableVisible()) {
 			listOfGridColumnsOnUI = searchPage.getListOfSrchAccTblHeaders();
 			Assert.assertTrue("All the grid columns are not visible",
-					expectedListOfGridColumns.containsAll(listOfGridColumnsOnUI) && !listOfGridColumnsOnUI.isEmpty());
+					expListOfGridColumns.containsAll(listOfGridColumnsOnUI) && !listOfGridColumnsOnUI.isEmpty());
 			searchPage.clickSearchInvoiceIdOrVisitNumber();
 		} else {
 			financialInfoSteps
@@ -402,15 +310,8 @@ public class SearchStepDef extends PageObject {
 				searchPage.getPatientAccountNo().contains(dbEncounterId));
 	}
 
-	@When("^user runs the (.*) query to fetch name for search$")
-	public void user_runs_the_query_to_fetch_name_for_search(String queryName) throws Exception {
-		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
-				String.format(commonMethods.loadQuery(queryName, dbQueryFilename)));
-	}
-
-	@Then("^user runs the (.*) query to fetch name using dbfirstname and dblastname$")
-	public void user_runs_the_query_to_fetch_name_using_dbfirstname_and_dblastname(String queryName)
-			throws ClassNotFoundException, SQLException, Exception {
+	@When("^user runs the (.*) query to fetch name using dbfirstname and dblastname$")
+	public void user_runs_the_query_to_fetch_name_using_dbfirstname_and_dblastname(String queryName) throws Exception {
 		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName, String
 				.format(commonMethods.loadQuery(queryName, dbQueryFilename), dbLastName + "%", dbFirstName + "%"));
 	}
@@ -418,11 +319,11 @@ public class SearchStepDef extends PageObject {
 	@Then("^user should be able to view the grid with following columns for Last Name/First Name search for database firstname lastname values$")
 	public void user_should_be_able_to_view_the_grid_with_following_columns_for_LastName_FirstName_search_for_database_firstname_lastname_values(
 			DataTable resultColumns) {
-		List<String> expectedListOfGridColumns = resultColumns.asList(String.class);
+		List<String> expListOfGridColumns = resultColumns.asList(String.class);
 		listOfGridColumnsOnUI = searchPage.getListOfSrchAccTblHeaders();
 
 		Assert.assertTrue("All the grid columns are not visible",
-				expectedListOfGridColumns.containsAll(listOfGridColumnsOnUI) && !listOfGridColumnsOnUI.isEmpty());
+				expListOfGridColumns.containsAll(listOfGridColumnsOnUI) && !listOfGridColumnsOnUI.isEmpty());
 
 		Assert.assertTrue("Last name or first name does not match with the searched character",
 				searchPageSteps.verifyOnlyLastName(dbLastName) && searchPageSteps.verifyOnlyFirstName(dbFirstName));
@@ -458,11 +359,11 @@ public class SearchStepDef extends PageObject {
 	@Then("^user should be able to view the grid with following columns and verify searched name$")
 	public void user_should_be_able_to_view_the_grid_with_following_columns_and_verify_searched_name(
 			DataTable resultColumns) {
-		List<String> expectedListOfGridColumns = resultColumns.asList(String.class);
+		List<String> expListOfGridColumns = resultColumns.asList(String.class);
 		if (searchPage.isSearchAccTableVisible()) {
 			listOfGridColumnsOnUI = searchPage.getListOfSrchAccTblHeaders();
 			Assert.assertTrue("All the grid columns are not visible",
-					expectedListOfGridColumns.containsAll(listOfGridColumnsOnUI) && !listOfGridColumnsOnUI.isEmpty());
+					expListOfGridColumns.containsAll(listOfGridColumnsOnUI) && !listOfGridColumnsOnUI.isEmpty());
 			Assert.assertTrue("Last name or first name does not match with the searched character",
 					searchPageSteps.verifyOnlyLastName(lastName) && searchPageSteps.verifyOnlyFirstName(firstName));
 			searchPage.clickSearchInvoiceIdOrVisitNumber();
@@ -495,11 +396,11 @@ public class SearchStepDef extends PageObject {
 	@Then("^user should be able to view the grid with following columns and verify searched SSN$")
 	public void user_should_be_able_to_view_the_grid_with_following_columns_and_verify_searched_SSN(
 			DataTable resultColumns) {
-		List<String> expectedListOfGridColumns = resultColumns.asList(String.class);
+		List<String> expListOfGridColumns = resultColumns.asList(String.class);
 		if (searchPage.isSearchAccTableVisible()) {
 			listOfGridColumnsOnUI = searchPage.getListOfSrchAccTblHeaders();
 			Assert.assertTrue("All the grid columns are not visible",
-					expectedListOfGridColumns.containsAll(listOfGridColumnsOnUI) && !listOfGridColumnsOnUI.isEmpty());
+					expListOfGridColumns.containsAll(listOfGridColumnsOnUI) && !listOfGridColumnsOnUI.isEmpty());
 			searchPage.clickSearchInvoiceIdOrVisitNumber();
 		} else {
 			financialInfoSteps
@@ -535,11 +436,11 @@ public class SearchStepDef extends PageObject {
 	@Then("^user should be able to view the grid with following columns if they are visible else verify the searched account with MRN$")
 	public void user_should_be_able_to_view_the_grid_with_following_columns_and_verify_the_searched_account_with_MRN(
 			DataTable resultColumns) {
-		List<String> expectedListOfGridColumns = resultColumns.asList(String.class);
+		List<String> expListOfGridColumns = resultColumns.asList(String.class);
 		if (searchPage.isSearchAccTableVisible()) {
 			listOfGridColumnsOnUI = searchPage.getListOfSrchAccTblHeaders();
 			Assert.assertTrue("All the grid columns are not visible",
-					expectedListOfGridColumns.containsAll(listOfGridColumnsOnUI) && !listOfGridColumnsOnUI.isEmpty());
+					expListOfGridColumns.containsAll(listOfGridColumnsOnUI) && !listOfGridColumnsOnUI.isEmpty());
 			searchPage.clickSearchInvoiceIdOrVisitNumber();
 		} else {
 			financialInfoSteps
@@ -588,8 +489,7 @@ public class SearchStepDef extends PageObject {
 	@Then("^user should be able to navigate to the R1D account page for searched Visit Number and verify invoice number should not be visible$")
 	public void user_should_be_able_to_navigate_to_the_R1D_account_page_for_searched_Visit_Number_and_verify_invoice_number_should_not_be_visible() {
 		Assert.assertTrue("User is not navigated on R1D account page for searched visit number",
-				searchPageSteps.verifyEncounterId(dbEncounterId));
-		searchPage.invoiceNumberShouldNotVisible();
+				searchPageSteps.verifyEncounterId(dbEncounterId) && !searchPage.isInvoiceNumberVisible());
 	}
 
 	@When("^user runs query and fetch visit number(.*)$")
@@ -603,7 +503,6 @@ public class SearchStepDef extends PageObject {
 		try {
 			while (DatabaseConn.resultSet.next()) {
 				dbListOfEncounterID.add(DatabaseConn.resultSet.getString("Visit #"));
-
 			}
 		} catch (SQLException sQLException) {
 			Assert.assertTrue("encounterid is not fetched from DB.\nThe Technical Error is:\n" + sQLException, false);
@@ -659,5 +558,29 @@ public class SearchStepDef extends PageObject {
 				searchPageSteps.verifyMRNOnUIWithDatabaseResult(dbListOfMRN));
 		Assert.assertTrue("All the grid columns are not visible",
 				expectedListOfGridColumns.containsAll(listOfGridColumnsOnUI) && !listOfGridColumnsOnUI.isEmpty());
+	}
+
+	@When("^user enters (.*) in search textbox$")
+	public void user_enters_text_in_search_textbox(String textValue) {
+		if (searchPage.isVisitTxtFieldVisible()) {
+			this.visitNumber = textValue;
+			searchPage.enterVisitNumber(this.visitNumber);
+		} else if (searchPage.isInvoiceNumberTxtFieldVisible()) {
+			this.invoiceNumber = textValue;
+			searchPage.enterInvoiceNumber(this.invoiceNumber);
+		} else if (searchPage.isSSNTxtFieldVisible()) {
+			this.sSN = textValue;
+			searchPage.enterSSN(this.sSN);
+		} else if (searchPage.isMRNTxtFieldVisible()) {
+			this.mRN = textValue;
+			searchPage.enterMRN(this.mRN);
+		} else if (searchPage.isFirstNameTxtFieldVisible() && searchPage.isLastNameTxtFieldVisible()) {
+			searchPage.enterLastNameTxtBox(textValue);
+			searchPage.enterFirstName(textValue);
+		} else if (searchPage.isClaimNumberTxtFieldVisible()) {
+			searchPage.enterClaimNumber(textValue);
+		} else {
+			Assert.assertTrue("Search text box not visible", false);
+		}
 	}
 }
