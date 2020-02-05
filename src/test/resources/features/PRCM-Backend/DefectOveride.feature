@@ -46,7 +46,6 @@ Feature: Verify Defect over ride
     And user selects any value from DefectType dropdown and other Than "Uncategorized Defect" value
     And user selects any value from Defectsubcategory dropdown and other Than "Select Sub-Defect Category" value
     And user clicks on Save button
-    And user refreshes a page
     Then user should be able to view changed sub category below current defect under Defect workflow section
     And user runs the with DefectType query <query2>
     Then user should be able to view all active defect Type
@@ -72,7 +71,6 @@ Feature: Verify Defect over ride
     And user selects any value from DefectType dropdown and other Than "Uncategorized Defect" value
     And user selects any value from Defectsubcategory dropdown and other Than "Select Sub-Defect Category" value
     And user clicks on Save button
-    And user refreshes a page
     When user moves to Defect Classification Section
     Then user should be able to view the updated defect category in Defect Classification section
 
@@ -96,7 +94,6 @@ Feature: Verify Defect over ride
     And user selects any value from DefectType dropdown and other Than "Uncategorized Defect" value
     And user selects any value from Defectsubcategory dropdown and other Than "Select Sub-Defect Category" value
     And user clicks on Save button
-    And user refreshes a page
     Then user should be able to view changed sub category below current defect under Defect workflow section
     And user runs the with DefectType query <query2>
     Then user should be able to view all active defect Type

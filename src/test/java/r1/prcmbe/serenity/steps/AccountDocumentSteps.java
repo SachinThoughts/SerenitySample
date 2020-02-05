@@ -64,8 +64,8 @@ public class AccountDocumentSteps extends PageObject{
 	 */
 	@Step
 	public boolean isDocumentDownloadedOnSystem(String fileName, int timeOut){
-		String userName = System.getProperty("user.name");
-		File folder = new File("\\\\R1-UEM-1.accretivehealth.local\\redirection$\\" + userName + "\\Downloads");
+		String userDir = System.getProperty("user.home")+"\\Downloads";
+		File folder = new File(userDir);
 		File[] listOfFiles = folder.listFiles();
 		for (int i = 0; i < timeOut; i++) {
 			for (File file : listOfFiles) {
@@ -84,8 +84,8 @@ public class AccountDocumentSteps extends PageObject{
 	 * @param Takes fileName as parameter to delete
 	 */
 	public void deleteFileFromSystem(String fileName) {
-		String userName = System.getProperty("user.name");
-		File folder = new File("\\\\R1-UEM-1.accretivehealth.local\\redirection$\\" + userName + "\\Downloads");
+		String userDir = System.getProperty("user.home")+"\\Downloads";
+		File folder = new File(userDir);
 		File[] listOfFiles = folder.listFiles();
 		for (File file : listOfFiles) {
 			if (file.getName().contains(fileName)) {
