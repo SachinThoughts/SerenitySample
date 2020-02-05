@@ -102,13 +102,13 @@ public class SearchPage extends PageObject {
 
 	@FindBy(id = "lblSSN")
 	private WebElementFacade patientSSN;
-	
-	@FindBy(xpath="//*[contains(text(),'no accounts')]")
+
+	@FindBy(xpath = "//*[contains(text(),'no accounts')]")
 	private WebElementFacade noAccInQueueMsg;
-	
-	@FindBy(xpath="//label[contains(text(),'Search By')]")
+
+	@FindBy(xpath = "//label[contains(text(),'Search By')]")
 	private WebElementFacade searchByLabel;
-	
+
 	@FindBy(xpath = "//*[@id='patientDetails']//h3[text()='Patient & Facility Info ']")
 	private WebElementFacade patientDetailsSection;
 
@@ -510,8 +510,9 @@ public class SearchPage extends PageObject {
 	}
 
 	/**
-	 * Taking Index of login facility
-	 * Clicking on searched invoice number or account number if searched invoice number is not NA it will click on invoice number or else it will click on Account number
+	 * Taking Index of login facility Clicking on searched invoice number or account
+	 * number if searched invoice number is not NA it will click on invoice number
+	 * or else it will click on Account number
 	 */
 	public void clickSearchInvoiceIdOrVisitNumber() {
 		int index = getFacilityIndex();
@@ -572,24 +573,26 @@ public class SearchPage extends PageObject {
 	public void waitForSpinnerToDisappear() {
 		loadingSpinner.withTimeoutOf(Duration.ofSeconds(80)).waitUntilNotVisible();
 	}
-	
+
 	/**
-	 * @return True if No Accounts in Queue message is visible , else it will return false
+	 * @return True if No Accounts in Queue message is visible , else it will return
+	 *         false
 	 */
 	public boolean noAccInQueueMsgIsVisbile() {
 		return noAccInQueueMsg.isVisible();
 	}
-	
+
 	/**
-	 * Search By text should be visible
-	 * Return true if text is visible else return false
+	 * Search By text should be visible Return true if text is visible else return
+	 * false
 	 */
 	public void searchByTextShouldBeVisible() {
 		searchByLabel.shouldBeVisible();
 	}
+
 	/**
-	 * Search By text should be visible
-	 * Return true if text is not visible else return false
+	 * Search By text should be visible Return true if text is not visible else
+	 * return false
 	 */
 	public void patientDetailsSectionShouldNotVisible() {
 		patientDetailsSection.shouldNotBeVisible();

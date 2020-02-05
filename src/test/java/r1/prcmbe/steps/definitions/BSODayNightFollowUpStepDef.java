@@ -251,8 +251,7 @@ public class BSODayNightFollowUpStepDef extends PageObject {
 	}
 
 	@When("^user runs the \"([^\"]*)\" query to fetch the handoffed Invoice ID$")
-	public void user_runs_the_query_to_fetch_the_handoffed_Invoice_ID(String queryName)
-			throws ClassNotFoundException, SQLException, Exception {
+	public void user_runs_the_query_to_fetch_the_handoffed_Invoice_ID(String queryName) throws ClassNotFoundException, SQLException, Exception {
 		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
 				commonMethods.loadQuery(queryName, dbQueryFilename));
 		try {
@@ -273,10 +272,9 @@ public class BSODayNightFollowUpStepDef extends PageObject {
 	}
 
 	@When("^user runs the \"([^\"]*)\" query to fetch result Set$")
-	public void user_runs_the_query_to_fetch_result_Set(String queryName)
-			throws ClassNotFoundException, SQLException, Exception {
+	public void user_runs_the_query_to_fetch_result_Set(String queryName) throws ClassNotFoundException, SQLException, Exception {
 		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
-				String.format(commonMethods.loadQuery(queryName, dbQueryFilename), dbHandoffedInvoiceId));
+				String.format(commonMethods.loadQuery(queryName, dbQueryFilename),dbHandoffedInvoiceId));
 	}
 
 	@Then("^user should be able to view hand off action as sql result$")

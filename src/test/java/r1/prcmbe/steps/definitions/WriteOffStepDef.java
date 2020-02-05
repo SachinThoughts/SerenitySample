@@ -28,11 +28,6 @@ public class WriteOffStepDef extends PageObject {
 
 	private static String dbQueryFilename = "WriteOff";
 
-	@Given("^user having level 1 Approver role is on R1 Hub page$")
-	public void user_having_level_1_Approver_role_is_on_R1_Hub_page() {
-		Assert.assertTrue(getDriver().getTitle().contains("R1 Hub Technologies 2.0"));
-	}
-
 	@When("^user runs the \"([^\"]*)\" query to fetch the invoice number$")
 	public void user_runs_the_query_to_fetch_the_invoice_number(String queryName) throws Exception {
 		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,

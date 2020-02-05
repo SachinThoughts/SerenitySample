@@ -24,6 +24,7 @@ import r1.prcmbe.pages.SettingsPage;
 import r1.prcmbe.pages.WorkflowConfigurationPage;
 import r1.prcmbe.serenity.steps.FinancialInfoSteps;
 import r1.prcmbe.serenity.steps.LoginSteps;
+import r1.prcmbe.serenity.steps.RelatedAccountsSteps;
 import r1.prcmbe.serenity.steps.SearchPageSteps;
 import r1.prcmbe.serenity.steps.WorkflowConfigurationSteps;
 
@@ -59,11 +60,6 @@ public class WorkflowConfigurationStepDef extends PageObject {
 	List<String> actionIDList = new ArrayList<>();
 	List<String> dispositionNamesList = new ArrayList<>();
 	List<String> invoiceNumberList = new ArrayList<>();
-
-	@Given("^user having AHtoDecision Admin role is on R1 Hub page$")
-	public void user_having_AHtoDecision_Admin_role_is_on_R1_Hub_page() {
-		Assert.assertTrue(getDriver().getTitle().contains("R1 Hub Technologies 2.0"));
-	}
 
 	@When("^user clicks on Workflow Configuration link$")
 	public void user_clicks_on_Workflow_Configuration_link() {
@@ -1251,7 +1247,7 @@ public class WorkflowConfigurationStepDef extends PageObject {
 
 	@When("^user runs the query to fetch Action details (.*)$")
 	public void user_runs_the_query_to_fetch_Action_details(String queryName)
-			throws ClassNotFoundException, SQLException, Exception {
+			throws ClassNotFoundException, SQLException, Exception { 
 		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
 				commonMethods.loadQuery(queryName, dbFileName));
 		try {
