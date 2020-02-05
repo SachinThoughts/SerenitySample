@@ -63,7 +63,6 @@ Feature: Verify PRCM Save related test cases in PRCM_BE
     And user selects any value from DefectType dropdown and other Than "Uncategorized Defect" value
     And user selects any value from Defectsubcategory dropdown and other Than "Select Sub-Defect Category" value
     And user clicks on Save button
-    And user refreshes a page
     And user clicks on Next button
     And user clicks on Next button after selecting any step
     And user selects checkbox from Steps Taken checkboxes

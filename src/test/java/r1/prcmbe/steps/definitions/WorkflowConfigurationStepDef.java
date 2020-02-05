@@ -24,6 +24,7 @@ import r1.prcmbe.pages.SettingsPage;
 import r1.prcmbe.pages.WorkflowConfigurationPage;
 import r1.prcmbe.serenity.steps.FinancialInfoSteps;
 import r1.prcmbe.serenity.steps.LoginSteps;
+import r1.prcmbe.serenity.steps.RelatedAccountsSteps;
 import r1.prcmbe.serenity.steps.SearchPageSteps;
 import r1.prcmbe.serenity.steps.WorkflowConfigurationSteps;
 
@@ -1246,7 +1247,7 @@ public class WorkflowConfigurationStepDef extends PageObject {
 
 	@When("^user runs the query to fetch Action details (.*)$")
 	public void user_runs_the_query_to_fetch_Action_details(String queryName)
-			throws ClassNotFoundException, SQLException, Exception {
+			throws ClassNotFoundException, SQLException, Exception { 
 		DatabaseConn.serverConn(DatabaseConn.serverName, DatabaseConn.databaseName,
 				commonMethods.loadQuery(queryName, dbFileName));
 		try {
