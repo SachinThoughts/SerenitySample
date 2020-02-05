@@ -61,11 +61,6 @@ public class WorkflowConfigurationStepDef extends PageObject {
 	List<String> dispositionNamesList = new ArrayList<>();
 	List<String> invoiceNumberList = new ArrayList<>();
 
-	@Given("^user having AHtoDecision Admin role is on R1 Hub page$")
-	public void user_having_AHtoDecision_Admin_role_is_on_R1_Hub_page() {
-		Assert.assertTrue(getDriver().getTitle().contains("R1 Hub Technologies 2.0"));
-	}
-
 	@When("^user clicks on Workflow Configuration link$")
 	public void user_clicks_on_Workflow_Configuration_link() {
 		settingsPage.clickWorkflowConfig();
