@@ -24,7 +24,7 @@ public class AccountActionHistoryPage extends PageObject {
 	@FindBy(id = "lblNoHistory")
 	private WebElementFacade noAccActionHistoryMsgLbl;
 
-	@FindBy(xpath = "//*[@id='notesHistory']/li[1]/div/div/div[1]/span")
+	@FindBy(xpath = "(//*[@id='notesHistory']//div/div[@class='timeline-top-info border-bottom']/span)[position()=1]")
 	private WebElementFacade notesLabel;
 	
 	@FindBy(xpath = "//*[@id='accountactionhistory']//i[@class='fa toggle fa-chevron-right']")
