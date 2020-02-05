@@ -135,7 +135,7 @@ public class AccountInformationPage extends PageObject {
 	@FindBy(xpath = "//label[text()='Note:']")
 	private WebElementFacade noteLabel;
 
-	@FindBy(xpath = "//*[@id='handOff']/div/div/div[3]/button")
+	@FindBy(xpath = "//div[@id='handOff']//button[text()='Close']")
 	private WebElementFacade closeBtnOnHandoffPopup;
 
 	@FindBy(id = "btnSaveHandsOff_nextaccount")
@@ -161,6 +161,9 @@ public class AccountInformationPage extends PageObject {
 
 	@FindBy(id = "handOffLabel")
 	private WebElementFacade handOffPopup;
+
+	@FindBy(xpath = "//label[contains(text(),'Search By')]")
+	private WebElementFacade searchByLabel;
 
 	/**
 	 * @return the Patient visit/account number
@@ -269,19 +272,33 @@ public class AccountInformationPage extends PageObject {
 		return visitNo;
 	}
 
+	/**
+	 * This method click on HandOff Button
+	 */
 	public void clickHandOffBtn() {
 		addHandOffBtn.click();
 	}
 
+	/**
+	 * This method checks the visibility of HandOff PopUp
+	 * @return boolean value based on visibility
+	 */
 	public boolean isHandOffPopUpVisible() {
 		return handOffPopUp.isVisible();
 	}
 
+	/**
+	 * This method selects HandOff Type from DropDown
+	 */
 	public void selectHandOffType(String handOffType) {
 		waitForLoaderInvisibility();
 		handOffTypeDrpdwn.selectByVisibleText(handOffType);
 	}
 
+	/**
+	 * This method fetches HandOffType Value
+	 * @return selected HandOffType Value
+	 */
 	public String getSelectedHandOffTypeValue() {
 		return handOffTypeDrpdwn.getSelectedVisibleTextValue();
 	}
@@ -383,99 +400,190 @@ public class AccountInformationPage extends PageObject {
 		evaluateJavascript("arguments[0].click();", approvalWriteOffLink);
 	}
 
+	/**
+	 * This method clicks on Create DropDown On HandOff PopUp
+	 */
 	public void clickOnCreateDrpdwn() {
 		handoffCreateDrpdwn.waitUntilEnabled();
 		handoffCreateDrpdwn.click();
 	}
 
+	/**
+	 * This method fetches Create DropDown Options Value On HandOff PopUp
+	 * @return create DropDown Options Value
+	 */
 	public List<String> getListOfCreateDrpdwnVal() {
 		return handoffCreateDrpdwn.getSelectOptions();
 	}
 
+	/**
+	 * This method fetches Default Value of Create DropDown On HandOff PopUp
+	 * @return default Value of Create DropDown
+	 */
 	public String getDefaultValueForCreateDrpdwn() {
 		return handoffCreateDrpdwn.getSelectedVisibleTextValue();
 	}
 
+	/**
+	 * This method select Value from Create DropDown on HandOff PopUp
+	 * @param createValue
+	 */
 	public void selectFromCreateDrpdwn(String createValue) {
 		handoffCreateDrpdwn.selectByVisibleText(createValue);
 	}
 
+	/**
+	 * This method fetches selected Value from Create DropDown On HandOff PopUp
+	 * @return selected Value from Create DropDown
+	 */
 	public String getSelectedValueForCreateDrpdwn() {
 		return handoffCreateDrpdwn.getSelectedVisibleTextValue();
 	}
 
+	/**
+	 * This method checks the visibility of Why DropDown on HandOff PopUp
+	 * @return boolean value based on visibility
+	 */
 	public boolean isWhyDrpdwnVisible() {
 		return handoffWhyDrpdwn.isVisible();
 	}
 
+	/**
+	 * This method clicks on Why DropDown On HandOff PopUp
+	 */
 	public void clickOnWhyDrpdown() {
 		handoffWhyDrpdwn.click();
 	}
 
+	/**
+	 * This method fetches Why DropDown Option Value on HandOff PopUp
+	 * @return why DropDown Option Value
+	 */
 	public List<String> getListOfWhyDrpdwnVal() {
 		return handoffWhyDrpdwn.getSelectOptions();
 	}
 
+	/**
+	 * This method select Value From Why DropDown On HandOff PopUp
+	 * @param whyValue
+	 */
 	public void selectFromWhyDrpdwn(String whyValue) {
 		handoffWhyDrpdwn.selectByVisibleText(whyValue);
 	}
 
+	/**
+	 * This method checks the visibility of Disposition DropDown on HandOff PopUp
+	 * @return boolean value based on visibility
+	 */
 	public boolean isDispositionDrpdwnVisible() {
 		return dispositionDrpdwn.isVisible();
 	}
 
+	/**
+	 * This method enter value in Note Text Field On HandOff PopUp
+	 * @param textValue
+	 */
 	public void enterValueInNoteTxtField(String textValue) {
 		handoffNotesTxtBox.type(textValue);
 	}
 
+	/**
+	 * This method clicks on SaveHandOff Button On HandOff PopUp
+	 */
 	public void clickOnSaveHandoffBtn() {
 		saveHandoffBtn.click();
 	}
 
+	/**
+	 * This method fetches HandOff Saved Message 
+	 * @return handOff Saved Message
+	 */
 	public String getHandoffSavedMessage() {
 		return handoffSavedMessage.getText();
 	}
 
+	/**
+	 *This method scrolls to Account Action History Section 
+	 */
 	public void scrollToAccountActionHistory() {
 		evaluateJavascript("arguments[0].scrollIntoView();", accntActionHistoryHeader);
 	}
 
+	/**
+	 * This method clicks on Show Account Action Button
+	 */
 	public void clickOnShowAccountActionBtn() {
 		evaluateJavascript("arguments[0].click();", showAccountActionHistoryBtn);
 	}
 
+	/**
+	 * This method fetches TagName of Notes TextBox On HandOff PopUp
+	 * @return tagName of Notes TextBox
+	 */
 	public String getTagNameForNotesTxtBox() {
 		return handoffNotesTxtBox.getTagName();
 	}
 
+	/**
+	 * This method checks the visibility of HandOff Type Label on HandOff PopUp
+	 * @return boolean value based on visibility
+	 */
 	public boolean isHandoffTypeLabelVisible() {
 		return handoffTypeLabel.isVisible();
 	}
 
+	/**
+	 * This method checks the visibility of Create Label on HandOff PopUp
+	 * @return boolean value based on visibility
+	 */
 	public boolean isCreateLabelVisible() {
 		return createLabel.isVisible();
 	}
 
+	/**
+	 * This method checks the visibility of Note Label on HandOff PopUp
+	 * @return boolean value based on visibility
+	 */
 	public boolean isNoteLabelVisible() {
 		return noteLabel.isVisible();
 	}
 
+	/**
+	 * This method checks the visibility of Close Button on HandOff PopUp
+	 * @return boolean value based on visibility
+	 */
 	public boolean isCloseBtnOnHandoffPopupVisible() {
 		return closeBtnOnHandoffPopup.isVisible();
 	}
 
+	/**
+	 * This method checks the visibility of Save Button on HandOff PopUp
+	 * @return boolean value based on visibility
+	 */
 	public boolean isSaveBtnOnHandoffPopupVisible() {
 		return saveHandoffBtn.isVisible();
 	}
 
+	/**
+	 * This method checks the visibility of Save And MoveToNextAccnt Button on HandOff PopUp
+	 * @return boolean value based on visibility
+	 */
 	public boolean isSaveAndMoveToNxtAccntBtnOnHandoffPopupVisible() {
 		return saveAndMoveNxtAccntBtn.isVisible();
 	}
 
+	/**
+	 * This method fetches Disposition DropDown Option Value  on HandOff PopUp
+	 * @return disposition DropDown Option Value
+	 */
 	public List<String> getListOfDispositionDrpdwnVal() {
 		return dispositionDrpdwn.getSelectOptions();
 	}
 
+	/**
+	 * This method select value from Disposition DropDown on HandOff PopUp
+	 * @param dispositionVal
+	 */
 	public void selectFromDispositionDrpdwn(String dispositionVal) {
 		dispositionDrpdwn.selectByVisibleText(dispositionVal);
 	}
@@ -488,7 +596,7 @@ public class AccountInformationPage extends PageObject {
 	 * Close the message alert if it is visible
 	 */
 	public void closeInfoMessage() {
-		if(infoMsgCloseBtn.isVisible())
+		if (infoMsgCloseBtn.isVisible())
 			evaluateJavascript("arguments[0].click();", infoMsgCloseBtn);
 	}
 
@@ -543,5 +651,13 @@ public class AccountInformationPage extends PageObject {
 
 	public String getSuccessMsgUsingJs() {
 		return evaluateJavascript(successMessage).toString();
+	}
+
+	/**
+	 * This method check the visibility of the Search by lable, assertion error will
+	 * be thrown if the lable is not visible
+	 */
+	public void searchByTextShouldBeVisible() {
+		searchByLabel.shouldBeVisible();
 	}
 }
