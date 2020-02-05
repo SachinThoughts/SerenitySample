@@ -24,6 +24,7 @@ import r1.prcmbe.pages.SettingsPage;
 import r1.prcmbe.pages.WorkflowConfigurationPage;
 import r1.prcmbe.serenity.steps.FinancialInfoSteps;
 import r1.prcmbe.serenity.steps.LoginSteps;
+import r1.prcmbe.serenity.steps.RelatedAccountsSteps;
 import r1.prcmbe.serenity.steps.SearchPageSteps;
 import r1.prcmbe.serenity.steps.WorkflowConfigurationSteps;
 
