@@ -61,7 +61,7 @@ Feature: Verify Call Payer Queue functionality
     When user login to SQL server and connect to database
     And user runs the "getAccountsForWriteOff8" query to fetch account for CPQ
     And user select "Invoice Number" from Search By dropdown
-    And user selects "=" operator from operator dropdown
+    And user selects "=" from operator dropdown
     And user fetch the InvoiceNumber from database
     And user enters Invoice number
     And user clicks on Submit button
@@ -104,7 +104,7 @@ Feature: Verify Call Payer Queue functionality
     And user clicks on Billing & Follow-up link
     And user clicks on R1_Decision link
     And user select "Invoice Number" from Search By dropdown
-    And user selects "=" operator from operator dropdown
+    And user selects "=" from operator dropdown
     And user fetch the InvoiceNumber from database
     And user enters Invoice number
     And user clicks on Submit button
