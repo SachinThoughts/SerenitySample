@@ -134,7 +134,7 @@ Feature: Verify default handoff
     And user clicks on Billing & Follow-up link from footer
     And user hover on R1_Decision
     And user clicks on search sub menu
-    Then user is on "R1 Hub Technologies 2.0 - 15 R1_Decision" page
+    Then user is on R1 Decision search page
     When user selects "=" option from Operator dropdown
     And user is able to login to sql server and connect to database
     And user runs the "Defaulthandoff_434990_SQL4" query for default handoff

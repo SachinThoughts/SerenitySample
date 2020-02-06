@@ -9,7 +9,7 @@ Feature: Verify WorkFlowConfiguration related scenarios in PRCM
    When user login to SQL server and connect to database
     And user run the query "434779_WFConfig_R1DHandoffType" and fetch encounterId
     And user select "Visit Number" from Search By dropdown
-    And user selects "=" operator from operator dropdown
+    And user selects "=" from operator dropdown
     And user enters encounter id
     And user clicks on Submit button
 
