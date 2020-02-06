@@ -11,7 +11,7 @@ Feature: Verify Call Payer Queue functionality
   	When user login to SQL server and connect to database
     And user runs the "getAccountsForWriteOff1" query to fetch account for CPQ
     And user select "Invoice Number" from Search By dropdown
-    And user selects "=" operator from operator dropdown
+    And user selects "=" from operator dropdown
     And user fetch the InvoiceNumber from database
     And user enters Invoice number
     And user clicks on Submit button
@@ -27,7 +27,7 @@ Feature: Verify Call Payer Queue functionality
     When user clicks on Billing & Follow-up link from footer
     And user clicks on R1_Decision link
     And user select "Invoice Number" from Search By dropdown
-    And user selects "=" operator from operator dropdown
+    And user selects "=" from operator dropdown
     And user enters Invoice number
     And user clicks on Submit button
     And Remove searched account if present in Call payer queue
@@ -40,7 +40,7 @@ Feature: Verify Call Payer Queue functionality
     And user clicks on Billing & Follow-up link
     And user clicks on R1_Decision link
     And user select "Invoice Number" from Search By dropdown
-    And user selects "=" operator from operator dropdown
+    And user selects "=" from operator dropdown
     And user enters Invoice number
     And user clicks on Submit button
     And user scrolls down to the Write Off section
@@ -53,7 +53,7 @@ Feature: Verify Call Payer Queue functionality
     And user clicks on Billing & Follow-up link
     And user clicks on R1_Decision link
     And user select "Invoice Number" from Search By dropdown
-    And user selects "=" operator from operator dropdown
+    And user selects "=" from operator dropdown
     And user enters Invoice number
     And user clicks on Submit button
     Then user should be able to view the account dropped from CPQ
@@ -63,7 +63,7 @@ Feature: Verify Call Payer Queue functionality
     When user login to SQL server and connect to database
     And user runs the "getAccountsForWriteOff2" query to fetch account for CPQ
     And user select "Invoice Number" from Search By dropdown
-    And user selects "=" operator from operator dropdown
+    And user selects "=" from operator dropdown
     And user fetch the InvoiceNumber from database
     And user enters Invoice number
     And user clicks on Submit button
@@ -79,7 +79,7 @@ Feature: Verify Call Payer Queue functionality
     When user clicks on Billing & Follow-up link from footer
     And user clicks on R1_Decision link
     And user select "Invoice Number" from Search By dropdown
-    And user selects "=" operator from operator dropdown
+    And user selects "=" from operator dropdown
     And user enters Invoice number
     And user clicks on Submit button
     And Remove searched account if present in Call payer queue
@@ -92,7 +92,7 @@ Feature: Verify Call Payer Queue functionality
     And user clicks on Billing & Follow-up link
     And user clicks on R1_Decision link
     And user select "Invoice Number" from Search By dropdown
-    And user selects "=" operator from operator dropdown
+    And user selects "=" from operator dropdown
     And user enters Invoice number
     And user clicks on Submit button
     And user scrolls down to the Write Off section
@@ -105,7 +105,7 @@ Feature: Verify Call Payer Queue functionality
     And user clicks on Billing & Follow-up link
     And user clicks on R1_Decision link
     And user select "Invoice Number" from Search By dropdown
-    And user selects "=" operator from operator dropdown
+    And user selects "=" from operator dropdown
     And user enters Invoice number
     And user clicks on Submit button
     Then user should not be able to view the account in users CPQ
@@ -115,7 +115,7 @@ Feature: Verify Call Payer Queue functionality
     When user login to SQL server and connect to database
     And user runs the "getAccountsForWriteOff3" query to fetch account for CPQ
     And user select "Invoice Number" from Search By dropdown
-    And user selects "=" operator from operator dropdown
+    And user selects "=" from operator dropdown
     And user fetch the InvoiceNumber from database
     And user enters Invoice number
     And user clicks on Submit button
@@ -131,7 +131,7 @@ Feature: Verify Call Payer Queue functionality
     When user clicks on Billing & Follow-up link from footer
     And user clicks on R1_Decision link
     And user select "Invoice Number" from Search By dropdown
-    And user selects "=" operator from operator dropdown
+    And user selects "=" from operator dropdown
     And user enters Invoice number
     And user clicks on Submit button
     And Remove searched account if present in Call payer queue
@@ -144,7 +144,7 @@ Feature: Verify Call Payer Queue functionality
     And user clicks on Billing & Follow-up link
     And user clicks on R1_Decision link
     And user select "Invoice Number" from Search By dropdown
-    And user selects "=" operator from operator dropdown
+    And user selects "=" from operator dropdown
     And user enters Invoice number
     And user clicks on Submit button
     And user scrolls down to the Write Off section
@@ -157,7 +157,7 @@ Feature: Verify Call Payer Queue functionality
     And user clicks on Billing & Follow-up link
     And user clicks on R1_Decision link
     And user select "Invoice Number" from Search By dropdown
-    And user selects "=" operator from operator dropdown
+    And user selects "=" from operator dropdown
     And user enters Invoice number
     And user clicks on Submit button
     Then user should be able to view the account dropped from CPQ
@@ -167,7 +167,7 @@ Feature: Verify Call Payer Queue functionality
     When user login to SQL server and connect to database
     And user runs the "getAccountsForWriteOff4" query to fetch account for CPQ
     And user select "Invoice Number" from Search By dropdown
-    And user selects "=" operator from operator dropdown
+    And user selects "=" from operator dropdown
     And user fetch the InvoiceNumber from database
     And user enters Invoice number
     And user clicks on Submit button
@@ -183,7 +183,7 @@ Feature: Verify Call Payer Queue functionality
     When user clicks on Billing & Follow-up link from footer
     And user clicks on R1_Decision link
     And user select "Invoice Number" from Search By dropdown
-    And user selects "=" operator from operator dropdown
+    And user selects "=" from operator dropdown
     And user enters Invoice number
     And user clicks on Submit button
     And Remove searched account if present in Call payer queue
@@ -196,7 +196,7 @@ Feature: Verify Call Payer Queue functionality
     And user clicks on Billing & Follow-up link
     And user clicks on R1_Decision link
     And user select "Invoice Number" from Search By dropdown
-    And user selects "=" operator from operator dropdown
+    And user selects "=" from operator dropdown
     And user enters Invoice number
     And user clicks on Submit button
     And user scrolls down to the Write Off section
@@ -213,7 +213,7 @@ Feature: Verify Call Payer Queue functionality
     When user login to SQL server and connect to database
     And user runs the "getAccountsForWriteOff5" query to fetch account for CPQ
     And user select "Invoice Number" from Search By dropdown
-    And user selects "=" operator from operator dropdown
+    And user selects "=" from operator dropdown
     And user fetch the InvoiceNumber from database
     And user enters Invoice number
     And user clicks on Submit button
@@ -237,7 +237,7 @@ Feature: Verify Call Payer Queue functionality
     When user login to SQL server and connect to database
     And user runs the "getAccountsForWriteOff5" query to fetch account for CPQ
     And user select "Invoice Number" from Search By dropdown
-    And user selects "=" operator from operator dropdown
+    And user selects "=" from operator dropdown
     And user fetch the InvoiceNumber from database
     And user enters Invoice number
     And user clicks on Submit button
@@ -253,7 +253,7 @@ Feature: Verify Call Payer Queue functionality
     When user clicks on Billing & Follow-up link from footer
     And user clicks on R1_Decision link
     And user select "Invoice Number" from Search By dropdown
-    And user selects "=" operator from operator dropdown
+    And user selects "=" from operator dropdown
     And user enters Invoice number
     And user clicks on Submit button
     And Remove searched account if present in Call payer queue
@@ -266,7 +266,7 @@ Feature: Verify Call Payer Queue functionality
     And user clicks on Billing & Follow-up link
     And user clicks on R1_Decision link
     And user select "Invoice Number" from Search By dropdown
-    And user selects "=" operator from operator dropdown
+    And user selects "=" from operator dropdown
     And user enters Invoice number
     And user clicks on Submit button
     And user scrolls down to the Write Off section
@@ -281,7 +281,7 @@ Feature: Verify Call Payer Queue functionality
     When user login to SQL server and connect to database
     And user runs the "getAccountsForWriteOff7" query to fetch account for CPQ
     And user select "Invoice Number" from Search By dropdown
-    And user selects "=" operator from operator dropdown
+    And user selects "=" from operator dropdown
     And user fetch the InvoiceNumber from database
     And user enters Invoice number
     And user clicks on Submit button

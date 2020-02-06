@@ -8,7 +8,7 @@ Feature: Verify PRCM Save related test cases in PRCM_BE
     And user hovers on R1_Decision link
     And user clicks on search sub menu
     And user select "Invoice Number" from Search By dropdown
-    And user selects "=" operator from operator dropdown
+    And user selects "Like" from operator dropdown
     And user runs the query "Account_Action_History_391051_SQL1" to fetch "Invoice Number"
     And user enters Invoice Number fetched from database in invoice number textbox
     And user clicks on Submit button
