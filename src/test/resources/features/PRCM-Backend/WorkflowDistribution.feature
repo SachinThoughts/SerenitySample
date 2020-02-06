@@ -94,7 +94,7 @@ Feature: Verify Workflow Distribution related scenarios in PRCM-BE
     When user clicks on Reps tab
     Then user should be able to view "Reps" tab
 
-  @427406 @427404 @NonPRCMUser @Sprint102
+  @427406 @427404 @MiddleManagerUser @ExecutiveManager @Sprint102
   Scenario: Verify Executive Manager & Middle Manager are able to access all the  tabs  under "Workflow Distribution" screen
     Given user is on Workflow Distribution screen
     Then user should be able view following tabs under Workflow Distribution
@@ -142,7 +142,7 @@ Feature: Verify Workflow Distribution related scenarios in PRCM-BE
   @442256 @ARSupervisor @Sprint103
   Scenario: Verify the Filters for Facility Inventory for Non-PRCM Facility group in WorkFlow Distribution  Screen
     Given user is on Workflow Distribution screen
-    When user selects Non-PRCM facility group "Ascension - Genesys Health System" from Facility Group dropdown
+    When user selects Non-PRCM facility group "Salem Health" from Facility Group dropdown
     When user clicks on Facility Inventory tab
     Then user should be able to view the following filters under Account Inventory under Filters section
       | (All) | Payer | Patient |
@@ -158,7 +158,7 @@ Feature: Verify Workflow Distribution related scenarios in PRCM-BE
   @442259 @ARSupervisor @Sprint103
   Scenario: Verify the Filters for Reps tab for Non-PRCM Facility group in WorkFlow Distribution  Scre
     Given user is on Workflow Distribution screen
-    When user selects Non-PRCM facility group "Ascension - Genesys Health System" from Facility Group dropdown
+    When user selects Non-PRCM facility group "Salem Health" from Facility Group dropdown
     And user clicks on Reps tab
     Then user should be able to view Team Filter under Filters section on Reps Tab
     And user should be able to view Hide link besides Team on Reps Tab
@@ -210,7 +210,7 @@ Feature: Verify Workflow Distribution related scenarios in PRCM-BE
   @441241 @ARSupervisor @Sprint103
   Scenario Outline: Verify the Filters for Payer Inventory and Patient Inventory for Non-PRCM Facility group in WorkFlow Distribution  Screen
     Given user is on Workflow Distribution screen
-    When user selects Non-PRCM facility group "Ascension - Genesys Health System" from Facility Group dropdown
+    When user selects Non-PRCM facility group "Salem Health" from Facility Group dropdown
     And User clicks in "<TabName>" under Workflow Distribution
     Then User should not be displayed any Filter
 
