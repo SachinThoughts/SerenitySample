@@ -85,7 +85,7 @@ public class Hooks extends PageObject {
 		}
 	}
 
-	@Before(value = "@R1DApproval")
+	@Before(value = "@R1DApproval or @MiddleManagerUser")
 	public void prcmR1DApprovalUser() throws IOException {
 		open();
 		if (accInfoPage.checkLogoutVisible() && propertyName != "R1DApproverUserName") {
@@ -123,6 +123,25 @@ public class Hooks extends PageObject {
 		}
 	}
 
+	@Before(value = "@ExecutiveManager")
+	public void executiveManagerUser() throws IOException {
+		open();
+		if (accInfoPage.checkLogoutVisible() && propertyName != "ExecutiveManagerUsername") {
+			accInfoPage.logOut();
+			open();
+		}
+		if (userLoginPage.verifyUsernameTextBox()) {
+			String accountuser = CommonMethods.loadProperties("ExecutiveManagerUsername");
+			String passwd = CommonMethods.loadProperties("ExecutiveManagerPassword");
+			loginStep.userEntersCredentials(accountuser, passwd);
+			userLoginPage.loginBtnClick();
+			if (userLoginPage.isProceedLinkVisible()) {
+				userLoginPage.clickOnProceedFurther();
+			}
+			propertyName = "ExecutiveManagerUsername";
+		}
+	}
+
 	@After(value = "@391164")
 	public void uncheckPrcmFacilityGrp() {
 		navPage.clickFooterSettings();
@@ -132,7 +151,7 @@ public class Hooks extends PageObject {
 		facilityGrpConfigPage.clickOnPhysicianCheckbox();
 		facilityGrpConfigPage.clickOnSaveBtn();
 	}
-	
+
 	@After(value = "~@NonDB")
 	public void closeDb() throws SQLException {
 		DatabaseConn.closeConnection();
