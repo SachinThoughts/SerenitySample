@@ -40,19 +40,15 @@ public class PatientInformationPage extends PageObject {
 	private List<WebElementFacade> listOfFacilityDetailsSectionHeaders;
 
 	@FindBy(xpath = "//*[@id='invoiceView']//span[text()='Facility Code']/following-sibling::span")
-	// *[@id='invoiceView']//li[1]//span[2]")
 	private WebElementFacade facilityCode;
 
 	@FindBy(xpath = "//*[@id='invoiceView']//span[text()='Facility Name']/following-sibling::span")
-	// *[@id='invoiceView']//li[2]//span[2]")
 	private WebElementFacade facilityName;
 
 	@FindBy(xpath = "//*[@id='invoiceView']//span[text()='Location Code']/following-sibling::span")
-	// *[@id='invoiceView']//li[3]//span[2]")
 	private WebElementFacade locationCode;
 
 	@FindBy(xpath = "//*[@id='invoiceView']//span[text()='Location Name']/following-sibling::span")
-	// *[@id='invoiceView']//li[4]//span[2]")
 	private WebElementFacade locationName;
 
 	@FindBy(xpath = "//*[@id='invoiceView']//span[text()='Location Address']/following-sibling::span")
