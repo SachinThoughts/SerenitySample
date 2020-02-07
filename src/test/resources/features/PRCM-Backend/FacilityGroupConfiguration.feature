@@ -125,7 +125,7 @@ Feature: Verify Factility Group Configuration related scenarios in PRCM-BE
     When user clicks on Add New Facility Group button
     Then user should be able to view new pop up window on clicking
     And user enters the Facility Group Name as "TestNoPrcmEnabled"
-    And user selects Facilities "GRMC" such no Selected Facility is PRCM enabled
+    And user selects Facilities "Salem Health" such no Selected Facility is PRCM enabled
     Then user should be able to view that the IsPRCMEnabled checkbox is automatically unchecked
     And clicks on save button
     When user clicks on billing & follow-up from the footer
@@ -145,7 +145,7 @@ Feature: Verify Factility Group Configuration related scenarios in PRCM-BE
     And clicks on save button
     When user clicks on Add New Facility Group button
     And user enters the Facility Group Name as "Test2WithNoEnabledFacility" having no PRCM enabled facilities
-    And user enters facility as "GRMC" and "PHDC"
+    And user enters facility as "Salem Health" and "PHDC"
     And clicks on save button
     Then user should be able to view 2 facility group Test1 and Test2 having one facility "PHDC" common on both
     When user is on Facility Group Configuration screen
