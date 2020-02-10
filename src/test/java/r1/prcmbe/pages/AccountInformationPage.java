@@ -200,28 +200,43 @@ public class AccountInformationPage extends PageObject {
 		return facilityCodeValue.getText();
 	}
 
+	/**
+	 * @return account no value
+	 */
 	public String getAccountNoValue() {
 		return accountNoValue.getText();
 	}
 
+	/**
+	 * @return list of Facility Code On Related Account
+	 */
 	public int getSizeOfRelatedAccntFacilityCode() {
 		return listOfFacilityCodeOnRelatedAccntPopUp.size();
 	}
 
+	/**
+	 * @return visibility of logout
+	 */
 	public boolean checkLogoutVisible() {
 		return logOut.isVisible();
 	}
 
+	/**
+	 * This method clicks logout button
+	 */
 	public void logOut() {
 		logOut.click();
 	}
 
+	/**
+	 * This method clicks on Document Link
+	 */
 	public void clickOnDocumentLink() {
 		documentLink.click();
 	}
 
 	/**
-	 * This method fetch the Invoice Number
+	 * This method fetchs the Invoice Number
 	 * 
 	 * @return invoiceNo
 	 */
@@ -231,7 +246,7 @@ public class AccountInformationPage extends PageObject {
 	}
 
 	/**
-	 * This method get the size of Related Account Invoice Number on PopUp
+	 * This method gets the size of Related Account Invoice Number on PopUp
 	 * 
 	 * @return size of RelatedAccountInvoiceNo
 	 */
@@ -273,7 +288,7 @@ public class AccountInformationPage extends PageObject {
 	}
 
 	/**
-	 * This method click on HandOff Button
+	 * This method clicks on HandOff Button
 	 */
 	public void clickHandOffBtn() {
 		addHandOffBtn.click();
@@ -323,16 +338,25 @@ public class AccountInformationPage extends PageObject {
 		return defectSubcategory[1];
 	}
 
+	/**
+	 * This method clicks Defect Worflow Next Button
+	 */
 	public void clickDefectWorkflowNextBtn() {
 		defectWorflowNextBtn.click();
 	}
 
+	/**
+	 * This method clicks Next Button if visible
+	 */
 	public void clickNextBtn() {
 		if (nextBtn.isVisible()) {
 			nextBtn.withTimeoutOf(Duration.ofSeconds(60)).click();
 		}
 	}
 
+	/**
+	 * @return list of SOPs
+	 */
 	public List<String> getSOPList() {
 		List<String> sOPNamesList = new ArrayList<>();
 		for (WebElementFacade sOP : sOPList) {
@@ -341,6 +365,9 @@ public class AccountInformationPage extends PageObject {
 		return sOPNamesList;
 	}
 
+	/**
+	 * This method clicks on random SOP name
+	 */
 	public void selectRandomSOP() {
 		int size = sOPList.size();
 		int index = CommonMethods.getRandom(size);
@@ -350,44 +377,79 @@ public class AccountInformationPage extends PageObject {
 		sOPList.get(index).click();
 	}
 
+	/**
+	 * This method selects value from create Dropdown
+	 * @param value
+	 */
 	public void selectValueFromCreateDrpdwn(String value) {
 		createDrpdwn.selectByVisibleText(value);
 	}
 
+	/**
+	 * This method selects value from Why DropDown
+	 * @param value
+	 */
 	public void selectValueFromWhyDrpdwn(String value) {
 		whyDrpdwn.selectByVisibleText(value);
 	}
 
+	/**
+	 * This method selects value from Disposition DropDown
+	 * @param value
+	 */
 	public void selectValueFromDispositionDrpdwn(String value) {
 		dispositionDrpdwn.selectByVisibleText(value);
 	}
 
+	/**
+	 * This method waits for the visibility of loader
+	 */
 	public void waitForLoaderInvisibility() {
 		loader.withTimeoutOf(Duration.ofSeconds(40)).waitUntilNotVisible();
 	}
 
+	/**
+	 * This method enters value in Notes TextBox
+	 * @param value
+	 */
 	public void enterValueInNotesTextbox(String value) {
 		notes.type(value);
 	}
 
+	/**
+	 * This method clicks on Save Button
+	 */
 	public void clickSaveBtn() {
 		saveBtn.click();
 	}
 
+	/**
+	 * @return Success Message in string
+	 */
 	public String getSuccessMsg() {
 		return successMsg.getText().trim();
 	}
 
+	/**
+	 * This method clicks show Account Action History Notes Button
+	 */
 	public void clickShowAccountActionHistoryNotesBtn() {
 		withAction().moveToElement(showAccountActionHistoryNotesBtn).build().perform();
 		showAccountActionHistoryNotesBtn.click();
 	}
 
+	/**
+	 * This method clicks show Account Action History Notes Button
+	 * @return Account Action History HandOff text
+	 */
 	public String accountActionHistoryHandOff() {
 		clickShowAccountActionHistoryNotesBtn();
 		return accountActionHistoryHandOff.getText().trim();
 	}
 
+	/**
+	 * @return visibility of invoiceNumber 
+	 */
 	public boolean isInvoiceNumberVisible() {
 		withAction().moveToElement(invoiceNumber).build().perform();
 		return invoiceNumber.isVisible();
@@ -588,6 +650,9 @@ public class AccountInformationPage extends PageObject {
 		dispositionDrpdwn.selectByVisibleText(dispositionVal);
 	}
 
+	/**
+	 * @return infoMessage in text
+	 */
 	public String getInfoMessage() {
 		return infoMessage.getText().trim();
 	}
@@ -600,10 +665,16 @@ public class AccountInformationPage extends PageObject {
 			evaluateJavascript("arguments[0].click();", infoMsgCloseBtn);
 	}
 
+	/**
+	 * This method clicks on Recent Accounts Button
+	 */
 	public void clickRecentAccountsBtn() {
 		recentAccountsBtn.click();
 	}
 
+	/**
+	 * This method clicks on Next Account Button
+	 */
 	public void clickNextAccountBtn() {
 		evaluateJavascript("arguments[0].click();", nextAccountBtn);
 	}
@@ -629,6 +700,9 @@ public class AccountInformationPage extends PageObject {
 		withAction().moveToElement(accntActionHistoryHeader).build().perform();
 	}
 
+	/**
+	 * @return the visibility of Handoff Popup 
+	 */
 	public boolean isHandOffPopupVisible() {
 		waitForLoaderInvisibility();
 		return handOffPopup.isVisible();
@@ -643,19 +717,25 @@ public class AccountInformationPage extends PageObject {
 		return getDriver().getCurrentUrl();
 	}
 
+	/**
+	 * @return Defect Type Bread Crumb
+	 */
 	public String getDefectTypeBreadcrumb() {
 		String defectLabel = defectBreadcrumb.getText().trim();
 		String[] defectSubcategory = defectLabel.split(">>\\s");
 		return defectSubcategory[0];
 	}
 
+	/**
+	 * @return successMessage in string
+	 */
 	public String getSuccessMsgUsingJs() {
 		return evaluateJavascript(successMessage).toString();
 	}
 
 	/**
 	 * This method check the visibility of the Search by lable, assertion error will
-	 * be thrown if the lable is not visible
+	 * be thrown if the label is not visible
 	 */
 	public void searchByTextShouldBeVisible() {
 		searchByLabel.shouldBeVisible();

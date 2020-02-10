@@ -23,30 +23,55 @@ public class LoginPage extends PageObject {
 	@FindBy(xpath="//a[text()='Proceed Anyway (Change password later)']")
 	private WebElementFacade proceedFurtherLink;
 	
+	/**
+	 * This method clicks on SignInLink
+	 */
 	public void clickSignInLink() {
 		signInLink.click();
 	}
 
+	/**
+	 * @return UserName TextBox is visible
+	 */
 	public boolean verifyUsernameTextBox() {
 		return username.isVisible();
 	}
 
+	/**
+	 * This method enters UserName
+	 * @param userName is coming from StepDef
+	 * @throws IOException
+	 */
 	public void enterUsername(String userName) throws IOException {
 		username.type(userName);
 	}
 
+	/**
+	 * This method enters Password
+	 * @param passwd is coming from StepDef
+	 * @throws IOException
+	 */
 	public void enterPassword(String passwd) throws IOException {
 		password.type(passwd);
 	}
 
+	/**
+	 * This method clicks on Sign-In Button
+	 */
 	public void loginBtnClick() {
 		signInButton.click();
 	}
 
+	/**
+	 * @return ProceedFurther Link is visible
+	 */
 	public boolean isProceedLinkVisible() {
 	    return proceedFurtherLink.isVisible();	
 	}
 	
+	/**
+	 * This method clicks on ProceedFurther Link
+	 */
 	public void clickOnProceedFurther() {
 		proceedFurtherLink.click();
 	}
