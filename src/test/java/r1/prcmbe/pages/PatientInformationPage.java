@@ -39,37 +39,37 @@ public class PatientInformationPage extends PageObject {
 	@FindBy(xpath = "//*[@id='invoiceView']//li//span[1]")
 	private List<WebElementFacade> listOfFacilityDetailsSectionHeaders;
 
-	@FindBy(xpath = "//*[@id='invoiceView']//li[1]//span[2]")
+	@FindBy(xpath = "//*[@id='invoiceView']//span[text()='Facility Code']/following-sibling::span")
 	private WebElementFacade facilityCode;
 
-	@FindBy(xpath = "//*[@id='invoiceView']//li[2]//span[2]")
+	@FindBy(xpath = "//*[@id='invoiceView']//span[text()='Facility Name']/following-sibling::span")
 	private WebElementFacade facilityName;
 
-	@FindBy(xpath = "//*[@id='invoiceView']//li[3]//span[2]")
+	@FindBy(xpath = "//*[@id='invoiceView']//span[text()='Location Code']/following-sibling::span")
 	private WebElementFacade locationCode;
 
-	@FindBy(xpath = "//*[@id='invoiceView']//li[4]//span[2]")
+	@FindBy(xpath = "//*[@id='invoiceView']//span[text()='Location Name']/following-sibling::span")
 	private WebElementFacade locationName;
 
-	@FindBy(xpath = "//*[@id='invoiceView']//li[5]//span[2]")
+	@FindBy(xpath = "//*[@id='invoiceView']//span[text()='Location Address']/following-sibling::span")
 	private WebElementFacade locationAddress;
 
-	@FindBy(xpath = "//*[@id='invoiceView']//li[6]//span[2]")
+	@FindBy(xpath = "//*[@id='invoiceView']//span[text()='City']/following-sibling::span")
 	private WebElementFacade facilityCity;
 
-	@FindBy(xpath = "//*[@id='invoiceView']//li[7]//span[2]")
+	@FindBy(xpath = "//*[@id='invoiceView']//span[text()='State']/following-sibling::span")
 	private WebElementFacade facilityState;
 
-	@FindBy(xpath = "//*[@id='invoiceView']//li[8]//span[2]")
+	@FindBy(xpath = "//*[@id='invoiceView']//span[text()='Zip Code']/following-sibling::span")
 	private WebElementFacade facilityZipCode;
 
-	@FindBy(xpath = "//*[@id='invoiceView']//li[9]//span[2]")
+	@FindBy(xpath = "//*[@id='invoiceView']//span[text()='NPI']/following-sibling::span")
 	private WebElementFacade facilityNpi;
 
-	@FindBy(xpath = "//*[@id='invoiceView']//li[10]//span[2]")
+	@FindBy(xpath = "//*[@id='invoiceView']//span[text()='Tax ID #']/following-sibling::span")
 	private WebElementFacade facilityTaxId;
 
-	@FindBy(xpath = "//*[@id='invoiceView']//li[11]//span[2]")
+	@FindBy(xpath = "//*[@id='invoiceView']//span[contains(@title,'Provider')]")
 	private WebElementFacade facilityPTan;
 
 	/**
