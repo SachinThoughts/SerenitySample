@@ -64,34 +64,58 @@ public class NavigationPage extends PageObject {
 		return chartManagerLink;
 	}
 
+	/**
+	 * @return himHomePage text
+	 */
 	public String getHIMHomePage() {
 		return himHomePage.getText();
 	}
 
+	/**
+	 * This method clicks on HIM Link
+	 */
 	public void clickHIMLink() {
 		himLink.click();
 	}
 
+	/**
+	 * This method clicks on ChartManager Link
+	 */
 	public void clickChartManagerLink() {
 		chartManagerLink.click();
 	}
 
+	/**
+	 * This method hovers on ChartManager Link
+	 */
 	public void hoverChartManagerLink() {
 		withAction().moveToElement(chartManagerLink).build().perform();
 	}
 
+	/**
+	 * This method clicks on ExternalSearch Link
+	 */
 	public void clickExternalSearchLink() {
 		externalSearchLink.click();
 	}
 
+	/**
+	 * @return whether HIMHomePage title is visible
+	 */
 	public boolean isHIMPageVisible() {
 		return himHomePage.getText().equals(himTitleHeader);
 	}
 
+	/**
+	 * This method clicks on settings page Link
+	 */
 	public void clickSettings() {
 		settings.click();
 	}
 
+	/**
+	 * This method clicks on WorkflowDistribution Link
+	 */
 	public void clickWorkflowDistribution() {
 		evaluateJavascript("arguments[0].click();", workflowDistribution);
 		waitForAngularRequestsToFinish();
@@ -105,27 +129,46 @@ public class NavigationPage extends PageObject {
 		evaluateJavascript("arguments[0].click();", footerSettings);
 	}
 
+	/**
+	 * @return UserName in String
+	 */
 	public String fetchUserName() {
 		return evaluateJavascript(userNameJS).toString();
 	}
 
+	/**
+	 * @return UserID in String
+	 */
 	public String fetchUserID() {
 		return evaluateJavascript(userIDJS).toString();
 	}
 
+	/**
+	 * This method clicks on HIMFooter Link
+	 */
 	public void clickHIMFooterLink() {
 		evaluateJavascript("arguments[0].scrollIntoView(true);", footerHIMLink);
 		footerHIMLink.click();
 	}
 
+	/**
+	 * This method clicks on Home Link
+	 */
 	public void clickHomeLink() {
 		homeLink.click();
 	}
 
+	/**
+	 * This method clicks on Facility Link
+	 */
 	public void clickOnFacilityLink() {
 		facilityLink.click();
 	}
 
+	/**
+	 * This method select Facility From Facility DropDown
+	 * @param facilityName
+	 */
 	public void selectFacilityFromDropdown(String facilityName) {
 		facilityDropdown.selectByVisibleText(facilityName);
 	}

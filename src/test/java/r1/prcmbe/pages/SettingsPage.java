@@ -83,27 +83,46 @@ public class SettingsPage extends PageObject {
 		withAction().moveToElement(facilitySettingConfigLink).click().build().perform();
 	}
 
+	/**
+	 * This method clicks on Tage Config Link
+	 */
 	public void clickTagConfigLink() {
 		waitForAngularRequestsToFinish();
 		withAction().moveToElement(tagConfigLink).click().build().perform();
 	}
 
+	/**
+	 * This method clicks on Cache Link
+	 */
 	public void clickCacheLink() {
 		withAction().moveToElement(cacheLink).click().build().perform();
 	}
 
+	/**
+	 * This method clicks on Clear All Button
+	 */
 	public void clickClearAllBtn() {
 		clearAllBtn.click();
 	}
 
+	/**
+	 * This method clicks on UDC Admin Config
+	 */
 	public void clickUDCAdminConfig() {
 		uDCAdminConfig.click();
 	}
 
+	/**
+	 * This method clicks on R1D link on R1 Decision settings 
+	 */
 	public void clickR1D() {
 		settingsR1Decision.click();
 	}
 
+	/**
+	 * Waiting for an Angular Request to be finished of previous action
+	 * Clicking on R1 Configuration link
+	 */
 	public void clickR1ConfigurationLink() {
 		waitForAngularRequestsToFinish();
 		withAction().moveToElement(r1ConfigurationLink).click().build().perform();
@@ -117,18 +136,30 @@ public class SettingsPage extends PageObject {
 		withAction().moveToElement(facilityGrpConfigLink).click().build().perform();
 	}
 
+	/**
+	 * This method clicks on Action Target Config Link
+	 */
 	public void clickActionTargetConfigLink() {
 		withAction().moveToElement(actionTargetConfigLink).click().build().perform();
 	}
 
+	/**
+	 * This method hovers over and clicks on Payor And Plan Config Link 
+	 */
 	public void hoverPayorAndPlanConfigLink() {
 		withAction().moveToElement(PayorAndPlanConfigLink).build().perform();
 	}
 
+	/**
+	 * This method clicks on Eligibility NPI Config Link
+	 */
 	public void clickEligibilityNPIConfigLink() {
 		withAction().moveToElement(eligibilityNPIConfigLink).click().build().perform();
 	}
 
+	/**
+	 * This method checks the visibility of settings Header
+	 */
 	public void checkSettingsHeaderVisibility() {
 		settingsHeader.shouldBeVisible();
 	}
